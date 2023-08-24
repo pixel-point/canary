@@ -1,12 +1,14 @@
 // This file's contents are automatically generated. Modifying it manually is discouraged.
-import * as React from 'react'
 import { registerIcon } from '@harnessio/svg-icon'
 import type { IconProps } from '@harnessio/svg-icon-react'
 import { Icon } from '@harnessio/svg-icon-react'
 
 const name = 'soap/noir'
 
-registerIcon(name, `<svg width="24" height="24" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 11C7 8.79086 8.79086 7 11 7H13C15.2091 7 17 8.79086 17 11V20.4C17 20.7314 16.7314 21 16.4 21H7.6C7.26863 21 7 20.7314 7 20.4V11Z" stroke="currentColor" stroke-linecap="round"/><path d="M7 13H17" stroke="currentColor" stroke-linecap="round"/><path d="M12 7V3M12 3H9M12 3H13" stroke="currentColor" stroke-linecap="round"/></svg>`)
+registerIcon(
+  name,
+  `<svg width="24" height="24" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 11C7 8.79086 8.79086 7 11 7H13C15.2091 7 17 8.79086 17 11V20.4C17 20.7314 16.7314 21 16.4 21H7.6C7.26863 21 7 20.7314 7 20.4V11Z" stroke="currentColor" stroke-linecap="round"/><path d="M7 13H17" stroke="currentColor" stroke-linecap="round"/><path d="M12 7V3M12 3H9M12 3H13" stroke="currentColor" stroke-linecap="round"/></svg>`
+)
 
 export function Soap(props: IconProps) {
   return <Icon name={name} {...props} />

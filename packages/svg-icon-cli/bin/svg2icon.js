@@ -49,7 +49,7 @@ sade('svg2icon', true)
         }
       } catch (err) {
         console.error(err)
-        process.exit(1)
+        process.exit(1) // eslint-disable-line no-undef
       }
 
       if (componentNames.length) {
@@ -59,18 +59,20 @@ sade('svg2icon', true)
       }
     }
   })
-  .parse(process.argv)
+  .parse(process.argv) // eslint-disable-line no-undef
 
 const componentFileTemplate = ({ iconSetName, iconName, componentName, svg }) =>
   `// This file's contents are automatically generated. Modifying it manually is discouraged.
-import * as React from 'react'
 import { registerIcon } from '@harnessio/svg-icon'
 import type { IconProps } from '@harnessio/svg-icon-react'
 import { Icon } from '@harnessio/svg-icon-react'
 
 const name = '${iconName}${iconSetName ? '/' + iconSetName : ''}'
 
-registerIcon(name, \`${svg}\`)
+registerIcon(
+  name,
+  \`${svg}\`
+)
 
 export function ${componentName}(props: IconProps) {
   return <Icon name={name} {...props} />

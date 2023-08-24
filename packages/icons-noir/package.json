@@ -18,11 +18,11 @@
   "scripts": {
     "clean": "(rm -rf dist > /dev/null 2>&1 || rmdir dist /s /q > nul 2>&1)",
     "generate-icons": "svg2icon --iconSetName=noir",
-    "build": "tsc --emitDeclarationOnly; esbuild src/components/*.{ts,tsx} --allow-overwrite --minify --outdir=dist --format=esm"
+    "build": "tsc; esbuild src/components/*.{ts,tsx} --allow-overwrite --minify --outdir=dist --format=esm"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Harness, Inc",
+  "license": "Apache-2.0",
   "devDependencies": {
     "esbuild": "0.19.2",
     "typescript": "^5.1.6",

@@ -1,12 +1,11 @@
 {
   "name": "harness-icons",
-  "description": "Monorepo for Harness Icon System",
-  "private": true,
   "scripts": {
-    "deps": "pnpm -r --parallel install",
+    "deps": "pnpm -r install",
     "clean": "pnpm -r --parallel clean",
     "build": "pnpm -r build",
-    "watch": "pnpm -r --parallel watch",
+    "lint": "pnpm -r lint",
+    "fmt": "pnpm -r fmt",
     "dev": "pnpm --filter docs dev",
     "preinstall": "npx only-allow pnpm"
   }

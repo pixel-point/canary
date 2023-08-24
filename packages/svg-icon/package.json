@@ -18,7 +18,6 @@
   "scripts": {
     "clean": "(rm -rf dist > /dev/null 2>&1 || rmdir dist /s /q > nul 2>&1)",
     "build": "tsc; esbuild src/index.ts --bundle --allow-overwrite --minify --sourcemap --outdir=dist --analyze --format=esm",
-    "watch": "pnpm build --watch",
     "lint": "eslint --ext .ts src",
     "fmt": "prettier --write \"./src/**/*.{ts}\"",
     "preinstall": "npx only-allow pnpm"

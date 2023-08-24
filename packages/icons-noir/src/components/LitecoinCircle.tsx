@@ -1,12 +1,14 @@
 // This file's contents are automatically generated. Modifying it manually is discouraged.
-import * as React from 'react'
 import { registerIcon } from '@harnessio/svg-icon'
 import type { IconProps } from '@harnessio/svg-icon-react'
 import { Icon } from '@harnessio/svg-icon-react'
 
 const name = 'litecoin-circle/noir'
 
-registerIcon(name, `<svg width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.5 7V16.4C10.5 16.7314 10.7686 17 11.1 17H15.5" stroke="currentColor" stroke-linecap="round"/><path d="M8.5 13L13 11" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>`)
+registerIcon(
+  name,
+  `<svg width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.5 7V16.4C10.5 16.7314 10.7686 17 11.1 17H15.5" stroke="currentColor" stroke-linecap="round"/><path d="M8.5 13L13 11" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+)
 
 export function LitecoinCircle(props: IconProps) {
   return <Icon name={name} {...props} />

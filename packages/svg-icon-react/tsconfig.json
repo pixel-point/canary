@@ -11,11 +11,11 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": false,
+    "emitDeclarationOnly": true,
     "jsx": "react-jsx",
     "outDir": "./dist",
     "declaration": true
   },
-  "include": ["src", "global.d.ts"],
+  "include": ["src"],
   "exclude": ["src/**/*.test.ts", "src/**/*.test.tsx"]
 }

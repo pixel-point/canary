@@ -1,12 +1,14 @@
 // This file's contents are automatically generated. Modifying it manually is discouraged.
-import * as React from 'react'
 import { registerIcon } from '@harnessio/svg-icon'
 import type { IconProps } from '@harnessio/svg-icon-react'
 import { Icon } from '@harnessio/svg-icon-react'
 
 const name = 'crop-rotate-bl/noir'
 
-registerIcon(name, `<svg width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 14V17C4 19.2091 5.79086 21 8 21H12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 16.5L4 14L6.5 16.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 11L20 5C20 4.44772 19.5523 4 19 4L13 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 4H10" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 16V14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 2L10 13C10 13.5523 10.4477 14 11 14L22 14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>`)
+registerIcon(
+  name,
+  `<svg width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 14V17C4 19.2091 5.79086 21 8 21H12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 16.5L4 14L6.5 16.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 11L20 5C20 4.44772 19.5523 4 19 4L13 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 4H10" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 16V14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 2L10 13C10 13.5523 10.4477 14 11 14L22 14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+)
 
 export function CropRotateBl(props: IconProps) {
   return <Icon name={name} {...props} />
