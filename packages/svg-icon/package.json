@@ -1,0 +1,31 @@
+{
+  "name": "@harnessio/svg-icon",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "module": "./dist/index.js",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "sideEffects": false,
+  "scripts": {
+    "clean": "(rm -rf dist > /dev/null 2>&1 || rmdir dist /s /q > nul 2>&1)",
+    "tsc": "tsc --emitDeclarationOnly",
+    "build": "pnpm tsc; esbuild src/index.ts --bundle --allow-overwrite --minify --sourcemap --outdir=dist --analyze --format=esm --external:react-dom --external:react",
+    "watch": "pnpm build --watch",
+    "preinstall": "npx only-allow pnpm"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.20",
+    "react": "^18.2.0",
+    "typescript": "^5.1.6",
+    "esbuild": "0.19.2"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "name": "@harnessio/svg-icon-react",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "module": "./dist/index.js",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "sideEffects": false,
+  "scripts": {
+    "clean": "(rm -rf dist 2>&1 > /dev/null || rmdir dist /s /q > nul 2>&1)",
+    "tsc": "tsc --emitDeclarationOnly",
+    "build": "esbuild src/index.tsx --bundle --allow-overwrite --minify --sourcemap --outdir=dist --analyze --format=esm --external:react-dom --external:react --external:@harnessio/svg-icon",
+    "watch": "pnpm build --watch",
+    "preinstall": "npx only-allow pnpm"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.20",
+    "react": "^18.2.0",
+    "typescript": "^5.1.6",
+    "esbuild": "0.19.2"
+  },
+  "dependencies": {
+    "@harnessio/svg-icon": "workspace:*"
+  }
+}

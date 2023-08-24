@@ -1,0 +1,24 @@
+{
+  "name": "@harnessio/svg-icon-cli",
+  "version": "1.0.0",
+  "description": "SVG CLI toolings",
+  "type": "module",
+  "bin": {
+    "svg2icon": "bin/svg2icon.js"
+  },
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/harness/harness-icons.git"
+  },
+  "author": "Harness, Inc",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/harness/harness-icons/issues"
+  },
+  "homepage": "https://github.com/harness/harness-icons#readme",
+  "dependencies": {
+    "lodash-es": "^4.17.21",
+    "sade": "^1.8.1"
+  }
+}
