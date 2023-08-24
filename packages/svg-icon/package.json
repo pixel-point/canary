@@ -17,15 +17,16 @@
   "sideEffects": false,
   "scripts": {
     "clean": "(rm -rf dist > /dev/null 2>&1 || rmdir dist /s /q > nul 2>&1)",
-    "tsc": "tsc --emitDeclarationOnly",
-    "build": "pnpm tsc; esbuild src/index.ts --bundle --allow-overwrite --minify --sourcemap --outdir=dist --analyze --format=esm --external:react-dom --external:react",
+    "build": "tsc; esbuild src/index.ts --bundle --allow-overwrite --minify --sourcemap --outdir=dist --analyze --format=esm",
     "watch": "pnpm build --watch",
+    "lint": "eslint --ext .ts src",
+    "fmt": "prettier --write \"./src/**/*.{ts}\"",
     "preinstall": "npx only-allow pnpm"
   },
   "devDependencies": {
-    "@types/react": "^18.2.20",
-    "react": "^18.2.0",
-    "typescript": "^5.1.6",
-    "esbuild": "0.19.2"
+    "esbuild": "0.19.2",
+    "eslint": "^8.47.0",
+    "prettier": "^3.0.2",
+    "typescript": "^5.1.6"
   }
 }

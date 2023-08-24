@@ -2,7 +2,6 @@ import { getIcon } from './registry'
 
 export const TAG = 'svg-icon'
 
-// Tag attributes
 const NAME = 'name'
 const COLOR = 'color'
 const SIZE = 'size'
@@ -13,13 +12,13 @@ let defaultColor: string
 let defaultSize: string
 let defaultStrokeWidth: string
 
-export function setTagDefaultAttributess(props: Omit<TagProps, 'name' | 'title'> = {}) {
+export function setTagDefaultAttributes(props: Omit<TagProps, 'name' | 'title'> = {}) {
   defaultColor = props.color || 'currentColor'
   defaultSize = props.size || '16px'
   defaultStrokeWidth = props[STROKE_WIDTH] || '1'
 }
 
-setTagDefaultAttributess()
+setTagDefaultAttributes()
 
 if (!customElements.get(TAG)) {
   customElements.define(
