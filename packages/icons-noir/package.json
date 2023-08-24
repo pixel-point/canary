@@ -17,9 +17,8 @@
   "sideEffects": false,
   "scripts": {
     "clean": "(rm -rf dist > /dev/null 2>&1 || rmdir dist /s /q > nul 2>&1)",
-    "tsc": "tsc --emitDeclarationOnly",
     "generate-icons": "svg2icon --iconSetName=noir",
-    "build": "pnpm tsc; esbuild src/components/*.{ts,tsx} --allow-overwrite --minify --outdir=dist --analyze --format=esm"
+    "build": "tsc --emitDeclarationOnly; esbuild src/components/*.{ts,tsx} --allow-overwrite --minify --outdir=dist --format=esm"
   },
   "keywords": [],
   "author": "",
