@@ -1,0 +1,42 @@
+{
+  "name": "@harnessio/svg-icon",
+  "version": "0.0.1",
+  "type": "module",
+  "module": "./dist/index.js",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "clean-dist && tsc && esbuild src/index.ts --bundle --allow-overwrite --minify --sourcemap --outdir=dist --analyze --format=esm --external:react --external:@harnessio/svg-icon",
+    "lint": "eslint --ext .ts --ext .tsx src",
+    "fmt": "prettier --write \"./src/**/*.{ts,tsx}\"",
+    "preinstall": "npx only-allow pnpm"
+  },
+  "devDependencies": {
+    "@harnessio/svg-icon-cli": "workspace:*",
+    "@types/react": "^18.2.20",
+    "esbuild": "0.19.2",
+    "eslint": "^8.47.0",
+    "prettier": "^3.0.2",
+    "react": "^18.2.0",
+    "typescript": "^5.1.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/harness/harness-icons.git"
+  },
+  "author": "Harness Inc.",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/harness/harness-icons/issues"
+  },
+  "homepage": "https://github.com/harness/harness-icons"
+}

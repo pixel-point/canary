@@ -1,7 +1,6 @@
 {
   "name": "docs",
-  "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "clean": "(rm -rf dist > /dev/null 2>&1 || rmdir dist /s /q > nul 2>&1)",
@@ -11,8 +10,18 @@
     "preview": "vite preview",
     "preinstall": "npx only-allow pnpm"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/harness/harness-icons.git"
+  },
+  "author": "Harness Inc.",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/harness/harness-icons/issues"
+  },
+  "homepage": "https://github.com/harness/harness-icons",
   "dependencies": {
-    "@harnessio/icons-noir": "workspace:*",
+    "@harnessio/icons-noir-react": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

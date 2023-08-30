@@ -41,11 +41,12 @@
   color: #888;
 }
 
-svg-icon {
-  height1: 250px !important;
-  width1: 250px !important;
+svg-icon:hover {
+  height: 250px;
+  width: 250px;
+  color: #000;
 }
 
 svg-icon svg {
-  stroke-width: 4 !important;
+  stroke-width: 4 !important; /* this will never work! */
 }

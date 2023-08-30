@@ -1,12 +1,16 @@
 {
   "name": "harness-icons",
   "scripts": {
-    "deps": "pnpm -r install",
+    "deps": "pnpm -r i",
     "clean": "pnpm -r --parallel clean",
     "build": "pnpm -r build",
     "lint": "pnpm -r lint",
     "fmt": "pnpm -r fmt",
     "dev": "pnpm --filter docs dev",
     "preinstall": "npx only-allow pnpm"
-  }
+  },
+  "engines": {
+    "node": ">=16.20.2"
+  },
+  "license": "Apache-2.0"
 }
