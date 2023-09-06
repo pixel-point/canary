@@ -293,5 +293,3 @@ function useSettings() {
     Settings: Component
   }
 }
-
-// Copy, download raw svg
