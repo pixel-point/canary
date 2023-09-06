@@ -98,7 +98,7 @@ if (!customElements.get(TAG)) {
 
         const styleSheet = new CSSStyleSheet()
         styleSheet.replaceSync(
-          `:host { all: initial; display: inline-block; width: ${width}; height: ${height}; color: ${color}; transition: all .75s ease; flex-shrink: 0; } svg { width: 100%; height: 100%; stroke-width: ${strokeWidth}; }`
+          `:host { all: initial; display: inline-block; width: ${width}; height: ${height}; color: ${color}; flex-shrink: 0; cursor: inherit; } svg { width: 100%; height: 100%; stroke-width: ${strokeWidth}; }`
         )
         this.#shadowRoot.adoptedStyleSheets = [styleSheet]
 
@@ -113,6 +113,8 @@ if (!customElements.get(TAG)) {
 }
 
 export interface TagProps {
+  class?: string
+
   /**
    * Icon name. During generation, icon name is postfixed with icon-set name.
    * For example: code/harness, arrow-left/noir.

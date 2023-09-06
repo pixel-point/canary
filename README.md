@@ -25,3 +25,7 @@ pnpm deps
 ```sh
 pnpm build
 ```
+
+## Note on using vscode
+
+When the workspace is rebuilt, vscode could have some issue recognizing packages and types. To fix this, reload project (Cmd-Shift-P > Reload Project)

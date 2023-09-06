@@ -22,12 +22,12 @@
   },
   "devDependencies": {
     "@harnessio/svg-icon-cli": "workspace:*",
-    "@types/react": "^18.2.20",
+    "@types/react": "^18.2.21",
     "esbuild": "0.19.2",
-    "eslint": "^8.47.0",
-    "prettier": "^3.0.2",
+    "eslint": "^8.48.0",
+    "prettier": "^3.0.3",
     "react": "^18.2.0",
-    "typescript": "^5.1.6"
+    "typescript": "^5.2.2"
   },
   "dependencies": {
     "@harnessio/svg-icon": "workspace:*"

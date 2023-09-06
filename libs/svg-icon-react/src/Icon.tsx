@@ -1,6 +1,6 @@
-import * as React from 'react'
-import type { PropsWithChildren } from 'react'
+import type { FC, PropsWithChildren, ElementType } from 'react'
 import type { TagProps } from '@harnessio/svg-icon'
+import { useEffect, useContext, createContext, memo } from 'react'
 import { TAG } from '@harnessio/svg-icon'
 
 export interface IconProps {
@@ -8,20 +8,26 @@ export interface IconProps {
   color?: string
   strokeWidth?: string
   title?: boolean | string
+  className?: string
 }
 
-interface NamedIconProps extends IconProps {
+export interface NamedIconProps extends IconProps {
   name: string
 }
 
-export const Icon = React.memo(function NamedIcon(props: NamedIconProps) {
-  const ctx = React.useContext(IconContext)
-  const { name, size, color, strokeWidth, title } = props
-  const Tag = TAG as React.ElementType<TagProps>
+export const Icon = memo(function NamedIcon(props: NamedIconProps) {
+  const ctx = useContext(IconContext)
+  const { name, size, color, strokeWidth, title, className } = props
+  const Tag = TAG as ElementType<TagProps>
   const label = name.split('/')[0]
+
+  useEffect(() => {
+    ctx.renderHook?.(props)
+  }, [ctx, props])
 
   return (
     <Tag
+      class={className}
       name={name}
       size={size || ctx.size}
       color={color || ctx.color}
@@ -31,8 +37,14 @@ export const Icon = React.memo(function NamedIcon(props: NamedIconProps) {
   )
 })
 
-const IconContext = React.createContext<IconProps>({})
+export type IconType = (props: IconProps) => JSX.Element
 
-export const IconContextProvider: React.FC<PropsWithChildren<IconProps>> = ({ children, ...props }) => (
+export interface IconContextProps extends IconProps {
+  renderHook?: (props: NamedIconProps) => void
+}
+
+const IconContext = createContext<IconContextProps>({})
+
+export const IconContextProvider: FC<PropsWithChildren<IconContextProps>> = ({ children, ...props }) => (
   <IconContext.Provider value={props || {}} children={children} />
 )
