@@ -17,7 +17,7 @@ export const TargetLibrary = {
 export const DefaultOptions = {
   source: 'src/icons',
   dest: 'src/components',
-  iconSetName: '',
+  iconset: '',
   singleColor: true,
   allowedColors: '',
   icon: true,

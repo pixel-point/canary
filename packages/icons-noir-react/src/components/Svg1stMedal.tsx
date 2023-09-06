@@ -7,9 +7,11 @@ const name = '1st-medal/noir'
 
 registerIcon(
   name,
-  `<svg width="24" height="240" fill="none" stroke-width="1.5" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M14.272 10.445 18 2m-8.684 8.632L5 2m7.761 8.048L8.835 2m5.525 0-1.04 2.5M6 16a6 6 0 1 0 12 0 6 6 0 0 0-12 0Z"/><path stroke="currentColor1" stroke-linecap="round" stroke-linejoin="round" d="m10.5 15 2-1.5v5"/></svg>`
+  `<svg width="24" height="24" fill="none" stroke-width="1.5" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M14.272 10.445 18 2m-8.684 8.632L5 2m7.761 8.048L8.835 2m5.525 0-1.04 2.5M6 16a6 6 0 1 0 12 0 6 6 0 0 0-12 0Z"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m10.5 15 2-1.5v5"/></svg>`
 )
 
 export function Svg1stMedal(props: IconProps) {
-  return <Icon name={name} size="16" strokeWidth="1" {...props} />
+  return <Icon name={name} {...props} />
 }
+
+Svg1stMedal.prototype.name = name
