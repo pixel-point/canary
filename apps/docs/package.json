@@ -22,19 +22,27 @@
   "homepage": "https://github.com/harness/harness-icons",
   "dependencies": {
     "@harnessio/icons-noir-react": "workspace:*",
+    "@harnessio/svg-icon": "workspace:*",
+    "@harnessio/svg-icon-react": "workspace:*",
+    "@uiw/react-markdown-preview": "^4.1.15",
+    "lodash-es": "^4.17.21",
+    "match-sorter": "^6.3.1",
+    "prettier": "^3.0.3",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-keywords": "^1.0.0"
   },
   "devDependencies": {
+    "@types/lodash-es": "^4.17.9",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
-    "@typescript-eslint/eslint-plugin": "^6.4.1",
-    "@typescript-eslint/parser": "^6.4.1",
+    "@typescript-eslint/eslint-plugin": "^6.5.0",
+    "@typescript-eslint/parser": "^6.5.0",
     "@vitejs/plugin-react": "^4.0.4",
-    "eslint": "^8.47.0",
+    "eslint": "^8.48.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
-    "typescript": "^5.1.6",
+    "typescript": "^5.2.2",
     "vite": "^4.4.9"
   }
 }
