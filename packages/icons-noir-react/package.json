@@ -1,0 +1,40 @@
+{
+  "name": "@harnessio/icons-noir-react",
+  "version": "0.0.1",
+  "description": "Noir icon set in React",
+  "type": "module",
+  "module": "./dist/index.js",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "sideEffects": false,
+  "scripts": {
+    "generate": "svg2icon --iconSetName=noir --icon --singleColor --allowedColors=black,white",
+    "build": "clean-dist && pnpm generate && tsc && esbuild src/components/*.{ts,tsx} --allow-overwrite --minify --outdir=dist --format=esm"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/harness/harness-icons.git"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/harness/harness-icons/issues"
+  },
+  "homepage": "https://github.com/harness/harness-icons",
+  "devDependencies": {
+    "@harnessio/svg-icon-cli": "workspace:*",
+    "esbuild": "0.19.2",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "@harnessio/svg-icon": "workspace:*",
+    "@harnessio/svg-icon-react": "workspace:*"
+  }
+}
