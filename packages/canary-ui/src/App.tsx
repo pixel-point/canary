@@ -13,6 +13,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 function App() {
   return (
@@ -33,6 +34,17 @@ function App() {
             <AlertDescription>You can add components to your app using the cli.</AlertDescription>
           </Alert>
         </div>
+      </div>
+
+      <div style={{ display: 'inline-flex', justifyContent: 'space-around' }}>
+        <Tabs defaultValue="account" className="w-[400px]">
+          <TabsList>
+            <TabsTrigger value="account">Account</TabsTrigger>
+            <TabsTrigger value="password">Password</TabsTrigger>
+          </TabsList>
+          <TabsContent value="account">Make changes to your account here.</TabsContent>
+          <TabsContent value="password">Change your password here.</TabsContent>
+        </Tabs>
       </div>
 
       <div style={{ display: 'inline-flex', justifyContent: 'space-around' }}>
