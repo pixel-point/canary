@@ -37,7 +37,9 @@ function App() {
 
       <div style={{ display: 'inline-flex', justifyContent: 'space-around' }}>
         <AlertDialog>
-          <AlertDialogTrigger>Open</AlertDialogTrigger>
+          <AlertDialogTrigger>
+            <Button variant="outline">Show Dialog</Button>
+          </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
