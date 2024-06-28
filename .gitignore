@@ -22,3 +22,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# next.js
+.next/
+out/
+build
+
+# turbo
+.turbo
+
+.contentlayer
+tsconfig.tsbuildinfo
