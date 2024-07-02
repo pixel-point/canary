@@ -1,5 +1,5 @@
 {
-  "name": "harness-icons",
+  "name": "harness-canary",
   "scripts": {
     "deps": "pnpm -r i",
     "clean": "pnpm -r --parallel clean",

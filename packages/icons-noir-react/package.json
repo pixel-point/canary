@@ -21,13 +21,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/harness/harness-icons.git"
+    "url": "https://github.com/harness/canary.git"
   },
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/harness/harness-icons/issues"
+    "url": "https://github.com/harness/canary/issues"
   },
-  "homepage": "https://github.com/harness/harness-icons",
+  "homepage": "https://github.com/harness/canary",
   "devDependencies": {
     "@harnessio/svg-icon-cli": "workspace:*",
     "esbuild": "0.19.2",

@@ -10,14 +10,14 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/harness/harness-icons.git"
+    "url": "https://github.com/harness/canary.git"
   },
   "author": "Harness Inc.",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/harness/harness-icons/issues"
+    "url": "https://github.com/harness/canary/issues"
   },
-  "homepage": "https://github.com/harness/harness-icons",
+  "homepage": "https://github.com/harness/canary",
   "devDependencies": {
     "lodash-es": "^4.17.21",
     "sade": "^1.8.1",
