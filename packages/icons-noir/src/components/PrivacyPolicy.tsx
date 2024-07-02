@@ -3,7 +3,7 @@ import { registerIcon } from '@harnessio/svg-icon'
 import type { IconProps } from '@harnessio/svg-icon-react'
 import { Icon } from '@harnessio/svg-icon-react'
 
-const name = 'privacy policy/noir'
+const name = 'privacy-policy/noir'
 
 registerIcon(
   name,
