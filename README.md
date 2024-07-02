@@ -1,6 +1,22 @@
-# Harness Icons Framework
+# Canary
 
-Welcome to the Harness Icons Framework monorepo. This repository is dedicated to implementing and managing the Harness Icons Framework.
+Welcome to the Harness Canary monorepo! This repository contains multiple projects for Harness' next generation Unified UI.
+
+# Repository Structure
+
+- [packages](./packages/): Contains projects for Harness next generation Unified UI projects. They are published as npm packages.
+- [apps](./apps/): Contains deployable/executable standalone applications.
+
+# Projects
+
+- [@harnessio/svg-icon](./packages/svg-icon) - a small library to render SVG in a web component.
+- [@harnessio/svg-icons-react](./packages/svg-icon-react/) - a React binding library for [svg-icon](./libs/svg-icon).
+- [@harnessio/svg-icons-cli](./packages/svg-icon-cli/) - CLI commands to generate icon components from raw svg icons set.
+- [@harnessio/icons-noir](./packages/icons-noir/) - Noir icon set React components generated from [Iconoir](https://iconoir.com/).
+- [@harnessio/canary](./packages/canary/) - Harness Canary UI components library built on top of [Radix UI](https://www.radix-ui.com/) and [ShadCN UI](https://ui.shadcn.com/).
+- [@harnessio/unified-pipeline](./packages/unified-pipeline/) - Harness Unified Pipeline library.
+
+# Getting Started
 
 ## Prerequisites
 
@@ -27,15 +43,17 @@ pnpm deps
 
 ## Building
 
-To build the Harness Icons Framework, execute the following command from the repository root folder:
+To build all projects, execute the following command from the repository root folder:
 
 ```sh
 pnpm build
 ```
 
+Or you can build individual project by running `pnpm build` from each project folder root folder.
+
 ## Local Development
 
-To explore and test the icon sets locally, use the following command:
+To view Canary documentation locally, run:
 
 ```sh
 pnpm dev
@@ -49,6 +67,6 @@ If you're using Visual Studio Code (VSCode) and encounter issues with package re
 2. Press `Cmd-Shift-P` to open the command palette.
 3. Type `Reload Project` and select it from the list.
 
-This will refresh your VSCode project and help resolve any issues related to package recognition and type checking.
+This process helps to resolve any issues related to package recognition and type checking.
 
 If you have any questions or encounter any problems, please don't hesitate to reach out for assistance. Happy coding!

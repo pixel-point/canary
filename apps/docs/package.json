@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/harness/canary",
   "dependencies": {
-    "@harnessio/icons-noir-react": "workspace:*",
+    "@harnessio/icons-noir": "workspace:*",
     "@harnessio/svg-icon": "workspace:*",
     "@harnessio/svg-icon-react": "workspace:*",
     "@uiw/react-markdown-preview": "^4.1.15",

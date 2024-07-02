@@ -1,0 +1,27 @@
+{
+  "name": "@harnessio/svg-icon-cli",
+  "description": "A collection of commands for Harness Icons Framework",
+  "version": "0.0.1",
+  "type": "module",
+  "bin": {
+    "svg2icon": "bin/svg2icon.js",
+    "clean-dist": "bin/clean-dist.js"
+  },
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/harness/canary.git"
+  },
+  "author": "Harness Inc.",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/harness/canary/issues"
+  },
+  "homepage": "https://github.com/harness/canary",
+  "devDependencies": {
+    "lodash-es": "^4.17.21",
+    "sade": "^1.8.1",
+    "svgo": "^3.0.2",
+    "chalk": "^5.3.0"
+  }
+}

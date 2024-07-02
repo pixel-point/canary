@@ -1,8 +1,7 @@
-import './App.css'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/button'
 import { RocketIcon, ReloadIcon, EnvelopeOpenIcon, ChevronRightIcon } from '@radix-ui/react-icons'
 
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Alert, AlertDescription, AlertTitle } from '@/components/alert'
 
 function App() {
   return (

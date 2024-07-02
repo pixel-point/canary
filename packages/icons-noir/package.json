@@ -1,0 +1,43 @@
+{
+  "name": "@harnessio/icons-noir",
+  "version": "0.0.1",
+  "description": "Noir icon set in React",
+  "type": "module",
+  "module": "./dist/index.js",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "sideEffects": false,
+  "scripts": {
+    "clean": "clean-dist",
+    "generate": "svg2icon --iconset=noir --icon --singleColor --allowedColors=black,white",
+    "build": "clean-dist && pnpm generate && tsc && esbuild src/components/*.{ts,tsx} --allow-overwrite --minify --outdir=dist --format=esm"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/harness/canary.git"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/harness/canary/issues"
+  },
+  "homepage": "https://github.com/harness/canary",
+  "devDependencies": {
+    "@harnessio/svg-icon-cli": "workspace:*",
+    "@types/react": "^18.3.3",
+    "esbuild": "^0.23.0",
+    "react": "^18.3.1",
+    "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "@harnessio/svg-icon": "workspace:*",
+    "@harnessio/svg-icon-react": "workspace:*"
+  }
+}

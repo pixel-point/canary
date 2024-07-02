@@ -1,5 +1,5 @@
 import { useMemo, ChangeEvent, useState, useCallback, useEffect, useRef } from 'react'
-import * as Noir from '@harnessio/icons-noir-react'
+import * as Noir from '@harnessio/icons-noir'
 import { getIcon } from '@harnessio/svg-icon'
 import { matchSorter } from 'match-sorter'
 import * as prettier from 'prettier/standalone'
@@ -111,7 +111,7 @@ const IconDialog: React.FC<DialogConfigAttributes & { selectedIcon: IconMetadata
     () => `
 #### Import
 \`\`\`tsx
-import { ${selectedIcon.ComponentName} } from '@harnessio/icons-noir-react'
+import { ${selectedIcon.ComponentName} } from '@harnessio/icons-noir'
 \`\`\`
 
 #### Usage
