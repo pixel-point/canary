@@ -142,7 +142,7 @@ ${svg}
         <selectedIcon.Component size="24" strokeWidth="1.5" color="inherit" />
         <h5>{`<${selectedIcon?.ComponentName} />`}</h5>
         <button className="close" {...CloseDialogButtonProps}>
-          <Noir.Cancel color="inherit" strokeWidth="2" size="24" />
+          <Noir.Xmark color="inherit" strokeWidth="2" size="24" />
         </button>
       </header>
       <div className="dialog-main">
