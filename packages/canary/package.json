@@ -5,11 +5,24 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build && pnpm run build:css",
+    "build:css": "npx tailwindcss -m -i ./src/index.css -o ./dist/index.css",
     "lint": "eslint .",
-    "preview": "vite preview",
     "shadcn:update": "npx shadcn-ui@latest add -a -o -y"
   },
+  "module": "./dist/index.js",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "style": "./dist/index.css",
+  "sideEffects": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/harness/canary.git"
@@ -78,7 +91,7 @@
     "eslint-plugin-react-refresh": "^0.4.7",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.4",
-    "typescript": "^5.2.2",
-    "vite": "^5.3.1"
+    "vite": "^5.3.1",
+    "vite-plugin-dts": "^3.9.1"
   }
 }
