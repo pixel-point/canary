@@ -1,3 +1,5 @@
+@import '../node_modules/@harnessio/canary/dist/index.css';
+
 details.iconset-list > div {
   display: flex;
   flex-grow: 1;

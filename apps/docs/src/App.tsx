@@ -7,6 +7,7 @@ import MarkdownPreview from '@uiw/react-markdown-preview'
 import htmlPlugin from 'prettier/plugins/html'
 import Keywords from 'react-keywords'
 import { IconContextProvider } from '@harnessio/svg-icon-react'
+import { Button } from '@harnessio/canary'
 import {
   ButtonRoleProps,
   CloseDialogButtonProps,
@@ -18,6 +19,7 @@ import {
   DialogConfigAttributes
 } from './Utils'
 import './App.css'
+import { Accessibility } from '@harnessio/icons-noir'
 
 const NoirMetadata = getIconSetMetadata(Noir)
 
@@ -36,10 +38,29 @@ export default function App() {
     <IconContextProvider
       size={size}
       strokeWidth={strokeWidth}
-      color={color}
+      // color='de'
       // renderHook={props => console.log('render icon', props.name, props)}
     >
       <header className="page-header">
+        <div style={{ display: 'flex', gap: '20px', flexDirection: 'row' }}>
+          <Button>Button</Button>
+          <Button variant="secondary">Secondary</Button>
+          <Button variant="destructive">Destructive</Button>
+          <Button variant="ghost">Ghost</Button>
+          <Button variant="link">Link</Button>
+          <Button variant="outline">Outline</Button>
+          <Button variant="outline" size="icon">
+            <Accessibility className="h-4 w-4" />
+          </Button>
+          <Button>
+            <Accessibility className="mr-2 h-4 w-4" /> Login with Email
+          </Button>
+          <Button disabled>
+            <Accessibility className="mr-2 h-4 w-4 animate-spin" />
+            Please wait
+          </Button>
+        </div>
+
         <div className="search-container">
           <input
             placeholder="Search..."
