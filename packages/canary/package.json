@@ -1,12 +1,12 @@
 {
   "name": "@harnessio/canary",
   "private": false,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build && pnpm run build:css",
-    "build:css": "npx tailwindcss -m -i ./src/index.css -o ./dist/index.css",
+    "build:css": "npx tailwindcss -i ./src/style.css -o ./dist/style.css",
     "lint": "eslint .",
     "shadcn:update": "npx shadcn-ui@latest add -a -o -y",
     "preinstall": "npx only-allow pnpm",
@@ -15,7 +15,9 @@
   "module": "./dist/index.js",
   "main": "dist/index.js",
   "files": [
-    "dist"
+    "dist",
+    "tailwind.config.js",
+    "src/style.css"
   ],
   "types": "./dist/index.d.ts",
   "exports": {
