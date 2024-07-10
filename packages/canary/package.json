@@ -25,7 +25,7 @@
       "import": "./dist/index.js"
     }
   },
-  "style": "./dist/index.css",
+  "style": "./dist/style.css",
   "sideEffects": false,
   "repository": {
     "type": "git",
