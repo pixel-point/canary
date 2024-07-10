@@ -6,6 +6,7 @@
     "build": "pnpm -r build",
     "lint": "pnpm -r lint",
     "fmt": "pnpm -r fmt",
+    "publish:all": "pnpm publish -r --access public",
     "dev": "pnpm --filter docs dev",
     "preinstall": "npx only-allow pnpm"
   },

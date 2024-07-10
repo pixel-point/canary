@@ -1,7 +1,7 @@
 {
   "name": "@harnessio/icons-noir",
   "version": "0.1.0",
-  "description": "Noir icon set in React",
+  "description": "Noir icons set in React",
   "type": "module",
   "module": "./dist/index.js",
   "main": "dist/index.js",
