@@ -1,12 +1,13 @@
 {
   "name": "@harnessio/svg-icon",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "clean": "clean-dist",
     "build": "pnpm run lint && tsc && esbuild src/*{.ts,tsx} --allow-overwrite --minify --outdir=dist --format=esm",
     "lint": "eslint .",
-    "preinstall": "npx only-allow pnpm"
+    "preinstall": "npx only-allow pnpm",
+    "prepublishOnly": "pnpm build"
   },
   "module": "./dist/index.js",
   "main": "dist/index.js",

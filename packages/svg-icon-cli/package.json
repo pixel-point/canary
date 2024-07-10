@@ -1,7 +1,7 @@
 {
   "name": "@harnessio/svg-icon-cli",
   "description": "A collection of commands for Harness Icons Framework",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "type": "module",
   "bin": {
     "svg2icon": "bin/svg2icon.js",

@@ -8,7 +8,9 @@
     "build": "vite build && pnpm run build:css",
     "build:css": "npx tailwindcss -m -i ./src/index.css -o ./dist/index.css",
     "lint": "eslint .",
-    "shadcn:update": "npx shadcn-ui@latest add -a -o -y"
+    "shadcn:update": "npx shadcn-ui@latest add -a -o -y",
+    "preinstall": "npx only-allow pnpm",
+    "prepublishOnly": "pnpm build"
   },
   "module": "./dist/index.js",
   "main": "dist/index.js",

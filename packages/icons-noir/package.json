@@ -1,6 +1,6 @@
 {
   "name": "@harnessio/icons-noir",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Noir icon set in React",
   "type": "module",
   "module": "./dist/index.js",
@@ -18,7 +18,9 @@
   "scripts": {
     "clean": "clean-dist",
     "generate": "svg2icon --iconset=noir --icon --singleColor --allowedColors=black,white",
-    "build": "clean-dist && pnpm generate && tsc && esbuild src/components/*.{ts,tsx} --allow-overwrite --minify --outdir=dist --format=esm"
+    "build": "clean-dist && pnpm generate && tsc && esbuild src/components/*.{ts,tsx} --allow-overwrite --minify --outdir=dist --format=esm",
+    "preinstall": "npx only-allow pnpm",
+    "prepublishOnly": "pnpm build"
   },
   "repository": {
     "type": "git",
