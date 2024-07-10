@@ -2,6 +2,7 @@
   "name": "docs",
   "version": "0.0.1",
   "type": "module",
+  "private": true,
   "scripts": {
     "clean": "(rm -rf dist > /dev/null 2>&1 || rmdir dist /s /q > nul 2>&1)",
     "dev": "vite",
