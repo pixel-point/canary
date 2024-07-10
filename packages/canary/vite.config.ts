@@ -31,13 +31,12 @@ export default defineConfig({
       formats: ['es']
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime', '@radix-ui'],
+      external: ['react', 'react-dom', 'react/jsx-runtime'],
       output: {
         globals: {
           react: 'react',
           'react-dom': 'ReactDOM',
-          'react/jsx-runtime': 'react/jsx-runtime',
-          '@radix-ui': '@radix-ui'
+          'react/jsx-runtime': 'react/jsx-runtime'
         }
       }
     }
