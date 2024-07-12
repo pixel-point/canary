@@ -70,3 +70,7 @@ If you're using Visual Studio Code (VSCode) and encounter issues with package re
 This process helps to resolve any issues related to package recognition and type checking.
 
 If you have any questions or encounter any problems, please don't hesitate to reach out for assistance. Happy coding!
+
+## License
+
+Apache License 2.0, see [LICENSE](https://github.com/harness/gitness/blob/main/LICENSE).
