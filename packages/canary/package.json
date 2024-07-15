@@ -4,7 +4,7 @@
   "version": "0.0.2",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "pnpm storybook",
     "build": "vite build && pnpm build:css",
     "build:css": "npx tailwindcss -i ./src/styles.css -o ./dist/styles.css",
     "lint": "eslint .",
