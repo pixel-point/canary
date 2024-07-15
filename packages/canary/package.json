@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && pnpm run build:css",
-    "build:css": "npx tailwindcss -i ./src/style.css -o ./dist/style.css",
+    "build:css": "npx tailwindcss -i ./src/styles.css -o ./dist/styles.css",
     "lint": "eslint .",
     "shadcn:update": "npx shadcn-ui@latest add -a -o -y",
     "preinstall": "npx only-allow pnpm",
@@ -17,15 +17,16 @@
   "files": [
     "dist",
     "tailwind.config.js",
-    "src/style.css"
+    "src/styles.css"
   ],
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.js"
-    }
+    },
+    "./tailwind.config": "./tailwind.config.js"
   },
-  "style": "./dist/style.css",
+  "style": "./dist/styles.css",
   "sideEffects": false,
   "repository": {
     "type": "git",

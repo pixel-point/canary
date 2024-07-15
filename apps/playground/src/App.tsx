@@ -1,4 +1,3 @@
-import './App.css'
 import { ModeToggle } from './components/mode-toggle'
 import { ThemeProvider } from './components/theme-provider'
 import { LoginForm } from './pages/Login'
