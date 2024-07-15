@@ -7,7 +7,7 @@
     "lint": "pnpm -r lint",
     "fmt": "pnpm -r fmt",
     "publish:all": "pnpm publish -r --access public",
-    "dev": "pnpm --filter docs dev",
+    "dev": "pnpm --filter canary dev",
     "preinstall": "npx only-allow pnpm"
   },
   "engines": {
