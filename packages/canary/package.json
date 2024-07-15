@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && pnpm run build:css",
+    "build": "vite build && pnpm build:css",
     "build:css": "npx tailwindcss -i ./src/styles.css -o ./dist/styles.css",
     "lint": "eslint .",
     "shadcn:update": "npx shadcn-ui@latest add -a -o -y",
@@ -24,7 +24,8 @@
     ".": {
       "import": "./dist/index.js"
     },
-    "./tailwind.config": "./tailwind.config.js"
+    "./tailwind.config": "./tailwind.config.js",
+    "./styles": "./dist/styles.css"
   },
   "style": "./dist/styles.css",
   "sideEffects": false,
