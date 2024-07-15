@@ -10,7 +10,9 @@
     "lint": "eslint .",
     "shadcn:update": "npx shadcn-ui@latest add -a -o -y",
     "preinstall": "npx only-allow pnpm",
-    "prepublishOnly": "pnpm build"
+    "prepublishOnly": "pnpm build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "module": "./dist/index.js",
   "main": "dist/index.js",
@@ -87,6 +89,16 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^1.6.1",
+    "@storybook/addon-essentials": "^8.2.3",
+    "@storybook/addon-interactions": "^8.2.3",
+    "@storybook/addon-links": "^8.2.3",
+    "@storybook/addon-onboarding": "^8.2.3",
+    "@storybook/addon-themes": "^8.2.3",
+    "@storybook/blocks": "^8.2.3",
+    "@storybook/react": "^8.2.3",
+    "@storybook/react-vite": "^8.2.3",
+    "@storybook/test": "^8.2.3",
     "@types/node": "^20.14.9",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
@@ -95,9 +107,17 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
+    "eslint-plugin-storybook": "^0.8.0",
     "postcss": "^8.4.38",
+    "prop-types": "^15.8.1",
+    "storybook": "^8.2.3",
     "tailwindcss": "^3.4.4",
     "vite": "^5.3.1",
     "vite-plugin-dts": "^3.9.1"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
   }
 }
