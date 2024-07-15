@@ -1,13 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { fn } from '@storybook/test'
 import { Button, type ButtonProps } from '../../components/button'
-import { Download, MailOpen } from '@harnessio/icons-noir'
+import { Download, MailOpen, Refresh, RefreshDouble } from '@harnessio/icons-noir'
+import { CanaryOutletFactory, CanaryOutletName } from '@/lib/CanaryOutletFactory'
 
 const meta: Meta<ButtonProps> = {
   title: 'Components/Button',
   component: Button,
   parameters: {
-    layout: 'centered'
+    layout: 'centered',
+    docs: {
+      description: {
+        component: `Displays a button or a component that looks like a button.`
+      }
+    }
   },
   tags: ['autodocs'],
 
@@ -18,6 +24,7 @@ const meta: Meta<ButtonProps> = {
     asChild: { control: 'boolean' },
     children: { control: 'object', description: 'Children. Can be any `ReactNode`' }
   },
+
   args: { onClick: fn() }
 }
 
@@ -93,6 +100,56 @@ export const IconOnly: StoryObj<ButtonProps> = {
   args: {
     size: 'icon',
     children: <Download strokeWidth="2" />
+  }
+}
+
+CanaryOutletFactory.registerOutlet(CanaryOutletName.BUTTON_SPINNER, (props: ButtonProps) => {
+  return <Refresh className={`${props.children ? 'mr-2 ' : ''}animate-spin`} />
+})
+
+export const Loading: StoryObj<ButtonProps> = {
+  args: {
+    loading: true,
+    children: 'Please wait'
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `You can register a default spinner to render when the button is loading using \`CanaryOutletFactory\`. 
+        This is useful when you want to display a spinner inside the button using \`loading\` prop. 
+        
+**Sample**:
+
+\`\`\`tsx
+        CanaryOutletFactory.registerOutlet(CanaryOutletName.BUTTON_SPINNER, (props: ButtonProps) => {
+  return <Refresh className={\`\${props.children ? 'mr-2 ' : ''}animate-spin\`} />
+})
+
+// Then: 
+
+<Button loading>Please wait</Button>
+  \`\`\`
+        `
+      }
+    }
+  }
+}
+
+export const IconOnlyLoading: StoryObj<ButtonProps> = {
+  args: {
+    loading: true
+  }
+}
+
+export const LoadingWithCustomSpinner: StoryObj<ButtonProps> = {
+  args: {
+    disabled: true,
+    children: (
+      <>
+        <RefreshDouble className="mr-2 animate-spin" />
+        Please wait
+      </>
+    )
   }
 }
 
