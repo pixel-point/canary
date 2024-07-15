@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { fn } from '@storybook/test'
 import { Button, type ButtonProps } from '../../components/button'
-import { Download } from '@harnessio/icons-noir'
+import { Download, MailOpen } from '@harnessio/icons-noir'
 
 const meta: Meta<ButtonProps> = {
   title: 'Components/Button',
@@ -60,7 +60,7 @@ export const Link: StoryObj<ButtonProps> = {
 export const Destructive: StoryObj<ButtonProps> = {
   args: {
     variant: 'destructive',
-    children: 'destructive'
+    children: 'Destructive'
   }
 }
 
@@ -78,7 +78,18 @@ export const Small: StoryObj<ButtonProps> = {
   }
 }
 
-export const Icon: StoryObj<ButtonProps> = {
+export const WithIcon: StoryObj<ButtonProps> = {
+  args: {
+    children: (
+      <>
+        <MailOpen strokeWidth="2" className="mr-2" />
+        Login with Email
+      </>
+    )
+  }
+}
+
+export const IconOnly: StoryObj<ButtonProps> = {
   args: {
     size: 'icon',
     children: <Download strokeWidth="2" />
@@ -90,7 +101,7 @@ export const AsChild: StoryObj<ButtonProps> = {
     asChild: true,
     children: (
       <a>
-        <Download strokeWidth="2" className="mr-1" />
+        <Download strokeWidth="2" className="mr-2" />
         Download
       </a>
     )
