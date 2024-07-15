@@ -118,10 +118,13 @@ export const Loading: StoryObj<ButtonProps> = {
         story: `You can register a default spinner to render when the button is loading using \`CanaryOutletFactory\`. 
         This is useful when you want to display a spinner inside the button using \`loading\` prop. 
         
-**Sample**:
+**For example**:
 
 \`\`\`tsx
-        CanaryOutletFactory.registerOutlet(CanaryOutletName.BUTTON_SPINNER, (props: ButtonProps) => {
+import { Refresh } from '@harnessio/icons-noir'
+import type { ButtonProps } from '@harnessio/canary'
+
+CanaryOutletFactory.registerOutlet(CanaryOutletName.BUTTON_SPINNER, (props: ButtonProps) => {
   return <Refresh className={\`\${props.children ? 'mr-2 ' : ''}animate-spin\`} />
 })
 
