@@ -301,6 +301,9 @@ importers:
       '@chromatic-com/storybook':
         specifier: ^1.6.1
         version: 1.6.1(react@18.3.1)
+      '@harnessio/icons-noir':
+        specifier: workspace:*
+        version: link:../icons-noir
       '@storybook/addon-essentials':
         specifier: ^8.2.3
         version: 8.2.3(storybook@8.2.3(@babel/preset-env@7.24.8(@babel/core@7.24.9)))

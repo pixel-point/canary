@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { fn } from '@storybook/test'
 import { Button, type ButtonProps } from '../../components/button'
+import { Download } from '@harnessio/icons-noir'
 
 const meta: Meta<ButtonProps> = {
   title: 'Components/Button',
@@ -80,6 +81,18 @@ export const Small: StoryObj<ButtonProps> = {
 export const Icon: StoryObj<ButtonProps> = {
   args: {
     size: 'icon',
-    children: 'I'
+    children: <Download strokeWidth="2" />
+  }
+}
+
+export const AsChild: StoryObj<ButtonProps> = {
+  args: {
+    asChild: true,
+    children: (
+      <a>
+        <Download strokeWidth="2" className="mr-1" />
+        Download
+      </a>
+    )
   }
 }
