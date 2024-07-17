@@ -1,0 +1,22 @@
+.main {
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /*figma */
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(48, 48, 54, 0.6);
+  background-color: rgba(29, 29, 32, 1);
+}
+
+.diagnose {
+  color: red;
+  font-size: 20px;
+}
+
+.icon {
+  &:hover {
+    cursor: pointer;
+  }
+}

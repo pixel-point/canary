@@ -1,0 +1,43 @@
+/* Anchor nodes are only for anchoring layout and should not be visible on the Canvas */
+.main {
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /*figma */
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(48, 48, 54, 0.6);
+  background-color: rgba(29, 29, 32, 1);
+}
+
+.invisibleTarget {
+  opacity: 0; /* Make the node invisible */
+  visibility: hidden;
+  pointer-events: none; /* Ignore mouse events */
+  transform: translate(
+    50%,
+    -50%
+  ) !important; /* Pushes the target inside towards the node on the right */
+}
+
+.invisibleSource {
+  opacity: 0; /* Make the node invisible */
+  visibility: hidden;
+  pointer-events: none; /* Ignore mouse events */
+  transform: translate(
+    -50%,
+    -50%
+  ) !important; /* Pushes the target inside towards the node on the left */
+}
+
+.diagnose {
+  color: yellow;
+  font-size: 10px;
+}
+
+.icon {
+  &:hover {
+    cursor: pointer;
+  }
+}

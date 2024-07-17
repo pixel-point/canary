@@ -1,0 +1,57 @@
+:root {
+  /* Fonts */
+  --font-size-large: 15px;
+  --font-size-medium: 14px;
+  --font-size-default: 13px;
+  --font-size-small: 12px;
+
+  /* Spacing */
+  --spacing-tiny: 3px;
+  --spacing-xsmall: 5px;
+  --spacing-small: 10px;
+  --spacing-medium: 15px;
+  --spacing-large: 20px;
+  --spacing-xlarge: 25px;
+  --spacing-xxlarge: 30px;
+  --spacing-xxxlarge: 35px;
+
+  /* Colors */
+  --white: #fff;
+  --black: #000;
+  --blue-200: #00ade4;
+  --blue-500: #0378d5;
+  --grey-100: #f3f3fa;
+  --grey-200: #d9dae5;
+
+  /* Dark/Light theme*/
+  --primary-theme-color: var(--white);
+  --secondary-theme-color: var(--black);
+  --primary-hover-bg-color: var(--grey-200);
+  --secondary-hover-bg-color: var(--grey-100);
+
+  --theme-toggle-width: 25px;
+}
+
+html,
+body,
+#app-root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Inter, sans-serif;
+}
+
+.main {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--primary-theme-color) !important;
+}
+
+.themeToggle {
+  display: flex;
+  align-items: flex-end;
+  margin: 10px;
+  width: var(--theme-toggle-width);
+}

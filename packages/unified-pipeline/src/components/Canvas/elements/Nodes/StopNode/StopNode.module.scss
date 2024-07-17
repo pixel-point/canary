@@ -1,0 +1,14 @@
+.main {
+  width: 30px;
+  height: 30px;
+  background: var(--primary-2) !important;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.diagnose {
+  color: red;
+  font-size: 20px;
+}
