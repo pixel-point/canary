@@ -25,7 +25,7 @@ const NoirMetadata = getIconSetMetadata(Noir)
 
 export default function App() {
   const [search, setSearch] = useDebouncedState('')
-  const { size, strokeWidth, Settings } = useSettings()
+  const { size, strokeWidth, color, Settings } = useSettings()
   const [selectedIcon, setSelectedIcon] = useState<IconMetadata>()
   const filteredData = useMemo(
     () =>
