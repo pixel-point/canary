@@ -27,7 +27,7 @@
   }
 
   .dark {
-    --background: 240 10% 3.9%;
+    --background: 240, 12.9%, 3.1%;
     --foreground: 0 0% 98%;
     --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
@@ -57,4 +57,23 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Text utilities */
+.title-primary {
+  @apply text-neutral-300 text-3xl leading-relaxed;
+}
+.text-radial-gradient {
+  @apply bg-gradient-radial from-[#CA9AF4]/70 to-[#CA9AF4]/0 bg-clip-text text-white/70;
+}
+
+/* Card utilities */
+.card-auth {
+  @apply border-none w-[362px];
+}
+.card-auth-header {
+  @apply p-0 space-x-0 space-y-0;
+}
+.card-auth-content {
+  @apply py-6 w-full;
 }

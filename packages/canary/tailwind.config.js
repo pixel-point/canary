@@ -47,10 +47,22 @@ module.exports = {
           foreground: 'hsl(var(--card-foreground))'
         }
       },
+      // borderRadius: {
+      //   lg: 'var(--radius)',
+      //   md: 'calc(var(--radius) - 2px)',
+      //   sm: 'calc(var(--radius) - 4px)'
+      // },
       borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)'
+        DEFAULT: 'var(--radius)'
+      },
+      border: {
+        DEFAULT: '1px'
+      },
+      fontSize: {
+        xs: '13px'
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))'
       },
       keyframes: {
         'accordion-down': {
