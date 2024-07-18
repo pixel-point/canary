@@ -1,6 +1,4 @@
-export declare const box: string
 export declare const contentLayer: string
-export declare const cardBg: string
 export declare const diagnose: string
 export declare const glow: string
 export declare const gradientBorder: string
