@@ -1,0 +1,122 @@
+.main {
+  border: 1px rgba(48, 48, 54, 0.6);
+  background: rgba(29, 29, 32, 1);
+  box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.3);
+}
+
+.selected {
+  border: 3px solid var(--primary-5) !important;
+}
+
+.label {
+  color: rgba(255, 255, 255, 1);
+  font-size: 11px;
+  font-family: Inter;
+  font-weight: 400;
+  line-height: 15.13px;
+}
+
+.diagnose {
+  color: red;
+  font-size: 12px;
+}
+
+.icon {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.content-layer {
+  padding: 10px;
+  border-radius: 6px;
+}
+
+/* gradient */
+.gradient-border {
+  padding: 1px;
+  border-radius: 6px;
+}
+
+.gradient-border-glow {
+  background: linear-gradient(
+      0deg,
+      rgba(48, 48, 54, 0.6),
+      rgba(48, 48, 54, 0.6)
+    ),
+    linear-gradient(
+      108.08deg,
+      #b1cbff 0%,
+      rgba(177, 203, 255, 0.2) 30%,
+      rgba(177, 203, 255, 0.2) 80%,
+      #b1cbff 100%
+    );
+}
+
+.gradient-border-glow .content-layer {
+  background: #131316;
+}
+
+.gradient-border-gray {
+  background: linear-gradient(
+      0deg,
+      rgba(48, 48, 54, 0.6),
+      rgba(48, 48, 54, 0.6)
+    ),
+    radial-gradient(
+      88.57% 100% at 14.29% 0%,
+      rgba(255, 255, 255, 0.2) 14.38%,
+      rgba(255, 255, 255, 0) 76.87%
+    );
+}
+
+.gradient-border-gray .content-layer {
+  background: radial-gradient(
+      88.57% 100% at 14.29% 0%,
+      rgba(255, 255, 255, 0.04) 10.62%,
+      rgba(255, 255, 255, 0) 75.86%
+    ),
+    #1d1d20;
+}
+/* gradient */
+
+.skeleton-line {
+  width: 24px;
+  height: 5px;
+  border-radius: 4px;
+  background: linear-gradient(
+    99deg,
+    rgba(36, 36, 41, 0.5) 16%,
+    #242429 33.62%,
+    rgba(36, 36, 41, 0.4) 51.34%
+  );
+}
+
+.skeleton-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+}
+
+.skeleton-line-1 {
+  margin-top: 14px;
+  width: 115px;
+}
+
+.skeleton-line-2 {
+  margin-top: 8px;
+  width: 79px;
+}
+
+.skeleton-square {
+  background: linear-gradient(
+    135deg,
+    rgba(36, 36, 41, 0.4) -10.42%,
+    #242429 30.82%,
+    rgba(36, 36, 41, 0.5) 100%
+  );
+}
+
+.marginTop {
+  margin-top: 10px;
+}

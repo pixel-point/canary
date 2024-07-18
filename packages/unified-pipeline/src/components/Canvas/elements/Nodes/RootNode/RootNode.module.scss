@@ -1,0 +1,20 @@
+.main {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1d1d20 !important;
+}
+
+.diagnose {
+  color: red;
+  font-size: 20px;
+}
+
+.icon {
+  &:hover {
+    cursor: pointer;
+  }
+}

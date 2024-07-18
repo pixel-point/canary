@@ -1,0 +1,330 @@
+import type { Node, Edge } from "reactflow";
+import { isEmpty } from "lodash-es";
+import { EdgeType, NodeType } from "../types";
+import {
+  getChildNodes,
+  getEndAnchorNodeId,
+  getLayoutableNodes,
+  getNodeById,
+  getStartAnchorNodeId,
+  partitionNodesByParallelism,
+} from "./NodeUtils";
+import type { PlusEdgeProps } from "../elements/Edges/PlusEdge/PlusEdge";
+import { GROUP_NODE_VERTICAL_ALIGNMENT_MARGIN } from "./LROrientation/Constants";
+
+import css from "../Canvas.module.scss";
+
+/* node to parent edge */
+export const linkChildNodeToParent = ({
+  childNode,
+  parentNode,
+  zIndex = 1,
+  parallel = false,
+}: {
+  childNode: Node;
+  parentNode: Node;
+  zIndex?: number;
+  parallel?: boolean;
+}): Edge => {
+  const parentId = parentNode.id;
+  const childNodeId = childNode.id;
+  return {
+    id: `edge-${childNodeId}->${parentId}`,
+    sourceNode: childNode,
+    source: childNodeId,
+    target: parentId,
+    sourceHandle: `${childNodeId}_source`,
+    targetHandle: `${parentId}_internal_target`,
+    data: {
+      sourceNode: childNode,
+      targetNode: parentNode,
+      sourcePosition: parentNode.position,
+      targetPosition: childNode.position,
+      edgeClickData: { nodeType: NodeType.STAGE },
+    },
+    type: EdgeType.SMOOTHSTEP,
+    pathOptions: {
+      borderRadius: 8,
+      offset: parallel ? -1 * GROUP_NODE_VERTICAL_ALIGNMENT_MARGIN : 0,
+    },
+    /* https://github.com/xyflow/xyflow/discussions/3498#discussioncomment-7263647 */
+    zIndex,
+    className: css.edge,
+  };
+};
+
+/* parent to node edge */
+export const linkParentNodeToChild = ({
+  childNode,
+  parentNode,
+  zIndex = 1,
+  parallel = false,
+}: {
+  childNode: Node;
+  parentNode: Node;
+  zIndex?: number;
+  parallel?: boolean;
+}): Edge => {
+  const parentId = parentNode.id;
+  const childNodeId = childNode.id;
+  return {
+    id: `edge-${parentId}->${childNodeId}`,
+    sourceNode: parentNode,
+    source: parentId,
+    target: childNodeId,
+    sourceHandle: `${parentId}_internal_source`,
+    targetHandle: `${childNodeId}_target`,
+    data: {
+      sourceNode: parentNode,
+      targetNode: childNode,
+      sourcePosition: parentNode.position,
+      targetPosition: childNode.position,
+      edgeClickData: { nodeType: NodeType.STAGE },
+    },
+    type: EdgeType.SMOOTHSTEP,
+    pathOptions: {
+      borderRadius: 8,
+      offset: parallel ? -1 * GROUP_NODE_VERTICAL_ALIGNMENT_MARGIN : 0,
+    },
+    /* https://github.com/xyflow/xyflow/discussions/3498#discussioncomment-7263647 */
+    zIndex,
+    className: css.edge,
+  };
+};
+
+export const getEdgesForChildNodes = ({
+  parentNode,
+  nodes,
+  zIndexForEdges,
+}: {
+  parentNode: Node;
+  nodes: Node[];
+  zIndexForEdges?: number;
+}): Edge[] => {
+  const parentNodeId = parentNode.id;
+  const childNodes = getChildNodes(parentNodeId, nodes);
+  if (childNodes.length === 0) return [];
+  const childNodeEdges: Edge[] = [];
+  const { parallel: parallelNodes, sequential: sequentialNodes } =
+    partitionNodesByParallelism(childNodes);
+  if (sequentialNodes.length > 0) {
+    childNodeEdges.push(
+      ...createEdgesForSequentialNodes(sequentialNodes, zIndexForEdges)
+    );
+    const startAnchorNode = getNodeById(
+      nodes,
+      getStartAnchorNodeId(parentNodeId)
+    );
+    const endAnchorNode = getNodeById(nodes, getEndAnchorNodeId(parentNodeId));
+    /**
+     * Connect anchor nodes to the auto-layoutable parent
+     * When a group contains *only* sequential nodes
+     */
+    if (startAnchorNode && endAnchorNode && parentNode) {
+      const childParentEdges: Edge[] = [
+        linkParentNodeToChild({
+          childNode: startAnchorNode,
+          parentNode: parentNode,
+          zIndex: zIndexForEdges,
+        }),
+        linkChildNodeToParent({
+          childNode: endAnchorNode,
+          parentNode: parentNode,
+          zIndex: zIndexForEdges,
+        }),
+      ];
+      if (childParentEdges.length > 0) {
+        childNodeEdges.push(...childParentEdges);
+      }
+    }
+  }
+  if (parentNode && parallelNodes.length > 0) {
+    childNodeEdges.push(
+      ...createEdgesForParallelNodes({
+        parentNode,
+        parallelNodes,
+        zIndex: zIndexForEdges,
+      })
+    );
+  }
+  return childNodeEdges;
+};
+
+export const getEdgesForAllNodes = (
+  nodes: Node[],
+  includChildNodeEdges: boolean = true
+): Edge[] => {
+  const edges: Edge[] = [];
+  if (nodes.length === 0) return [];
+  const selfLayoutableNodes = getLayoutableNodes(nodes);
+  edges.push(...createEdgesForNodes({ nodes: selfLayoutableNodes }));
+  if (includChildNodeEdges) {
+    selfLayoutableNodes.forEach((parentNode) => {
+      edges.push(...getEdgesForChildNodes({ parentNode, nodes }));
+    });
+  }
+  return edges;
+};
+
+export const createEdgesForParallelNodes = ({
+  parentNode,
+  parallelNodes,
+  zIndex = 1,
+}: {
+  parentNode: Node;
+  parallelNodes: Node[];
+  zIndex?: number;
+}): Edge[] => {
+  if (parallelNodes.length === 0) return [];
+  const edges: Edge[] = [];
+  parallelNodes.forEach((node) => {
+    edges.push(
+      ...[
+        linkParentNodeToChild({
+          parentNode,
+          childNode: node,
+          zIndex,
+          parallel: true,
+        }),
+        linkChildNodeToParent({
+          parentNode,
+          childNode: node,
+          zIndex,
+          parallel: true,
+        }),
+      ]
+    );
+  });
+  return edges;
+};
+
+export const createEdgesForSequentialNodes = (
+  nodes: Node[],
+  zIndex: number = 1
+): Edge[] => {
+  if (nodes.length === 0) return [];
+  const edges: Edge[] = [];
+  for (let nodeIdx = 0; nodeIdx < nodes.length - 1; nodeIdx++) {
+    const sourceNode = nodes[nodeIdx];
+    const targetNode = nodes[nodeIdx + 1];
+    const edgeType = [sourceNode.type, targetNode.type].includes(
+      NodeType.ANCHOR
+    )
+      ? EdgeType.SMOOTHSTEP
+      : EdgeType.PLUS;
+    edges.push(createEdgeForNodes(sourceNode, targetNode, edgeType, zIndex));
+  }
+  return edges;
+};
+
+const createEdgeForNodes = (
+  sourceNode: Node,
+  targetNode: Node,
+  edgeType: EdgeType,
+  zIndex: number = 1
+): Edge<PlusEdgeProps> => {
+  const { id: sourceNodeId, position: sourceNodePosition } = sourceNode;
+  const { id: targetNodeId, position: targetNodePosition } = targetNode;
+
+  return {
+    id: `edge-${sourceNodeId}->${targetNodeId}`,
+    sourceNode,
+    source: sourceNodeId,
+    target: targetNodeId,
+    sourceHandle: `${sourceNodeId}_source`,
+    targetHandle: `${targetNodeId}_target`,
+    data: {
+      sourceNode,
+      targetNode,
+      sourcePosition: sourceNodePosition,
+      targetPosition: targetNodePosition,
+      edgeClickData: { nodeType: NodeType.STAGE },
+      zIndex,
+    },
+    type: targetNode.type === NodeType.PLUS ? EdgeType.SMOOTHSTEP : edgeType,
+    zIndex,
+    className: css.edge,
+  };
+};
+
+export const createEdgesForNodes = ({
+  nodes,
+  edgeType = EdgeType.PLUS,
+  zIndex = 1,
+}: {
+  nodes: Node[];
+  edgeType?: EdgeType;
+  zIndex?: number;
+}): Edge[] => {
+  if (!nodes || nodes.length <= 1) {
+    return [];
+  }
+
+  const edgesForNodes: Edge<PlusEdgeProps>[] = [];
+  for (let nodeIdx = 0; nodeIdx < nodes.length - 1; nodeIdx++) {
+    const sourceNode = nodes[nodeIdx];
+    const targetNode = nodes[nodeIdx + 1];
+    const edge = createEdgeForNodes(sourceNode, targetNode, edgeType, zIndex);
+    edgesForNodes.push(edge);
+  }
+
+  return edgesForNodes;
+};
+
+export const dedupEdges = (edges: Edge[]): Edge[] => {
+  const edgeMap: Map<string, Edge> = new Map();
+
+  edges.forEach((edge) => {
+    edgeMap.set(edge.id, edge);
+  });
+
+  return Array.from(edgeMap.values());
+};
+
+/* edge2 overwrites edge1 */
+export const mergeEdges = (edges1: Edge[], edges2: Edge[]): Edge[] => {
+  const edgeMap = new Map<string, Edge>();
+
+  edges1.forEach((edge) => edgeMap.set(edge.id, edge));
+  edges2.forEach((edge) => edgeMap.set(edge.id, edge));
+
+  return Array.from(edgeMap.values());
+};
+
+/**
+ * Updates the visibility of specified edges in the complete set of edges.
+ * @param edgesToUpdate - Edges to be marked as hidden or visible
+ * @param allEdges - Complete set of edges
+ * @param hidden - Boolean to indicate if the edges should be marked hidden (true) or visible (false)
+ * @returns Complete set of edges after updating the specified ones
+ */
+export const updateEdgeVisibility = ({
+  edgesToUpdate,
+  allEdges,
+  hidden,
+}: {
+  edgesToUpdate: Edge[];
+  allEdges: Edge[];
+  hidden: boolean;
+}): Edge[] => {
+  if (isEmpty(edgesToUpdate) || isEmpty(allEdges)) {
+    return allEdges;
+  }
+
+  if (edgesToUpdate.length > allEdges.length) {
+    return allEdges;
+  }
+
+  const allEdgeIds = allEdges.map((edge) => edge.id);
+  const matchingEdges = edgesToUpdate.filter((edge) =>
+    allEdgeIds.includes(edge.id)
+  );
+  const updatedEdges = matchingEdges.map((edge: Edge) => ({ ...edge, hidden }));
+  return updatedEdges;
+};
+
+export const getConnectedEdges = (nodeId: string, edges: Edge[]): Edge[] => {
+  return edges.filter(
+    (edge) => edge.source === nodeId || edge.target === nodeId
+  );
+};
