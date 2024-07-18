@@ -14,6 +14,7 @@ export const Studio: React.FC<{}> = () => {
       onAddNode={() => {}}
       onDeleteNode={() => {}}
       onSelectNode={() => {}}
+      readonly
     />
   )
 }
