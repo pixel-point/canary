@@ -1,38 +1,38 @@
-import React from "react";
-import { Node } from "components/Canvas/types";
-import Bitbucket from "../../icons/Bitbucket";
-import Slack from "../../icons/Slack";
-import Jira from "../../icons/Jira";
+import React from 'react'
+import { Node } from 'components/Canvas/types'
+import Bitbucket from '../../icons/Bitbucket'
+import Slack from '../../icons/Slack'
+import Jira from '../../icons/Jira'
 
-export const mockNodes: Node[] = [
+export const nodes: Node[] = [
   {
-    name: "SBOM and SLSA Verification",
-    path: "spec.stages.0",
+    name: 'SBOM and SLSA Verification',
+    path: 'spec.stages.0',
     icon: null,
     children: [
       {
-        name: "SoftwareSupply Chain Validation",
+        name: 'SoftwareSupply Chain Validation',
         icon: <Bitbucket />,
-        path: "some-path",
+        path: 'some-path',
         deletable: true,
-        expandable: false,
+        expandable: false
       },
       {
-        name: "Push to Artifactory",
+        name: 'Push to Artifactory',
         icon: <Slack />,
-        path: "some-path",
+        path: 'some-path',
         deletable: true,
-        expandable: false,
+        expandable: false
       },
       {
-        name: "Deploy to Server",
+        name: 'Deploy to Server',
         icon: <Jira />,
-        path: "some-path",
+        path: 'some-path',
         deletable: true,
-        expandable: false,
-      },
+        expandable: false
+      }
     ],
     deletable: true,
-    expandable: true,
-  },
-];
+    expandable: true
+  }
+]
