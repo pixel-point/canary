@@ -58,6 +58,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^5.3.4",
     "reactflow": "^11.11.4",
+    "yaml": "^2.4.5",
     "zustand": "^4.5.4"
   },
   "peerDependencies": {
