@@ -29,7 +29,7 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos }: Node
   /* To simulate transitions */
   // const [status, setStatus] = useState(Status.QUEUED);
   // const runTransitions = true;
-  const [status, setStatus] = useState(Status.QUEUED)
+  const [status, setStatus] = useState(Status.DONE)
   const runTransitions = false
 
   useEffect(() => {
