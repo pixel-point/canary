@@ -1,11 +1,11 @@
-import React from "react";
-import { PipelineStudio } from "../../components/PipelineStudio/PipelineStudio";
-// import { mockNodes } from "./mock_single";
+import React from 'react'
+import { PipelineStudio } from '../../components/PipelineStudio/PipelineStudio'
+import { mockNodes } from './mock_single'
 // import { mockNodes } from "./mock_many";
-import { mockNodes } from "./mock_multiple";
-import { mockNodes as mockNodesParallel } from "./mock_parallel";
-import { mockNodes as mockNodesMixed } from "./mock_mixed";
-import { mockNodes as mockNodesDemo } from "./mock_demo";
+// import { mockNodes } from "./mock_multiple";
+import { mockNodes as mockNodesParallel } from './mock_parallel'
+import { mockNodes as mockNodesMixed } from './mock_mixed'
+import { mockNodes as mockNodesDemo } from './mock_demo'
 
 export const Studio: React.FC<{}> = () => {
   return (
@@ -15,8 +15,8 @@ export const Studio: React.FC<{}> = () => {
       onDeleteNode={() => {}}
       onSelectNode={() => {}}
     />
-  );
-};
+  )
+}
 
 export const StudioParallel: React.FC<{}> = () => {
   return (
@@ -26,8 +26,8 @@ export const StudioParallel: React.FC<{}> = () => {
       onDeleteNode={() => {}}
       onSelectNode={() => {}}
     />
-  );
-};
+  )
+}
 
 export const StudioMixed: React.FC<{}> = () => {
   return (
@@ -37,8 +37,8 @@ export const StudioMixed: React.FC<{}> = () => {
       onDeleteNode={() => {}}
       onSelectNode={() => {}}
     />
-  );
-};
+  )
+}
 
 export const StudioDemo: React.FC<{}> = () => {
   return (
@@ -48,5 +48,5 @@ export const StudioDemo: React.FC<{}> = () => {
       onDeleteNode={() => {}}
       onSelectNode={() => {}}
     />
-  );
-};
+  )
+}

@@ -81,6 +81,15 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test: /\.(jpg|jpeg|png|svg|gif|webp)$/,
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 2 * 1024 // 2kb
+          }
+        }
       }
     ]
   },

@@ -1,11 +1,11 @@
-#Install
+### Install
 
-npm install
+`npm install`
 
-#Run locally
+### Run locally
 
-npm run webpack
+`npm run dev`
 
-#To view
+### To view
 
 Open http://localhost:8080/studio

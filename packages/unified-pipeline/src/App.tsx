@@ -5,11 +5,9 @@ import { CanvasStoreProvider } from './framework/CanvasStore/CanvasStoreContext'
 
 import css from './App.module.scss'
 
-const LAST_SAVED_THEME = 'theme'
-
 export const App: React.FC = () => {
-  const [checked, setChecked] = useState<boolean>()
-  const theme = localStorage.getItem(LAST_SAVED_THEME)
+  const [checked, setChecked] = useState<boolean>(true)
+  const theme = Theme.DARK
 
   useEffect(() => {
     setChecked(theme === Theme.DARK)

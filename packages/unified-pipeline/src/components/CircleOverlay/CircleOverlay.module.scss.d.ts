@@ -1,1 +1,1 @@
-export declare const circle: string;
+export declare const circle: string

@@ -1,2 +1,2 @@
-export declare const diagnose: string;
-export declare const main: string;
+export declare const diagnose: string
+export declare const main: string
