@@ -11,7 +11,6 @@
 .label {
   color: rgba(255, 255, 255, 1);
   font-size: 11px;
-  font-family: Inter;
   font-weight: 400;
   line-height: 15.13px;
 }
@@ -27,7 +26,7 @@
   }
 }
 
-.content-layer {
+.contentLayer {
   padding: 10px;
   border-radius: 6px;
 }
@@ -41,55 +40,55 @@
   transform: translate(-50%, -50%);
 }
 
-.gradient-border {
+.gradientBorder {
   padding: 1px;
   border-radius: 6px;
 }
 
-.gradient-border-glow {
+.gradientBorderGlow {
   background: linear-gradient(0deg, rgba(48, 48, 54, 0.6), rgba(48, 48, 54, 0.6)),
     linear-gradient(108.08deg, #b1cbff 0%, rgba(177, 203, 255, 0.2) 30%, rgba(177, 203, 255, 0.2) 80%, #b1cbff 100%);
 }
 
-.gradient-border-glow .content-layer {
+.gradientBorderGlow .contentLayer {
   background: #131316;
 }
 
-.gradient-border-gray {
+.gradientBorderGray {
   background: linear-gradient(0deg, rgba(48, 48, 54, 0.6), rgba(48, 48, 54, 0.6)),
     radial-gradient(88.57% 100% at 14.29% 0%, rgba(255, 255, 255, 0.2) 14.38%, rgba(255, 255, 255, 0) 76.87%);
 }
 
-.gradient-border-gray .content-layer {
+.gradientBorderGray .contentLayer {
   background: radial-gradient(88.57% 100% at 14.29% 0%, rgba(255, 255, 255, 0.04) 10.62%, rgba(255, 255, 255, 0) 75.86%),
     #1d1d20;
 }
 /* gradient */
 
-.skeleton-line {
+.skeletonLine {
   width: 24px;
   height: 5px;
   border-radius: 4px;
   background: linear-gradient(99deg, rgba(36, 36, 41, 0.5) 16%, #242429 33.62%, rgba(36, 36, 41, 0.4) 51.34%);
 }
 
-.skeleton-icon {
+.skeletonIcon {
   width: 24px;
   height: 24px;
   border-radius: 4px;
 }
 
-.skeleton-line-1 {
+.skeletonLine1 {
   margin-top: 14px;
   width: 115px;
 }
 
-.skeleton-line-2 {
+.skeletonLine2 {
   margin-top: 8px;
   width: 79px;
 }
 
-.skeleton-square {
+.skeletonSquare {
   background: linear-gradient(135deg, rgba(36, 36, 41, 0.4) -10.42%, #242429 30.82%, rgba(36, 36, 41, 0.5) 100%);
 }
 
