@@ -77,3 +77,12 @@
 .card-auth-content {
   @apply py-6 w-full;
 }
+
+/* Form utilities */
+.text-form-error {
+  @apply font-light text-red-500 text-xs mt-2;
+}
+.form-input {
+  @apply font-light text-sm w-full mt-1 border-white/10 bg-white/5 rounded-[4px];
+  @apply placeholder:text-white/50 !important;
+}

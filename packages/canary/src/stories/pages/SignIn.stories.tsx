@@ -1,14 +1,20 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/card'
 import Container from '@/components/layout/container'
 import Footer from '@/components/layout/footer'
-import Logo from '@/components/misc/logo'
+import Logo from '@/components/misc/logo-purple'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Input } from '@/components/input'
 import { Label } from '@/components/label'
 import { Button } from '@/components/button'
-import { ReactNode } from 'react'
+import { useState } from 'react'
+import bodyBlur from '@/assets/body-purple-blur.svg'
+
+interface DataProps {
+  email?: string
+  password?: string
+}
 
 const signInSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' }),
@@ -30,40 +36,70 @@ export function SignIn() {
   } = useForm({
     resolver: zodResolver(signInSchema)
   })
+  const [isLoading, setIsloading] = useState<boolean>(false)
 
-  const onSubmit = () => {}
+  const onSubmit = (data: DataProps) => {
+    console.log(data)
+
+    setIsloading(true)
+    setTimeout(() => {
+      setIsloading(false)
+    }, 2000)
+  }
 
   return (
     <Container alignContent="center">
-      <Card className="card-auth">
-        <CardHeader className="card-auth-header">
-          <CardTitle className="flex gap-3 flex-col place-items-center">
+      <Card className="card-auth bg-transparent relative z-10">
+        <img
+          src={bodyBlur}
+          className="bg-cover bg-top opacity-[20%] max-w-[1000px] absolute -left-[calc((1000px-362px)/2)] -top-[200px] w-[1000px] h-[900px]"
+        />
+        <CardHeader className="card-auth-header relative z-10">
+          <CardTitle className="flex flex-col place-items-center">
             <Logo />
             <p className="title-primary text-radial-gradient">Sign in to Gitness</p>
           </CardTitle>
         </CardHeader>
-        <CardContent className="card-auth-content">
+        <CardContent className="card-auth-content relative z-10">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 w-full flex flex-col gap-4">
             <div className="flex flex-col gap-3">
               <div>
-                <Label htmlFor="email" className="text-white text-xs">
+                <Label htmlFor="email" variant="sm">
                   Email
                 </Label>
-                <Input id="email" type="email" {...register('email')} className="w-full mt-1" />
-                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message as ReactNode}</p>}
+                <Input
+                  id="email"
+                  type="email"
+                  {...register('email')}
+                  placeholder="email@work.com"
+                  className="form-input"
+                  autoFocus
+                />
+                {errors.email && <p className="text-form-error">{errors.email.message?.toString()}</p>}
               </div>
               <div>
-                <Label htmlFor="password" className="text-white text-xs">
+                <Label htmlFor="password" variant="sm">
                   Password
                 </Label>
-                <Input id="password" type="password" {...register('password')} className="w-full mt-1" />
-                {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message as ReactNode}</p>}
+                <Input
+                  id="password"
+                  type="password"
+                  {...register('password')}
+                  placeholder="Enter the password for your account"
+                  className="form-input"
+                />
+                {errors.password && <p className="text-form-error">{errors.password.message?.toString()}</p>}
               </div>
             </div>
-            <Button variant="default" type="submit">
-              Sign In
+            <Button variant="default" borderRadius="full" type="submit" loading={isLoading}>
+              {isLoading ? 'Signing in...' : 'Sign in'}
             </Button>
           </form>
+          <div className="mt-6 text-center">
+            <p className="text-sm font-light text-white/70">
+              Don&apos;t have an account? <a className="text-white">Sign up</a>
+            </p>
+          </div>
         </CardContent>
       </Card>
       <Footer>

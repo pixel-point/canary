@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import dts from 'vite-plugin-dts'
 import path, { resolve } from 'path'
+import svgr from 'vite-plugin-svgr' // Ensure you have this plugin installed
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,7 +15,8 @@ export default defineConfig({
         filePath: filePath.replace('src/', ''),
         content
       })
-    })
+    }),
+    svgr()
   ],
   resolve: {
     alias: {
