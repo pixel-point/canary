@@ -4,7 +4,7 @@ npm install
 
 #Run locally
 
-npm run webpack
+npm run dev
 
 #To view
 
