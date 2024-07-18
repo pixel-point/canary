@@ -1,5 +1,5 @@
 {
-  "name": "@harness/unified-pipeline",
+  "name": "@harnessio/unified-pipeline",
   "version": "0.0.1",
   "description": "Reusable Graph rendering component library",
   "scripts": {
@@ -8,6 +8,7 @@
     "watch": "webpack --watch",
     "typed-scss": "typed-scss-modules src --watch"
   },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/harness/canary/tree/main/packages/unified-pipeline"
