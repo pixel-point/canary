@@ -1,75 +1,75 @@
-import React from "react";
-import { Node } from "components/Canvas/types";
-import Jira from "../../icons/Jira";
+import React from 'react'
+import { Node } from 'components/Canvas/types'
+import Jira from '../../icons/Jira'
 
-export const mockNodes: Node[] = [
+export const nodes: Node[] = [
   {
-    name: "SBOM and SLSA Verification",
-    path: "spec.stages.0",
+    name: 'SBOM and SLSA Verification',
+    path: 'spec.stages.0',
     icon: <Jira />,
     children: [
       {
-        name: "SoftwareSupply Chain Validation",
+        name: 'SoftwareSupply Chain Validation',
         icon: <Jira />,
-        path: "some-path",
+        path: 'some-path',
         deletable: true,
-        expandable: false,
+        expandable: false
       },
       {
-        name: "Push to Artifactory",
+        name: 'Push to Artifactory',
         icon: <Jira />,
-        path: "some-path",
+        path: 'some-path',
         deletable: true,
-        expandable: false,
+        expandable: false
       },
       {
-        name: "Deploy to Server",
+        name: 'Deploy to Server',
         icon: <Jira />,
-        path: "some-path",
+        path: 'some-path',
         deletable: true,
-        expandable: false,
-      },
+        expandable: false
+      }
     ],
     deletable: true,
-    expandable: true,
+    expandable: true
   },
   {
-    name: "SCA",
-    path: "spec.stages.1",
+    name: 'SCA',
+    path: 'spec.stages.1',
     icon: <Jira />,
     children: [
       {
-        name: "SoftwareSupply Chain Validation",
+        name: 'SoftwareSupply Chain Validation',
         icon: <Jira />,
-        path: "some-path",
+        path: 'some-path',
         deletable: true,
-        expandable: false,
+        expandable: false
       },
       {
-        name: "SLSA Verification",
+        name: 'SLSA Verification',
         icon: <Jira />,
-        path: "some-path",
+        path: 'some-path',
         deletable: true,
-        expandable: false,
-      },
+        expandable: false
+      }
     ],
     deletable: true,
-    expandable: true,
+    expandable: true
   },
   {
-    name: "Deploy to QA",
-    path: "spec.stages.2",
+    name: 'Deploy to QA',
+    path: 'spec.stages.2',
     icon: <Jira />,
     children: [
       {
-        name: "Pull artifact",
+        name: 'Pull artifact',
         icon: <Jira />,
-        path: "some-path",
+        path: 'some-path',
         deletable: true,
-        expandable: false,
-      },
+        expandable: false
+      }
     ],
     deletable: true,
-    expandable: true,
-  },
-];
+    expandable: true
+  }
+]

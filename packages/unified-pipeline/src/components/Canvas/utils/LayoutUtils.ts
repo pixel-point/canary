@@ -2,16 +2,16 @@ import { Node, Edge, Position } from "reactflow";
 import dagre from "dagre";
 import {
   getChildNodes,
-  getEndAnchorNodeId,
   getLayoutableNodes,
   getNonLayoutableNodes,
-  getStartAnchorNodeId,
   findIntersection,
   partitionNodesByParallelism,
   excludeAnchorNodes,
 } from "./NodeUtils";
 import {
   NODE_HORIZONTAL_MARGIN,
+  NODE_NODE_SEPARATION,
+  NODE_NODE_SEPARATION_READ_ONLY,
   NODE_VERTICAL_MARGIN,
 } from "./LROrientation/Constants";
 
@@ -33,12 +33,12 @@ interface LayoutArgs {
   direction?: Direction;
   width?: number;
   height?: number;
+  readonly?: boolean;
 }
 
 interface DagreLayoutArgs extends LayoutArgs {
+  nodeNodeSeparation: number;
   margin?: number;
-  startAnchorNodeId?: string; // Unique ID for the first node
-  endAnchorNodeId?: string; // Unique ID for the last node
 }
 
 interface LayoutedElements {
@@ -51,6 +51,7 @@ export const performLayout = ({
   edges,
   width,
   height,
+  readonly,
 }: LayoutArgs): LayoutedElements => {
   if (nodes.length === 0) return { nodes, edges };
   const selfLayoutableNodes = getLayoutableNodes(nodes);
@@ -61,8 +62,6 @@ export const performLayout = ({
     selfLayoutableNodes.map((node: Node) => {
       /* Dagre Layout can work without a root, hence layouting of child nodes becomes possible. */
       const parentNodeId = node.id;
-      const startAnchorNodeId = getStartAnchorNodeId(parentNodeId);
-      const endAnchorNodeId = getEndAnchorNodeId(parentNodeId);
       const childNodes = getChildNodes(parentNodeId, nonLayoutableNodes);
       const childNodeCount = childNodes.length;
       if (childNodeCount > 0) {
@@ -79,6 +78,9 @@ export const performLayout = ({
             width,
             height,
             margin: NODE_HORIZONTAL_MARGIN,
+            nodeNodeSeparation: readonly
+              ? NODE_NODE_SEPARATION_READ_ONLY
+              : NODE_NODE_SEPARATION,
           });
           layoutedNodes.push(...parallelLayoutedElements.nodes);
           layoutedEdges.push(...parallelLayoutedElements.edges);
@@ -88,9 +90,10 @@ export const performLayout = ({
             edges,
             width,
             height,
-            startAnchorNodeId,
-            endAnchorNodeId,
             margin: NODE_VERTICAL_MARGIN,
+            nodeNodeSeparation: readonly
+              ? NODE_NODE_SEPARATION_READ_ONLY
+              : NODE_NODE_SEPARATION,
           });
           layoutedNodes.push(...layoutedSequentialElements.nodes);
           layoutedEdges.push(...layoutedSequentialElements.edges);
@@ -100,9 +103,10 @@ export const performLayout = ({
             edges,
             width,
             height,
-            startAnchorNodeId,
-            endAnchorNodeId,
             margin: NODE_VERTICAL_MARGIN,
+            nodeNodeSeparation: readonly
+              ? NODE_NODE_SEPARATION_READ_ONLY
+              : NODE_NODE_SEPARATION,
           });
           layoutedNodes.push(...layoutedSequentialElements.nodes);
           layoutedEdges.push(...layoutedSequentialElements.edges);
@@ -120,8 +124,7 @@ const dagreLayout = ({
   width = 1800,
   height = 900,
   margin = 0,
-  startAnchorNodeId,
-  endAnchorNodeId,
+  nodeNodeSeparation = 50,
 }: DagreLayoutArgs): LayoutedElements => {
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -129,7 +132,7 @@ const dagreLayout = ({
   const isHorizontal = direction === Direction.LR;
   dagreGraph.setGraph({
     rankdir: direction,
-    ranksep: 2 * margin,
+    ranksep: nodeNodeSeparation,
     marginx: isHorizontal ? margin : 0,
     marginy: isHorizontal ? 0 : margin,
   });
@@ -157,11 +160,7 @@ const dagreLayout = ({
     // Center nodes horizontally or vertically based on direction
     if (isHorizontal) {
       y = height / 2; // Center vertically
-      if (node.id === startAnchorNodeId) {
-        x = margin;
-      } else if (node.id === endAnchorNodeId) {
-        x = width - margin;
-      }
+      x = x + margin;
     } else {
       // Filter out anchor nodes to identify the first and last non-anchor nodes
       const nonAnchorNodes = excludeAnchorNodes(nodes);

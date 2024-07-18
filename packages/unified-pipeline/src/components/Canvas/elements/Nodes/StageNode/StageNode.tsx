@@ -29,7 +29,7 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
   const { nodes, edges, deleteElements, addEdges, updateNodes } = useFlowStore()
   const { enableDiagnostics } = useCanvasStore()
   const { data, id: nodeId, xPos, yPos } = props
-  const { expanded = true, name, memberNodes = [], parallel } = data
+  const { expanded = true, name, memberNodes = [], parallel, readonly } = data
   const [isExpanded, setIsExpanded] = useState<boolean>(expanded)
   const [width, setWidth] = useState<number>(0)
   const [height, setHeight] = useState<number>(0)
@@ -51,7 +51,8 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
     const childNodeEdges = getEdgesForChildNodes({
       parentNode,
       nodes,
-      zIndexForEdges: parallel ? 2 : 1
+      zIndexForEdges: parallel ? 2 : 1,
+      readonly
     })
     /**
      * Layout child nodes
@@ -60,7 +61,8 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
       nodes: [parallel ? updateNodePositionType(parentNode, PositionType.ABSOLUTE) : parentNode, ...childNodes],
       edges: childNodeEdges,
       width,
-      height
+      height,
+      readonly
     })
     updateNodes(layoutedElements.nodes)
     addEdges(dedupEdges(layoutedElements.edges))

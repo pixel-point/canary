@@ -69,6 +69,7 @@ export interface DefaultNodeProps {
   targetPosition: Position;
   sourcePosition: Position;
   hasChanged?: boolean;
+  readonly?: boolean;
 }
 
 export interface ExpandNodeProps {

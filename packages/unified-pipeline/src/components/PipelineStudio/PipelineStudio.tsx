@@ -12,6 +12,7 @@ interface PipelineStudioProps {
   onAddNode: (addedNode: Node) => void;
   onDeleteNode: (deletedNode: Node) => void;
   onSelectNode: (deletedNode: Node) => void;
+  readonly?: boolean;
 }
 
 export function PipelineStudio(props: PipelineStudioProps): JSX.Element {
@@ -22,8 +23,15 @@ export function PipelineStudio(props: PipelineStudioProps): JSX.Element {
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
 
   useEffect(() => {
-    const initialNodes = getElementsFromGraph(props.graph);
-    const initialEdges = getEdgesForAllNodes(initialNodes, false);
+    const initialNodes = getElementsFromGraph({
+      graph: props.graph,
+      readonly: props.readonly,
+    });
+    const initialEdges = getEdgesForAllNodes({
+      nodes: initialNodes,
+      includChildNodeEdges: false,
+      readonly: props.readonly,
+    });
     const nodesWithDimensions = initialNodes.map((node: Node) => ({
       ...node,
       ...getNodeDimensions(node),

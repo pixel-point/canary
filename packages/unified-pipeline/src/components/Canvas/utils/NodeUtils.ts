@@ -23,6 +23,7 @@ import {
   NODE_DEFAULT_WIDTH,
   NODE_HORIZONTAL_MARGIN,
   NODE_VERTICAL_MARGIN,
+  NODE_VERTICAL_MARGIN_2,
 } from "./LROrientation/Constants";
 
 export const getLayoutableNodes = (nodes: Node[]): Node[] => {
@@ -271,7 +272,7 @@ const getStageNodeHeight = (
         Math.max(maxHeight, getNodeHeight(currentNode)),
       0
     ) +
-    2 * 45
+    2 * NODE_VERTICAL_MARGIN_2
   );
 };
 

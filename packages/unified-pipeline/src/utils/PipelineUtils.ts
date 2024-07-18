@@ -95,9 +95,11 @@ const getPlusNode = ({
 const getGroupNode = ({
   node,
   memberNodes,
+  readonly,
 }: {
   node: Node;
   memberNodes: ReactFlowNode[];
+  readonly?: boolean;
 }): ReactFlowNode => {
   return {
     id: getIdFromName(node.name),
@@ -112,6 +114,7 @@ const getGroupNode = ({
       deletable: true,
       parallel: node.parallel,
       groupId: node.groupId,
+      readonly,
     } as GroupNodeProps,
     position: DEFAULT_NODE_LOCATION,
     type: NodeType.GROUP,
@@ -127,6 +130,7 @@ const getGroupMemberNode = ({
   pathPrefix,
   position = DEFAULT_NODE_LOCATION,
   hidden = false,
+  readonly,
 }: {
   nodeType: NodeType;
   memberNode: Node;
@@ -135,6 +139,7 @@ const getGroupMemberNode = ({
   groupId?: string;
   position?: XYPosition;
   hidden?: boolean;
+  readonly?: boolean;
 }): ReactFlowNode => {
   return {
     id: getIdFromName(memberNode.name),
@@ -148,6 +153,7 @@ const getGroupMemberNode = ({
       expanded: true,
       deletable: true,
       parallel: memberNode.parallel,
+      readonly,
     } as GroupNodeProps,
     position,
     type: nodeType,
@@ -164,10 +170,17 @@ const isGroupNode = (node: Node): boolean => {
   );
 };
 
-export const getElementsFromGraph = (graph: Graph): ReactFlowNode[] => {
+export const getElementsFromGraph = ({
+  graph,
+  readonly,
+}: {
+  graph: Graph;
+  readonly?: boolean;
+}): ReactFlowNode[] => {
+  if (graph.nodes.length === 0) return [];
   const nodes: ReactFlowNode[] = [RootNode];
   graph.nodes.forEach((node: Node, nodeIdx: number) => {
-    nodes.push(...processNode(node, nodeIdx));
+    nodes.push(...processNode({ node, nodeIdx, readonly }));
   });
   nodes.push({
     ...getPlusNode({
@@ -179,7 +192,14 @@ export const getElementsFromGraph = (graph: Graph): ReactFlowNode[] => {
   return nodes;
 };
 
-const processNode = (node: Node, _nodeIdx: number): ReactFlowNode[] => {
+const processNode = ({
+  node,
+  readonly,
+}: {
+  node: Node;
+  nodeIdx: number;
+  readonly?: boolean;
+}): ReactFlowNode[] => {
   const nodes: ReactFlowNode[] = [];
   /* Node is itself a group node */
   if (isGroupNode(node)) {
@@ -189,7 +209,11 @@ const processNode = (node: Node, _nodeIdx: number): ReactFlowNode[] => {
     groupChildNodes?.forEach((groupChildNode: Node, idx: number) => {
       if (isGroupNode(groupChildNode)) {
         // Recursive call for group node child
-        const childNodes = processNode(groupChildNode, idx);
+        const childNodes = processNode({
+          node: groupChildNode,
+          nodeIdx: idx,
+          readonly,
+        });
         nodes.push(...childNodes);
       } else {
         const hasChildren =
@@ -197,6 +221,7 @@ const processNode = (node: Node, _nodeIdx: number): ReactFlowNode[] => {
         if (hasChildren) {
           const atomicNodes = getAtomicNodesForContainer({
             stageNode: groupChildNode,
+            readonly,
           });
           const containerNode = getGroupMemberNode({
             nodeType: NodeType.STAGE,
@@ -205,6 +230,7 @@ const processNode = (node: Node, _nodeIdx: number): ReactFlowNode[] => {
             groupId: parentNodeId,
             pathPrefix: "",
             position: DEFAULT_NODE_LOCATION,
+            readonly,
           });
           stageNodes.push(containerNode);
           nodes.push(...[containerNode, ...atomicNodes].sort(sortNodes));
@@ -215,6 +241,7 @@ const processNode = (node: Node, _nodeIdx: number): ReactFlowNode[] => {
               memberNode: groupChildNode,
               childNodes: [],
               pathPrefix: groupChildNode.path,
+              readonly,
             })
           );
         }
@@ -224,18 +251,23 @@ const processNode = (node: Node, _nodeIdx: number): ReactFlowNode[] => {
       getGroupNode({
         node,
         memberNodes: stageNodes,
+        readonly,
       })
     );
   } else {
     const hasChildren = node.children && node.children?.length > 0;
     if (hasChildren) {
-      const atomicNodes = getAtomicNodesForContainer({ stageNode: node });
+      const atomicNodes = getAtomicNodesForContainer({
+        stageNode: node,
+        readonly,
+      });
       const containerNode = getGroupMemberNode({
         nodeType: NodeType.STAGE,
         memberNode: node,
         childNodes: atomicNodes,
         pathPrefix: node.path,
         position: DEFAULT_NODE_LOCATION,
+        readonly,
       });
       nodes.push(...[containerNode, ...atomicNodes].sort(sortNodes));
     } else {
@@ -245,6 +277,7 @@ const processNode = (node: Node, _nodeIdx: number): ReactFlowNode[] => {
           memberNode: node,
           childNodes: [],
           pathPrefix: node.path,
+          readonly,
         })
       );
     }
@@ -264,21 +297,26 @@ export const getStepNodePath = (stageNodePath: string, stepIndex: number) =>
 export const getAtomicNodesForContainer = ({
   stageNode,
   hidden = false,
+  readonly,
 }: {
   stageNode: Node;
   hidden?: boolean;
+  readonly?: boolean;
 }): ReactFlowNode[] => {
   if (!stageNode || !stageNode.children) {
     return [];
   }
   const parentNodeId = getIdFromName(stageNode.name);
-  const childNodes: ReactFlowNode[] = [
-    getAnchorNode({
-      id: getStartAnchorNodeId(parentNodeId),
-      groupId: parentNodeId,
-      // hidden: true,
-    }),
-  ];
+  const childNodes: ReactFlowNode[] = [];
+  if (!readonly) {
+    childNodes.push(
+      getAnchorNode({
+        id: getStartAnchorNodeId(parentNodeId),
+        groupId: parentNodeId,
+        // hidden: true,
+      })
+    );
+  }
   childNodes.push(
     ...(stageNode.children.map((stepNode: Node, stepNodeIdx: number) => {
       const id = getIdFromName(`${stageNode.name} child ${stepNodeIdx + 1}`);
@@ -291,6 +329,7 @@ export const getAtomicNodesForContainer = ({
           expandable: stepNode.expandable,
           positionType: PositionType.RELATIVE,
           deletable: true,
+          readonly,
         } as AtomicNodeProps,
         position: DEFAULT_NODE_LOCATION,
         type: NodeType.ATOMIC,
@@ -302,13 +341,15 @@ export const getAtomicNodesForContainer = ({
       };
     }) as ReactFlowNode<AtomicNodeProps>[])
   );
-  childNodes.push(
-    getAnchorNode({
-      id: getEndAnchorNodeId(parentNodeId),
-      groupId: parentNodeId,
-      // hidden: true,
-    })
-  );
+  if (!readonly) {
+    childNodes.push(
+      getAnchorNode({
+        id: getEndAnchorNodeId(parentNodeId),
+        groupId: parentNodeId,
+        // hidden: true,
+      })
+    );
+  }
   /**
    * Sorting nodes after adding a child node inside a parent is important, see below issue for more details:
    * https://github.com/xyflow/xyflow/issues/3041#issuecomment-1550978610

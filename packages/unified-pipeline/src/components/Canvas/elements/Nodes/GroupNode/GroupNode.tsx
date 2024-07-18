@@ -38,7 +38,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
   const { nodes, edges, addEdges, updateNodes, updateEdges } = useFlowStore()
   const { enableDiagnostics } = useCanvasStore()
   const { data, id: nodeId, xPos, yPos } = props
-  const { expanded = true, name, memberNodes = [], hasChanged, parallel } = data
+  const { expanded = true, name, memberNodes = [], hasChanged, parallel, readonly } = data
   const [isExpanded, setIsExpanded] = useState<boolean>(expanded)
   const [width, setWidth] = useState<number>(0)
   const [height, setHeight] = useState<number>(0)
@@ -79,7 +79,8 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
         nodes: [parallel ? updateNodePositionType(parentNode, PositionType.ABSOLUTE) : parentNode, ...childNodes],
         edges: childNodeEdges,
         width,
-        height
+        height,
+        readonly
       })
       updateNodes(layoutedElements.nodes)
       const edgesUpdated = dedupEdges(layoutedElements.edges)
@@ -228,7 +229,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
             className={css.hover}
           /> */}
         </div>
-        {isExpanded && orientation === GroupOrientation.TB && (
+        {!readonly && isExpanded && orientation === GroupOrientation.TB && (
           <Plus color="white" onClick={() => {}} className={cx(css.icon, css.plusIcon, css.hover)} />
         )}
       </div>

@@ -2,6 +2,7 @@ import type { Node, Edge } from "reactflow";
 import { isEmpty } from "lodash-es";
 import { EdgeType, NodeType } from "../types";
 import {
+  excludeAnchorNodes,
   getChildNodes,
   getEndAnchorNodeId,
   getLayoutableNodes,
@@ -96,10 +97,12 @@ export const getEdgesForChildNodes = ({
   parentNode,
   nodes,
   zIndexForEdges,
+  readonly,
 }: {
   parentNode: Node;
   nodes: Node[];
   zIndexForEdges?: number;
+  readonly?: boolean;
 }): Edge[] => {
   const parentNodeId = parentNode.id;
   const childNodes = getChildNodes(parentNodeId, nodes);
@@ -109,26 +112,44 @@ export const getEdgesForChildNodes = ({
     partitionNodesByParallelism(childNodes);
   if (sequentialNodes.length > 0) {
     childNodeEdges.push(
-      ...createEdgesForSequentialNodes(sequentialNodes, zIndexForEdges)
+      ...createEdgesForSequentialNodes({
+        nodes: sequentialNodes,
+        zIndex: zIndexForEdges,
+        readonly,
+      })
     );
-    const startAnchorNode = getNodeById(
-      nodes,
-      getStartAnchorNodeId(parentNodeId)
-    );
-    const endAnchorNode = getNodeById(nodes, getEndAnchorNodeId(parentNodeId));
+    let firstChildNodeToConnect, lastChildNodeToConnect;
+    if (readonly) {
+      const sequentialNodesWithoutAnchorNodes =
+        excludeAnchorNodes(sequentialNodes);
+      firstChildNodeToConnect = sequentialNodesWithoutAnchorNodes[0];
+      lastChildNodeToConnect =
+        sequentialNodesWithoutAnchorNodes[
+          sequentialNodesWithoutAnchorNodes.length - 1
+        ];
+    } else {
+      firstChildNodeToConnect = getNodeById(
+        nodes,
+        getStartAnchorNodeId(parentNodeId)
+      );
+      lastChildNodeToConnect = getNodeById(
+        nodes,
+        getEndAnchorNodeId(parentNodeId)
+      );
+    }
     /**
      * Connect anchor nodes to the auto-layoutable parent
      * When a group contains *only* sequential nodes
      */
-    if (startAnchorNode && endAnchorNode && parentNode) {
+    if (firstChildNodeToConnect && lastChildNodeToConnect && parentNode) {
       const childParentEdges: Edge[] = [
         linkParentNodeToChild({
-          childNode: startAnchorNode,
+          childNode: firstChildNodeToConnect,
           parentNode: parentNode,
           zIndex: zIndexForEdges,
         }),
         linkChildNodeToParent({
-          childNode: endAnchorNode,
+          childNode: lastChildNodeToConnect,
           parentNode: parentNode,
           zIndex: zIndexForEdges,
         }),
@@ -150,17 +171,22 @@ export const getEdgesForChildNodes = ({
   return childNodeEdges;
 };
 
-export const getEdgesForAllNodes = (
-  nodes: Node[],
-  includChildNodeEdges: boolean = true
-): Edge[] => {
+export const getEdgesForAllNodes = ({
+  nodes,
+  includChildNodeEdges = true,
+  readonly,
+}: {
+  nodes: Node[];
+  includChildNodeEdges?: boolean;
+  readonly?: boolean;
+}): Edge[] => {
   const edges: Edge[] = [];
   if (nodes.length === 0) return [];
   const selfLayoutableNodes = getLayoutableNodes(nodes);
-  edges.push(...createEdgesForNodes({ nodes: selfLayoutableNodes }));
+  edges.push(...createEdgesForNodes({ nodes: selfLayoutableNodes, readonly }));
   if (includChildNodeEdges) {
     selfLayoutableNodes.forEach((parentNode) => {
-      edges.push(...getEdgesForChildNodes({ parentNode, nodes }));
+      edges.push(...getEdgesForChildNodes({ parentNode, nodes, readonly }));
     });
   }
   return edges;
@@ -198,31 +224,45 @@ export const createEdgesForParallelNodes = ({
   return edges;
 };
 
-export const createEdgesForSequentialNodes = (
-  nodes: Node[],
-  zIndex: number = 1
-): Edge[] => {
+export const createEdgesForSequentialNodes = ({
+  nodes,
+  zIndex,
+  readonly,
+}: {
+  nodes: Node[];
+  zIndex?: number;
+  readonly?: boolean;
+}): Edge[] => {
   if (nodes.length === 0) return [];
   const edges: Edge[] = [];
   for (let nodeIdx = 0; nodeIdx < nodes.length - 1; nodeIdx++) {
     const sourceNode = nodes[nodeIdx];
     const targetNode = nodes[nodeIdx + 1];
-    const edgeType = [sourceNode.type, targetNode.type].includes(
-      NodeType.ANCHOR
-    )
+    const edgeType = readonly
+      ? EdgeType.SMOOTHSTEP
+      : [sourceNode.type, targetNode.type].includes(NodeType.ANCHOR)
       ? EdgeType.SMOOTHSTEP
       : EdgeType.PLUS;
-    edges.push(createEdgeForNodes(sourceNode, targetNode, edgeType, zIndex));
+    edges.push(
+      createEdgeForNodes({ sourceNode, targetNode, edgeType, zIndex })
+    );
   }
   return edges;
 };
 
-const createEdgeForNodes = (
-  sourceNode: Node,
-  targetNode: Node,
-  edgeType: EdgeType,
-  zIndex: number = 1
-): Edge<PlusEdgeProps> => {
+const createEdgeForNodes = ({
+  sourceNode,
+  targetNode,
+  edgeType,
+  zIndex = 1,
+  readonly,
+}: {
+  sourceNode: Node;
+  targetNode: Node;
+  edgeType: EdgeType;
+  zIndex?: number;
+  readonly?: boolean;
+}): Edge<PlusEdgeProps> => {
   const { id: sourceNodeId, position: sourceNodePosition } = sourceNode;
   const { id: targetNodeId, position: targetNodePosition } = targetNode;
 
@@ -241,7 +281,11 @@ const createEdgeForNodes = (
       edgeClickData: { nodeType: NodeType.STAGE },
       zIndex,
     },
-    type: targetNode.type === NodeType.PLUS ? EdgeType.SMOOTHSTEP : edgeType,
+    type: readonly
+      ? EdgeType.SMOOTHSTEP
+      : targetNode.type === NodeType.PLUS
+      ? EdgeType.SMOOTHSTEP
+      : edgeType,
     zIndex,
     className: css.edge,
   };
@@ -251,10 +295,12 @@ export const createEdgesForNodes = ({
   nodes,
   edgeType = EdgeType.PLUS,
   zIndex = 1,
+  readonly,
 }: {
   nodes: Node[];
   edgeType?: EdgeType;
   zIndex?: number;
+  readonly?: boolean;
 }): Edge[] => {
   if (!nodes || nodes.length <= 1) {
     return [];
@@ -264,7 +310,13 @@ export const createEdgesForNodes = ({
   for (let nodeIdx = 0; nodeIdx < nodes.length - 1; nodeIdx++) {
     const sourceNode = nodes[nodeIdx];
     const targetNode = nodes[nodeIdx + 1];
-    const edge = createEdgeForNodes(sourceNode, targetNode, edgeType, zIndex);
+    const edge = createEdgeForNodes({
+      sourceNode,
+      targetNode,
+      edgeType,
+      zIndex,
+      readonly,
+    });
     edgesForNodes.push(edge);
   }
 
