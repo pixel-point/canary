@@ -4,8 +4,11 @@ export const NODE_DEFAULT_WIDTH = 250;
 export const NODE_DEFAULT_HEIGHT = 50;
 
 /* Inter node */
-export const NODE_HORIZONTAL_MARGIN = 30;
-export const NODE_VERTICAL_MARGIN = 30;
+export const NODE_HORIZONTAL_MARGIN = 25;
+export const NODE_VERTICAL_MARGIN = 20;
+export const NODE_VERTICAL_MARGIN_2 = 50;
+export const NODE_NODE_SEPARATION = 60;
+export const NODE_NODE_SEPARATION_READ_ONLY = 40;
 
 /* Group node */
 export const GROUP_NODE_VERTICAL_ALIGNMENT_MARGIN = NODE_VERTICAL_MARGIN;

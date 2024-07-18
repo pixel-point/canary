@@ -20,10 +20,15 @@ export function PipelineStudio(props: PipelineStudioProps): JSX.Element {
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
+  const readonly = true;
 
   useEffect(() => {
-    const initialNodes = getElementsFromGraph(props.graph);
-    const initialEdges = getEdgesForAllNodes(initialNodes, false);
+    const initialNodes = getElementsFromGraph({ graph: props.graph, readonly });
+    const initialEdges = getEdgesForAllNodes({
+      nodes: initialNodes,
+      includChildNodeEdges: false,
+      readonly,
+    });
     const nodesWithDimensions = initialNodes.map((node: Node) => ({
       ...node,
       ...getNodeDimensions(node),
