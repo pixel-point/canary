@@ -65,7 +65,7 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos }: Node
     <>
       <Handle type="target" position={Position.Left} isConnectable={isConnectable} />
       {status === Status.QUEUED ? (
-        <div className={css.box}>
+        <div>
           <img src={cardBg} className={css.glow} width="192" height="132" alt="" />
           <div
             className={cx(
