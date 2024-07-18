@@ -8,6 +8,7 @@ import { z } from 'zod'
 import { Input } from '@/components/input'
 import { Label } from '@/components/label'
 import { Button } from '@/components/button'
+import { ReactNode } from 'react'
 
 const signInSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' }),
@@ -30,9 +31,7 @@ export function SignIn() {
     resolver: zodResolver(signInSchema)
   })
 
-  const onSubmit = data => {
-    console.log(data)
-  }
+  const onSubmit = () => {}
 
   return (
     <Container alignContent="center">
@@ -51,14 +50,14 @@ export function SignIn() {
                   Email
                 </Label>
                 <Input id="email" type="email" {...register('email')} className="w-full mt-1" />
-                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message as ReactNode}</p>}
               </div>
               <div>
                 <Label htmlFor="password" className="text-white text-xs">
                   Password
                 </Label>
                 <Input id="password" type="password" {...register('password')} className="w-full mt-1" />
-                {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
+                {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message as ReactNode}</p>}
               </div>
             </div>
             <Button variant="default" type="submit">

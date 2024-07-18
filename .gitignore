@@ -34,3 +34,4 @@ build
 .contentlayer
 tsconfig.tsbuildinfo
 *storybook.log
+storybook-static/
