@@ -25,24 +25,22 @@ jobs:
 
       - name: Build StoryBook
         run: |
-          pnpm build-storybook
+          cd apps/storybook
 
-          # cd apps/storybook
+          pnpm remove @harnessio/canary @harnessio/icons-noir
+          pnpm add @harnessio/canary @harnessio/icons-noir @harnessio/svg-icon @harnessio/svg-icon-react
 
-          # npm remove @harnessio/canary @harnessio/icons-noir
-          # npm add @harnessio/canary @harnessio/icons-noir @harnessio/svg-icon @harnessio/svg-icon-react
+          pnpm install
 
-          # npm install
+          ls -la node_modules/@harnessio
 
-          # ls -la node_modules/@harnessio
+          cp -rf ../../packages/svg-icon/dist ./node_modules/@harnessio/svg-icon/dist
+          cp -rf ../../packages/svg-icon-react/dist ./node_modules/@harnessio/svg-icon-react/dist
+          cp -rf ../../packages/icons-noir/dist ./node_modules/@harnessio/icons-noir/dist
+          cp -rf ../../packages/canary/src ./node_modules/@harnessio/canary/
+          cp -rf ../../packages/canary/dist ./node_modules/@harnessio/canary/dist
 
-          # cp -rf ../../packages/svg-icon/dist ./node_modules/@harnessio/svg-icon/dist
-          # cp -rf ../../packages/svg-icon-react/dist ./node_modules/@harnessio/svg-icon-react/dist
-          # cp -rf ../../packages/icons-noir/dist ./node_modules/@harnessio/icons-noir/dist
-          # cp -rf ../../packages/canary/src ./node_modules/@harnessio/canary/
-          # cp -rf ../../packages/canary/dist ./node_modules/@harnessio/canary/dist
+          ls -la node_modules/@harnessio
 
-          # ls -la node_modules/@harnessio
-
-          # npm run build
-          # npm run build-storybook
+          pnpm run build
+          pnpm run build-storybook
