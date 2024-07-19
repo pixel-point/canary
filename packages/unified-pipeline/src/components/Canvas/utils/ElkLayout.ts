@@ -19,12 +19,8 @@ import {
   ROOT_NODE_ID,
   INTER_PARENT_PARENT_HORIZONTAL_SEPARATION
 } from "./LROrientation/Constants";
-import {
-  excludeTerminalNodes,
-  getChildNodes,
-  getLayoutableNodes
-} from "./NodeUtils";
-import { dedupEdges, getConnectedEdges } from "./EdgeUtils";
+import { excludeTerminalNodes, getLayoutableNodes } from "./NodeUtils";
+import { dedupEdges } from "./EdgeUtils";
 import { isValidPositiveInteger } from "../../../utils/StringUtils";
 
 enum ElkDirection {
@@ -75,10 +71,10 @@ const calculateSpacingBetweenLayers = ({
       const nextNode = nodes[i + 1];
       const nextNodeWidth = nextNode?.width ?? 0;
       const currentNodeWidth = currentNode?.width ?? 0;
-      const widthDifference = Math.abs(nextNodeWidth - currentNodeWidth);
-      if (widthDifference > maxDifference) {
-        maxDifference = widthDifference;
-      }
+      maxDifference = Math.max(
+        Math.abs(nextNodeWidth - currentNodeWidth),
+        maxDifference
+      );
     }
     return maxDifference;
   } else {
@@ -115,28 +111,26 @@ export async function performElkLayout({
   spacing = isValidPositiveInteger(spacing)
     ? spacing
     : INTER_PARENT_PARENT_HORIZONTAL_SEPARATION;
-  const includChildNodeEdges =
-    get(elkOptions, "elk.hierarchyHandling") === "INCLUDE_CHILDREN";
   const graph: ElkNode = {
-    id: "root",
+    id: ROOT_NODE_ID,
     layoutOptions: elkOptions,
     children: nodes.map((node) => ({
       ...node,
       targetPosition: isHorizontal ? Position.Left : Position.Top,
       sourcePosition: isHorizontal ? Position.Right : Position.Bottom,
       width: node?.width ?? NODE_DEFAULT_WIDTH,
-      height: node?.height ?? NODE_DEFAULT_HEIGHT,
+      height: node?.height ?? NODE_DEFAULT_HEIGHT
       /* Can't include child nodes without including child node edges as well */
-      ...(includChildNodeEdges && {
-        children: getChildNodes(node.id, nodes).map((childNode) => ({
-          ...childNode,
-          targetPosition: isHorizontal ? Position.Left : Position.Top,
-          sourcePosition: isHorizontal ? Position.Right : Position.Bottom,
-          width: childNode?.width ?? NODE_DEFAULT_WIDTH,
-          height: childNode?.height ?? NODE_DEFAULT_HEIGHT
-        })),
-        edges: getConnectedEdges(node.id, edges) as unknown as ElkExtendedEdge[]
-      })
+      // ...(includChildNodeEdges && {
+      //   children: getChildNodes(node.id, nodes).map((childNode) => ({
+      //     ...childNode,
+      //     targetPosition: isHorizontal ? Position.Left : Position.Top,
+      //     sourcePosition: isHorizontal ? Position.Right : Position.Bottom,
+      //     width: childNode?.width ?? NODE_DEFAULT_WIDTH,
+      //     height: childNode?.height ?? NODE_DEFAULT_HEIGHT
+      //   })),
+      //   edges: getConnectedEdges(node.id, edges) as unknown as ElkExtendedEdge[]
+      // })
     })),
     edges: edges as unknown as ElkExtendedEdge[]
   };
@@ -152,20 +146,20 @@ export async function performElkLayout({
           position: { x: node.x!, y: node.y! }
         }
       ];
-      if (
-        includChildNodeEdges &&
-        node &&
-        node.children &&
-        node.children.length > 0
-      ) {
-        nodes.push(
-          ...node.children.map((n) => ({
-            ...n,
-            position: { x: n.x!, y: node.y! },
-            style: {}
-          }))
-        );
-      }
+      // if (
+      //   includChildNodeEdges &&
+      //   node &&
+      //   node.children &&
+      //   node.children.length > 0
+      // ) {
+      //   nodes.push(
+      //     ...node.children.map((n) => ({
+      //       ...n,
+      //       position: { x: n.x!, y: node.y! },
+      //       style: {}
+      //     }))
+      //   );
+      // }
       return nodes;
     }) || [];
 
