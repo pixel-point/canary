@@ -38,7 +38,7 @@ export function PipelineStudio(props: PipelineStudioProps): JSX.Element {
     }));
     setNodes(nodesWithDimensions);
     setEdges(initialEdges);
-  }, [props.graph.nodes]);
+  }, [props.graph.nodes, props.readonly]);
 
   const handleAddNode = useCallback((addedNode: Node): void => {
     props.onAddNode(addedNode);
