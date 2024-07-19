@@ -46,6 +46,25 @@ const pinnedMenuItems = [
   }
 ]
 
+const moreMenuItems = [
+  {
+    text: 'Repositories',
+    iconSrc: navItemPlaceholder
+  },
+  {
+    text: 'Pipelines',
+    iconSrc: navItemPlaceholder
+  },
+  {
+    text: 'Executions',
+    iconSrc: navItemPlaceholder
+  },
+  {
+    text: 'Featured flags',
+    iconSrc: navItemPlaceholder
+  }
+]
+
 const secondaryMenuItems = [
   {
     text: 'System administration',
@@ -54,7 +73,7 @@ const secondaryMenuItems = [
 ]
 
 const SectionItem = React.memo(
-  ({ iconSrc, text, active, value }: { iconSrc: string; text: string; active?: boolean; value?: string }) => {
+  ({ iconSrc, text, active, onClick }: { iconSrc: string; text: string; active?: boolean; onClick?: () => void }) => {
     return (
       <div
         className={cn('flex gap-2.5 items-center cursor-pointer group select-none py-1.5', { 'text-primary': active })}>
@@ -95,12 +114,14 @@ const Company = React.memo(() => {
 })
 
 const PrimaryList = React.memo(() => {
+  function handleMore() {}
+
   return (
     <div className="p-5 py-3.5 border-b border-[#18181B] flex flex-col gap-1.5">
       {primaryMenuItems.map((itm, itm_idx) => (
         <SectionItem key={itm_idx} text={itm.text} iconSrc={itm.iconSrc} active={itm_idx == 1} />
       ))}
-      <SectionItem text="More" iconSrc={navMore} />
+      <SectionItem text="More" iconSrc={navMore} onClick={handleMore} />
     </div>
   )
 })
@@ -117,12 +138,7 @@ const PinnedList = React.memo(() => {
           </AccordionTrigger>
           <AccordionContent className="flex flex-col gap-1.5">
             {pinnedMenuItems.map((itm, itm_idx) => (
-              <SectionItem
-                key={itm_idx}
-                value={'item-' + (itm_idx + 1).toString()}
-                text={itm.text}
-                iconSrc={itm.iconSrc}
-              />
+              <SectionItem key={itm_idx} text={itm.text} iconSrc={itm.iconSrc} />
             ))}
           </AccordionContent>
         </AccordionItem>
@@ -157,7 +173,7 @@ const User = React.memo(() => {
 
 export default function NavBar() {
   return (
-    <div className="grid grid-rows-[auto_1fr_auto_auto] w-[220px] h-screen overflow-y-auto border-r border-[#18181B] bg-background text-sm text-[#AEAEB7]">
+    <div className="select-none grid grid-rows-[auto_1fr_auto_auto] w-[220px] h-screen overflow-y-auto border-r border-[#18181B] bg-background text-sm text-[#AEAEB7]">
       <Company />
       <div className="grid content-start">
         <PrimaryList />
