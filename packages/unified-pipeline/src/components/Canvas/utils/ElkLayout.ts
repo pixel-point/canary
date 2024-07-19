@@ -40,18 +40,23 @@ export interface LayoutedGraph {
   useDynamicSpacing?: boolean;
 }
 
+enum ElkOptions {
+  NODE_NODE_BW_LAYER = "elk.layered.spacing.nodeNodeBetweenLayers",
+  DIRECTION = "elk.direction"
+}
+
 export const elkOptions = {
   "elk.algorithm": "layered",
   /** For spacing between different layers ,
   think of all top level parent nodes
    */
-  "elk.layered.spacing.nodeNodeBetweenLayers":
+  [ElkOptions.NODE_NODE_BW_LAYER]:
     INTER_PARENT_PARENT_HORIZONTAL_SEPARATION.toString(),
   /** For spacing between nodes in the same layer ,
   think of child nodes within a parent
    "elk.spacing.nodeNode": "100",
    */
-  "elk.direction": ElkDirection.RIGHT,
+  [ElkOptions.DIRECTION]: ElkDirection.RIGHT,
   "elk.layered.nodePlacement.strategy": "INTERACTIVE"
   // "elk.hierarchyHandling": "INCLUDE_CHILDREN",
 };
@@ -90,20 +95,18 @@ export async function performElkLayout({
 }: LayoutedGraph): Promise<LayoutedGraph> {
   if (nodes.length === 0) return { nodes, edges };
   const isHorizontal =
-    options?.["elk.direction"] === ElkDirection.RIGHT ||
-    options?.["elk.direction"] === ElkDirection.LEFT;
+    options?.[ElkOptions.DIRECTION] === ElkDirection.RIGHT ||
+    options?.[ElkOptions.DIRECTION] === ElkDirection.LEFT;
   let spacing: number = 0;
   if (useDynamicSpacing) {
     spacing = calculateSpacingBetweenLayers({
       nodes: excludeTerminalNodes(getLayoutableNodes(nodes)),
       isHorizontal
     });
-    set(elkOptions, "elk.layered.spacing.nodeNodeBetweenLayers", spacing);
+    set(elkOptions, ElkOptions.NODE_NODE_BW_LAYER, spacing);
   } else {
     try {
-      spacing = parseInt(
-        get(elkOptions, "elk.layered.spacing.nodeNodeBetweenLayers")
-      );
+      spacing = parseInt(get(elkOptions, ElkOptions.NODE_NODE_BW_LAYER));
     } catch (e) {
       // ignore error
     }
