@@ -5,6 +5,8 @@ import navMore from '@/assets/navbar-more.svg'
 import React from 'react'
 import { cn } from '@/lib/utils'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../accordion'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '../dropdown-menu'
+import { ChevronDownIcon } from '@radix-ui/react-icons'
 
 const primaryMenuItems = [
   {
@@ -77,18 +79,26 @@ const SectionItem = React.memo(
 
 const Company = React.memo(() => {
   return (
-    <div className="p-5 flex gap-2.5">
-      <img src={companyAvatar} className="navbar-company-avatar" />
-      <p className="text-[15px] text-primary">Pixel Point</p>
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger className="select-none outline-none">
+        <div className="p-5 grid grid-cols-[auto_1fr_auto] items-center justify-items-start gap-2.5">
+          <img src={companyAvatar} className="navbar-company-avatar" />
+          <p className="text-[15px] text-primary">Pixel Point</p>
+          <ChevronDownIcon className="h-3 w-3 shrink-0 text-primary transition-transform" />
+        </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-[180px] p-2.5 mr-5">
+        <p className="text-xs text-foreground">Nothing to see...</p>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 })
 
 const PrimaryList = React.memo(() => {
   return (
-    <div className="p-5 pb-3.5 border-b border-[#18181B] flex flex-col gap-1.5">
+    <div className="p-5 py-3.5 border-b border-[#18181B] flex flex-col gap-1.5">
       {primaryMenuItems.map((itm, itm_idx) => (
-        <SectionItem key={itm_idx} text={itm.text} iconSrc={itm.iconSrc} active={itm_idx == 0} />
+        <SectionItem key={itm_idx} text={itm.text} iconSrc={itm.iconSrc} active={itm_idx == 1} />
       ))}
       <SectionItem text="More" iconSrc={navMore} />
     </div>
