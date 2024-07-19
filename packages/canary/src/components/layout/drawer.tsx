@@ -7,11 +7,11 @@ interface drawerProps {
 
 export default function Drawer({ children }: drawerProps) {
   return (
-    <Sheet open={true}>
-      <SheetTrigger>Open</SheetTrigger>
-      <SheetContent>
+    <Sheet>
+      <SheetTrigger>Click to open drawer</SheetTrigger>
+      <SheetContent className="w-[500px]">
         <SheetHeader>
-          <SheetTitle>Are you absolutely sure?</SheetTitle>
+          <SheetTitle>Sample drawer content</SheetTitle>
           <SheetDescription>{children}</SheetDescription>
         </SheetHeader>
       </SheetContent>
