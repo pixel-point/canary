@@ -10,8 +10,8 @@ import ELK, {
   ElkNode,
   LayoutOptions
 } from "elkjs/lib/elk.bundled";
-import { type Edge, type Node } from "reactflow";
-import { get } from "lodash-es";
+import { Position, type Edge, type Node } from "reactflow";
+import { get, set } from "lodash-es";
 import {
   NODE_DEFAULT_HEIGHT,
   NODE_DEFAULT_WIDTH,
@@ -19,9 +19,18 @@ import {
   ROOT_NODE_ID,
   INTER_PARENT_PARENT_HORIZONTAL_SEPARATION
 } from "./LROrientation/Constants";
-import { getChildNodes, getLayoutableNodes } from "./NodeUtils";
+import {
+  excludeTerminalNodes,
+  getChildNodes,
+  getLayoutableNodes
+} from "./NodeUtils";
 import { dedupEdges, getConnectedEdges } from "./EdgeUtils";
 import { isValidPositiveInteger } from "../../../utils/StringUtils";
+
+enum ElkDirection {
+  LEFT = "LEFT",
+  RIGHT = "RIGHT"
+}
 
 export interface EdgeData {
   parentNode?: string;
@@ -32,6 +41,7 @@ export interface LayoutedGraph {
   edges: Edge<EdgeData>[];
   options?: LayoutOptions;
   margin?: number;
+  useDynamicSpacing?: boolean;
 }
 
 export const elkOptions = {
@@ -45,39 +55,66 @@ export const elkOptions = {
   think of child nodes within a parent
    "elk.spacing.nodeNode": "100",
    */
-  "elk.direction": "RIGHT",
+  "elk.direction": ElkDirection.RIGHT,
   "elk.layered.nodePlacement.strategy": "INTERACTIVE"
   // "elk.hierarchyHandling": "INCLUDE_CHILDREN",
 };
 
-export const calculateSpacingBetweenLayers = (nodes: Node[]): string => {
+const calculateSpacingBetweenLayers = ({
+  nodes,
+  isHorizontal
+}: {
+  nodes: Node[];
+  isHorizontal: boolean;
+}): number => {
   // Find the maximum width and height among all nodes
-  const maxWidth = Math.max(...nodes.map((node) => node.width ?? 0));
-  const maxHeight = Math.max(...nodes.map((node) => node.height ?? 0));
-  // Set a minimum spacing to avoid overlap, could be based on node size
-  const minimumSpacing = Math.min(maxWidth, maxHeight);
-  return minimumSpacing.toString(); // Return as string for ELK options
+  if (isHorizontal) {
+    let maxDifference = 0;
+    for (let i = 0; i < nodes.length - 1; i++) {
+      const currentNode = nodes[i];
+      const nextNode = nodes[i + 1];
+      const nextNodeWidth = nextNode?.width ?? 0;
+      const currentNodeWidth = currentNode?.width ?? 0;
+      const widthDifference = Math.abs(nextNodeWidth - currentNodeWidth);
+      if (widthDifference > maxDifference) {
+        maxDifference = widthDifference;
+      }
+    }
+    return maxDifference;
+  } else {
+    return 0;
+  }
 };
 
 export async function performElkLayout({
   nodes,
   edges,
   options = elkOptions,
-  margin = 50
+  useDynamicSpacing = true
 }: LayoutedGraph): Promise<LayoutedGraph> {
-  let spacing: number = 0;
-  try {
-    spacing = parseInt(
-      get(elkOptions, "elk.layered.spacing.nodeNodeBetweenLayers")
-    );
-  } catch (e) {
-    // ignore error
-  }
-  spacing = isValidPositiveInteger(spacing) ? spacing : margin;
   if (nodes.length === 0) return { nodes, edges };
   const isHorizontal =
-    options?.["elk.direction"] === "RIGHT" ||
-    options?.["elk.direction"] === "LEFT";
+    options?.["elk.direction"] === ElkDirection.RIGHT ||
+    options?.["elk.direction"] === ElkDirection.LEFT;
+  let spacing: number = 0;
+  if (useDynamicSpacing) {
+    spacing = calculateSpacingBetweenLayers({
+      nodes: excludeTerminalNodes(getLayoutableNodes(nodes)),
+      isHorizontal
+    });
+    set(elkOptions, "elk.layered.spacing.nodeNodeBetweenLayers", spacing);
+  } else {
+    try {
+      spacing = parseInt(
+        get(elkOptions, "elk.layered.spacing.nodeNodeBetweenLayers")
+      );
+    } catch (e) {
+      // ignore error
+    }
+  }
+  spacing = isValidPositiveInteger(spacing)
+    ? spacing
+    : INTER_PARENT_PARENT_HORIZONTAL_SEPARATION;
   const includChildNodeEdges =
     get(elkOptions, "elk.hierarchyHandling") === "INCLUDE_CHILDREN";
   const graph: ElkNode = {
@@ -85,16 +122,16 @@ export async function performElkLayout({
     layoutOptions: elkOptions,
     children: nodes.map((node) => ({
       ...node,
-      targetPosition: isHorizontal ? "left" : "top",
-      sourcePosition: isHorizontal ? "right" : "bottom",
+      targetPosition: isHorizontal ? Position.Left : Position.Top,
+      sourcePosition: isHorizontal ? Position.Right : Position.Bottom,
       width: node?.width ?? NODE_DEFAULT_WIDTH,
       height: node?.height ?? NODE_DEFAULT_HEIGHT,
-      /* Can't include child nodes without include child node edges as well */
+      /* Can't include child nodes without including child node edges as well */
       ...(includChildNodeEdges && {
         children: getChildNodes(node.id, nodes).map((childNode) => ({
           ...childNode,
-          targetPosition: isHorizontal ? "left" : "top",
-          sourcePosition: isHorizontal ? "right" : "bottom",
+          targetPosition: isHorizontal ? Position.Left : Position.Top,
+          sourcePosition: isHorizontal ? Position.Right : Position.Bottom,
           width: childNode?.width ?? NODE_DEFAULT_WIDTH,
           height: childNode?.height ?? NODE_DEFAULT_HEIGHT
         })),

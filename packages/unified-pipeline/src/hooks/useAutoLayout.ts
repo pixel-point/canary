@@ -4,10 +4,11 @@ import {
   type Edge,
   useReactFlow,
   useNodesInitialized,
-  useStore,
+  useStore
 } from "reactflow";
 import { performElkLayout } from "../components/Canvas/utils/ElkLayout";
-import { ExpandNodeProps } from "components/Canvas/types";
+import { ExpandNodeProps } from "../components/Canvas/types";
+import { getLayoutableNodes } from "../components/Canvas/utils/NodeUtils";
 
 function useAutoLayout() {
   const { setNodes, setEdges } = useReactFlow();
@@ -22,7 +23,7 @@ function useAutoLayout() {
       edgeMap: state.edges.reduce(
         (acc, edge) => acc.set(edge.id, edge),
         new Map()
-      ),
+      )
     }),
     // The compare elements function will only update `elements` if something has
     // changed that should trigger a layout. This includes changes to a node's
@@ -48,8 +49,8 @@ function useAutoLayout() {
       const edges = [...elements.edgeMap.values()];
 
       const { nodes: nextNodes, edges: nextEdges } = await performElkLayout({
-        nodes,
-        edges,
+        nodes: getLayoutableNodes(nodes),
+        edges
       });
       setNodes(nextNodes);
       setEdges(nextEdges);

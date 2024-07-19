@@ -99,5 +99,70 @@ export const mockNodes: Node[] = [
     ],
     deletable: true,
     expandable: true
+  },
+  {
+    name: "Deploy",
+    path: "spec.stages.2",
+    icon: <Bitbucket />,
+    children: [
+      {
+        name: "Deploy to QA",
+        path: "spec.stages.2.0",
+        icon: <Slack />,
+        children: [
+          {
+            name: "SoftwareSupply Chain Validation",
+            icon: <Slack />,
+            path: "some-path",
+            deletable: true,
+            expandable: false
+          },
+          {
+            name: "Push to Artifactory",
+            icon: <Jira />,
+            path: "some-path",
+            deletable: true,
+            expandable: false
+          },
+          {
+            name: "Deploy to Server",
+            icon: <Jira />,
+            path: "some-path",
+            deletable: true,
+            expandable: false
+          }
+        ],
+        deletable: true,
+        expandable: true,
+        parallel: true
+      },
+      {
+        name: "Deploy to Prod",
+        path: "spec.stages.2.1",
+        icon: <Bitbucket />,
+        children: [
+          {
+            name: "SoftwareSupply Chain Validation",
+            icon: <Slack />,
+            path: "some-path",
+            deletable: true,
+            expandable: false
+          },
+          {
+            name: "SLSA Verification",
+            icon: <Jira />,
+            path: "some-path",
+            deletable: true,
+            expandable: false
+          }
+        ],
+        deletable: true,
+        expandable: true,
+        parallel: true
+      }
+    ],
+    deletable: true,
+    expandable: true,
+    groupId: "Deploy"
   }
 ];
