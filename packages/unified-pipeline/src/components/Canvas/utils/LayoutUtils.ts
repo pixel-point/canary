@@ -10,8 +10,8 @@ import {
 } from "./NodeUtils";
 import {
   NODE_HORIZONTAL_MARGIN,
-  NODE_NODE_SEPARATION,
-  NODE_NODE_SEPARATION_READ_ONLY,
+  NODE_NODE_HORIZONTAL_SEPARATION,
+  NODE_NODE_HORIZONTAL_SEPARATION_READ_ONLY,
   NODE_VERTICAL_MARGIN,
 } from "./LROrientation/Constants";
 
@@ -79,8 +79,8 @@ export const performLayout = ({
             height,
             margin: NODE_HORIZONTAL_MARGIN,
             nodeNodeSeparation: readonly
-              ? NODE_NODE_SEPARATION_READ_ONLY
-              : NODE_NODE_SEPARATION,
+              ? NODE_NODE_HORIZONTAL_SEPARATION_READ_ONLY
+              : NODE_NODE_HORIZONTAL_SEPARATION,
           });
           layoutedNodes.push(...parallelLayoutedElements.nodes);
           layoutedEdges.push(...parallelLayoutedElements.edges);
@@ -92,8 +92,8 @@ export const performLayout = ({
             height,
             margin: NODE_VERTICAL_MARGIN,
             nodeNodeSeparation: readonly
-              ? NODE_NODE_SEPARATION_READ_ONLY
-              : NODE_NODE_SEPARATION,
+              ? NODE_NODE_HORIZONTAL_SEPARATION_READ_ONLY
+              : NODE_NODE_HORIZONTAL_SEPARATION,
           });
           layoutedNodes.push(...layoutedSequentialElements.nodes);
           layoutedEdges.push(...layoutedSequentialElements.edges);
@@ -105,8 +105,8 @@ export const performLayout = ({
             height,
             margin: NODE_VERTICAL_MARGIN,
             nodeNodeSeparation: readonly
-              ? NODE_NODE_SEPARATION_READ_ONLY
-              : NODE_NODE_SEPARATION,
+              ? NODE_NODE_HORIZONTAL_SEPARATION_READ_ONLY
+              : NODE_NODE_HORIZONTAL_SEPARATION,
           });
           layoutedNodes.push(...layoutedSequentialElements.nodes);
           layoutedEdges.push(...layoutedSequentialElements.edges);
