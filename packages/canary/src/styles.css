@@ -86,3 +86,15 @@
   @apply font-light text-sm w-full mt-1 border-white/10 bg-white/5 rounded-[4px];
   @apply placeholder:text-white/50 !important;
 }
+
+/* Navbar utilities */
+.navbar-company-avatar {
+  @apply w-5 h-5;
+}
+.navbar-section-icon {
+  @apply w-3 h-3;
+}
+
+.navbar-section-icon {
+  @apply fill-red-400;
+}
