@@ -42,5 +42,4 @@ jobs:
 
           ls -la node_modules/@harnessio
 
-          pnpm run build
           pnpm run build-storybook
