@@ -8,7 +8,7 @@ export default defineConfig({
     sourcemap: true,
     copyPublicDir: false
   },
-  resolve: {
-    preserveSymlinks: true
-  }
+  // resolve: {
+  //   preserveSymlinks: true
+  // }
 })
