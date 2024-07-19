@@ -25,16 +25,16 @@ export function PipelineStudio(props: PipelineStudioProps): JSX.Element {
   useEffect(() => {
     const initialNodes = getElementsFromGraph({
       graph: props.graph,
-      readonly: props.readonly,
+      readonly: props.readonly
     });
     const initialEdges = getEdgesForAllNodes({
       nodes: initialNodes,
       includChildNodeEdges: false,
-      readonly: props.readonly,
+      readonly: props.readonly
     });
     const nodesWithDimensions = initialNodes.map((node: Node) => ({
       ...node,
-      ...getNodeDimensions(node),
+      ...getNodeDimensions(node)
     }));
     setNodes(nodesWithDimensions);
     setEdges(initialEdges);

@@ -8,7 +8,7 @@
 import ELK, {
   ElkExtendedEdge,
   ElkNode,
-  LayoutOptions,
+  LayoutOptions
 } from "elkjs/lib/elk.bundled";
 import { type Edge, type Node } from "reactflow";
 import { get } from "lodash-es";
@@ -17,6 +17,7 @@ import {
   NODE_DEFAULT_WIDTH,
   PLUS_NODE_ID,
   ROOT_NODE_ID,
+  INTER_PARENT_PARENT_HORIZONTAL_SEPARATION
 } from "./LROrientation/Constants";
 import { getChildNodes, getLayoutableNodes } from "./NodeUtils";
 import { dedupEdges, getConnectedEdges } from "./EdgeUtils";
@@ -35,10 +36,17 @@ export interface LayoutedGraph {
 
 export const elkOptions = {
   "elk.algorithm": "layered",
-  "elk.layered.spacing.nodeNodeBetweenLayers": "300",
-  "elk.spacing.nodeNode": "100",
+  /** For spacing between different layers ,
+  think of all top level parent nodes
+   */
+  "elk.layered.spacing.nodeNodeBetweenLayers":
+    INTER_PARENT_PARENT_HORIZONTAL_SEPARATION.toString(),
+  /** For spacing between nodes in the same layer ,
+  think of child nodes within a parent
+   "elk.spacing.nodeNode": "100",
+   */
   "elk.direction": "RIGHT",
-  "elk.layered.nodePlacement.strategy": "INTERACTIVE",
+  "elk.layered.nodePlacement.strategy": "INTERACTIVE"
   // "elk.hierarchyHandling": "INCLUDE_CHILDREN",
 };
 
@@ -55,7 +63,7 @@ export async function performElkLayout({
   nodes,
   edges,
   options = elkOptions,
-  margin = 50,
+  margin = 50
 }: LayoutedGraph): Promise<LayoutedGraph> {
   let spacing: number = 0;
   try {
@@ -88,15 +96,12 @@ export async function performElkLayout({
           targetPosition: isHorizontal ? "left" : "top",
           sourcePosition: isHorizontal ? "right" : "bottom",
           width: childNode?.width ?? NODE_DEFAULT_WIDTH,
-          height: childNode?.height ?? NODE_DEFAULT_HEIGHT,
+          height: childNode?.height ?? NODE_DEFAULT_HEIGHT
         })),
-        edges: getConnectedEdges(
-          node.id,
-          edges
-        ) as unknown as ElkExtendedEdge[],
-      }),
+        edges: getConnectedEdges(node.id, edges) as unknown as ElkExtendedEdge[]
+      })
     })),
-    edges: edges as unknown as ElkExtendedEdge[],
+    edges: edges as unknown as ElkExtendedEdge[]
   };
 
   const elk = new ELK();
@@ -107,8 +112,8 @@ export async function performElkLayout({
       const nodes = [
         {
           ...node,
-          position: { x: node.x!, y: node.y! },
-        },
+          position: { x: node.x!, y: node.y! }
+        }
       ];
       if (
         includChildNodeEdges &&
@@ -120,7 +125,7 @@ export async function performElkLayout({
           ...node.children.map((n) => ({
             ...n,
             position: { x: n.x!, y: node.y! },
-            style: {},
+            style: {}
           }))
         );
       }
@@ -194,6 +199,6 @@ export async function performElkLayout({
     nodes: layoutedNodes as Node[],
     edges: elkGraph.edges
       ? (dedupEdges(elkGraph.edges as unknown as Edge[]) as Edge<EdgeData>[])
-      : [],
+      : []
   };
 }

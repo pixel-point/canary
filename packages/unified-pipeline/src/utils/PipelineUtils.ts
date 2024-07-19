@@ -5,13 +5,13 @@ import {
   NodeType,
   Graph,
   Node,
-  PositionType,
+  PositionType
 } from "../components/Canvas/types";
 import { StageCategory } from "../components/PipelineConfigPanel/types";
 import {
   DEFAULT_NODE_LOCATION,
   ROOT_NODE_ID,
-  PLUS_NODE_ID,
+  PLUS_NODE_ID
 } from "../components/Canvas/utils/LROrientation/Constants";
 import type { PlusNodeProps } from "../components/Canvas/elements/Nodes/PlusNode/PlusNode";
 import type { RootNodeProps } from "../components/Canvas/elements/Nodes/RootNode/RootNode";
@@ -21,7 +21,7 @@ import { getIdFromName } from "./StringUtils";
 import {
   getEndAnchorNodeId,
   getStartAnchorNodeId,
-  sortNodes,
+  sortNodes
 } from "../components/Canvas/utils/NodeUtils";
 
 const STAGES_PATH = "spec.stages";
@@ -34,19 +34,19 @@ const RootNode: ReactFlowNode = {
   data: {
     expandable: false,
     expanded: true,
-    positionType: PositionType.ABSOLUTE,
+    positionType: PositionType.ABSOLUTE
   } as RootNodeProps,
   selectable: false,
   position: DEFAULT_NODE_LOCATION,
   draggable: false,
   connectable:
-    false /* No node other than the one specified should be able to connect to "root" node */,
+    false /* No node other than the one specified should be able to connect to "root" node */
 };
 
 const getAnchorNode = ({
   id,
   groupId,
-  hidden = false,
+  hidden = false
 }: {
   id: string;
   groupId: string;
@@ -62,15 +62,15 @@ const getAnchorNode = ({
     connectable: true,
     ...(groupId && {
       parentNode: groupId,
-      extent: "parent",
+      extent: "parent"
     }),
-    hidden,
+    hidden
   };
 };
 
 const getPlusNode = ({
   pathPrefix,
-  targetPosition,
+  targetPosition
 }: {
   pathPrefix: string;
   targetPosition: Position;
@@ -83,19 +83,19 @@ const getPlusNode = ({
       nodeType: NodeType.STAGE,
       positionType: PositionType.ABSOLUTE,
       path: pathPrefix,
-      targetPosition,
+      targetPosition
     } as PlusNodeProps,
     selectable: true,
     draggable: false,
     connectable:
-      false /* No node other than the one specified should be able to connect to "plus" node */,
+      false /* No node other than the one specified should be able to connect to "plus" node */
   };
 };
 
 const getGroupNode = ({
   node,
   memberNodes,
-  readonly,
+  readonly
 }: {
   node: Node;
   memberNodes: ReactFlowNode[];
@@ -114,11 +114,11 @@ const getGroupNode = ({
       deletable: true,
       parallel: node.parallel,
       groupId: node.groupId,
-      readonly,
+      readonly
     } as GroupNodeProps,
     position: DEFAULT_NODE_LOCATION,
     type: NodeType.GROUP,
-    selectable: true,
+    selectable: true
   };
 };
 
@@ -130,7 +130,7 @@ const getGroupMemberNode = ({
   pathPrefix,
   position = DEFAULT_NODE_LOCATION,
   hidden = false,
-  readonly,
+  readonly
 }: {
   nodeType: NodeType;
   memberNode: Node;
@@ -153,14 +153,14 @@ const getGroupMemberNode = ({
       expanded: true,
       deletable: true,
       parallel: memberNode.parallel,
-      readonly,
+      readonly
     } as GroupNodeProps,
     position,
     type: nodeType,
     selectable: true,
     connectable: !memberNode.parallel,
     ...(groupId && { parentNode: groupId, extent: "parent", zIndex: 1 }),
-    hidden,
+    hidden
   };
 };
 
@@ -172,7 +172,7 @@ const isGroupNode = (node: Node): boolean => {
 
 export const getElementsFromGraph = ({
   graph,
-  readonly,
+  readonly
 }: {
   graph: Graph;
   readonly?: boolean;
@@ -185,16 +185,16 @@ export const getElementsFromGraph = ({
   nodes.push({
     ...getPlusNode({
       pathPrefix: "",
-      targetPosition: Position.Left,
+      targetPosition: Position.Left
     }),
-    position: DEFAULT_NODE_LOCATION,
+    position: DEFAULT_NODE_LOCATION
   });
   return nodes;
 };
 
 const processNode = ({
   node,
-  readonly,
+  readonly
 }: {
   node: Node;
   nodeIdx: number;
@@ -212,7 +212,7 @@ const processNode = ({
         const childNodes = processNode({
           node: groupChildNode,
           nodeIdx: idx,
-          readonly,
+          readonly
         });
         nodes.push(...childNodes);
       } else {
@@ -221,7 +221,7 @@ const processNode = ({
         if (hasChildren) {
           const atomicNodes = getAtomicNodesForContainer({
             stageNode: groupChildNode,
-            readonly,
+            readonly
           });
           const containerNode = getGroupMemberNode({
             nodeType: NodeType.STAGE,
@@ -230,7 +230,7 @@ const processNode = ({
             groupId: parentNodeId,
             pathPrefix: "",
             position: DEFAULT_NODE_LOCATION,
-            readonly,
+            readonly
           });
           stageNodes.push(containerNode);
           nodes.push(...[containerNode, ...atomicNodes].sort(sortNodes));
@@ -241,7 +241,7 @@ const processNode = ({
               memberNode: groupChildNode,
               childNodes: [],
               pathPrefix: groupChildNode.path,
-              readonly,
+              readonly
             })
           );
         }
@@ -251,7 +251,7 @@ const processNode = ({
       getGroupNode({
         node,
         memberNodes: stageNodes,
-        readonly,
+        readonly
       })
     );
   } else {
@@ -259,7 +259,7 @@ const processNode = ({
     if (hasChildren) {
       const atomicNodes = getAtomicNodesForContainer({
         stageNode: node,
-        readonly,
+        readonly
       });
       const containerNode = getGroupMemberNode({
         nodeType: NodeType.STAGE,
@@ -267,7 +267,7 @@ const processNode = ({
         childNodes: atomicNodes,
         pathPrefix: node.path,
         position: DEFAULT_NODE_LOCATION,
-        readonly,
+        readonly
       });
       nodes.push(...[containerNode, ...atomicNodes].sort(sortNodes));
     } else {
@@ -277,7 +277,7 @@ const processNode = ({
           memberNode: node,
           childNodes: [],
           pathPrefix: node.path,
-          readonly,
+          readonly
         })
       );
     }
@@ -297,7 +297,7 @@ export const getStepNodePath = (stageNodePath: string, stepIndex: number) =>
 export const getAtomicNodesForContainer = ({
   stageNode,
   hidden = false,
-  readonly,
+  readonly
 }: {
   stageNode: Node;
   hidden?: boolean;
@@ -312,7 +312,7 @@ export const getAtomicNodesForContainer = ({
     childNodes.push(
       getAnchorNode({
         id: getStartAnchorNodeId(parentNodeId),
-        groupId: parentNodeId,
+        groupId: parentNodeId
         // hidden: true,
       })
     );
@@ -329,7 +329,7 @@ export const getAtomicNodesForContainer = ({
           expandable: stepNode.expandable,
           positionType: PositionType.RELATIVE,
           deletable: true,
-          readonly,
+          readonly
         } as AtomicNodeProps,
         position: DEFAULT_NODE_LOCATION,
         type: NodeType.ATOMIC,
@@ -337,7 +337,7 @@ export const getAtomicNodesForContainer = ({
         parentNode: parentNodeId,
         extent: "parent",
         zIndex: 1,
-        hidden,
+        hidden
       };
     }) as ReactFlowNode<AtomicNodeProps>[])
   );
@@ -345,7 +345,7 @@ export const getAtomicNodesForContainer = ({
     childNodes.push(
       getAnchorNode({
         id: getEndAnchorNodeId(parentNodeId),
-        groupId: parentNodeId,
+        groupId: parentNodeId
         // hidden: true,
       })
     );
@@ -361,7 +361,7 @@ const getStageNodes = ({
   yamlObject,
   stageNodesCollection,
   pathPrefix = STAGES_NODE_PATH_PREFIX,
-  isParallel,
+  isParallel
 }: {
   yamlObject: Record<string, any>;
   stageNodesCollection: Node[];
@@ -380,13 +380,13 @@ const getStageNodes = ({
           yamlObject: stage,
           stageNodesCollection: [],
           pathPrefix: `${pathPrefix}${stageIdx}.`,
-          isParallel: true,
+          isParallel: true
         });
         const stageGroup = getStageGroupNode({
           stageGroup: stage,
           stageNodes: parallelStages,
           stageGroupIdx: stageIdx,
-          stageGroupNodePathPrefix: `${pathPrefix}${stageIdx}`,
+          stageGroupNodePathPrefix: `${pathPrefix}${stageIdx}`
         });
         stageNodesCollection.push(stageGroup);
       } else {
@@ -396,7 +396,7 @@ const getStageNodes = ({
             stageIdx: stageIdx,
             childNodes: getChildNodes(stage),
             stagePathPrefix: pathPrefix,
-            isParallel,
+            isParallel
           })
         );
       }
@@ -409,7 +409,7 @@ const getStageGroupNode = ({
   stageGroup,
   stageNodes,
   stageGroupIdx,
-  stageGroupNodePathPrefix,
+  stageGroupNodePathPrefix
 }: {
   stageGroup: Record<string, any>;
   stageNodes: Node[];
@@ -425,7 +425,7 @@ const getStageGroupNode = ({
     children: stageNodes,
     deletable: true,
     expandable: true,
-    groupId: stageGroupId,
+    groupId: stageGroupId
   } as Node;
 };
 
@@ -434,7 +434,7 @@ const getStageNode = ({
   stageIdx,
   childNodes,
   stagePathPrefix,
-  isParallel,
+  isParallel
 }: {
   stage: Record<string, any>;
   stageIdx: number;
@@ -449,7 +449,7 @@ const getStageNode = ({
     children: childNodes,
     deletable: true,
     expandable: true,
-    ...(isParallel && { parallel: isParallel }),
+    ...(isParallel && { parallel: isParallel })
   } as Node;
 };
 
@@ -468,7 +468,7 @@ const getStepNode = (step: Record<string, any>, stepIndex: number): Node => {
   return {
     name: get(step, "name", `step-${stepIndex + 1}`),
     icon: null,
-    expandable: false,
+    expandable: false
   } as Node;
 };
 
