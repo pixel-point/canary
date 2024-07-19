@@ -1,14 +1,14 @@
+import FooterStrap from '@/components/layout/footer-strap'
 import { Meta, StoryObj } from '@storybook/react'
-import Footer from '../../components/layout/footer'
 
 const meta: Meta = {
-  title: 'Components/Layout/Footer',
-  component: Footer,
+  title: 'Components/Layout/Footer Strap',
+  component: FooterStrap,
   parameters: {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: `Displays a footer that docks at bottom of container.`
+        component: `Displays a footer strap that overlays at bottom of container.`
       }
     }
   },
@@ -19,6 +19,6 @@ export default meta
 
 export const Default: StoryObj = {
   args: {
-    children: 'Footer content'
+    children: 'Footer strap content'
   }
 }
