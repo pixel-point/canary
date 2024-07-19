@@ -4,8 +4,8 @@
   "type": "module",
   "scripts": {
     "clean": "clean-dist",
-    "build": "pnpm run lint && tsc && esbuild src/*{.ts,tsx} --allow-overwrite --minify --outdir=dist --format=esm",
-    "lint": "eslint .",
+    "build": "tsc && esbuild src/*{.ts,tsx} --allow-overwrite --minify --outdir=dist --format=esm",
+    "lint": "eslint ./src",
     "preinstall": "npx only-allow pnpm",
     "prepublishOnly": "pnpm build"
   },

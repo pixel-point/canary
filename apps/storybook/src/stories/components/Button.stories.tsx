@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { fn } from '@storybook/test'
-import { Button, type ButtonProps } from '../../components/button'
+import { Button, type ButtonProps, CanaryOutletFactory, CanaryOutletName } from '@harnessio/canary'
 import { Download, MailOpen, Refresh, RefreshDouble } from '@harnessio/icons-noir'
-import { CanaryOutletFactory, CanaryOutletName } from '@/lib/CanaryOutletFactory'
 
 const meta: Meta<ButtonProps> = {
   title: 'Components/Button',
