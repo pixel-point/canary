@@ -27,6 +27,9 @@ const config = {
       }
     }
     return config
+  },
+  core: {
+    disableTelemetry: true
   }
 }
 export default config

@@ -27,12 +27,15 @@ jobs:
         run: |
           cd apps/storybook
 
+          # Note: `build-storybook` fails under CI due to some unknown synlink issue
+          # Workaround by copying the Canary's package files into the storybook/node_modules folder
+
           pnpm remove @harnessio/canary @harnessio/icons-noir
           pnpm add @harnessio/canary @harnessio/icons-noir @harnessio/svg-icon @harnessio/svg-icon-react
 
           pnpm install
 
-          ls -la node_modules/@harnessio
+          # ls -la node_modules/@harnessio
 
           cp -rf ../../packages/svg-icon/dist ./node_modules/@harnessio/svg-icon/dist
           cp -rf ../../packages/svg-icon-react/dist ./node_modules/@harnessio/svg-icon-react/dist
@@ -40,7 +43,7 @@ jobs:
           cp -rf ../../packages/canary/src ./node_modules/@harnessio/canary/
           cp -rf ../../packages/canary/dist ./node_modules/@harnessio/canary/dist
 
-          ls -la node_modules/@harnessio
+          # ls -la node_modules/@harnessio
 
           pnpm run build-storybook
 
