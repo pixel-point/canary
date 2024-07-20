@@ -3,7 +3,7 @@ const config = {
   stories: [
     '../src/**/*.mdx',
     '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
-    '../../unified-pipeline/src/**/*.stories.@(js|jsx|mjs|ts|tsx)'
+    '../../../packages/unified-pipeline/src/**/*.stories.@(js|jsx|mjs|ts|tsx)'
   ],
   addons: [
     '@storybook/addon-onboarding',
