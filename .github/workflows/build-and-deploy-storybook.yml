@@ -1,0 +1,51 @@
+name: Build, Lint, Test
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install dependencies
+        run: |
+          pnpm install
+          pnpm deps
+
+      - name: Build all packages
+        run: |
+          pnpm run build
+
+      - name: Build storybook
+        run: |
+          cd apps/storybook
+
+          # Note: `build-storybook` fails under CI due to some unknown synlink issue
+          # Workaround by copying the Canary's package files into the storybook/node_modules folder
+
+          pnpm remove @harnessio/canary @harnessio/icons-noir
+          pnpm add @harnessio/canary @harnessio/icons-noir @harnessio/svg-icon @harnessio/svg-icon-react
+
+          pnpm install
+
+          # ls -la node_modules/@harnessio
+
+          cp -rf ../../packages/svg-icon/dist ./node_modules/@harnessio/svg-icon/dist
+          cp -rf ../../packages/svg-icon-react/dist ./node_modules/@harnessio/svg-icon-react/dist
+          cp -rf ../../packages/icons-noir/dist ./node_modules/@harnessio/icons-noir/dist
+          cp -rf ../../packages/canary/src ./node_modules/@harnessio/canary/
+          cp -rf ../../packages/canary/dist ./node_modules/@harnessio/canary/dist
+
+          # ls -la node_modules/@harnessio
+
+          pnpm run build-storybook
+
+      - name: Lint
+        run: pnpm lint

@@ -1,15 +1,12 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/card'
-import Container from '@/components/layout/container'
-import Footer from '@/components/layout/footer'
-import Logo from '@/components/misc/logo-purple'
+import { z } from 'zod'
+import { useState } from 'react'
+import { Card, CardContent, CardHeader, CardTitle, Input, Label, Button } from '@harnessio/canary'
+import Container from '../../components/layout/container'
+import Footer from '../../components/layout/footer-strap'
+import Logo from '../../components/misc/logo-purple'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { Input } from '@/components/input'
-import { Label } from '@/components/label'
-import { Button } from '@/components/button'
-import { useState } from 'react'
-import bodyBlur from '@/assets/body-purple-blur.svg'
+import bodyBlur from '../../assets/body-purple-blur.svg'
 
 interface DataProps {
   email?: string

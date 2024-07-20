@@ -4,8 +4,8 @@
   "type": "module",
   "scripts": {
     "clean": "clean-dist",
-    "build": "pnpm run lint && tsc && esbuild src/*.{ts,tsx} --allow-overwrite --minify --outdir=dist --format=esm",
-    "lint": "eslint .",
+    "build": "tsc && esbuild src/*.{ts,tsx} --allow-overwrite --minify --outdir=dist --format=esm",
+    "lint": "eslint ./src",
     "preinstall": "npx only-allow pnpm",
     "prepublishOnly": "pnpm build"
   },
@@ -31,8 +31,9 @@
     "url": "https://github.com/harness/canary/issues"
   },
   "homepage": "https://github.com/harness/canary",
-  "dependencies": {
-    "@harnessio/svg-icon": "workspace:*"
+  "peerDependencies": {
+    "@harnessio/svg-icon": "workspace:*",
+    "react": "^18.3.1"
   },
   "devDependencies": {
     "@harnessio/svg-icon-cli": "workspace:*",

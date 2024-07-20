@@ -1,11 +1,18 @@
-import companyAvatar from '@/assets/company-avatar.svg'
-import userAvatar from '@/assets/user-avatar.svg'
-import navItemPlaceholder from '@/assets/navbar-item-placeholder.svg'
-import navMore from '@/assets/navbar-more.svg'
+import companyAvatar from '../../assets/company-avatar.svg'
+import userAvatar from '../../assets/user-avatar.svg'
+import navItemPlaceholder from '../../assets/navbar-item-placeholder.svg'
+import navMore from '../../assets/navbar-more.svg'
 import React from 'react'
-import { cn } from '@/lib/utils'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../accordion'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '../dropdown-menu'
+import {
+  cn,
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger
+} from '@harnessio/canary'
 import { ChevronDownIcon } from '@radix-ui/react-icons'
 
 const primaryMenuItems = [

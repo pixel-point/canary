@@ -1,4 +1,4 @@
-import FooterStrap from '@/components/layout/footer-strap'
+import FooterStrap from '../../components/layout/footer-strap'
 import { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta = {

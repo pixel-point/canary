@@ -1,3 +1,4 @@
+import '@harnessio/canary/styles'
 import '../src/styles.css'
 
 import { withThemeByClassName } from '@storybook/addon-themes'

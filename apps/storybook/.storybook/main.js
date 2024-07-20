@@ -22,11 +22,14 @@ const config = {
     config.css = {
       preprocessorOptions: {
         scss: {
-          additionalData: `@import "../../unified-pipeline/src/App.module.scss";`
+          additionalData: `@import "../../../packages/unified-pipeline/src/App.module.scss";`
         }
       }
     }
     return config
+  },
+  core: {
+    disableTelemetry: true
   }
 }
 export default config

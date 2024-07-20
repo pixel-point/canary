@@ -1,5 +1,3 @@
-// src/design-system/Colors.stories.js
-
 export default {
   title: 'Design System/Typography'
 }
