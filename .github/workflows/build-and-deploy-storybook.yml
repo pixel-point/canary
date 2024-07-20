@@ -1,4 +1,4 @@
-name: Build and Publish StoryBook
+name: Build, Lint, Test
 on:
   push:
 
@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install pnpm
+      - name: Use pnpm
         uses: pnpm/action-setup@v4
 
       - name: Install dependencies
@@ -19,11 +19,11 @@ jobs:
           pnpm install
           pnpm deps
 
-      - name: Build packages
+      - name: Build all packages
         run: |
           pnpm run build
 
-      - name: Build StoryBook
+      - name: Build storybook
         run: |
           cd apps/storybook
 
@@ -43,3 +43,6 @@ jobs:
           ls -la node_modules/@harnessio
 
           pnpm run build-storybook
+
+      - name: Lint
+        run: pnpm lint

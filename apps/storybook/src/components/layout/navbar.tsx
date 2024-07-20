@@ -53,24 +53,24 @@ const pinnedMenuItems = [
   }
 ]
 
-const moreMenuItems = [
-  {
-    text: 'Repositories',
-    iconSrc: navItemPlaceholder
-  },
-  {
-    text: 'Pipelines',
-    iconSrc: navItemPlaceholder
-  },
-  {
-    text: 'Executions',
-    iconSrc: navItemPlaceholder
-  },
-  {
-    text: 'Featured flags',
-    iconSrc: navItemPlaceholder
-  }
-]
+// const moreMenuItems = [
+//   {
+//     text: 'Repositories',
+//     iconSrc: navItemPlaceholder
+//   },
+//   {
+//     text: 'Pipelines',
+//     iconSrc: navItemPlaceholder
+//   },
+//   {
+//     text: 'Executions',
+//     iconSrc: navItemPlaceholder
+//   },
+//   {
+//     text: 'Featured flags',
+//     iconSrc: navItemPlaceholder
+//   }
+// ]
 
 const secondaryMenuItems = [
   {
@@ -80,7 +80,7 @@ const secondaryMenuItems = [
 ]
 
 const SectionItem = React.memo(
-  ({ iconSrc, text, active, onClick }: { iconSrc: string; text: string; active?: boolean; onClick?: () => void }) => {
+  ({ iconSrc, text, active }: { iconSrc: string; text: string; active?: boolean; onClick?: () => void }) => {
     return (
       <div
         className={cn('flex gap-2.5 items-center cursor-pointer group select-none py-1.5', { 'text-primary': active })}>
