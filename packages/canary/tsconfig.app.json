@@ -15,7 +15,7 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": false,
-    "jsx": "react-jsx",
+    "jsx": "react",
     "declaration": true,
     "emitDeclarationOnly": true,
     "outDir": "./types",
