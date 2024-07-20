@@ -47,5 +47,9 @@ jobs:
 
           pnpm run build-storybook
 
+      # NETLIFY_AUTH_TOKEN and NETLIFY_SITE_ID environment variables are needed
+      # - name: Deploy StoryBook to Netlify
+      #   run: netlify deploy --prod --debug --dir=/harness/apps/storybook/storybook-static
+
       - name: Lint
         run: pnpm lint
