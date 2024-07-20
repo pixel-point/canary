@@ -43,7 +43,7 @@ pnpm deps
 To build all projects, execute the following command from the repository root folder:
 
 ```sh
-pnpm run build
+pnpm build
 ```
 
 Or you can build individual project by running `pnpm run build` from each project folder root folder.
@@ -55,6 +55,18 @@ To view Canary StoryBook, run:
 ```sh
 pnpm dev
 ```
+
+## Publishing
+
+To publish all packages, run:
+
+```sh
+pnpm publish:all
+```
+
+You can also publish individual packages by running `pnpm publish` from each project folder. Note that you'll need to authenticate youself with `npm` before publishing.
+
+DO NOT publish packages using `npm`. Use `pnpm` instead.
 
 ## Note for Visual Studio Code Users
 
