@@ -1,11 +1,11 @@
 export declare const collapsed: string
 export declare const count: string
 export declare const diagnose: string
-export declare const handle: string
 export declare const header: string
 export declare const hover: string
 export declare const icon: string
 export declare const label: string
 export declare const main: string
-export declare const plusIcon: string
+export declare const plus: string
+export declare const show: string
 export declare const tools: string

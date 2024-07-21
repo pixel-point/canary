@@ -46,8 +46,18 @@
 }
 
 .gradientBorderGlow {
-  background: linear-gradient(0deg, rgba(48, 48, 54, 0.6), rgba(48, 48, 54, 0.6)),
-    linear-gradient(108.08deg, #b1cbff 0%, rgba(177, 203, 255, 0.2) 30%, rgba(177, 203, 255, 0.2) 80%, #b1cbff 100%);
+  background: linear-gradient(
+      0deg,
+      rgba(48, 48, 54, 0.6),
+      rgba(48, 48, 54, 0.6)
+    ),
+    linear-gradient(
+      108.08deg,
+      #b1cbff 0%,
+      rgba(177, 203, 255, 0.2) 30%,
+      rgba(177, 203, 255, 0.2) 80%,
+      #b1cbff 100%
+    );
 }
 
 .gradientBorderGlow .contentLayer {
@@ -55,12 +65,24 @@
 }
 
 .gradientBorderGray {
-  background: linear-gradient(0deg, rgba(48, 48, 54, 0.6), rgba(48, 48, 54, 0.6)),
-    radial-gradient(88.57% 100% at 14.29% 0%, rgba(255, 255, 255, 0.2) 14.38%, rgba(255, 255, 255, 0) 76.87%);
+  background: linear-gradient(
+      0deg,
+      rgba(48, 48, 54, 0.6),
+      rgba(48, 48, 54, 0.6)
+    ),
+    radial-gradient(
+      88.57% 100% at 14.29% 0%,
+      rgba(255, 255, 255, 0.2) 14.38%,
+      rgba(255, 255, 255, 0) 76.87%
+    );
 }
 
 .gradientBorderGray .contentLayer {
-  background: radial-gradient(88.57% 100% at 14.29% 0%, rgba(255, 255, 255, 0.04) 10.62%, rgba(255, 255, 255, 0) 75.86%),
+  background: radial-gradient(
+      88.57% 100% at 14.29% 0%,
+      rgba(255, 255, 255, 0.04) 10.62%,
+      rgba(255, 255, 255, 0) 75.86%
+    ),
     #1d1d20;
 }
 /* gradient */
@@ -69,7 +91,12 @@
   width: 24px;
   height: 5px;
   border-radius: 4px;
-  background: linear-gradient(99deg, rgba(36, 36, 41, 0.5) 16%, #242429 33.62%, rgba(36, 36, 41, 0.4) 51.34%);
+  background: linear-gradient(
+    99deg,
+    rgba(36, 36, 41, 0.5) 16%,
+    #242429 33.62%,
+    rgba(36, 36, 41, 0.4) 51.34%
+  );
 }
 
 .skeletonIcon {
@@ -89,9 +116,32 @@
 }
 
 .skeletonSquare {
-  background: linear-gradient(135deg, rgba(36, 36, 41, 0.4) -10.42%, #242429 30.82%, rgba(36, 36, 41, 0.5) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(36, 36, 41, 0.4) -10.42%,
+    #242429 30.82%,
+    rgba(36, 36, 41, 0.5) 100%
+  );
 }
 
 .marginTop {
   margin-top: 10px;
+}
+
+.plus {
+  border-radius: 50%;
+  /*figma */
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(48, 48, 54, 0.6);
+  background-color: rgba(29, 29, 32, 1);
+  color: rgba(228, 228, 231, 1);
+  transform: translateX(-8px) translateY(-8px);
+  cursor: pointer;
+  opacity: 0;
+}
+
+.show {
+  transition: opacity 0.2s ease-in-out;
+  opacity: 1;
 }

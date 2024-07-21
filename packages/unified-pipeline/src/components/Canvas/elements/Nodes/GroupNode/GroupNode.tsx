@@ -43,6 +43,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
   const [width, setWidth] = useState<number>(0)
   const [height, setHeight] = useState<number>(0)
   const [orientation, setOrientation] = useState<GroupOrientation>(GroupOrientation.LR)
+  const [showPlusNode, setShowPlusNode] = useState<boolean>(false)
 
   useEffect(() => {
     resetNode()
@@ -190,12 +191,12 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
   const childrenCount = useMemo((): number => excludeAnchorNodes(getChildNodes(nodeId, nodes)).length, [nodeId, nodes])
 
   return (
-    <>
+    <div onMouseEnter={() => setShowPlusNode(true)} onMouseLeave={() => setShowPlusNode(false)}>
       {/**
        * @TODO Add support for orientation
        */}
-      <Handle position={Position.Left} type="target" id={`${nodeId}_target`} className={css.handle} />
-      <Handle position={Position.Left} type="source" id={`${nodeId}_internal_source`} className={css.handle} />
+      <Handle position={Position.Left} type="target" id={`${nodeId}_target`} />
+      <Handle position={Position.Left} type="source" id={`${nodeId}_internal_source`} />
       <div
         style={{
           width,
@@ -229,20 +230,23 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
             className={css.hover}
           /> */}
         </div>
-        {!readonly && isExpanded && orientation === GroupOrientation.TB && (
-          <Plus color="white" onClick={() => {}} className={cx(css.icon, css.plusIcon, css.hover)} />
-        )}
+        <Plus
+          onClick={() => {}}
+          className={cx(css.plus, css.hover, {
+            [css.show]: showPlusNode && !readonly && isExpanded && orientation === GroupOrientation.TB
+          })}
+        />
       </div>
       {/**
        * @TODO Add support for orientation
        */}
-      <Handle position={Position.Right} type="target" id={`${nodeId}_internal_target`} className={css.handle} />
-      <Handle position={Position.Right} type="source" id={`${nodeId}_source`} className={css.handle} />
+      <Handle position={Position.Right} type="target" id={`${nodeId}_internal_target`} />
+      <Handle position={Position.Right} type="source" id={`${nodeId}_source`} />
       {enableDiagnostics?.Node && (
         <span className={css.diagnose}>
           ({xPos.toFixed(1)},{yPos.toFixed(1)})
         </span>
       )}
-    </>
+    </div>
   )
 }

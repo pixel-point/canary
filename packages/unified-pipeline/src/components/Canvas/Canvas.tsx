@@ -158,7 +158,8 @@ const CanvasInternal = (props: CanvasProps) => {
           setTimeout(() => window.requestAnimationFrame(() => instance.fitView({ duration: ANIMATION_DURATION })), 0)
         }
         /* https://github.com/xyflow/xyflow/discussions/2827 */
-        nodeOrigin={[0.5, 0.5]}>
+        nodeOrigin={[0.5, 0.5]}
+        className={css.canvas}>
         <Controls>
           <ControlButton
             onClick={() =>

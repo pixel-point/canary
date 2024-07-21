@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import cx from 'classnames'
 import type { NodeProps } from 'reactflow'
 import { Handle, Position, useReactFlow } from 'reactflow'
+import { Plus } from 'iconoir-react'
 import type { DefaultNodeProps, DeleteNodeProps, ExpandNodeProps } from '../../../types'
 import { fetchNodeConnections } from '../../../utils/NodeUtils'
 import { useCanvasStore } from '../../../../../framework/CanvasStore/CanvasStoreContext'
@@ -31,6 +32,7 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos }: Node
   // const runTransitions = true;
   const [status, setStatus] = useState(Status.DONE)
   const runTransitions = false
+  const [showPlus, setShowPlus] = useState<boolean>(false)
 
   useEffect(() => {
     if (runTransitions) {
@@ -62,7 +64,7 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos }: Node
   )
 
   return (
-    <>
+    <div onMouseEnter={() => setShowPlus(true)} onMouseLeave={() => setShowPlus(false)}>
       <Handle type="target" position={Position.Left} isConnectable={isConnectable} />
       {status === Status.QUEUED ? (
         <div>
@@ -123,7 +125,9 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos }: Node
           </div>
         </div>
       )}
-      <Handle type="source" position={Position.Right} isConnectable={isConnectable} />
-    </>
+      <Handle type="source" position={Position.Right} isConnectable={isConnectable}>
+        <Plus className={cx(css.icon, css.plus, { [css.show]: showPlus })} />
+      </Handle>
+    </div>
   )
 }
