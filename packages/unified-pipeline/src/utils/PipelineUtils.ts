@@ -14,6 +14,7 @@ import { sortNodes } from '../components/Canvas/utils/NodeUtils'
 const STAGES_PATH = 'spec.stages'
 const STAGES_NODE_PATH_PREFIX = `${STAGES_PATH}.`
 const STAGE_STEPS_PATH = 'spec.steps'
+const BASE_Z_INDEX = 1
 
 const RootNode: ReactFlowNode = {
   id: ROOT_NODE_ID,
@@ -82,6 +83,7 @@ const getGroupNode = ({
   }
 }
 
+/* Member of a group can be either an Atomic node or a Group node itself*/
 const getGroupMemberNode = ({
   nodeType,
   memberNode,
@@ -90,16 +92,18 @@ const getGroupMemberNode = ({
   pathPrefix,
   position = DEFAULT_NODE_LOCATION,
   hidden = false,
-  readonly
+  readonly,
+  zIndex = 1
 }: {
   nodeType: NodeType
   memberNode: Node
-  childNodes: ReactFlowNode[]
   pathPrefix: string
+  childNodes?: ReactFlowNode[]
   groupId?: string
   position?: XYPosition
   hidden?: boolean
   readonly?: boolean
+  zIndex?: number
 }): ReactFlowNode => {
   return {
     id: getIdFromName(memberNode.name),
@@ -107,7 +111,7 @@ const getGroupMemberNode = ({
       icon: memberNode.icon,
       name: memberNode.name,
       path: pathPrefix,
-      ...(childNodes.length > 0 && { memberNodes: childNodes }),
+      ...(childNodes && childNodes.length > 0 && { memberNodes: childNodes }),
       positionType: groupId ? PositionType.RELATIVE : PositionType.ABSOLUTE,
       expandable: memberNode.expandable,
       expanded: true,
@@ -119,7 +123,7 @@ const getGroupMemberNode = ({
     type: nodeType,
     selectable: true,
     connectable: !memberNode.parallel,
-    ...(groupId && { parentNode: groupId, extent: 'parent', zIndex: 1 }),
+    ...(groupId && { parentNode: groupId, extent: 'parent', zIndex }),
     hidden
   }
 }
@@ -131,8 +135,8 @@ const isGroupNode = (node: Node): boolean => {
 export const getElementsFromGraph = ({ graph, readonly }: { graph: Graph; readonly?: boolean }): ReactFlowNode[] => {
   if (graph.nodes.length === 0) return []
   const nodes: ReactFlowNode[] = [RootNode]
-  graph.nodes.forEach((node: Node, nodeIdx: number) => {
-    nodes.push(...processNode({ node, nodeIdx, readonly }))
+  graph.nodes.forEach((node: Node) => {
+    nodes.push(...processNode({ node, readonly, zIndex: BASE_Z_INDEX }))
   })
   nodes.push({
     ...getPlusNode({
@@ -144,28 +148,39 @@ export const getElementsFromGraph = ({ graph, readonly }: { graph: Graph; readon
   return nodes
 }
 
-const processNode = ({ node, readonly }: { node: Node; nodeIdx: number; readonly?: boolean }): ReactFlowNode[] => {
+const processNode = ({
+  node,
+  readonly,
+  zIndex = 1
+}: {
+  node: Node
+  nodeIdx?: number
+  readonly?: boolean
+  zIndex?: number
+}): ReactFlowNode[] => {
   const nodes: ReactFlowNode[] = []
   /* Node is itself a group node */
   if (isGroupNode(node)) {
     const parentNodeId = node.groupId || ''
     const stageNodes: ReactFlowNode[] = []
     const groupChildNodes = node.children
-    groupChildNodes?.forEach((groupChildNode: Node, idx: number) => {
+    groupChildNodes?.forEach((groupChildNode: Node, groupChildNodeIdx: number) => {
       if (isGroupNode(groupChildNode)) {
         // Recursive call for group node child
         const childNodes = processNode({
           node: groupChildNode,
-          nodeIdx: idx,
-          readonly
+          nodeIdx: groupChildNodeIdx,
+          readonly,
+          zIndex: zIndex + 1
         })
         nodes.push(...childNodes)
       } else {
-        const hasChildren = groupChildNode.children && groupChildNode.children?.length > 0
-        if (hasChildren) {
+        const childNodesExist = groupChildNode.children && groupChildNode.children?.length > 0
+        if (childNodesExist) {
           const atomicNodes = getAtomicNodesForContainer({
             stageNode: groupChildNode,
-            readonly
+            readonly,
+            zIndex: zIndex + 1
           })
           const containerNode = getGroupMemberNode({
             nodeType: NodeType.STAGE,
@@ -183,8 +198,8 @@ const processNode = ({ node, readonly }: { node: Node; nodeIdx: number; readonly
             getGroupMemberNode({
               nodeType: NodeType.ATOMIC,
               memberNode: groupChildNode,
-              childNodes: [],
               pathPrefix: groupChildNode.path,
+              position: DEFAULT_NODE_LOCATION,
               readonly
             })
           )
@@ -199,8 +214,8 @@ const processNode = ({ node, readonly }: { node: Node; nodeIdx: number; readonly
       })
     )
   } else {
-    const hasChildren = node.children && node.children?.length > 0
-    if (hasChildren) {
+    const childNodesExist = node.children && node.children?.length > 0
+    if (childNodesExist) {
       const atomicNodes = getAtomicNodesForContainer({
         stageNode: node,
         readonly
@@ -219,8 +234,8 @@ const processNode = ({ node, readonly }: { node: Node; nodeIdx: number; readonly
         getGroupMemberNode({
           nodeType: NodeType.ATOMIC,
           memberNode: node,
-          childNodes: [],
           pathPrefix: node.path,
+          position: DEFAULT_NODE_LOCATION,
           readonly
         })
       )
@@ -240,11 +255,13 @@ export const getStepNodePath = (stageNodePath: string, stepIndex: number) => `${
 export const getAtomicNodesForContainer = ({
   stageNode,
   hidden = false,
-  readonly
+  readonly,
+  zIndex = 1
 }: {
   stageNode: Node
   hidden?: boolean
   readonly?: boolean
+  zIndex?: number
 }): ReactFlowNode[] => {
   if (!stageNode || !stageNode.children) {
     return []
@@ -270,7 +287,7 @@ export const getAtomicNodesForContainer = ({
         selectable: true,
         parentNode: parentNodeId,
         extent: 'parent',
-        zIndex: 1,
+        zIndex,
         hidden
       }
     }) as ReactFlowNode<AtomicNodeProps>[])
