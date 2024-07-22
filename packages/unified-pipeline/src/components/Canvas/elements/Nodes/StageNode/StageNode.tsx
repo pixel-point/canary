@@ -75,20 +75,25 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
     )
   }
 
-  const orientation = memberNodes.every(node => (node.data as DefaultNodeProps)?.parallel)
-    ? GroupOrientation.TB
-    : GroupOrientation.LR
+  const orientation = useMemo(
+    (): GroupOrientation =>
+      memberNodes.every(node => (node.data as DefaultNodeProps)?.parallel) ? GroupOrientation.TB : GroupOrientation.LR,
+    [memberNodes]
+  )
 
-  const updateNodeDimensions = (node: Node, isExpanded: boolean): void => {
-    const { width, height } = getStageNodeDimensions({
-      isExpanded,
-      childNodes: memberNodes
-    })
-    set(node, 'width', width)
-    set(node, 'height', height)
-    setWidth(width)
-    setHeight(height)
-  }
+  const updateNodeDimensions = useCallback(
+    (node: Node, isExpanded: boolean): void => {
+      const { width, height } = getStageNodeDimensions({
+        isExpanded,
+        childNodes: memberNodes
+      })
+      set(node, 'width', width)
+      set(node, 'height', height)
+      setWidth(width)
+      setHeight(height)
+    },
+    [isExpanded, memberNodes]
+  )
 
   /*
    * Show nodes
