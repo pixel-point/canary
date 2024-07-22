@@ -1,6 +1,6 @@
 import { cva } from 'class-variance-authority'
 import { cn } from '@harnessio/canary'
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 
 const containerVariants = cva('flex min-h-screen', {
   variants: {
