@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import cx from 'classnames'
 import type { NodeProps } from 'reactflow'
 import { Handle, Position, useReactFlow, Node } from 'reactflow'
-import { Plus } from 'iconoir-react'
+import { Plus, Computer } from 'iconoir-react'
 import {
   PositionType,
   type DefaultNodeProps,
@@ -30,9 +30,9 @@ export interface AtomicNodeProps extends DefaultNodeProps, ExpandNodeProps, Dele
 }
 
 export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex }: NodeProps<AtomicNodeProps>) {
-  const { addNode } = useFlowStore()
-  const { deleteElements, getEdges } = useReactFlow()
-  const { icon, name, readonly } = data
+  const { nodes } = useFlowStore()
+  const { deleteElements, getEdges, setNodes } = useReactFlow()
+  const { icon, name, readonly, groupId } = data
   const { enableDiagnostics } = useCanvasStore()
   const [width] = useState<number>(STEP_NODE_WIDTH)
   const [height] = useState<number>(STEP_NODE_HEIGHT)
@@ -73,11 +73,11 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
   )
 
   const addChildNode = useCallback((): void => {
-    const newNode: Node<AtomicNodeProps> = {
-      id,
+    const newNode: Node = {
+      id: 'new_node',
       data: {
-        name: 'new node',
-        icon: <></>,
+        name: 'New node',
+        icon: <Computer />,
         path: '',
         expandable: true,
         positionType: PositionType.RELATIVE,
@@ -87,12 +87,12 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
       position: DEFAULT_NODE_LOCATION,
       type: NodeType.ATOMIC,
       selectable: true,
-      parentNode: id,
+      parentNode: groupId,
       extent: 'parent',
       zIndex
     }
-    addNode(newNode)
-  }, [id, readonly, zIndex])
+    setNodes([...nodes, newNode])
+  }, [id, readonly, zIndex, nodes])
 
   return (
     <div onMouseEnter={() => setShowPlus(true)} onMouseLeave={() => setShowPlus(false)}>

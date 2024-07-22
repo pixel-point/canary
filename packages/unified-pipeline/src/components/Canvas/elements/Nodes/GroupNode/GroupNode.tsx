@@ -28,7 +28,7 @@ import {
   getNodeDiagnostics
 } from '../../../utils/NodeUtils'
 import { performLayout } from '../../../utils/LayoutUtils'
-import { dedupEdges, getEdgesForChildNodes } from '../../../utils/EdgeUtils'
+import { dedupeEdges, getEdgesForChildNodes } from '../../../utils/EdgeUtils'
 import { useCanvasStore } from '../../../../../framework/CanvasStore/CanvasStoreContext'
 
 import css from './GroupNode.module.scss'
@@ -84,7 +84,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
         readonly
       })
       updateNodes(layoutedElements.nodes)
-      const edgesUpdated = dedupEdges(layoutedElements.edges)
+      const edgesUpdated = dedupeEdges(layoutedElements.edges)
       if (initial) {
         addEdges(edgesUpdated)
       } else {

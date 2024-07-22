@@ -5,7 +5,6 @@ import { set } from 'lodash-es'
 import { Plus } from 'iconoir-react'
 import { DefaultNodeProps, GroupOrientation, NodeType, PositionType } from '../../../types'
 import {
-  excludeAnchorNodes,
   getChildNodes,
   isParentOfNode,
   updateNodePositionType,
@@ -15,7 +14,7 @@ import {
   getStageNodeDimensions,
   getNodeDiagnostics
 } from '../../../utils/NodeUtils'
-import { dedupEdges, getEdgesForChildNodes } from '../../../../../components/Canvas/utils/EdgeUtils'
+import { dedupeEdges, getEdgesForChildNodes } from '../../../../../components/Canvas/utils/EdgeUtils'
 import Expand from '../../../../../icons/Expand'
 import Hamburger from '../../../../../icons/Hamburger'
 // import { Menubar } from '../../../../../../../canary/src/components/menubar'
@@ -27,23 +26,26 @@ import { GroupNodeProps } from '../GroupNode/GroupNode'
 import css from '../GroupNode/GroupNode.module.scss'
 
 export default function StageNode(props: NodeProps<GroupNodeProps>) {
-  const { nodes, edges, deleteElements, addEdges, updateNodes } = useFlowStore()
+  const { nodes, edges, deleteElements, updateNodes, setEdges } = useFlowStore()
   const { enableDiagnostics } = useCanvasStore()
   const { data, id: nodeId, xPos, yPos, zIndex } = props
   const { expanded = true, name, memberNodes = [], parallel, readonly } = data
   const [isExpanded, setIsExpanded] = useState<boolean>(expanded)
   const [width, setWidth] = useState<number>(0)
   const [height, setHeight] = useState<number>(0)
+  const childNodes = useMemo((): Node[] => getChildNodes(nodeId, nodes), [nodes])
 
   useEffect(() => {
+    setupNode()
+  }, [childNodes.length])
+
+  const setupNode = useCallback((): void => {
     if (nodes.length === 0) return
     const childNodes = getChildNodes(nodeId, nodes)
     const { width, height } = getStageNodeDimensions({
       isExpanded: true,
       childNodes
     })
-    setWidth(width)
-    setHeight(height)
     /**
      * Compute edges
      */
@@ -66,8 +68,10 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
       readonly
     })
     updateNodes(layoutedElements.nodes)
-    addEdges(dedupEdges(layoutedElements.edges))
-  }, [])
+    setEdges(dedupeEdges([...edges, ...layoutedElements.edges]))
+    setWidth(width)
+    setHeight(height)
+  }, [memberNodes, isExpanded, nodes, edges, nodeId, childNodes, readonly])
 
   const shouldUpdateChildNode = (parentNodeId: string, childNode: Node) => {
     return (
@@ -183,8 +187,6 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
     [deleteElements]
   )
 
-  const childrenCount = useMemo((): number => excludeAnchorNodes(getChildNodes(nodeId, nodes)).length, [nodeId, nodes])
-
   return (
     <>
       {/**
@@ -211,7 +213,7 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
               />
               &nbsp;
               <span className={css.label}>{name}</span>
-              {childrenCount > 0 && <span className={css.count}>&nbsp;({childrenCount})</span>}
+              {childNodes.length > 0 && <span className={css.count}>&nbsp;({childNodes.length})</span>}
             </div>
           </div>
           {/* <Menubar

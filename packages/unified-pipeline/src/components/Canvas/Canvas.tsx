@@ -21,7 +21,7 @@ import { CanvasEntity, useCanvasStore } from '../../framework/CanvasStore/Canvas
 import useFlowStore from '../../framework/FlowStore/FlowStore'
 import { performElkLayout, elkOptions } from './utils/ElkLayout'
 import { partitionNodesForLayout } from './utils/NodeUtils'
-import useAutoLayout from '../../hooks/useAutoLayout'
+// import useAutoLayout from '../../hooks/useAutoLayout'
 import CircleOverlay, { Position } from '../../components/CircleOverlay/CircleOverlay'
 
 import 'reactflow/dist/style.css'
@@ -55,7 +55,10 @@ const CanvasInternal = (props: CanvasProps) => {
     setMousePosition({ x: event.clientX, y: event.clientY })
   }
 
-  useAutoLayout()
+  /**
+   * @TODO fix this as it's currently causing an elkjs exception
+   */
+  // useAutoLayout()
 
   useLayoutEffect(() => {
     if (props.nodes.length === 0) return

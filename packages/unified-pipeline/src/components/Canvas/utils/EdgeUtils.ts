@@ -290,7 +290,7 @@ export const createEdgesForNodes = ({
   return edgesForNodes
 }
 
-export const dedupEdges = (edges: Edge[]): Edge[] => {
+export const dedupeEdges = (edges: Edge[]): Edge[] => {
   const edgeMap: Map<string, Edge> = new Map()
 
   edges.forEach(edge => {
