@@ -30,6 +30,9 @@ const config = {
   },
   core: {
     disableTelemetry: true
+  },
+  typescript: {
+    reactDocgen: false,
   }
 }
 export default config

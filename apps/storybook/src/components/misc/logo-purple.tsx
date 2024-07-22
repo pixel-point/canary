@@ -1,3 +1,4 @@
+import React from 'react'
 import logoBlur from '../../assets/logo-purple-blur.svg'
 import logo from '../../assets/gitness-logo-purple.svg'
 
