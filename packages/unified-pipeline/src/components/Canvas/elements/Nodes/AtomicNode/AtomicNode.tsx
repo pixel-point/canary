@@ -1,15 +1,23 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import cx from 'classnames'
 import type { NodeProps } from 'reactflow'
-import { Handle, Position, useReactFlow } from 'reactflow'
+import { Handle, Position, useReactFlow, Node } from 'reactflow'
 import { Plus } from 'iconoir-react'
-import type { DefaultNodeProps, DeleteNodeProps, ExpandNodeProps } from '../../../types'
+import {
+  PositionType,
+  type DefaultNodeProps,
+  type DeleteNodeProps,
+  type ExpandNodeProps,
+  NodeType
+} from '../../../types'
 import { fetchNodeConnections, getNodeDiagnostics } from '../../../utils/NodeUtils'
 import { useCanvasStore } from '../../../../../framework/CanvasStore/CanvasStoreContext'
 import Hamburger from '../../../../../icons/Hamburger'
 import { STEP_NODE_HEIGHT, STEP_NODE_WIDTH } from '../../../utils/LROrientation/Constants'
 import { Status } from '../../../../../utils/Constants'
 import cardBg from '../../../../../assets/card-glow.svg'
+import { DEFAULT_NODE_LOCATION } from '../../../../../components/Canvas/utils/LROrientation/Constants'
+import useFlowStore from '../../../../../framework/FlowStore/FlowStore'
 
 import css from './AtomicNode.module.scss'
 
@@ -22,11 +30,12 @@ export interface AtomicNodeProps extends DefaultNodeProps, ExpandNodeProps, Dele
 }
 
 export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex }: NodeProps<AtomicNodeProps>) {
+  const { addNode } = useFlowStore()
+  const { deleteElements, getEdges } = useReactFlow()
+  const { icon, name, readonly } = data
   const { enableDiagnostics } = useCanvasStore()
   const [width] = useState<number>(STEP_NODE_WIDTH)
   const [height] = useState<number>(STEP_NODE_HEIGHT)
-  const { icon, name } = data
-  const { deleteElements, getEdges } = useReactFlow()
   /* To simulate transitions */
   // const [status, setStatus] = useState(Status.QUEUED);
   // const runTransitions = true;
@@ -62,6 +71,28 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
     },
     [deleteElements]
   )
+
+  const addChildNode = useCallback((): void => {
+    const newNode: Node<AtomicNodeProps> = {
+      id,
+      data: {
+        name: 'new node',
+        icon: <></>,
+        path: '',
+        expandable: true,
+        positionType: PositionType.RELATIVE,
+        deletable: true,
+        readonly
+      } as AtomicNodeProps,
+      position: DEFAULT_NODE_LOCATION,
+      type: NodeType.ATOMIC,
+      selectable: true,
+      parentNode: id,
+      extent: 'parent',
+      zIndex
+    }
+    addNode(newNode)
+  }, [id, readonly, zIndex])
 
   return (
     <div onMouseEnter={() => setShowPlus(true)} onMouseLeave={() => setShowPlus(false)}>
@@ -124,7 +155,7 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
         </div>
       )}
       <Handle type="source" position={Position.Right} isConnectable={isConnectable}>
-        <Plus className={cx(css.icon, css.plus, { [css.show]: showPlus })} />
+        <Plus className={cx(css.icon, css.plus, { [css.show]: showPlus })} onClick={() => addChildNode()} />
       </Handle>
     </div>
   )

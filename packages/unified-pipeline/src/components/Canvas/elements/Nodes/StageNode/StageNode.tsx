@@ -21,7 +21,7 @@ import Hamburger from '../../../../../icons/Hamburger'
 // import { Menubar } from '../../../../../../../canary/src/components/menubar'
 import { performLayout } from '../../../../../components/Canvas/utils/LayoutUtils'
 import { useCanvasStore } from '../../../../../framework/CanvasStore/CanvasStoreContext'
-import useFlowStore from '../../../../../framework/NodeStore/NodeStore'
+import useFlowStore from '../../../../../framework/FlowStore/FlowStore'
 import { GroupNodeProps } from '../GroupNode/GroupNode'
 
 import css from '../GroupNode/GroupNode.module.scss'

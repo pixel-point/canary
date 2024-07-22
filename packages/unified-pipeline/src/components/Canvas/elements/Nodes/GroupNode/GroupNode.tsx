@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { Handle, Position, type NodeProps, Node } from 'reactflow'
 import { set } from 'lodash-es'
 import { Plus } from 'iconoir-react'
-import useFlowStore from '../../../../../framework/NodeStore/NodeStore'
+import useFlowStore from '../../../../../framework/FlowStore/FlowStore'
 import {
   DefaultNodeProps,
   DeleteNodeProps,
