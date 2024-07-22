@@ -24,7 +24,8 @@ import {
   isParentOfNode,
   updateNodePositionType,
   getStageGroupNodeDimensions,
-  getGroupNodeOrientation
+  getGroupNodeOrientation,
+  getNodeDiagnostics
 } from '../../../utils/NodeUtils'
 import { performLayout } from '../../../utils/LayoutUtils'
 import { dedupEdges, getEdgesForChildNodes } from '../../../utils/EdgeUtils'
@@ -37,7 +38,7 @@ export interface GroupNodeProps extends DefaultNodeProps, ExpandNodeProps, Delet
 export default function GroupNode(props: NodeProps<GroupNodeProps>) {
   const { nodes, edges, addEdges, updateNodes, updateEdges } = useFlowStore()
   const { enableDiagnostics } = useCanvasStore()
-  const { data, id: nodeId, xPos, yPos } = props
+  const { data, id: nodeId, xPos, yPos, zIndex } = props
   const { expanded = true, name, memberNodes = [], hasChanged, parallel, readonly } = data
   const [isExpanded, setIsExpanded] = useState<boolean>(expanded)
   const [width, setWidth] = useState<number>(0)
@@ -241,11 +242,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
        */}
       <Handle position={Position.Right} type="target" id={`${nodeId}_internal_target`} />
       <Handle position={Position.Right} type="source" id={`${nodeId}_source`} />
-      {enableDiagnostics?.Node && (
-        <span className={css.diagnose}>
-          ({xPos.toFixed(1)},{yPos.toFixed(1)})
-        </span>
-      )}
+      {enableDiagnostics?.Node && <span className={css.diagnose}>{getNodeDiagnostics({ xPos, yPos, zIndex })}</span>}
     </div>
   )
 }

@@ -12,7 +12,8 @@ import {
   fetchNodeConnections,
   getNodeById,
   isContainerNode,
-  getStageNodeDimensions
+  getStageNodeDimensions,
+  getNodeDiagnostics
 } from '../../../utils/NodeUtils'
 import { dedupEdges, getEdgesForChildNodes } from '../../../../../components/Canvas/utils/EdgeUtils'
 import Expand from '../../../../../icons/Expand'
@@ -28,7 +29,7 @@ import css from '../GroupNode/GroupNode.module.scss'
 export default function StageNode(props: NodeProps<GroupNodeProps>) {
   const { nodes, edges, deleteElements, addEdges, updateNodes } = useFlowStore()
   const { enableDiagnostics } = useCanvasStore()
-  const { data, id: nodeId, xPos, yPos } = props
+  const { data, id: nodeId, xPos, yPos, zIndex } = props
   const { expanded = true, name, memberNodes = [], parallel, readonly } = data
   const [isExpanded, setIsExpanded] = useState<boolean>(expanded)
   const [width, setWidth] = useState<number>(0)
@@ -229,11 +230,7 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
        */}
       <Handle position={Position.Right} type="target" id={`${nodeId}_internal_target`} />
       <Handle position={Position.Right} type="source" id={`${nodeId}_source`} />
-      {enableDiagnostics?.Node && (
-        <span className={css.diagnose}>
-          ({xPos.toFixed(1)},{yPos.toFixed(1)})
-        </span>
-      )}
+      {enableDiagnostics?.Node && <span className={css.diagnose}>{getNodeDiagnostics({ xPos, yPos, zIndex })}</span>}
     </>
   )
 }

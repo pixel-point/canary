@@ -4,7 +4,7 @@ import type { NodeProps } from 'reactflow'
 import { Handle, Position, useReactFlow } from 'reactflow'
 import { Plus } from 'iconoir-react'
 import type { DefaultNodeProps, DeleteNodeProps, ExpandNodeProps } from '../../../types'
-import { fetchNodeConnections } from '../../../utils/NodeUtils'
+import { fetchNodeConnections, getNodeDiagnostics } from '../../../utils/NodeUtils'
 import { useCanvasStore } from '../../../../../framework/CanvasStore/CanvasStoreContext'
 import Hamburger from '../../../../../icons/Hamburger'
 import { STEP_NODE_HEIGHT, STEP_NODE_WIDTH } from '../../../utils/LROrientation/Constants'
@@ -21,7 +21,7 @@ export interface AtomicNodeProps extends DefaultNodeProps, ExpandNodeProps, Dele
    */
 }
 
-export default function AtomicNode({ isConnectable, data, id, xPos, yPos }: NodeProps<AtomicNodeProps>) {
+export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex }: NodeProps<AtomicNodeProps>) {
   const { enableDiagnostics } = useCanvasStore()
   const [width] = useState<number>(STEP_NODE_WIDTH)
   const [height] = useState<number>(STEP_NODE_HEIGHT)
@@ -118,9 +118,7 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos }: Node
               <span className={css.label}>{name}</span>
             </div>
             {enableDiagnostics?.Node && (
-              <span className={css.diagnose}>
-                ({xPos.toFixed(1)},{yPos.toFixed(1)})
-              </span>
+              <span className={css.diagnose}>{getNodeDiagnostics({ xPos, yPos, zIndex })}</span>
             )}
           </div>
         </div>
