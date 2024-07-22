@@ -82,3 +82,19 @@
   color: red;
   font-size: 16px;
 }
+
+.addStep {
+  color: rgba(147, 147, 159, 1);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 14px;
+  letter-spacing: -0.02em;
+}
+
+/** @TODO
+* Move to node utils insteas 
+*/
+.zeroState {
+  width: 337px;
+  height: 77px;
+}

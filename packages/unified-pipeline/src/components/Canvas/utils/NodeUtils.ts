@@ -142,9 +142,9 @@ export const getNodeWidth = (node: Node): number => {
   const isNodeExpanded = (node.data as ExpandNodeProps)?.expanded || false
   switch (node.type) {
     case NodeType.GROUP:
-      return getGroupNodeWidth(isNodeExpanded, (node.data as GroupNodesProps).memberNodes)
+      return getGroupNodeWidth(isNodeExpanded, (node.data as GroupNodesProps)?.memberNodes || [])
     case NodeType.STAGE:
-      return getStageNodeWidth(isNodeExpanded, (node.data as GroupNodesProps)?.memberNodes)
+      return getStageNodeWidth(isNodeExpanded, (node.data as GroupNodesProps)?.memberNodes || [])
     case NodeType.ATOMIC:
       return STEP_NODE_WIDTH
     case NodeType.ANCHOR:
@@ -166,11 +166,11 @@ export const getNodeHeight = (node: Node): number => {
   switch (node.type) {
     case NodeType.GROUP:
       return getGroupNodeHeight({
-        childNodes: (node.data as GroupNodesProps).memberNodes,
+        childNodes: (node.data as GroupNodesProps)?.memberNodes || [],
         isExpanded: isNodeExpanded
       })
     case NodeType.STAGE:
-      return getStageNodeHeight(isNodeExpanded, (node.data as GroupNodesProps)?.memberNodes)
+      return getStageNodeHeight(isNodeExpanded, (node.data as GroupNodesProps)?.memberNodes || [])
     case NodeType.ATOMIC:
       return STEP_NODE_HEIGHT
     case NodeType.ANCHOR:

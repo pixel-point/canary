@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import cx from 'classnames'
-import { Handle, Position, type NodeProps, Node } from 'reactflow'
+import { Handle, Position, type NodeProps, Node, useReactFlow } from 'reactflow'
 import { set } from 'lodash-es'
-import { Plus } from 'iconoir-react'
+import { Computer, Plus } from 'iconoir-react'
 import useFlowStore from '../../../../../framework/FlowStore/FlowStore'
 import {
   DefaultNodeProps,
@@ -17,7 +17,6 @@ import Expand from '../../../../../icons/Expand'
 // import Hamburger from '../../../../../icons/Hamburger'
 // import { Menubar } from '../../../../../../../canary/src/components/menubar'
 import {
-  excludeAnchorNodes,
   getChildNodes,
   getNodeById,
   isContainerNode,
@@ -28,18 +27,20 @@ import {
   getNodeDiagnostics
 } from '../../../utils/NodeUtils'
 import { performLayout } from '../../../utils/LayoutUtils'
-import { dedupeEdges, getEdgesForChildNodes } from '../../../utils/EdgeUtils'
+import { dedupeEdges, getEdgesForChildNodes, mergeEdges } from '../../../utils/EdgeUtils'
 import { useCanvasStore } from '../../../../../framework/CanvasStore/CanvasStoreContext'
+import { DEFAULT_NODE_LOCATION } from '../../../../../components/Canvas/utils/LROrientation/Constants'
 
 import css from './GroupNode.module.scss'
 
 export interface GroupNodeProps extends DefaultNodeProps, ExpandNodeProps, DeleteNodeProps, GroupNodesProps {}
 
 export default function GroupNode(props: NodeProps<GroupNodeProps>) {
-  const { nodes, edges, addEdges, updateNodes, updateEdges } = useFlowStore()
+  const { nodes, edges, addEdges, updateNodes } = useFlowStore()
+  const { addNodes } = useReactFlow()
   const { enableDiagnostics } = useCanvasStore()
   const { data, id: nodeId, xPos, yPos, zIndex } = props
-  const { expanded = true, name, memberNodes = [], hasChanged, parallel, readonly } = data
+  const { expanded = true, name, memberNodes = [], parallel, readonly, groupId } = data
   const [isExpanded, setIsExpanded] = useState<boolean>(expanded)
   const [width, setWidth] = useState<number>(0)
   const [height, setHeight] = useState<number>(0)
@@ -47,56 +48,43 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
   const [showPlusNode, setShowPlusNode] = useState<boolean>(false)
 
   useEffect(() => {
-    resetNode()
-  }, [hasChanged])
+    setupNode()
+  }, [memberNodes.length])
 
-  useEffect(() => {
-    setupNode(true)
-  }, [])
-
-  const setupNode = useCallback(
-    (initial?: boolean): void => {
-      const groupNodeOrientation = getGroupNodeOrientation(memberNodes)
-      setOrientation(groupNodeOrientation)
-      const { width, height } = getStageGroupNodeDimensions({
-        isExpanded,
-        childNodes: memberNodes,
-        orientation: groupNodeOrientation
-      })
-      /**
-       * Compute edges
-       */
-      const parentNode = getNodeById(nodes, nodeId)
-      if (!parentNode) return
-      const childNodeEdges = getEdgesForChildNodes({
-        parentNode,
-        nodes
-      })
-      /**
-       * Layout child nodes
-       */
-      const childNodes = getChildNodes(nodeId, nodes).map(child => updateNodePositionType(child, PositionType.RELATIVE))
-      const layoutedElements = performLayout({
-        nodes: [parallel ? updateNodePositionType(parentNode, PositionType.ABSOLUTE) : parentNode, ...childNodes],
-        edges: childNodeEdges,
-        width,
-        height,
-        readonly
-      })
-      updateNodes(layoutedElements.nodes)
-      const edgesUpdated = dedupeEdges(layoutedElements.edges)
-      if (initial) {
-        addEdges(edgesUpdated)
-      } else {
-        updateEdges(edgesUpdated)
-      }
-      setWidth(width)
-      setHeight(height)
-    },
-    [memberNodes, isExpanded, nodes, nodeId, parallel]
-  )
-
-  const resetNode = setupNode.bind(null, false)
+  const setupNode = useCallback((): void => {
+    if (nodes.length === 0 || memberNodes.length === 0) return
+    const groupNodeOrientation = getGroupNodeOrientation(memberNodes)
+    setOrientation(groupNodeOrientation)
+    const { width, height } = getStageGroupNodeDimensions({
+      isExpanded,
+      childNodes: memberNodes,
+      orientation: groupNodeOrientation
+    })
+    /**
+     * Compute edges
+     */
+    const parentNode = getNodeById(nodes, nodeId)
+    if (!parentNode) return
+    const childNodeEdges = getEdgesForChildNodes({
+      parentNode,
+      nodes
+    })
+    /**
+     * Layout child nodes
+     */
+    const childNodes = getChildNodes(nodeId, nodes).map(child => updateNodePositionType(child, PositionType.RELATIVE))
+    const layoutedElements = performLayout({
+      nodes: [parallel ? updateNodePositionType(parentNode, PositionType.ABSOLUTE) : parentNode, ...childNodes],
+      edges: childNodeEdges,
+      width,
+      height,
+      readonly
+    })
+    updateNodes(layoutedElements.nodes)
+    addEdges(dedupeEdges(mergeEdges(edges, layoutedElements.edges)))
+    setWidth(width)
+    setHeight(height)
+  }, [memberNodes, isExpanded, nodes, edges, nodeId, parallel])
 
   /* Required to control recursive collapse and expand */
   const shouldUpdateChildNode = (parentNodeId: string, childNode: Node) => {
@@ -188,7 +176,29 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
     })
   }, [nodes, edges, nodeId])
 
-  const childrenCount = useMemo((): number => excludeAnchorNodes(getChildNodes(nodeId, nodes)).length, [nodeId, nodes])
+  const addChildNode = useCallback((): void => {
+    const newNode: Node = {
+      id: 'new_stage',
+      data: {
+        name: 'New stage',
+        icon: <Computer />,
+        path: '',
+        positionType: PositionType.RELATIVE,
+        expandable: true,
+        expanded: false,
+        deletable: true,
+        readonly,
+        parallel: orientation === GroupOrientation.TB
+      } as GroupNodeProps,
+      position: DEFAULT_NODE_LOCATION,
+      type: NodeType.STAGE,
+      selectable: true,
+      parentNode: groupId,
+      extent: 'parent',
+      zIndex
+    }
+    addNodes([newNode])
+  }, [readonly, zIndex, nodes, parallel, groupId, orientation])
 
   return (
     <div onMouseEnter={() => setShowPlusNode(true)} onMouseLeave={() => setShowPlusNode(false)}>
@@ -216,7 +226,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
               />
               &nbsp;
               <span className={css.label}>{name}</span>
-              {childrenCount > 0 && <span className={css.count}>&nbsp;({childrenCount})</span>}
+              {memberNodes.length > 0 && <span className={css.count}>&nbsp;({memberNodes.length})</span>}
             </div>
           </div>
           {/* <Menubar
@@ -231,7 +241,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
           /> */}
         </div>
         <Plus
-          onClick={() => {}}
+          onClick={() => addChildNode()}
           className={cx(css.plus, css.hover, {
             [css.show]: showPlusNode && !readonly && isExpanded && orientation === GroupOrientation.TB
           })}

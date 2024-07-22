@@ -14,7 +14,7 @@ import {
   getStageNodeDimensions,
   getNodeDiagnostics
 } from '../../../utils/NodeUtils'
-import { dedupeEdges, getEdgesForChildNodes } from '../../../../../components/Canvas/utils/EdgeUtils'
+import { dedupeEdges, getEdgesForChildNodes, mergeEdges } from '../../../../../components/Canvas/utils/EdgeUtils'
 import Expand from '../../../../../icons/Expand'
 import Hamburger from '../../../../../icons/Hamburger'
 // import { Menubar } from '../../../../../../../canary/src/components/menubar'
@@ -26,16 +26,18 @@ import { GroupNodeProps } from '../GroupNode/GroupNode'
 import css from '../GroupNode/GroupNode.module.scss'
 
 export default function StageNode(props: NodeProps<GroupNodeProps>) {
-  const { nodes, edges, deleteElements, updateNodes, setEdges } = useFlowStore()
+  const { nodes, edges, deleteElements, updateNodes, addEdges } = useFlowStore()
   const { enableDiagnostics } = useCanvasStore()
   const { data, id: nodeId, xPos, yPos, zIndex } = props
   const { expanded = true, name, memberNodes = [], parallel, readonly } = data
   const [isExpanded, setIsExpanded] = useState<boolean>(expanded)
   const [width, setWidth] = useState<number>(0)
   const [height, setHeight] = useState<number>(0)
+  const [showZeroState, setShowZeroState] = useState<boolean>(false)
   const childNodes = useMemo((): Node[] => getChildNodes(nodeId, nodes), [nodes])
 
   useEffect(() => {
+    setShowZeroState(childNodes.length === 0)
     setupNode()
   }, [childNodes.length])
 
@@ -68,10 +70,10 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
       readonly
     })
     updateNodes(layoutedElements.nodes)
-    setEdges(dedupeEdges([...edges, ...layoutedElements.edges]))
+    addEdges(dedupeEdges(mergeEdges(edges, layoutedElements.edges)))
     setWidth(width)
     setHeight(height)
-  }, [memberNodes, isExpanded, nodes, edges, nodeId, childNodes, readonly])
+  }, [isExpanded, nodes, edges, nodeId, childNodes, readonly])
 
   const shouldUpdateChildNode = (parentNodeId: string, childNode: Node) => {
     return (
@@ -195,11 +197,15 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
       <Handle position={Position.Left} type="target" id={`${nodeId}_target`} />
       <Handle position={Position.Left} type="source" id={`${nodeId}_internal_source`} />
       <div
-        style={{
-          width,
-          height
-        }}
-        className={cx(css.main, { [css.collapsed]: !isExpanded })}>
+        style={
+          showZeroState
+            ? {}
+            : {
+                width,
+                height
+              }
+        }
+        className={cx(css.main, { [css.collapsed]: !isExpanded }, { [css.zeroState]: showZeroState })}>
         <div className={css.tools}>
           <div className={css.header}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -228,6 +234,11 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
           /> */}
           <Hamburger onClick={() => handleNodeDelete(nodeId)} />
         </div>
+        {childNodes.length === 0 && (
+          <div className={css.addStep} onClick={() => {}}>
+            + Add your first step
+          </div>
+        )}
         {expanded && orientation === GroupOrientation.TB && (
           <Plus onClick={() => {}} className={cx(css.icon, css.plus)} />
         )}

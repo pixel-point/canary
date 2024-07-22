@@ -17,7 +17,6 @@ import { STEP_NODE_HEIGHT, STEP_NODE_WIDTH } from '../../../utils/LROrientation/
 import { Status } from '../../../../../utils/Constants'
 import cardBg from '../../../../../assets/card-glow.svg'
 import { DEFAULT_NODE_LOCATION } from '../../../../../components/Canvas/utils/LROrientation/Constants'
-import useFlowStore from '../../../../../framework/FlowStore/FlowStore'
 
 import css from './AtomicNode.module.scss'
 
@@ -30,8 +29,7 @@ export interface AtomicNodeProps extends DefaultNodeProps, ExpandNodeProps, Dele
 }
 
 export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex }: NodeProps<AtomicNodeProps>) {
-  const { nodes } = useFlowStore()
-  const { deleteElements, getEdges, setNodes } = useReactFlow()
+  const { deleteElements, getEdges, addNodes } = useReactFlow()
   const { icon, name, readonly, groupId } = data
   const { enableDiagnostics } = useCanvasStore()
   const [width] = useState<number>(STEP_NODE_WIDTH)
@@ -91,8 +89,8 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
       extent: 'parent',
       zIndex
     }
-    setNodes([...nodes, newNode])
-  }, [id, readonly, zIndex, nodes])
+    addNodes([newNode])
+  }, [readonly, zIndex, groupId])
 
   return (
     <div onMouseEnter={() => setShowPlus(true)} onMouseLeave={() => setShowPlus(false)}>

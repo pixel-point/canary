@@ -85,7 +85,7 @@ export enum GroupOrientation {
 }
 
 export interface GroupNodesProps {
-  memberNodes: ReactFlowNode[]
+  memberNodes?: ReactFlowNode[]
 }
 
 /* Types for Canvas */

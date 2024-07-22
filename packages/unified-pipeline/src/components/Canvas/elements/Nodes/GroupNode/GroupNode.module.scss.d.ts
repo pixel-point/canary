@@ -1,3 +1,4 @@
+export declare const addStep: string
 export declare const collapsed: string
 export declare const count: string
 export declare const diagnose: string
@@ -9,3 +10,4 @@ export declare const main: string
 export declare const plus: string
 export declare const show: string
 export declare const tools: string
+export declare const zeroState: string

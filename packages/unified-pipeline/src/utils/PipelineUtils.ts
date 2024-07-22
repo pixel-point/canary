@@ -111,7 +111,7 @@ const getGroupMemberNode = ({
       icon: memberNode.icon,
       name: memberNode.name,
       path: pathPrefix,
-      ...(childNodes && childNodes.length > 0 && { memberNodes: childNodes }),
+      memberNodes: childNodes,
       positionType: groupId ? PositionType.RELATIVE : PositionType.ABSOLUTE,
       expandable: memberNode.expandable,
       expanded: true,
@@ -175,35 +175,27 @@ const processNode = ({
         })
         nodes.push(...childNodes)
       } else {
-        const childNodesExist = groupChildNode.children && groupChildNode.children?.length > 0
-        if (childNodesExist) {
-          const atomicNodes = getAtomicNodesForContainer({
-            stageNode: groupChildNode,
-            readonly,
-            zIndex: zIndex + 1
-          })
-          const containerNode = getGroupMemberNode({
-            nodeType: NodeType.STAGE,
-            memberNode: groupChildNode,
-            childNodes: atomicNodes,
-            groupId: parentNodeId,
-            pathPrefix: '',
-            position: DEFAULT_NODE_LOCATION,
-            readonly
-          })
-          stageNodes.push(containerNode)
-          nodes.push(...[containerNode, ...atomicNodes].sort(sortNodes))
-        } else {
-          nodes.push(
-            getGroupMemberNode({
-              nodeType: NodeType.ATOMIC,
-              memberNode: groupChildNode,
-              pathPrefix: groupChildNode.path,
-              position: DEFAULT_NODE_LOCATION,
-              readonly
+        const atomicNodes: ReactFlowNode[] = []
+        if (groupChildNode.children && groupChildNode.children?.length > 0) {
+          atomicNodes.push(
+            ...getAtomicNodesForContainer({
+              stageNode: groupChildNode,
+              readonly,
+              zIndex: zIndex + 1
             })
           )
         }
+        const containerNode = getGroupMemberNode({
+          nodeType: NodeType.STAGE,
+          memberNode: groupChildNode,
+          childNodes: atomicNodes,
+          groupId: parentNodeId,
+          pathPrefix: '',
+          position: DEFAULT_NODE_LOCATION,
+          readonly
+        })
+        stageNodes.push(containerNode)
+        nodes.push(...[containerNode, ...atomicNodes].sort(sortNodes))
       }
     })
     nodes.push(
@@ -214,32 +206,24 @@ const processNode = ({
       })
     )
   } else {
-    const childNodesExist = node.children && node.children?.length > 0
-    if (childNodesExist) {
-      const atomicNodes = getAtomicNodesForContainer({
-        stageNode: node,
-        readonly
-      })
-      const containerNode = getGroupMemberNode({
-        nodeType: NodeType.STAGE,
-        memberNode: node,
-        childNodes: atomicNodes,
-        pathPrefix: node.path,
-        position: DEFAULT_NODE_LOCATION,
-        readonly
-      })
-      nodes.push(...[containerNode, ...atomicNodes].sort(sortNodes))
-    } else {
-      nodes.push(
-        getGroupMemberNode({
-          nodeType: NodeType.ATOMIC,
-          memberNode: node,
-          pathPrefix: node.path,
-          position: DEFAULT_NODE_LOCATION,
+    const atomicNodes: ReactFlowNode[] = []
+    if (node.children && node.children?.length > 0) {
+      atomicNodes.push(
+        ...getAtomicNodesForContainer({
+          stageNode: node,
           readonly
         })
       )
     }
+    const containerNode = getGroupMemberNode({
+      nodeType: NodeType.STAGE,
+      memberNode: node,
+      childNodes: atomicNodes,
+      pathPrefix: node.path,
+      position: DEFAULT_NODE_LOCATION,
+      readonly
+    })
+    nodes.push(...[containerNode, ...atomicNodes].sort(sortNodes))
   }
   return nodes
 }

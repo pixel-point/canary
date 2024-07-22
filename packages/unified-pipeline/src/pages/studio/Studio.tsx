@@ -8,7 +8,7 @@ import { nodes as singleStage } from './mock_single'
 import { nodes as mockNodesParallel } from './mock_parallel'
 import { mockNodes as mockNodesMixed } from './mock_mixed'
 import { mockNodes as mockNodesDemo } from './mock_demo'
-import { DefaultNodeProps, Node } from '../../components/Canvas/types'
+import { DefaultNodeProps, DeleteNodeProps, GroupNodesProps, Node } from '../../components/Canvas/types'
 
 export const Studio: React.FC<{}> = () => {
   const [nodes, setNodes] = useState<Node[]>(singleStage)
@@ -18,10 +18,15 @@ export const Studio: React.FC<{}> = () => {
       graph={{ nodes }}
       onAddNode={(addedNode: ReactFlowNode) => {
         /* Sample implementation to add a step to a stage */
-        const nodeData = addedNode.data as DefaultNodeProps
+        const nodeData = addedNode.data
         set(nodes[0], 'children', [
           ...(nodes[0].children || []),
-          { name: nodeData.name, icon: nodeData.icon, path: '', deletable: true }
+          {
+            name: (nodeData as DefaultNodeProps).name,
+            icon: (nodeData as DefaultNodeProps).icon,
+            path: '',
+            deletable: (nodeData as DeleteNodeProps).deletable
+          }
         ])
         setNodes((existingNode: Node[]) => [...existingNode])
       }}
@@ -32,10 +37,26 @@ export const Studio: React.FC<{}> = () => {
 }
 
 export const StudioParallel: React.FC<{}> = () => {
+  const [nodes, setNodes] = useState<Node[]>(mockNodesParallel)
   return (
     <PipelineStudio
-      graph={{ nodes: mockNodesParallel as any }}
-      onAddNode={() => {}}
+      graph={{ nodes }}
+      onAddNode={(addedNode: ReactFlowNode) => {
+        /* Sample implementation to add a step to a stage */
+        const nodeData = addedNode.data
+        set(nodes[0], 'children', [
+          ...(nodes[0].children || []),
+          {
+            name: (nodeData as DefaultNodeProps).name,
+            icon: (nodeData as DefaultNodeProps).icon,
+            path: '',
+            children: (nodeData as GroupNodesProps).memberNodes || [],
+            deletable: (nodeData as DeleteNodeProps).deletable,
+            parallel: (nodeData as DefaultNodeProps).parallel
+          }
+        ])
+        setNodes((existingNode: Node[]) => [...existingNode])
+      }}
       onDeleteNode={() => {}}
       onSelectNode={() => {}}
     />
