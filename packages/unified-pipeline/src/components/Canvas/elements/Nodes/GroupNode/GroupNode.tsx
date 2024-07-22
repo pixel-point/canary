@@ -30,6 +30,7 @@ import { performLayout } from '../../../utils/LayoutUtils'
 import { dedupeEdges, getEdgesForChildNodes, mergeEdges } from '../../../utils/EdgeUtils'
 import { useCanvasStore } from '../../../../../framework/CanvasStore/CanvasStoreContext'
 import { DEFAULT_NODE_LOCATION } from '../../../../../components/Canvas/utils/LROrientation/Constants'
+import { getIdFromName } from '../../../../../utils/StringUtils'
 
 import css from './GroupNode.module.scss'
 
@@ -46,13 +47,14 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
   const [height, setHeight] = useState<number>(0)
   const [orientation, setOrientation] = useState<GroupOrientation>(GroupOrientation.LR)
   const [showPlusNode, setShowPlusNode] = useState<boolean>(false)
+  const memberNodeCount = memberNodes.length
 
   useEffect(() => {
     setupNode()
-  }, [memberNodes.length])
+  }, [memberNodeCount])
 
   const setupNode = useCallback((): void => {
-    if (nodes.length === 0 || memberNodes.length === 0) return
+    if (nodes.length === 0 || memberNodeCount === 0) return
     const groupNodeOrientation = getGroupNodeOrientation(memberNodes)
     setOrientation(groupNodeOrientation)
     const { width, height } = getStageGroupNodeDimensions({
@@ -84,7 +86,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
     addEdges(dedupeEdges(mergeEdges(edges, layoutedElements.edges)))
     setWidth(width)
     setHeight(height)
-  }, [memberNodes, isExpanded, nodes, edges, nodeId, parallel])
+  }, [memberNodes, memberNodeCount, isExpanded, nodes, edges, nodeId, parallel])
 
   /* Required to control recursive collapse and expand */
   const shouldUpdateChildNode = (parentNodeId: string, childNode: Node) => {
@@ -177,10 +179,11 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
   }, [nodes, edges, nodeId])
 
   const addChildNode = useCallback((): void => {
+    const name = `New stage ${memberNodeCount}`
     const newNode: Node = {
-      id: 'new_stage',
+      id: getIdFromName(name),
       data: {
-        name: 'New stage',
+        name,
         icon: <Computer />,
         path: '',
         positionType: PositionType.RELATIVE,
@@ -198,7 +201,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
       zIndex
     }
     addNodes([newNode])
-  }, [readonly, zIndex, nodes, parallel, groupId, orientation])
+  }, [readonly, zIndex, nodes, parallel, groupId, orientation, memberNodeCount])
 
   return (
     <div onMouseEnter={() => setShowPlusNode(true)} onMouseLeave={() => setShowPlusNode(false)}>
@@ -226,7 +229,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
               />
               &nbsp;
               <span className={css.label}>{name}</span>
-              {memberNodes.length > 0 && <span className={css.count}>&nbsp;({memberNodes.length})</span>}
+              {memberNodeCount > 0 && <span className={css.count}>&nbsp;({memberNodeCount})</span>}
             </div>
           </div>
           {/* <Menubar

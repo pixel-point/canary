@@ -4,6 +4,7 @@ import { Node, Edge } from 'reactflow'
 import { getNodeById } from '../../components/Canvas/utils/NodeUtils'
 import { set as _set } from 'lodash-es'
 import { DefaultNodeProps } from 'components/Canvas/types'
+import { dedupeEdges } from '../../components/Canvas/utils/EdgeUtils'
 
 interface FlowState {
   nodes: Node[]
@@ -32,23 +33,6 @@ const useFlowStore = create<FlowState>((set, get) => ({
       updatedNodes.forEach(node => get().notifyParentNode(node))
     }
   },
-  /* Edges */
-  edges: [],
-  addEdge: edge => set(state => ({ edges: [...state.edges, edge] })),
-  addEdges: edges => set(state => ({ edges: [...state.edges, ...edges] })),
-  setEdges: edges => set({ edges }),
-  updateEdges: updatedEdges => {
-    set(state => ({
-      edges: state.edges.map(edge => updatedEdges.find(updatedEdge => updatedEdge.id === edge.id) || edge)
-    }))
-  },
-  /* Common */
-  deleteElements: elementIds => {
-    set(state => ({
-      nodes: state.nodes.filter(node => !elementIds.includes(node.id)),
-      edges: state.edges.filter(edge => !elementIds.includes(edge.id))
-    }))
-  },
   /* Notify Parent Node */
   notifyParentNode: updatedChildNode => {
     const state = get()
@@ -65,6 +49,23 @@ const useFlowStore = create<FlowState>((set, get) => ({
         }))
       }
     }
+  },
+  /* Edges */
+  edges: [],
+  addEdge: edge => set(state => ({ edges: [...state.edges, edge] })),
+  addEdges: edges => set(state => ({ edges: dedupeEdges([...state.edges, ...edges]) })),
+  setEdges: edges => set({ edges }),
+  updateEdges: updatedEdges => {
+    set(state => ({
+      edges: state.edges.map(edge => updatedEdges.find(updatedEdge => updatedEdge.id === edge.id) || edge)
+    }))
+  },
+  /* Common */
+  deleteElements: elementIds => {
+    set(state => ({
+      nodes: state.nodes.filter(node => !elementIds.includes(node.id)),
+      edges: state.edges.filter(edge => !elementIds.includes(edge.id))
+    }))
   }
 }))
 

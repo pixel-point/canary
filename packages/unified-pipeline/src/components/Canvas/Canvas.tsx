@@ -62,8 +62,6 @@ const CanvasInternal = (props: CanvasProps) => {
 
   useLayoutEffect(() => {
     if (props.nodes.length === 0) return
-    const allEdgesForNodes: Edge[] = []
-    setEdges(allEdgesForNodes)
     const { selfLayoutable: parentNodes, dependents: childNodes } = partitionNodesForLayout(props.nodes)
     performElkLayout({
       nodes: parentNodes,
@@ -79,7 +77,7 @@ const CanvasInternal = (props: CanvasProps) => {
         })
       )
     })
-  }, [props.nodes])
+  }, [props.nodes, props.edges])
 
   const onNodeClick: NodeMouseHandler = useCallback(
     (event, node: Node) => {
