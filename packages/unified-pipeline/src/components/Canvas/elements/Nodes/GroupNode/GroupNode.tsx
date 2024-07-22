@@ -69,8 +69,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
       if (!parentNode) return
       const childNodeEdges = getEdgesForChildNodes({
         parentNode,
-        nodes,
-        zIndexForEdges: parallel ? 2 : 1
+        nodes
       })
       /**
        * Layout child nodes
