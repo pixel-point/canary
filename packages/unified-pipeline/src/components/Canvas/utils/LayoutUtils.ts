@@ -120,7 +120,9 @@ const dagreLayout = ({
     rankdir: direction,
     ranksep: nodeNodeSeparation,
     marginx: isHorizontal ? margin : 0,
-    marginy: isHorizontal ? 0 : margin
+    marginy: isHorizontal ? 0 : margin,
+    height,
+    width
   })
 
   nodes.forEach(node => {
@@ -146,21 +148,23 @@ const dagreLayout = ({
     // Center nodes horizontally or vertically based on direction
     if (isHorizontal) {
       y = height / 2 // Center vertically
-      x = x + margin
+      x = x + margin // Apply margin horizontally
     } else {
       // Identify the first and last nodes
-      let firstNonAnchorNode = null
-      let lastNonAnchorNode = null
-      if (nodes.length > 0) {
-        firstNonAnchorNode = nodes[0]
-        lastNonAnchorNode = nodes[nodes.length - 1]
-      }
+      //  let firstNonAnchorNode = null
+      //  let lastNonAnchorNode = null
+      //  if (nodes.length > 0) {
+      //    firstNonAnchorNode = nodes[0]
+      //    lastNonAnchorNode = nodes[nodes.length - 1]
+      //  }
+      //  x = width / 2 // Center horizontally
+      //  if (node.id === firstNonAnchorNode?.id) {
+      //    y = y + margin
+      //  } else if (node.id === lastNonAnchorNode?.id) {
+      //    y = y - margin
+      //  }
       x = width / 2 // Center horizontally
-      if (node.id === firstNonAnchorNode?.id) {
-        y = y + margin
-      } else if (node.id === lastNonAnchorNode?.id) {
-        y = y - margin
-      }
+      y = y + margin // Apply margin vertically
     }
 
     // Return updated node with position and edge positions

@@ -64,31 +64,38 @@ export const nodes: Node[] = [
         deletable: true,
         expandable: true,
         parallel: true
+      },
+      {
+        name: 'Verify',
+        path: 'spec.stages.0.2',
+        icon: <Jira />,
+        children: [
+          {
+            name: 'Run Analysis',
+            icon: <Slack />,
+            path: 'some-path',
+            deletable: true,
+            expandable: false
+          },
+          {
+            name: 'Monitor Traffic',
+            icon: <Slack />,
+            path: 'some-path',
+            deletable: true,
+            expandable: false
+          },
+          {
+            name: 'Ping Test',
+            icon: <Slack />,
+            path: 'some-path',
+            deletable: true,
+            expandable: false
+          }
+        ],
+        deletable: true,
+        expandable: true,
+        parallel: true
       }
-      // {
-      //   name: "Verify",
-      //   path: "spec.stages.0.2",
-      //   icon: null,
-      //   children: [
-      //     {
-      //       name: "Run Analysis",
-      //       icon: null,
-      //       path: "some-path",
-      //       deletable: true,
-      //       expandable: false,
-      //     },
-      //     {
-      //       name: "Monitor Traffic",
-      //       icon: null,
-      //       path: "some-path",
-      //       deletable: true,
-      //       expandable: false,
-      //     },
-      //   ],
-      //   deletable: true,
-      //   expandable: true,
-      //   parallel: true,
-      // },
     ],
     deletable: true,
     expandable: true,
