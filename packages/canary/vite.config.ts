@@ -33,12 +33,11 @@ export default defineConfig({
       formats: ['es']
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
+      external: ['react', 'react-dom'],
       output: {
         globals: {
           react: 'react',
-          'react-dom': 'ReactDOM',
-          'react/jsx-runtime': 'react/jsx-runtime'
+          'react-dom': 'ReactDOM'
         }
       }
     }
