@@ -1,5 +1,4 @@
 import { get, has, isEmpty, isUndefined, set } from "lodash-es";
-import { parse } from "yaml";
 import { type Node as ReactFlowNode, Position, XYPosition } from "reactflow";
 import {
   NodeType,
@@ -24,8 +23,9 @@ import {
   sortNodes
 } from "../components/Canvas/utils/NodeUtils";
 
-const STAGES_PATH = "spec.stages";
-const STAGES_NODE_PATH_PREFIX = `${STAGES_PATH}.`;
+const STAGE_LABEL = "Stage";
+const STAGES_PATH = "stages";
+const PIPELINE_STAGES_PATH = `pipeline.${STAGES_PATH}`;
 const STAGE_STEPS_PATH = "spec.steps";
 
 const RootNode: ReactFlowNode = {
@@ -357,40 +357,59 @@ export const getAtomicNodesForContainer = ({
   return childNodes.sort(sortNodes);
 };
 
-const getStageNodes = ({
+const parsePipelineYaml = ({
   yamlObject,
-  stageNodesCollection,
-  pathPrefix = STAGES_NODE_PATH_PREFIX,
+  collectedNodes,
+  pathPrefix = PIPELINE_STAGES_PATH,
   isParallel
 }: {
   yamlObject: Record<string, any>;
-  stageNodesCollection: Node[];
+  collectedNodes: Node[];
   pathPrefix?: string;
   isParallel?: boolean;
 }): Node[] => {
-  const stages = get(yamlObject, STAGES_PATH, []);
+  const stages = get(yamlObject, pathPrefix, []);
   if (Array.isArray(stages) && stages.length > 0) {
     stages.map((stage: Record<string, any>, stageIdx: number) => {
-      const category = get(stage, "type", "") as StageCategory;
+      const category = has(stage, "group")
+        ? StageCategory.GROUP
+        : has(stage, "parallel")
+          ? StageCategory.PARALLEL
+          : StageCategory.UNIT;
       if (
-        category.toLowerCase() ===
-        StageCategory.PARALLEL.valueOf().toLowerCase()
+        category.toLowerCase() === StageCategory.GROUP.valueOf().toLowerCase()
       ) {
-        const parallelStages = getStageNodes({
-          yamlObject: stage,
-          stageNodesCollection: [],
-          pathPrefix: `${pathPrefix}${stageIdx}.`,
-          isParallel: true
+        const groupMembers = parsePipelineYaml({
+          yamlObject: get(stage, "group"),
+          collectedNodes: [],
+          pathPrefix: STAGES_PATH
         });
-        const stageGroup = getStageGroupNode({
+        const groupNode = getStageGroupNode({
           stageGroup: stage,
-          stageNodes: parallelStages,
+          stageNodes: groupMembers,
           stageGroupIdx: stageIdx,
           stageGroupNodePathPrefix: `${pathPrefix}${stageIdx}`
         });
-        stageNodesCollection.push(stageGroup);
+        collectedNodes.push(groupNode);
+      } else if (
+        category.toLowerCase() ===
+        StageCategory.PARALLEL.valueOf().toLowerCase()
+      ) {
+        const groupMembers = parsePipelineYaml({
+          yamlObject: get(stage, "parallel"),
+          collectedNodes: [],
+          pathPrefix: `${pathPrefix}${stageIdx}.`,
+          isParallel: true
+        });
+        const groupNode = getStageGroupNode({
+          stageGroup: stage,
+          stageNodes: groupMembers,
+          stageGroupIdx: stageIdx,
+          stageGroupNodePathPrefix: `${pathPrefix}${stageIdx}`
+        });
+        collectedNodes.push(groupNode);
       } else {
-        stageNodesCollection.push(
+        collectedNodes.push(
           getStageNode({
             stage,
             stageIdx: stageIdx,
@@ -402,7 +421,7 @@ const getStageNodes = ({
       }
     });
   }
-  return stageNodesCollection;
+  return collectedNodes;
 };
 
 const getStageGroupNode = ({
@@ -443,7 +462,7 @@ const getStageNode = ({
   isParallel?: boolean;
 }): Node => {
   return {
-    name: get(stage, "name"),
+    name: get(stage, "name") || STAGE_LABEL,
     path: `${stagePathPrefix}${stageIdx}`,
     icon: null,
     children: childNodes,
@@ -472,19 +491,21 @@ const getStepNode = (step: Record<string, any>, stepIndex: number): Node => {
   } as Node;
 };
 
-export const getGraphFromPipelineYAML = (pipelineYAML: string): Graph => {
+export const getGraphFromPipelineYAML = (pipelineAsYaml: string): Graph => {
   const pipelineGraphFromYAML: Graph = { nodes: [] };
-  if (!pipelineYAML) {
+  if (!pipelineAsYaml) {
     return pipelineGraphFromYAML;
   }
   try {
-    const yamlObject = parse(pipelineYAML);
-    if (!isUndefined(yamlObject) && !isEmpty(yamlObject)) {
-      if (has(yamlObject, STAGES_PATH)) {
+    if (!isUndefined(pipelineAsYaml) && !isEmpty(pipelineAsYaml)) {
+      if (has(pipelineAsYaml, PIPELINE_STAGES_PATH)) {
         set(
           pipelineGraphFromYAML,
           "nodes",
-          getStageNodes({ yamlObject, stageNodesCollection: [] })
+          parsePipelineYaml({
+            yamlObject: pipelineAsYaml,
+            collectedNodes: []
+          })
         );
       }
     }
