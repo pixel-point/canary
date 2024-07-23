@@ -7,7 +7,7 @@ import pipelineYamlSequentialGroup from '../../assets/mockPipelines/yamls/pipeli
 import pipelineYamlParallelGroupAndStage from '../../assets/mockPipelines/yamls/pipeline_w_parallel_stage_group_and_stage.yaml'
 // import demoPipeline from '../../assets/mockPipelines/yamls/demo_pipeline.yaml'
 import { getNodesFromPipelineYaml } from '../../utils/PipelineYamlUtils'
-import { Footer, Severity } from '../../../../canary/src/composites/footer/footer'
+import { Footer, Severity } from '../../../../../apps/storybook/src/composites/footer/footer'
 
 import css from './Studio.module.scss'
 
