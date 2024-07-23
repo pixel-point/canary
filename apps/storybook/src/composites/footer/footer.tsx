@@ -1,7 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 /* Unable to import, get a lot of errors */
-import { XmarkCircle } from '@harnessio/icons-noir'
+// import { XmarkCircle } from '@harnessio/icons-noir'
 
 import css from './footer.module.scss'
 
@@ -31,7 +31,7 @@ const Footer: React.FC<FooterProps> = (props: FooterProps) => {
       <div className={css.flexContainer}>
         <div className={css.counts}>
           <div>
-            <XmarkCircle />
+            {/* <XmarkCircle /> */}
             <span className={css.focus}>{props.problems[Severity.ERROR]}</span>
           </div>
           <div>

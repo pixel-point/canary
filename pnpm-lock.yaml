@@ -502,6 +502,9 @@ importers:
         specifier: ^3.23.8
         version: 3.23.8
     devDependencies:
+      '@harnessio/icons-noir':
+        specifier: workspace:*
+        version: link:../icons-noir
       '@types/node':
         specifier: ^20.14.9
         version: 20.14.9
@@ -645,9 +648,6 @@ importers:
 
   packages/unified-pipeline:
     dependencies:
-      '@harnessio/canary':
-        specifier: workspace:*
-        version: link:../canary
       react:
         specifier: ^18.2.0
         version: 18.3.1
