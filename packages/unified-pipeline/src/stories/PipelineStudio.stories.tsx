@@ -1,8 +1,9 @@
 import React from "react";
 import { StoryFn, Meta } from "@storybook/react";
 import { PipelineStudio } from "../components/PipelineStudio/PipelineStudio";
-import { nodes as singleStage } from "../assets/mockPipelines/mock_single";
-import { nodes as multiStagesParallel } from "../assets/mockPipelines/mock_parallel";
+import pipelineYamlSingleStage from "../assets/mockPipelines/yamls/pipeline_w_single_stage.yaml";
+import pipelineYamlParallelGroup from "../assets/mockPipelines/yamls/pipeline_w_parallel_stage_group.yaml";
+import { getGraphFromPipelineYaml } from "../utils/PipelineYamlUtils";
 
 export default {
   title: "Unified Pipeline/Pages/Pipeline Studio",
@@ -27,7 +28,7 @@ const Template: StoryFn<StoryProps> = (args) => {
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       <PipelineStudio
-        graph={{ nodes: singleStage as any }}
+        graph={getGraphFromPipelineYaml(pipelineYamlSingleStage)}
         onAddNode={() => {}}
         onDeleteNode={() => {}}
         onSelectNode={() => {}}
@@ -53,7 +54,7 @@ export function WithMultipleStagesInParallel(
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       <PipelineStudio
-        graph={{ nodes: multiStagesParallel as any }}
+        graph={getGraphFromPipelineYaml(pipelineYamlParallelGroup)}
         onAddNode={() => {}}
         onDeleteNode={() => {}}
         onSelectNode={() => {}}

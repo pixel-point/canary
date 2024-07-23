@@ -4,12 +4,12 @@ import pipelineYamlSingleStage from "../../assets/mockPipelines/yamls/pipeline_w
 import pipelineYamlParallelGroup from "../../assets/mockPipelines/yamls/pipeline_w_parallel_stage_group.yaml";
 import pipelineYamlParallelGroupAndStage from "../../assets/mockPipelines/yamls/pipeline_w_parallel_stage_group_and_stage.yaml";
 import demoPipeline from "../../assets/mockPipelines/yamls/demo_pipeline.yaml";
-import { getGraphFromPipelineYAML } from "../../utils/PipelineYamlUtils";
+import { getGraphFromPipelineYaml } from "../../utils/PipelineYamlUtils";
 
 export const Studio: React.FC<{}> = () => {
   return (
     <PipelineStudio
-      graph={getGraphFromPipelineYAML(pipelineYamlSingleStage)}
+      graph={getGraphFromPipelineYaml(pipelineYamlSingleStage)}
       onAddNode={() => {}}
       onDeleteNode={() => {}}
       onSelectNode={() => {}}
@@ -21,7 +21,7 @@ export const Studio: React.FC<{}> = () => {
 export const StudioParallel: React.FC<{}> = () => {
   return (
     <PipelineStudio
-      graph={getGraphFromPipelineYAML(pipelineYamlParallelGroup)}
+      graph={getGraphFromPipelineYaml(pipelineYamlParallelGroup)}
       onAddNode={() => {}}
       onDeleteNode={() => {}}
       onSelectNode={() => {}}
@@ -33,7 +33,7 @@ export const StudioParallel: React.FC<{}> = () => {
 export const StudioMixed: React.FC<{}> = () => {
   return (
     <PipelineStudio
-      graph={getGraphFromPipelineYAML(pipelineYamlParallelGroupAndStage)}
+      graph={getGraphFromPipelineYaml(pipelineYamlParallelGroupAndStage)}
       onAddNode={() => {}}
       onDeleteNode={() => {}}
       onSelectNode={() => {}}
@@ -45,7 +45,7 @@ export const StudioMixed: React.FC<{}> = () => {
 export const StudioDemo: React.FC<{}> = () => {
   return (
     <PipelineStudio
-      graph={getGraphFromPipelineYAML(demoPipeline)}
+      graph={getGraphFromPipelineYaml(demoPipeline)}
       onAddNode={() => {}}
       onDeleteNode={() => {}}
       onSelectNode={() => {}}
