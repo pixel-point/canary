@@ -1,6 +1,12 @@
-@import '../node_modules/@harnessio/canary/dist/styles.css';
+.icons-container {
+  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono', 'Roboto Mono', 'Oxygen Mono',
+    'Ubuntu Monospace', 'Source Code Pro', 'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
 
-details.iconset-list > div {
+  --box-size: 140px;
+  --icon-gap: 30px;
+}
+
+.iconset-list > div {
   display: flex;
   flex-grow: 1;
   gap: var(--icon-gap);
@@ -29,24 +35,6 @@ details.settings-container[open] summary::before {
 details summary::-webkit-details-marker,
 details summary::marker {
   display: none;
-}
-
-details.iconset-list > summary {
-  position: sticky;
-  top: 99px;
-  background: #f7f7f7;
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  color: black;
-}
-
-details.iconset-list > summary svg-icon {
-  transition: all 0.75s ease;
-}
-
-details.iconset-list:not([open]) > summary svg-icon {
-  transform: rotate(-90deg);
 }
 
 details.settings-container {
@@ -85,6 +73,10 @@ details.settings-container[open] > summary svg-icon {
   flex-wrap: wrap;
   border-bottom: 1px solid #ecf0f4;
   z-index: 1;
+}
+
+.dark .page-header {
+  background: black; 
 }
 
 .search-container {
@@ -167,6 +159,10 @@ label {
   overflow: hidden;
   text-overflow: ellipsis;
   font-family: var(--font-mono);
+}
+
+.dark .icon-name {
+  color: white;  
 }
 
 dialog {
@@ -283,4 +279,13 @@ dialog button.close:hover {
   border-radius: 5px;
   gap: 6px;
   font-weight: 500;
+}
+
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
