@@ -355,7 +355,7 @@ export const getAtomicNodesForContainer = ({
   return childNodes.sort(sortNodes);
 };
 
-export const getGraphFromPipelineYAML = (pipelineAsYaml: string): Graph => {
+export const getGraphFromPipelineYaml = (pipelineAsYaml: string): Graph => {
   const pipelineGraphFromYAML: Graph = { nodes: [] };
   if (!pipelineAsYaml) {
     return pipelineGraphFromYAML;
