@@ -17,7 +17,7 @@ export const parsePipelineYaml = ({
   pathPrefix = '',
   isParallel = false
 }: {
-  yamlObject: Record<string, any>
+  yamlObject: string | Record<string, any>
   pathPrefix?: string
   isParallel?: boolean
 }): Node[] => {
