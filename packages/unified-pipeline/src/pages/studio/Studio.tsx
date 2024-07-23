@@ -3,14 +3,15 @@ import { Node as ReactFlowNode } from 'reactflow'
 import { PipelineStudio } from '../../components/PipelineStudio/PipelineStudio'
 import pipelineYamlSingleStage from '../../assets/mockPipelines/yamls/pipeline_w_single_stage.yaml'
 import pipelineYamlParallelGroup from '../../assets/mockPipelines/yamls/pipeline_w_parallel_stage_group.yaml'
+import pipelineYamlSequentialGroup from '../../assets/mockPipelines/yamls/pipeline_w_sequential_stage_group.yaml'
 import pipelineYamlParallelGroupAndStage from '../../assets/mockPipelines/yamls/pipeline_w_parallel_stage_group_and_stage.yaml'
-import demoPipeline from '../../assets/mockPipelines/yamls/demo_pipeline.yaml'
-import { getGraphFromPipelineYaml } from '../../utils/PipelineYamlUtils'
+// import demoPipeline from '../../assets/mockPipelines/yamls/demo_pipeline.yaml'
+import { getNodesFromPipelineYaml } from '../../utils/PipelineYamlUtils'
 
 export const Studio: React.FC<{}> = () => {
   return (
     <PipelineStudio
-      graph={getGraphFromPipelineYaml(pipelineYamlSingleStage)}
+      nodes={getNodesFromPipelineYaml(pipelineYamlSingleStage)}
       onAddNode={() => {}}
       onDeleteNode={() => {}}
       onSelectNode={() => {}}
@@ -21,7 +22,7 @@ export const Studio: React.FC<{}> = () => {
 export const StudioParallel: React.FC<{}> = () => {
   return (
     <PipelineStudio
-      graph={getGraphFromPipelineYaml(pipelineYamlParallelGroup)}
+      nodes={getNodesFromPipelineYaml(pipelineYamlParallelGroup)}
       onAddNode={(_addedNode: ReactFlowNode) => {}}
       onDeleteNode={() => {}}
       onSelectNode={() => {}}
@@ -32,7 +33,7 @@ export const StudioParallel: React.FC<{}> = () => {
 export const StudioMixed: React.FC<{}> = () => {
   return (
     <PipelineStudio
-      graph={getGraphFromPipelineYaml(pipelineYamlParallelGroupAndStage)}
+      nodes={getNodesFromPipelineYaml(pipelineYamlParallelGroupAndStage)}
       onAddNode={() => {}}
       onDeleteNode={() => {}}
       onSelectNode={() => {}}
@@ -43,7 +44,7 @@ export const StudioMixed: React.FC<{}> = () => {
 export const StudioDemo: React.FC<{}> = () => {
   return (
     <PipelineStudio
-      graph={getGraphFromPipelineYaml(demoPipeline)}
+      nodes={getNodesFromPipelineYaml(pipelineYamlSequentialGroup)}
       onAddNode={() => {}}
       onDeleteNode={() => {}}
       onSelectNode={() => {}}

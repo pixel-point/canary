@@ -8,7 +8,7 @@ import { getEdgesForAllNodes } from '../../components/Canvas/utils/EdgeUtils'
 import { getNodeDimensions } from '../Canvas/utils/NodeUtils'
 
 interface PipelineStudioProps {
-  graph: Graph
+  nodes: Graph['nodes']
   onAddNode: (addedNode: Node) => void
   onDeleteNode: (deletedNode: Node) => void
   onSelectNode: (deletedNode: Node) => void
@@ -24,7 +24,7 @@ export function PipelineStudio(props: PipelineStudioProps): JSX.Element {
 
   useEffect(() => {
     const initialNodes = getElementsFromGraph({
-      graph: props.graph,
+      nodes: props.nodes,
       readonly: props.readonly
     })
     const initialEdges = getEdgesForAllNodes({
@@ -38,7 +38,7 @@ export function PipelineStudio(props: PipelineStudioProps): JSX.Element {
     }))
     setNodes(nodesWithDimensions)
     setEdges(initialEdges)
-  }, [props.graph.nodes, props.readonly])
+  }, [props.nodes, props.readonly])
 
   const handleAddNode = useCallback((addedNode: Node): void => {
     props.onAddNode(addedNode)

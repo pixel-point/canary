@@ -96,17 +96,20 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
     )
   }
 
-  const updateNodeDimensions = (node: Node, isExpanded: boolean): void => {
-    const { width, height } = getStageGroupNodeDimensions({
-      isExpanded,
-      childNodes: memberNodes,
-      orientation
-    })
-    set(node, 'width', width)
-    set(node, 'height', height)
-    setWidth(width)
-    setHeight(height)
-  }
+  const updateNodeDimensions = useCallback(
+    (node: Node, isExpanded: boolean): void => {
+      const { width, height } = getStageGroupNodeDimensions({
+        isExpanded,
+        childNodes: memberNodes,
+        orientation
+      })
+      set(node, 'width', width)
+      set(node, 'height', height)
+      setWidth(width)
+      setHeight(height)
+    },
+    [memberNodes, orientation]
+  )
 
   /*
    * Show nodes
@@ -134,7 +137,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
       const updatedNodes = expandNode(expandedNodeId, [])
       updateNodes(updatedNodes)
     },
-    [nodes, edges]
+    [nodes, edges, memberNodes, orientation]
   )
 
   /*
@@ -163,7 +166,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
       const updatedNodes = collapseNode(collapsedNodeId, [])
       updateNodes(updatedNodes)
     },
-    [nodes, edges]
+    [nodes, edges, memberNodes, orientation]
   )
 
   const handleNodeExpandCollapse = useCallback((): void => {
@@ -176,7 +179,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
       }
       return isExpanded
     })
-  }, [nodes, edges, nodeId])
+  }, [nodes, edges, nodeId, memberNodes, orientation])
 
   const addChildNode = useCallback((): void => {
     const name = `New stage ${memberNodeCount}`
