@@ -4,6 +4,7 @@ import { StageCategory } from "../components/PipelineConfigPanel/types";
 import { getIdFromName } from "./StringUtils";
 
 const STAGE_LABEL = "Stage";
+const STAGE_GROUP_LABEL = "Stage Group";
 const STAGES_PATH_PREFIX = "stages";
 export const PIPELINE_STAGES_PATH_PREFIX = `pipeline.${STAGES_PATH_PREFIX}`;
 const STEPS_PATH_PREFIX = "steps";
@@ -82,7 +83,11 @@ const getStageGroupNode = ({
   stageGroupIdx: number;
   stageGroupNodePathPrefix: string;
 }): Node => {
-  const stepGroupName = get(stageGroup, "name", `Stage group ${stageGroupIdx}`);
+  const stepGroupName = get(
+    stageGroup,
+    "name",
+    `${STAGE_GROUP_LABEL} ${stageGroupIdx}`
+  );
   const stageGroupId = getIdFromName(stepGroupName);
   return {
     name: stepGroupName,
@@ -110,7 +115,7 @@ const getStageNode = ({
 }): Node => {
   return {
     name: get(stage, "name") || `${STAGE_LABEL} ${stageIdx}`,
-    path: `${stagePathPrefix}${stageIdx}`,
+    path: `${stagePathPrefix}.${stageIdx}`,
     icon: null,
     children: childNodes,
     deletable: true,
