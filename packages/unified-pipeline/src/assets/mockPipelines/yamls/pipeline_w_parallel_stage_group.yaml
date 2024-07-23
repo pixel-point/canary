@@ -1,6 +1,6 @@
 pipeline:
   stages:
-    - group:
+    - parallel:
         stages:
           - steps:
               - run: go build

@@ -368,7 +368,7 @@ export const getGraphFromPipelineYAML = (pipelineAsYaml: string): Graph => {
           "nodes",
           parsePipelineYaml({
             yamlObject: pipelineAsYaml,
-            collectedNodes: []
+            pathPrefix: PIPELINE_STAGES_PATH
           })
         );
       }

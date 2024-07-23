@@ -6,13 +6,13 @@ import { PipelineStudio } from "../../components/PipelineStudio/PipelineStudio";
 import { nodes as mockNodesParallel } from "../../assets/mockPipelines/mock_parallel";
 import { mockNodes as mockNodesMixed } from "../../assets/mockPipelines/mock_mixed";
 import { mockNodes as mockNodesDemo } from "../../assets/mockPipelines/mock_demo";
-import pipelineYAML from "../../assets/mockPipelines/yamls/pipeline_w_stage_group.yaml";
+import pipelineYamlSingleStage from "../../assets/mockPipelines/yamls/pipeline_w_parallel_stage_group.yaml";
 import { getGraphFromPipelineYAML } from "../../utils/PipelineYamlUtils";
 
 export const Studio: React.FC<{}> = () => {
   return (
     <PipelineStudio
-      graph={getGraphFromPipelineYAML(pipelineYAML)}
+      graph={getGraphFromPipelineYAML(pipelineYamlSingleStage)}
       onAddNode={() => {}}
       onDeleteNode={() => {}}
       onSelectNode={() => {}}
