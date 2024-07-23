@@ -39,6 +39,7 @@
   },
   "homepage": "https://github.com/harness/canary",
   "dependencies": {
+    "@harnessio/icons-noir": "workspace:*",
     "@hookform/resolvers": "^3.6.0",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
@@ -89,7 +90,6 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@harnessio/icons-noir": "workspace:*",
     "@types/node": "^20.14.9",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
