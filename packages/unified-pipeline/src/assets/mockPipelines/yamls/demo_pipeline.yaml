@@ -1,0 +1,39 @@
+pipeline:
+  stages:
+    - name: Group 1
+      parallel:
+        stages:
+          - name: Group 1 Stage 1
+            steps:
+              - run: go build
+              - run: go test
+          - name: Group 1 Stage 2
+            steps:
+              - run: npm run
+              - run: npm test
+    - name: Stage 2
+      steps:
+        - run:
+            script: go build
+    - name: Group 2
+      parallel:
+        stages:
+          - name: Group 2 Stage 1
+            steps:
+              - run: go build
+              - run: go test
+          - name: Group 2 Stage 2
+            steps:
+              - run: npm run
+              - run: npm test
+    - name: Group 3
+      parallel:
+        stages:
+          - name: Group 3 Stage 1
+            steps:
+              - run: go build
+              - run: go test
+          - name: Group 3 Stage 2
+            steps:
+              - run: npm run
+              - run: npm test

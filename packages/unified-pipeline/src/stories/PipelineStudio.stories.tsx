@@ -1,22 +1,23 @@
 import React from "react";
 import { StoryFn, Meta } from "@storybook/react";
 import { PipelineStudio } from "../components/PipelineStudio/PipelineStudio";
-import { nodes as singleStage } from "../pages/studio/mock_single";
-import { nodes as multiStagesParallel } from "../pages/studio/mock_parallel";
+import pipelineYamlSingleStage from "../assets/mockPipelines/yamls/pipeline_w_single_stage.yaml";
+import pipelineYamlParallelGroup from "../assets/mockPipelines/yamls/pipeline_w_parallel_stage_group.yaml";
+import { getGraphFromPipelineYaml } from "../utils/PipelineYamlUtils";
 
 export default {
   title: "Unified Pipeline/Pages/Pipeline Studio",
   component: PipelineStudio,
   parameters: {
-    layout: "fullscreen",
+    layout: "fullscreen"
   },
   argTypes: {
     readonly: { control: "boolean" },
     graph: { table: { disable: true } },
     onAddNode: { table: { disable: true } },
     onDeleteNode: { table: { disable: true } },
-    onSelectNode: { table: { disable: true } },
-  },
+    onSelectNode: { table: { disable: true } }
+  }
 } as Meta;
 
 interface StoryProps {
@@ -27,7 +28,7 @@ const Template: StoryFn<StoryProps> = (args) => {
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       <PipelineStudio
-        graph={{ nodes: singleStage as any }}
+        graph={getGraphFromPipelineYaml(pipelineYamlSingleStage)}
         onAddNode={() => {}}
         onDeleteNode={() => {}}
         onSelectNode={() => {}}
@@ -39,12 +40,12 @@ const Template: StoryFn<StoryProps> = (args) => {
 
 export const WithSingleStage = Template.bind({});
 WithSingleStage.args = {
-  readonly: false,
+  readonly: false
 };
 
 export const WithSingleStageReadOnly = Template.bind({});
 WithSingleStageReadOnly.args = {
-  readonly: true,
+  readonly: true
 };
 
 export function WithMultipleStagesInParallel(
@@ -53,7 +54,7 @@ export function WithMultipleStagesInParallel(
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       <PipelineStudio
-        graph={{ nodes: multiStagesParallel as any }}
+        graph={getGraphFromPipelineYaml(pipelineYamlParallelGroup)}
         onAddNode={() => {}}
         onDeleteNode={() => {}}
         onSelectNode={() => {}}

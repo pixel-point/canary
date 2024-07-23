@@ -15,7 +15,7 @@ import { useCanvasStore } from '../../../../../framework/CanvasStore/CanvasStore
 import Hamburger from '../../../../../icons/Hamburger'
 import { STEP_NODE_HEIGHT, STEP_NODE_WIDTH } from '../../../utils/LROrientation/Constants'
 import { Status } from '../../../../../utils/Constants'
-import cardBg from '../../../../../assets/card-glow.svg'
+import cardBg from '../../../../../assets/images/card-glow.svg'
 import { DEFAULT_NODE_LOCATION } from '../../../../../components/Canvas/utils/LROrientation/Constants'
 
 import css from './AtomicNode.module.scss'

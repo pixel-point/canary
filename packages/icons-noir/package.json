@@ -4,7 +4,7 @@
   "description": "Noir icons set in React",
   "type": "module",
   "module": "./dist/index.js",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
   "files": [
     "dist"
   ],

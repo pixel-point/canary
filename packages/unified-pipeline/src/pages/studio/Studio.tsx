@@ -1,26 +1,25 @@
 import React, { useState } from 'react'
-import { set } from 'lodash-es'
+import { get, set } from 'lodash-es'
 import { Node as ReactFlowNode } from 'reactflow'
 import { PipelineStudio } from '../../components/PipelineStudio/PipelineStudio'
-import { nodes as singleStage } from './mock_single'
-// import { mockNodes } from "./mock_many";
-// import { nodes as multiStagesParallel } from "./mock_multiple";
-import { nodes as mockNodesParallel } from './mock_parallel'
-import { mockNodes as mockNodesMixed } from './mock_mixed'
-import { mockNodes as mockNodesDemo } from './mock_demo'
-import { DefaultNodeProps, DeleteNodeProps, GroupNodesProps, Node } from '../../components/Canvas/types'
+import pipelineYamlSingleStage from '../../assets/mockPipelines/yamls/pipeline_w_single_stage.yaml'
+import pipelineYamlParallelGroup from '../../assets/mockPipelines/yamls/pipeline_w_parallel_stage_group.yaml'
+import pipelineYamlParallelGroupAndStage from '../../assets/mockPipelines/yamls/pipeline_w_parallel_stage_group_and_stage.yaml'
+import demoPipeline from '../../assets/mockPipelines/yamls/demo_pipeline.yaml'
+import { getGraphFromPipelineYaml } from '../../utils/PipelineYamlUtils'
+import { DefaultNodeProps, DeleteNodeProps, GroupNodesProps } from '../../components/Canvas/types'
 
 export const Studio: React.FC<{}> = () => {
-  const [nodes, setNodes] = useState<Node[]>(singleStage)
+  const [nodes, setNodes] = useState<Node[]>([])
 
   return (
     <PipelineStudio
-      graph={{ nodes }}
+      graph={getGraphFromPipelineYaml(pipelineYamlSingleStage)}
       onAddNode={(addedNode: ReactFlowNode) => {
         /* Sample implementation to add a step to a stage */
         const nodeData = addedNode.data
         set(nodes[0], 'children', [
-          ...(nodes[0].children || []),
+          ...get(nodes[0], 'children', []),
           {
             name: (nodeData as DefaultNodeProps).name,
             icon: (nodeData as DefaultNodeProps).icon,
@@ -37,15 +36,15 @@ export const Studio: React.FC<{}> = () => {
 }
 
 export const StudioParallel: React.FC<{}> = () => {
-  const [nodes, setNodes] = useState<Node[]>(mockNodesParallel)
+  const [nodes, setNodes] = useState<Node[]>([])
   return (
     <PipelineStudio
-      graph={{ nodes }}
+      graph={getGraphFromPipelineYaml(pipelineYamlParallelGroup)}
       onAddNode={(addedNode: ReactFlowNode) => {
         /* Sample implementation to add a step to a stage */
         const nodeData = addedNode.data
         set(nodes[0], 'children', [
-          ...(nodes[0].children || []),
+          ...get(nodes[0], 'children', []),
           {
             name: (nodeData as DefaultNodeProps).name,
             icon: (nodeData as DefaultNodeProps).icon,
@@ -66,7 +65,7 @@ export const StudioParallel: React.FC<{}> = () => {
 export const StudioMixed: React.FC<{}> = () => {
   return (
     <PipelineStudio
-      graph={{ nodes: mockNodesMixed as any }}
+      graph={getGraphFromPipelineYaml(pipelineYamlParallelGroupAndStage)}
       onAddNode={() => {}}
       onDeleteNode={() => {}}
       onSelectNode={() => {}}
@@ -77,7 +76,7 @@ export const StudioMixed: React.FC<{}> = () => {
 export const StudioDemo: React.FC<{}> = () => {
   return (
     <PipelineStudio
-      graph={{ nodes: mockNodesDemo as any }}
+      graph={getGraphFromPipelineYaml(demoPipeline)}
       onAddNode={() => {}}
       onDeleteNode={() => {}}
       onSelectNode={() => {}}
