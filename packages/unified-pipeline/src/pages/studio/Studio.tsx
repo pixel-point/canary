@@ -1,18 +1,18 @@
 import React from "react";
 import { PipelineStudio } from "../../components/PipelineStudio/PipelineStudio";
-// import { nodes as singleStage } from "../../assets/mockPipelines/mock_single";
+import { nodes as singleStage } from "../../assets/mockPipelines/mock_single";
 // import { mockNodes } from "./mock_many";
 // import { nodes as multiStagesParallel } from "./mock_multiple";
-import { nodes as mockNodesParallel } from "../../assets/mockPipelines/mock_parallel";
+// import { nodes as mockNodesParallel } from "../../assets/mockPipelines/mock_parallel";
 import { mockNodes as mockNodesMixed } from "../../assets/mockPipelines/mock_mixed";
 import { mockNodes as mockNodesDemo } from "../../assets/mockPipelines/mock_demo";
-import pipelineYamlSingleStage from "../../assets/mockPipelines/yamls/pipeline_w_parallel_stage_group.yaml";
+import pipelineYamlParallelGroup from "../../assets/mockPipelines/yamls/pipeline_w_parallel_stage_group.yaml";
 import { getGraphFromPipelineYAML } from "../../utils/PipelineYamlUtils";
 
 export const Studio: React.FC<{}> = () => {
   return (
     <PipelineStudio
-      graph={getGraphFromPipelineYAML(pipelineYamlSingleStage)}
+      graph={{ nodes: singleStage }}
       onAddNode={() => {}}
       onDeleteNode={() => {}}
       onSelectNode={() => {}}
@@ -24,7 +24,7 @@ export const Studio: React.FC<{}> = () => {
 export const StudioParallel: React.FC<{}> = () => {
   return (
     <PipelineStudio
-      graph={{ nodes: mockNodesParallel as any }}
+      graph={getGraphFromPipelineYAML(pipelineYamlParallelGroup)}
       onAddNode={() => {}}
       onDeleteNode={() => {}}
       onSelectNode={() => {}}
