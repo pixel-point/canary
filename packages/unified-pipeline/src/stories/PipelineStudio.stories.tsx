@@ -1,22 +1,22 @@
 import React from "react";
 import { StoryFn, Meta } from "@storybook/react";
 import { PipelineStudio } from "../components/PipelineStudio/PipelineStudio";
-import { nodes as singleStage } from "../pages/studio/mock_single";
-import { nodes as multiStagesParallel } from "../pages/studio/mock_parallel";
+import { nodes as singleStage } from "../assets/mockPipelines/mock_single";
+import { nodes as multiStagesParallel } from "../assets/mockPipelines/mock_parallel";
 
 export default {
   title: "Unified Pipeline/Pages/Pipeline Studio",
   component: PipelineStudio,
   parameters: {
-    layout: "fullscreen",
+    layout: "fullscreen"
   },
   argTypes: {
     readonly: { control: "boolean" },
     graph: { table: { disable: true } },
     onAddNode: { table: { disable: true } },
     onDeleteNode: { table: { disable: true } },
-    onSelectNode: { table: { disable: true } },
-  },
+    onSelectNode: { table: { disable: true } }
+  }
 } as Meta;
 
 interface StoryProps {
@@ -39,12 +39,12 @@ const Template: StoryFn<StoryProps> = (args) => {
 
 export const WithSingleStage = Template.bind({});
 WithSingleStage.args = {
-  readonly: false,
+  readonly: false
 };
 
 export const WithSingleStageReadOnly = Template.bind({});
 WithSingleStageReadOnly.args = {
-  readonly: true,
+  readonly: true
 };
 
 export function WithMultipleStagesInParallel(

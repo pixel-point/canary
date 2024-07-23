@@ -1,0 +1,7 @@
+pipeline:
+  stages:
+    - steps:
+        - run:
+            script: go build
+        - run:
+            script: go test
