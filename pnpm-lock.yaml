@@ -642,42 +642,15 @@ importers:
 
   packages/unified-pipeline:
     dependencies:
-      '@types/dagre':
-        specifier: ^0.7.52
-        version: 0.7.52
-      classnames:
-        specifier: ^2.5.1
-        version: 2.5.1
-      dagre:
-        specifier: ^0.8.5
-        version: 0.8.5
-      elkjs:
-        specifier: ^0.9.3
-        version: 0.9.3
       react:
         specifier: ^18.2.0
         version: 18.3.1
-      react-copy-to-clipboard:
-        specifier: ^5.1.0
-        version: 5.1.0(react@18.3.1)
       react-dom:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
       react-router-dom:
         specifier: ^5.3.4
         version: 5.3.4(react@18.3.1)
-      reactflow:
-        specifier: ^11.11.4
-        version: 11.11.4(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      yaml:
-        specifier: ^2.4.5
-        version: 2.4.5
-      yaml-loader:
-        specifier: ^0.8.1
-        version: 0.8.1
-      zustand:
-        specifier: ^4.5.4
-        version: 4.5.4(@types/react@18.3.3)(react@18.3.1)
     devDependencies:
       '@storybook/react':
         specifier: ^8.2.4
@@ -685,6 +658,9 @@ importers:
       '@types/classnames':
         specifier: ^2.3.1
         version: 2.3.1
+      '@types/dagre':
+        specifier: ^0.7.52
+        version: 0.7.52
       '@types/lodash-es':
         specifier: ^4.17.12
         version: 4.17.12
@@ -703,12 +679,21 @@ importers:
       autoprefixer:
         specifier: ^10.4.18
         version: 10.4.19(postcss@8.4.38)
+      classnames:
+        specifier: ^2.5.1
+        version: 2.5.1
       css-loader:
         specifier: ^6.10.0
         version: 6.11.0(webpack@5.93.0(esbuild@0.14.54)(webpack-cli@5.1.4))
+      dagre:
+        specifier: ^0.8.5
+        version: 0.8.5
       dts-bundle-generator:
         specifier: ^6.4.0
         version: 6.13.0
+      elkjs:
+        specifier: ^0.9.3
+        version: 0.9.3
       html-webpack-plugin:
         specifier: ^5.6.0
         version: 5.6.0(webpack@5.93.0(esbuild@0.14.54)(webpack-cli@5.1.4))
@@ -730,9 +715,15 @@ importers:
       postcss-cli:
         specifier: ^11.0.0
         version: 11.0.0(jiti@1.21.6)(postcss@8.4.38)
+      react-copy-to-clipboard:
+        specifier: ^5.1.0
+        version: 5.1.0(react@18.3.1)
       react-live:
         specifier: ^4.1.5
         version: 4.1.7(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      reactflow:
+        specifier: ^11.11.4
+        version: 11.11.4(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       sass:
         specifier: ^1.32.8
         version: 1.77.8
@@ -763,6 +754,15 @@ importers:
       webpack-dev-server:
         specifier: ^4.15.1
         version: 4.15.2(webpack-cli@5.1.4)(webpack@5.93.0)
+      yaml:
+        specifier: ^2.4.5
+        version: 2.4.5
+      yaml-loader:
+        specifier: ^0.8.1
+        version: 0.8.1
+      zustand:
+        specifier: ^4.5.4
+        version: 4.5.4(@types/react@18.3.3)(react@18.3.1)
 
 packages:
 
