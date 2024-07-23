@@ -1,9 +1,9 @@
 import React from "react";
 import { PipelineStudio } from "../../components/PipelineStudio/PipelineStudio";
-import { mockNodes as mockNodesDemo } from "../../assets/mockPipelines/mock_demo";
 import pipelineYamlSingleStage from "../../assets/mockPipelines/yamls/pipeline_w_single_stage.yaml";
 import pipelineYamlParallelGroup from "../../assets/mockPipelines/yamls/pipeline_w_parallel_stage_group.yaml";
 import pipelineYamlParallelGroupAndStage from "../../assets/mockPipelines/yamls/pipeline_w_parallel_stage_group_and_stage.yaml";
+import demoPipeline from "../../assets/mockPipelines/yamls/demo_pipeline.yaml";
 import { getGraphFromPipelineYAML } from "../../utils/PipelineYamlUtils";
 
 export const Studio: React.FC<{}> = () => {
@@ -45,7 +45,7 @@ export const StudioMixed: React.FC<{}> = () => {
 export const StudioDemo: React.FC<{}> = () => {
   return (
     <PipelineStudio
-      graph={{ nodes: mockNodesDemo as any }}
+      graph={getGraphFromPipelineYAML(demoPipeline)}
       onAddNode={() => {}}
       onDeleteNode={() => {}}
       onSelectNode={() => {}}
