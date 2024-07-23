@@ -1,7 +1,10 @@
+import React from 'react'
 import { get, has } from 'lodash-es'
 import { Node } from '../components/Canvas/types'
 import { StageCategory } from '../components/PipelineConfigPanel/types'
 import { getIdFromName } from './StringUtils'
+import Bitbucket from '../icons/Bitbucket'
+import Slack from '../icons/Slack'
 
 const STAGE_LABEL = 'Stage'
 const STAGE_GROUP_LABEL = 'Stage Group'
@@ -132,9 +135,13 @@ const getChildNodes = (stage: Record<string, any>): Node[] => {
 const getStepNode = (step: Record<string, any>, stepIndex: number): Node => {
   return {
     name: get(step, 'name', `step ${stepIndex + 1}`),
-    icon: null,
+    icon: getPlaceholderIcon(stepIndex),
     expandable: false,
     path: '',
     deletable: false
   } as Node
+}
+
+const getPlaceholderIcon = (stepIndex: number): React.ReactElement => {
+  return stepIndex % 2 ? <Bitbucket /> : <Slack />
 }

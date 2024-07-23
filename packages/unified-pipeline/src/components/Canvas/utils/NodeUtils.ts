@@ -139,10 +139,17 @@ export const getNodeDimensions = (node: Node): { width: number; height: number }
 }
 
 export const getNodeWidth = (node: Node): number => {
+  if (!node) {
+    return 0
+  }
   const isNodeExpanded = (node.data as ExpandNodeProps)?.expanded || false
   switch (node.type) {
     case NodeType.GROUP:
-      return getGroupNodeWidth(isNodeExpanded, (node.data as GroupNodesProps)?.memberNodes || [])
+      return getGroupNodeWidth({
+        isExpanded: isNodeExpanded,
+        childNodes: (node.data as GroupNodesProps)?.memberNodes || [],
+        orientation: getGroupNodeOrientation((node.data as GroupNodesProps)?.memberNodes || [])
+      })
     case NodeType.STAGE:
       return getStageNodeWidth(isNodeExpanded, (node.data as GroupNodesProps)?.memberNodes || [])
     case NodeType.ATOMIC:
@@ -237,7 +244,7 @@ export const getStageGroupNodeDimensions = ({
   orientation?: GroupOrientation
 }): { width: number; height: number } => {
   return {
-    width: getGroupNodeWidth(isExpanded, childNodes),
+    width: getGroupNodeWidth({ isExpanded, childNodes, orientation }),
     height: getGroupNodeHeight({
       isExpanded,
       childNodes,
@@ -246,28 +253,48 @@ export const getStageGroupNodeDimensions = ({
   }
 }
 
-const getGroupNodeWidth = (isExpanded: boolean, nodeChildren: Node[]): number => {
-  if (!isExpanded || !nodeChildren.length) {
+const getGroupNodeWidth = ({
+  isExpanded,
+  childNodes,
+  orientation
+}: {
+  isExpanded: boolean
+  childNodes: Node[]
+  orientation?: GroupOrientation
+}): number => {
+  if (!isExpanded || !childNodes.length) {
     return NODE_DEFAULT_WIDTH
   }
-  const maxWidth = nodeChildren.reduce((acc: number, currNode: Node) => {
-    const currentNodeWidth = getNodeWidth(currNode)
-    if (currentNodeWidth) {
-      return Math.max(acc, currentNodeWidth)
-    }
-    return 0
-  }, 0)
-  return (
-    maxWidth +
-    2 * NODE_VERTICAL_MARGIN +
-    /* To adjust for node offset with GROUP_NODE_VERTICAL_ALIGNMENT_MARGIN */
-    2 * NODE_VERTICAL_MARGIN
-  )
+  if (orientation === GroupOrientation.LR) {
+    return (
+      childNodes.reduce(
+        (totalWidth, currentNode) =>
+          totalWidth + NODE_VERTICAL_MARGIN + getNodeWidth(currentNode) + NODE_VERTICAL_MARGIN,
+        0
+      ) +
+      2 * NODE_VERTICAL_MARGIN
+    )
+  } else {
+    const maxWidth = childNodes.reduce((acc: number, currNode: Node) => {
+      const currentNodeWidth = getNodeWidth(currNode)
+      if (currentNodeWidth) {
+        return Math.max(acc, currentNodeWidth)
+      }
+      return 0
+    }, 0)
+    return (
+      maxWidth +
+      2 * NODE_VERTICAL_MARGIN +
+      /* To adjust for node offset with GROUP_NODE_VERTICAL_ALIGNMENT_MARGIN */
+      2 * NODE_VERTICAL_MARGIN
+    )
+  }
 }
 
 const getGroupNodeHeight = ({
   isExpanded,
-  childNodes
+  childNodes,
+  orientation
 }: {
   isExpanded: boolean
   childNodes: Node[]
@@ -276,10 +303,21 @@ const getGroupNodeHeight = ({
   if (!isExpanded || !childNodes.length) {
     return NODE_DEFAULT_HEIGHT
   }
-  return childNodes.reduce((totalHeight, currentNode) => {
-    const currentNodeHeight = getNodeHeight(currentNode)
-    return totalHeight + NODE_HORIZONTAL_MARGIN + currentNodeHeight + NODE_HORIZONTAL_MARGIN
-  }, 0)
+  if (orientation === GroupOrientation.TB) {
+    return childNodes.reduce((totalHeight, currentNode) => {
+      const currentNodeHeight = getNodeHeight(currentNode)
+      return totalHeight + NODE_HORIZONTAL_MARGIN + currentNodeHeight + NODE_HORIZONTAL_MARGIN
+    }, 0)
+  } else {
+    const maxHeight = childNodes.reduce((acc: number, currNode: Node) => {
+      const currentNodeHeight = getNodeHeight(currNode)
+      if (currentNodeHeight) {
+        return Math.max(acc, currentNodeHeight)
+      }
+      return 0
+    }, 0)
+    return maxHeight + 2 * NODE_HORIZONTAL_MARGIN_2
+  }
 }
 
 export const getGroupNodeOrientation = (memberNodes: Node[]): GroupOrientation => {
