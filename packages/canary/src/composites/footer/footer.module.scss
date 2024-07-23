@@ -1,0 +1,39 @@
+.main {
+  border-top: 1px solid #1d1d20;
+  background: #0f0f11;
+  height: 38px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: var(--grey-60, #93939f);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%; /* 12px */
+
+  padding: 0 15px;
+}
+
+.focus {
+  color: var(--white, #fff);
+}
+
+.counts {
+  display: flex;
+}
+
+.gitDetails {
+  display: flex;
+  margin-left: 20px;
+}
+
+.commitHistory {
+  display: flex;
+}
+
+.flexContainer {
+  display: flex;
+  align-items: center;
+}

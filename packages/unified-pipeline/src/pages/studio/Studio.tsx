@@ -7,15 +7,24 @@ import pipelineYamlSequentialGroup from '../../assets/mockPipelines/yamls/pipeli
 import pipelineYamlParallelGroupAndStage from '../../assets/mockPipelines/yamls/pipeline_w_parallel_stage_group_and_stage.yaml'
 // import demoPipeline from '../../assets/mockPipelines/yamls/demo_pipeline.yaml'
 import { getNodesFromPipelineYaml } from '../../utils/PipelineYamlUtils'
+import { Footer, Severity } from '../../../../canary/src/composites/footer/footer'
+
+import css from './Studio.module.scss'
 
 export const Studio: React.FC<{}> = () => {
   return (
-    <PipelineStudio
-      nodes={getNodesFromPipelineYaml(pipelineYamlSingleStage)}
-      onAddNode={() => {}}
-      onDeleteNode={() => {}}
-      onSelectNode={() => {}}
-    />
+    <div className={css.main}>
+      <PipelineStudio
+        nodes={getNodesFromPipelineYaml(pipelineYamlSingleStage)}
+        onAddNode={() => {}}
+        onDeleteNode={() => {}}
+        onSelectNode={() => {}}
+      />
+      <Footer
+        problems={{ [Severity.ERROR]: 5, [Severity.WARNING]: 15, [Severity.INFO]: 25 }}
+        commitHistory={{ lastCommittedAt: 1721774796000, lastCommittedBy: 'Olivia Smith' }}
+      />
+    </div>
   )
 }
 
