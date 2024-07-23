@@ -18,10 +18,10 @@ import { Circle, Minus } from 'iconoir-react'
 import { defaultEdgeMarkerOptions } from './nodes-edges-defaults'
 import { EdgeTypes, NodeTypes } from './types'
 import { CanvasEntity, useCanvasStore } from '../../framework/CanvasStore/CanvasStoreContext'
-import useFlowStore from '../../framework/NodeStore/NodeStore'
+import useFlowStore from '../../framework/FlowStore/FlowStore'
 import { performElkLayout, elkOptions } from './utils/ElkLayout'
 import { partitionNodesForLayout } from './utils/NodeUtils'
-import useAutoLayout from '../../hooks/useAutoLayout'
+// import useAutoLayout from '../../hooks/useAutoLayout'
 import CircleOverlay, { Position } from '../../components/CircleOverlay/CircleOverlay'
 
 import 'reactflow/dist/style.css'
@@ -55,12 +55,13 @@ const CanvasInternal = (props: CanvasProps) => {
     setMousePosition({ x: event.clientX, y: event.clientY })
   }
 
-  useAutoLayout()
+  /**
+   * @TODO fix this as it's currently causing an elkjs exception
+   */
+  // useAutoLayout()
 
   useLayoutEffect(() => {
     if (props.nodes.length === 0) return
-    const allEdgesForNodes: Edge[] = []
-    setEdges(allEdgesForNodes)
     const { selfLayoutable: parentNodes, dependents: childNodes } = partitionNodesForLayout(props.nodes)
     performElkLayout({
       nodes: parentNodes,
@@ -76,7 +77,7 @@ const CanvasInternal = (props: CanvasProps) => {
         })
       )
     })
-  }, [props.nodes])
+  }, [props.nodes, props.edges])
 
   const onNodeClick: NodeMouseHandler = useCallback(
     (event, node: Node) => {
@@ -158,7 +159,8 @@ const CanvasInternal = (props: CanvasProps) => {
           setTimeout(() => window.requestAnimationFrame(() => instance.fitView({ duration: ANIMATION_DURATION })), 0)
         }
         /* https://github.com/xyflow/xyflow/discussions/2827 */
-        nodeOrigin={[0.5, 0.5]}>
+        nodeOrigin={[0.5, 0.5]}
+        className={css.canvas}>
         <Controls>
           <ControlButton
             onClick={() =>

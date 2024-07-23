@@ -1,34 +1,26 @@
-import type { Node, Edge } from "reactflow";
-import { isEmpty } from "lodash-es";
-import { EdgeType, NodeType } from "../types";
-import {
-  excludeAnchorNodes,
-  getChildNodes,
-  getEndAnchorNodeId,
-  getLayoutableNodes,
-  getNodeById,
-  getStartAnchorNodeId,
-  partitionNodesByParallelism,
-} from "./NodeUtils";
-import type { PlusEdgeProps } from "../elements/Edges/PlusEdge/PlusEdge";
-import { GROUP_NODE_VERTICAL_ALIGNMENT_MARGIN } from "./LROrientation/Constants";
+import type { Node, Edge } from 'reactflow'
+import { isEmpty } from 'lodash-es'
+import { EdgeType, NodeType } from '../types'
+import { getChildNodes, getLayoutableNodes, partitionNodesByParallelism } from './NodeUtils'
+import type { PlusEdgeProps } from '../elements/Edges/PlusEdge/PlusEdge'
+import { GROUP_NODE_VERTICAL_ALIGNMENT_MARGIN } from './LROrientation/Constants'
 
-import css from "../Canvas.module.scss";
+import css from '../Canvas.module.scss'
 
 /* node to parent edge */
 export const linkChildNodeToParent = ({
   childNode,
   parentNode,
   zIndex = 1,
-  parallel = false,
+  parallel = false
 }: {
-  childNode: Node;
-  parentNode: Node;
-  zIndex?: number;
-  parallel?: boolean;
+  childNode: Node
+  parentNode: Node
+  zIndex?: number
+  parallel?: boolean
 }): Edge => {
-  const parentId = parentNode.id;
-  const childNodeId = childNode.id;
+  const parentId = parentNode.id
+  const childNodeId = childNode.id
   return {
     id: `edge-${childNodeId}->${parentId}`,
     sourceNode: childNode,
@@ -41,33 +33,33 @@ export const linkChildNodeToParent = ({
       targetNode: parentNode,
       sourcePosition: parentNode.position,
       targetPosition: childNode.position,
-      edgeClickData: { nodeType: NodeType.STAGE },
+      edgeClickData: { nodeType: NodeType.STAGE }
     },
     type: EdgeType.SMOOTHSTEP,
     pathOptions: {
       borderRadius: 8,
-      offset: parallel ? -1 * GROUP_NODE_VERTICAL_ALIGNMENT_MARGIN : 0,
+      offset: parallel ? -1 * GROUP_NODE_VERTICAL_ALIGNMENT_MARGIN : 0
     },
     /* https://github.com/xyflow/xyflow/discussions/3498#discussioncomment-7263647 */
     zIndex,
-    className: css.edge,
-  };
-};
+    className: css.edge
+  }
+}
 
 /* parent to node edge */
 export const linkParentNodeToChild = ({
   childNode,
   parentNode,
   zIndex = 1,
-  parallel = false,
+  parallel = false
 }: {
-  childNode: Node;
-  parentNode: Node;
-  zIndex?: number;
-  parallel?: boolean;
+  childNode: Node
+  parentNode: Node
+  zIndex?: number
+  parallel?: boolean
 }): Edge => {
-  const parentId = parentNode.id;
-  const childNodeId = childNode.id;
+  const parentId = parentNode.id
+  const childNodeId = childNode.id
   return {
     id: `edge-${parentId}->${childNodeId}`,
     sourceNode: parentNode,
@@ -80,63 +72,45 @@ export const linkParentNodeToChild = ({
       targetNode: childNode,
       sourcePosition: parentNode.position,
       targetPosition: childNode.position,
-      edgeClickData: { nodeType: NodeType.STAGE },
+      edgeClickData: { nodeType: NodeType.STAGE }
     },
     type: EdgeType.SMOOTHSTEP,
     pathOptions: {
       borderRadius: 8,
-      offset: parallel ? -1 * GROUP_NODE_VERTICAL_ALIGNMENT_MARGIN : 0,
+      offset: parallel ? -1 * GROUP_NODE_VERTICAL_ALIGNMENT_MARGIN : 0
     },
     /* https://github.com/xyflow/xyflow/discussions/3498#discussioncomment-7263647 */
     zIndex,
-    className: css.edge,
-  };
-};
+    className: css.edge
+  }
+}
 
 export const getEdgesForChildNodes = ({
   parentNode,
   nodes,
   zIndexForEdges,
-  readonly,
+  readonly
 }: {
-  parentNode: Node;
-  nodes: Node[];
-  zIndexForEdges?: number;
-  readonly?: boolean;
+  parentNode: Node
+  nodes: Node[]
+  zIndexForEdges?: number
+  readonly?: boolean
 }): Edge[] => {
-  const parentNodeId = parentNode.id;
-  const childNodes = getChildNodes(parentNodeId, nodes);
-  if (childNodes.length === 0) return [];
-  const childNodeEdges: Edge[] = [];
-  const { parallel: parallelNodes, sequential: sequentialNodes } =
-    partitionNodesByParallelism(childNodes);
-  if (sequentialNodes.length > 0) {
+  const parentNodeId = parentNode.id
+  const childNodes = getChildNodes(parentNodeId, nodes)
+  if (childNodes.length === 0) return []
+  const childNodeEdges: Edge[] = []
+  const { parallel: parallelNodes, sequential: sequentialNodes } = partitionNodesByParallelism(childNodes)
+  if (sequentialNodes.length > 1) {
     childNodeEdges.push(
       ...createEdgesForSequentialNodes({
         nodes: sequentialNodes,
         zIndex: zIndexForEdges,
-        readonly,
+        readonly
       })
-    );
-    let firstChildNodeToConnect, lastChildNodeToConnect;
-    if (readonly) {
-      const sequentialNodesWithoutAnchorNodes =
-        excludeAnchorNodes(sequentialNodes);
-      firstChildNodeToConnect = sequentialNodesWithoutAnchorNodes[0];
-      lastChildNodeToConnect =
-        sequentialNodesWithoutAnchorNodes[
-          sequentialNodesWithoutAnchorNodes.length - 1
-        ];
-    } else {
-      firstChildNodeToConnect = getNodeById(
-        nodes,
-        getStartAnchorNodeId(parentNodeId)
-      );
-      lastChildNodeToConnect = getNodeById(
-        nodes,
-        getEndAnchorNodeId(parentNodeId)
-      );
-    }
+    )
+    const firstChildNodeToConnect = sequentialNodes[0]
+    const lastChildNodeToConnect = sequentialNodes[sequentialNodes.length - 1]
     /**
      * Connect anchor nodes to the auto-layoutable parent
      * When a group contains *only* sequential nodes
@@ -146,16 +120,16 @@ export const getEdgesForChildNodes = ({
         linkParentNodeToChild({
           childNode: firstChildNodeToConnect,
           parentNode: parentNode,
-          zIndex: zIndexForEdges,
+          zIndex: zIndexForEdges
         }),
         linkChildNodeToParent({
           childNode: lastChildNodeToConnect,
           parentNode: parentNode,
-          zIndex: zIndexForEdges,
-        }),
-      ];
+          zIndex: zIndexForEdges
+        })
+      ]
       if (childParentEdges.length > 0) {
-        childNodeEdges.push(...childParentEdges);
+        childNodeEdges.push(...childParentEdges)
       }
     }
   }
@@ -164,107 +138,104 @@ export const getEdgesForChildNodes = ({
       ...createEdgesForParallelNodes({
         parentNode,
         parallelNodes,
-        zIndex: zIndexForEdges,
+        zIndex: zIndexForEdges
       })
-    );
+    )
   }
-  return childNodeEdges;
-};
+  return childNodeEdges
+}
 
 export const getEdgesForAllNodes = ({
   nodes,
   includChildNodeEdges = true,
-  readonly,
+  readonly
 }: {
-  nodes: Node[];
-  includChildNodeEdges?: boolean;
-  readonly?: boolean;
+  nodes: Node[]
+  includChildNodeEdges?: boolean
+  readonly?: boolean
 }): Edge[] => {
-  const edges: Edge[] = [];
-  if (nodes.length === 0) return [];
-  const selfLayoutableNodes = getLayoutableNodes(nodes);
-  edges.push(...createEdgesForNodes({ nodes: selfLayoutableNodes, readonly }));
+  const edges: Edge[] = []
+  if (nodes.length === 0) return []
+  const selfLayoutableNodes = getLayoutableNodes(nodes)
+  edges.push(...createEdgesForNodes({ nodes: selfLayoutableNodes, readonly }))
   if (includChildNodeEdges) {
-    selfLayoutableNodes.forEach((parentNode) => {
-      edges.push(...getEdgesForChildNodes({ parentNode, nodes, readonly }));
-    });
+    selfLayoutableNodes.forEach(parentNode => {
+      edges.push(...getEdgesForChildNodes({ parentNode, nodes, readonly }))
+    })
   }
-  return edges;
-};
+  return edges
+}
 
 export const createEdgesForParallelNodes = ({
   parentNode,
   parallelNodes,
-  zIndex = 1,
+  zIndex = 1
 }: {
-  parentNode: Node;
-  parallelNodes: Node[];
-  zIndex?: number;
+  parentNode: Node
+  parallelNodes: Node[]
+  zIndex?: number
 }): Edge[] => {
-  if (parallelNodes.length === 0) return [];
-  const edges: Edge[] = [];
-  parallelNodes.forEach((node) => {
+  if (parallelNodes.length === 0) return []
+  const edges: Edge[] = []
+  parallelNodes.forEach(node => {
     edges.push(
       ...[
         linkParentNodeToChild({
           parentNode,
           childNode: node,
           zIndex,
-          parallel: true,
+          parallel: true
         }),
         linkChildNodeToParent({
           parentNode,
           childNode: node,
           zIndex,
-          parallel: true,
-        }),
+          parallel: true
+        })
       ]
-    );
-  });
-  return edges;
-};
+    )
+  })
+  return edges
+}
 
 export const createEdgesForSequentialNodes = ({
   nodes,
-  zIndex,
-  readonly,
+  zIndex
 }: {
-  nodes: Node[];
-  zIndex?: number;
-  readonly?: boolean;
+  nodes: Node[]
+  zIndex?: number
+  readonly?: boolean
 }): Edge[] => {
-  if (nodes.length === 0) return [];
-  const edges: Edge[] = [];
+  if (nodes.length === 0) return []
+  const edges: Edge[] = []
   for (let nodeIdx = 0; nodeIdx < nodes.length - 1; nodeIdx++) {
-    const sourceNode = nodes[nodeIdx];
-    const targetNode = nodes[nodeIdx + 1];
-    const edgeType = readonly
-      ? EdgeType.SMOOTHSTEP
-      : [sourceNode.type, targetNode.type].includes(NodeType.ANCHOR)
-      ? EdgeType.SMOOTHSTEP
-      : EdgeType.PLUS;
+    const sourceNode = nodes[nodeIdx]
+    const targetNode = nodes[nodeIdx + 1]
     edges.push(
-      createEdgeForNodes({ sourceNode, targetNode, edgeType, zIndex })
-    );
+      createEdgeForNodes({
+        sourceNode,
+        targetNode,
+        edgeType: EdgeType.SMOOTHSTEP,
+        zIndex
+      })
+    )
   }
-  return edges;
-};
+  return edges
+}
 
 const createEdgeForNodes = ({
   sourceNode,
   targetNode,
-  edgeType,
-  zIndex = 1,
-  readonly,
+  zIndex = 1
 }: {
-  sourceNode: Node;
-  targetNode: Node;
-  edgeType: EdgeType;
-  zIndex?: number;
-  readonly?: boolean;
+  sourceNode: Node
+  targetNode: Node
+  edgeType: EdgeType
+  zIndex?: number
+  readonly?: boolean
 }): Edge<PlusEdgeProps> => {
-  const { id: sourceNodeId, position: sourceNodePosition } = sourceNode;
-  const { id: targetNodeId, position: targetNodePosition } = targetNode;
+  const { id: sourceNodeId, position: sourceNodePosition } = sourceNode
+  const { id: targetNodeId, position: targetNodePosition } = targetNode
 
   return {
     id: `edge-${sourceNodeId}->${targetNodeId}`,
@@ -279,69 +250,65 @@ const createEdgeForNodes = ({
       sourcePosition: sourceNodePosition,
       targetPosition: targetNodePosition,
       edgeClickData: { nodeType: NodeType.STAGE },
-      zIndex,
+      zIndex
     },
-    type: readonly
-      ? EdgeType.SMOOTHSTEP
-      : targetNode.type === NodeType.PLUS
-      ? EdgeType.SMOOTHSTEP
-      : edgeType,
+    type: EdgeType.SMOOTHSTEP,
     zIndex,
-    className: css.edge,
-  };
-};
+    className: css.edge
+  }
+}
 
 export const createEdgesForNodes = ({
   nodes,
-  edgeType = EdgeType.PLUS,
+  edgeType = EdgeType.SMOOTHSTEP,
   zIndex = 1,
-  readonly,
+  readonly
 }: {
-  nodes: Node[];
-  edgeType?: EdgeType;
-  zIndex?: number;
-  readonly?: boolean;
+  nodes: Node[]
+  edgeType?: EdgeType
+  zIndex?: number
+  readonly?: boolean
 }): Edge[] => {
   if (!nodes || nodes.length <= 1) {
-    return [];
+    return []
   }
 
-  const edgesForNodes: Edge<PlusEdgeProps>[] = [];
+  const edgesForNodes: Edge<PlusEdgeProps>[] = []
   for (let nodeIdx = 0; nodeIdx < nodes.length - 1; nodeIdx++) {
-    const sourceNode = nodes[nodeIdx];
-    const targetNode = nodes[nodeIdx + 1];
+    const sourceNode = nodes[nodeIdx]
+    const targetNode = nodes[nodeIdx + 1]
     const edge = createEdgeForNodes({
       sourceNode,
       targetNode,
       edgeType,
       zIndex,
-      readonly,
-    });
-    edgesForNodes.push(edge);
+      readonly
+    })
+    edgesForNodes.push(edge)
   }
 
-  return edgesForNodes;
-};
+  return edgesForNodes
+}
 
-export const dedupEdges = (edges: Edge[]): Edge[] => {
-  const edgeMap: Map<string, Edge> = new Map();
+export const dedupeEdges = (edges: Edge[]): Edge[] => {
+  const edgeMap: Map<string, Edge> = new Map()
 
-  edges.forEach((edge) => {
-    edgeMap.set(edge.id, edge);
-  });
+  edges.forEach(edge => {
+    edgeMap.set(edge.id, edge)
+  })
 
-  return Array.from(edgeMap.values());
-};
+  return Array.from(edgeMap.values())
+}
 
 /* edge2 overwrites edge1 */
 export const mergeEdges = (edges1: Edge[], edges2: Edge[]): Edge[] => {
-  const edgeMap = new Map<string, Edge>();
+  const edgeMap = new Map<string, Edge>()
 
-  edges1.forEach((edge) => edgeMap.set(edge.id, edge));
-  edges2.forEach((edge) => edgeMap.set(edge.id, edge));
+  edges1.forEach(edge => edgeMap.set(edge.id, edge))
+  edges2.forEach(edge => edgeMap.set(edge.id, edge))
 
-  return Array.from(edgeMap.values());
-};
+  return Array.from(edgeMap.values())
+}
 
 /**
  * Updates the visibility of specified edges in the complete set of edges.
@@ -353,30 +320,26 @@ export const mergeEdges = (edges1: Edge[], edges2: Edge[]): Edge[] => {
 export const updateEdgeVisibility = ({
   edgesToUpdate,
   allEdges,
-  hidden,
+  hidden
 }: {
-  edgesToUpdate: Edge[];
-  allEdges: Edge[];
-  hidden: boolean;
+  edgesToUpdate: Edge[]
+  allEdges: Edge[]
+  hidden: boolean
 }): Edge[] => {
   if (isEmpty(edgesToUpdate) || isEmpty(allEdges)) {
-    return allEdges;
+    return allEdges
   }
 
   if (edgesToUpdate.length > allEdges.length) {
-    return allEdges;
+    return allEdges
   }
 
-  const allEdgeIds = allEdges.map((edge) => edge.id);
-  const matchingEdges = edgesToUpdate.filter((edge) =>
-    allEdgeIds.includes(edge.id)
-  );
-  const updatedEdges = matchingEdges.map((edge: Edge) => ({ ...edge, hidden }));
-  return updatedEdges;
-};
+  const allEdgeIds = allEdges.map(edge => edge.id)
+  const matchingEdges = edgesToUpdate.filter(edge => allEdgeIds.includes(edge.id))
+  const updatedEdges = matchingEdges.map((edge: Edge) => ({ ...edge, hidden }))
+  return updatedEdges
+}
 
 export const getConnectedEdges = (nodeId: string, edges: Edge[]): Edge[] => {
-  return edges.filter(
-    (edge) => edge.source === nodeId || edge.target === nodeId
-  );
-};
+  return edges.filter(edge => edge.source === nodeId || edge.target === nodeId)
+}

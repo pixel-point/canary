@@ -60,18 +60,41 @@
   align-items: center;
 }
 
-.plusIcon {
+.plus {
   border-radius: 50%;
-  transform: translate(0%, var(--icon-size));
-  background: rgb(15, 15, 17);
-  border: 1px solid rgba(48, 48, 54, 0.4);
+  /*figma */
+  width: var(--icon-size);
+  height: var(--icon-size);
+  border: 1px solid rgba(48, 48, 54, 0.6);
+  background-color: rgba(29, 29, 32, 1);
+  color: rgba(228, 228, 231, 1);
+  cursor: pointer;
+  transform: translate(0, var(--icon-size));
+  opacity: 0;
+}
+
+.show {
+  transition: opacity 0.2s ease-in-out;
+  opacity: 1;
 }
 
 .diagnose {
   color: red;
-  font-size: 20px;
+  font-size: 16px;
 }
 
-.handle {
-  background: rgba(109, 107, 117, 1) !important;
+.addStep {
+  color: rgba(147, 147, 159, 1);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 14px;
+  letter-spacing: -0.02em;
+}
+
+/** @TODO
+* Move to node utils insteas 
+*/
+.zeroState {
+  width: 337px;
+  height: 77px;
 }

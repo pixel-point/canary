@@ -1,78 +1,63 @@
-import { Node, Edge, Position } from "reactflow";
-import dagre from "dagre";
-import {
-  getChildNodes,
-  getLayoutableNodes,
-  getNonLayoutableNodes,
-  findIntersection,
-  partitionNodesByParallelism,
-  excludeAnchorNodes,
-} from "./NodeUtils";
+import { Node, Edge, Position } from 'reactflow'
+import dagre from 'dagre'
+import { getChildNodes, getLayoutableNodes, getNonLayoutableNodes, partitionNodesByParallelism } from './NodeUtils'
 import {
   NODE_HORIZONTAL_MARGIN,
   INTER_PARENT_NODE_NODE_HORIZONTAL_SEPARATION,
   INTER_PARENT_NODE_NODE_HORIZONTAL_SEPARATION_READ_ONLY,
-  NODE_VERTICAL_MARGIN,
-} from "./LROrientation/Constants";
+  NODE_VERTICAL_MARGIN
+} from './LROrientation/Constants'
 
 // Layout direction (T = top, R = right, B = bottom, L = left, TB = top to bottom)
 export enum Direction {
-  TB = "TB",
-  LR = "LR",
-  RL = "RL",
-  BT = "BT",
+  TB = 'TB',
+  LR = 'LR',
+  RL = 'RL',
+  BT = 'BT'
 }
 
 export type Options = {
-  direction: Direction;
-};
+  direction: Direction
+}
 
 interface LayoutArgs {
-  nodes: Node[];
-  edges: Edge[];
-  direction?: Direction;
-  width?: number;
-  height?: number;
-  readonly?: boolean;
+  nodes: Node[]
+  edges: Edge[]
+  direction?: Direction
+  width?: number
+  height?: number
+  readonly?: boolean
 }
 
 interface DagreLayoutArgs extends LayoutArgs {
-  nodeNodeSeparation: number;
-  margin?: number;
+  nodeNodeSeparation: number
+  margin?: number
 }
 
 interface LayoutedElements {
-  nodes: Node[];
-  edges: Edge[];
+  nodes: Node[]
+  edges: Edge[]
 }
 
-export const performLayout = ({
-  nodes,
-  edges,
-  width,
-  height,
-  readonly,
-}: LayoutArgs): LayoutedElements => {
-  if (nodes.length === 0) return { nodes, edges };
-  const selfLayoutableNodes = getLayoutableNodes(nodes);
-  const layoutedNodes: Node[] = [];
-  const layoutedEdges: Edge[] = [];
-  const nonLayoutableNodes = getNonLayoutableNodes(nodes);
+export const performLayout = ({ nodes, edges, width, height, readonly }: LayoutArgs): LayoutedElements => {
+  if (nodes.length === 0) return { nodes, edges }
+  const selfLayoutableNodes = getLayoutableNodes(nodes)
+  const layoutedNodes: Node[] = []
+  const layoutedEdges: Edge[] = []
+  const nonLayoutableNodes = getNonLayoutableNodes(nodes)
   if (nonLayoutableNodes.length > 0) {
     selfLayoutableNodes.map((node: Node) => {
       /* Dagre Layout can work without a root, hence layouting of child nodes becomes possible. */
-      const parentNodeId = node.id;
-      const childNodes = getChildNodes(parentNodeId, nonLayoutableNodes);
-      const childNodeCount = childNodes.length;
+      const parentNodeId = node.id
+      const childNodes = getChildNodes(parentNodeId, nonLayoutableNodes)
+      const childNodeCount = childNodes.length
       if (childNodeCount > 0) {
-        const { parallel: parallelNodes, sequential: sequentialChildNodes } =
-          partitionNodesByParallelism(childNodes);
-        const parallelNodeCount = parallelNodes.length;
+        const { parallel: parallelNodes } = partitionNodesByParallelism(childNodes)
+        const parallelNodeCount = parallelNodes.length
         if (parallelNodeCount > 0) {
-          const commonChildNodes = findIntersection(childNodes, parallelNodes);
           /* Layout parallel nodes separately */
           const parallelLayoutedElements = dagreLayout({
-            nodes: commonChildNodes,
+            nodes: parallelNodes,
             edges,
             direction: Direction.TB,
             width,
@@ -80,23 +65,24 @@ export const performLayout = ({
             margin: NODE_HORIZONTAL_MARGIN,
             nodeNodeSeparation: readonly
               ? INTER_PARENT_NODE_NODE_HORIZONTAL_SEPARATION_READ_ONLY
-              : INTER_PARENT_NODE_NODE_HORIZONTAL_SEPARATION,
-          });
-          layoutedNodes.push(...parallelLayoutedElements.nodes);
-          layoutedEdges.push(...parallelLayoutedElements.edges);
+              : INTER_PARENT_NODE_NODE_HORIZONTAL_SEPARATION
+          })
+          layoutedNodes.push(...parallelLayoutedElements.nodes)
+          layoutedEdges.push(...parallelLayoutedElements.edges)
+          /* As per spec, a group node having parallel nodes won't have any sequential nodes inside it */
           /* Layout sequential nodes separately */
-          const layoutedSequentialElements = dagreLayout({
-            nodes: sequentialChildNodes,
-            edges,
-            width,
-            height,
-            margin: NODE_VERTICAL_MARGIN,
-            nodeNodeSeparation: readonly
-              ? INTER_PARENT_NODE_NODE_HORIZONTAL_SEPARATION_READ_ONLY
-              : INTER_PARENT_NODE_NODE_HORIZONTAL_SEPARATION,
-          });
-          layoutedNodes.push(...layoutedSequentialElements.nodes);
-          layoutedEdges.push(...layoutedSequentialElements.edges);
+          // const layoutedSequentialElements = dagreLayout({
+          //   nodes: sequentialChildNodes,
+          //   edges,
+          //   width,
+          //   height,
+          //   margin: NODE_VERTICAL_MARGIN,
+          //   nodeNodeSeparation: readonly
+          //     ? INTER_PARENT_NODE_NODE_HORIZONTAL_SEPARATION_READ_ONLY
+          //     : INTER_PARENT_NODE_NODE_HORIZONTAL_SEPARATION,
+          // });
+          // layoutedNodes.push(...layoutedSequentialElements.nodes);
+          // layoutedEdges.push(...layoutedSequentialElements.edges);
         } else {
           const layoutedSequentialElements = dagreLayout({
             nodes: childNodes,
@@ -106,16 +92,16 @@ export const performLayout = ({
             margin: NODE_VERTICAL_MARGIN,
             nodeNodeSeparation: readonly
               ? INTER_PARENT_NODE_NODE_HORIZONTAL_SEPARATION_READ_ONLY
-              : INTER_PARENT_NODE_NODE_HORIZONTAL_SEPARATION,
-          });
-          layoutedNodes.push(...layoutedSequentialElements.nodes);
-          layoutedEdges.push(...layoutedSequentialElements.edges);
+              : INTER_PARENT_NODE_NODE_HORIZONTAL_SEPARATION
+          })
+          layoutedNodes.push(...layoutedSequentialElements.nodes)
+          layoutedEdges.push(...layoutedSequentialElements.edges)
         }
       }
-    });
+    })
   }
-  return { nodes: layoutedNodes, edges: layoutedEdges };
-};
+  return { nodes: layoutedNodes, edges: layoutedEdges }
+}
 
 const dagreLayout = ({
   nodes,
@@ -124,58 +110,61 @@ const dagreLayout = ({
   width = 1800,
   height = 900,
   margin = 0,
-  nodeNodeSeparation = 50,
+  nodeNodeSeparation = 50
 }: DagreLayoutArgs): LayoutedElements => {
-  const dagreGraph = new dagre.graphlib.Graph();
-  dagreGraph.setDefaultEdgeLabel(() => ({}));
+  const dagreGraph = new dagre.graphlib.Graph()
+  dagreGraph.setDefaultEdgeLabel(() => ({}))
 
-  const isHorizontal = direction === Direction.LR;
+  const isHorizontal = direction === Direction.LR
   dagreGraph.setGraph({
     rankdir: direction,
     ranksep: nodeNodeSeparation,
     marginx: isHorizontal ? margin : 0,
     marginy: isHorizontal ? 0 : margin,
-  });
+    height,
+    width
+  })
 
-  nodes.forEach((node) => {
-    dagreGraph.setNode(node.id, { width: node.width, height: node.height });
-  });
+  nodes.forEach(node => {
+    dagreGraph.setNode(node.id, { width: node.width, height: node.height })
+  })
 
-  edges.forEach((edge) => {
-    dagreGraph.setEdge(edge.source, edge.target);
-  });
+  edges.forEach(edge => {
+    dagreGraph.setEdge(edge.source, edge.target)
+  })
 
-  dagre.layout(dagreGraph);
+  dagre.layout(dagreGraph)
 
   // Scale so that nodes render within parent width and height
-  const graph = dagreGraph.graph();
-  const scaleX = graph.width ? Math.min(1, width / graph.width) : 1;
-  const scaleY = graph.height ? Math.min(1, height / graph.height) : 1;
-  const scale = Math.min(scaleX, scaleY);
+  const graph = dagreGraph.graph()
+  const scaleX = graph.width ? Math.min(1, width / graph.width) : 1
+  const scaleY = graph.height ? Math.min(1, height / graph.height) : 1
+  const scale = Math.min(scaleX, scaleY)
 
   const layoutedNodes = nodes.map((node: Node) => {
-    const nodeWithPosition = dagreGraph.node(node.id);
-    let x = nodeWithPosition.x * scale;
-    let y = nodeWithPosition.y * scale;
+    const nodeWithPosition = dagreGraph.node(node.id)
+    let x = nodeWithPosition.x * scale
+    let y = nodeWithPosition.y * scale
     // Center nodes horizontally or vertically based on direction
     if (isHorizontal) {
-      y = height / 2; // Center vertically
-      x = x + margin;
+      y = height / 2 // Center vertically
+      x = x + margin // Apply margin horizontally
     } else {
-      // Filter out anchor nodes to identify the first and last non-anchor nodes
-      const nonAnchorNodes = excludeAnchorNodes(nodes);
-      let firstNonAnchorNode = null;
-      let lastNonAnchorNode = null;
-      if (nonAnchorNodes.length > 0) {
-        firstNonAnchorNode = nonAnchorNodes[0];
-        lastNonAnchorNode = nonAnchorNodes[nonAnchorNodes.length - 1];
+      // Identify the first and last nodes
+      let firstNonAnchorNode = null
+      let lastNonAnchorNode = null
+      if (nodes.length > 0) {
+        firstNonAnchorNode = nodes[0]
+        lastNonAnchorNode = nodes[nodes.length - 1]
       }
-      x = width / 2; // Center horizontally
+      x = width / 2 // Center horizontally
       if (node.id === firstNonAnchorNode?.id) {
-        y = y + margin;
+        y = y + margin
       } else if (node.id === lastNonAnchorNode?.id) {
-        y = y - margin;
+        y = y - margin
       }
+      // x = width / 2 // Center horizontally
+      // y = y + margin // Apply margin vertically
     }
 
     // Return updated node with position and edge positions
@@ -183,13 +172,13 @@ const dagreLayout = ({
       ...node,
       position: { x, y },
       targetPosition: isHorizontal ? Position.Left : Position.Top,
-      sourcePosition: isHorizontal ? Position.Right : Position.Bottom,
-    };
-  });
+      sourcePosition: isHorizontal ? Position.Right : Position.Bottom
+    }
+  })
 
   // Return layouted nodes and original edges
   return {
     nodes: layoutedNodes,
-    edges,
-  };
-};
+    edges
+  }
+}

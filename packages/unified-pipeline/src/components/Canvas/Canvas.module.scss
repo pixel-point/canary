@@ -3,6 +3,11 @@
   width: 100%;
 }
 
+.canvas {
+  height: inherit;
+  width: inherit;
+}
+
 .canvasContainer {
   background-image: url("../../assets/images/bg.png");
   background-size: auto; /* Adjust as needed */

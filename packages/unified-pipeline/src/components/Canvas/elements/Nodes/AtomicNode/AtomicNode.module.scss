@@ -95,3 +95,21 @@
 .marginTop {
   margin-top: 10px;
 }
+
+.plus {
+  border-radius: 50%;
+  /*figma */
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(48, 48, 54, 0.6);
+  background-color: rgba(29, 29, 32, 1);
+  color: rgba(228, 228, 231, 1);
+  transform: translateX(-8px) translateY(-8px);
+  cursor: pointer;
+  opacity: 0;
+}
+
+.show {
+  transition: opacity 0.2s ease-in-out;
+  opacity: 1;
+}
