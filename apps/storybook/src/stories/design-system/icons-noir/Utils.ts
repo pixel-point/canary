@@ -19,7 +19,7 @@ export const ButtonRoleProps = {
 export function useDebouncedState<T>(initialValue: T, time = 250): [T, React.Dispatch<React.SetStateAction<T>>] {
   const [state, _setState] = useState<T>(initialValue)
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line
   const setState = useCallback(
     debounce((_state: T) => {
       _setState(_state)
