@@ -1,12 +1,13 @@
 pipeline:
   stages:
-    - parallel:
+    - name: Group 1
+      parallel:
         stages:
-          - name: Group Stage 1
+          - name: Group 1 Stage 1
             steps:
               - run: go build
               - run: go test
-          - name: Group Stage 2
+          - name: Group 1 Stage 2
             steps:
               - run: npm run
               - run: npm test
@@ -14,5 +15,25 @@ pipeline:
       steps:
         - run:
             script: go build
-        - run:
-            script: go test
+    - name: Group 2
+      parallel:
+        stages:
+          - name: Group 2 Stage 1
+            steps:
+              - run: go build
+              - run: go test
+          - name: Group 2 Stage 2
+            steps:
+              - run: npm run
+              - run: npm test
+    - name: Group 3
+      parallel:
+        stages:
+          - name: Group 3 Stage 1
+            steps:
+              - run: go build
+              - run: go test
+          - name: Group 3 Stage 2
+            steps:
+              - run: npm run
+              - run: npm test
