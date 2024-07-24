@@ -3,5 +3,8 @@ export declare const focus: string
 export declare const counts: string
 export declare const commitHistory: string
 export declare const gitDetails: string
-export declare const flexContainer: string
+export declare const flexCenter: string
+export declare const flexBaseline: string
 export declare const spacing: string
+export declare const marginLeft25: string
+export declare const marginLeft10: string

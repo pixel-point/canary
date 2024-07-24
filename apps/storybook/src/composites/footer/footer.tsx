@@ -2,6 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import cx from 'classnames'
 import { XmarkCircle, WarningTriangle, InfoCircle } from '@harnessio/icons-noir'
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@harnessio/canary'
 
 import css from './footer.module.scss'
 
@@ -28,27 +29,53 @@ const Footer: React.FC<FooterProps> = (props: FooterProps) => {
   const lastCommittedBy = props.commitHistory.lastCommittedBy
   return (
     <footer className={css.main}>
-      <div className={css.flexContainer}>
+      <div className={css.flexCenter}>
         <div className={css.counts}>
-          <div className={css.flexContainer}>
+          <div className={css.flexCenter}>
             <XmarkCircle />
             &nbsp;
             <span className={css.focus}>{props.problems[Severity.ERROR]}</span>
           </div>
-          <div className={cx(css.flexContainer, css.spacing)}>
+          <div className={cx(css.flexCenter, css.spacing)}>
             <WarningTriangle />
             &nbsp;
             <span className={css.focus}>{props.problems[Severity.WARNING]}</span>
           </div>
-          <div className={css.flexContainer}>
+          <div className={css.flexCenter}>
             <InfoCircle />
             &nbsp;
             <span className={css.focus}>{props.problems[Severity.INFO]}</span>
           </div>
         </div>
-        <div className={css.gitDetails}>
-          <span>Repository:</span>
-          <span>Branch:</span>
+        <div className={cx(css.gitDetails, css.marginLeft25)}>
+          <div className={css.flexBaseline}>
+            <span>Repository:</span>
+            <Select defaultValue="harness-next">
+              <SelectTrigger className="w-fit border-none px-1 text-white text-xs">
+                <SelectValue placeholder="Select..." />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="harness-next">harness-next</SelectItem>
+                <SelectItem value="canary">canary</SelectItem>
+                <SelectItem value="devops">devops</SelectItem>
+                <SelectItem value="unscripted">unscripted</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className={cx(css.flexBaseline, css.marginLeft10)}>
+            <span>Branch:</span>
+            <Select defaultValue="main">
+              <SelectTrigger className="w-fit border-none px-1 text-white text-xs">
+                <SelectValue placeholder="Select..." />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="main">main</SelectItem>
+                <SelectItem value="develop">develop</SelectItem>
+                <SelectItem value="release">release</SelectItem>
+                <SelectItem value="feature">feature</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
       {lastCommittedAt && lastCommittedBy && (

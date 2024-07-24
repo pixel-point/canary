@@ -33,12 +33,25 @@
   display: flex;
 }
 
-.flexContainer {
+.flexCenter {
   display: flex;
   align-items: center;
+}
+
+.flexBaseline {
+  display: flex;
+  align-items: baseline;
 }
 
 .spacing {
   margin-left: 10px;
   margin-right: 10px;
+}
+
+.marginLeft25 {
+  margin-left: 25px;
+}
+
+.marginLeft10 {
+  margin-left: 10px;
 }
