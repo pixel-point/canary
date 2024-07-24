@@ -6,6 +6,7 @@ import { GitnessTopBar } from '../components/TopBar.stories'
 import { GitnessBottomBar } from '../components/BottomBar.stories'
 import { GitnessContent } from './Content.stories'
 import { GitnessSecondaryNavbar } from '../components/SecondaryNavBar.stories'
+import { GitnessPanel } from '../components/Panel.stories'
 
 export default {
   title: 'App Shell/Container',
@@ -33,6 +34,9 @@ const Template: Story = () => (
       <Container.Content>
         <GitnessContent />
       </Container.Content>
+      <Container.Panel>
+        <GitnessPanel />
+      </Container.Panel>
       <Container.Bottombar>
         <GitnessBottomBar />
       </Container.Bottombar>
@@ -55,6 +59,29 @@ const SecondaryNavbarTemplate: Story = () => (
       <Container.Content>
         <GitnessContent />
       </Container.Content>
+      <Container.Bottombar>
+        <GitnessBottomBar />
+      </Container.Bottombar>
+    </Container.Main>
+  </Container.Root>
+)
+
+const RightPanelTemplate: Story = () => (
+  <Container.Root>
+    <Container.Sidebar>
+      <GitnessNavbar />
+    </Container.Sidebar>
+
+    <Container.Main>
+      <Container.Topbar>
+        <GitnessTopBar />
+      </Container.Topbar>
+      <Container.Content>
+        <GitnessContent />
+      </Container.Content>
+      <Container.Panel>
+        <GitnessPanel />
+      </Container.Panel>
       <Container.Bottombar>
         <GitnessBottomBar />
       </Container.Bottombar>
@@ -101,8 +128,11 @@ const CenteredContentOnlyTemplate: Story = () => (
 export const Default = Template.bind({})
 Default.args = {}
 
-export const SecondaryNavbar = SecondaryNavbarTemplate.bind({})
-SecondaryNavbar.args = {}
+export const WithSecondaryNavbar = SecondaryNavbarTemplate.bind({})
+WithSecondaryNavbar.args = {}
+
+export const WithRightPanel = RightPanelTemplate.bind({})
+WithRightPanel.args = {}
 
 export const NoSidebar = NoSidebarTemplate.bind({})
 NoSidebarTemplate.args = {}

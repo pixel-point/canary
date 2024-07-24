@@ -14,25 +14,33 @@ const Container = {
   }),
 
   Main: function Main({ children }: { children: React.ReactNode }) {
-    return <div className="grid grid-rows-[auto_1fr_auto] col-start-3 w-full h-full">{children}</div>
+    return (
+      <div className="grid grid-cols-[1fr_auto] grid-rows-[auto_1fr_auto] col-start-3 w-full h-full">{children}</div>
+    )
   },
 
   Topbar: function Topbar({ children }: { children: React.ReactNode }) {
-    return <div className="flex">{children}</div>
+    return <div className="flex col-start-1 col-span-full">{children}</div>
   },
 
   Content: function Content({ children }: { children: React.ReactNode }) {
-    return <div className="flex w-full row-start-2 h-full overflow-y-auto">{children}</div>
+    return <div className="flex w-full col-start-1 row-start-2 h-full overflow-y-auto">{children}</div>
+  },
+
+  Panel: function Panel({ children }: { children: React.ReactNode }) {
+    return <div className="flex col-start-2 w-auto h-full overflow-y-auto">{children}</div>
   },
 
   CenteredContent: function CenteredContent({ children }: { children: React.ReactNode }) {
     return (
-      <div className="flex row-start-2 place-content-center items-center w-full h-full overflow-y-auto">{children}</div>
+      <div className="flex col-start-1 row-start-2 place-content-center items-center w-full h-full overflow-y-auto">
+        {children}
+      </div>
     )
   },
 
   Bottombar: function Content({ children }: { children: React.ReactNode }) {
-    return <div className="flex">{children}</div>
+    return <div className="flex col-start-1 col-span-full">{children}</div>
   }
 }
 
