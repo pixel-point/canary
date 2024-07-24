@@ -3,65 +3,61 @@ import { StoryFn, Meta } from '@storybook/react'
 import { PipelineStudio } from '../components/PipelineStudio/PipelineStudio'
 import pipelineYamlSingleStage from '../assets/mockPipelines/yamls/pipeline_w_single_stage.yaml'
 import pipelineYamlParallelGroup from '../assets/mockPipelines/yamls/pipeline_w_parallel_stage_group.yaml'
-import { getGraphFromPipelineYaml } from '../utils/PipelineYamlUtils'
+import { getNodesFromPipelineYaml } from '../utils/PipelineYamlUtils'
 
-export default {
-  title: 'Unified Pipeline/Screens/Pipeline Studio',
+const meta: Meta<typeof PipelineStudio> = {
+  title: 'Unified Pipeline/Pipeline Studio',
   component: PipelineStudio,
   parameters: {
     layout: 'fullscreen'
   },
   argTypes: {
     readonly: { control: 'boolean' },
-    graph: { table: { disable: true } },
+    nodes: { table: { disable: true } },
     onAddNode: { table: { disable: true } },
     onDeleteNode: { table: { disable: true } },
     onSelectNode: { table: { disable: true } }
   }
-} as Meta
+}
+
+export default meta
 
 interface StoryProps {
   readonly?: boolean
 }
 
-const Template: StoryFn<StoryProps> = args => {
-  return (
-    <div style={{ width: '100vw', height: '100vh' }}>
-      <PipelineStudio
-        graph={getGraphFromPipelineYaml(pipelineYamlSingleStage)}
-        onAddNode={() => {}}
-        onDeleteNode={() => {}}
-        onSelectNode={() => {}}
-        readonly={args.readonly}
-      />
-    </div>
-  )
-}
+const Template: StoryFn<StoryProps> = args => (
+  <div style={{ width: '100vw', height: '100vh' }}>
+    <PipelineStudio
+      nodes={getNodesFromPipelineYaml(pipelineYamlSingleStage)}
+      onAddNode={() => {}}
+      onDeleteNode={() => {}}
+      onSelectNode={() => {}}
+      readonly={args.readonly}
+    />
+  </div>
+)
 
-export const WithSingleStage = Template.bind({})
+export const WithSingleStage: StoryFn<StoryProps> = Template.bind({})
 WithSingleStage.args = {
   readonly: false
 }
 
-export const WithSingleStageReadOnly = Template.bind({})
+export const WithSingleStageReadOnly: StoryFn<StoryProps> = Template.bind({})
 WithSingleStageReadOnly.args = {
   readonly: true
 }
 
-export function WithMultipleStagesInParallel(props: StoryProps): React.ReactElement {
-  return (
-    <div style={{ width: '100vw', height: '100vh' }}>
-      <PipelineStudio
-        graph={getGraphFromPipelineYaml(pipelineYamlParallelGroup)}
-        onAddNode={() => {}}
-        onDeleteNode={() => {}}
-        onSelectNode={() => {}}
-        readonly={props.readonly}
-      />
-    </div>
-  )
-}
+export const WithMultipleStagesInParallel: StoryFn<StoryProps> = props => (
+  <div style={{ width: '100vw', height: '100vh' }}>
+    <PipelineStudio
+      nodes={getNodesFromPipelineYaml(pipelineYamlParallelGroup)}
+      onAddNode={() => {}}
+      onDeleteNode={() => {}}
+      onSelectNode={() => {}}
+      readonly={props.readonly}
+    />
+  </div>
+)
 
-export function WithMultipleStagesInParallelReadOnly(): React.ReactElement {
-  return <WithMultipleStagesInParallel readonly />
-}
+export const WithMultipleStagesInParallelReadOnly: StoryFn<StoryProps> = () => <WithMultipleStagesInParallel readonly />

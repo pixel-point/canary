@@ -52,10 +52,11 @@ export const performLayout = ({ nodes, edges, width, height, readonly }: LayoutA
       const childNodes = getChildNodes(parentNodeId, nonLayoutableNodes)
       const childNodeCount = childNodes.length
       if (childNodeCount > 0) {
-        const { parallel: parallelNodes } = partitionNodesByParallelism(childNodes)
+        const { parallel: parallelNodes, sequential: sequentialChildNodes } = partitionNodesByParallelism(childNodes)
         const parallelNodeCount = parallelNodes.length
+        /* As per spec, a group node having parallel nodes won't have any sequential nodes inside it and vice versa */
         if (parallelNodeCount > 0) {
-          /* Layout parallel nodes separately */
+          /* Layout parallel nodes */
           const parallelLayoutedElements = dagreLayout({
             nodes: parallelNodes,
             edges,
@@ -69,23 +70,10 @@ export const performLayout = ({ nodes, edges, width, height, readonly }: LayoutA
           })
           layoutedNodes.push(...parallelLayoutedElements.nodes)
           layoutedEdges.push(...parallelLayoutedElements.edges)
-          /* As per spec, a group node having parallel nodes won't have any sequential nodes inside it */
-          /* Layout sequential nodes separately */
-          // const layoutedSequentialElements = dagreLayout({
-          //   nodes: sequentialChildNodes,
-          //   edges,
-          //   width,
-          //   height,
-          //   margin: NODE_VERTICAL_MARGIN,
-          //   nodeNodeSeparation: readonly
-          //     ? INTER_PARENT_NODE_NODE_HORIZONTAL_SEPARATION_READ_ONLY
-          //     : INTER_PARENT_NODE_NODE_HORIZONTAL_SEPARATION,
-          // });
-          // layoutedNodes.push(...layoutedSequentialElements.nodes);
-          // layoutedEdges.push(...layoutedSequentialElements.edges);
         } else {
+          /* Layout sequential nodes */
           const layoutedSequentialElements = dagreLayout({
-            nodes: childNodes,
+            nodes: sequentialChildNodes,
             edges,
             width,
             height,
@@ -97,6 +85,19 @@ export const performLayout = ({ nodes, edges, width, height, readonly }: LayoutA
           layoutedNodes.push(...layoutedSequentialElements.nodes)
           layoutedEdges.push(...layoutedSequentialElements.edges)
         }
+      } else {
+        const layoutedSequentialElements = dagreLayout({
+          nodes: childNodes,
+          edges,
+          width,
+          height,
+          margin: NODE_VERTICAL_MARGIN,
+          nodeNodeSeparation: readonly
+            ? INTER_PARENT_NODE_NODE_HORIZONTAL_SEPARATION_READ_ONLY
+            : INTER_PARENT_NODE_NODE_HORIZONTAL_SEPARATION
+        })
+        layoutedNodes.push(...layoutedSequentialElements.nodes)
+        layoutedEdges.push(...layoutedSequentialElements.edges)
       }
     })
   }

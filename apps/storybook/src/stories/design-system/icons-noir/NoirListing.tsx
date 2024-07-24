@@ -1,4 +1,4 @@
-import { useMemo, ChangeEvent, useState, useCallback, useEffect, useRef } from 'react'
+import React, { useMemo, ChangeEvent, useState, useCallback, useEffect, useRef } from 'react'
 import * as Noir from '@harnessio/icons-noir'
 import { getIcon } from '@harnessio/svg-icon'
 import { matchSorter } from 'match-sorter'
@@ -7,7 +7,7 @@ import MarkdownPreview from '@uiw/react-markdown-preview'
 import htmlPlugin from 'prettier/plugins/html'
 import Keywords from 'react-keywords'
 import { IconContextProvider } from '@harnessio/svg-icon-react'
-import { Button } from '@harnessio/canary'
+import { Input } from '@harnessio/canary'
 import {
   ButtonRoleProps,
   CloseDialogButtonProps,
@@ -18,14 +18,13 @@ import {
   useDebouncedState,
   DialogConfigAttributes
 } from './Utils'
-import './App.css'
-import { Accessibility } from '@harnessio/icons-noir'
+import './NoirListing.css'
 
 const NoirMetadata = getIconSetMetadata(Noir)
 
-export default function App() {
+export default function NoirListing() {
   const [search, setSearch] = useDebouncedState('')
-  const { size, strokeWidth, color, Settings } = useSettings()
+  const { size, strokeWidth, Settings } = useSettings()
   const [selectedIcon, setSelectedIcon] = useState<IconMetadata>()
   const filteredData = useMemo(
     () =>
@@ -38,31 +37,12 @@ export default function App() {
     <IconContextProvider
       size={size}
       strokeWidth={strokeWidth}
-      // color='de'
       // renderHook={props => console.log('render icon', props.name, props)}
     >
+      <div className='icons-container'>
       <header className="page-header">
-        <div style={{ display: 'flex', gap: '20px', flexDirection: 'row' }}>
-          <Button>Button</Button>
-          <Button variant="secondary">Secondary</Button>
-          <Button variant="destructive">Destructive</Button>
-          <Button variant="ghost">Ghost</Button>
-          <Button variant="link">Link</Button>
-          <Button variant="outline">Outline</Button>
-          <Button variant="outline" size="icon">
-            <Accessibility className="h-4 w-4" />
-          </Button>
-          <Button>
-            <Accessibility className="mr-2 h-4 w-4" /> Login with Email
-          </Button>
-          <Button disabled>
-            <Accessibility className="mr-2 h-4 w-4 animate-spin" />
-            Please wait
-          </Button>
-        </div>
-
         <div className="search-container">
-          <input
+          <Input
             placeholder="Search..."
             type="search"
             autoCapitalize="none"
@@ -82,11 +62,7 @@ export default function App() {
         </details>
       </header>
       <main>
-        <details open className="iconset-list">
-          <summary>
-            <Noir.NavArrowDown size="24" color="inherit" />
-            &nbsp;Noir
-          </summary>
+        <div className="iconset-list">
           <div>
             {filteredData.map(({ name, fqn, Component, ComponentName }) => {
               const title = `<${ComponentName} />`
@@ -111,11 +87,12 @@ export default function App() {
               )
             })}
           </div>
-        </details>
+        </div>
         {selectedIcon && openIconDialog && (
           <IconDialog selectedIcon={selectedIcon} open={true} onClose={() => setOpenIconDialog(false)} />
         )}
       </main>
+      </div>
     </IconContextProvider>
   )
 }
@@ -280,7 +257,7 @@ function useSettings() {
             <option value="custom">Custom...</option>
           </select>
         </label>
-        <label>
+        {/*<label>
           Color:
           <input
             type="color"
@@ -290,7 +267,7 @@ function useSettings() {
               setColor(e.target.value)
             }}
           />
-        </label>
+        </label>*/}
       </div>
     ),
     [

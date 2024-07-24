@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "Reusable Graph rendering component library",
   "scripts": {
-    "webpack": "NODE_ENV=development webpack serve",
     "dev": "run-p webpack typed-scss",
+    "webpack": "NODE_ENV=development webpack serve",
     "watch": "webpack --watch",
     "typed-scss": "typed-scss-modules src --watch"
   },
@@ -13,12 +13,10 @@
     "type": "git",
     "url": "git+https://github.com/harness/canary/tree/main/packages/unified-pipeline"
   },
-  "keywords": [],
-  "author": "",
-  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/harness/canary/issues"
   },
+  "license": "Apache-2.0",
   "devDependencies": {
     "@storybook/react": "^8.2.4",
     "@types/classnames": "^2.3.1",
@@ -47,21 +45,21 @@
     "typescript": "^5.3.3",
     "webpack": "^5.90.0",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
-  },
-  "dependencies": {
+    "webpack-dev-server": "^4.15.1",
     "@types/dagre": "^0.7.52",
     "classnames": "^2.5.1",
     "dagre": "^0.8.5",
     "elkjs": "^0.9.3",
-    "react": "^18.2.0",
     "react-copy-to-clipboard": "^5.1.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^5.3.4",
     "reactflow": "^11.11.4",
     "yaml": "^2.4.5",
     "yaml-loader": "^0.8.1",
     "zustand": "^4.5.4"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^5.3.4"
   },
   "peerDependencies": {
     "react": "^18.2.0",

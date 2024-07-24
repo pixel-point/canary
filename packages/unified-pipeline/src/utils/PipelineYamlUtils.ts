@@ -1,4 +1,4 @@
-import { has, isEmpty, isUndefined, set } from 'lodash-es'
+import { has, isEmpty, isUndefined } from 'lodash-es'
 import { type Node as ReactFlowNode, Position, XYPosition } from 'reactflow'
 import { NodeType, Graph, Node, PositionType } from '../components/Canvas/types'
 import { DEFAULT_NODE_LOCATION, ROOT_NODE_ID, PLUS_NODE_ID } from '../components/Canvas/utils/LROrientation/Constants'
@@ -130,10 +130,16 @@ const isGroupNode = (node: Node): boolean => {
   return has(node, 'groupId') && !isEmpty(node.groupId) && !isEmpty(node.children)
 }
 
-export const getElementsFromGraph = ({ graph, readonly }: { graph: Graph; readonly?: boolean }): ReactFlowNode[] => {
-  if (graph.nodes.length === 0) return []
+export const getElementsFromGraph = ({
+  nodes: initialNodes,
+  readonly
+}: {
+  nodes: Graph['nodes']
+  readonly?: boolean
+}): ReactFlowNode[] => {
+  if (initialNodes.length === 0) return []
   const nodes: ReactFlowNode[] = [RootNode]
-  graph.nodes.forEach((node: Node) => {
+  initialNodes.forEach((node: Node) => {
     nodes.push(...processNode({ node, readonly, zIndex: BASE_Z_INDEX }))
   })
   nodes.push({
@@ -281,26 +287,15 @@ export const getAtomicNodesForContainer = ({
   return childNodes.sort(sortNodes)
 }
 
-export const getGraphFromPipelineYaml = (pipelineAsYaml: string): Graph => {
-  const pipelineGraphFromYAML: Graph = { nodes: [] }
+export const getNodesFromPipelineYaml = (pipelineAsYaml: string): Graph['nodes'] => {
   if (!pipelineAsYaml) {
-    return pipelineGraphFromYAML
+    return []
   }
-  try {
-    if (!isUndefined(pipelineAsYaml) && !isEmpty(pipelineAsYaml)) {
-      if (has(pipelineAsYaml, PIPELINE_STAGES_PATH)) {
-        set(
-          pipelineGraphFromYAML,
-          'nodes',
-          parsePipelineYaml({
-            yamlObject: pipelineAsYaml,
-            pathPrefix: PIPELINE_STAGES_PATH
-          })
-        )
-      }
-    }
-  } catch (e) {
-    // console.error(e)
+  if (!isUndefined(pipelineAsYaml) && !isEmpty(pipelineAsYaml) && has(pipelineAsYaml, PIPELINE_STAGES_PATH)) {
+    return parsePipelineYaml({
+      yamlObject: pipelineAsYaml,
+      pathPrefix: PIPELINE_STAGES_PATH
+    })
   }
-  return pipelineGraphFromYAML
+  return []
 }

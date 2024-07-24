@@ -1,20 +1,26 @@
+import React from 'react'
 import { get, has } from 'lodash-es'
 import { Node } from '../components/Canvas/types'
 import { StageCategory } from '../components/PipelineConfigPanel/types'
 import { getIdFromName } from './StringUtils'
+import Bitbucket from '../icons/Bitbucket'
+import Slack from '../icons/Slack'
 
 const STAGE_LABEL = 'Stage'
 const STAGE_GROUP_LABEL = 'Stage Group'
+/* Prefixes */
 const STAGES_PATH_PREFIX = 'stages'
 export const PIPELINE_STAGES_PATH_PREFIX = `pipeline.${STAGES_PATH_PREFIX}`
 export const STEPS_PATH_PREFIX = 'steps'
+export const GROUP_PATH_PREFIX = 'group'
+export const PARALLEL_PATH_PREFIX = 'parallel'
 
 export const parsePipelineYaml = ({
   yamlObject,
   pathPrefix = '',
   isParallel = false
 }: {
-  yamlObject: Record<string, any>
+  yamlObject: string | Record<string, any>
   pathPrefix?: string
   isParallel?: boolean
 }): Node[] => {
@@ -22,9 +28,9 @@ export const parsePipelineYaml = ({
   if (!Array.isArray(stages)) return []
   const collectedNodes: Node[] = []
   stages.forEach((stage, index) => {
-    const category = has(stage, 'group')
+    const category = has(stage, GROUP_PATH_PREFIX)
       ? StageCategory.GROUP
-      : has(stage, 'parallel')
+      : has(stage, PARALLEL_PATH_PREFIX)
         ? StageCategory.PARALLEL
         : StageCategory.UNIT
 
@@ -32,7 +38,7 @@ export const parsePipelineYaml = ({
 
     if (category === StageCategory.GROUP) {
       const groupMembers = parsePipelineYaml({
-        yamlObject: get(stage, 'group', []),
+        yamlObject: get(stage, GROUP_PATH_PREFIX, []),
         pathPrefix: STAGES_PATH_PREFIX
       })
       collectedNodes.push(
@@ -45,7 +51,7 @@ export const parsePipelineYaml = ({
       )
     } else if (category === StageCategory.PARALLEL) {
       const parallelMembers = parsePipelineYaml({
-        yamlObject: get(stage, 'parallel', []),
+        yamlObject: get(stage, PARALLEL_PATH_PREFIX, []),
         pathPrefix: STAGES_PATH_PREFIX,
         isParallel: true
       })
@@ -132,9 +138,13 @@ const getChildNodes = (stage: Record<string, any>): Node[] => {
 const getStepNode = (step: Record<string, any>, stepIndex: number): Node => {
   return {
     name: get(step, 'name', `step ${stepIndex + 1}`),
-    icon: null,
+    icon: getPlaceholderIcon(stepIndex),
     expandable: false,
     path: '',
     deletable: false
   } as Node
+}
+
+const getPlaceholderIcon = (stepIndex: number): React.ReactElement => {
+  return stepIndex % 2 ? <Bitbucket /> : <Slack />
 }

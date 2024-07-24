@@ -48,13 +48,15 @@ pnpm build
 
 Or you can build individual project by running `pnpm run build` from each project folder root folder.
 
-## Local Development
+## StoryBook
 
-To view Canary StoryBook, run:
+To bring up Canary StoryBook locally, run:
 
 ```sh
 pnpm dev
 ```
+
+Note: `pnpm build` needs to be run before `pnpm dev` to ensure all packages are built.
 
 ## Publishing
 
