@@ -3,13 +3,13 @@ import { GitnessNavbar } from '../components/NavBar.stories'
 import { GitnessTopBar } from '../components/TopBar.stories'
 
 export default {
-  title: 'Pages/Pipeline List',
+  title: 'Screens/Execution',
   parameters: {
     layout: 'fullscreen'
   }
 }
 
-export function PipeLineList() {
+export function Execution() {
   return (
     <Container.Root>
       <Container.Sidebar>
@@ -20,7 +20,7 @@ export function PipeLineList() {
           <GitnessTopBar />
         </Container.Topbar>
         <Container.CenteredContent>
-          <p className="text-sm">Pipeline list</p>
+          <p className="text-sm">Execution – Single</p>
         </Container.CenteredContent>
       </Container.Main>
     </Container.Root>

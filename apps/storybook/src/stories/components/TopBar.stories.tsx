@@ -2,6 +2,15 @@
 import React from 'react'
 import { Meta, Story } from '@storybook/react'
 import Topbar from '../../components/layout/TopBar'
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator
+} from '@harnessio/canary'
+import { GitnessTopBarRightList } from './HorizontalList.stories'
 
 export default {
   title: 'Components/Top Bar',
@@ -20,7 +29,7 @@ export default {
 const Template: Story = () => (
   <Topbar.Root>
     <Topbar.Left>
-      <p>Left actions</p>
+      <p>Breadcrumbs</p>
     </Topbar.Left>
     <Topbar.Right>
       <p>Right actions</p>
@@ -31,10 +40,20 @@ const Template: Story = () => (
 const GitnessTemplate: Story = () => (
   <Topbar.Root>
     <Topbar.Left>
-      <p>Breadcrumbs</p>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">harness-next</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator className="font-thin">&nbsp;/&nbsp;</BreadcrumbSeparator>
+          <BreadcrumbPage>
+            <BreadcrumbLink href="/components">pipeline.yml</BreadcrumbLink>
+          </BreadcrumbPage>
+        </BreadcrumbList>
+      </Breadcrumb>
     </Topbar.Left>
     <Topbar.Right>
-      <p>Button</p>
+      <GitnessTopBarRightList />
     </Topbar.Right>
   </Topbar.Root>
 )

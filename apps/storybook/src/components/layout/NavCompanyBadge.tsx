@@ -16,11 +16,11 @@ const NavCompanyBadge: React.FC<CompanyProps> = ({ avatar, name }) => {
           <p className="text-[15px] text-primary truncate" aria-label={name}>
             {name || 'No name'}
           </p>
-          <ChevronDownIcon className="h-3 w-3 shrink-0 text-primary transition-transform" />
+          <ChevronDownIcon className="nav-company-badge-chevron -mt-1 h-3 w-3 shrink-0 text-primary" />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[180px] mt-3.5 p-2.5">
-        <p className="text-xs text-foreground">Company settings...</p>
+      <DropdownMenuContent align="end" className="w-[180px] mt-3.5 px-3.5 py-2.5">
+        <p className="text-xs text-primary">Company menu</p>
       </DropdownMenuContent>
     </DropdownMenu>
   )

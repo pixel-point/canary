@@ -1,7 +1,7 @@
 import React from 'react'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, cn } from '@harnessio/canary'
+import { cn } from '@harnessio/canary'
 
-const Navbar = {
+const SecondaryNavbar = {
   Root: function Root({ children }: { children: React.ReactNode }) {
     return (
       <div className="select-none grid grid-rows-[auto_1fr_auto] w-[220px] h-screen overflow-y-auto border-r text-sm text-[#AEAEB7] bg-secondary-background">
@@ -25,23 +25,6 @@ const Navbar = {
           'border-t': topBorder
         })}>
         {children}
-      </div>
-    )
-  },
-
-  AccordionGroup: function AccordionGroup({ title, children }: { title: string; children: React.ReactNode }) {
-    return (
-      <div className="p-5 py-0.5 border-t">
-        <Accordion type="single" collapsible defaultValue="item-1">
-          <AccordionItem value="item-1" className="border-none">
-            <AccordionTrigger className="group">
-              <p className="text-xs text-[#60606C] font-normal group-hover:text-primary ease-in-out duration-150">
-                {title}
-              </p>
-            </AccordionTrigger>
-            <AccordionContent className="flex flex-col gap-1.5">{children}</AccordionContent>
-          </AccordionItem>
-        </Accordion>
       </div>
     )
   },
@@ -74,4 +57,4 @@ const Navbar = {
   })
 }
 
-export default Navbar
+export default SecondaryNavbar

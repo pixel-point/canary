@@ -1,13 +1,14 @@
 /// <reference types="vite-plugin-svgr/client" />
 import { Meta, Story } from '@storybook/react'
 import Container from '../../components/layout/container'
-import { GitnessNavbar } from './NavBar.stories'
-import { GitnessTopBar } from './TopBar.stories'
-import { GitnessBottomBar } from './BottomBar.stories'
+import { GitnessNavbar } from '../components/NavBar.stories'
+import { GitnessTopBar } from '../components/TopBar.stories'
+import { GitnessBottomBar } from '../components/BottomBar.stories'
 import { GitnessContent } from './Content.stories'
+import { GitnessSecondaryNavbar } from '../components/SecondaryNavBar.stories'
 
 export default {
-  title: 'Components/Container',
+  title: 'App Shell/Container',
   component: Container.Root,
   parameters: {
     layout: 'fullscreen',
@@ -25,6 +26,28 @@ const Template: Story = () => (
     <Container.Sidebar>
       <GitnessNavbar />
     </Container.Sidebar>
+    <Container.Main>
+      <Container.Topbar>
+        <GitnessTopBar />
+      </Container.Topbar>
+      <Container.Content>
+        <GitnessContent />
+      </Container.Content>
+      <Container.Bottombar>
+        <GitnessBottomBar />
+      </Container.Bottombar>
+    </Container.Main>
+  </Container.Root>
+)
+
+const SecondaryNavbarTemplate: Story = () => (
+  <Container.Root>
+    <Container.Sidebar>
+      <GitnessNavbar />
+    </Container.Sidebar>
+    <Container.SecondarySidebar>
+      <GitnessSecondaryNavbar />
+    </Container.SecondarySidebar>
     <Container.Main>
       <Container.Topbar>
         <GitnessTopBar />
@@ -77,6 +100,9 @@ const CenteredContentOnlyTemplate: Story = () => (
 
 export const Default = Template.bind({})
 Default.args = {}
+
+export const SecondaryNavbar = SecondaryNavbarTemplate.bind({})
+SecondaryNavbar.args = {}
 
 export const NoSidebar = NoSidebarTemplate.bind({})
 NoSidebarTemplate.args = {}

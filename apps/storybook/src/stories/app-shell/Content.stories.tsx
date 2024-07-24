@@ -3,7 +3,7 @@ import { Meta, Story } from '@storybook/react'
 import Content from '../../components/layout/Content'
 
 export default {
-  title: 'Components/Content',
+  title: 'App Shell/Content',
   component: Content.Root,
   parameters: {
     layout: 'fullscreen',
