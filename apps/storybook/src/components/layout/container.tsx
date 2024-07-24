@@ -33,7 +33,7 @@ const Container = {
 
   CenteredContent: function CenteredContent({ children }: { children: React.ReactNode }) {
     return (
-      <div className="flex col-start-1 row-start-2 place-content-center items-center w-full h-full overflow-y-auto">
+      <div className="flex w-full col-start-1 row-start-2 h-full place-content-center justify-items-center place-items-center overflow-y-auto">
         {children}
       </div>
     )

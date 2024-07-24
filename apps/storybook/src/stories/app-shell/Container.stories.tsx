@@ -31,12 +31,10 @@ const Template: Story = () => (
       <Container.Topbar>
         <GitnessTopBar />
       </Container.Topbar>
-      <Container.Content>
+      <Container.CenteredContent>
         <GitnessContent />
-      </Container.Content>
-      <Container.Panel>
-        <GitnessPanel />
-      </Container.Panel>
+      </Container.CenteredContent>
+
       <Container.Bottombar>
         <GitnessBottomBar />
       </Container.Bottombar>
@@ -56,9 +54,9 @@ const SecondaryNavbarTemplate: Story = () => (
       <Container.Topbar>
         <GitnessTopBar />
       </Container.Topbar>
-      <Container.Content>
+      <Container.CenteredContent>
         <GitnessContent />
-      </Container.Content>
+      </Container.CenteredContent>
       <Container.Bottombar>
         <GitnessBottomBar />
       </Container.Bottombar>
@@ -76,9 +74,9 @@ const RightPanelTemplate: Story = () => (
       <Container.Topbar>
         <GitnessTopBar />
       </Container.Topbar>
-      <Container.Content>
+      <Container.CenteredContent>
         <GitnessContent />
-      </Container.Content>
+      </Container.CenteredContent>
       <Container.Panel>
         <GitnessPanel />
       </Container.Panel>
@@ -95,9 +93,9 @@ const NoSidebarTemplate: Story = () => (
       <Container.Topbar>
         <GitnessTopBar />
       </Container.Topbar>
-      <Container.Content>
+      <Container.CenteredContent>
         <GitnessContent />
-      </Container.Content>
+      </Container.CenteredContent>
       <Container.Bottombar>
         <GitnessBottomBar />
       </Container.Bottombar>
