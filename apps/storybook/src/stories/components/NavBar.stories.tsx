@@ -1,5 +1,5 @@
-/// <reference types="vite-plugin-svgr/client" />
-import { Meta, Story } from '@storybook/react'
+import React from 'react'
+import { Meta, StoryFn } from '@storybook/react'
 import NavItemPlaceholder from '../../assets/environment-icon.svg?react'
 import Navbar from '../../components/layout/navbar'
 import NavUserBadge from '../../components/layout/NavUserBadge'
@@ -15,9 +15,10 @@ import EnvironmentIcon from '../../assets/environment-icon.svg?react'
 import SecretsIcon from '../../assets/secrets-icon.svg?react'
 import ConnectorsIcon from '../../assets/connectors-icon.svg?react'
 import SystemAdministrationIcon from '../../assets/system-administration-icon.svg?react'
+import ProjectSwitcher from '../../composites/ProjectSwitcher'
 
 export default {
-  title: 'Components/Navbar',
+  title: 'Components/Composites/Navbar',
   component: Navbar.Root,
   parameters: {
     layout: 'fullscreen',
@@ -75,10 +76,27 @@ const secondaryMenuItems = [
   }
 ]
 
-const Template: Story = () => (
+const sampleProjectList = [
+  {
+    name: 'Pixel Point',
+    avatar: <CompanyAvatar />
+  },
+  {
+    name: 'Harness',
+    avatar: <CompanyAvatar />
+  },
+  {
+    name: 'Drone',
+    avatar: <CompanyAvatar />
+  }
+]
+
+const Template: StoryFn = () => (
   <Navbar.Root>
     <Navbar.Header>
-      <NavCompanyBadge avatar={<CompanyAvatar />} name="Company name" />
+      <NavCompanyBadge avatar={<CompanyAvatar />} name="Company name">
+        <p className="text-sm text-primary">Menu component</p>
+      </NavCompanyBadge>
     </Navbar.Header>
     <Navbar.Content>
       <Navbar.Group>
@@ -98,10 +116,25 @@ const Template: Story = () => (
   </Navbar.Root>
 )
 
-const GitnessTemplate: Story = () => (
+const GitnessTemplate: StoryFn = () => (
   <Navbar.Root>
     <Navbar.Header>
-      <NavCompanyBadge avatar={<CompanyAvatar />} name="Pixel Point" />
+      <NavCompanyBadge avatar={<CompanyAvatar />} name="Pixel Point">
+        <ProjectSwitcher.Root>
+          <ProjectSwitcher.List>
+            {sampleProjectList.map((p, p_idx) => {
+              return (
+                <ProjectSwitcher.Item>
+                  <ProjectSwitcher.ItemAvatar>{p.avatar}</ProjectSwitcher.ItemAvatar>
+                  <ProjectSwitcher.ItemTitle>{p.name}</ProjectSwitcher.ItemTitle>
+                  <ProjectSwitcher.ItemAction>Edit</ProjectSwitcher.ItemAction>
+                </ProjectSwitcher.Item>
+              )
+            })}
+          </ProjectSwitcher.List>
+          <ProjectSwitcher.AddNew />
+        </ProjectSwitcher.Root>
+      </NavCompanyBadge>
     </Navbar.Header>
     <Navbar.Content>
       <Navbar.Group>

@@ -25,7 +25,7 @@ import {
 } from '@harnessio/canary'
 
 export default {
-  title: 'Pages/Repository List',
+  title: 'Screens/Repository List',
   parameters: {
     layout: 'fullscreen'
   }

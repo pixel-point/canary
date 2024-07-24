@@ -3,13 +3,13 @@ import { GitnessNavbar } from '../components/NavBar.stories'
 import { GitnessTopBar } from '../components/TopBar.stories'
 
 export default {
-  title: 'Pages/Repository',
+  title: 'Screens/Repository',
   parameters: {
     layout: 'fullscreen'
   }
 }
 
-export function Repository() {
+export function PRList() {
   return (
     <Container.Root>
       <Container.Sidebar>
@@ -20,7 +20,7 @@ export function Repository() {
           <GitnessTopBar />
         </Container.Topbar>
         <Container.CenteredContent>
-          <p className="text-sm">Repository (single)</p>
+          <p className="text-sm">Repository – PR List (Review)</p>
         </Container.CenteredContent>
       </Container.Main>
     </Container.Root>

@@ -2,7 +2,7 @@ import FooterStrap from '../../components/layout/FooterStrap'
 import { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta = {
-  title: 'Components/Footer Strap',
+  title: 'Components/App Shell/Footer Strap',
   component: FooterStrap,
   parameters: {
     layout: 'fullscreen',

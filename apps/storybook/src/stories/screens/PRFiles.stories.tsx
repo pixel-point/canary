@@ -1,16 +1,15 @@
-import React from 'react'
 import Container from '../../components/layout/container'
 import { GitnessNavbar } from '../components/NavBar.stories'
 import { GitnessTopBar } from '../components/TopBar.stories'
 
 export default {
-  title: 'Pages/Pipeline',
+  title: 'Screens/Repository',
   parameters: {
     layout: 'fullscreen'
   }
 }
 
-export function CreatePipeline() {
+export function PRFiles() {
   return (
     <Container.Root>
       <Container.Sidebar>
@@ -21,7 +20,7 @@ export function CreatePipeline() {
           <GitnessTopBar />
         </Container.Topbar>
         <Container.CenteredContent>
-          <p className="text-sm">Create pipeline</p>
+          <p className="text-sm">Repository – PR Files (Review)</p>
         </Container.CenteredContent>
       </Container.Main>
     </Container.Root>
