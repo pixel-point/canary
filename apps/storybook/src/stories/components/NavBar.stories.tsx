@@ -1,5 +1,5 @@
-/// <reference types="vite-plugin-svgr/client" />
-import { Meta, Story } from '@storybook/react'
+import React from 'react'
+import { Meta, StoryFn } from '@storybook/react'
 import NavItemPlaceholder from '../../assets/environment-icon.svg?react'
 import Navbar from '../../components/layout/navbar'
 import NavUserBadge from '../../components/layout/NavUserBadge'
@@ -75,7 +75,7 @@ const secondaryMenuItems = [
   }
 ]
 
-const Template: Story = () => (
+const Template: StoryFn = () => (
   <Navbar.Root>
     <Navbar.Header>
       <NavCompanyBadge avatar={<CompanyAvatar />} name="Company name" />
@@ -98,7 +98,7 @@ const Template: Story = () => (
   </Navbar.Root>
 )
 
-const GitnessTemplate: Story = () => (
+const GitnessTemplate: StoryFn = () => (
   <Navbar.Root>
     <Navbar.Header>
       <NavCompanyBadge avatar={<CompanyAvatar />} name="Pixel Point" />

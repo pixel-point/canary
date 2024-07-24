@@ -1,6 +1,6 @@
 /// <reference types="vite-plugin-svgr/client" />
 import React from 'react'
-import { Meta, Story } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import Topbar from '../../components/layout/TopBar'
 import {
   Breadcrumb,
@@ -26,7 +26,7 @@ export default {
   tags: ['autodocs']
 } as Meta
 
-const Template: Story = () => (
+const Template: StoryFn = () => (
   <Topbar.Root>
     <Topbar.Left>
       <p>Breadcrumbs</p>
@@ -37,7 +37,7 @@ const Template: Story = () => (
   </Topbar.Root>
 )
 
-const GitnessTemplate: Story = () => (
+const GitnessTemplate: StoryFn = () => (
   <Topbar.Root>
     <Topbar.Left>
       <Breadcrumb>

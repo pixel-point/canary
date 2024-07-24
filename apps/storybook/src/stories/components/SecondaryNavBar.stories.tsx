@@ -1,5 +1,5 @@
-/// <reference types="vite-plugin-svgr/client" />
-import { Meta, Story } from '@storybook/react'
+import React from 'react';
+import { Meta, StoryFn } from '@storybook/react'
 import NavItemPlaceholder from '../../assets/environment-icon.svg?react'
 import SecondaryNavbar from '../../components/layout/SecondaryNavBar'
 
@@ -17,9 +17,9 @@ export default {
   tags: ['autodocs']
 } as Meta
 
-const Template: Story = () => (
+const Template: StoryFn = () => (
   <SecondaryNavbar.Root>
-    <SecondaryNavbar.Header></SecondaryNavbar.Header>
+    <SecondaryNavbar.Header><></></SecondaryNavbar.Header>
     <SecondaryNavbar.Content>
       <SecondaryNavbar.Group>
         <SecondaryNavbar.Item text="Secondary Link 1" icon={<NavItemPlaceholder />} />
@@ -31,9 +31,9 @@ const Template: Story = () => (
   </SecondaryNavbar.Root>
 )
 
-const GitnessTemplate: Story = () => (
+const GitnessTemplate: StoryFn = () => (
   <SecondaryNavbar.Root>
-    <SecondaryNavbar.Header></SecondaryNavbar.Header>
+    <SecondaryNavbar.Header><></></SecondaryNavbar.Header>
     <SecondaryNavbar.Content>
       <SecondaryNavbar.Group>
         <SecondaryNavbar.Item text="Secondary Link 1" icon={<NavItemPlaceholder />} />

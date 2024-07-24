@@ -1,5 +1,5 @@
-/// <reference types="vite-plugin-svgr/client" />
-import { Meta, Story } from '@storybook/react'
+import React from 'react'
+import { Meta, StoryFn } from '@storybook/react'
 import BottomBar from '../../components/layout/BottomBar'
 
 export default {
@@ -16,7 +16,7 @@ export default {
   tags: ['autodocs']
 } as Meta
 
-const Template: Story = () => (
+const Template: StoryFn = () => (
   <BottomBar.Root>
     <BottomBar.Left>
       <p>Left actions</p>
@@ -27,7 +27,7 @@ const Template: Story = () => (
   </BottomBar.Root>
 )
 
-const GitnessTemplate: Story = () => (
+const GitnessTemplate: StoryFn = () => (
   <BottomBar.Root>
     <BottomBar.Left>
       <p className="text-xs font-light text-primary">Left</p>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Meta, Story } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import HorizontalList from '../../components/layout/HorizontalList'
 import { Button } from '@harnessio/canary'
 import LightningBoltIcon from '../../assets/lightning-bolt-icon.svg?react'
@@ -19,13 +19,13 @@ export default {
   tags: ['autodocs']
 } as Meta
 
-const Template: Story = () => (
+const Template: StoryFn = () => (
   <HorizontalList.Root>
     <HorizontalList.Item>Default</HorizontalList.Item>
   </HorizontalList.Root>
 )
 
-const GitnessTemplate: Story = () => (
+const GitnessTemplate: StoryFn = () => (
   <HorizontalList.Root>
     <HorizontalList.Item>
       <Button variant="ghost" size="sm">

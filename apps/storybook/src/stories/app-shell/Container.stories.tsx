@@ -1,5 +1,5 @@
-/// <reference types="vite-plugin-svgr/client" />
-import { Meta, Story } from '@storybook/react'
+import React from 'react'
+import { Meta, StoryFn } from '@storybook/react'
 import Container from '../../components/layout/container'
 import { GitnessNavbar } from '../components/NavBar.stories'
 import { GitnessTopBar } from '../components/TopBar.stories'
@@ -22,7 +22,7 @@ export default {
   tags: ['autodocs']
 } as Meta
 
-const Template: Story = () => (
+const Template: StoryFn = () => (
   <Container.Root>
     <Container.Sidebar>
       <GitnessNavbar />
@@ -42,7 +42,7 @@ const Template: Story = () => (
   </Container.Root>
 )
 
-const SecondaryNavbarTemplate: Story = () => (
+const SecondaryNavbarTemplate: StoryFn = () => (
   <Container.Root>
     <Container.Sidebar>
       <GitnessNavbar />
@@ -64,7 +64,7 @@ const SecondaryNavbarTemplate: Story = () => (
   </Container.Root>
 )
 
-const RightPanelTemplate: Story = () => (
+const RightPanelTemplate: StoryFn = () => (
   <Container.Root>
     <Container.Sidebar>
       <GitnessNavbar />
@@ -87,7 +87,7 @@ const RightPanelTemplate: Story = () => (
   </Container.Root>
 )
 
-const NoSidebarTemplate: Story = () => (
+const NoSidebarTemplate: StoryFn = () => (
   <Container.Root>
     <Container.Main>
       <Container.Topbar>
@@ -103,7 +103,7 @@ const NoSidebarTemplate: Story = () => (
   </Container.Root>
 )
 
-const ContentOnlyTemplate: Story = () => (
+const ContentOnlyTemplate: StoryFn = () => (
   <Container.Root>
     <Container.Main>
       <Container.Content>
@@ -113,7 +113,7 @@ const ContentOnlyTemplate: Story = () => (
   </Container.Root>
 )
 
-const CenteredContentOnlyTemplate: Story = () => (
+const CenteredContentOnlyTemplate: StoryFn = () => (
   <Container.Root>
     <Container.Main>
       <Container.CenteredContent>

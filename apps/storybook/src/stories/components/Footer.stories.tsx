@@ -1,3 +1,4 @@
+import React from 'react'
 import { Meta, StoryFn } from '@storybook/react'
 import { Footer, Severity } from '../../composites/footer'
 
@@ -22,5 +23,5 @@ const Template: StoryFn = () => (
   />
 )
 
-export const Default = Template.bind({})
-Default.args = {}
+export const GitnessBottomBar = Template.bind({})
+GitnessBottomBar.args = {}

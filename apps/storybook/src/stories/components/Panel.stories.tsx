@@ -1,6 +1,5 @@
-/// <reference types="vite-plugin-svgr/client" />
 import React from 'react'
-import { Meta, Story } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import Panel from '../../components/layout/Panel'
 
 export default {
@@ -17,13 +16,13 @@ export default {
   tags: ['autodocs']
 } as Meta
 
-const Template: Story = () => (
+const Template: StoryFn = () => (
   <Panel.Root leftBorder>
     <p>Right panel</p>
   </Panel.Root>
 )
 
-const GitnessTemplate: Story = () => (
+const GitnessTemplate: StoryFn = () => (
   <Panel.Root leftBorder>
     <p>Right panel</p>
   </Panel.Root>
