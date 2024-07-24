@@ -3,7 +3,7 @@ import { Meta, StoryFn } from '@storybook/react'
 import Panel from '../../components/layout/Panel'
 
 export default {
-  title: 'Components/Panel',
+  title: 'Components/App Shell/Panel',
   component: Panel.Root,
   parameters: {
     layout: 'fullscreen',

@@ -13,7 +13,7 @@ import {
 import { GitnessTopBarRightList } from './HorizontalList.stories'
 
 export default {
-  title: 'Components/Top Bar',
+  title: 'Components/App Shell/Top Bar',
   component: Topbar.Root,
   parameters: {
     layout: 'fullscreen',

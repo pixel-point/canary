@@ -3,7 +3,7 @@ import { Meta, StoryFn } from '@storybook/react'
 import BottomBar from '../../components/layout/BottomBar'
 
 export default {
-  title: 'Components/Bottom Bar',
+  title: 'Components/App Shell/Bottom Bar',
   component: BottomBar.Root,
   parameters: {
     layout: 'fullscreen',

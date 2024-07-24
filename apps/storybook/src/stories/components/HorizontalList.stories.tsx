@@ -6,7 +6,7 @@ import LightningBoltIcon from '../../assets/lightning-bolt-icon.svg?react'
 import { ChevronDownIcon } from '@radix-ui/react-icons'
 
 export default {
-  title: 'Components/Horizontal List',
+  title: 'Components/Composites/Horizontal List',
   component: HorizontalList.Root,
   parameters: {
     layout: 'fullscreen',

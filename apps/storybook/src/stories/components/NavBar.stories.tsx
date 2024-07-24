@@ -17,7 +17,7 @@ import ConnectorsIcon from '../../assets/connectors-icon.svg?react'
 import SystemAdministrationIcon from '../../assets/system-administration-icon.svg?react'
 
 export default {
-  title: 'Components/Navbar',
+  title: 'Components/Composites/Navbar',
   component: Navbar.Root,
   parameters: {
     layout: 'fullscreen',

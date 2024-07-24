@@ -9,7 +9,7 @@ import { GitnessSecondaryNavbar } from '../components/SecondaryNavBar.stories'
 import { GitnessPanel } from '../components/Panel.stories'
 
 export default {
-  title: 'App Shell/Container',
+  title: 'Components/App Shell/Container',
   component: Container.Root,
   parameters: {
     layout: 'fullscreen',

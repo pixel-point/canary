@@ -1,9 +1,9 @@
-/// <reference types="vite-plugin-svgr/client" />
-import { Meta, Story } from '@storybook/react'
+import React from 'react'
+import { Meta, StoryFn } from '@storybook/react'
 import Content from '../../components/layout/Content'
 
 export default {
-  title: 'App Shell/Content',
+  title: 'Components/App Shell/Content',
   component: Content.Root,
   parameters: {
     layout: 'fullscreen',
@@ -16,13 +16,13 @@ export default {
   tags: ['autodocs']
 } as Meta
 
-const Template: Story = () => (
+const Template: StoryFn = () => (
   <Content.Root>
     <p>Content</p>
   </Content.Root>
 )
 
-const GitnessTemplate: Story = () => (
+const GitnessTemplate: StoryFn = () => (
   <Content.Root>
     <p>Content</p>
   </Content.Root>

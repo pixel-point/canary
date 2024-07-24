@@ -4,7 +4,7 @@ import NavItemPlaceholder from '../../assets/environment-icon.svg?react'
 import SecondaryNavbar from '../../components/layout/SecondaryNavBar'
 
 export default {
-  title: 'Components/Secondary Navbar',
+  title: 'Components/Composites/Secondary Navbar',
   component: SecondaryNavbar.Root,
   parameters: {
     layout: 'fullscreen',
