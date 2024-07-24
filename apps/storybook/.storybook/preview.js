@@ -15,7 +15,7 @@ const preview = {
     options: {
       storySort: {
         method: 'alphabetical',
-        order: ['Design System', 'Components', 'Pages'],
+        order: ['Design System', 'App Shell', 'Components', 'Screens'],
         locales: ''
       }
     }

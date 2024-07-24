@@ -19,7 +19,7 @@ const signInSchema = z.object({
 })
 
 export default {
-  title: 'Pages/Sign In',
+  title: 'Screens/Sign In',
   parameters: {
     layout: 'fullscreen'
   }
