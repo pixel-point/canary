@@ -3,11 +3,12 @@ import { ChevronDownIcon } from '@radix-ui/react-icons'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@harnessio/canary'
 
 interface CompanyProps {
+  children: React.ReactNode
   name: string
   avatar: React.ReactElement<SVGSVGElement>
 }
 
-const NavCompanyBadge: React.FC<CompanyProps> = ({ avatar, name }) => {
+const NavCompanyBadge: React.FC<CompanyProps> = ({ children, avatar, name }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="select-none outline-none">
@@ -19,8 +20,8 @@ const NavCompanyBadge: React.FC<CompanyProps> = ({ avatar, name }) => {
           <ChevronDownIcon className="nav-company-badge-chevron -mt-1 h-3 w-3 shrink-0 text-primary" />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[180px] mt-3.5 px-3.5 py-2.5">
-        <p className="text-xs text-primary">Company menu</p>
+      <DropdownMenuContent align="end" className="w-[180px] p-0 mt-3">
+        {children}
       </DropdownMenuContent>
     </DropdownMenu>
   )
