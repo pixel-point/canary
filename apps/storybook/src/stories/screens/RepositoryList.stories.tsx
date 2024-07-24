@@ -3,6 +3,7 @@ import Container from '../../components/layout/container'
 import { GitnessNavbar } from '../components/NavBar.stories'
 import { GitnessTopBar } from '../components/TopBar.stories'
 import {
+  Badge,
   Button,
   Input,
   NavigationMenu,
@@ -31,7 +32,10 @@ export default {
   }
 }
 
-const pipelines = [
+
+
+
+const repos = [
   {
     id: '1',
     name: 'drone',
@@ -122,17 +126,18 @@ export function RepositoryList() {
               </NavigationMenuList>
             </NavigationMenu>
 
-            <Button>New Repository</Button>
+            <Button className="h-8 rounded-[4px] px-6">New Repository</Button>
           </div>
           <div className="border rounded-md mb-16">
             <Table>
               <TableBody>
-                {pipelines.map(pipeline => (
+                {repos.map(repo => (
                   <TableRow className='text-gray-500'>
                    <TableCell className='flex flex-col gap-1 px-4 py-3.5'>
-                      <div className="font-medium text-gray-50">{pipeline.name}</div>
+
+                      <div className="font-medium text-gray-50">{repo.name}<Badge className="bg-transparent border-white rounded-2xl text-[12px] font-medium ml-2.5 py-1 px-2 leading-none text-[#71dbd3] border-[#1d3333] bg-[#111c1d]">Public</Badge></div>
                       <div className="flex gap-2 text-xs">
-                        <span className="whitespace-nowrap overflow-hidden text-ellipsis max-w-96">{pipeline.description || <i>No Description</i>}</span>
+                        <span className="whitespace-nowrap overflow-hidden text-ellipsis max-w-96">{repo.description || <i>No Description</i>}</span>
                       </div>
                     </TableCell>
                     <TableCell className="text-right align-top px-4 py-3.5">
