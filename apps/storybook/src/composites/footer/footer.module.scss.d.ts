@@ -4,3 +4,4 @@ export declare const counts: string
 export declare const commitHistory: string
 export declare const gitDetails: string
 export declare const flexContainer: string
+export declare const spacing: string

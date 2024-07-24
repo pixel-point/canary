@@ -1,7 +1,7 @@
 import React from 'react'
 import moment from 'moment'
-/* Unable to import, get a lot of errors */
-import { XmarkCircle } from '@harnessio/icons-noir'
+import cx from 'classnames'
+import { XmarkCircle, WarningTriangle, InfoCircle } from '@harnessio/icons-noir'
 
 import css from './footer.module.scss'
 
@@ -30,14 +30,19 @@ const Footer: React.FC<FooterProps> = (props: FooterProps) => {
     <footer className={css.main}>
       <div className={css.flexContainer}>
         <div className={css.counts}>
-          <div>
+          <div className={css.flexContainer}>
             <XmarkCircle />
+            &nbsp;
             <span className={css.focus}>{props.problems[Severity.ERROR]}</span>
           </div>
-          <div>
+          <div className={cx(css.flexContainer, css.spacing)}>
+            <WarningTriangle />
+            &nbsp;
             <span className={css.focus}>{props.problems[Severity.WARNING]}</span>
           </div>
-          <div>
+          <div className={css.flexContainer}>
+            <InfoCircle />
+            &nbsp;
             <span className={css.focus}>{props.problems[Severity.INFO]}</span>
           </div>
         </div>
