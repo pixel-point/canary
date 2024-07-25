@@ -74,7 +74,7 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
       height,
       readonly
     })
-    updateNodes(layoutedElements.nodes)
+    updateNodes({ updatedNodes: layoutedElements.nodes })
     addEdges(dedupeEdges(mergeEdges(edges, layoutedElements.edges)))
     setWidth(width)
     setHeight(height)
@@ -130,7 +130,7 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
         return updatedNodes.concat(childNodes)
       }
       const updatedNodes = expandNode(expandedNodeId, [])
-      updateNodes(updatedNodes, true)
+      updateNodes({ updatedNodes, notifyParent: true })
     },
     [nodes, edges]
   )
@@ -159,7 +159,7 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
         return updatedNodes.concat(childNodes)
       }
       const updatedNodes = collapseNode(collapsedNodeId, [])
-      updateNodes(updatedNodes, true)
+      updateNodes({ updatedNodes, notifyParent: true })
     },
     [nodes, edges]
   )

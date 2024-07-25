@@ -15,7 +15,7 @@ interface FlowState {
   addEdge: (edge: Edge) => void
   addEdges: (edges: Edge[]) => void
   deleteElements: (elementIds: string[]) => void
-  updateNodes: (updatedNodes: Node[], notifyParent?: boolean) => void
+  updateNodes: ({ updatedNodes, notifyParent }: { updatedNodes: Node[]; notifyParent?: boolean }) => void
   notifyParentNode: (childNode: Node) => void
   updateEdges: (updatedEdges: Edge[]) => void
 }
@@ -25,7 +25,7 @@ const useFlowStore = create<FlowState>((set, get) => ({
   nodes: [],
   setNodes: nodes => set({ nodes }),
   addNode: node => set(state => ({ nodes: [...state.nodes, node] })),
-  updateNodes: (updatedNodes, notifyParent) => {
+  updateNodes: ({ updatedNodes, notifyParent }) => {
     set(state => ({
       nodes: state.nodes.map(node => updatedNodes.find(updatedNode => updatedNode.id === node.id) || node)
     }))

@@ -82,7 +82,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
       height,
       readonly
     })
-    updateNodes(layoutedElements.nodes)
+    updateNodes({ updatedNodes: layoutedElements.nodes })
     addEdges(dedupeEdges(mergeEdges(edges, layoutedElements.edges)))
     setWidth(width)
     setHeight(height)
@@ -135,7 +135,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
         return updatedNodes.concat(childNodes)
       }
       const updatedNodes = expandNode(expandedNodeId, [])
-      updateNodes(updatedNodes)
+      updateNodes({ updatedNodes })
     },
     [nodes, edges, memberNodes, orientation]
   )
@@ -164,7 +164,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
         return updatedNodes.concat(childNodes)
       }
       const updatedNodes = collapseNode(collapsedNodeId, [])
-      updateNodes(updatedNodes)
+      updateNodes({ updatedNodes })
     },
     [nodes, edges, memberNodes, orientation]
   )
