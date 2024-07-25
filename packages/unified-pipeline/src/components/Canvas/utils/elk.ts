@@ -1,4 +1,4 @@
-import Elk, { type ElkNode } from 'elkjs/lib/elk.bundled.js'
+import Elk, { type ElkNode } from 'elkjs'
 import { type Node, type Edge } from 'reactflow'
 import { LayoutAlgorithmOptions, type Direction } from './index'
 

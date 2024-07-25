@@ -86,7 +86,6 @@
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.1",
-    "vite-plugin-svgr": "^4.2.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -106,7 +105,8 @@
     "prop-types": "^15.8.1",
     "tailwindcss": "^3.4.4",
     "vite": "^5.3.1",
-    "vite-plugin-dts": "^3.9.1"
+    "vite-plugin-dts": "^3.9.1",
+    "vite-plugin-svgr": "^4.2.0"
   },
   "peerDependencies": {
     "@harnessio/icons-noir": "workspace:*"

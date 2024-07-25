@@ -1,4 +1,5 @@
 import '@harnessio/canary/styles'
+import '@harnessio/unified-pipeline/styles'
 import '../src/styles.css'
 
 import { withThemeByClassName } from '@storybook/addon-themes'

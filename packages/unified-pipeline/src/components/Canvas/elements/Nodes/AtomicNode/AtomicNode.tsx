@@ -41,12 +41,13 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
 
   useEffect(() => {
     if (runTransitions) {
-      let interval1: NodeJS.Timeout, interval2: NodeJS.Timeout
-      interval1 = setInterval(
+      let interval1 = 0,
+        interval2 = 0
+      interval1 = window.setInterval(
         () => {
           clearInterval(interval1)
           setStatus(Status.IN_PROGRESS)
-          interval2 = setInterval(() => setStatus(Status.DONE), Math.floor(Math.random() * 4000) + 2000)
+          interval2 = window.setInterval(() => setStatus(Status.DONE), Math.floor(Math.random() * 4000) + 2000)
         },
         Math.floor(Math.random() * 4000) + 2000
       )

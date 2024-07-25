@@ -1,9 +1,8 @@
 import React from 'react'
 import { StoryFn, Meta } from '@storybook/react'
-import { PipelineStudio } from '../components/PipelineStudio/PipelineStudio'
-import pipelineYamlSingleStage from '../assets/mockPipelines/yamls/pipeline_w_single_stage.yaml'
-import pipelineYamlParallelGroup from '../assets/mockPipelines/yamls/pipeline_w_parallel_stage_group.yaml'
-import { getNodesFromPipelineYaml } from '../utils/PipelineYamlUtils'
+import { PipelineStudio, getNodesFromPipelineYaml } from '@harnessio/unified-pipeline'
+import pipelineYamlSingleStage from './pipeline_w_single_stage.yaml'
+import pipelineYamlParallelGroup from './pipeline_w_parallel_stage_group.yaml'
 
 const meta: Meta<typeof PipelineStudio> = {
   title: 'Unified Pipeline/Pipeline Studio',

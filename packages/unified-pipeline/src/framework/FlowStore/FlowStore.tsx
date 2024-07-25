@@ -3,7 +3,7 @@ import { create } from 'zustand'
 import { Node, Edge } from 'reactflow'
 import { getNodeById } from '../../components/Canvas/utils/NodeUtils'
 import { set as _set } from 'lodash-es'
-import { DefaultNodeProps } from 'components/Canvas/types'
+import { DefaultNodeProps } from '../../components/Canvas/types'
 import { dedupeEdges } from '../../components/Canvas/utils/EdgeUtils'
 
 interface FlowState {

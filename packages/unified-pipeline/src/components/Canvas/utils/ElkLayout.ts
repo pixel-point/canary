@@ -5,7 +5,7 @@
  * https://polyformproject.org/wp-content/uploads/2020/06/PolyForm-Shield-1.0.0.txt.
  */
 
-import ELK, { ElkExtendedEdge, ElkNode, LayoutOptions } from 'elkjs/lib/elk.bundled'
+import ELK, { ElkExtendedEdge, ElkNode, LayoutOptions } from 'elkjs'
 import { Position, type Edge, type Node } from 'reactflow'
 import { get, set } from 'lodash-es'
 import {
