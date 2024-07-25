@@ -41,7 +41,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
   const { addNodes } = useReactFlow()
   const { enableDiagnostics } = useCanvasStore()
   const { data, id: nodeId, xPos, yPos, zIndex } = props
-  const { expanded = true, name, memberNodes = [], parallel, readonly, groupId } = data
+  const { expanded = true, name, memberNodes = [], parallel, readonly, groupId, hasChanged } = data
   const [isExpanded, setIsExpanded] = useState<boolean>(expanded)
   const [width, setWidth] = useState<number>(0)
   const [height, setHeight] = useState<number>(0)
@@ -51,7 +51,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
 
   useEffect(() => {
     setupNode()
-  }, [memberNodeCount])
+  }, [hasChanged, memberNodeCount])
 
   const setupNode = useCallback((): void => {
     if (nodes.length === 0 || memberNodeCount === 0) return
