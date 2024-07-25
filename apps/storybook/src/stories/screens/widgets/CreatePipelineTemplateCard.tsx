@@ -18,7 +18,7 @@ export function CreatePipelineTemplateCard({ bgBlur = '', title = '', logo, logo
     <div className="relative grid h-full w-full grid-rows-[1fr_auto] select-none cursor-pointer overflow-hidden">
       <div className="absolute z-10 overflow-hidden inset-0 h-full w-full">
         <div className="absolute z-10 inset-0 bg-[#0F0F11]" />
-        <img className="absolute z-20 inset-0 h-full w-full bg-cover opacity-100 blur-sm" src={path + bgBlur} />
+        <img className="absolute z-20 inset-0 h-full w-full bg-cover opacity-65 blur-sm" src={path + bgBlur} />
       </div>
 
       <div className="flex z-20 items-center justify-center">{logoWithClass}</div>
