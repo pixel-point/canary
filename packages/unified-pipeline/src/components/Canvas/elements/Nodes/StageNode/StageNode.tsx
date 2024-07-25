@@ -15,7 +15,7 @@ import {
   getNodeDiagnostics,
   getNodePositionType
 } from '../../../utils/NodeUtils'
-import { dedupeEdges, getEdgesForChildNodes, mergeEdges } from '../../../../../components/Canvas/utils/EdgeUtils'
+import { dedupeEdges, createEdgesForChildren, mergeEdges } from '../../../../../components/Canvas/utils/EdgeUtils'
 import Expand from '../../../../../icons/Expand'
 import Hamburger from '../../../../../icons/Hamburger'
 // import { Menubar } from '../../../../../../../canary/src/components/menubar'
@@ -30,13 +30,19 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
   const { nodes, edges, deleteElements, updateNodes, addEdges } = useFlowStore()
   const { enableDiagnostics } = useCanvasStore()
   const { data, id: nodeId, xPos, yPos, zIndex } = props
-  const { expanded = true, name, memberNodes = [], readonly } = data
+  const { expanded = true, name, memberNodes = [], readonly, hasChanged } = data
   const [isExpanded, setIsExpanded] = useState<boolean>(expanded)
   const [width, setWidth] = useState<number>(0)
   const [height, setHeight] = useState<number>(0)
   const [showZeroState, setShowZeroState] = useState<boolean>(false)
   const childNodes = useMemo((): Node[] => getChildNodes(nodeId, nodes), [nodes])
   const memberCount = memberNodes.length
+
+  useEffect(() => {
+    if (hasChanged) {
+      console.log('hasChanged', nodeId, hasChanged)
+    }
+  }, [hasChanged])
 
   useEffect(() => {
     setShowZeroState(memberCount === 0)
@@ -55,7 +61,7 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
     const parentNode = getNodeById(nodes, nodeId)
     if (!parentNode) return
     const isGroupView = getNodePositionType(parentNode) === PositionType.RELATIVE
-    const childNodeEdges = getEdgesForChildNodes({
+    const childNodeEdges = createEdgesForChildren({
       parentNode,
       nodes,
       zIndexForEdges: isGroupView ? 2 : 1,

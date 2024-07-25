@@ -85,7 +85,7 @@ export const linkParentNodeToChild = ({
   }
 }
 
-export const getEdgesForChildNodes = ({
+export const createEdgesForChildren = ({
   parentNode,
   nodes,
   zIndexForEdges,
@@ -160,7 +160,7 @@ export const getEdgesForAllNodes = ({
   edges.push(...createEdgesForNodes({ nodes: selfLayoutableNodes, readonly }))
   if (includChildNodeEdges) {
     selfLayoutableNodes.forEach(parentNode => {
-      edges.push(...getEdgesForChildNodes({ parentNode, nodes, readonly }))
+      edges.push(...createEdgesForChildren({ parentNode, nodes, readonly }))
     })
   }
   return edges

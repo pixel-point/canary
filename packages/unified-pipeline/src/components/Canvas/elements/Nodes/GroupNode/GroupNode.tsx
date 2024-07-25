@@ -27,7 +27,7 @@ import {
   getNodeDiagnostics
 } from '../../../utils/NodeUtils'
 import { performLayout } from '../../../utils/LayoutUtils'
-import { dedupeEdges, getEdgesForChildNodes, mergeEdges } from '../../../utils/EdgeUtils'
+import { dedupeEdges, createEdgesForChildren, mergeEdges } from '../../../utils/EdgeUtils'
 import { useCanvasStore } from '../../../../../framework/CanvasStore/CanvasStoreContext'
 import { DEFAULT_NODE_LOCATION } from '../../../../../components/Canvas/utils/LROrientation/Constants'
 import { getIdFromName } from '../../../../../utils/StringUtils'
@@ -67,7 +67,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
      */
     const parentNode = getNodeById(nodes, nodeId)
     if (!parentNode) return
-    const childNodeEdges = getEdgesForChildNodes({
+    const childNodeEdges = createEdgesForChildren({
       parentNode,
       nodes
     })
@@ -135,7 +135,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
         return updatedNodes.concat(childNodes)
       }
       const updatedNodes = expandNode(expandedNodeId, [])
-      updateNodes({ updatedNodes })
+      updateNodes({ updatedNodes, notifySiblings: true })
     },
     [nodes, edges, memberNodes, orientation]
   )
@@ -164,7 +164,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
         return updatedNodes.concat(childNodes)
       }
       const updatedNodes = collapseNode(collapsedNodeId, [])
-      updateNodes({ updatedNodes })
+      updateNodes({ updatedNodes, notifySiblings: true })
     },
     [nodes, edges, memberNodes, orientation]
   )
