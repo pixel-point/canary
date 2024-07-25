@@ -69,6 +69,18 @@
   @apply bg-gradient-radial from-[#CA9AF4]/70 to-[#CA9AF4]/0 bg-clip-text text-white/70;
 }
 
+.section-title {
+  @apply text-3xl text-primary font-normal -tracking-[2%]
+}
+
+.section-title-small {
+  @apply text-xl text-primary font-normal -tracking-[2%]
+}
+
+.section-description {
+  @apply text-sm text-[#C9C9CF] font-light
+}
+
 /* Card utilities */
 .card-auth {
   @apply border-none w-[362px];

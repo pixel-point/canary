@@ -1,6 +1,6 @@
 import React from 'react'
 import { Meta, StoryFn } from '@storybook/react'
-import { Footer, Severity } from '../../composites/footer'
+import { Footer, Severity } from '../composites/footer'
 
 export default {
   title: 'Components/Composites/Footer',

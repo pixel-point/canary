@@ -15,7 +15,7 @@ import EnvironmentIcon from '../../assets/environment-icon.svg?react'
 import SecretsIcon from '../../assets/secrets-icon.svg?react'
 import ConnectorsIcon from '../../assets/connectors-icon.svg?react'
 import SystemAdministrationIcon from '../../assets/system-administration-icon.svg?react'
-import ProjectSwitcher from '../../composites/ProjectSwitcher'
+import ProjectSwitcher from '../composites/ProjectSwitcher'
 
 export default {
   title: 'Components/Composites/Navbar',
