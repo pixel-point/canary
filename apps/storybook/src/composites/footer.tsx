@@ -51,7 +51,7 @@ const Footer: React.FC<FooterProps> = (props: FooterProps) => {
           <div className="flex items-baseline">
             <span>Repository:</span>
             <Select defaultValue="harness-next">
-              <SelectTrigger className="w-fit border-none px-1 text-white text-xs">
+              <SelectTrigger className="w-fit border-none px-1 text-white text-xs focus:ring-[0px]">
                 <SelectValue placeholder="Select..." />
               </SelectTrigger>
               <SelectContent>
@@ -65,7 +65,7 @@ const Footer: React.FC<FooterProps> = (props: FooterProps) => {
           <div className={'flex items-baseline ml-2.5'}>
             <span>Branch:</span>
             <Select defaultValue="main">
-              <SelectTrigger className="w-fit border-none px-1 text-white text-xs">
+              <SelectTrigger className="w-fit border-none px-1 text-white text-xs focus:ring-[0px]">
                 <SelectValue placeholder="Select..." />
               </SelectTrigger>
               <SelectContent>
