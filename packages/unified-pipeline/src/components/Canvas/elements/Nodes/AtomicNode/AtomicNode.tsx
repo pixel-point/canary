@@ -20,8 +20,6 @@ import { DEFAULT_NODE_LOCATION } from '../../../../../components/Canvas/utils/LR
 
 import css from './AtomicNode.module.scss'
 
-const Statuses = [Status.QUEUED, Status.IN_PROGRESS, Status.DONE]
-
 export interface AtomicNodeProps extends DefaultNodeProps, ExpandNodeProps, DeleteNodeProps {
   /**
    * @TODO add optional custom renderer props later
@@ -43,16 +41,18 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
 
   useEffect(() => {
     if (runTransitions) {
-      let index = 0
-      const updateValue = () => {
-        index = (index + 1) % Statuses.length
-        setStatus(Statuses[index])
-      }
-      const randomDelay = Math.floor(Math.random() * 4000) + 5000
-      const interval = setInterval(updateValue, randomDelay)
-      return () => clearInterval(interval)
+      const interval1 = setInterval(() => setStatus(Status.IN_PROGRESS), Math.floor(Math.random() * 4000) + 2000)
+      return () => clearInterval(interval1)
     }
   }, [])
+
+  useEffect(() => {
+    let interval2: NodeJS.Timeout
+    if (status === Status.IN_PROGRESS) {
+      interval2 = setInterval(() => setStatus(Status.DONE), Math.floor(Math.random() * 4000) + 2000)
+    }
+    return () => clearInterval(interval2)
+  }, [status])
 
   const handleNodeDelete = useCallback(
     (nodeId: string) => {
