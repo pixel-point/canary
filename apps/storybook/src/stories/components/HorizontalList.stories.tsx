@@ -42,8 +42,21 @@ const GitnessTemplate: StoryFn = () => (
   </HorizontalList.Root>
 )
 
+const GitnessNoActionTemplate: StoryFn = () => (
+  <HorizontalList.Root>
+    <HorizontalList.Item>
+      <Button variant="ghost" size="sm">
+        Settings
+      </Button>
+    </HorizontalList.Item>
+  </HorizontalList.Root>
+)
+
 export const Default = Template.bind({})
 Default.args = {}
 
 export const GitnessTopBarRightList = GitnessTemplate.bind({})
 GitnessTemplate.args = {}
+
+export const GitnessNoActionRightList = GitnessNoActionTemplate.bind({})
+GitnessNoActionRightList.args = {}

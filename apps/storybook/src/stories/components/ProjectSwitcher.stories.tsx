@@ -1,6 +1,6 @@
 import React from 'react'
 import { Meta, StoryFn } from '@storybook/react'
-import ProjectSwitcher from '../../composites/ProjectSwitcher'
+import ProjectSwitcher from '../composites/ProjectSwitcher'
 
 export default {
   title: 'Components/Composites/Project Switcher',

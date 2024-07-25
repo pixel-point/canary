@@ -15,7 +15,7 @@ const Container = {
 
   Main: function Main({ children }: { children: React.ReactNode }) {
     return (
-      <div className="grid grid-cols-[1fr_auto] grid-rows-[auto_1fr_auto] col-start-3 w-full h-full">{children}</div>
+      <div className="grid grid-cols-[1fr_auto] grid-rows-[auto_1fr_auto] col-start-3 w-full h-screen">{children}</div>
     )
   },
 
@@ -24,7 +24,7 @@ const Container = {
   },
 
   Content: function Content({ children }: { children: React.ReactNode }) {
-    return <div className="flex w-full col-start-1 row-start-2 h-full overflow-y-auto">{children}</div>
+    return <div className="flex w-full col-start-1 row-start-2 min-h-full overflow-y-auto">{children}</div>
   },
 
   Panel: function Panel({ children }: { children: React.ReactNode }) {
