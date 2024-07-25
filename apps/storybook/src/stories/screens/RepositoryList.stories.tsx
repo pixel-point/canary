@@ -23,7 +23,10 @@ import {
   TableBody,
   TableCell,
   TableRow
-} from '@harnessio/canary'
+} from '@harnessio/canary';
+
+import { GitPullRequest, GitFork, Star } from '@harnessio/icons-noir'
+
 
 export default {
   title: 'Screens/Repository List',
@@ -43,7 +46,7 @@ const repos = [
     private: false,
     stars: 0,
     forks: 0,
-    pulls: 0,
+    pulls: 12,
   },
   {
     id: '1',
@@ -52,33 +55,33 @@ const repos = [
     private: false,
     stars: 0,
     forks: 0,
-    pulls: 0,
+    pulls: 5,
   },
   {
     id: '1',
     name: 'go-generate',
     description: 'Package generate provides tools for generating pipeline configuration files in the Drone format.',
     private: true,
-    stars: 0,
-    forks: 0,
-    pulls: 0,
+    stars: 2,
+    forks: 1,
+    pulls: 22,
   },
   {
     id: '1',
     name: 'go-task',
     private: false,
-    stars: 0,
-    forks: 0,
-    pulls: 0,
+    stars: 3,
+    forks: 1,
+    pulls: 7,
   },
   {
     id: '1',
     name: 'go-scm',
     description: 'Package scm provides a unified interface to multiple source code management systems.',
     private: true,
-    stars: 0,
-    forks: 0,
-    pulls: 0,
+    stars: 123,
+    forks: 16,
+    pulls: 56,
   },
   {
     id: '1',
@@ -87,7 +90,7 @@ const repos = [
     private: true,
     stars: 0,
     forks: 0,
-    pulls: 0,
+    pulls: 1,
   },
 ]
 
@@ -136,21 +139,31 @@ export function RepositoryList() {
             <Table>
               <TableBody>
                 {repos.map(repo => (
-                  <TableRow className='text-gray-500'>
-                   <TableCell className='flex flex-col gap-1 px-4 py-3.5'>
-
+                  <TableRow className='text-gray-500 flex'>
+                   <TableCell className='flex flex-col flex-1 gap-1 px-4 py-3.5'>
                       <div className="font-medium text-gray-50">{repo.name}<Badge className={`select-none bg-transparent border-white rounded-2xl text-[12px] font-medium ml-2.5 py-1 px-2 leading-none text-[#71dbd3] border-[#1d3333] bg-[#111c1d] ${repo.private && "border-[#242428] bg-[#151518] text-[#93939f]" }`}>{repo.private ? "Private" : "Public"}</Badge></div>
                       <div className="flex gap-2 text-xs">
                         <span className="whitespace-nowrap overflow-hidden text-ellipsis max-w-96">{repo.description || <i>No Description</i>}</span>
                       </div>
                     </TableCell>
-                    <TableCell className="text-right align-top px-4 py-3.5">
+                    <TableCell className="flex flex-col gap-1 px-4 py-3.5 justify-end">
                       <div className="font-normal whitespace-nowrap text-[13px] select-none">
                         <span className="mr-1">updated</span>
                         <span className="text-foreground">2 hours ago</span>
                       </div>
-                      <div className="flex gap-2 text-xs">
-                        <span className=""></span>
+                      <div className="flex gap-2 text-xs justify-end">
+                        <span className="flex gap-1 items-center">
+                          <Star strokeWidth="1.5" />
+                          <span className="text-white">{repo.stars}</span>
+                        </span>
+                        <span className="flex gap-1 items-center">
+                          <GitFork strokeWidth="1.5" />
+                          <span className="text-white">{repo.forks}</span>
+                        </span>
+                        <span className="flex gap-1 items-center">
+                          <GitPullRequest strokeWidth="1.5" />
+                          <span className="text-white">{repo.pulls}</span>
+                        </span>
                       </div>
                     </TableCell>
                   </TableRow>

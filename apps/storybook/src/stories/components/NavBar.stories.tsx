@@ -148,11 +148,6 @@ const GitnessTemplate: StoryFn = () => (
           <Navbar.Item key={idx} text={item.text} icon={item.icon} />
         ))}
       </Navbar.AccordionGroup>
-      <Navbar.Group topBorder>
-        {secondaryMenuItems.map((item, idx) => (
-          <Navbar.Item key={idx} text={item.text} icon={item.icon} />
-        ))}
-      </Navbar.Group>
     </Navbar.Content>
     <Navbar.Footer>
       <NavUserBadge />
