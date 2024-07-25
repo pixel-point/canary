@@ -33,26 +33,26 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
   const [width] = useState<number>(STEP_NODE_WIDTH)
   const [height] = useState<number>(STEP_NODE_HEIGHT)
   /* To simulate transitions */
-  // const [status, setStatus] = useState(Status.QUEUED);
-  // const runTransitions = true;
   const [status, setStatus] = useState(Status.QUEUED)
   const runTransitions = true
+  // const [status, setStatus] = useState(Status.DONE)
+  // const runTransitions = true
   const [showPlus, setShowPlus] = useState<boolean>(false)
 
   useEffect(() => {
     if (runTransitions) {
-      const interval1 = setInterval(() => setStatus(Status.IN_PROGRESS), Math.floor(Math.random() * 4000) + 2000)
-      return () => clearInterval(interval1)
+      let interval1: NodeJS.Timeout, interval2: NodeJS.Timeout
+      interval1 = setInterval(
+        () => {
+          clearInterval(interval1)
+          setStatus(Status.IN_PROGRESS)
+          interval2 = setInterval(() => setStatus(Status.DONE), Math.floor(Math.random() * 4000) + 2000)
+        },
+        Math.floor(Math.random() * 4000) + 2000
+      )
+      return () => clearInterval(interval2)
     }
   }, [])
-
-  useEffect(() => {
-    let interval2: NodeJS.Timeout
-    if (status === Status.IN_PROGRESS) {
-      interval2 = setInterval(() => setStatus(Status.DONE), Math.floor(Math.random() * 4000) + 2000)
-    }
-    return () => clearInterval(interval2)
-  }, [status])
 
   const handleNodeDelete = useCallback(
     (nodeId: string) => {
