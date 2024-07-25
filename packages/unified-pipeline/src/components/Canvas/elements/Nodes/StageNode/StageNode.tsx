@@ -45,7 +45,6 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
 
   const setupNode = useCallback((): void => {
     if (nodes.length === 0) return
-    const childNodes = getChildNodes(nodeId, nodes)
     const { width, height } = getStageNodeDimensions({
       isExpanded: true,
       childNodes
