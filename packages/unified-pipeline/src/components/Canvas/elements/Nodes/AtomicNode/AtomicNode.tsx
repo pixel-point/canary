@@ -15,7 +15,7 @@ import { useCanvasStore } from '../../../../../framework/CanvasStore/CanvasStore
 import Hamburger from '../../../../../icons/Hamburger'
 import { STEP_NODE_HEIGHT, STEP_NODE_WIDTH } from '../../../utils/LROrientation/Constants'
 import { Status } from '../../../../../utils/Constants'
-import cardBg from '../../../../../assets/images/card-glow.svg'
+// import cardBg from '../../../../../assets/images/card-glow.svg'
 import { DEFAULT_NODE_LOCATION } from '../../../../../components/Canvas/utils/LROrientation/Constants'
 
 import css from './AtomicNode.module.scss'
@@ -37,8 +37,8 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
   /* To simulate transitions */
   // const [status, setStatus] = useState(Status.QUEUED);
   // const runTransitions = true;
-  const [status, setStatus] = useState(Status.DONE)
-  const runTransitions = false
+  const [status, setStatus] = useState(Status.QUEUED)
+  const runTransitions = true
   const [showPlus, setShowPlus] = useState<boolean>(false)
 
   useEffect(() => {
@@ -97,7 +97,7 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
       <Handle type="target" position={Position.Left} isConnectable={isConnectable} />
       {status === Status.QUEUED ? (
         <div>
-          <img src={cardBg} className={css.glow} width="192" height="132" alt="" />
+          {/* <img src={cardBg} className={css.glow} width="192" height="132" alt="" /> */}
           <div
             className={cx(
               css.main,
