@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { Problem, Problems, ProblemsProps, Severity } from '../../composites/Problems'
+import { Problem, Problems, ProblemsProps, Severity } from '../composites/Problems'
 
 const meta: Meta<ProblemsProps> = {
   title: 'Components/Composites/Problems',
