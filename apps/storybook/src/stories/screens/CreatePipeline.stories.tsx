@@ -27,13 +27,14 @@ interface TemplateCardsProps {
   title: string;
   logo: React.ReactElement<SVGSVGElement>;
   logoClass?: string
+  bgBlur?: string
 }
 
 export function CreatePipeline() {
   const templateCards:TemplateCardsProps[] = [
-    { title: 'Node.js', logo: <NodeLogo /> },
-    { title: 'Python', logo: <PythonLogo /> },
-    { title: 'Python and Node.js', logo: <PythonNodeLogos />, logoClass: 'h-[92px]'  }
+    { title: 'Node.js', logo: <NodeLogo />, bgBlur: 'node-template-bg-blur.png' },
+    { title: 'Python', logo: <PythonLogo />, bgBlur: 'python-template-bg-blur.png' },
+    { title: 'Python and Node.js', logo: <PythonNodeLogos />, bgBlur: 'node-python-template-bg-blur.png', logoClass: 'h-[92px]'  }
   ]
 
   return (
@@ -74,8 +75,8 @@ export function CreatePipeline() {
               </Section.Header>
               <Section.CardGrid>
                 {templateCards.map((card, index) => (
-                  <Card key={index} className='bg-[#131316] border-[#1D1D20]'>
-                    <CreatePipelineTemplateCard title={card.title} logo={card.logo} logoClass={card.logoClass? card.logoClass : ''} />
+                  <Card key={index} className='border-[#1D1D20] overflow-hidden'>
+                    <CreatePipelineTemplateCard bgBlur={card.bgBlur} title={card.title} logo={card.logo} logoClass={card.logoClass? card.logoClass : ''} />
                   </Card>
                 ))}
               </Section.CardGrid>
