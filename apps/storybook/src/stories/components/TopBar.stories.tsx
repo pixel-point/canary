@@ -10,7 +10,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from '@harnessio/canary'
-import { GitnessTopBarRightList } from './HorizontalList.stories'
+import { GitnessNoActionRightList, GitnessTopBarRightList } from './HorizontalList.stories'
 
 export default {
   title: 'Components/App Shell/Top Bar',
@@ -58,8 +58,32 @@ const GitnessTemplate: StoryFn = () => (
   </Topbar.Root>
 )
 
+const GitnessNoActionTemplate: StoryFn = () => (
+  <Topbar.Root>
+    <Topbar.Left>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">harness-next</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator className="font-thin">&nbsp;/&nbsp;</BreadcrumbSeparator>
+          <BreadcrumbPage>
+            <BreadcrumbLink href="/components">pipeline.yml</BreadcrumbLink>
+          </BreadcrumbPage>
+        </BreadcrumbList>
+      </Breadcrumb>
+    </Topbar.Left>
+    <Topbar.Right>
+      <GitnessNoActionRightList />
+    </Topbar.Right>
+  </Topbar.Root>
+)
+
 export const Default = Template.bind({})
 Default.args = {}
 
 export const GitnessTopBar = GitnessTemplate.bind({})
 GitnessTemplate.args = {}
+
+export const GitnessNoActionTopBar = GitnessNoActionTemplate.bind({})
+GitnessNoActionTopBar.args = {}
