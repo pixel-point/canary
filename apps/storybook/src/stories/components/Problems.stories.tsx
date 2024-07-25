@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import { Problem, Problems, ProblemsProps, Severity } from '../../composites/Problems'
 
 const meta: Meta<ProblemsProps> = {
-  title: 'Composites/Problems',
+  title: 'Components/Composites/Problems',
   component: Problems,
   parameters: {
     layout: 'fullscreen',
