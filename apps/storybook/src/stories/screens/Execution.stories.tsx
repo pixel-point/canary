@@ -6,7 +6,7 @@ import { GitnessTopBar } from '../components/TopBar.stories'
 import { elements } from '../../assets/mocks/mock'
 
 export default {
-  title: 'Pages/Execution',
+  title: 'Screens/Execution',
   parameters: {
     layout: 'fullscreen'
   }

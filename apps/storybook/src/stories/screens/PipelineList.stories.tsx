@@ -19,7 +19,7 @@ import {
 import { ArrowLeft, ArrowRight, CheckCircleSolid, KeyframeAlignHorizontal, TriangleFlag, XmarkCircleSolid } from '@harnessio/icons-noir'
 
 export default {
-  title: 'Pages/Pipeline List',
+  title: 'Screens/Pipeline List',
   parameters: {
     layout: 'fullscreen'
   }

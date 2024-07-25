@@ -3,7 +3,7 @@ import { GitnessNavbar } from '../components/NavBar.stories'
 import { GitnessTopBar } from '../components/TopBar.stories'
 
 export default {
-  title: 'Pages/Repository',
+  title: 'Screens/Repository',
   parameters: {
     layout: 'fullscreen'
   }

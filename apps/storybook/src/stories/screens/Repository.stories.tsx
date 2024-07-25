@@ -3,13 +3,13 @@ import { GitnessNavbar } from '../components/NavBar.stories'
 import { GitnessTopBar } from '../components/TopBar.stories'
 
 export default {
-  title: 'Pages/Pipeline',
+  title: 'Screens/Repository',
   parameters: {
     layout: 'fullscreen'
   }
 }
 
-export function PipelineStudio() {
+export function Repository() {
   return (
     <Container.Root>
       <Container.Sidebar>
@@ -20,7 +20,7 @@ export function PipelineStudio() {
           <GitnessTopBar />
         </Container.Topbar>
         <Container.CenteredContent>
-          <p className="text-sm">Pipeline studio</p>
+          <p className="text-sm">Repository (single)</p>
         </Container.CenteredContent>
       </Container.Main>
     </Container.Root>

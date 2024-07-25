@@ -6,6 +6,7 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
+    --secondary-background: 0 0% 100%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
@@ -27,8 +28,9 @@
   }
 
   .dark {
-    --background: 240, 12.9%, 3.1%;
+    --background: 240 14% 3%;
     --foreground: 0 0% 98%;
+    --secondary-background: 240 5% 6%;
     --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;
@@ -91,10 +93,23 @@
 .navbar-company-avatar {
   @apply w-5 h-5;
 }
-.navbar-section-icon {
-  @apply w-3 h-3;
+.navbar-item svg {
+  @apply w-3 h-3 ease-in-out duration-150 truncate;
+}
+.navbar-item.active svg, .navbar-item:hover svg {
+  @apply brightness-200 contrast-200;
+}
+.navbar-item p {
+  @apply ease-in-out duration-150 truncate;
+}
+.navbar-item.active p, .navbar-item:hover p {
+  @apply text-primary;
 }
 
-.navbar-section-icon {
-  @apply fill-red-400;
+/* Navbar company badge */
+[data-state='open'] .nav-company-badge-chevron {
+  @apply transition-transform transform rotate-180
+}
+.nav-company-badge-chevron {
+  @apply transition-transform transform rotate-0
 }
