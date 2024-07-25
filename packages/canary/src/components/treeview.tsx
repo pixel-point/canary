@@ -1,16 +1,51 @@
 import { ScrollArea } from './scroll-area'
 import { cn } from '../lib/utils'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
-import { NavArrowRight, NavArrowDown, Circle } from '@harnessio/icons-noir'
+import moment from 'moment'
+import { NavArrowRight, NavArrowDown, Circle, CheckCircleSolid, XmarkCircleSolid } from '@harnessio/icons-noir'
 import React, { createContext, forwardRef, useCallback, useContext, useEffect, useState } from 'react'
 import { Button } from './button'
+
+export enum Status {
+  QUEUED,
+  IN_PROGRESS,
+  SUCCESS,
+  FAILED
+}
+
+type ExecutionDetail = {
+  status: Status
+  duration?: number
+}
+
+const getStatusIcon = (status: Status): React.ReactElement => {
+  switch (status) {
+    case Status.QUEUED:
+      return <Circle size="16" />
+    case Status.IN_PROGRESS:
+      return <Circle size="16" />
+    case Status.SUCCESS:
+      return <CheckCircleSolid color="#63E9A6" size="16" />
+    case Status.FAILED:
+      return <XmarkCircleSolid color="#db6662" size="16" />
+    default:
+      return <></>
+  }
+}
+
+const formatDuration = (seconds: number): string => {
+  const duration = moment.duration(seconds, 'seconds')
+  const minutes = String(duration.minutes()).padStart(2, '0')
+  const secs = String(duration.seconds()).padStart(2, '0')
+  return `${minutes}:${secs}`
+}
 
 type TreeViewElement = {
   id: string
   name: string
   isSelectable?: boolean
   children?: TreeViewElement[]
-}
+} & ExecutionDetail
 
 type TreeContextProps = {
   selectedId: string | undefined
@@ -157,7 +192,7 @@ const TreeIndicator = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEle
         dir={direction}
         ref={ref}
         className={cn(
-          'h-full w-px bg-muted absolute left-1.5 rtl:right-1.5 py-3 rounded-md hover:bg-slate-300 duration-300 ease-in-out',
+          'h-full w-px absolute left-1.5 rtl:right-1.5 py-3 rounded-md hover:bg-slate-300 duration-300 ease-in-out',
           className
         )}
         {...props}
@@ -175,39 +210,48 @@ type FolderProps = {
   element: string
   isSelectable?: boolean
   isSelect?: boolean
-} & FolderComponentProps
+} & FolderComponentProps &
+  ExecutionDetail
 
 const Folder = forwardRef<HTMLDivElement, FolderProps & React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, element, value, isSelectable = true, isSelect, children, ...props }) => {
+  ({ className, element, value, isSelectable = true, isSelect, children, status, duration, ...props }) => {
     const { direction, handleExpand, expendedItems, indicator, setExpendedItems, openIcon, closeIcon } = useTree()
 
     return (
-      <AccordionPrimitive.Item {...props} value={value} className="relative overflow-hidden h-full ">
+      <AccordionPrimitive.Item {...props} value={value} className="relative overflow-hidden h-full w-full">
         <AccordionPrimitive.Trigger
-          className={cn(`flex items-center gap-1 text-sm rounded-md`, className, {
-            'bg-muted rounded-md': isSelect && isSelectable,
+          className={cn(`flex items-center gap-1 text-sm rounded-md w-full pb-2`, className, {
+            'rounded-md': isSelect && isSelectable,
             'cursor-pointer': isSelectable,
             'cursor-not-allowed opacity-50': !isSelectable
           })}
           disabled={!isSelectable}
           onClick={() => handleExpand(value)}>
           {expendedItems?.includes(value)
-            ? (openIcon ?? <NavArrowDown className="h-4 w-4" />)
-            : (closeIcon ?? <NavArrowRight className="h-4 w-4" />)}
-          <span>{element}</span>
+            ? (openIcon ?? <NavArrowDown className="h-4 w-4" size="12" />)
+            : (closeIcon ?? <NavArrowRight className="h-4 w-4" size="12" />)}
+          <div className="flex items-baseline justify-between w-full mr-1">
+            <div className="flex items-baseline">
+              <div className="flex self-center mr-1">{getStatusIcon(status)}</div>
+              <span className="ml-1 font-normal text-sm">
+                {element}&nbsp;<span className="text-[#787887]">({React.Children.count(children)})</span>
+              </span>
+            </div>
+            <span className="text-[#93939F]">{duration ? formatDuration(duration) : '--'}</span>
+          </div>
         </AccordionPrimitive.Trigger>
         <AccordionPrimitive.Content className="text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down relative overflow-hidden h-full">
           {element && indicator && <TreeIndicator aria-hidden="true" />}
           <AccordionPrimitive.Root
             dir={direction}
             type="multiple"
-            className="flex flex-col gap-1 py-1 ml-5 rtl:mr-5 "
+            className="flex flex-col gap-1 py-1 ml-5 rtl:mr-5"
             defaultValue={expendedItems}
             value={expendedItems}
             onValueChange={value => {
               setExpendedItems?.(prev => [...(prev ?? []), value[0]])
             }}>
-            {children}
+            <div className="ml-5">{children}</div>
           </AccordionPrimitive.Root>
         </AccordionPrimitive.Content>
       </AccordionPrimitive.Item>
@@ -225,33 +269,41 @@ const File = forwardRef<
     isSelectable?: boolean
     isSelect?: boolean
     fileIcon?: React.ReactNode
-  } & React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
->(({ value, className, handleSelect, isSelectable = true, isSelect, fileIcon, children, ...props }, ref) => {
-  const { direction, selectedId, selectItem } = useTree()
-  const isSelected = isSelect ?? selectedId === value
-  return (
-    <AccordionPrimitive.Item value={value} className="relative">
-      <AccordionPrimitive.Trigger
-        ref={ref}
-        {...props}
-        dir={direction}
-        disabled={!isSelectable}
-        aria-label="File"
-        className={cn(
-          'flex items-center gap-1 cursor-pointer text-sm pr-1 rtl:pl-1 rtl:pr-0 rounded-md  duration-200 ease-in-out',
-          {
-            'bg-muted': isSelected && isSelectable
-          },
-          isSelectable ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed',
-          className
-        )}
-        onClick={() => selectItem(value)}>
-        {fileIcon ?? <Circle className="h-4 w-4" />}
-        {children}
-      </AccordionPrimitive.Trigger>
-    </AccordionPrimitive.Item>
-  )
-})
+  } & React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> &
+    ExecutionDetail
+>(
+  (
+    { value, className, handleSelect, isSelectable = true, isSelect, fileIcon, children, status, duration, ...props },
+    ref
+  ) => {
+    const { direction, selectItem } = useTree()
+
+    return (
+      <AccordionPrimitive.Item value={value} className="relative w-full">
+        <AccordionPrimitive.Trigger
+          ref={ref}
+          {...props}
+          dir={direction}
+          disabled={!isSelectable}
+          aria-label="File"
+          className={cn(
+            'flex items-center gap-1 cursor-pointer text-sm pr-1 rtl:pl-1 rtl:pr-0 rounded-md duration-200 ease-in-out w-full pb-2',
+            isSelectable ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed',
+            className
+          )}
+          onClick={() => selectItem(value)}>
+          <div className="flex items-baseline justify-between w-full">
+            <div className="flex items-baseline">
+              <div className="flex self-center h-4 w-4 mr-1">{getStatusIcon(status)}</div>
+              <span className="ml-1 font-normal text-sm">{children}</span>
+            </div>
+            <span className="text-[#93939F]">{duration ? formatDuration(duration) : '--'}</span>
+          </div>
+        </AccordionPrimitive.Trigger>
+      </AccordionPrimitive.Item>
+    )
+  }
+)
 
 File.displayName = 'File'
 

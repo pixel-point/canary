@@ -1,74 +1,42 @@
 import React from 'react'
 
-import { Tree, Folder, File, CollapseButton } from '../../../../packages/canary/src/components/treeview'
+import { Tree, Folder, File, CollapseButton, Status } from '../../../../packages/canary/src/components/treeview'
+import { elements } from './mock'
 
 const TreeFileTest = () => {
-  const elements = [
-    {
-      id: '1',
-      isSelectable: true,
-      name: 'src',
-      children: [
-        {
-          id: '2',
-          isSelectable: true,
-          name: 'app.tsx'
-        },
-        {
-          id: '3',
-          isSelectable: true,
-          name: 'components',
-          children: [
-            {
-              id: '20',
-              isSelectable: true,
-              name: 'pages',
-              children: [
-                {
-                  id: '21',
-                  isSelectable: true,
-                  name: 'interface.ts'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          id: '6',
-          isSelectable: true,
-          name: 'ui',
-          children: [
-            {
-              id: '7',
-              isSelectable: true,
-              name: 'carousel.tsx'
-            }
-          ]
-        }
-      ]
-    }
-  ]
   return (
-    <Tree className="rounded-md h-60 bg-background overflow-hidden p-2" initialSelectedId="21" elements={elements}>
-      <Folder element="src" value="1">
-        <File value="2">
-          <p> app.tsx </p>
-        </File>
-        <Folder value="3" element="components">
-          <Folder value="20" element="pages">
-            <File value="21">
-              <p>interface.ts</p>
-            </File>
-          </Folder>
-        </Folder>
-        <Folder value="6" element="ui">
-          <File value="7">
-            <p>carousel.tsx</p>
+    <div className="w-[395px] h-[660px]">
+      <Tree className="rounded-md h-60 bg-background overflow-hidden p-2" initialSelectedId="1" elements={elements}>
+        <Folder element="DAST" value="1" status={Status.SUCCESS} duration={15}>
+          <File value="2" status={Status.SUCCESS} duration={5}>
+            <p>Fortify</p>
+          </File>
+          <File value="3" status={Status.SUCCESS} duration={5}>
+            <p>Veracode</p>
+          </File>
+          <File value="4" status={Status.SUCCESS} duration={5}>
+            <p>Checkmarx</p>
           </File>
         </Folder>
-      </Folder>
-      <CollapseButton elements={elements} />
-    </Tree>
+        <Folder element="Deploy to Prod" value="5" status={Status.FAILED}>
+          <Folder element="SBOM and SLSA Validation" value="6" status={Status.FAILED}>
+            <File value="9" status={Status.FAILED} duration={15}>
+              <p>SoftwareSupply Chain Validation</p>
+            </File>
+            <File value="10" status={Status.FAILED}>
+              <p>SLSA Verification</p>
+            </File>
+          </Folder>
+          <File value="7" status={Status.QUEUED}>
+            <p>Risk Profile OPA - New Criticals</p>
+          </File>
+          <File value="8" status={Status.QUEUED}>
+            <p>Canary Deployment</p>
+          </File>
+        </Folder>
+        <CollapseButton elements={elements} />
+      </Tree>
+    </div>
   )
 }
 
