@@ -220,7 +220,7 @@ const Folder = forwardRef<HTMLDivElement, FolderProps & React.HTMLAttributes<HTM
     return (
       <AccordionPrimitive.Item {...props} value={value} className="relative overflow-hidden h-full w-full">
         <AccordionPrimitive.Trigger
-          className={cn(`flex items-center gap-1 text-sm rounded-md w-full pb-2`, className, {
+          className={cn(`flex items-center gap-1 text-sm rounded-md w-full pb-[10px]`, className, {
             'rounded-md': isSelect && isSelectable,
             'cursor-pointer': isSelectable,
             'cursor-not-allowed opacity-50': !isSelectable
@@ -245,7 +245,7 @@ const Folder = forwardRef<HTMLDivElement, FolderProps & React.HTMLAttributes<HTM
           <AccordionPrimitive.Root
             dir={direction}
             type="multiple"
-            className="flex flex-col gap-1 py-1 ml-5 rtl:mr-5"
+            className="flex flex-col gap-1 ml-5 rtl:mr-5"
             defaultValue={expendedItems}
             value={expendedItems}
             onValueChange={value => {
