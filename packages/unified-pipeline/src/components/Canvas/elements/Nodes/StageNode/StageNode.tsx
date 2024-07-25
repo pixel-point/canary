@@ -36,11 +36,12 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
   const [height, setHeight] = useState<number>(0)
   const [showZeroState, setShowZeroState] = useState<boolean>(false)
   const childNodes = useMemo((): Node[] => getChildNodes(nodeId, nodes), [nodes])
+  const memberCount = memberNodes.length
 
   useEffect(() => {
-    setShowZeroState(childNodes.length === 0)
+    setShowZeroState(memberCount === 0)
     setupNode()
-  }, [childNodes.length])
+  }, [memberCount])
 
   const setupNode = useCallback((): void => {
     if (nodes.length === 0) return
@@ -130,7 +131,7 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
         return updatedNodes.concat(childNodes)
       }
       const updatedNodes = expandNode(expandedNodeId, [])
-      updateNodes({ updatedNodes, notifyParent: true })
+      updateNodes({ updatedNodes, notifyParent: true, notifySiblings: true })
     },
     [nodes, edges]
   )
@@ -159,7 +160,7 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
         return updatedNodes.concat(childNodes)
       }
       const updatedNodes = collapseNode(collapsedNodeId, [])
-      updateNodes({ updatedNodes, notifyParent: true })
+      updateNodes({ updatedNodes, notifyParent: true, notifySiblings: true })
     },
     [nodes, edges]
   )
@@ -224,7 +225,7 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
               />
               &nbsp;
               <span className={css.label}>{name}</span>
-              {childNodes.length > 0 && <span className={css.count}>&nbsp;({childNodes.length})</span>}
+              {memberCount > 0 && <span className={css.count}>&nbsp;({memberCount})</span>}
             </div>
           </div>
           {/* <Menubar
@@ -239,7 +240,7 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
           /> */}
           <Hamburger onClick={() => handleNodeDelete(nodeId)} />
         </div>
-        {childNodes.length === 0 && (
+        {memberCount === 0 && (
           <div className={css.addStep} onClick={() => {}}>
             + Add your first step
           </div>
