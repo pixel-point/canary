@@ -15,8 +15,17 @@ interface FlowState {
   addEdge: (edge: Edge) => void
   addEdges: (edges: Edge[]) => void
   deleteElements: (elementIds: string[]) => void
-  updateNodes: (updatedNodes: Node[], notifyParent?: boolean) => void
+  updateNodes: ({
+    updatedNodes,
+    notifyParent,
+    notifySiblings
+  }: {
+    updatedNodes: Node[]
+    notifyParent?: boolean
+    notifySiblings?: boolean
+  }) => void
   notifyParentNode: (childNode: Node) => void
+  notifySiblingNodes: (node: Node) => void
   updateEdges: (updatedEdges: Edge[]) => void
 }
 
@@ -25,12 +34,15 @@ const useFlowStore = create<FlowState>((set, get) => ({
   nodes: [],
   setNodes: nodes => set({ nodes }),
   addNode: node => set(state => ({ nodes: [...state.nodes, node] })),
-  updateNodes: (updatedNodes, notifyParent) => {
+  updateNodes: ({ updatedNodes, notifyParent, notifySiblings }) => {
     set(state => ({
       nodes: state.nodes.map(node => updatedNodes.find(updatedNode => updatedNode.id === node.id) || node)
     }))
     if (notifyParent) {
       updatedNodes.forEach(node => get().notifyParentNode(node))
+    }
+    if (notifySiblings) {
+      updatedNodes.forEach(node => get().notifySiblingNodes(node))
     }
   },
   /* Notify Parent Node */
@@ -48,6 +60,20 @@ const useFlowStore = create<FlowState>((set, get) => ({
           nodes: state.nodes.map(node => (node.id === parentNode.id ? updatedParentNode : node))
         }))
       }
+    }
+  } /* Notify Sibling Nodes */,
+  notifySiblingNodes: updatedNode => {
+    const state = get()
+    if (updatedNode.parentNode) {
+      const siblings = state.nodes.filter(
+        node => node.id !== updatedNode.id && node.parentNode === updatedNode.parentNode
+      )
+      const updatedSiblings = siblings.map(sibling =>
+        _set(sibling, 'data.hasChanged', !(sibling.data as DefaultNodeProps)?.hasChanged)
+      )
+      set(state => ({
+        nodes: state.nodes.map(node => updatedSiblings.find(updatedSibling => updatedSibling.id === node.id) || node)
+      }))
     }
   },
   /* Edges */

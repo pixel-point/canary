@@ -136,13 +136,13 @@ const dagreLayout = ({
 
   dagre.layout(dagreGraph)
 
-  // Scale so that nodes render within parent width and height
+  /* Scale so that nodes render within parent width and height */
   const graph = dagreGraph.graph()
   const scaleX = graph.width ? Math.min(1, width / graph.width) : 1
   const scaleY = graph.height ? Math.min(1, height / graph.height) : 1
   const scale = Math.min(scaleX, scaleY)
 
-  const layoutedNodes = nodes.map((node: Node) => {
+  const layoutedNodes = nodes.map((node: Node, index: number) => {
     const nodeWithPosition = dagreGraph.node(node.id)
     let x = nodeWithPosition.x * scale
     let y = nodeWithPosition.y * scale
@@ -151,23 +151,32 @@ const dagreLayout = ({
       y = height / 2 // Center vertically
       x = x + margin // Apply margin horizontally
     } else {
-      // Identify the first and last nodes
-      let firstNonAnchorNode = null
-      let lastNonAnchorNode = null
-      if (nodes.length > 0) {
-        firstNonAnchorNode = nodes[0]
-        lastNonAnchorNode = nodes[nodes.length - 1]
-      }
-      x = width / 2 // Center horizontally
-      if (node.id === firstNonAnchorNode?.id) {
-        y = y + margin
-      } else if (node.id === lastNonAnchorNode?.id) {
-        y = y - margin
-      }
-      // x = width / 2 // Center horizontally
-      // y = y + margin // Apply margin vertically
-    }
+      // Center nodes horizontally
+      x = width / 2
+      if (nodes.length === 2) {
+        // Adjust the position for the first and last nodes
+        if (index === 0) {
+          y = y + margin // Ensure the first node is at the top margin
+        } else if (index === 1) {
+          y = y - margin // Ensure the last node is at the bottom margin
+        }
+      } else {
+        // Calculate vertical spacing
+        const nodeCount = nodes.length
+        const totalSpacing = height - 2 * margin // Space available after margins
+        const spacing = nodeCount > 1 ? totalSpacing / (nodeCount - 1) : totalSpacing
 
+        // Apply spacing to ensure the first and last nodes are spaced from top and bottom
+        y = margin + spacing * index // Position nodes evenly with margin space
+
+        // Adjust the position for the first and last nodes
+        if (index === 0) {
+          y = y + margin // Ensure the first node is at the top margin
+        } else if (index === nodeCount - 1) {
+          y = y - margin // Ensure the last node is at the bottom margin
+        }
+      }
+    }
     // Return updated node with position and edge positions
     return {
       ...node,
