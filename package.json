@@ -8,7 +8,7 @@
     "fmt": "pnpm -r fmt",
     "publish:all": "pnpm publish -r --access public",
     "build-storybook": "pnpm --filter canary-storybook build-storybook",
-    "dev": "pnpm --filter canary-storybook dev",
+    "dev": "pnpm --parallel --filter canary-storybook --filter @harnessio/canary dev",
     "preinstall": "npx only-allow pnpm"
   },
   "engines": {

@@ -33,7 +33,7 @@ export default defineConfig({
       formats: ['es']
     },
     rollupOptions: {
-      external: ['react', 'react-dom'],
+      external: ['react', 'react-dom', '@harnessio/icons-noir'],
       output: {
         globals: {
           react: 'react',

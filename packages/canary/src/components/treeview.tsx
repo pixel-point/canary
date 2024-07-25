@@ -5,7 +5,7 @@ import moment from 'moment'
 import { NavArrowRight, NavArrowDown, Circle, CheckCircleSolid, XmarkCircleSolid } from '@harnessio/icons-noir'
 import React, { createContext, forwardRef, useCallback, useContext, useEffect, useState } from 'react'
 
-export enum Status {
+enum Status {
   QUEUED,
   IN_PROGRESS,
   SUCCESS,
@@ -227,8 +227,8 @@ const Folder = forwardRef<HTMLDivElement, FolderProps & React.HTMLAttributes<HTM
           disabled={!isSelectable}
           onClick={() => handleExpand(value)}>
           {expendedItems?.includes(value)
-            ? (openIcon ?? <NavArrowDown className="h-4 w-4" size="12" />)
-            : (closeIcon ?? <NavArrowRight className="h-4 w-4" size="12" />)}
+            ? openIcon ?? <NavArrowDown className="h-4 w-4" size="12" />
+            : closeIcon ?? <NavArrowRight className="h-4 w-4" size="12" />}
           <div className="flex items-baseline justify-between w-full mr-1">
             <div className="flex items-baseline">
               <div className="flex self-center mr-1">{getStatusIcon(status)}</div>
@@ -272,7 +272,18 @@ const File = forwardRef<
     ExecutionDetail
 >(
   (
-    { value, className, handleSelect, isSelectable = true, isSelect, fileIcon, children, status, duration, ...props },
+    {
+      value,
+      className,
+      // handleSelect,
+      isSelectable = true,
+      // isSelect,
+      // fileIcon,
+      children,
+      status,
+      duration,
+      ...props
+    },
     ref
   ) => {
     const { direction, selectItem } = useTree()
@@ -312,48 +323,59 @@ const CollapseButton = forwardRef<
     elements: TreeViewElement[]
     expandAll?: boolean
   } & React.HTMLAttributes<HTMLButtonElement>
->(({ className, elements, expandAll = false, children, ...props }, ref) => {
-  const { expendedItems, setExpendedItems } = useTree()
+>(
+  (
+    {
+      // className,
+      elements,
+      expandAll = false,
+      children,
+      ...props
+    },
+    ref
+  ) => {
+    const { expendedItems, setExpendedItems } = useTree()
 
-  const expendAllTree = useCallback((elements: TreeViewElement[]) => {
-    const expandTree = (element: TreeViewElement) => {
-      const isSelectable = element.isSelectable ?? true
-      if (isSelectable && element.children && element.children.length > 0) {
-        setExpendedItems?.(prev => [...(prev ?? []), element.id])
-        element.children.forEach(expandTree)
+    const expendAllTree = useCallback((elements: TreeViewElement[]) => {
+      const expandTree = (element: TreeViewElement) => {
+        const isSelectable = element.isSelectable ?? true
+        if (isSelectable && element.children && element.children.length > 0) {
+          setExpendedItems?.(prev => [...(prev ?? []), element.id])
+          element.children.forEach(expandTree)
+        }
       }
-    }
 
-    elements.forEach(expandTree)
-  }, [])
+      elements.forEach(expandTree)
+    }, [])
 
-  const closeAll = useCallback(() => {
-    setExpendedItems?.([])
-  }, [])
+    const closeAll = useCallback(() => {
+      setExpendedItems?.([])
+    }, [])
 
-  useEffect(() => {
-    console.log(expandAll)
-    if (expandAll) {
-      expendAllTree(elements)
-    }
-  }, [expandAll])
+    useEffect(() => {
+      console.log(expandAll)
+      if (expandAll) {
+        expendAllTree(elements)
+      }
+    }, [expandAll])
 
-  /**
-   * @todo Replace this with Canary Button once the "@" issue gets resolved
-   */
-  return (
-    <button
-      // variant={'ghost'}
-      className="h-8 w-fit p-1 absolute bottom-1 right-2"
-      onClick={expendedItems && expendedItems.length > 0 ? closeAll : () => expendAllTree(elements)}
-      ref={ref}
-      {...props}>
-      {children}
-      <span className="sr-only">Toggle</span>
-    </button>
-  )
-})
+    /**
+     * @todo Replace this with Canary Button once the "@" issue gets resolved
+     */
+    return (
+      <button
+        // variant={'ghost'}
+        className="h-8 w-fit p-1 absolute bottom-1 right-2"
+        onClick={expendedItems && expendedItems.length > 0 ? closeAll : () => expendAllTree(elements)}
+        ref={ref}
+        {...props}>
+        {children}
+        <span className="sr-only">Toggle</span>
+      </button>
+    )
+  }
+)
 
 CollapseButton.displayName = 'CollapseButton'
 
-export { Tree, Folder, File, CollapseButton, type TreeViewElement }
+export { Status, Tree, Folder, File, CollapseButton, type TreeViewElement }
