@@ -104,29 +104,33 @@ export function RepositoryList() {
         <div className="flex flex-col w-[770px] h-full mx-auto py-10 gap-5">
           <h1 className="text-2xl font-medium">Repositories</h1>
           <div className="flex flex-row space-x-2">
-            <Input type="search" placeholder="Search" />
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger>Filter</NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <NavigationMenuLink>Link</NavigationMenuLink>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger>Sort</NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <NavigationMenuLink>Link</NavigationMenuLink>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
-
-            <Button className="h-8 rounded-[4px] px-6">New Repository</Button>
+            <div className="flex-1 flex flex-row space-x-1">
+              <Input type="search" placeholder="Search ..." className="leading-4 border-[#242429] placeholder:text-[#93939F] w-64" />
+              <NavigationMenu>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="text-[#C9C9CF]">Filter</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <NavigationMenuLink>Link</NavigationMenuLink>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
+              <NavigationMenu>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger  className="text-[#C9C9CF]">Sort</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <NavigationMenuLink>Link</NavigationMenuLink>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
+            </div>
+            <div className="flex-none">
+              <Button className="rounded-[4px] px-6">New Repository</Button>
+            </div>
+            
           </div>
           <div className="border rounded-md mb-16">
             <Table>
@@ -135,13 +139,13 @@ export function RepositoryList() {
                   <TableRow className='text-gray-500'>
                    <TableCell className='flex flex-col gap-1 px-4 py-3.5'>
 
-                      <div className="font-medium text-gray-50">{repo.name}<Badge className="bg-transparent border-white rounded-2xl text-[12px] font-medium ml-2.5 py-1 px-2 leading-none text-[#71dbd3] border-[#1d3333] bg-[#111c1d]">Public</Badge></div>
+                      <div className="font-medium text-gray-50">{repo.name}<Badge className={`select-none bg-transparent border-white rounded-2xl text-[12px] font-medium ml-2.5 py-1 px-2 leading-none text-[#71dbd3] border-[#1d3333] bg-[#111c1d] ${repo.private && "border-[#242428] bg-[#151518] text-[#93939f]" }`}>{repo.private ? "Private" : "Public"}</Badge></div>
                       <div className="flex gap-2 text-xs">
                         <span className="whitespace-nowrap overflow-hidden text-ellipsis max-w-96">{repo.description || <i>No Description</i>}</span>
                       </div>
                     </TableCell>
                     <TableCell className="text-right align-top px-4 py-3.5">
-                      <div className="font-normal whitespace-nowrap">
+                      <div className="font-normal whitespace-nowrap text-[13px] select-none">
                         <span className="mr-1">updated</span>
                         <span className="text-foreground">2 hours ago</span>
                       </div>
@@ -160,18 +164,18 @@ export function RepositoryList() {
                 <PaginationPrevious href="#" />
               </PaginationItem>
               <PaginationItem>
-                <PaginationLink href="#" className="select-none rounded-full bg-accent">1</PaginationLink>
+                <PaginationLink href="#" className="select-none rounded-full bg-[#131316]">1</PaginationLink>
               </PaginationItem>
               <PaginationItem>
-                <PaginationLink href="#" className="select-none rounded-full bg-accent" isActive>
+                <PaginationLink href="#" className="select-none rounded-full bg-[#131316] border-[#131316]" isActive>
                   2
                 </PaginationLink>
               </PaginationItem>
               <PaginationItem>
-                <PaginationLink href="#"  className="select-none rounded-full bg-accent">3</PaginationLink>
+                <PaginationLink href="#"  className="select-none rounded-full bg-[#131316]">3</PaginationLink>
               </PaginationItem>
               <PaginationItem>
-                <PaginationEllipsis className="select-none rounded-full bg-accent"/>
+                <PaginationEllipsis className="select-none rounded-full bg-[#131316]"/>
               </PaginationItem>
               <PaginationItem>
                 <PaginationNext href="#" />
