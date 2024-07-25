@@ -15,14 +15,12 @@ pipeline:
                 run: go test -v
               - name: Static Analysis
                 run: go vet ./...
-          - name: Node Build and Test
+          - name: Node Build and Test Prod
             steps:
               - name: Checkout Node Code
                 run: git checkout main
               - name: Install Node Dependencies
                 run: npm install
-              - name: Build Node Project
-                run: npm run build
     - name: Deploy
       steps:
         - name: Checkout Deployment Code
@@ -35,7 +33,6 @@ pipeline:
           run: aws s3 cp app.tar.gz s3://my-bucket/app.tar.gz
         - name: Notify Deployment
           run: slack post notification
-
     - name: Integration Testing
       group:
         stages:
@@ -45,10 +42,6 @@ pipeline:
                 run: git checkout main
               - name: Run Go Integration Tests
                 run: go run integration_test.go
-              - name: Validate Go Integration Tests
-                run: go test -v integration_test.go
-              - name: Clean Up
-                run: go clean
           - name: Node Integration Tests
             steps:
               - name: Checkout Node Code
@@ -57,9 +50,6 @@ pipeline:
                 run: npm run integration-test
               - name: Validate Node Integration Tests
                 run: npm test -- --coverage
-              - name: Clean Up
-                run: npm run clean
-
     - name: Final Verification
       parallel:
         stages:
