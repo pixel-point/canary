@@ -34,7 +34,6 @@ const TreeFileTest = () => {
             <p>Canary Deployment</p>
           </File>
         </Folder>
-        <CollapseButton elements={elements} />
       </Tree>
     </div>
   )

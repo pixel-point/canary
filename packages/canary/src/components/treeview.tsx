@@ -1,10 +1,9 @@
-import { ScrollArea } from './scroll-area'
+import { ScrollArea } from '@radix-ui/react-scroll-area'
 import { cn } from '../lib/utils'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
 import moment from 'moment'
 import { NavArrowRight, NavArrowDown, Circle, CheckCircleSolid, XmarkCircleSolid } from '@harnessio/icons-noir'
 import React, { createContext, forwardRef, useCallback, useContext, useEffect, useState } from 'react'
-import { Button } from './button'
 
 export enum Status {
   QUEUED,
@@ -339,16 +338,19 @@ const CollapseButton = forwardRef<
     }
   }, [expandAll])
 
+  /**
+   * @todo Replace this with Canary Button once the "@" issue gets resolved
+   */
   return (
-    <Button
-      variant={'ghost'}
+    <button
+      // variant={'ghost'}
       className="h-8 w-fit p-1 absolute bottom-1 right-2"
       onClick={expendedItems && expendedItems.length > 0 ? closeAll : () => expendAllTree(elements)}
       ref={ref}
       {...props}>
       {children}
       <span className="sr-only">Toggle</span>
-    </Button>
+    </button>
   )
 })
 
