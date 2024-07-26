@@ -14,7 +14,7 @@
   text-align: left;
   background: rgba(15, 16, 17, 1);
   border: 1px dashed rgba(48, 51, 54, 1);
-  padding: var(--spacing-small) !important;
+  padding: 10px !important;
   border-radius: 8px;
 }
 
@@ -55,7 +55,7 @@
   display: flex;
   justify-content: space-between;
   width: inherit;
-  padding: 0 var(--spacing-small);
+  padding: 0 10px;
   box-sizing: border-box;
   align-items: center;
 }
