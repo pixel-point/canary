@@ -1,7 +1,7 @@
 {
   "name": "@harnessio/canary",
   "private": false,
-  "version": "0.2.3",
+  "version": "0.2.4",
   "type": "module",
   "scripts": {
     "dev": "npm-run-all -p build:watch build:css -- --watch",
@@ -10,7 +10,6 @@
     "build:css": "npx tailwindcss -i ./src/styles.css -o ./dist/styles.css",
     "lint": "eslint ./src",
     "shadcn:update": "npx shadcn-ui@latest add -a -o -y",
-    "preinstall": "npx only-allow pnpm",
     "prepublishOnly": "pnpm build"
   },
   "module": "./dist/index.js",
