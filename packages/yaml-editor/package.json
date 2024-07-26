@@ -1,11 +1,14 @@
 {
   "name": "@harnessio/yaml-editor",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
   "author": "Harness Inc.",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "webpack": "webpack",
     "build": "pnpm run webpack --config webpack.config.prod.js",
