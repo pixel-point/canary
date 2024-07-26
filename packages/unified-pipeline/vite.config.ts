@@ -39,14 +39,6 @@ export default defineConfig({
       fileName: 'index',
       formats: ['es']
     },
-    rollupOptions: {
-      external
-      // output: {
-      //   globals: external.reduce((obj, item) => {
-      //     obj[item] = item
-      //     return obj
-      //   }, {})
-      // }
-    }
+    rollupOptions: { external }
   }
 })

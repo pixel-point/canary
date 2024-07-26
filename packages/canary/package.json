@@ -39,6 +39,7 @@
   },
   "homepage": "https://github.com/harness/canary",
   "dependencies": {
+    "@harnessio/icons-noir": "workspace:*",
     "@hookform/resolvers": "^3.6.0",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
@@ -85,10 +86,10 @@
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.1",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "moment": "^2.30.1"
   },
   "devDependencies": {
-    "@harnessio/icons-noir": "workspace:*",
     "@types/node": "^20.14.9",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
@@ -98,16 +99,12 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
     "globals": "^15.8.0",
-    "moment": "^2.30.1",
+    "lodash-es": "^4.17.21",
     "npm-run-all": "^4.1.5",
-    "postcss": "^8.4.38",
     "prop-types": "^15.8.1",
     "tailwindcss": "^3.4.4",
     "vite": "^5.3.1",
     "vite-plugin-dts": "^3.9.1",
     "vite-plugin-svgr": "^4.2.0"
-  },
-  "peerDependencies": {
-    "@harnessio/icons-noir": "workspace:*"
   }
 }
