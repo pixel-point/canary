@@ -3,6 +3,8 @@ import { StoryFn, Meta } from '@storybook/react'
 import { PipelineStudio, getNodesFromPipelineYaml } from '@harnessio/unified-pipeline'
 import pipelineYamlSingleStage from './pipeline_w_single_stage.yaml'
 import pipelineYamlParallelGroup from './pipeline_w_parallel_stage_group.yaml'
+import pipelineYamlSequentialGroup from './pipeline_w_sequential_stage_group.yaml'
+import pipelineYamlParallelGroupAndStage from './pipeline_w_parallel_stage_group_and_stage.yaml'
 
 const meta: Meta<typeof PipelineStudio> = {
   title: 'Unified Pipeline/Pipeline Studio',
@@ -32,9 +34,9 @@ const TemplateSingleStage: StoryFn = () => (
   </div>
 )
 
-export const WithSingleStageReadOnly: StoryFn = () => <TemplateSingleStage readonly />
+export const SingleStage: StoryFn = () => <TemplateSingleStage readonly />
 
-const TemplateMultipleStagesParallel: StoryFn = () => (
+const TemplateParallelStageGroup: StoryFn = () => (
   <div style={{ width: '100vw', height: '100vh' }}>
     <PipelineStudio
       nodes={getNodesFromPipelineYaml(pipelineYamlParallelGroup)}
@@ -45,4 +47,30 @@ const TemplateMultipleStagesParallel: StoryFn = () => (
   </div>
 )
 
-export const WithStageGroupWithMultipleStages: StoryFn = () => <TemplateMultipleStagesParallel readonly />
+export const ParallelStageGroup: StoryFn = () => <TemplateParallelStageGroup readonly />
+
+const TemplateSequentialStageGroup: StoryFn = () => (
+  <div style={{ width: '100vw', height: '100vh' }}>
+    <PipelineStudio
+      nodes={getNodesFromPipelineYaml(pipelineYamlSequentialGroup)}
+      onAddNode={() => {}}
+      onDeleteNode={() => {}}
+      onSelectNode={() => {}}
+    />
+  </div>
+)
+
+export const SequentialStageGroup: StoryFn = () => <TemplateSequentialStageGroup readonly />
+
+const TemplateParallelStageGroupAndStage: StoryFn = () => (
+  <div style={{ width: '100vw', height: '100vh' }}>
+    <PipelineStudio
+      nodes={getNodesFromPipelineYaml(pipelineYamlParallelGroupAndStage)}
+      onAddNode={() => {}}
+      onDeleteNode={() => {}}
+      onSelectNode={() => {}}
+    />
+  </div>
+)
+
+export const ParallelStageGroupAndStage: StoryFn = () => <TemplateParallelStageGroupAndStage readonly />
