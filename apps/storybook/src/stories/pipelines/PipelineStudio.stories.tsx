@@ -5,6 +5,7 @@ import pipelineYamlSingleStage from './pipeline_w_single_stage.yaml'
 import pipelineYamlParallelGroup from './pipeline_w_parallel_stage_group.yaml'
 import pipelineYamlSequentialGroup from './pipeline_w_sequential_stage_group.yaml'
 import pipelineYamlParallelGroupAndStage from './pipeline_w_parallel_stage_group_and_stage.yaml'
+import pipelineUnscriptedYaml from './demo_pipeline.yaml'
 
 const meta: Meta<typeof PipelineStudio> = {
   title: 'Unified Pipeline/Pipeline Studio',
@@ -74,3 +75,16 @@ const TemplateParallelStageGroupAndStage: StoryFn = () => (
 )
 
 export const ParallelStageGroupAndStage: StoryFn = () => <TemplateParallelStageGroupAndStage readonly />
+
+const TemplateUnscriptedPipeline: StoryFn = () => (
+  <div style={{ width: '100vw', height: '100vh' }}>
+    <PipelineStudio
+      nodes={getNodesFromPipelineYaml(pipelineUnscriptedYaml)}
+      onAddNode={() => {}}
+      onDeleteNode={() => {}}
+      onSelectNode={() => {}}
+    />
+  </div>
+)
+
+export const UnscriptedPipeline: StoryFn = () => <TemplateUnscriptedPipeline readonly />
