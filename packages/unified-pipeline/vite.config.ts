@@ -16,7 +16,7 @@ const external = uniq(
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  define: { 'process.env.NODE_ENV': 'production' },
+  define: { 'process.env.NODE_ENV': '"production"' },
   plugins: [
     react(),
     dts({
