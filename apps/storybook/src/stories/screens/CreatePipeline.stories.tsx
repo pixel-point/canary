@@ -10,7 +10,7 @@ import { ChevronRightIcon } from '@radix-ui/react-icons'
 import {CreatePipelineResourcesCard} from './widgets/CreatePipelineResourcesCard'
 import NodeLogo from '../../assets/node-logo.svg?react'
 import PythonLogo from '../../assets/python-logo.svg?react'
-import PythonNodeLogos from '../../assets/node-python-logos.svg?react'
+import PythonNodeLogos from '../../assets/node-python-logos.svg?react' 
 import { CreatePipelineTemplateCard } from './widgets/CreatePipelineTemplateCard'
 import CardList from '../composites/CardList'
 import QuickStartIcon from '../../assets/documentation-quickstart-icon.svg?react'
@@ -27,14 +27,15 @@ interface TemplateCardsProps {
   title: string;
   logo: React.ReactElement<SVGSVGElement>;
   logoClass?: string
-  bgBlur?: string
+  highlightTop?: string
+  highlightBottom?: string
 }
 
 export function CreatePipeline() {
   const templateCards:TemplateCardsProps[] = [
-    { title: 'Node.js', logo: <NodeLogo />, bgBlur: 'node-template-bg-blur.png' },
-    { title: 'Python', logo: <PythonLogo />, bgBlur: 'python-template-bg-blur.png' },
-    { title: 'Python and Node.js', logo: <PythonNodeLogos />, bgBlur: 'node-python-template-bg-blur.png', logoClass: 'h-[92px]'  }
+    { title: 'Node.js', logo: <NodeLogo />, highlightTop: '#3E7644', highlightBottom: '#262930' },
+    { title: 'Node.js', logo: <PythonLogo />, highlightTop: '#4786B8', highlightBottom: '#262930' },
+    { title: 'Python and Node.js', logo: <PythonNodeLogos />, highlightTop: '#3E7644', highlightBottom: '#262930', logoClass: 'h-[92px]'  }
   ]
 
   return (
@@ -75,8 +76,8 @@ export function CreatePipeline() {
               </Section.Header>
               <Section.CardGrid>
                 {templateCards.map((card, index) => (
-                  <Card key={index} className='border-[#1D1D20] overflow-hidden'>
-                    <CreatePipelineTemplateCard bgBlur={card.bgBlur} title={card.title} logo={card.logo} logoClass={card.logoClass? card.logoClass : ''} />
+                  <Card key={index} className='border-none'>
+                    <CreatePipelineTemplateCard highlightTop={card.highlightTop} highlightBottom={card.highlightBottom} title={card.title} logo={card.logo} logoClass={card.logoClass? card.logoClass : ''} />
                   </Card>
                 ))}
               </Section.CardGrid>

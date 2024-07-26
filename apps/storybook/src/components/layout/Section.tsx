@@ -26,7 +26,7 @@ const Section = {
   },
 
   Header: function Content({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-    return <div className={cn('flex flex-col gap-3', className)}>{children}</div>
+    return <div className={cn('flex flex-col gap-3 mb-1', className)}>{children}</div>
   },
 
   Content: function Content({ children, className = '' }: { children: React.ReactNode; className?: string }) {
