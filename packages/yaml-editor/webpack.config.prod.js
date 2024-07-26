@@ -4,7 +4,6 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 
 const path = require('path')
 
-console.log(__dirname)
 module.exports = {
   entry: 'src/index.tsx',
   mode: 'production',

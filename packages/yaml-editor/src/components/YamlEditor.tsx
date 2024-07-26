@@ -36,10 +36,8 @@ export function YamlEditor(props: YamlEditorProps): JSX.Element {
   useEffect(() => {
     if (monaco && !monacoRef.current) {
       monacoRef.current = monaco
-      console.log(monaco.editor.getEditors())
+      // TODO: is there event for this?
       setTimeout(() => {
-        console.log(monacoRef.current?.editor.getEditors())
-
         setEditor(monacoRef.current?.editor.getEditors()[0]!)
       }, 100)
     }
