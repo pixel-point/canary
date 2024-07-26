@@ -14,7 +14,7 @@ import ChaosEngineeringIcon from '../../assets/chaos-engineering-icon.svg?react'
 import EnvironmentIcon from '../../assets/environment-icon.svg?react'
 import SecretsIcon from '../../assets/secrets-icon.svg?react'
 import ConnectorsIcon from '../../assets/connectors-icon.svg?react'
-import SystemAdministrationIcon from '../../assets/system-administration-icon.svg?react'
+// import SystemAdministrationIcon from '../../assets/system-administration-icon.svg?react'
 import ProjectSwitcher from '../composites/ProjectSwitcher'
 
 export default {
@@ -69,12 +69,12 @@ const pinnedMenuItems = [
   }
 ]
 
-const secondaryMenuItems = [
-  {
-    text: 'System Administration',
-    icon: <SystemAdministrationIcon />
-  }
-]
+// const secondaryMenuItems = [
+//   {
+//     text: 'System Administration',
+//     icon: <SystemAdministrationIcon />
+//   }
+// ]
 
 const sampleProjectList = [
   {
@@ -122,7 +122,7 @@ const GitnessTemplate: StoryFn = () => (
       <NavCompanyBadge avatar={<CompanyAvatar />} name="Pixel Point">
         <ProjectSwitcher.Root>
           <ProjectSwitcher.List>
-            {sampleProjectList.map((p, p_idx) => {
+            {sampleProjectList.map(p => {
               return (
                 <ProjectSwitcher.Item>
                   <ProjectSwitcher.ItemAvatar>{p.avatar}</ProjectSwitcher.ItemAvatar>

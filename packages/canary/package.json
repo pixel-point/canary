@@ -1,11 +1,12 @@
 {
   "name": "@harnessio/canary",
   "private": false,
-  "version": "0.2.1",
+  "version": "0.2.3",
   "type": "module",
   "scripts": {
-    "dev": "pnpm storybook",
+    "dev": "npm-run-all -p build:watch build:css -- --watch",
     "build": "vite build && pnpm build:css",
+    "build:watch": "vite build --watch --emptyOutDir=false",
     "build:css": "npx tailwindcss -i ./src/styles.css -o ./dist/styles.css",
     "lint": "eslint ./src",
     "shadcn:update": "npx shadcn-ui@latest add -a -o -y",
@@ -85,7 +86,6 @@
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.1",
-    "vite-plugin-svgr": "^4.2.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -100,10 +100,15 @@
     "eslint-plugin-react-refresh": "^0.4.7",
     "globals": "^15.8.0",
     "moment": "^2.30.1",
+    "npm-run-all": "^4.1.5",
     "postcss": "^8.4.38",
     "prop-types": "^15.8.1",
     "tailwindcss": "^3.4.4",
     "vite": "^5.3.1",
-    "vite-plugin-dts": "^3.9.1"
+    "vite-plugin-dts": "^3.9.1",
+    "vite-plugin-svgr": "^4.2.0"
+  },
+  "peerDependencies": {
+    "@harnessio/icons-noir": "workspace:*"
   }
 }

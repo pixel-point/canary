@@ -9,7 +9,6 @@ export declare const label: string
 export declare const main: string
 export declare const marginTop: string
 export declare const plus: string
-export declare const selected: string
 export declare const show: string
 export declare const skeletonIcon: string
 export declare const skeletonLine: string

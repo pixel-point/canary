@@ -23,6 +23,7 @@
     "@harnessio/icons-noir": "workspace:*",
     "@harnessio/svg-icon": "workspace:*",
     "@harnessio/svg-icon-react": "workspace:*",
+    "@rollup/plugin-yaml": "^4.1.2",
     "@uiw/react-markdown-preview": "^4.1.15",
     "lodash-es": "^4.17.21",
     "lucide-react": "^0.407.0",
@@ -30,7 +31,8 @@
     "prettier": "^3.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-keywords": "^1.0.0"
+    "react-keywords": "^1.0.0",
+    "yaml-loader": "^0.8.1"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.9",

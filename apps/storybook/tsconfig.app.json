@@ -28,6 +28,6 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": "."
   },
-  "include": ["src"],
+  "include": ["src", "src/global.d.ts"],
   "exclude": ["src/App.tsx", "src/main.tsx"]
 }

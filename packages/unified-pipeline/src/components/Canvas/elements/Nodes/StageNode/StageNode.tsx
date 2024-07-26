@@ -15,7 +15,7 @@ import {
   getNodeDiagnostics,
   getNodePositionType
 } from '../../../utils/NodeUtils'
-import { dedupeEdges, getEdgesForChildNodes, mergeEdges } from '../../../../../components/Canvas/utils/EdgeUtils'
+import { dedupeEdges, createEdgesForChildren, mergeEdges } from '../../../../../components/Canvas/utils/EdgeUtils'
 import Expand from '../../../../../icons/Expand'
 import Hamburger from '../../../../../icons/Hamburger'
 // import { Menubar } from '../../../../../../../canary/src/components/menubar'
@@ -36,15 +36,15 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
   const [height, setHeight] = useState<number>(0)
   const [showZeroState, setShowZeroState] = useState<boolean>(false)
   const childNodes = useMemo((): Node[] => getChildNodes(nodeId, nodes), [nodes])
+  const memberCount = memberNodes.length
 
   useEffect(() => {
-    setShowZeroState(childNodes.length === 0)
+    setShowZeroState(memberCount === 0)
     setupNode()
-  }, [childNodes.length])
+  }, [memberCount])
 
   const setupNode = useCallback((): void => {
     if (nodes.length === 0) return
-    const childNodes = getChildNodes(nodeId, nodes)
     const { width, height } = getStageNodeDimensions({
       isExpanded: true,
       childNodes
@@ -55,7 +55,7 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
     const parentNode = getNodeById(nodes, nodeId)
     if (!parentNode) return
     const isGroupView = getNodePositionType(parentNode) === PositionType.RELATIVE
-    const childNodeEdges = getEdgesForChildNodes({
+    const childNodeEdges = createEdgesForChildren({
       parentNode,
       nodes,
       zIndexForEdges: isGroupView ? 2 : 1,
@@ -74,7 +74,7 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
       height,
       readonly
     })
-    updateNodes(layoutedElements.nodes)
+    updateNodes({ updatedNodes: layoutedElements.nodes })
     addEdges(dedupeEdges(mergeEdges(edges, layoutedElements.edges)))
     setWidth(width)
     setHeight(height)
@@ -130,7 +130,7 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
         return updatedNodes.concat(childNodes)
       }
       const updatedNodes = expandNode(expandedNodeId, [])
-      updateNodes(updatedNodes, true)
+      updateNodes({ updatedNodes, notifyParent: true, notifySiblings: true })
     },
     [nodes, edges]
   )
@@ -159,7 +159,7 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
         return updatedNodes.concat(childNodes)
       }
       const updatedNodes = collapseNode(collapsedNodeId, [])
-      updateNodes(updatedNodes, true)
+      updateNodes({ updatedNodes, notifyParent: true, notifySiblings: true })
     },
     [nodes, edges]
   )
@@ -224,7 +224,7 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
               />
               &nbsp;
               <span className={css.label}>{name}</span>
-              {childNodes.length > 0 && <span className={css.count}>&nbsp;({childNodes.length})</span>}
+              {memberCount > 0 && <span className={css.count}>&nbsp;({memberCount})</span>}
             </div>
           </div>
           {/* <Menubar
@@ -239,7 +239,7 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
           /> */}
           <Hamburger onClick={() => handleNodeDelete(nodeId)} />
         </div>
-        {childNodes.length === 0 && (
+        {memberCount === 0 && (
           <div className={css.addStep} onClick={() => {}}>
             + Add your first step
           </div>

@@ -15,12 +15,10 @@ import { useCanvasStore } from '../../../../../framework/CanvasStore/CanvasStore
 import Hamburger from '../../../../../icons/Hamburger'
 import { STEP_NODE_HEIGHT, STEP_NODE_WIDTH } from '../../../utils/LROrientation/Constants'
 import { Status } from '../../../../../utils/Constants'
-import cardBg from '../../../../../assets/images/card-glow.svg'
+// import cardBg from '../../../../../assets/images/card-glow.svg'
 import { DEFAULT_NODE_LOCATION } from '../../../../../components/Canvas/utils/LROrientation/Constants'
 
 import css from './AtomicNode.module.scss'
-
-const Statuses = [Status.QUEUED, Status.IN_PROGRESS, Status.DONE]
 
 export interface AtomicNodeProps extends DefaultNodeProps, ExpandNodeProps, DeleteNodeProps {
   /**
@@ -35,22 +33,25 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
   const [width] = useState<number>(STEP_NODE_WIDTH)
   const [height] = useState<number>(STEP_NODE_HEIGHT)
   /* To simulate transitions */
-  // const [status, setStatus] = useState(Status.QUEUED);
-  // const runTransitions = true;
-  const [status, setStatus] = useState(Status.DONE)
-  const runTransitions = false
+  const [status, setStatus] = useState(Status.QUEUED)
+  const runTransitions = true
+  // const [status, setStatus] = useState(Status.DONE)
+  // const runTransitions = true
   const [showPlus, setShowPlus] = useState<boolean>(false)
 
   useEffect(() => {
     if (runTransitions) {
-      let index = 0
-      const updateValue = () => {
-        index = (index + 1) % Statuses.length
-        setStatus(Statuses[index])
-      }
-      const randomDelay = Math.floor(Math.random() * 4000) + 5000
-      const interval = setInterval(updateValue, randomDelay)
-      return () => clearInterval(interval)
+      let interval1 = 0,
+        interval2 = 0
+      interval1 = window.setInterval(
+        () => {
+          clearInterval(interval1)
+          setStatus(Status.IN_PROGRESS)
+          interval2 = window.setInterval(() => setStatus(Status.DONE), Math.floor(Math.random() * 4000) + 2000)
+        },
+        Math.floor(Math.random() * 4000) + 2000
+      )
+      return () => clearInterval(interval2)
     }
   }, [])
 
@@ -97,7 +98,7 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
       <Handle type="target" position={Position.Left} isConnectable={isConnectable} />
       {status === Status.QUEUED ? (
         <div>
-          <img src={cardBg} className={css.glow} width="192" height="132" alt="" />
+          {/* <img src={cardBg} className={css.glow} width="192" height="132" alt="" /> */}
           <div
             className={cx(
               css.main,
