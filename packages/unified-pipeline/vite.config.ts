@@ -11,7 +11,7 @@ const external = uniq(
   Object.keys(pkg.dependencies || [])
     .concat(Object.keys(pkg.devDependencies || []))
     .concat(Object.keys(pkg.peerDependencies || []))
-    .concat(['react/jsx-runtime', 'elkjs', 'web-worker'])
+    .concat(['elkjs', 'web-worker'])
 )
 
 // https://vitejs.dev/config/
