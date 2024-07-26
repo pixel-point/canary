@@ -1,6 +1,9 @@
 {
   "name": "@harnessio/yaml-editor",
   "version": "0.1.0",
+  "private": false,
+  "author": "Harness Inc.",
+  "license": "Apache-2.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -8,7 +11,8 @@
     "build": "pnpm run webpack --config webpack.config.prod.js",
     "watch:build": "watch 'pnpm build-yalc' ./src",
     "build-yalc": "pnpm build && pnpm yalc-push",
-    "yalc-push": "yalc push"
+    "yalc-push": "yalc push",
+    "prepublishOnly": "pnpm build"
   },
   "dependencies": {},
   "peerDependencies": {
