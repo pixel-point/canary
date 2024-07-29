@@ -1,4 +1,5 @@
 // src/design-system/Colors.stories.js
+import React from 'react'
 
 export default {
   title: 'Design System/Colors'

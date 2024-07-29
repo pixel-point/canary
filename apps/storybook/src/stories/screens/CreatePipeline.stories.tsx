@@ -34,7 +34,7 @@ interface TemplateCardsProps {
 export function CreatePipeline() {
   const templateCards:TemplateCardsProps[] = [
     { title: 'Node.js', logo: <NodeLogo />, highlightTop: '#3E7644', highlightBottom: '#262930' },
-    { title: 'Node.js', logo: <PythonLogo />, highlightTop: '#4786B8', highlightBottom: '#262930' },
+    { title: 'Python', logo: <PythonLogo />, highlightTop: '#4786B8', highlightBottom: '#262930' },
     { title: 'Python and Node.js', logo: <PythonNodeLogos />, highlightTop: '#3E7644', highlightBottom: '#262930', logoClass: 'h-[92px]'  }
   ]
 
