@@ -5,27 +5,21 @@ import { GitnessTopBar } from '../components/TopBar.stories'
 import {
   Button,
   Input,
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  Table,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
   TableBody,
-  TableCell,
-  TableRow
+  Table,
+  TableRow,
+  TableCell
 } from '@harnessio/canary'
-import {
-  ArrowLeft,
-  ArrowRight,
-  CheckCircleSolid,
-  KeyframeAlignHorizontal,
-  TriangleFlag,
-  XmarkCircleSolid
-} from '@harnessio/icons-noir'
+import { CheckCircleSolid, KeyframeAlignHorizontal, TriangleFlag, XmarkCircleSolid } from '@harnessio/icons-noir'
 import View from '../../components/layout/View'
 import Section from '../../components/layout/Section'
+import EntityList from '../composites/EntityList'
+import { EntityListPagination } from './widgets/EntityListPagination'
+import { ChevronDownIcon } from '@radix-ui/react-icons'
 
 export default {
   title: 'Screens/Pipeline List',
@@ -137,86 +131,108 @@ export function PipeLineList() {
               <Section.Header>
                 <p className="section-title">Pipelines</p>
               </Section.Header>
-              <div className="flex flex-row space-x-2">
-                <Input type="search" placeholder="Search" />
-                <NavigationMenu>
-                  <NavigationMenuList>
-                    <NavigationMenuItem>
-                      <NavigationMenuTrigger>Filter</NavigationMenuTrigger>
-                      <NavigationMenuContent>
-                        <NavigationMenuLink>Link</NavigationMenuLink>
-                      </NavigationMenuContent>
-                    </NavigationMenuItem>
-                  </NavigationMenuList>
-                </NavigationMenu>
-                <NavigationMenu>
-                  <NavigationMenuList>
-                    <NavigationMenuItem>
-                      <NavigationMenuTrigger>Sort</NavigationMenuTrigger>
-                      <NavigationMenuContent>
-                        <NavigationMenuLink>Link</NavigationMenuLink>
-                      </NavigationMenuContent>
-                    </NavigationMenuItem>
-                  </NavigationMenuList>
-                </NavigationMenu>
-                <NavigationMenu>
-                  <NavigationMenuList>
-                    <NavigationMenuItem>
-                      <NavigationMenuTrigger>Customise View</NavigationMenuTrigger>
-                      <NavigationMenuContent>
-                        <NavigationMenuLink>Link</NavigationMenuLink>
-                      </NavigationMenuContent>
-                    </NavigationMenuItem>
-                  </NavigationMenuList>
-                </NavigationMenu>
-                <Button>Create New Pipeline</Button>
-              </div>
-              <div className="border rounded-md">
-                <Table>
-                  <TableBody>
-                    {pipelines.map(pipeline => (
-                      <TableRow className="text-gray-500">
-                        <TableCell className="w-[14px] align-top pr-0">
-                          {pipeline.status === 'failed' ? (
-                            <XmarkCircleSolid color="#ed5e5e" size="16px" className="mt-1" />
-                          ) : (
-                            <CheckCircleSolid color="#63E9A6" size="16px" className="mt-1" />
-                          )}
-                        </TableCell>
-                        <TableCell className="flex flex-col gap-1">
-                          <div className="font-medium text-gray-50">{pipeline.name}</div>
-                          <div className="flex gap-2 text-xs">
-                            <span className="bg-[#18181b] rounded-md px-2 text-gray-400 flex items-center gap-1 font-mono text-[12px]">
-                              <KeyframeAlignHorizontal /> {pipeline.commit.sha}
-                            </span>
-                            <span className="">{pipeline.commit.message}</span>
-                            <span className="font-mono">
-                              <TriangleFlag className="align-middle" />
-                              {pipeline.commit.tag}
-                            </span>
-                          </div>
-                        </TableCell>
-                        <TableCell className="text-right align-top">2 hours ago</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-              <div className="flex">
-                <Button variant={'ghost'} size={'sm'}>
-                  <ArrowLeft className="mr-1" /> Previous
-                </Button>
-                <div className="flex flex-grow justify-center gap-2">
-                  {[1, 2, 3, 4, 5].map(page => (
-                    <Button variant={'secondary'} size={'sm'} className="rounded-full" key={page}>
-                      {page}
-                    </Button>
-                  ))}
-                </div>
-                <Button variant={'ghost'} size={'sm'}>
-                  Next <ArrowRight className="ml-1" />
-                </Button>
-              </div>
+              <EntityList.Root>
+                <EntityList.Header>
+                  <EntityList.Actions>
+                    <EntityList.ActionItem>
+                      <Input
+                        type="search"
+                        placeholder="Search ..."
+                        className="flex w-full mr-3 leading-4 rounded-lg bg-secondary-background placeholder:text-tertiary-background"
+                      />
+                    </EntityList.ActionItem>
+                    <EntityList.ActionItem>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild className="group text-tertiary-background select-none">
+                          <Button variant="ghost" size="default" padding="sm" className="entity-list-action">
+                            Filter&nbsp;
+                            <ChevronDownIcon className="entity-list-action-chevron" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem className="font-light text-xs">Filter option 1</DropdownMenuItem>
+                          <DropdownMenuItem className="font-light text-xs">Filter option 2</DropdownMenuItem>
+                          <DropdownMenuItem className="font-light text-xs">Filter option 3</DropdownMenuItem>
+                          <DropdownMenuItem className="font-light text-xs">Filter option 4</DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </EntityList.ActionItem>
+                    <EntityList.ActionItem>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild className="group text-tertiary-background select-none">
+                          <Button variant="ghost" size="default" padding="sm" className="entity-list-action">
+                            Sort&nbsp;
+                            <ChevronDownIcon className="entity-list-action-chevron" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem className="font-light text-xs">Sort option 1</DropdownMenuItem>
+                          <DropdownMenuItem className="font-light text-xs">Sort option 2</DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </EntityList.ActionItem>
+                    <EntityList.ActionItem>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild className="group text-tertiary-background select-none">
+                          <Button variant="ghost" size="default" padding="sm" className="entity-list-action">
+                            Customize view&nbsp;
+                            <ChevronDownIcon className="entity-list-action-chevron" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem className="font-light text-xs">Customize option 1</DropdownMenuItem>
+                          <DropdownMenuItem className="font-light text-xs">Customize option 2</DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </EntityList.ActionItem>
+                    <EntityList.ActionItem>
+                      <Button variant="default" size="sm" className="ml-6">
+                        New Pipeline
+                      </Button>
+                    </EntityList.ActionItem>
+                  </EntityList.Actions>
+                </EntityList.Header>
+                <EntityList.Content>
+                  <div className="border rounded-md w-full">
+                    <Table>
+                      <TableBody>
+                        {pipelines.map(pipeline => (
+                          <TableRow className="flex">
+                            <TableCell className="flex flex-col flex-1 gap-2 px-4 py-3 items-start">
+                              <div className="flex gap-2 items-center">
+                                {pipeline.status === 'failed' ? (
+                                  <XmarkCircleSolid color="#ed5e5e" size="16px" className="mt-0.5" />
+                                ) : (
+                                  <CheckCircleSolid color="#63E9A6" size="16px" className="mt-0.5" />
+                                )}
+                                <p className="font-normal text-primary">{pipeline.name}</p>
+                              </div>
+                              <div className="flex gap-2 text-xs text-tertiary-background">
+                                <span className="bg-[#18181b] rounded-md px-2 text-gray-400 flex items-center gap-1 font-mono text-[11px]">
+                                  <KeyframeAlignHorizontal /> {pipeline.commit.sha}
+                                </span>
+                                <span className="">{pipeline.commit.message}</span>
+                                <span className="font-mono text-[11px]">
+                                  <TriangleFlag className="align-middle" />
+                                  {pipeline.commit.tag}
+                                </span>
+                              </div>
+                            </TableCell>
+                            <TableCell className="flex flex-col gap-1 px-4 py-3.5 h-full justify-end items-start">
+                              <div className="whitespace-nowrap text-[12px] select-none font-light">
+                                <span className="text-tertiary-background">2 hours ago</span>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </EntityList.Content>
+                <EntityList.Footer>
+                  <EntityListPagination />
+                </EntityList.Footer>
+              </EntityList.Root>
             </Section.Root>
           </View.Root>
         </Container.Content>

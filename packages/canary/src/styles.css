@@ -15,6 +15,8 @@
     --primary-foreground: 0 0% 98%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
+    --tertiary: 240 4.8% 95.9%;
+    --tertiary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
     --accent: 240 4.8% 95.9%;
@@ -39,6 +41,9 @@
     --primary-foreground: 240 5.9% 10%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
+    --tertiary: 240 5% 12%;
+    --tertiary-foreground: 0 0% 98%;
+    --tertiary-background: 240 6% 60%;
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
     --accent: 240 3.7% 15.9%;
@@ -124,4 +129,15 @@
 }
 .nav-company-badge-chevron {
   @apply transition-transform transform rotate-0
+}
+
+/* Entity list actions */
+.entity-list-action {
+  @apply text-tertiary-background font-light text-xs outline-none select-none focus:ring-0 focus:outline-none
+}
+[data-state='open'] .entity-list-action-chevron {
+  @apply transition-transform transform rotate-180
+}
+.entity-list-action-chevron {
+  @apply transition-transform transform rotate-0 text-tertiary-background group-hover:text-primary
 }
