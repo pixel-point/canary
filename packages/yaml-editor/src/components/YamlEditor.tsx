@@ -16,13 +16,14 @@ loader.config({ monaco })
 
 export interface YamlEditorProps {
   value: string
+  onChange: (value: string | undefined, ev: monaco.editor.IModelContentChangedEvent) => void
   schemaConfig?: { schema: any; uri: string }
   inlineActions?: { selectors: PathSelector[]; actions: InlineAction[] }[]
   themeConfig?: { rootElementSelector: string; defaultTheme?: string; themes?: ThemeDefinition[] }
 }
 
 export function YamlEditor(props: YamlEditorProps): JSX.Element {
-  const { value, schemaConfig, inlineActions, themeConfig } = props
+  const { value, schemaConfig, inlineActions, themeConfig, onChange } = props
   const monaco = useMonaco()
   const [instanceId] = useState(Math.random().toString())
   const { setEditor } = useYamlEditorContext()
@@ -54,6 +55,7 @@ export function YamlEditor(props: YamlEditorProps): JSX.Element {
   return (
     <>
       <Editor
+        onChange={onChange}
         language="yaml"
         theme={theme}
         value={value}
