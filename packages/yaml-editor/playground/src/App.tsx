@@ -1,4 +1,4 @@
-import { YamlEditorContextProvider, YamlEditor, ProblemsPanel } from '@harnessio/yaml-editor'
+import { YamlEditorContextProvider, YamlEditor } from '@harnessio/yaml-editor'
 
 import { stageApproval } from './configurations/pipeline/stage-approval'
 import { inlineActionExample } from './configurations/inline-actions/inline-actions-def'
@@ -27,6 +27,7 @@ function App() {
       <YamlEditorContextProvider>
         <div style={{ display: 'flex', height: '500px' }}>
           <YamlEditor
+            onChange={console.log}
             value={stageApproval}
             schemaConfig={{
               schema: unifiedSchema,
@@ -38,9 +39,8 @@ function App() {
               defaultTheme: 'harness-dark',
               themes
             }}
-          />{' '}
+          />
         </div>
-        <ProblemsPanel />
       </YamlEditorContextProvider>
     </div>
   )
