@@ -17,7 +17,7 @@ const CardList = {
   }) {
     return (
       <div className={cn('flex gap-3 items-center justify-between py-3 px-4', className)}>
-        <p className="text-sm text-[#93939F] -tracking-[2%] truncate">{title}</p>
+        <p className="text-sm text-grey-60 -tracking-[2%] truncate">{title}</p>
         {action && <div className="hover:brightness-110 ease-in-out duration-150 cursor-pointer">{action}</div>}
       </div>
     )
@@ -45,7 +45,7 @@ const CardList = {
           <p className="text-sm text-primary truncate hover:opacity-75 ease-in-out duration-150 cursor-pointer">
             {title}
           </p>
-          <p className="text-sm font-light text-[#93939F] truncate">{description}</p>
+          <p className="text-sm font-light text-grey-60 truncate">{description}</p>
         </div>
       </div>
     )

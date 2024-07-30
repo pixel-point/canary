@@ -26,11 +26,11 @@ const ProjectSwitcher = {
   },
 
   ItemAction: function ItemAction({ children }: { children: React.ReactNode }) {
-    return <div className="text-[12px] group-hover:text-primary text-[#60606C]">{children}</div>
+    return <div className="text-[12px] group-hover:text-primary text-grey-40">{children}</div>
   },
 
   AddNew: function AddNew() {
-    return <div className="border-t text-xs py-2.5 px-3 text-[#60606C]">Create new project</div>
+    return <div className="border-t text-xs py-2.5 px-3 text-grey-40">Create new project</div>
   }
 }
 

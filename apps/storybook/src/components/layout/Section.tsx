@@ -17,7 +17,7 @@ const Section = {
       <div
         className={cn(
           'flex flex-col gap-3',
-          { 'border-t border-[#18181B] pt-7': topBorder, 'mt-16': firstSection, 'mt-7': !firstSection },
+          { 'border-t border-grey-10 pt-7': topBorder, 'mt-16': firstSection, 'mt-7': !firstSection },
           className
         )}>
         {children}

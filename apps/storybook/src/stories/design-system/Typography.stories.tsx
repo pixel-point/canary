@@ -28,21 +28,22 @@ export default {
   argTypes: {
     text: {
       control: 'text',
-      description: 'Section title',
+      description: 'The text content to display',
       defaultValue: 'Typography'
     },
     className: {
       control: 'text',
-      description: 'The CSS class to apply',
-      defaultValue: 'section-title'
+      description: 'The Tailwind CSS class to apply',
+      defaultValue: 'text-base'
     }
   },
   tags: ['autodocs']
 } as Meta
 
-// Define the story
+// Define the story template
 const Template: StoryFn<TextProps> = args => <Text {...args} />
 
+// Define individual stories
 export const BodyText = Template.bind({})
 BodyText.args = {
   text: 'This is body text',
@@ -57,6 +58,6 @@ SectionTitle.args = {
 
 export const SectionTitleSmall = Template.bind({})
 SectionTitleSmall.args = {
-  text: 'Section title',
+  text: 'Section title small',
   className: 'section-title-small'
 }
