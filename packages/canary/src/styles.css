@@ -67,6 +67,13 @@
   }
 }
 
+@layer utilities {
+  /* TODO Check this – should not be necessary when the custom color has been defined in tailwind config already */
+  .text-tertiary-background {
+    color: hsl(var(--tertiary-background));
+  }
+}
+
 /* Text utilities */
 .title-primary {
   @apply text-neutral-300 text-3xl leading-relaxed;
