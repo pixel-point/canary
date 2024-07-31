@@ -27,7 +27,7 @@ const Footer: React.FC<FooterProps> = (props: FooterProps) => {
   return (
     <footer
       className={
-        'flex items-center justify-between font-normal leading-[15px] px-4 h-10 bg-[#0F0F11] shrink-0 border border-solid text-[#93939f] not-italic border-[#1d1d20] text-[12px]'
+        'flex items-center justify-between font-normal leading-[15px] px-4 h-10 bg-grey-6 shrink-0 border border-solid text-grey-60 not-italic border-[#1d1d20] text-[12px]'
       }>
       <div className="flex items-center">
         <div className="flex">

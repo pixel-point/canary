@@ -4,7 +4,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, cn } from
 const Navbar = {
   Root: function Root({ children }: { children: React.ReactNode }) {
     return (
-      <div className="select-none grid grid-rows-[auto_1fr_auto] w-[220px] h-screen overflow-y-auto border-r text-sm text-[#AEAEB7] bg-secondary-background">
+      <div className="select-none grid grid-rows-[auto_1fr_auto] w-[220px] h-screen overflow-y-auto border-r text-sm text-grey-70 bg-secondary-background">
         {children}
       </div>
     )
@@ -35,7 +35,7 @@ const Navbar = {
         <Accordion type="single" collapsible defaultValue="item-1">
           <AccordionItem value="item-1" className="border-none">
             <AccordionTrigger className="group">
-              <p className="text-xs text-[#60606C] font-normal group-hover:text-primary ease-in-out duration-150">
+              <p className="text-xs text-grey-40 font-normal group-hover:text-primary ease-in-out duration-150">
                 {title}
               </p>
             </AccordionTrigger>
