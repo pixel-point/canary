@@ -70,10 +70,10 @@ module.exports = {
           80: '#C9CCCF',
           90: '#E4E5E7',
           94: '#EFF0F1',
-          98: '#FAFAFA',
+          98: '#FAFAFA'
         },
         mint: {
-          DEFAULT: '#71DBD3',
+          DEFAULT: '#71DBD3'
         },
         blue: {
           DEFAULT: '#5F97ED'
