@@ -10,10 +10,10 @@ interface ColorBoxProps {
 }
 
 const ColorBox: React.FC<ColorBoxProps> = ({ color, name, utility }) => (
-  <div className="flex flex-col items-start mb-4 p-4">
+  <div className="flex flex-col items-start mb-4 p-4 w-24">
     <div className={`w-24 h-24 ${color} border border-gray-300 rounded-lg`} title={name} />
-    <span className="mt-2 text-sm font-medium">{name}</span>
-    <code className="mt-1 text-xs text-grey-40">{utility}</code>
+    <span className="mt-2 text-xs font-medium w-24 text-wrap">{name}</span>
+    <code className="mt-1 text-[11px] text-grey-40 w-24 text-wrap">{utility}</code>
   </div>
 )
 
@@ -33,45 +33,35 @@ export default {
 const Template: StoryFn<ColorBoxProps> = args => <ColorBox {...args} />
 
 export const RelativeColors = () => (
-  <div className="flex flex-col gap-6">
-    <div className="flex flex-wrap gap-6">
-      <Template color="bg-background" name="Background" utility="bg-background" />
-      <Template color="bg-foreground" name="Foreground" utility="bg-foreground" />
-    </div>
-    <div className="flex flex-wrap gap-6">
-      <Template color="bg-primary" name="Primary" utility="bg-primary" />
-      <Template color="bg-primary-foreground" name="Primary Foreground" utility="bg-primary-foreground" />
-    </div>
-    <div className="flex flex-wrap gap-6">
-      <Template color="bg-secondary" name="Secondary" utility="bg-secondary" />
-      <Template color="bg-secondary-background" name="Secondary Background" utility="bg-secondary-background" />
-      <Template color="bg-secondary-foreground" name="Secondary Foreground" utility="bg-secondary-foreground" />
-    </div>
-    <div className="flex flex-wrap gap-6">
-      <Template color="bg-tertiary" name="Tertiary" utility="bg-tertiary" />
-      <Template color="bg-tertiary-background" name="Tertiary Background" utility="bg-tertiary-background" />
-      <Template color="bg-tertiary-foreground" name="Tertiary Foreground" utility="bg-tertiary-foreground" />
-    </div>
-    <div className="flex flex-wrap gap-6">
-      <Template color="bg-card" name="Card" utility="bg-card" />
-      <Template color="bg-card-foreground" name="Card Foreground" utility="bg-card-foreground" />
-      <Template color="bg-popover" name="Popover" utility="bg-popover" />
-      <Template color="bg-popover-foreground" name="Popover Foreground" utility="bg-popover-foreground" />
-      <Template color="bg-muted" name="Muted" utility="bg-muted" />
-      <Template color="bg-mute-foreground" name="Muted Foreground" utility="bg-muted-foreground" />
-      <Template color="bg-accent" name="Accent" utility="bg-accent" />
-      <Template color="bg-accent-foreground" name="Accent Foreground" utility="bg-accent-foreground" />
-      <Template color="bg-destructive" name="Destructive" utility="bg-destructive" />
-      <Template color="bg-destructive-foreground" name="Destructive Foreground" utility="bg-destructive-foreground" />
-      <Template color="bg-border" name="Border" utility="bg-border" />
-      <Template color="bg-input" name="Input" utility="bg-input" />
-      <Template color="bg-ring" name="Ring" utility="bg-ring" />
-    </div>
+  <div className="flex flex-wrap gap-8">
+    <Template color="bg-background" name="Background" utility="bg-background" />
+    <Template color="bg-foreground" name="Foreground" utility="bg-foreground" />
+    <Template color="bg-primary" name="Primary" utility="bg-primary" />
+    <Template color="bg-primary-foreground" name="Primary Foreground" utility="bg-primary-foreground" />
+    <Template color="bg-secondary" name="Secondary" utility="bg-secondary" />
+    <Template color="bg-secondary-background" name="Secondary Background" utility="bg-secondary-background" />
+    <Template color="bg-secondary-foreground" name="Secondary Foreground" utility="bg-secondary-foreground" />
+    <Template color="bg-tertiary" name="Tertiary" utility="bg-tertiary" />
+    <Template color="bg-tertiary-background" name="Tertiary Background" utility="bg-tertiary-background" />
+    <Template color="bg-tertiary-foreground" name="Tertiary Foreground" utility="bg-tertiary-foreground" />
+    <Template color="bg-card" name="Card" utility="bg-card" />
+    <Template color="bg-card-foreground" name="Card Foreground" utility="bg-card-foreground" />
+    <Template color="bg-popover" name="Popover" utility="bg-popover" />
+    <Template color="bg-popover-foreground" name="Popover Foreground" utility="bg-popover-foreground" />
+    <Template color="bg-muted" name="Muted" utility="bg-muted" />
+    <Template color="bg-mute-foreground" name="Muted Foreground" utility="bg-muted-foreground" />
+    <Template color="bg-accent" name="Accent" utility="bg-accent" />
+    <Template color="bg-accent-foreground" name="Accent Foreground" utility="bg-accent-foreground" />
+    <Template color="bg-destructive" name="Destructive" utility="bg-destructive" />
+    <Template color="bg-destructive-foreground" name="Destructive Foreground" utility="bg-destructive-foreground" />
+    <Template color="bg-border" name="Border" utility="bg-border" />
+    <Template color="bg-input" name="Input" utility="bg-input" />
+    <Template color="bg-ring" name="Ring" utility="bg-ring" />
   </div>
 )
 
 export const GreyColors = () => (
-  <div className="flex flex-wrap gap-6">
+  <div className="flex flex-wrap gap-8">
     <Template color="bg-black" name="Black" utility="bg-black" />
     <Template color="bg-grey-6" name="Grey 6" utility="bg-grey-6" />
     <Template color="bg-grey-8" name="Grey 8" utility="bg-grey-8" />
@@ -93,7 +83,7 @@ export const GreyColors = () => (
 )
 
 export const SecondaryColors = () => (
-  <div className="flex flex-wrap gap-6">
+  <div className="flex flex-wrap gap-8">
     <Template color="bg-mint" name="Mint" utility="bg-mint" />
     <Template color="bg-blue" name="Blue" utility="bg-blue" />
     <Template color="bg-orange" name="Orange" utility="bg-orange" />

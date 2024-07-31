@@ -17,6 +17,7 @@
     --secondary-foreground: 240 5.9% 10%;
     --tertiary: 240 4.8% 95.9%;
     --tertiary-foreground: 240 5.9% 10%;
+    --tertiary-background: 240 6% 60%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
     --accent: 240 4.8% 95.9%;
@@ -75,15 +76,15 @@
 }
 
 .section-title {
-  @apply text-3xl text-primary font-normal -tracking-[2%]
+  @apply text-3xl text-primary font-normal -tracking-[2%];
 }
 
 .section-title-small {
-  @apply text-xl text-primary font-normal -tracking-[2%]
+  @apply text-xl text-primary font-normal -tracking-[2%];
 }
 
 .section-description {
-  @apply text-sm text-[#C9C9CF] font-light
+  @apply text-sm text-[#C9C9CF] font-light;
 }
 
 /* Card utilities */
@@ -113,31 +114,33 @@
 .navbar-item svg {
   @apply w-3 h-3 ease-in-out duration-150 truncate;
 }
-.navbar-item.active svg, .navbar-item:hover svg {
+.navbar-item.active svg,
+.navbar-item:hover svg {
   @apply brightness-200 contrast-200;
 }
 .navbar-item p {
   @apply ease-in-out duration-150 truncate;
 }
-.navbar-item.active p, .navbar-item:hover p {
+.navbar-item.active p,
+.navbar-item:hover p {
   @apply text-primary;
 }
 
 /* Navbar company badge */
 [data-state='open'] .nav-company-badge-chevron {
-  @apply transition-transform transform rotate-180
+  @apply transition-transform transform rotate-180;
 }
 .nav-company-badge-chevron {
-  @apply transition-transform transform rotate-0
+  @apply transition-transform transform rotate-0;
 }
 
 /* Entity list actions */
 .entity-list-action {
-  @apply text-tertiary-background font-light text-xs outline-none select-none focus:ring-0 focus:outline-none
+  @apply text-tertiary-background font-light text-xs outline-none select-none focus:ring-0 focus:outline-none;
 }
 [data-state='open'] .entity-list-action-chevron {
-  @apply transition-transform transform rotate-180
+  @apply transition-transform transform rotate-180;
 }
 .entity-list-action-chevron {
-  @apply transition-transform transform rotate-0 text-tertiary-background group-hover:text-primary
+  @apply transition-transform transform rotate-0 text-tertiary-background group-hover:text-primary;
 }
