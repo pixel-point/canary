@@ -277,7 +277,7 @@ const File = forwardRef<
       className,
       // handleSelect,
       isSelectable = true,
-      // isSelect,
+      isSelect,
       // fileIcon,
       children,
       status,
@@ -297,7 +297,8 @@ const File = forwardRef<
           disabled={!isSelectable}
           aria-label="File"
           className={cn(
-            'flex items-center gap-1 cursor-pointer text-sm pr-1 rtl:pl-1 rtl:pr-0 rounded-md duration-200 ease-in-out w-full pb-2',
+            'flex items-center gap-1 cursor-pointer text-sm pr-1 pl-2 rtl:pl-1 rtl:pr-0 rounded-md duration-200 ease-in-out w-full py-1',
+            { ['bg-[#18181B]']: isSelect },
             isSelectable ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed',
             className
           )}

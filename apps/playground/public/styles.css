@@ -583,10 +583,6 @@ body {
   display: grid;
 }
 
-.h-60 {
-  height: 15rem;
-}
-
 .h-\[1\.2rem\] {
   height: 1.2rem;
 }
@@ -686,10 +682,13 @@ body {
   }
 }
 
+/* TODO Check this – should not be necessary when the custom color has been defined in tailwind config already */
+
 @layer themes {
   :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
+    --secondary-background: 0 0% 100%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
@@ -698,6 +697,9 @@ body {
     --primary-foreground: 0 0% 98%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
+    --tertiary: 240 4.8% 95.9%;
+    --tertiary-foreground: 240 5.9% 10%;
+    --tertiary-background: 240 6% 60%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
     --accent: 240 4.8% 95.9%;
@@ -711,8 +713,9 @@ body {
   }
 
   .dark {
-    --background: 240, 12.9%, 3.1%;
+    --background: 240 14% 3%;
     --foreground: 0 0% 98%;
+    --secondary-background: 240 5% 6%;
     --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;
@@ -721,6 +724,9 @@ body {
     --primary-foreground: 240 5.9% 10%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
+    --tertiary: 240 5% 12%;
+    --tertiary-foreground: 0 0% 98%;
+    --tertiary-background: 240 6% 60%;
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
     --accent: 240 3.7% 15.9%;
@@ -751,6 +757,30 @@ body {
   -webkit-background-clip: text;
           background-clip: text;
   color: rgb(255 255 255 / 0.7);
+}
+
+.section-title {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 400;
+  letter-spacing: -2%;
+  color: hsl(var(--primary));
+}
+
+.section-title-small {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 400;
+  letter-spacing: -2%;
+  color: hsl(var(--primary));
+}
+
+.section-description {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 300;
+  --tw-text-opacity: 1;
+  color: rgb(201 201 207 / var(--tw-text-opacity));
 }
 
 /* Card utilities */
@@ -815,10 +845,98 @@ body {
   width: 1.25rem;
 }
 
-.navbar-section-icon {
+.navbar-item svg {
   height: 0.75rem;
   width: 0.75rem;
-  fill: #f87171;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  animation-duration: 150ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar-item.active svg,
+.navbar-item:hover svg {
+  --tw-brightness: brightness(2);
+  --tw-contrast: contrast(2);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.navbar-item p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  animation-duration: 150ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar-item.active p,
+.navbar-item:hover p {
+  color: hsl(var(--primary));
+}
+
+/* Navbar company badge */
+
+[data-state='open'] .nav-company-badge-chevron {
+  --tw-rotate: 180deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.nav-company-badge-chevron {
+  --tw-rotate: 0deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Entity list actions */
+
+.entity-list-action {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  font-size: 13px;
+  font-weight: 300;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  color: hsl(var(--tertiary-background));
+}
+
+.entity-list-action:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+[data-state='open'] .entity-list-action-chevron {
+  --tw-rotate: 180deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.entity-list-action-chevron {
+  --tw-rotate: 0deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  color: hsl(var(--tertiary-background));
+}
+
+.group:hover .entity-list-action-chevron {
+  color: hsl(var(--primary));
 }
 
 .dark\:-rotate-90:is(.dark *) {
