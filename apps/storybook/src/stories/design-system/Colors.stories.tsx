@@ -23,7 +23,7 @@ export default {
     docs: {
       description: {
         component:
-          'A collection of color styles used by Pixel Point throughout Figma, with usage examples for Tailwind CSS utilities. Utilities are shown for background, but substitute "bg-" with "text-" to style text.'
+          'A collection of color styles used by Pixel Point throughout Figma, with usage examples for Tailwind CSS utilities. Utilities are shown for background, but substitute "bg-" with e.g. "text-" to style text.'
       }
     }
   },
