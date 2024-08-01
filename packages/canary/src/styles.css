@@ -2,6 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* PP Figma shades */
+  --black: 210 10% 3%;
+  --grey-6: 210 8% 6%;
+  --grey-8: 210 7% 8%;
+  --grey-10: 210 6% 10%;
+  --grey-12: 210 6% 12%;
+  --grey-15: 210 6% 15%;
+  --grey-20: 210 6% 20%;
+  --grey-30: 210 6% 30%;
+  --grey-40: 210 6% 40%;
+  --grey-50: 210 6% 50%;
+  --grey-60: 210 6% 60%;
+  --grey-70: 210 6% 70%;
+  --grey-80: 210 6% 80%;
+  --grey-90: 210 6% 90%;
+  --grey-94: 210 6% 94%;
+  --grey-98: 210 6% 98%;
+  --white: 0 0% 100%;
+
+  /* PP Figma secondary colors */
+  --mint: 175 60% 65%;
+  --blue: 216 80% 65%;
+  --orange: 35 75% 55%;
+  --purple: 275 60% 75%;
+}
+
 @layer themes {
   :root {
     --background: 0 0% 100%;
@@ -28,6 +55,25 @@
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
     --radius: 0.5rem;
+
+    /* PP Figma light mode shades */
+    --shade-0: var(--white);
+    --shade-6: var(--grey-98);
+    --shade-8: var(--grey-94);
+    --shade-10: var(--grey-90);
+    --shade-12: var(--grey-80);
+    --shade-15: var(--grey-70);
+    --shade-20: var(--grey-60);
+    --shade-30: var(--grey-50);
+    --shade-40: var(--grey-40);
+    --shade-50: var(--grey-30);
+    --shade-60: var(--grey-20);
+    --shade-70: var(--grey-15);
+    --shade-80: var(--grey-12);
+    --shade-90: var(--grey-10);
+    --shade-94: var(--grey-8);
+    --shade-98: var(--grey-6);
+    --shade-100: var(--black);
   }
 
   .dark {
@@ -54,6 +100,25 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
+
+    /* PP Figma dark mode shades */
+    --shade-0: var(--black);
+    --shade-6: var(--grey-6);
+    --shade-8: var(--grey-8);
+    --shade-10: var(--grey-10);
+    --shade-12: var(--grey-12);
+    --shade-15: var(--grey-15);
+    --shade-20: var(--grey-20);
+    --shade-30: var(--grey-30);
+    --shade-40: var(--grey-40);
+    --shade-50: var(--grey-50);
+    --shade-60: var(--grey-60);
+    --shade-70: var(--grey-70);
+    --shade-80: var(--grey-80);
+    --shade-90: var(--grey-90);
+    --shade-94: var(--grey-94);
+    --shade-98: var(--grey-98);
+    --shade-100: var(--white);
   }
 }
 

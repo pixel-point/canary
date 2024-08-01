@@ -52,44 +52,61 @@ module.exports = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))'
         },
+        white: {
+          DEFAULT: 'hsl(var(--white))'
+        },
         black: {
-          DEFAULT: '#070809'
+          DEFAULT: 'hsl(var(--black))'
         },
         grey: {
-          6: '#0F1011',
-          8: '#131516',
-          10: '#181A1B',
-          12: '#1D1F20',
-          15: '#242629',
-          20: '#303336',
-          30: '#484D51',
-          40: '#60666C',
-          50: '#787F87',
-          60: '#93999F',
-          70: '#AEB3B7',
-          80: '#C9CCCF',
-          90: '#E4E5E7',
-          94: '#EFF0F1',
-          98: '#FAFAFA'
+          6: 'hsl(var(--grey-6))',
+          8: 'hsl(var(--grey-8))',
+          10: 'hsl(var(--grey-10))',
+          12: 'hsl(var(--grey-12))',
+          15: 'hsl(var(--grey-15))',
+          20: 'hsl(var(--grey-20))',
+          30: 'hsl(var(--grey-30))',
+          40: 'hsl(var(--grey-40))',
+          50: 'hsl(var(--grey-50))',
+          60: 'hsl(var(--grey-60))',
+          70: 'hsl(var(--grey-70))',
+          80: 'hsl(var(--grey-80))',
+          90: 'hsl(var(--grey-90))',
+          94: 'hsl(var(--grey-94))',
+          98: 'hsl(var(--grey-98))'
+        },
+        shade: {
+          0: 'hsl(var(--shade-0))',
+          6: 'hsl(var(--shade-6))',
+          8: 'hsl(var(--shade-8))',
+          10: 'hsl(var(--shade-10))',
+          12: 'hsl(var(--shade-12))',
+          15: 'hsl(var(--shade-15))',
+          20: 'hsl(var(--shade-20))',
+          30: 'hsl(var(--shade-30))',
+          40: 'hsl(var(--shade-40))',
+          50: 'hsl(var(--shade-50))',
+          60: 'hsl(var(--shade-60))',
+          70: 'hsl(var(--shade-70))',
+          80: 'hsl(var(--shade-80))',
+          90: 'hsl(var(--shade-90))',
+          94: 'hsl(var(--shade-94))',
+          98: 'hsl(var(--shade-98))',
+          100: 'hsl(var(--shade-100))',
         },
         mint: {
-          DEFAULT: '#71DBD3'
+          DEFAULT: 'hsl(var(--mint))',
         },
         blue: {
-          DEFAULT: '#5F97ED'
+          DEFAULT: 'hsl(var(--blue))',
         },
         orange: {
-          DEFAULT: '#E29B36'
+          DEFAULT: 'hsl(var(--orange))',
         },
         purple: {
-          DEFAULT: '#C699E5'
+          DEFAULT: 'hsl(var(--purple))',
         }
       },
-      // borderRadius: {
-      //   lg: 'var(--radius)',
-      //   md: 'calc(var(--radius) - 2px)',
-      //   sm: 'calc(var(--radius) - 4px)'
-      // },
       borderRadius: {
         DEFAULT: 'var(--radius)'
       },
