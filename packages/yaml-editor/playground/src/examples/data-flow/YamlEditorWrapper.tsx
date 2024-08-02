@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ThemeDefinition, YamlEditor } from '@harnessio/yaml-editor'
 import { useDataContext } from './DataProvider'
 import unifiedSchema from '../../configurations/schema/unified.json'
@@ -10,8 +10,20 @@ const themes: ThemeDefinition[] = [
   { themeName: 'harness-light', themeData: harnessLightTheme }
 ]
 
+const schemaConfig = {
+  schema: unifiedSchema,
+  uri: 'https://raw.githubusercontent.com/bradrydzewski/spec/master/dist/schema.json'
+}
+
+const themeConfig = {
+  rootElementSelector: '#root',
+  defaultTheme: 'harness-dark',
+  themes
+}
+
 export const YamlEditorWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
   const { yamlRevision, setYamlRevision } = useDataContext()
+  const [showYamlEditor, setShowYamlEditor] = useState(true)
 
   return (
     <>
@@ -22,24 +34,25 @@ export const YamlEditorWrapper: React.FC<React.PropsWithChildren> = ({ children 
           }}>
           Update yaml
         </button>
+        <button
+          onClick={() => {
+            setShowYamlEditor(!showYamlEditor)
+          }}>
+          Toggle mount
+        </button>
       </div>
       <div style={{ display: 'flex', height: '500px' }}>
-        <YamlEditor
-          onYamlRevisionChange={(value, data) => {
-            setYamlRevision(value ?? { yaml: '', revisionId: 0 })
-          }}
-          yamlRevision={yamlRevision}
-          schemaConfig={{
-            schema: unifiedSchema,
-            uri: 'https://raw.githubusercontent.com/bradrydzewski/spec/master/dist/schema.json'
-          }}
-          // inlineActions={inlineActionExample}
-          themeConfig={{
-            rootElementSelector: '#root',
-            defaultTheme: 'harness-dark',
-            themes
-          }}
-        />
+        {showYamlEditor && (
+          <YamlEditor
+            onYamlRevisionChange={(value, data) => {
+              setYamlRevision(value ?? { yaml: '', revisionId: 0 })
+            }}
+            yamlRevision={yamlRevision}
+            schemaConfig={schemaConfig}
+            // inlineActions={inlineActionExample}
+            themeConfig={themeConfig}
+          />
+        )}
       </div>
     </>
   )

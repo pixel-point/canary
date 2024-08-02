@@ -3,30 +3,18 @@ import { MonacoYaml } from 'monaco-yaml'
 import * as monaco from 'monaco-editor'
 import { configureSchema, schemaIdToUrl } from '../utils/schema-utils'
 
-export type UseSchema = (arg: {
-  monacoRef: RefObject<typeof monaco | undefined>
-  schemaConfig?: { schema: any; uri: string }
-  instanceId: string
-}) => void
+export type UseSchema = (arg: { schemaConfig?: { schema: any; uri: string }; instanceId: string }) => void
 
 export const useSchema: UseSchema = (props): void => {
-  const { monacoRef, schemaConfig, instanceId } = props
-  const handleRef = useRef<MonacoYaml | null>(null)
+  const { schemaConfig, instanceId } = props
 
   useEffect(() => {
-    if (monacoRef.current && schemaConfig?.schema) {
-      handleRef.current = configureSchema(monacoRef.current, {
+    if (schemaConfig?.schema) {
+      configureSchema({
         // If YAML file is opened matching this glob
         fileMatch: [schemaIdToUrl(instanceId.toString())],
         ...schemaConfig
       })
     }
-  }, [monacoRef, schemaConfig?.schema, instanceId])
-
-  useEffect(() => {
-    return () => {
-      handleRef.current?.dispose()
-      handleRef.current = null
-    }
-  }, [])
+  }, [schemaConfig?.schema, instanceId])
 }

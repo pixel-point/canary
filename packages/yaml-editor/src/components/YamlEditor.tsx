@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import * as monaco from 'monaco-editor'
-import Editor, { useMonaco } from '@monaco-editor/react'
+import Editor, { Monaco, useMonaco } from '@monaco-editor/react'
 import { loader } from '@monaco-editor/react'
 // import { useCodeLenses } from '../hooks/useCodeLens'
 import { PathSelector } from '../types/selectors'
@@ -34,40 +34,37 @@ export interface YamlEditorProps {
 export function YamlEditor(props: YamlEditorProps): JSX.Element {
   const { yamlRevision, schemaConfig, inlineActions, themeConfig, onYamlRevisionChange } = props
   const monaco = useMonaco()
-  const [instanceId] = useState(Math.random().toString())
-  const { setEditor, editor } = useYamlEditorContext()
+  const [instanceId] = useState('yaml')
+  const { editor, setEditor } = useYamlEditorContext()
 
   const monacoRef = useRef<typeof monaco>()
-
   const currentRevisionRef = useRef<YamlRevision>({ yaml: '', revisionId: 0 })
+
+  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null)
+
+  function handleEditorDidMount(editor: monaco.editor.IStandaloneCodeEditor, monaco: Monaco) {
+    editorRef.current = editor
+    monacoRef.current = monaco
+
+    editor.setValue(yamlRevision.yaml)
+
+    setEditor(editor)
+  }
 
   // TODO: fix this flow
   useEffect(() => {
-    if (monaco) {
+    if (editorRef.current) {
       if (!yamlRevision.revisionId || yamlRevision.revisionId > currentRevisionRef.current?.revisionId!) {
-        monacoRef.current?.editor?.getEditors()?.[0]?.setValue(yamlRevision.yaml)
+        editorRef.current?.setValue(yamlRevision.yaml)
       }
     }
-  }, [yamlRevision, editor])
+  }, [yamlRevision, editorRef.current])
 
-  useEffect(() => {
-    if (monaco && !monacoRef.current) {
-      monacoRef.current = monaco
-
-      // TODO: is there event for this?
-      setTimeout(() => {
-        const editor = monacoRef.current?.editor.getEditors()[0]!
-        editor.setValue(yamlRevision.yaml)
-        setEditor(editor)
-      }, 1)
-    }
-  }, [monaco])
-
-  useSchema({ monacoRef, schemaConfig, instanceId })
+  useSchema({ schemaConfig, instanceId })
 
   // useCodeLenses({ monacoRef, inlineActions });
 
-  const { theme } = useTheme({ monacoRef, themeConfig })
+  const { theme } = useTheme({ monacoRef, themeConfig, editor })
 
   useProblems({ monacoRef })
 
@@ -83,6 +80,7 @@ export function YamlEditor(props: YamlEditorProps): JSX.Element {
         // value={value}
         options={options}
         path={schemaIdToUrl(instanceId)}
+        onMount={handleEditorDidMount}
       />
     </>
   )

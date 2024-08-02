@@ -15,6 +15,7 @@ module.exports = {
     }),
     new MonacoWebpackPlugin({
       languages: ['yaml'],
+      globalAPI: true,
       customLanguages: [
         {
           label: 'yaml',
