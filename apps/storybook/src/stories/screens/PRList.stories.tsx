@@ -30,7 +30,7 @@ import {
   TriangleFlag,
   Check,
   Xmark
-} from 'iconoir-react'
+} from '@harnessio/icons-noir'
 
 export default {
   title: 'Screens/Repository',
@@ -233,8 +233,6 @@ export function PRList() {
     [headerFilter]
   )
 
-  // console.log(filteredPRs)
-
   return (
     <Container.Root>
       <Container.Sidebar>
@@ -307,7 +305,9 @@ export function PRList() {
                             onClick={() => {
                               setHeaderFilter('open')
                             }}>
-                            <GitPullRequest color={headerFilter === 'open' ? '#FFFFFF' : '#93939F'} className="mt-1" />
+                            <span className="pt-1.5">
+                              <GitPullRequest size={16} color={headerFilter === 'open' ? '#FFFFFF' : '#93939F'} />
+                            </span>
                             <span className="pl-2 pt-1 ">
                               {pullRequests.filter(pr => pr.state === 'open' || pr.is_draft).length}
                             </span>
@@ -318,7 +318,9 @@ export function PRList() {
                             onClick={() => {
                               setHeaderFilter('closed')
                             }}>
-                            <Check color={headerFilter === 'closed' ? '#FFFFFF' : '#93939F'} className="mt-1" />
+                            <span className="pt-1.5">
+                              <Check size={16} color={headerFilter === 'closed' ? '#FFFFFF' : '#93939F'} />
+                            </span>
                             <span className="pl-2 pt-1">
                               {pullRequests.filter(pr => pr.state === 'closed' || pr.state === 'merged').length}
                             </span>
@@ -331,11 +333,11 @@ export function PRList() {
                           <TableRow className="text-gray-500 flex cursor-pointer px-2" key={pullRequest.title}>
                             <TableCell className="w-[14px] align-top pr-0">
                               {pullRequest.merged ? (
-                                <GitMerge color="#800080" className="mt-1" />
+                                <GitMerge color="#800080" size={16} className="mt-1.5" />
                               ) : pullRequest.state?.toLowerCase() === 'closed' ? (
-                                <GitPullRequestClosed color="#ED5E5E" className="mt-1" />
+                                <GitPullRequestClosed size={16} color="#ED5E5E" className="mt-1.5" />
                               ) : (
-                                <GitPullRequest color="#63E9A6" className="mt-1" />
+                                <GitPullRequest size={16} color="#63E9A6" className="mt-1.5" />
                               )}
                             </TableCell>
 
@@ -343,8 +345,10 @@ export function PRList() {
                               <div className="font-medium text-gray-50 flex flex-end justify-between">
                                 <div className="flex pt-1 justify-center">
                                   <span className="px-3 text-primary">{pullRequest.title}</span>
-                                  <Check color="#63E9A6" />
-                                  <Xmark color="#ED5E5E" />
+                                  <span className="pt-0.5">
+                                    <Check color="#63E9A6" />
+                                    <Xmark color="#ED5E5E" />
+                                  </span>
                                   <Badge
                                     className={`select-none bg-transparent rounded-2xl text-[12px] font-light ml-2.5 py-1 px-2 leading-none text-[#71dbd3] border-[#1d3333] bg-[#111c1d] hover:bg-inherit`}>
                                     {'test'}
@@ -357,7 +361,9 @@ export function PRList() {
 
                                 {pullRequest.stats?.conversations && (
                                   <span className=" pl-2 flex justify-end pr-2">
-                                    <Message color="#60606C" className="mt-1 pr-1" />
+                                    <span className="pt-1.5 pr-1">
+                                      <Message size={16} color="#60606C" />
+                                    </span>
                                     <span className="pt-1 text-primary">{pullRequest.stats?.conversations}</span>
                                   </span>
                                 )}
@@ -390,84 +396,6 @@ export function PRList() {
                   <EntityListPagination />
                 </EntityList.Footer>
               </EntityList.Root>
-              {/* <div className="flex flex-row space-x-2">
-                <div className="flex-1 flex flex-row space-x-1">
-                  <Input
-                    type="search"
-                    placeholder="Search ..."
-                    className="leading-4 border-[#242429] placeholder:text-[#93939F] w-64"
-                  />
-                  <NavigationMenu>
-                    <NavigationMenuList>
-                      <NavigationMenuItem>
-                        <NavigationMenuTrigger className="text-[#C9C9CF]">Filter</NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                          <NavigationMenuLink>Link</NavigationMenuLink>
-                        </NavigationMenuContent>
-                      </NavigationMenuItem>
-                    </NavigationMenuList>
-                  </NavigationMenu>
-                  <NavigationMenu>
-                    <NavigationMenuList>
-                      <NavigationMenuItem>
-                        <NavigationMenuTrigger className="text-[#C9C9CF]">Sort</NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                          <NavigationMenuLink>Link</NavigationMenuLink>
-                        </NavigationMenuContent>
-                      </NavigationMenuItem>
-                    </NavigationMenuList>
-                  </NavigationMenu>
-                </div>
-                <div className="flex-none">
-                  <Button className="rounded-[4px] px-6">New Repository</Button>
-                </div>
-              </div>
-              <div className="border rounded-md mb-16">
-                <Table>
-                  <TableBody>
-                    {repos.map(repo => (
-                      <TableRow className="text-gray-500 flex">
-                        <TableCell className="flex flex-col flex-1 gap-1 px-4 py-3.5">
-                          <div className="font-medium text-gray-50">
-                            {repo.name}
-                            <Badge
-                              className={`select-none bg-transparent border-white rounded-2xl text-[12px] font-medium ml-2.5 py-1 px-2 leading-none text-[#71dbd3] border-[#1d3333] bg-[#111c1d] ${
-                                repo.private && 'border-[#242428] bg-[#151518] text-[#93939f]'
-                              }`}>
-                              {repo.private ? 'Private' : 'Public'}
-                            </Badge>
-                          </div>
-                          <div className="flex gap-2 text-xs">
-                            <span className="whitespace-nowrap overflow-hidden text-ellipsis max-w-96">
-                              {repo.description || <i>No Description</i>}
-                            </span>
-                          </div>
-                        </TableCell>
-                        <TableCell className="flex flex-col gap-1 px-4 py-3.5 justify-end">
-                          <div className="font-normal whitespace-nowrap text-[13px] select-none">
-                            <span className="mr-1">updated</span>
-                            <span className="text-foreground">2 hours ago</span>
-                          </div>
-                          <div className="flex gap-2 text-xs justify-end">
-                            <span className="flex gap-1 items-center">
-                              <Star strokeWidth="1.5" />
-                              <span className="text-white">{repo.stars}</span>
-                            </span>
-                            <span className="flex gap-1 items-center">
-                              <GitFork strokeWidth="1.5" />
-                              <span className="text-white">{repo.forks}</span>
-                            </span>
-                            <span className="flex gap-1 items-center">
-                              <GitPullRequest strokeWidth="1.5" />
-                              <span className="text-white">{repo.pulls}</span>
-                            </span>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div> */}
             </Section.Root>
           </View.Root>
         </Container.Content>
