@@ -22,7 +22,6 @@ import {
 } from '@harnessio/canary'
 import { ChevronDownIcon } from '@radix-ui/react-icons'
 import {
-  Star,
   Message,
   GitPullRequest,
   GitMerge,
