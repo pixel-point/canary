@@ -3,11 +3,6 @@ import { harnessDarkTheme, harnessLightTheme } from './configurations/theme/them
 import { DataFlowExample } from './examples/data-flow/DataFlowExample'
 import './App.css'
 
-const themes: ThemeDefinition[] = [
-  { themeName: 'harness-dark', themeData: harnessDarkTheme },
-  { themeName: 'harness-light', themeData: harnessLightTheme }
-]
-
 function App() {
   return <DataFlowExample />
 }

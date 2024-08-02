@@ -9,26 +9,23 @@ export type UseTheme = (arg: {
     defaultTheme?: string
     themes?: ThemeDefinition[]
   }
+  editor: any
 }) => { theme: string }
 
 export const useTheme: UseTheme = (props): { theme: string } => {
-  const { monacoRef, themeConfig } = props
+  const { themeConfig, editor } = props
   const { rootElementSelector, defaultTheme } = themeConfig ?? {}
 
   const [theme, setTheme] = useState(defaultTheme ?? 'vs-dark')
 
   useEffect(() => {
-    if (!monacoRef.current) return
-
-    const monacoEditor = monacoRef.current?.editor
-
     themeConfig?.themes?.forEach(theme => {
-      monacoEditor.defineTheme(theme.themeName, theme.themeData)
+      monaco.editor.defineTheme(theme.themeName, theme.themeData)
     })
-  }, [monacoRef])
+  }, [monaco])
 
   useEffect(() => {
-    const monacoEditor = monacoRef.current?.editor
+    const monacoEditor = monaco.editor
 
     if (!monacoEditor) return
     if (!themeConfig?.rootElementSelector) return
@@ -45,7 +42,7 @@ export const useTheme: UseTheme = (props): { theme: string } => {
       if (theme !== newTheme) {
         setTheme(newTheme)
 
-        const monacoEditor = monacoRef.current?.editor
+        const monacoEditor = monaco.editor
         monacoEditor?.setTheme(newTheme)
       }
     }
@@ -56,7 +53,7 @@ export const useTheme: UseTheme = (props): { theme: string } => {
     return () => {
       observer.disconnect()
     }
-  })
+  }, [editor])
 
   return { theme }
 }

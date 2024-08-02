@@ -1,14 +1,23 @@
 import { Uri } from 'monaco-editor'
+import * as monaco from 'monaco-editor'
 import { configureMonacoYaml } from 'monaco-yaml'
 
-export function configureSchema(monaco: any, schemaConfig: any) {
-  return configureMonacoYaml(monaco as any, {
+let isYamlMonacoConfigured = false
+
+export function configureSchema(schemaConfig: any) {
+  if (isYamlMonacoConfigured) return
+
+  const config = {
     hover: true,
     completion: true,
     enableSchemaRequest: false,
     validate: true,
     schemas: [schemaConfig]
-  })
+  }
+
+  isYamlMonacoConfigured = true
+
+  return configureMonacoYaml(monaco, config)
 }
 
 export const schemaIdToUrl = (id: string): string => {
