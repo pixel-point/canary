@@ -21,7 +21,7 @@ export const useSchema: UseSchema = (props): void => {
         ...schemaConfig
       })
     }
-  }, [monacoRef, schemaConfig, instanceId])
+  }, [monacoRef, schemaConfig?.schema, instanceId])
 
   useEffect(() => {
     return () => {
