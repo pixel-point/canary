@@ -7,7 +7,7 @@ export const Execution: React.FC = () => {
     <div className="w-[395px] h-[660px]">
       <Tree className="rounded-md bg-background overflow-hidden p-2" initialSelectedId="1" elements={elements}>
         <Folder element="DAST" value="1" status={Status.SUCCESS} duration={15}>
-          <File value="2" status={Status.SUCCESS} duration={5} isSelect={true}>
+          <File value="2" status={Status.SUCCESS} duration={5}>
             <p>Fortify</p>
           </File>
           <File value="3" status={Status.SUCCESS} duration={5}>

@@ -286,8 +286,8 @@ const File = forwardRef<
     },
     ref
   ) => {
-    const { direction, selectItem } = useTree()
-
+    const { direction, selectedId, selectItem } = useTree()
+    const isSelected = isSelect ?? selectedId === value
     return (
       <AccordionPrimitive.Item value={value} className="relative w-full">
         <AccordionPrimitive.Trigger
@@ -298,7 +298,7 @@ const File = forwardRef<
           aria-label="File"
           className={cn(
             'flex items-center gap-1 cursor-pointer text-sm px-2 rtl:pl-1 rtl:pr-0 rounded-md duration-200 ease-in-out w-full py-1',
-            { ['bg-[#18181B]']: isSelect },
+            { ['bg-[#18181B]']: isSelected },
             isSelectable ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed',
             className
           )}
