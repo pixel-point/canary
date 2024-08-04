@@ -219,7 +219,7 @@ const Folder = forwardRef<HTMLDivElement, FolderProps & React.HTMLAttributes<HTM
     return (
       <AccordionPrimitive.Item {...props} value={value} className="relative overflow-hidden h-full w-full">
         <AccordionPrimitive.Trigger
-          className={cn(`flex items-center gap-1 text-sm rounded-md w-full pb-[10px]`, className, {
+          className={cn(`flex items-center gap-1 text-sm rounded-md w-full pb-1.5`, className, {
             'rounded-md': isSelect && isSelectable,
             'cursor-pointer': isSelectable,
             'cursor-not-allowed opacity-50': !isSelectable
@@ -244,13 +244,13 @@ const Folder = forwardRef<HTMLDivElement, FolderProps & React.HTMLAttributes<HTM
           <AccordionPrimitive.Root
             dir={direction}
             type="multiple"
-            className="flex flex-col gap-1 ml-5 rtl:mr-5"
+            className="flex flex-col gap-1 pl-5 rtl:mr-5"
             defaultValue={expendedItems}
             value={expendedItems}
             onValueChange={value => {
               setExpendedItems?.(prev => [...(prev ?? []), value[0]])
             }}>
-            <div className="ml-5">{children}</div>
+            {children}
           </AccordionPrimitive.Root>
         </AccordionPrimitive.Content>
       </AccordionPrimitive.Item>
@@ -275,7 +275,7 @@ const File = forwardRef<
     {
       value,
       className,
-      // handleSelect,
+      handleSelect,
       isSelectable = true,
       isSelect,
       // fileIcon,
@@ -297,12 +297,15 @@ const File = forwardRef<
           disabled={!isSelectable}
           aria-label="File"
           className={cn(
-            'flex items-center gap-1 cursor-pointer text-sm pr-1 pl-2 rtl:pl-1 rtl:pr-0 rounded-md duration-200 ease-in-out w-full py-1',
+            'flex items-center gap-1 cursor-pointer text-sm px-2 rtl:pl-1 rtl:pr-0 rounded-md duration-200 ease-in-out w-full py-1',
             { ['bg-[#18181B]']: isSelect },
             isSelectable ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed',
             className
           )}
-          onClick={() => selectItem(value)}>
+          onClick={() => {
+            handleSelect?.(value)
+            selectItem(value)
+          }}>
           <div className="flex items-baseline justify-between w-full">
             <div className="flex items-baseline">
               <div className="flex self-center h-4 w-4 mr-1">{getStatusIcon(status)}</div>
