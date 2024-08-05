@@ -1,4 +1,3 @@
-import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 import { fn } from '@storybook/test'
 import { Download, MailOpen, Refresh, RefreshDouble } from '@harnessio/icons-noir'
@@ -22,7 +21,8 @@ const meta: Meta<ButtonProps> = {
     variant: { control: 'select', options: ['default', 'destructive', 'outline', 'secondary', 'ghost', 'link'] },
     size: { control: 'select', options: ['default', 'sm', 'lg', 'icon'] },
     asChild: { control: 'boolean' },
-    children: { control: 'object', description: 'Children. Can be any `ReactNode`' }
+    children: { control: 'object', description: 'Children. Can be any `ReactNode`' },
+    spinner: { control: 'object', description: 'Custom spinner. Can be any `ReactNode`' }
   },
 
   args: { onClick: fn() }
@@ -146,10 +146,10 @@ export const IconOnlyLoading: StoryObj<ButtonProps> = {
 
 export const LoadingWithCustomSpinner: StoryObj<ButtonProps> = {
   args: {
-    disabled: true,
+    loading: true,
+    spinner: <RefreshDouble className="mr-2 animate-spin" />,
     children: (
-      <>
-        <RefreshDouble className="mr-2 animate-spin" />
+      <>        
         Please wait
       </>
     )

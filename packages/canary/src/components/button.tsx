@@ -30,8 +30,8 @@ const buttonVariants = cva(
         full: 'rounded-full'
       },
       padding: {
-        default: "",
-        sm: "px-2.5",
+        default: '',
+        sm: 'px-2.5'
       }
     },
     defaultVariants: {
@@ -48,35 +48,55 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
   loading?: boolean
+  spinner?: React.ReactNode
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, padding, borderRadius, asChild = false, loading, disabled, children, ...props }, ref) => {
+  (
+    {
+      className,
+      variant,
+      size,
+      padding,
+      borderRadius,
+      asChild = false,
+      loading,
+      disabled,
+      spinner,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const Comp = asChild ? Slot : 'button'
+    const _children = loading ? (
+      <>
+        {(loading && spinner) ||
+          CanaryOutletFactory.getOutlet(CanaryOutletName.BUTTON_SPINNER, {
+            className,
+            variant,
+            size,
+            padding,
+            borderRadius,
+            asChild,
+            loading,
+            disabled,
+            children,
+            ...props
+          })}
+        {children}
+      </>
+    ) : (
+      children
+    )
 
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, padding, borderRadius, className }))}
         ref={ref}
         disabled={disabled || loading}
-        {...props}>
-        <>
-          {loading &&
-            CanaryOutletFactory.getOutlet(CanaryOutletName.BUTTON_SPINNER, {
-              className,
-              variant,
-              size,
-              padding,
-              borderRadius,
-              asChild,
-              loading,
-              disabled,
-              children,
-              ...props
-            })}
-          {children}
-        </>
-      </Comp>
+        {...props}
+        children={_children}></Comp>
     )
   }
 )
