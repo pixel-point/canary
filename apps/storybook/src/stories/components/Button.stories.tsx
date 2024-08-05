@@ -122,7 +122,7 @@ export const Loading: StoryObj<ButtonProps> = {
 
 \`\`\`tsx
 import { Refresh } from '@harnessio/icons-noir'
-import type { ButtonProps } from '@harnessio/canary'
+import { Button, CanaryOutletFactory } from '@harnessio/canary'
 
 CanaryOutletFactory.registerOutlet(CanaryOutletName.BUTTON_SPINNER, (props: ButtonProps) => {
   return <Refresh className={\`\${props.children ? 'mr-2 ' : ''}animate-spin\`} />
