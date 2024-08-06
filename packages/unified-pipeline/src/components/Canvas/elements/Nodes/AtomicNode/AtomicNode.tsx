@@ -33,10 +33,10 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
   const [width] = useState<number>(STEP_NODE_WIDTH)
   const [height] = useState<number>(STEP_NODE_HEIGHT)
   /* To simulate transitions */
-  const [status, setStatus] = useState(Status.QUEUED)
-  const runTransitions = true
-  // const [status, setStatus] = useState(Status.DONE)
+  // const [status, setStatus] = useState(Status.QUEUED)
   // const runTransitions = true
+  const [status, setStatus] = useState(Status.DONE)
+  const runTransitions = true
   const [showPlus, setShowPlus] = useState<boolean>(false)
 
   useEffect(() => {
