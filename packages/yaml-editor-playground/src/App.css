@@ -1,4 +1,15 @@
 body,
+.harness-dark {
+  --main-bg-color: black;
+
+  /* monaco dark */
+  --monaco-background: 240, 12.9%, 3.1%;
+  --monaco-text-foreground: 100 10% 48%;
+  --monaco-text-style: normal;
+
+  margin: 0;
+}
+
 .harness-light {
   --main-bg-color: white;
 
@@ -9,18 +20,8 @@ body,
   --monaco-background: #a4c6e8;
 }
 
-.harness-dark {
-  --main-bg-color: black;
-
-  /* monaco dark */
-  --monaco-background: 240, 12.9%, 3.1%;
-  --monaco-text-foreground: 100 10% 48%;
-  --monaco-text-style: normal;
-}
-
 .App {
   height: 100vh;
-  font-family: Inter;
   background-color: var(--main-bg-color);
 }
 

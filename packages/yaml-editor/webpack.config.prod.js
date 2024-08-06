@@ -19,7 +19,13 @@ module.exports = {
     'monaco-editor': 'monaco-editor',
     'monaco-yaml': 'monaco-yaml',
     react: 'react',
-    'react-dom': 'react-dom'
+    'react-dom': 'react-dom',
+    'monaco-editor/esm/vs/editor/standalone/browser/standaloneServices.js':
+      'monaco-editor/esm/vs/editor/standalone/browser/standaloneServices.js',
+    'monaco-editor/esm/vs/editor/standalone/browser/outlineModel.js':
+      'monaco-editor/esm/vs/editor/standalone/browser/outlineModel.js',
+    'monaco-editor/esm/vs/editor/standalone/browser/ILanguageFeaturesService.js':
+      'monaco-editor/esm/vs/editor/standalone/browser/ILanguageFeaturesService.js'
   },
   resolve: {
     modules: [__dirname, 'src', 'node_modules'],
