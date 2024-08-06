@@ -5,6 +5,11 @@ import unifiedSchema from '../../configurations/schema/unified.json'
 import { harnessDarkTheme, harnessLightTheme } from '../../configurations/theme/theme'
 import { stageApproval } from '../../configurations/pipeline/stage-approval'
 
+import { ILanguageFeaturesService } from 'monaco-editor/esm/vs/editor/common/services/languageFeatures.js'
+import { OutlineModel } from 'monaco-editor/esm/vs/editor/contrib/documentSymbols/browser/outlineModel.js'
+import { StandaloneServices } from 'monaco-editor/esm/vs/editor/standalone/browser/standaloneServices.js'
+import { inlineActionExample } from '../../configurations/inline-actions/inline-actions-def'
+
 const themes: ThemeDefinition[] = [
   { themeName: 'harness-dark', themeData: harnessDarkTheme },
   { themeName: 'harness-light', themeData: harnessLightTheme }
@@ -44,12 +49,13 @@ export const YamlEditorWrapper: React.FC<React.PropsWithChildren> = ({ children 
       <div style={{ display: 'flex', height: '500px' }}>
         {showYamlEditor && (
           <YamlEditor
+            utils={{ ILanguageFeaturesService, OutlineModel, StandaloneServices }}
             onYamlRevisionChange={(value, data) => {
               setYamlRevision(value ?? { yaml: '', revisionId: 0 })
             }}
             yamlRevision={yamlRevision}
             schemaConfig={schemaConfig}
-            // inlineActions={inlineActionExample}
+            inlineActions={inlineActionExample}
             themeConfig={themeConfig}
           />
         )}

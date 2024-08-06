@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import * as monaco from 'monaco-editor'
 import Editor, { Monaco, useMonaco } from '@monaco-editor/react'
 import { loader } from '@monaco-editor/react'
-// import { useCodeLenses } from '../hooks/useCodeLens'
 import { PathSelector } from '../types/selectors'
 import { InlineAction } from '../types/inline-actions'
 import { useTheme } from '../hooks/useTheme'
@@ -11,6 +10,7 @@ import { schemaIdToUrl } from '../utils/schema-utils'
 import { useProblems } from '../hooks/useProblems'
 import { useYamlEditorContext } from './YamlProvider'
 import { ThemeDefinition } from '../types/themes'
+import { useCodeLenses } from '../hooks/useCodeLens'
 
 loader.config({ monaco })
 
@@ -23,16 +23,21 @@ const options: monaco.editor.IStandaloneEditorConstructionOptions = {
   selectOnLineNumbers: true
 }
 
-export interface YamlEditorProps {
+export interface YamlEditorProps<T> {
   yamlRevision: YamlRevision
   onYamlRevisionChange: (yamlRevision: YamlRevision | undefined, ev: monaco.editor.IModelContentChangedEvent) => void
   schemaConfig?: { schema: any; uri: string }
-  inlineActions?: { selectors: PathSelector[]; actions: InlineAction[] }[]
+  inlineActions?: { selectors: PathSelector[]; actions: InlineAction<T>[] }[]
   themeConfig?: { rootElementSelector: string; defaultTheme?: string; themes?: ThemeDefinition[] }
+  utils: {
+    ILanguageFeaturesService: any
+    OutlineModel: any
+    StandaloneServices: any
+  }
 }
 
-export function YamlEditor(props: YamlEditorProps): JSX.Element {
-  const { yamlRevision, schemaConfig, inlineActions, themeConfig, onYamlRevisionChange } = props
+export function YamlEditor<T>(props: YamlEditorProps<T>): JSX.Element {
+  const { yamlRevision, schemaConfig, inlineActions, themeConfig, onYamlRevisionChange, utils } = props
   const monaco = useMonaco()
   const [instanceId] = useState('yaml')
   const { editor, setEditor } = useYamlEditorContext()
@@ -51,7 +56,6 @@ export function YamlEditor(props: YamlEditorProps): JSX.Element {
     setEditor(editor)
   }
 
-  // TODO: fix this flow
   useEffect(() => {
     if (editorRef.current) {
       if (!yamlRevision.revisionId || yamlRevision.revisionId > currentRevisionRef.current?.revisionId!) {
@@ -62,7 +66,7 @@ export function YamlEditor(props: YamlEditorProps): JSX.Element {
 
   useSchema({ schemaConfig, instanceId })
 
-  // useCodeLenses({ monacoRef, inlineActions });
+  useCodeLenses({ editorRef, inlineActions })
 
   const { theme } = useTheme({ monacoRef, themeConfig, editor })
 
@@ -77,7 +81,7 @@ export function YamlEditor(props: YamlEditorProps): JSX.Element {
         }}
         language="yaml"
         theme={theme}
-        // value={value}
+        //value={yamlRevision.yaml}
         options={options}
         path={schemaIdToUrl(instanceId)}
         onMount={handleEditorDidMount}

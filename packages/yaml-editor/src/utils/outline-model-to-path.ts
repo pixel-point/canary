@@ -1,16 +1,11 @@
-import { ILanguageFeaturesService } from 'monaco-editor/esm/vs/editor/common/services/languageFeatures.js'
-import { OutlineModel } from 'monaco-editor/esm/vs/editor/contrib/documentSymbols/browser/outlineModel.js'
-import { StandaloneServices } from 'monaco-editor/esm/vs/editor/standalone/browser/standaloneServices.js'
-import { editor, Position, languages, IRange } from 'monaco-editor'
+import { editor, languages } from 'monaco-editor'
 import { OutlineModelValueInternal, RootOutlineModelInternal } from '../types/monaco'
-
-export { ILanguageFeaturesService, OutlineModel, StandaloneServices }
+import { MonacoGlobals } from './monaco-globals'
 
 export async function getOutlineModel(model: editor.ITextModel): Promise<RootOutlineModelInternal> {
-  const { documentSymbolProvider } = StandaloneServices.get(ILanguageFeaturesService)
-
-  const outlineModel = await OutlineModel.create(documentSymbolProvider, model)
-
+  const monacoGlobals = MonacoGlobals.get()
+  const { documentSymbolProvider } = monacoGlobals.StandaloneServices.get(monacoGlobals.ILanguageFeaturesService)
+  const outlineModel = await monacoGlobals.OutlineModel.create(documentSymbolProvider, model)
   return outlineModel as unknown as RootOutlineModelInternal
 }
 

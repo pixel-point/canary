@@ -37,6 +37,7 @@ module.exports = {
       {
         test: /\.(j|t)sx?$/,
         exclude: /node_modules/,
+
         resolve: {
           extensions: ['.ts', '.tsx', '.js', '.json']
         },

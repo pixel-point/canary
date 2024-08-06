@@ -13,3 +13,6 @@ export type { YamlEditorProps }
 
 import { ThemeDefinition } from './types/themes'
 export type { ThemeDefinition }
+
+import { MonacoGlobals } from './utils/monaco-globals'
+export { MonacoGlobals }

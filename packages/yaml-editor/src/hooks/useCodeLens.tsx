@@ -3,29 +3,23 @@ import * as monaco from 'monaco-editor'
 import { PathSelector } from '../types/selectors'
 import { InlineAction } from '../types/inline-actions'
 import { getOutlineModel, processOutlineModel } from '../utils/outline-model-to-path'
-import { getCodeLens } from './utils'
+import { CommandArg, getCodeLens } from './utils'
 
-export type UseCodeLenses = (arg: {
-  monacoRef: RefObject<typeof monaco | undefined>
-  inlineActions?: { selectors: PathSelector[]; actions: InlineAction[] }[]
-}) => void
-
-export const useCodeLenses: UseCodeLenses = ({ monacoRef, inlineActions }): void => {
+export function useCodeLenses<T>({
+  editorRef,
+  inlineActions
+}: {
+  editorRef: RefObject<monaco.editor.IStandaloneCodeEditor | undefined | null>
+  inlineActions?: { selectors: PathSelector[]; actions: InlineAction<T>[] }[]
+}): void {
   useEffect(() => {
-    if (!monacoRef.current) return
-
     const disposable = monaco.languages.registerCodeLensProvider('yaml', {
       provideCodeLenses: async model => {
         const outlineModel = await getOutlineModel(model)
-
         const pathSymbolMap = processOutlineModel(outlineModel)
 
-        const commandId = monacoRef?.current?.editor?.addCommand({
-          id: '0',
-          run: ({ range, symbols, onClick, args }) => {
-            const path = 'TODO ...' //getPathFromRange(range, symbols);
-            onClick({ path, range }, ...(args ? args : []))
-          }
+        const commandId = editorRef?.current?.addCommand(0, (_, { onClick, path, range, data }) => {
+          onClick({ path, range, data })
         })
 
         if (!commandId) return
@@ -40,5 +34,5 @@ export const useCodeLenses: UseCodeLenses = ({ monacoRef, inlineActions }): void
     })
 
     return disposable.dispose
-  }, [inlineActions, monacoRef])
+  }, [inlineActions, editorRef])
 }

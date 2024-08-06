@@ -7,12 +7,13 @@
     "dev": "pnpm run webpack-dev-server -- --env mode=development"
   },
   "dependencies": {
-    "@harnessio/yaml-editor": "file:.yalc/@harnessio/yaml-editor",
+    "@harnessio/yaml-editor": "workspace:*",
     "@monaco-editor/react": "4.6.0",
     "monaco-editor": "0.50.0",
     "monaco-yaml": "5.2.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "ts-loader": "^9.5.1",
     "typescript": "^4.9.5"
   },
   "eslintConfig": {
