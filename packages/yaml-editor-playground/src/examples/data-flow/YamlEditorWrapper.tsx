@@ -49,7 +49,6 @@ export const YamlEditorWrapper: React.FC<React.PropsWithChildren> = ({ children 
       <div style={{ display: 'flex', height: '500px' }}>
         {showYamlEditor && (
           <YamlEditor
-            utils={{ ILanguageFeaturesService, OutlineModel, StandaloneServices }}
             onYamlRevisionChange={(value, data) => {
               setYamlRevision(value ?? { yaml: '', revisionId: 0 })
             }}
