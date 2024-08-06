@@ -42,7 +42,7 @@ export const inlineActionExample: {
     ]
   },
   {
-    selectors: [{ type: SelectorType.AbsolutePath, absolutePaths: ['pipeline'] }],
+    selectors: [{ type: SelectorType.ContainsPath, basePath: '', paths: [/^pipeline$/] }],
     actions: [
       {
         title: 'Pipeline settings',
@@ -53,7 +53,7 @@ export const inlineActionExample: {
     ]
   },
   {
-    selectors: [{ type: SelectorType.AbsolutePath, absolutePaths: ['pipeline.stages'] }],
+    selectors: [{ type: SelectorType.ContainsPath, basePath: '', paths: [/^pipeline.stages$/] }],
     actions: [
       {
         title: 'Delete all stages',
