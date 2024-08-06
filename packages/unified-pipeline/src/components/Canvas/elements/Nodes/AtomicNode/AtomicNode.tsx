@@ -36,7 +36,7 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
   // const [status, setStatus] = useState(Status.QUEUED)
   // const runTransitions = true
   const [status, setStatus] = useState(Status.DONE)
-  const runTransitions = true
+  const runTransitions = false
   const [showPlus, setShowPlus] = useState<boolean>(false)
 
   useEffect(() => {
