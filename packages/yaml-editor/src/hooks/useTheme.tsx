@@ -5,7 +5,7 @@ import { ThemeDefinition } from '../types/themes'
 export type UseTheme = (arg: {
   monacoRef: RefObject<typeof monaco | undefined>
   themeConfig?: {
-    rootElementSelector: string
+    rootElementSelector?: string
     defaultTheme?: string
     themes?: ThemeDefinition[]
   }
@@ -28,16 +28,21 @@ export const useTheme: UseTheme = (props): { theme: string } => {
     const monacoEditor = monaco.editor
 
     if (!monacoEditor) return
-    if (!themeConfig?.rootElementSelector) return
 
-    const targetNode = document.querySelector(themeConfig.rootElementSelector)
+    // if there is no selector for observing element, set default theme
+    if (!rootElementSelector) {
+      monacoEditor?.setTheme(theme)
+      return
+    }
+
+    const targetNode = document.querySelector(rootElementSelector)
 
     if (!targetNode) return
 
     const config = { attributes: true, childList: false, subtree: false }
 
     const callback = () => {
-      const newTheme = targetNode.classList.contains('harness-dark') ? 'harness-dark' : 'harness-light'
+      const newTheme = targetNode.classList.contains('dark') ? 'dark' : 'light'
 
       if (theme !== newTheme) {
         setTheme(newTheme)

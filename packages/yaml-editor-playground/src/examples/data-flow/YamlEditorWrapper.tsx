@@ -11,8 +11,8 @@ import { StandaloneServices } from 'monaco-editor/esm/vs/editor/standalone/brows
 import { inlineActionExample } from '../../configurations/inline-actions/inline-actions-def'
 
 const themes: ThemeDefinition[] = [
-  { themeName: 'harness-dark', themeData: harnessDarkTheme },
-  { themeName: 'harness-light', themeData: harnessLightTheme }
+  { themeName: 'dark', themeData: harnessDarkTheme },
+  { themeName: 'light', themeData: harnessLightTheme }
 ]
 
 const schemaConfig = {
@@ -21,8 +21,8 @@ const schemaConfig = {
 }
 
 const themeConfig = {
-  rootElementSelector: '#root',
-  defaultTheme: 'harness-dark',
+  //rootElementSelector: '#root',
+  defaultTheme: 'dark',
   themes
 }
 
