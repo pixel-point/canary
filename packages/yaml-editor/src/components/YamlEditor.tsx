@@ -28,7 +28,7 @@ export interface YamlEditorProps<T> {
   onYamlRevisionChange: (yamlRevision: YamlRevision | undefined, ev: monaco.editor.IModelContentChangedEvent) => void
   schemaConfig?: { schema: any; uri: string }
   inlineActions?: { selectors: PathSelector[]; actions: InlineAction<T>[] }[]
-  themeConfig?: { rootElementSelector: string; defaultTheme?: string; themes?: ThemeDefinition[] }
+  themeConfig?: { rootElementSelector?: string; defaultTheme?: string; themes?: ThemeDefinition[] }
 }
 
 export function YamlEditor<T>(props: YamlEditorProps<T>): JSX.Element {
