@@ -1,6 +1,6 @@
 {
   "name": "@harnessio/yaml-editor-playground",
-  "version": "0.1.0",
+  "version": "0.10.0",
   "private": true,
   "scripts": {
     "webpack-dev-server": "webpack-dev-server",
