@@ -54,7 +54,19 @@ export function YamlEditor<T>(props: YamlEditorProps<T>): JSX.Element {
   useEffect(() => {
     if (editorRef.current) {
       if (!yamlRevision.revisionId || yamlRevision.revisionId > currentRevisionRef.current?.revisionId!) {
-        editorRef.current?.setValue(yamlRevision.yaml)
+        // editorRef.current?.setValue(yamlRevision.yaml)
+
+        const model = editorRef.current.getModel()
+        if (model) {
+          editorRef.current.pushUndoStop()
+          editorRef.current.executeEdits('edit', [
+            {
+              range: model.getFullModelRange(),
+              text: yamlRevision.yaml
+            }
+          ])
+          editorRef.current.pushUndoStop()
+        }
       }
     }
   }, [yamlRevision, editorRef.current])
