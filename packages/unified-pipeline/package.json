@@ -1,6 +1,6 @@
 {
   "name": "@harnessio/unified-pipeline",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Harness Unified Pipeline ibrary",
   "scripts": {
     "dev": "run-p typed-scss build:watch",
