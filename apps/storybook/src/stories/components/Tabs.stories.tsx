@@ -55,3 +55,9 @@ export const Underline: StoryObj<TabsProps> = {
     variant: 'underline'
   }
 }
+
+export const Navigation: StoryObj<TabsProps> = {
+  args: {
+    variant: 'navigation'
+  }
+}
