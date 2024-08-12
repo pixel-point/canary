@@ -162,30 +162,32 @@ const CanvasInternal = (props: CanvasProps) => {
         /* https://github.com/xyflow/xyflow/discussions/2827 */
         nodeOrigin={[0.5, 0.5]}
         className={css.canvas}>
-        <Controls>
-          <ControlButton
-            onClick={() =>
-              setEnableDiagnostics(diagnostics => {
-                return {
-                  ...diagnostics,
-                  [CanvasEntity.Node]: !diagnostics.Node
-                }
-              })
-            }>
-            <Circle />
-          </ControlButton>
-          <ControlButton
-            onClick={() =>
-              setEnableDiagnostics(diagnostics => {
-                return {
-                  ...diagnostics,
-                  [CanvasEntity.Edge]: !diagnostics.Edge
-                }
-              })
-            }>
-            <Minus />
-          </ControlButton>
-        </Controls>
+        {process.env.NODE_ENV !== 'production' && (
+          <Controls>
+            <ControlButton
+              onClick={() =>
+                setEnableDiagnostics(diagnostics => {
+                  return {
+                    ...diagnostics,
+                    [CanvasEntity.Node]: !diagnostics.Node
+                  }
+                })
+              }>
+              <Circle />
+            </ControlButton>
+            <ControlButton
+              onClick={() =>
+                setEnableDiagnostics(diagnostics => {
+                  return {
+                    ...diagnostics,
+                    [CanvasEntity.Edge]: !diagnostics.Edge
+                  }
+                })
+              }>
+              <Minus />
+            </ControlButton>
+          </Controls>
+        )}
       </ReactFlow>
       {enableOverlay && mousePosition && <CircleOverlay position={mousePosition} />}
     </div>

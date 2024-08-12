@@ -1,4 +1,3 @@
-import React from 'react'
 import { StoryFn, Meta } from '@storybook/react'
 import { PipelineStudio, getNodesFromPipelineYaml } from '@harnessio/unified-pipeline'
 import pipelineYamlSingleStage from './pipeline_w_single_stage.yaml'

@@ -7,7 +7,7 @@ import useWindowDimensions from '../../hooks/useWindowDimensions'
 import { getEdgesForAllNodes } from '../../components/Canvas/utils/EdgeUtils'
 import { getNodeDimensions } from '../Canvas/utils/NodeUtils'
 
-interface PipelineStudioProps {
+export interface PipelineStudioProps {
   nodes: Graph['nodes']
   onAddNode: (addedNode: Node) => void
   onDeleteNode: (deletedNode: Node) => void
