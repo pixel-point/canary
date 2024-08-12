@@ -287,15 +287,16 @@ export const getAtomicNodesForContainer = ({
   return childNodes.sort(sortNodes)
 }
 
-export const getNodesFromPipelineYaml = (pipelineAsYaml: string): Graph['nodes'] => {
-  if (!pipelineAsYaml) {
+export const getNodesFromPipelineYaml = (pipelineYamlAsObject: Record<string, any>): Graph['nodes'] => {
+  if (
+    !pipelineYamlAsObject ||
+    isEmpty(pipelineYamlAsObject) ||
+    isUndefined(pipelineYamlAsObject) ||
+    !has(pipelineYamlAsObject, PIPELINE_STAGES_PATH)
+  )
     return []
-  }
-  if (!isUndefined(pipelineAsYaml) && !isEmpty(pipelineAsYaml) && has(pipelineAsYaml, PIPELINE_STAGES_PATH)) {
-    return parsePipelineYaml({
-      yamlObject: pipelineAsYaml,
-      pathPrefix: PIPELINE_STAGES_PATH
-    })
-  }
-  return []
+  return parsePipelineYaml({
+    yamlObject: pipelineYamlAsObject,
+    pathPrefix: PIPELINE_STAGES_PATH
+  })
 }
