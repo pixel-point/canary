@@ -67,7 +67,7 @@ const CanvasInternal = (props: CanvasProps) => {
       nodes: parentNodes,
       edges: props.edges,
       options: elkOptions,
-      useDynamicSpacing: true
+      useDynamicSpacing: false
     }).then(({ nodes: layoutedNodes, edges: layoutedEdges }) => {
       setNodes([...layoutedNodes, ...childNodes])
       setEdges(layoutedEdges)
