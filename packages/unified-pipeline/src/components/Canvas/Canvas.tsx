@@ -11,8 +11,7 @@ import ReactFlow, {
   EdgeMouseHandler,
   OnEdgesChange,
   applyEdgeChanges,
-  ControlButton,
-  useReactFlow
+  ControlButton
 } from 'reactflow'
 import { Circle, Minus } from 'iconoir-react'
 import { defaultEdgeMarkerOptions } from './nodes-edges-defaults'
