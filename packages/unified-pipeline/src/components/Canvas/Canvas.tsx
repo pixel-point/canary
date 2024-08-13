@@ -41,7 +41,6 @@ interface CanvasProps extends CanvasLayoutProps {
 }
 
 const CanvasInternal = (props: CanvasProps) => {
-  const { fitView } = useReactFlow()
   const { setEnableDiagnostics, enableDiagnostics } = useCanvasStore()
   const { nodes, edges, setNodes, setEdges, addEdge } = useFlowStore()
   const [mousePosition, setMousePosition] = useState<Position | null>(null)
