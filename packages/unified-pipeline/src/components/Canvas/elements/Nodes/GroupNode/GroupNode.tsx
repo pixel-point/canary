@@ -37,8 +37,7 @@ import css from './GroupNode.module.scss'
 export interface GroupNodeProps extends DefaultNodeProps, ExpandNodeProps, DeleteNodeProps, GroupNodesProps {}
 
 export default function GroupNode(props: NodeProps<GroupNodeProps>) {
-  const { nodes, edges, addEdges, updateNodes } = useFlowStore()
-  const { addNodes } = useReactFlow()
+  const { nodes, edges, addEdges, updateNodes, addNodes } = useFlowStore()
   const { enableDiagnostics } = useCanvasStore()
   const { data, id: nodeId, xPos, yPos, zIndex } = props
   const { expanded = true, name, memberNodes = [], parallel, readonly, groupId, hasChanged } = data
@@ -82,7 +81,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
       height,
       readonly
     })
-    updateNodes({ updatedNodes: layoutedElements.nodes })
+    addNodes(layoutedElements.nodes)
     addEdges(dedupeEdges(mergeEdges(edges, layoutedElements.edges)))
     setWidth(width)
     setHeight(height)

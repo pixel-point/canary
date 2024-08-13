@@ -1,8 +1,8 @@
 // store.ts
-import { create } from 'zustand'
 import { Node, Edge } from 'reactflow'
-import { getNodeById } from '../../components/Canvas/utils/NodeUtils'
 import { set as _set } from 'lodash-es'
+import { create } from 'zustand'
+import { getNodeById, dedupeNodes } from '../../components/Canvas/utils/NodeUtils'
 import { DefaultNodeProps } from '../../components/Canvas/types'
 import { dedupeEdges } from '../../components/Canvas/utils/EdgeUtils'
 
@@ -12,6 +12,7 @@ interface FlowState {
   setNodes: (nodes: Node[]) => void
   setEdges: (edges: Edge[]) => void
   addNode: (node: Node) => void
+  addNodes: (node: Node[]) => void
   addEdge: (edge: Edge) => void
   addEdges: (edges: Edge[]) => void
   deleteElements: (elementIds: string[]) => void
@@ -34,6 +35,7 @@ const useFlowStore = create<FlowState>((set, get) => ({
   nodes: [],
   setNodes: nodes => set({ nodes }),
   addNode: node => set(state => ({ nodes: [...state.nodes, node] })),
+  addNodes: nodes => set(state => ({ nodes: dedupeNodes([...state.nodes, ...nodes]) })),
   updateNodes: ({ updatedNodes, notifyParent, notifySiblings }) => {
     set(state => ({
       nodes: state.nodes.map(node => updatedNodes.find(updatedNode => updatedNode.id === node.id) || node)
