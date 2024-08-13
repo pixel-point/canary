@@ -1,4 +1,4 @@
-import React, { useCallback, useLayoutEffect, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import cx from 'classnames'
 import ReactFlow, {
   Controls,
@@ -48,6 +48,13 @@ const CanvasInternal = (props: CanvasProps) => {
   const handleMouseMove = (event: React.MouseEvent) => {
     setMousePosition({ x: event.clientX, y: event.clientY })
   }
+
+  useEffect(() => {
+    return () => {
+      setNodes([])
+      setEdges([])
+    }
+  }, [])
 
   /**
    * @TODO fix this as it's currently causing an elkjs exception

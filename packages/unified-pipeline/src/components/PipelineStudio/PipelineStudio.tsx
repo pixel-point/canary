@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import type { Edge, Node } from 'reactflow'
 import { Canvas } from '../Canvas/Canvas'
 import type { Graph } from '../../components/Canvas/types'
@@ -7,7 +7,7 @@ import useWindowDimensions from '../../hooks/useWindowDimensions'
 import { getEdgesForAllNodes } from '../../components/Canvas/utils/EdgeUtils'
 import { getNodeDimensions } from '../Canvas/utils/NodeUtils'
 
-export interface PipelineStudioProps {
+interface PipelineStudioProps {
   nodes: Graph['nodes']
   onAddNode: (addedNode: Node) => void
   onDeleteNode: (deletedNode: Node) => void
@@ -15,7 +15,9 @@ export interface PipelineStudioProps {
   readonly?: boolean
 }
 
-export function PipelineStudio(props: PipelineStudioProps): JSX.Element {
+const PipelineStudio = memo((props: PipelineStudioProps) => <PipelineStudioInternal {...props}/>)
+
+function PipelineStudioInternal(props: PipelineStudioProps): JSX.Element {
   const [height, setHeight] = useState<number>(0)
   const [width, setWidth] = useState<number>(0)
   const [nodes, setNodes] = useState<Node[]>([])
@@ -76,3 +78,5 @@ export function PipelineStudio(props: PipelineStudioProps): JSX.Element {
     </div>
   )
 }
+
+export {PipelineStudio, type PipelineStudioProps}

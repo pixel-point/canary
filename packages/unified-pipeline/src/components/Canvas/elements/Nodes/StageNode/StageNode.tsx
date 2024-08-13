@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
 import { Handle, NodeProps, Position, Node } from 'reactflow'
 import { set } from 'lodash-es'
@@ -26,8 +26,10 @@ import { GroupNodeProps } from '../GroupNode/GroupNode'
 
 import css from '../GroupNode/GroupNode.module.scss'
 
-export default function StageNode(props: NodeProps<GroupNodeProps>) {
-  const { nodes, edges, deleteElements, updateNodes, addEdges } = useFlowStore()
+const StageNode = memo((props: NodeProps<GroupNodeProps>) => <StageNodeInternal {...props} />)
+
+const StageNodeInternal: React.FC<NodeProps<GroupNodeProps>> = props => {
+  const { nodes, edges, deleteElements, updateNodes, addEdges, addNodes } = useFlowStore()
   const { enableDiagnostics } = useCanvasStore()
   const { data, id: nodeId, xPos, yPos, zIndex } = props
   const { expanded = true, name, memberNodes = [], readonly } = data
@@ -74,7 +76,7 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
       height,
       readonly
     })
-    updateNodes({ updatedNodes: layoutedElements.nodes })
+    addNodes(layoutedElements.nodes)
     addEdges(dedupeEdges(mergeEdges(edges, layoutedElements.edges)))
     setWidth(width)
     setHeight(height)
@@ -257,3 +259,5 @@ export default function StageNode(props: NodeProps<GroupNodeProps>) {
     </>
   )
 }
+
+export default StageNode
