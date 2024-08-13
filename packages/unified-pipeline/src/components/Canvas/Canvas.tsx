@@ -11,7 +11,8 @@ import ReactFlow, {
   EdgeMouseHandler,
   OnEdgesChange,
   applyEdgeChanges,
-  ControlButton
+  ControlButton,
+  useReactFlow
 } from 'reactflow'
 import { Circle, Minus } from 'iconoir-react'
 import { defaultEdgeMarkerOptions } from './nodes-edges-defaults'
@@ -25,6 +26,8 @@ import CircleOverlay, { Position } from '../../components/CircleOverlay/CircleOv
 
 import 'reactflow/dist/style.css'
 import css from './Canvas.module.scss'
+
+const ANIMATION_DURATION = 500
 
 interface CanvasLayoutProps {
   height: number
@@ -40,6 +43,7 @@ interface CanvasProps extends CanvasLayoutProps {
 }
 
 const CanvasInternal = (props: CanvasProps) => {
+  const {fitView} = useReactFlow()
   const { setEnableDiagnostics, enableDiagnostics } = useCanvasStore()
   const { nodes, edges, setNodes, setEdges, addEdge } = useFlowStore()
   const [mousePosition, setMousePosition] = useState<Position | null>(null)
@@ -72,6 +76,12 @@ const CanvasInternal = (props: CanvasProps) => {
     }).then(({ nodes: layoutedNodes, edges: layoutedEdges }) => {
       setNodes([...layoutedNodes, ...childNodes])
       setEdges(layoutedEdges)
+      window.requestAnimationFrame(() =>
+      fitView({
+        duration: ANIMATION_DURATION,
+        nodes: [{ id: layoutedNodes[1].id }]
+      })
+    )
     })
   }, [props.nodes, props.edges])
 
@@ -149,6 +159,9 @@ const CanvasInternal = (props: CanvasProps) => {
         onConnect={onConnect}
         proOptions={{ hideAttribution: true }}
         fitView
+        onInit={instance =>
+          setTimeout(() => window.requestAnimationFrame(() => instance.fitView({ duration: ANIMATION_DURATION })), 0)
+        }
         minZoom={0.5}
         maxZoom={1}
         /* https://github.com/xyflow/xyflow/discussions/2827 */
