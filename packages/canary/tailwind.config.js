@@ -58,53 +58,17 @@ module.exports = {
         black: {
           DEFAULT: 'hsl(var(--black))'
         },
-        grey: {
-          6: 'hsl(var(--grey-6))',
-          8: 'hsl(var(--grey-8))',
-          10: 'hsl(var(--grey-10))',
-          12: 'hsl(var(--grey-12))',
-          15: 'hsl(var(--grey-15))',
-          20: 'hsl(var(--grey-20))',
-          30: 'hsl(var(--grey-30))',
-          40: 'hsl(var(--grey-40))',
-          50: 'hsl(var(--grey-50))',
-          60: 'hsl(var(--grey-60))',
-          70: 'hsl(var(--grey-70))',
-          80: 'hsl(var(--grey-80))',
-          90: 'hsl(var(--grey-90))',
-          94: 'hsl(var(--grey-94))',
-          98: 'hsl(var(--grey-98))'
+        success: {
+          DEFAULT: 'hsl(var(--success))',
         },
-        shade: {
-          0: 'hsl(var(--shade-0))',
-          6: 'hsl(var(--shade-6))',
-          8: 'hsl(var(--shade-8))',
-          10: 'hsl(var(--shade-10))',
-          12: 'hsl(var(--shade-12))',
-          15: 'hsl(var(--shade-15))',
-          20: 'hsl(var(--shade-20))',
-          30: 'hsl(var(--shade-30))',
-          40: 'hsl(var(--shade-40))',
-          50: 'hsl(var(--shade-50))',
-          60: 'hsl(var(--shade-60))',
-          70: 'hsl(var(--shade-70))',
-          80: 'hsl(var(--shade-80))',
-          90: 'hsl(var(--shade-90))',
-          94: 'hsl(var(--shade-94))',
-          98: 'hsl(var(--shade-98))',
-          100: 'hsl(var(--shade-100))',
+        error: {
+          DEFAULT: 'hsl(var(--error))',
         },
-        mint: {
-          DEFAULT: 'hsl(var(--mint))',
+        warning: {
+          DEFAULT: 'hsl(var(--warning))',
         },
-        blue: {
-          DEFAULT: 'hsl(var(--blue))',
-        },
-        orange: {
-          DEFAULT: 'hsl(var(--orange))',
-        },
-        purple: {
-          DEFAULT: 'hsl(var(--purple))',
+        ai: {
+          DEFAULT: 'hsl(var(--ai))',
         }
       },
       borderRadius: {

@@ -1,4 +1,4 @@
-import React, { useCallback, useLayoutEffect, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import cx from 'classnames'
 import ReactFlow, {
   Controls,
@@ -27,9 +27,7 @@ import CircleOverlay, { Position } from '../../components/CircleOverlay/CircleOv
 import 'reactflow/dist/style.css'
 import css from './Canvas.module.scss'
 
-export const initialEdges = []
-
-const ANIMATION_DURATION = 400
+const ANIMATION_DURATION = 500
 
 interface CanvasLayoutProps {
   height: number
@@ -45,7 +43,7 @@ interface CanvasProps extends CanvasLayoutProps {
 }
 
 const CanvasInternal = (props: CanvasProps) => {
-  const { fitView } = useReactFlow()
+  const {fitView} = useReactFlow()
   const { setEnableDiagnostics, enableDiagnostics } = useCanvasStore()
   const { nodes, edges, setNodes, setEdges, addEdge } = useFlowStore()
   const [mousePosition, setMousePosition] = useState<Position | null>(null)
@@ -54,6 +52,13 @@ const CanvasInternal = (props: CanvasProps) => {
   const handleMouseMove = (event: React.MouseEvent) => {
     setMousePosition({ x: event.clientX, y: event.clientY })
   }
+
+  useEffect(() => {
+    return () => {
+      setNodes([])
+      setEdges([])
+    }
+  }, [])
 
   /**
    * @TODO fix this as it's currently causing an elkjs exception
@@ -72,11 +77,11 @@ const CanvasInternal = (props: CanvasProps) => {
       setNodes([...layoutedNodes, ...childNodes])
       setEdges(layoutedEdges)
       window.requestAnimationFrame(() =>
-        fitView({
-          duration: ANIMATION_DURATION,
-          nodes: [{ id: layoutedNodes[1].id }]
-        })
-      )
+      fitView({
+        duration: ANIMATION_DURATION,
+        nodes: [{ id: layoutedNodes[1].id }]
+      })
+    )
     })
   }, [props.nodes, props.edges])
 
@@ -154,11 +159,11 @@ const CanvasInternal = (props: CanvasProps) => {
         onConnect={onConnect}
         proOptions={{ hideAttribution: true }}
         fitView
-        minZoom={0.5}
-        maxZoom={1}
         onInit={instance =>
           setTimeout(() => window.requestAnimationFrame(() => instance.fitView({ duration: ANIMATION_DURATION })), 0)
         }
+        minZoom={0.5}
+        maxZoom={1}
         /* https://github.com/xyflow/xyflow/discussions/2827 */
         nodeOrigin={[0.5, 0.5]}
         className={css.canvas}>

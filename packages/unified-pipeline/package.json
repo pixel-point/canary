@@ -1,6 +1,6 @@
 {
   "name": "@harnessio/unified-pipeline",
-  "version": "0.1.7",
+  "version": "0.1.9",
   "description": "Harness Unified Pipeline ibrary",
   "scripts": {
     "dev": "run-p typed-scss build:watch",
@@ -33,11 +33,12 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "dagre": "^0.8.5",
+    "@types/node": "^22.2.0",
     "classnames": "^2.5.1",
+    "dagre": "^0.8.5",
     "elkjs": "^0.9.3",
-    "lodash-es": "^4.17.21",
     "iconoir-react": "^7.3.0",
+    "lodash-es": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "reactflow": "^11.11.4",
@@ -45,6 +46,7 @@
     "web-worker": "^1.0.0"
   },
   "devDependencies": {
+    "@modyfi/vite-plugin-yaml": "^1.1.0",
     "@types/classnames": "^2.3.1",
     "@types/dagre": "^0.7.52",
     "@types/lodash-es": "^4.17.12",
@@ -60,7 +62,6 @@
     "vite": "^5.3.1",
     "vite-plugin-dts": "^3.9.1",
     "vite-plugin-svgr": "^4.2.0",
-    "zustand": "^4.5.4",
-    "@modyfi/vite-plugin-yaml": "^1.1.0"
+    "zustand": "^4.5.4"
   }
 }
