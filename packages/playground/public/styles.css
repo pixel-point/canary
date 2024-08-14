@@ -595,6 +595,10 @@ body {
   width: 1.2rem;
 }
 
+.w-\[220px\] {
+  width: 220px;
+}
+
 .w-\[395px\] {
   width: 395px;
 }
@@ -633,8 +637,16 @@ body {
   background-color: hsl(var(--background));
 }
 
+.bg-black {
+  background-color: hsl(var(--black));
+}
+
 .p-2 {
   padding: 0.5rem;
+}
+
+.p-5 {
+  padding: 1.25rem;
 }
 
 .text-destructive {
@@ -689,11 +701,15 @@ body {
   /* PP Figma secondary colors */
   --mint: 175 60% 65%;
   --blue: 216 80% 65%;
-  --orange: 35 75% 55%;
+  --orange: 35 75% 55% 0.9;
   --purple: 275 60% 75%;
+  --green: 150, 75%, 65%, 0.7;
+  --red: 0, 80%, 65%, 0.7;
 }
 
 @layer themes {
+  /* TODO: replace hsl with variables for theming */
+
   :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
@@ -719,68 +735,36 @@ body {
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
     --radius: 0.5rem;
-    /* PP Figma light mode shades */
-    --shade-0: var(--white);
-    --shade-6: var(--grey-98);
-    --shade-8: var(--grey-94);
-    --shade-10: var(--grey-90);
-    --shade-12: var(--grey-80);
-    --shade-15: var(--grey-70);
-    --shade-20: var(--grey-60);
-    --shade-30: var(--grey-50);
-    --shade-40: var(--grey-40);
-    --shade-50: var(--grey-30);
-    --shade-60: var(--grey-20);
-    --shade-70: var(--grey-15);
-    --shade-80: var(--grey-12);
-    --shade-90: var(--grey-10);
-    --shade-94: var(--grey-8);
-    --shade-98: var(--grey-6);
-    --shade-100: var(--black);
   }
 
   .dark {
-    --background: 240 14% 3%;
-    --foreground: 0 0% 98%;
-    --secondary-background: 240 5% 6%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --tertiary: 240 5% 12%;
-    --tertiary-foreground: 0 0% 98%;
-    --tertiary-background: 240 6% 60%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    /* PP Figma dark mode shades */
-    --shade-0: var(--black);
-    --shade-6: var(--grey-6);
-    --shade-8: var(--grey-8);
-    --shade-10: var(--grey-10);
-    --shade-12: var(--grey-12);
-    --shade-15: var(--grey-15);
-    --shade-20: var(--grey-20);
-    --shade-30: var(--grey-30);
-    --shade-40: var(--grey-40);
-    --shade-50: var(--grey-50);
-    --shade-60: var(--grey-60);
-    --shade-70: var(--grey-70);
-    --shade-80: var(--grey-80);
-    --shade-90: var(--grey-90);
-    --shade-94: var(--grey-94);
-    --shade-98: var(--grey-98);
-    --shade-100: var(--white);
+    --background: var(--grey-10);
+    --foreground: var(--grey-94);
+    --secondary-background: var(--grey-6);
+    --card: var(--grey-10);
+    --card-foreground: var(--white);
+    --popover: var(--grey-10);
+    --popover-foreground: var(--white);
+    --primary: var(--white);
+    --primary-foreground: var(--grey-10);
+    --secondary: var(--grey-15);
+    --secondary-foreground: var(--white);
+    --tertiary: var(--grey-12);
+    --tertiary-foreground: var(--white);
+    --tertiary-background: var(--grey-60);
+    --muted: var(--grey-15);
+    --muted-foreground: var(--grey-60);
+    --accent: var(--grey-15);
+    --accent-foreground: var(--white);
+    --destructive: var(--red);
+    --destructive-foreground: var(--white);
+    --border: var(--grey-15);
+    --input: var(--grey-15);
+    --ring: var(--grey-80);
+    --success: var(--green);
+    --error: var(--red);
+    --warning: var(--orange);
+    --ai: var(--purple);
   }
 }
 

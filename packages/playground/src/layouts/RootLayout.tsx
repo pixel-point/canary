@@ -9,9 +9,9 @@ const RootLayout: React.FC = () => {
   const showNavbar = !hideNavbarPaths.includes(location.pathname)
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div className="bg-background flex">
       {showNavbar && (
-        <nav style={{ width: '220px', height: '100vh', padding: '20px', background: '#111' }}>
+        <nav style={{ height: '100vh' }} className='bg-black w-[220px] p-5'>
           <ul>
             <li>
               <NavLink to="/repos" style={({ isActive }) => ({ color: isActive ? 'green' : 'inherit' })}>
