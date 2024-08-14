@@ -11,9 +11,9 @@ interface ColorBoxProps {
 
 const ColorBox: React.FC<ColorBoxProps> = ({ color, name, utility }) => (
   <div className="flex flex-col items-start mb-4 p-4 w-24">
-    <div className={`w-24 h-24 ${color} border border-shade-30 rounded-lg`} title={name} />
-    <span className="mt-2 text-xs font-medium text-shade-80 w-24 text-wrap">{name}</span>
-    <code className="mt-1 text-[11px] text-shade-40 w-24 text-wrap">{utility}</code>
+    <div className={`w-24 h-24 ${color} border border-card rounded-lg`} title={name} />
+    <span className="mt-2 text-xs font-medium text-card w-24 text-wrap">{name}</span>
+    <code className="mt-1 text-[11px] text-card w-24 text-wrap">{utility}</code>
   </div>
 )
 
@@ -32,60 +32,7 @@ export default {
 
 const Template: StoryFn<ColorBoxProps> = args => <ColorBox {...args} />
 
-export const PixelPointDynamicShades = () => (
-  <div className="flex flex-wrap gap-8">
-    <Template color="bg-shade-0" name="Shade 0" utility="bg-shade-0" />
-    <Template color="bg-shade-6" name="Shade 6" utility="bg-shade-6" />
-    <Template color="bg-shade-8" name="Shade 8" utility="bg-shade-8" />
-    <Template color="bg-shade-10" name="Shade 10" utility="bg-shade-10" />
-    <Template color="bg-shade-12" name="Shade 12" utility="bg-shade-12" />
-    <Template color="bg-shade-15" name="Shade 15" utility="bg-shade-15" />
-    <Template color="bg-shade-20" name="Shade 20" utility="bg-shade-20" />
-    <Template color="bg-shade-30" name="Shade 30" utility="bg-shade-30" />
-    <Template color="bg-shade-40" name="Shade 40" utility="bg-shade-40" />
-    <Template color="bg-shade-50" name="Shade 50" utility="bg-shade-50" />
-    <Template color="bg-shade-60" name="Shade 60" utility="bg-shade-60" />
-    <Template color="bg-shade-70" name="Shade 70" utility="bg-shade-70" />
-    <Template color="bg-shade-80" name="Shade 80" utility="bg-shade-80" />
-    <Template color="bg-shade-90" name="Shade 90" utility="bg-shade-90" />
-    <Template color="bg-shade-94" name="Shade 94" utility="bg-shade-94" />
-    <Template color="bg-shade-98" name="Shade 98" utility="bg-shade-98" />
-    <Template color="bg-shade-100" name="Shade 100" utility="bg-shade-100" />
-  </div>
-)
-
-export const PixelPointGreys = () => (
-  <div className="flex flex-wrap gap-8">
-    <Template color="bg-black" name="Black" utility="bg-black" />
-    <Template color="bg-grey-6" name="Grey 6" utility="bg-grey-6" />
-    <Template color="bg-grey-8" name="Grey 8" utility="bg-grey-8" />
-    <Template color="bg-grey-10" name="Grey 10" utility="bg-grey-10" />
-    <Template color="bg-grey-12" name="Grey 12" utility="bg-grey-12" />
-    <Template color="bg-grey-15" name="Grey 15" utility="bg-grey-15" />
-    <Template color="bg-grey-20" name="Grey 20" utility="bg-grey-20" />
-    <Template color="bg-grey-30" name="Grey 30" utility="bg-grey-30" />
-    <Template color="bg-grey-40" name="Grey 40" utility="bg-grey-40" />
-    <Template color="bg-grey-50" name="Grey 50" utility="bg-grey-50" />
-    <Template color="bg-grey-60" name="Grey 60" utility="bg-grey-60" />
-    <Template color="bg-grey-70" name="Grey 70" utility="bg-grey-70" />
-    <Template color="bg-grey-80" name="Grey 80" utility="bg-grey-80" />
-    <Template color="bg-grey-90" name="Grey 90" utility="bg-grey-90" />
-    <Template color="bg-grey-94" name="Grey 94" utility="bg-grey-94" />
-    <Template color="bg-grey-98" name="Grey 98" utility="bg-grey-98" />
-    <Template color="bg-white" name="White" utility="bg-white" />
-  </div>
-)
-
-export const PixelPointSecondary = () => (
-  <div className="flex flex-wrap gap-8">
-    <Template color="bg-mint" name="Mint" utility="bg-mint" />
-    <Template color="bg-blue" name="Blue" utility="bg-blue" />
-    <Template color="bg-orange" name="Orange" utility="bg-orange" />
-    <Template color="bg-purple" name="Purple" utility="bg-purple" />
-  </div>
-)
-
-export const ShadCNDefaults = () => (
+export const GitnessOpenSourceSemanticColors = () => (
   <div className="flex flex-wrap gap-8">
     <Template color="bg-background" name="Background" utility="bg-background" />
     <Template color="bg-foreground" name="Foreground" utility="bg-foreground" />
@@ -110,5 +57,8 @@ export const ShadCNDefaults = () => (
     <Template color="bg-border" name="Border" utility="bg-border" />
     <Template color="bg-input" name="Input" utility="bg-input" />
     <Template color="bg-ring" name="Ring" utility="bg-ring" />
+    <Template color="bg-success" name="Success" utility="bg-success" />
+    <Template color="bg-error" name="Error" utility="bg-error" />
+    <Template color="bg-ai" name="AI" utility="bg-ai" />
   </div>
 )
