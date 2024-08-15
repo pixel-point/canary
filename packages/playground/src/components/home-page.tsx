@@ -1,4 +1,4 @@
-import { Badge, Navbar } from '@harnessio/canary'
+import { Badge, Navbar, Icon } from '@harnessio/canary'
 import React from 'react'
 
 export default function HomePage() {
@@ -11,6 +11,7 @@ export default function HomePage() {
         <Navbar.Content>Content</Navbar.Content>
         <Navbar.Footer>Footer</Navbar.Footer>
         </Navbar.Root>
+      <Icon name='accessibility' />
     </div>
   )
 }
