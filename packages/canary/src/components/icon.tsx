@@ -1,19 +1,23 @@
-import * as React from "react"
-import Accessibility from "../icons/svgs/accessibility.svg"
+import * as React from 'react'
+import AtSign from '../icons/at-sign.svg'
+import Award from '../icons/award.svg'
 
-const IconNameMap: Record<string, React.ReactElement> = {
-    "accessibility": Accessibility
+const IconNameMap: Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>> = {
+  'at-sign': AtSign,
+  award: Award
 }
 
 export interface IconProps {
-    name?: keyof typeof IconNameMap
-    size?: number
+  name: keyof typeof IconNameMap
+  size?: number
+  height?: number
+  width?: number
+  className?: string
 }
 
-const Icon: React.FC<IconProps> = ({ name, size = 16 }) => {
-  return <span className={`h-[${size}px]`}>
-    <Accessibility />
-    </span>
+const Icon: React.FC<IconProps> = ({ name, size = 16, height, width, className }) => {
+  const Component = IconNameMap[name]
+  return <Component width={width || size} height={height || size} className={className} />
 }
 
 export { Icon }
