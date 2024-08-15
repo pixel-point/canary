@@ -3,7 +3,6 @@ import react from '@vitejs/plugin-react-swc'
 import dts from 'vite-plugin-dts'
 import path, { resolve } from 'path'
 import svgr from 'vite-plugin-svgr'
-// import { createSvgIconsPlugin } from 'vite-plugin-react-svgs';
 
 const external = ['react', 'react-dom', 'lodash-es', 'moment', '@harnessio/icons-noir']
 
@@ -22,12 +21,7 @@ export default defineConfig({
     }),
     svgr({
       include: "**/*.svg"
-    }),
-    // createSvgIconsPlugin({
-    //   defaultExport: 'component',
-    //   svgo: true,
-    //   expandProps: 'end'
-    // })
+    })
   ],
   resolve: {
     alias: {

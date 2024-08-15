@@ -11,7 +11,7 @@ export default function HomePage() {
         <Navbar.Content>Content</Navbar.Content>
         <Navbar.Footer>Footer</Navbar.Footer>
         </Navbar.Root>
-      <Icon name='accessibility' />
+      <Icon name='award' />
     </div>
   )
 }
