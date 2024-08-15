@@ -19,7 +19,9 @@ export default defineConfig({
         content
       })
     }),
-    svgr()
+    svgr({
+      include: "**/*.svg"
+    })
   ],
   resolve: {
     alias: {

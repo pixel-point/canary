@@ -89,7 +89,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ) : (
       children
     )
-
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, padding, borderRadius, className }))}
