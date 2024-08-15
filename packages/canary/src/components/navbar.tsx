@@ -1,7 +1,7 @@
 import React from 'react'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, cn } from '@harnessio/canary'
 
-const Navbar = {
+export const Navbar = {
   Root: function Root({ children }: { children: React.ReactNode }) {
     return (
       <div className="select-none grid grid-rows-[auto_1fr_auto] w-[220px] h-screen overflow-y-auto border-r text-sm text-grey-70 bg-secondary-background">
@@ -73,5 +73,3 @@ const Navbar = {
     return <div className="grid px-5 h-[76px] items-center border-t">{children}</div>
   })
 }
-
-export default Navbar
