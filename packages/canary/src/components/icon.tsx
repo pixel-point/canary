@@ -1,10 +1,8 @@
 import * as React from 'react'
-import AtSign from '../icons/at-sign.svg'
-import Award from '../icons/award.svg'
+import ChevronDown from '../icons/chevron-down.svg'
 
 const IconNameMap = {
-  'at-sign': AtSign,
-  award: Award
+  'chevron-down': ChevronDown,
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 
 export interface IconProps {

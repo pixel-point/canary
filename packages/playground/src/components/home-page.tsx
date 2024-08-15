@@ -6,12 +6,12 @@ export default function HomePage() {
     <div>
       <p className='text-destructive'>Home page</p>
       <Badge>Badge</Badge>
+      <Icon name='chevron-down' />
       <Navbar.Root>
         <Navbar.Header>Header</Navbar.Header>
         <Navbar.Content>Content</Navbar.Content>
         <Navbar.Footer>Footer</Navbar.Footer>
         </Navbar.Root>
-      <Icon name='award' />
     </div>
   )
 }
