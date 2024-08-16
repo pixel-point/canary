@@ -893,6 +893,10 @@ body {
   height: 2.75rem;
 }
 
+.h-16 {
+  height: 4rem;
+}
+
 .h-2 {
   height: 0.5rem;
 }
@@ -1019,6 +1023,10 @@ body {
 
 .w-4 {
   width: 1rem;
+}
+
+.w-4\/5 {
+  width: 80%;
 }
 
 .w-64 {
@@ -1772,6 +1780,10 @@ body {
 
 .pt-4 {
   padding-top: 1rem;
+}
+
+.pt-10 {
+  padding-top: 2.5rem;
 }
 
 .text-left {
@@ -4126,6 +4138,10 @@ body {
 
   .md\:w-auto {
     width: auto;
+  }
+
+  .md\:min-w-56 {
+    min-width: 14rem;
   }
 
   .md\:max-w-\[420px\] {
