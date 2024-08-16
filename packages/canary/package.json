@@ -9,6 +9,7 @@
     "build:watch": "vite build --watch --emptyOutDir=false",
     "build:css": "npx tailwindcss -i ./src/styles.css -o ./dist/styles.css",
     "lint": "eslint ./src",
+    "prettier": "prettier --check ./src",
     "shadcn:update": "npx shadcn-ui@latest add -a -o -y",
     "prepublishOnly": "pnpm build"
   },

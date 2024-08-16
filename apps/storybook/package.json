@@ -38,11 +38,11 @@
   },
   "homepage": "https://github.com/harness/canary",
   "dependencies": {
-    "@harnessio/unified-pipeline": "workspace:*",
     "@harnessio/canary": "workspace:*",
     "@harnessio/icons-noir": "workspace:*",
     "@harnessio/svg-icon": "workspace:*",
     "@harnessio/svg-icon-react": "workspace:*",
+    "@harnessio/unified-pipeline": "workspace:*",
     "@hookform/resolvers": "^3.6.0",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
@@ -95,7 +95,7 @@
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.1",
-    "zod": "^3.23.8"    
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.6.1",
@@ -109,7 +109,6 @@
     "@storybook/react": "^8.2.5",
     "@storybook/react-vite": "^8.2.5",
     "@storybook/test": "^8.2.5",
-    "@types/moment": "^2.13.0",
     "@types/node": "^20.14.9",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
