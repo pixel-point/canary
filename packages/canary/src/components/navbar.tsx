@@ -1,5 +1,5 @@
 import React from 'react'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, cn } from '@harnessio/canary'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, cn } from '@/index'
 
 export const Navbar = {
   Root: function Root({ children }: { children: React.ReactNode }) {
