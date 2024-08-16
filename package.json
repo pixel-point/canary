@@ -6,7 +6,6 @@
     "build": "pnpm -r build",
     "lint": "pnpm -r lint",
     "pretty": "pnpm -r pretty",
-    "fmt": "pnpm -r fmt",
     "publish:all": "pnpm publish -r --access public",
     "build-storybook": "pnpm --filter canary-storybook build-storybook",
     "dev": "pnpm --parallel --filter canary-storybook --filter @harnessio/canary --filter @harnessio/unified-pipeline dev",
