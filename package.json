@@ -5,12 +5,15 @@
     "clean": "pnpm -r --parallel clean",
     "build": "pnpm -r build",
     "lint": "pnpm -r lint",
+    "pretty": "pnpm -r pretty",
     "fmt": "pnpm -r fmt",
     "publish:all": "pnpm publish -r --access public",
     "build-storybook": "pnpm --filter canary-storybook build-storybook",
     "dev": "pnpm --parallel --filter canary-storybook --filter @harnessio/canary --filter @harnessio/unified-pipeline dev",
     "preinstall": "npx only-allow pnpm",
-    "dryrun": "pnpm install && pnpm deps && pnpm build && pnpm build-storybook && pnpm lint"
+    "dryrun": "pnpm install && pnpm deps && pnpm build && pnpm build-storybook && pnpm lint",
+    "pre-commit": "pnpm run -r pre-commit",
+    "prepare": "husky"
   },
   "engines": {
     "node": ">=18.20.4"
@@ -19,5 +22,9 @@
   "resolutions": {
     "@types/react": "18.3.3"
   },
-  "packageManager": "pnpm@9.5.0+sha512.140036830124618d624a2187b50d04289d5a087f326c9edfc0ccd733d76c4f52c3a313d4fc148794a2a9d81553016004e6742e8cf850670268a7387fc220c903"
+  "packageManager": "pnpm@9.5.0+sha512.140036830124618d624a2187b50d04289d5a087f326c9edfc0ccd733d76c4f52c3a313d4fc148794a2a9d81553016004e6742e8cf850670268a7387fc220c903",
+  "devDependencies": {
+    "husky": "^9.1.4",
+    "lint-staged": "^15.2.9"
+  }
 }

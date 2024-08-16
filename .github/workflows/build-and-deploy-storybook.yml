@@ -27,7 +27,7 @@ jobs:
         run: pnpm lint
 
       - name: prettier
-        run: pnpm prettier
+        run: pnpm pretty
 
       # - name: Build storybook
       #   run: |
