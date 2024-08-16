@@ -1524,10 +1524,6 @@ body {
   background-color: hsl(var(--background));
 }
 
-.bg-black {
-  background-color: hsl(var(--black));
-}
-
 .bg-black\/80 {
   background-color: hsl(var(--black) / 0.8);
 }
@@ -1778,12 +1774,12 @@ body {
   padding-top: 0.25rem;
 }
 
-.pt-4 {
-  padding-top: 1rem;
-}
-
 .pt-10 {
   padding-top: 2.5rem;
+}
+
+.pt-4 {
+  padding-top: 1rem;
 }
 
 .text-left {

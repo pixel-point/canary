@@ -9,7 +9,7 @@ const RootLayout: React.FC = () => {
   const showNavbar = !hideNavbarPaths.includes(location.pathname)
 
   return (
-    <div className="bg-background" style={{ display: 'flex' }}>
+    <div className="bg-background flex">
       {showNavbar && (
         <nav className="h-screen p-5 md:min-w-56">
           <ul>
@@ -47,11 +47,10 @@ const RootLayout: React.FC = () => {
           </ul>
         </nav>
       )}
-      <main className="h-screen w-4/5 pt-10" style={{ flexGrow: 1}}>
+      <main className="h-screen w-4/5 pt-0" style={{ flexGrow: 1}}>
         <Outlet/>
       </main>
     </div>
   )
 }
-
 export default RootLayout
