@@ -1,10 +1,18 @@
 import React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@harnessio/canary'
-import ConsoleLogs from './execution/console-logs'
-import { data } from './execution/mocks/mockStepLogs'
-import { Layout } from './layout/layout'
-import { ExecutionTree } from './execution/execution-tree'
-import { elements } from './execution/mocks/mockExecutionTree'
+import ConsoleLogs from './console-logs'
+import { data } from './mocks/mockStepLogs'
+import { Layout } from '../layout/layout'
+import { ExecutionTree } from './execution-tree'
+import { elements } from '../../assets/mockExecutionTree'
+
+export interface StepProps {
+  name: string
+}
+
+interface StageExecutionProps {
+  step: StepProps
+}
 
 enum StepExecutionTab {
   LOG = 'log',
@@ -12,7 +20,7 @@ enum StepExecutionTab {
   OUTPUT = 'output'
 }
 
-export default function ExecutionDetails() {
+export const StepExecution: React.FC<StageExecutionProps> = (props): React.ReactElement => {
   return (
     <Tabs defaultValue={StepExecutionTab.LOG} className="w-full h-full mt-2">
       <Layout.Vertical gap="space-y-3">
