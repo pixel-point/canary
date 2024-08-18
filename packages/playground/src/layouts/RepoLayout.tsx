@@ -1,6 +1,6 @@
 // RepoLayout.tsx
 import React from 'react'
-import { Link, NavLink, Outlet, useParams } from 'react-router-dom'
+import { NavLink, Outlet, useParams } from 'react-router-dom'
 
 const RepoLayout: React.FC = () => {
   const { repoId } = useParams<{ repoId: string }>()

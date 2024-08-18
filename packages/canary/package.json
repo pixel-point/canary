@@ -9,8 +9,10 @@
     "build:watch": "vite build --watch --emptyOutDir=false",
     "build:css": "npx tailwindcss -i ./src/styles.css -o ./dist/styles.css",
     "lint": "eslint ./src",
+    "pretty": "prettier --check ./src",
     "shadcn:update": "npx shadcn-ui@latest add -a -o -y",
-    "prepublishOnly": "pnpm build"
+    "prepublishOnly": "pnpm build",
+    "pre-commit": "lint-staged"
   },
   "module": "./dist/index.js",
   "main": "./dist/index.js",
@@ -110,5 +112,11 @@
     "vite": "^5.3.1",
     "vite-plugin-dts": "^3.9.1",
     "vite-plugin-svgr": "^4.2.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint ./src --fix",
+      "prettier ./src --write"
+    ]
   }
 }
