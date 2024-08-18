@@ -590,6 +590,9 @@ importers:
       '@vitejs/plugin-react-swc':
         specifier: ^3.5.0
         version: 3.7.0(@swc/helpers@0.5.2)(vite@4.4.9(@types/node@22.2.0)(sass@1.77.8)(terser@5.31.3))
+      classnames:
+        specifier: ^2.5.1
+        version: 2.5.1
       eslint:
         specifier: ^8.48.0
         version: 8.57.0

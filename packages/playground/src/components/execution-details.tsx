@@ -2,6 +2,9 @@ import React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@harnessio/canary'
 import ConsoleLogs from './execution/console-logs'
 import { data } from './execution/mocks/mockStepLogs'
+import { Layout } from './layout/layout'
+import { ExecutionTree } from './execution/execution-tree'
+import { elements } from '../assets/mock'
 
 enum StepExecutionTab {
   LOG = 'log',
@@ -11,9 +14,9 @@ enum StepExecutionTab {
 
 export default function ExecutionDetails() {
   return (
-    <div>
-      <Tabs defaultValue={StepExecutionTab.LOG} className="w-full h-full">
-        <TabsList>
+    <Tabs defaultValue={StepExecutionTab.LOG} className="w-full h-full mt-2">
+      <Layout.Vertical gap="space-y-3">
+        <TabsList className="w-fit">
           <TabsTrigger className="h-full" value={StepExecutionTab.LOG}>
             Logs
           </TabsTrigger>
@@ -21,9 +24,17 @@ export default function ExecutionDetails() {
           <TabsTrigger value={StepExecutionTab.OUTPUT}>Output</TabsTrigger>
         </TabsList>
         <TabsContent value={StepExecutionTab.LOG}>
-          <ConsoleLogs logs={data[0]} />
+          <Layout.Horizontal>
+            {/* Hardcoded value added temporarily */}
+            <div className="border-t pt-4 h-[calc(100vh-20.5rem)] overflow-y-scroll">
+              <ConsoleLogs logs={data[0]} />
+            </div>
+            <div className="w-[450px] h-[calc(100vh-20.5rem)] overflow-y-scroll">
+              <ExecutionTree defaultSelectedId="2" elements={elements} onSelectNode={() => {}} />
+            </div>
+          </Layout.Horizontal>
         </TabsContent>
-      </Tabs>
-    </div>
+      </Layout.Vertical>
+    </Tabs>
   )
 }
