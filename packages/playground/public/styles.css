@@ -844,6 +844,10 @@ body {
   margin-top: auto;
 }
 
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
 .block {
   display: block;
 }
@@ -977,6 +981,18 @@ body {
   height: 100vh;
 }
 
+.h-\[calc\(44px\+2\*3px-1px\)\] {
+  height: calc(44px + 2 * 3px - 1px);
+}
+
+.h-\[49px\] {
+  height: 49px;
+}
+
+.h-\[48px\] {
+  height: 48px;
+}
+
 .max-h-96 {
   max-height: 24rem;
 }
@@ -1093,6 +1109,10 @@ body {
 
 .min-w-\[var\(--radix-select-trigger-width\)\] {
   min-width: var(--radix-select-trigger-width);
+}
+
+.min-w-5 {
+  min-width: 1.25rem;
 }
 
 .max-w-96 {
@@ -1269,6 +1289,10 @@ body {
 
 .justify-start {
   justify-content: flex-start;
+}
+
+.justify-end {
+  justify-content: flex-end;
 }
 
 .justify-center {
@@ -1790,6 +1814,10 @@ body {
   vertical-align: middle;
 }
 
+.font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
@@ -1886,6 +1914,10 @@ body {
   line-height: 1;
 }
 
+.leading-\[21px\] {
+  line-height: 21px;
+}
+
 .-tracking-\[2\%\] {
   letter-spacing: -2%;
 }
@@ -1958,6 +1990,18 @@ body {
 
 .text-tertiary-background {
   color: hsl(var(--tertiary-background));
+}
+
+.text-secondary {
+  color: hsl(var(--secondary));
+}
+
+.text-secondary-background {
+  color: hsl(var(--secondary-background));
+}
+
+.text-ring {
+  color: hsl(var(--ring));
 }
 
 .underline {
@@ -2153,6 +2197,10 @@ body {
 
 .ease-in-out {
   animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.running {
+  animation-play-state: running;
 }
 
 /* TODO Check this – should not be necessary when the custom color has been defined in tailwind config already */
