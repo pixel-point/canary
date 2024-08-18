@@ -4,7 +4,7 @@ import ConsoleLogs from './execution/console-logs'
 import { data } from './execution/mocks/mockStepLogs'
 import { Layout } from './layout/layout'
 import { ExecutionTree } from './execution/execution-tree'
-import { elements } from '../assets/mock'
+import { elements } from './execution/mocks/mockExecutionTree'
 
 enum StepExecutionTab {
   LOG = 'log',
