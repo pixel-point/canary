@@ -3,6 +3,11 @@ declare module '*.svg' {
   export default value
 }
 
+declare module '*.svg?react' {
+  const value: string
+  export default value
+}
+
 declare module '*.yaml' {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const value: Record<string, any>

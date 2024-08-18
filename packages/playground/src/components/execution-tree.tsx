@@ -2,11 +2,7 @@ import React from 'react'
 import { File, Folder, Status, Tree } from '@harnessio/canary'
 import { elements } from '../assets/mock'
 
-interface ExecutionTreeProps {
-
-}
-
-export default function ExecutionTree(props: ExecutionTreeProps): React.ReactElement {
+export default function ExecutionTree(): React.ReactElement {
   return (
     <div className="w-[395px] h-[660px]">
       <Tree className="rounded-md bg-background overflow-hidden p-2" initialSelectedId="1" elements={elements}>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Meta, StoryFn } from '@storybook/react'
 import NavItemPlaceholder from '../../assets/environment-icon.svg?react'
-import Navbar from '../../components/layout/navbar'
+import { Navbar } from '@harnessio/canary'
 import NavUserBadge from '../../components/layout/NavUserBadge'
 import NavCompanyBadge from '../../components/layout/NavCompanyBadge'
 import CompanyAvatar from '../../assets/company-avatar.svg?react'
