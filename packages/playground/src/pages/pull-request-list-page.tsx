@@ -1,6 +1,5 @@
 import React from 'react'
 import PullRequestList from '../components/pull-request-list'
-import EntityList from '../components/entity-list'
 import {
   Button,
   DropdownMenu,
@@ -8,23 +7,24 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   Input,
-  Icon
+  Icon,
+  StackedList
 } from '@harnessio/canary'
 
 function PullRequestListPage() {
   return (
     <div className="w-full max-w-[860px] min-h-full mx-auto px-5 py-5 mb-16">
-      <EntityList.Root>
-        <EntityList.Header>
-          <EntityList.Actions>
-            <EntityList.ActionItem>
+      <StackedList.Root className="border-none">
+        <div className="flex">
+          <div className="grid w-full grid-flow-col grid-cols-1 auto-cols-auto items-center gap-0">
+            <StackedList.Item>
               <Input
                 type="search"
                 placeholder="Search ..."
                 className="flex w-full mr-3 leading-4 rounded-lg bg-secondary-background placeholder:text-tertiary-background"
               />
-            </EntityList.ActionItem>
-            <EntityList.ActionItem>
+            </StackedList.Item>
+            <StackedList.Item>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild className="group text-tertiary-background select-none">
                   <Button variant="ghost" size="default" padding="sm" className="entity-list-action">
@@ -40,8 +40,8 @@ function PullRequestListPage() {
                   <DropdownMenuItem className="font-light text-xs">Filter option 4</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-            </EntityList.ActionItem>
-            <EntityList.ActionItem>
+            </StackedList.Item>
+            <StackedList.Item>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild className="group text-tertiary-background select-none">
                   <Button variant="ghost" size="default" padding="sm" className="entity-list-action">
@@ -55,21 +55,18 @@ function PullRequestListPage() {
                   <DropdownMenuItem className="font-light text-xs">Sort option 2</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-            </EntityList.ActionItem>
-            <EntityList.ActionItem>
+            </StackedList.Item>
+            <StackedList.Item>
               <Button variant="default" size="sm" className="ml-6">
                 New Pull Request
               </Button>
-            </EntityList.ActionItem>
-          </EntityList.Actions>
-        </EntityList.Header>
-        <EntityList.Content>
+            </StackedList.Item>
+          </div>
+        </div>
+        <div className="flex">
           <PullRequestList />
-        </EntityList.Content>
-        {/* <EntityList.Footer> */}
-        {/* <EntityListPagination /> */}
-        {/* </EntityList.Footer> */}
-      </EntityList.Root>
+        </div>
+      </StackedList.Root>
     </div>
   )
 }

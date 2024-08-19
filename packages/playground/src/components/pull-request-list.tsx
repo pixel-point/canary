@@ -9,22 +9,7 @@ import {
   Check,
   Xmark
 } from '@harnessio/icons-noir'
-import {
-  Badge,
-  Button,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  Input,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-  TableHead
-} from '@harnessio/canary'
-import EntityList from './entity-list'
-import View from './view'
+import { Badge, StackedList } from '@harnessio/canary'
 
 const mockPullRequests = [
   {
@@ -220,49 +205,41 @@ export default function PullRequestList() {
       }),
     [headerFilter]
   )
+
   return (
     <div className="border rounded-md mb-16 w-full">
-      <Table>
-        <TableHead className="bg-background border-b border">
-          <div className="flex p-3">
-            <div
-              className={`flex justify-center text-center ${headerFilter === 'open' ? 'text-white' : ''} `}
-              onClick={() => {
-                setHeaderFilter('open')
-              }}>
-              <span className="pt-1.5">
-                <GitPullRequest color={headerFilter === 'open' ? '#FFFFFF' : '#93939F'} />
-              </span>
-              <span className="pl-2 pt-1 ">
-                {mockPullRequests.filter(pr => pr.state === 'open' || pr.is_draft).length}
-              </span>
-              <span className="pl-1 pt-1 ">Open</span>
-            </div>
-            <div
-              className={`pl-2 flex justify-center text-center ${headerFilter === 'closed' ? 'text-white' : ''} `}
-              onClick={() => {
-                setHeaderFilter('closed')
-              }}>
-              <span className="pt-1.5">
-                {/* TODO: fix color */}
-                <Check color={headerFilter === 'closed' ? '#FFFFFF' : '#93939F'} />
-              </span>
-              <span className="pl-2 pt-1">
-                {mockPullRequests.filter(pr => pr.state === 'closed' || pr.state === 'merged').length}
-              </span>
-              <span className="pl-1 pt-1">Closed</span>
-            </div>
+      <div className="bg-background border-b border">
+        <div className="flex p-3">
+          <div
+            className={`flex justify-center text-center ${headerFilter === 'open' ? 'text-white' : ''}`}
+            onClick={() => setHeaderFilter('open')}>
+            <span className="pt-1.5">
+              <GitPullRequest color={headerFilter === 'open' ? '#FFFFFF' : '#93939F'} />
+            </span>
+            <span className="pl-2 pt-1">
+              {mockPullRequests.filter(pr => pr.state === 'open' || pr.is_draft).length}
+            </span>
+            <span className="pl-1 pt-1">Open</span>
           </div>
-        </TableHead>
-        <TableBody>
-          {filteredData?.map(pullRequest => (
-            <Link to={pullRequest.number.toString()}>
-              <TableRow
-                onClick={() => {}}
-                className=" flex cursor-pointer px-2 hover:bg-muted/50"
-                key={pullRequest.title}>
-                <TableCell className="w-[14px] align-top pr-0">
-                  {/* TODO: fix color */}
+          <div
+            className={`pl-2 flex justify-center text-center ${headerFilter === 'closed' ? 'text-white' : ''}`}
+            onClick={() => setHeaderFilter('closed')}>
+            <span className="pt-1.5">
+              <Check color={headerFilter === 'closed' ? '#FFFFFF' : '#93939F'} />
+            </span>
+            <span className="pl-2 pt-1">
+              {mockPullRequests.filter(pr => pr.state === 'closed' || pr.state === 'merged').length}
+            </span>
+            <span className="pl-1 pt-1">Closed</span>
+          </div>
+        </div>
+      </div>
+      <StackedList.Root>
+        {filteredData.map(pullRequest => (
+          <Link to={pullRequest.number.toString()}>
+            <StackedList.Item key={pullRequest.number} className="hover:bg-muted/50">
+              <div className="flex items-center">
+                <div className="w-[14px] align-top pr-0">
                   {pullRequest.merged ? (
                     <GitMerge color="#800080" className="mt-1.5" />
                   ) : pullRequest.state?.toLowerCase() === 'closed' ? (
@@ -270,31 +247,25 @@ export default function PullRequestList() {
                   ) : (
                     <GitPullRequest color="#63E9A6" className="mt-1.5" />
                   )}
-                </TableCell>
-
-                <TableCell className="px-2 flex flex-col gap-1 w-full flex-start justify-end">
+                </div>
+                <div className="px-2 flex flex-col gap-1 w-full flex-start justify-end">
                   <div className="font-medium text-tertiary-background flex flex-end justify-between">
                     <div className="flex pt-1 justify-center">
-                      <span className="px-3 text-primary">{pullRequest.title}</span>
+                      <span className="px-3 text   -primary">{pullRequest.title}</span>
                       <span className="pt-0.5">
-                        {/* TODO: fix color */}
                         <Check color="#63E9A6" />
                         <Xmark color="#ED5E5E" />
                       </span>
-                      <Badge
-                        className={`select-none bg-transparent rounded-2xl text-[12px] font-light ml-2.5 py-1 px-2 leading-none text-[#71dbd3] border-[#1d3333] bg-[#111c1d] hover:bg-inherit`}>
+                      <Badge className="select-none bg-transparent rounded-2xl text-[12px] font-light ml-2.5 py-1 px-2 leading-none text-[#71dbd3] border-[#1d3333] bg-[#111c1d] hover:bg-inherit">
                         {'test'}
                       </Badge>
-                      <Badge
-                        className={`select-none bg-transparent rounded-2xl text-[12px] font-light ml-2.5 py-1 px-2 leading-none text-[#e69c35] border-[#9b7a4b] bg-[#82725b] hover:bg-inherit`}>
+                      <Badge className="select-none bg-transparent rounded-2xl text-[12px] font-light ml-2.5 py-1 px-2 leading-none text-[#e69c35] border-[#9b7a4b] bg-[#82725b] hover:bg-inherit">
                         {'medium priority'}
                       </Badge>
                     </div>
-
                     {pullRequest.stats?.conversations && (
-                      <span className=" pl-2 flex justify-end pr-2">
+                      <span className="pl-2 flex justify-end pr-2">
                         <span className="pt-1.5 pr-1">
-                          {/* TODO: fix color */}
                           <Message color="#60606C" />
                         </span>
                         <span className="pt-1 text-primary">{pullRequest.stats?.conversations}</span>
@@ -302,9 +273,8 @@ export default function PullRequestList() {
                     )}
                   </div>
                   <div className="pl-3 font-normal whitespace-nowrap text-[13px] select-none flex">
-                    <span className="mr-1 text-tertiary-background">{`#${pullRequest.number}`} </span>
-
-                    <span className="mr-1 text-tertiary-background">opened </span>
+                    <span className="mr-1 text-tertiary-background">{`#${pullRequest.number}`}</span>
+                    <span className="mr-1 text-tertiary-background">opened</span>
                     <span className="mr-1 text-tertiary-background">2 hours ago</span>
                     <span className="mr-1 text-tertiary-background">by {pullRequest.author?.display_name}</span>
                     <span className="mr-1 text-[#303036]">|</span>
@@ -316,12 +286,12 @@ export default function PullRequestList() {
                       </span>
                     </div>
                   </div>
-                </TableCell>
-              </TableRow>
-            </Link>
-          ))}
-        </TableBody>
-      </Table>
+                </div>
+              </div>
+            </StackedList.Item>
+          </Link>
+        ))}
+      </StackedList.Root>
     </div>
   )
 }
