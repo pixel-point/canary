@@ -4,9 +4,14 @@ import { Copy, Edit, Download } from '@harnessio/icons-noir'
 import ConsoleLogs from './console-logs'
 import { data } from './mocks/mockStepLogs'
 import { Layout } from '../layout/layout'
+import { ExecutionState, ExecutionStatus } from './execution-status'
+import { getDuration } from '../../utils/TimeUtils'
 
 export interface StepProps {
   name: string
+  status: ExecutionState
+  started?: number
+  stopped?: number
 }
 
 interface StageExecutionProps {
@@ -42,7 +47,10 @@ const StepExecutionToolbar: React.FC = () => {
 export const StepExecution: React.FC<StageExecutionProps> = ({ step, stepIndex }) => {
   return (
     <Layout.Vertical>
-      <Text>{step.name}</Text>
+      <Layout.Horizontal className="flex justify-between items-center">
+        <Text>{step.name}</Text>
+        <ExecutionStatus.Badge status={step.status} duration={getDuration(step.started, step.stopped)} />
+      </Layout.Horizontal>
       <Tabs defaultValue={StepExecutionTab.LOG} className="w-full h-full mt-2">
         <Layout.Vertical gap="space-y-3">
           <Layout.Horizontal className="flex justify-between">
