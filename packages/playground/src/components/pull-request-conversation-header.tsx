@@ -41,7 +41,7 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
   const parsedDate = moment(created)
 
   // Format the parsed date as relative time from now
-  let formattedTime = parsedDate.fromNow()
+  const formattedTime = parsedDate.fromNow()
   return (
     <div className="flex flex-col pb-8">
       <div className="flex pt-1 pb-1 items-center">
