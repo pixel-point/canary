@@ -30,7 +30,7 @@ const RepoLayout: React.FC = () => {
         </div>
       </header>
       <main className="">
-        <Outlet/>
+        <Outlet />
       </main>
     </div>
   )

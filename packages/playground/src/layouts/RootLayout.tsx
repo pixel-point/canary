@@ -47,8 +47,8 @@ const RootLayout: React.FC = () => {
           </ul>
         </nav>
       )}
-      <main className="h-screen w-4/5 pt-0" style={{ flexGrow: 1}}>
-        <Outlet/>
+      <main className="h-screen w-4/5 pt-0" style={{ flexGrow: 1 }}>
+        <Outlet />
       </main>
     </div>
   )
