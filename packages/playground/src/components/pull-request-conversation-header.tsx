@@ -19,8 +19,6 @@ import { Badge } from '@harnessio/canary'
 import { GitFork } from '@harnessio/icons-noir'
 import moment from 'moment'
 
-// import ReactTimeago, { ReactTimeagoProps } from 'react-timeago'
-
 interface PullRequestTitleProps {
   data: {
     title: string
@@ -51,7 +49,6 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
       </div>
       <div className="">
         <div className="flex space-x-2 text-grey-70">
-          {/* <PullRequestStateLabel data={{ is_draft, state }} /> */}
           <div className="flex items-center align-middle text-center">
             {/* TODO:add status in badge or create a component to handle status */}
             {merged ? (
@@ -81,11 +78,7 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
           </div>
           <div className="flex items-center">
             <div className="h-2.5 align-middle w-px bg-gray-300 mt-0.5 pt-2"></div>
-            <div className={`pl-2 time text-xs`}>
-              {/* fix time popover */}
-              {formattedTime}
-              {/* <TimePopoverWithLocal time={defaultTo(merged ? merged : created, 0)} inline={false} /> */}
-            </div>
+            <div className={`pl-2 time text-xs`}>{formattedTime}</div>
           </div>
         </div>
       </div>

@@ -30,7 +30,6 @@ function PullRequestListPage() {
                   <Button variant="ghost" size="default" padding="sm" className="entity-list-action">
                     Filter&nbsp;
                     <Icon name="chevron-down" />
-                    {/* <ChevronDownIcon className="entity-list-action-chevron" /> */}
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -47,7 +46,6 @@ function PullRequestListPage() {
                   <Button variant="ghost" size="default" padding="sm" className="entity-list-action">
                     Sort&nbsp;
                     <Icon name="chevron-down" />
-                    {/* <ChevronDownIcon className="entity-list-action-chevron" /> */}
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
