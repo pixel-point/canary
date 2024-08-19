@@ -49,6 +49,7 @@
     "@rollup/plugin-yaml": "^4.1.2",
     "@uiw/react-markdown-preview": "^4.1.15",
     "caret-xy": "^2.0.3",
+    "moment": "^2.29.4",
     "lodash-es": "^4.17.21",
     "lucide-react": "^0.407.0",
     "match-sorter": "^6.3.1",
