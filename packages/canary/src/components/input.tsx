@@ -24,13 +24,13 @@ export interface ExtendedInputProps extends BaseInputProps {
 
 const ExtendedInput = React.forwardRef<HTMLInputElement, ExtendedInputProps>(
   ({ className, type, leftIcon, rightIcon, ...props }, ref) => {
-    const leftClassName = leftIcon ? "pl-8" : "";
-    const rightClassName  =  rightIcon ?"pr-8" : "";
+    const leftClassName = leftIcon ? 'pl-8' : ''
+    const rightClassName = rightIcon ? 'pr-8' : ''
 
     return (
       <div className="relative flex-grow">
-        {leftIcon? <div className="absolute inset-y-0 left-0 flex items-center pl-2">{leftIcon}</div> : null}
-        <BaseInput className={cn(className, leftClassName, rightClassName)} type={type} {...props} ref={ref}/>
+        {leftIcon ? <div className="absolute inset-y-0 left-0 flex items-center pl-2">{leftIcon}</div> : null}
+        <BaseInput className={cn(className, leftClassName, rightClassName)} type={type} {...props} ref={ref} />
         {rightIcon ? <div className="absolute inset-y-0 right-0 flex items-center pr-2">{rightIcon} </div> : null}
       </div>
     )

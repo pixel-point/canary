@@ -2,7 +2,7 @@ import * as React from 'react'
 import ChevronDown from '../icons/chevron-down.svg'
 
 const IconNameMap = {
-  'chevron-down': ChevronDown,
+  'chevron-down': ChevronDown
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 
 export interface IconProps {
@@ -15,7 +15,7 @@ export interface IconProps {
 
 const Icon: React.FC<IconProps> = ({ name, size = 16, height, width, className }) => {
   const Component = IconNameMap[name]
-  console.log({Component})
+  console.log({ Component })
   return <Component width={width || size} height={height || size} className={className} />
 }
 
