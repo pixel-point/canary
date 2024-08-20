@@ -15,11 +15,6 @@ export const INTER_PARENT_PARENT_HORIZONTAL_SEPARATION = 200
 /* Group node */
 export const GROUP_NODE_VERTICAL_ALIGNMENT_MARGIN = NODE_VERTICAL_MARGIN
 
-/* Anchor node constants */
-export const ANCHOR_NODE_WIDTH = 20
-export const ANCHOR_NODE_HEIGHT = 20
-export const ANCHOR_NODE_ID = 'anchor'
-
 /* Step node constants */
 export const STEP_NODE_WIDTH = 140
 export const STEP_NODE_HEIGHT = 80

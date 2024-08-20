@@ -14,9 +14,9 @@ import ReactFlow, {
   ControlButton,
   useReactFlow
 } from 'reactflow'
-import { Circle, Minus } from 'iconoir-react'
+import { Circle, Minus } from '@harnessio/icons-noir'
 import { defaultEdgeMarkerOptions } from './nodes-edges-defaults'
-import { EdgeTypes, NodeTypes } from './types'
+import { NodeTypes } from './types'
 import { CanvasEntity, useCanvasStore } from '../../framework/CanvasStore/CanvasStoreContext'
 import useFlowStore from '../../framework/FlowStore/FlowStore'
 import { performElkLayout, elkOptions } from './utils/ElkLayout'
@@ -25,7 +25,6 @@ import { partitionNodesForLayout } from './utils/NodeUtils'
 import CircleOverlay, { Position } from '../../components/CircleOverlay/CircleOverlay'
 
 import 'reactflow/dist/style.css'
-import css from './Canvas.module.scss'
 
 const ANIMATION_DURATION = 500
 
@@ -146,12 +145,11 @@ const CanvasInternal = (props: CanvasProps) => {
   )
 
   return (
-    <div className={cx(css.main, css.canvasContainer)} onMouseMove={handleMouseMove}>
+    <div className="w-full h-full canvas-container" onMouseMove={handleMouseMove}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
         nodeTypes={NodeTypes}
-        edgeTypes={EdgeTypes}
         onEdgeClick={onEdgeClick}
         onNodeClick={onNodeClick}
         onNodesChange={onNodesChange}
@@ -165,8 +163,7 @@ const CanvasInternal = (props: CanvasProps) => {
         minZoom={0.5}
         maxZoom={1}
         /* https://github.com/xyflow/xyflow/discussions/2827 */
-        nodeOrigin={[0.5, 0.5]}
-        className={css.canvas}>
+        nodeOrigin={[0.5, 0.5]}>
         <Controls>
           {process.env.NODE_ENV !== 'production' && (
             <>

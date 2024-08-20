@@ -1,11 +1,9 @@
 import React from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
-import { PlaySolid } from 'iconoir-react'
+import { PlaySolid } from '@harnessio/icons-noir'
 import { DefaultNodeProps, ExpandNodeProps } from '../../../types'
 import { useCanvasStore } from '../../../../../framework/CanvasStore/CanvasStoreContext'
 import { getNodeDiagnostics } from '../../../../../components/Canvas/utils/NodeUtils'
-
-import css from './RootNode.module.scss'
 
 export interface RootNodeProps extends Omit<DefaultNodeProps, 'targetPostion'>, ExpandNodeProps {}
 
@@ -14,11 +12,13 @@ export default function RootNode({ data, xPos, yPos, zIndex }: NodeProps<RootNod
   const { sourcePosition = Position.Right } = data
   return (
     <>
-      <div className={css.main}>
-        <PlaySolid color="green" className={css.icon} />
+      <div className="w-10 h-10 rounded-full flex justify-center items-center bg-[rgba(29,29,32)]/[1.0]">
+        <PlaySolid color="green" className="hover:cursor-pointer" />
       </div>
       <Handle position={sourcePosition} type="source" />
-      {enableDiagnostics?.Node && <span className={css.diagnose}>{getNodeDiagnostics({ xPos, yPos, zIndex })}</span>}
+      {enableDiagnostics?.Node && (
+        <span className="text-red text-sm">{getNodeDiagnostics({ xPos, yPos, zIndex })}</span>
+      )}
     </>
   )
 }

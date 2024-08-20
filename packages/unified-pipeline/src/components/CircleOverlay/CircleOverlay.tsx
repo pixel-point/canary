@@ -1,13 +1,12 @@
-import React from "react";
-import css from "./CircleOverlay.module.scss";
+import React from 'react'
 
 export interface Position {
-  x: number;
-  y: number;
+  x: number
+  y: number
 }
 
 interface CircleOverlayInterface {
-  position: Position;
+  position: Position
 }
 
 const CircleOverlay = (props: CircleOverlayInterface) => {
@@ -19,27 +18,25 @@ const CircleOverlay = (props: CircleOverlayInterface) => {
     { size: 110, opacity: 0.018 },
     { size: 90, opacity: 0.019 },
     { size: 70, opacity: 0.02 },
-    { size: 50, opacity: 0.021 },
-  ];
+    { size: 50, opacity: 0.021 }
+  ]
 
   return (
     <>
       {circles.map((circle, index) => (
         <div
           key={index}
-          className={css.circle}
+          className={`w-[${circle.size}] h-[${circle.size}] absolute translate-x-[-50%] translate-y-[-50%] rounded-full bg-[rgba(255,255,255,${circle.opacity})]`}
           style={
             {
-              "--size": `${circle.size}px`,
-              "--opacity": circle.opacity,
               top: props.position.y,
-              left: props.position.x,
+              left: props.position.x
             } as unknown as React.CSSProperties
           }
         />
       ))}
     </>
-  );
-};
+  )
+}
 
-export default CircleOverlay;
+export default CircleOverlay

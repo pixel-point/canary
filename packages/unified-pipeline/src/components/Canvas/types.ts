@@ -6,14 +6,11 @@
  */
 import type { Position, Node as ReactFlowNode } from 'reactflow'
 import type { PipelineEntity } from '../../components/PipelineConfigPanel/types'
-import PlusEdge from './elements/Edges/PlusEdge/PlusEdge'
 import AtomicNode from './elements/Nodes/AtomicNode/AtomicNode'
 import StageNode from './elements/Nodes/StageNode/StageNode'
 import GroupNode from './elements/Nodes/GroupNode/GroupNode'
 import RootNode from './elements/Nodes/RootNode/RootNode'
 import PlusNode from './elements/Nodes/PlusNode/PlusNode'
-import StopNode from './elements/Nodes/StopNode/StopNode'
-import AnchorNode from './elements/Nodes/AnchorNode/AnchorNode'
 
 export enum EdgeType {
   SMOOTHSTEP = 'smoothstep',
@@ -22,18 +19,12 @@ export enum EdgeType {
   CUSTOM = 'custom'
 }
 
-export const EdgeTypes = {
-  [EdgeType.PLUS]: PlusEdge
-}
-
 export enum NodeType {
-  ANCHOR = 'anchor',
   GROUP = 'node_group',
   PLUS = 'plus',
   STAGE = 'stage',
   ROOT = 'root',
-  ATOMIC = 'atomic',
-  STOP = 'stop'
+  ATOMIC = 'atomic'
 }
 
 export const GROUPABLE_NODE_TYPES = [NodeType.STAGE, NodeType.ATOMIC]
@@ -41,13 +32,11 @@ export const GROUPABLE_NODE_TYPES = [NodeType.STAGE, NodeType.ATOMIC]
 export const TERMINAL_NODE_TYPES = [NodeType.ROOT, NodeType.PLUS]
 
 export const NodeTypes = {
-  [NodeType.ANCHOR]: AnchorNode,
   [NodeType.GROUP]: GroupNode,
   [NodeType.PLUS]: PlusNode,
   [NodeType.STAGE]: StageNode,
   [NodeType.ROOT]: RootNode,
-  [NodeType.ATOMIC]: AtomicNode,
-  [NodeType.STOP]: StopNode
+  [NodeType.ATOMIC]: AtomicNode
 }
 
 export enum PositionType {

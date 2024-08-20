@@ -10,9 +10,6 @@ import {
   GroupOrientation
 } from '../types'
 import {
-  ANCHOR_NODE_ID,
-  ANCHOR_NODE_HEIGHT,
-  ANCHOR_NODE_WIDTH,
   STEP_NODE_HEIGHT,
   STEP_NODE_WIDTH,
   ROOT_NODE_WIDTH,
@@ -61,10 +58,6 @@ export const getNodeById = (nodes: Node[], nodeId: string): Node | undefined => 
   return nodes.find((node: Node) => node.id === nodeId)
 }
 
-export const getStartAnchorNodeId = (parentId: string) => `${parentId}_${ANCHOR_NODE_ID}_start`
-
-export const getEndAnchorNodeId = (parentId: string) => `${parentId}_${ANCHOR_NODE_ID}_end`
-
 /* Parallel nodes should not be connected to any of their siblings */
 const getSequentialNodes = (nodes: Node[]): Node[] => {
   return nodes.filter(node => !(node.data as DefaultNodeProps)?.parallel)
@@ -87,10 +80,6 @@ export const isNodeOfTypeParent = (nodeId: string, nodes: Node[]): boolean => {
 
 export const isNodeOfTypeGroup = (node: Node): boolean => {
   return has(node.data, 'groupId') && !isEmpty((node.data as DefaultNodeProps).groupId)
-}
-
-export const excludeAnchorNodes = (nodes: Node[]): Node[] => {
-  return nodes.filter(node => node?.type !== NodeType.ANCHOR)
 }
 
 export const excludeTerminalNodes = (nodes: Node[]): Node[] => {
@@ -154,8 +143,6 @@ export const getNodeWidth = (node: Node): number => {
       return getStageNodeWidth(isNodeExpanded, (node.data as GroupNodesProps)?.memberNodes || [])
     case NodeType.ATOMIC:
       return STEP_NODE_WIDTH
-    case NodeType.ANCHOR:
-      return ANCHOR_NODE_WIDTH
     case NodeType.ROOT:
       return ROOT_NODE_WIDTH
     case NodeType.PLUS:
@@ -180,8 +167,6 @@ export const getNodeHeight = (node: Node): number => {
       return getStageNodeHeight(isNodeExpanded, (node.data as GroupNodesProps)?.memberNodes || [])
     case NodeType.ATOMIC:
       return STEP_NODE_HEIGHT
-    case NodeType.ANCHOR:
-      return ANCHOR_NODE_HEIGHT
     case NodeType.ROOT:
       return ROOT_NODE_HEIGHT
     case NodeType.PLUS:
