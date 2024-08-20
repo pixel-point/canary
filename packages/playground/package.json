@@ -1,6 +1,6 @@
 {
   "name": "@harnessio/playground",
-  "version": "0.0.1",
+  "version": "0.0.2-beta-1",
   "description": "Harness Unified Pipeline Playground",
   "scripts": {
     "dev": "run-p watch:css watch",
@@ -46,6 +46,8 @@
     "@harnessio/svg-icon": "workspace:*",
     "@harnessio/svg-icon-react": "workspace:*",
     "@harnessio/unified-pipeline": "workspace:*",
+    "@harnessio/yaml-editor": "^0.11.0",
+    "@monaco-editor/react": "4.6.0",
     "@rollup/plugin-yaml": "^4.1.2",
     "@uiw/react-markdown-preview": "^4.1.15",
     "caret-xy": "^2.0.3",
@@ -53,10 +55,13 @@
     "lodash-es": "^4.17.21",
     "lucide-react": "^0.407.0",
     "match-sorter": "^6.3.1",
+    "monaco-editor": "0.50.0",
+    "monaco-yaml": "5.2.1",
     "prettier": "^3.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-keywords": "^1.0.0",
+    "yaml": "^2.5.0",
     "yaml-loader": "^0.8.1"
   },
   "devDependencies": {
@@ -78,7 +83,8 @@
     "tailwindcss": "^3.4.4",
     "typescript": "^5.2.2",
     "vite": "^4.4.9",
-    "vite-plugin-dts": "^3.9.1"
+    "vite-plugin-dts": "^3.9.1",
+    "vite-plugin-monaco-editor": "^1.1.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

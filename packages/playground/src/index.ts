@@ -1,1 +1,11 @@
 export * from './components/execution-list'
+
+export * from './components/pipeline-studio/pipeline-studio-toolbar-actions'
+export * from './components/pipeline-studio/problems'
+export * from './components/pipeline-studio/visual-yaml-toggle'
+export * from './components/pipeline-studio/step-form/step-form'
+export * from './components/pipeline-studio/step-form/step-form-section'
+export * from './components/pipeline-studio/step-palette/step-palette'
+export * from './components/pipeline-studio/step-palette/step-palette-filters'
+export * from './components/pipeline-studio/step-palette/step-palette-content'
+export * from './components/pipeline-studio/step-palette/step-palette-item'
