@@ -11,7 +11,7 @@ const RootLayout: React.FC = () => {
   return (
     <div className="bg-background flex">
       {showNavbar && (
-        <nav className="h-screen p-5 md:min-w-56">
+        <nav style={{ height: '100vh' }} className="bg-black w-[220px] p-5">
           <ul>
             <li>
               <NavLink to="/repos" style={({ isActive }) => ({ color: isActive ? 'green' : 'inherit' })}>
@@ -47,10 +47,11 @@ const RootLayout: React.FC = () => {
           </ul>
         </nav>
       )}
-      <main className="h-screen w-4/5 pt-0" style={{ flexGrow: 1 }}>
+      <main style={{ flexGrow: 1, padding: '0px' }}>
         <Outlet />
       </main>
     </div>
   )
 }
+
 export default RootLayout

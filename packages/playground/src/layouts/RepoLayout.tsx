@@ -7,11 +7,11 @@ const RepoLayout: React.FC = () => {
 
   return (
     <div>
-      <header className="p-5 h-16 bg-background">
+      <header style={{ background: '#333', padding: '20px', height: '56px' }}>
         <h1>Repository {repoId}</h1>
       </header>
-      <header className="p-5 h-16">
-        <div className="flex gap-2.5">
+      <header style={{ background: '#222', padding: '20px' }}>
+        <div style={{ display: 'flex', gap: '10px' }}>
           <NavLink to={`/repos/${repoId}`} style={({ isActive }) => ({ color: isActive ? 'green' : 'inherit' })} end>
             Index
           </NavLink>
@@ -29,7 +29,7 @@ const RepoLayout: React.FC = () => {
           </NavLink>
         </div>
       </header>
-      <main className="">
+      <main style={{ padding: '20px' }}>
         <Outlet />
       </main>
     </div>
