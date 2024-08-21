@@ -1,5 +1,5 @@
 import React from 'react'
-import PullRequestList from '../components/pull-request-list'
+import PullRequestList from '../components/pull-request/pull-request-list'
 import {
   Button,
   DropdownMenu,

@@ -1,7 +1,7 @@
 // RepoLayout.tsx
 import React from 'react'
 import { NavLink, Outlet, useParams } from 'react-router-dom'
-import { PullRequestHeader } from '../components/pull-request-conversation-header'
+import { PullRequestHeader } from '../components/pull-request/pull-request-conversation-header'
 
 const mockedPullRequest = {
   number: 1,
