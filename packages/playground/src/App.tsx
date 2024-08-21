@@ -67,7 +67,7 @@ const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: <PipelineDetailsPage />
+                element: <ExecutionListPage />
               },
               {
                 path: 'edit',
