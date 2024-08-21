@@ -4,7 +4,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './
 
 function Root({ children }: { children: React.ReactNode }) {
   return (
-    <div className="select-none grid grid-rows-[auto_1fr_auto] w-[220px] h-screen overflow-y-auto border-r text-sm text-grey-70 bg-secondary-background">
+    <div className="select-none grid grid-rows-[auto_1fr_auto] w-[220px] h-screen overflow-y-auto border-r text-sm text-grey-70 bg-primary-background">
       {children}
     </div>
   )

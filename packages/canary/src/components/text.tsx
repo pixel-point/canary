@@ -94,10 +94,10 @@ interface TextProps extends React.ComponentProps<'span'> {
   wrap?: 'wrap' | 'nowrap' | 'pretty' | 'balance'
 }
 
-const Text = ({ className, children, as, asChild, align, size, trim, truncate, wrap, ...props }: TextProps) => {
+const Text = ({ className, children, as, asChild, align, size, weight, trim, truncate, wrap, ...props }: TextProps) => {
   const Comp = asChild ? Slot : as ? as.toString() : 'span'
   return (
-    <Comp className={cn(textVariants({ align, size, trim, truncate, wrap }), className)} {...props}>
+    <Comp className={cn(textVariants({ align, size, weight, trim, truncate, wrap }), className)} {...props}>
       {children}
     </Comp>
   )

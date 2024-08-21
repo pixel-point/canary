@@ -26,7 +26,7 @@ const tabsTriggerVariants = cva(
         underline:
           'px-0 font-normal h-11 border-b-2 border-b-transparent border-solid m-0 data-[state=active]:text-primary data-[state=active]:border-primary',
         navigation:
-          'px-0 font-light text-[13px] h-[44px] border-b border-b-transparent border-solid m-0 data-[state=active]:text-primary data-[state=active]:border-primary'
+          'px-0 font-normal text-xs text-tertiary-background hover:text-primary ease-in-out duration-150 h-[44px] border-b border-b-transparent border-solid m-0 data-[state=active]:text-primary data-[state=active]:border-tertiary-background'
       }
     },
     defaultVariants: {

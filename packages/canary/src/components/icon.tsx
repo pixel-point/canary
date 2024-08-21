@@ -1,7 +1,7 @@
 import * as React from 'react'
 import ChevronDown from '../icons/chevron-down.svg'
 import Archive from '../icons/repositories-icon.svg'
-import HarnessLogo from '../icons/harness-logo.svg'
+import Harness from '../icons/harness.svg'
 import Pipelines from '../icons/pipelines-icon.svg'
 import Executions from '../icons/executions-icon.svg'
 import FeaturedFlags from '../icons/featured-flags-icon.svg'
@@ -11,11 +11,14 @@ import ChaosEngineering from '../icons/chaos-engineering-icon.svg'
 import Environment from '../icons/environment-icon.svg'
 import Secrets from '../icons/secrets-icon.svg'
 import Connectors from '../icons/connectors-icon.svg'
+import Star from '../icons/star-icon.svg'
+import Pull from '../icons/pull-icon.svg'
+// import Fork from '../icons/fork.svg'
 
 const IconNameMap = {
   'chevron-down': ChevronDown,
   archive: Archive,
-  'harness-logo': HarnessLogo,
+  harness: Harness,
   pipelines: Pipelines,
   executions: Executions,
   'featured-flags': FeaturedFlags,
@@ -24,7 +27,10 @@ const IconNameMap = {
   'chaos-engineering': ChaosEngineering,
   environment: Environment,
   secrets: Secrets,
-  connectors: Connectors
+  connectors: Connectors,
+  star: Star,
+  pull: Pull
+  // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 
 export interface IconProps {

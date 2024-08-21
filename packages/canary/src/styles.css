@@ -43,15 +43,16 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
-    --secondary-background: 0 0% 100%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
     --primary: 240 5.9% 10%;
+    --primary-background: 240 5.9% 10%;
     --primary-foreground: 0 0% 98%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
+    --secondary-background: 0 0% 100%;
     --tertiary: 240 4.8% 95.9%;
     --tertiary-foreground: 240 5.9% 10%;
     --tertiary-background: 240 6% 60%;
@@ -68,17 +69,18 @@
   }
 
   .dark {
-    --background: var(--grey-10);
+    --background: var(--grey-6);
     --foreground: var(--grey-94);
-    --secondary-background: var(--grey-6);
     --card: var(--grey-10);
     --card-foreground: var(--white);
     --popover: var(--grey-10);
     --popover-foreground: var(--white);
     --primary: var(--white);
+    --primary-background: var(--black);
     --primary-foreground: var(--grey-10);
     --secondary: var(--grey-15);
     --secondary-foreground: var(--white);
+    --secondary-background: var(--grey-6);
     --tertiary: var(--grey-12);
     --tertiary-foreground: var(--white);
     --tertiary-background: var(--grey-60);
@@ -103,8 +105,12 @@
     @apply border-border;
   }
 
+  html {
+    @apply antialiased text-base;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground text-sm font-normal;
   }
 }
 
@@ -157,14 +163,14 @@
 
 /* Navbar utilities */
 .navbar-item svg {
-  @apply w-3.5 h-3.5 opacity-60 ease-in-out duration-150 truncate;
+  @apply w-3 h-3 text-tertiary-background opacity-80 ease-in-out duration-150 truncate;
 }
 .navbar-item.active svg,
 .navbar-item:hover svg {
-  @apply opacity-100 brightness-200 contrast-200;
+  @apply text-primary opacity-100 brightness-200 contrast-200 bg-gradient-radial from-primary/15 to-transparent;
 }
 .navbar-item p {
-  @apply font-normal opacity-60 ease-in-out duration-150 truncate;
+  @apply font-medium -tracking-[0.02em] text-tertiary-background ease-in-out duration-150 truncate;
 }
 .navbar-item.active p,
 .navbar-item:hover p {

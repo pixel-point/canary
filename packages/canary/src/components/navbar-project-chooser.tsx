@@ -18,8 +18,10 @@ function Root({ projects, avatar, name }: ProjectProps) {
     <DropdownMenu>
       <DropdownMenuTrigger className="select-none outline-none">
         <div className="grid grid-cols-[auto_1fr_auto] w-full items-center gap-2.5 justify-items-start">
-          <div className="navbar-company-avatar flex items-center">{avatar}</div>
-          <p className="text-[15px] text-primary truncate" aria-label={name}>
+          <div className="navbar-company-avatar flex items-center bg-secondary-foreground rounded-full p-1">
+            {avatar}
+          </div>
+          <p className="text-[15px] font-medium text-primary truncate" aria-label={name}>
             {name || 'Choose project'}
           </p>
           <Icon name="chevron-down" className="nav-company-badge-chevron h-2.5 w-2.5 shrink-0 text-primary" />
