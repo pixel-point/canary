@@ -7,6 +7,11 @@ export enum PRCommentFilterType {
 }
 export type EnumPullReqReviewDecision = 'approved' | 'changereq' | 'pending' | 'reviewed'
 
+export enum orderSortDate {
+  ASC = 'asc',
+  DESC = 'desc'
+}
+
 export enum PullReqReviewDecision {
   approved = 'approved',
   changeReq = 'changereq',

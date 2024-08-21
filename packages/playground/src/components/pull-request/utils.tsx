@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { EnumPullReqReviewDecision, PRCommentFilterType, PullReqReviewDecision } from './interfaces'
+import { EnumPullReqReviewDecision, PRCommentFilterType, PullReqReviewDecision, orderSortDate } from './interfaces'
 
 export const processReviewDecision = (
   review_decision: EnumPullReqReviewDecision,
@@ -32,6 +32,22 @@ export function useActivityFilters() {
       {
         label: 'Resolved comments',
         value: PRCommentFilterType.RESOLVED_COMMENTS
+      }
+    ],
+    []
+  )
+}
+
+export function useDateFilters() {
+  return useMemo(
+    () => [
+      {
+        label: 'First added',
+        value: orderSortDate.ASC
+      },
+      {
+        label: 'Last added',
+        value: orderSortDate.DESC
       }
     ],
     []

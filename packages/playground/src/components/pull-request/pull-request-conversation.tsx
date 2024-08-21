@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import PullRequestSideBar from './pull-request-side-bar'
-import { processReviewDecision, useActivityFilters } from './utils'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@harnessio/canary'
+import { processReviewDecision, useActivityFilters, useDateFilters } from './utils'
 import { mockReviewers } from './mocks/mockReviewer'
+import PullRequestFilters from './pull-request-filters'
 
 export default function PullRequestConversation() {
+  const dateFilters = useDateFilters()
+  const [dateOrderSort, setDateOrderSort] = useState<{ label: string; value: string }>(dateFilters[0])
   const activityFilters = useActivityFilters()
   const [activityFilter, setActivityFilter] = useState<{ label: string; value: string }>(activityFilters[0])
   return (
@@ -22,21 +24,14 @@ export default function PullRequestConversation() {
         />
       </div>
       <div className="grid grid-cols-[70%_30%]">
-        <div className={'mt-2 py-2 flex  space-x-2 pt-4 justify-between border-b border-b-border'}>
-          <div className="">Overview</div>
-          <Select defaultValue={activityFilter.value}>
-            <SelectTrigger className="w-fit border-none px-1 text-white text-xs focus:ring-[0px]">
-              <SelectValue placeholder="Select..." />
-            </SelectTrigger>
-            <SelectContent>
-              {activityFilters.map(filter => (
-                <SelectItem key={filter.value} value={filter.value} onClick={() => setActivityFilter(filter)}>
-                  {filter.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        <PullRequestFilters
+          activityFilters={activityFilters}
+          dateFilters={dateFilters}
+          activityFilter={activityFilter}
+          dateOrderSort={dateOrderSort}
+          setActivityFilter={setActivityFilter}
+          setDateOrderSort={setDateOrderSort}
+        />
       </div>
     </div>
   )
