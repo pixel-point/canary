@@ -1,12 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import {
-  Plus,
-  CheckCircleSolid,
-  WarningTriangleSolid,
-  WarningCircleSolid,
-  ChatBubbleQuestionSolid
-} from '@harnessio/icons-noir'
+import { Plus, CheckCircleSolid, WarningTriangleSolid, Clock, ChatBubbleQuestionSolid } from '@harnessio/icons-noir'
 import { Button, Avatar, AvatarFallback } from '@harnessio/canary'
 import { EnumPullReqReviewDecision, PullReqReviewDecision, ReviewerData } from './interfaces'
 import { getInitials } from '../../utils/utils'
@@ -83,7 +77,7 @@ const PullRequestSideBar = (props: PullRequestSideBarProps) => {
                     ) : updatedReviewDecision === PullReqReviewDecision.changeReq ? (
                       <WarningTriangleSolid className="text-destructive" />
                     ) : updatedReviewDecision === PullReqReviewDecision.pending ? (
-                      <WarningCircleSolid className="text-warning" />
+                      <Clock />
                     ) : null}
                   </div>
                 )
