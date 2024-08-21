@@ -58,7 +58,7 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
               </Badge>
             ) : (
               <Badge
-                className={`select-none rounded-2xl text-[12px] font-light mr-2 py-1 px-2 leading-none text-success border-border bg-tertiary-foreground hover:bg-inherit`}>
+                className={`select-none rounded-2xl text-[12px] font-light mr-2 py-1 px-2 leading-none text-success border-border bg-transparent hover:bg-inherit`}>
                 {'Open'}
               </Badge>
             )}
