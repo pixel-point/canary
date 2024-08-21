@@ -48,17 +48,17 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
         </h1>
       </div>
       <div className="">
-        <div className="flex space-x-2 text-grey-70">
+        <div className="flex space-x-2 text-tertiary-background ">
           <div className="flex items-center align-middle text-center">
             {/* TODO:add status in badge or create a component to handle status */}
             {merged ? (
               <Badge
-                className={`select-none bg-transparent rounded-2xl text-[12px] font-light mr-2 py-1 px-2 leading-none text-[#6A0DAD] border-[#1d3333] bg-[#e8e8ff] hover:bg-inherit`}>
+                className={`select-none bg-transparent rounded-2xl text-[12px] font-light mr-2 py-1 px-2 leading-none text-ai border-border  hover:bg-inherit`}>
                 {'Merged'}
               </Badge>
             ) : (
               <Badge
-                className={`select-none bg-transparent rounded-2xl text-[12px] font-light mr-2 py-1 px-2 leading-none text-[#4DC187] border-[#1d3333] bg-[#1d3333] hover:bg-inherit`}>
+                className={`select-none rounded-2xl text-[12px] font-light mr-2 py-1 px-2 leading-none text-success border-border bg-tertiary-foreground hover:bg-inherit`}>
                 {'Open'}
               </Badge>
             )}
@@ -77,7 +77,7 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
             </strong>
           </div>
           <div className="flex items-center">
-            <div className="h-2.5 align-middle w-px bg-gray-300 mt-0.5 pt-2"></div>
+            <div className="h-2.5 align-middle w-px bg-white mt-0.5 pt-2"></div>
             <div className={`pl-2 time text-xs`}>{formattedTime}</div>
           </div>
         </div>

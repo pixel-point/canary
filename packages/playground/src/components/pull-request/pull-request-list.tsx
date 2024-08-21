@@ -212,31 +212,28 @@ export default function PullRequestList() {
       <div className="bg-background border-b border">
         <div className="flex p-3">
           <div
-            className={cx(
-              'flex justify-center text-center',
-              { 'text-white': headerFilter === 'open' },
-              { 'text-[#93939F]': headerFilter !== 'open' }
-            )}
+            className={cx('flex justify-center text-center', {
+              'text-white': headerFilter === 'open',
+              'text-ring': headerFilter !== 'open'
+            })}
             onClick={() => setHeaderFilter('open')}>
             <span className="pt-1.5">
-              <GitPullRequest color={headerFilter === 'open' ? '#FFFFFF' : '#93939F'} />
+              <GitPullRequest className={cx({ 'text-white': headerFilter === 'open' })} />
             </span>
-            <span color={headerFilter === 'open' ? '#FFFFFF' : '#93939F'} className="pl-2 pt-1">
+            <span className="pl-2 pt-1">
               {mockPullRequests.filter(pr => pr.state === 'open' || pr.is_draft).length}
             </span>
-            <span color={headerFilter === 'open' ? '#FFFFFF' : '#93939F'} className="pl-1 pt-1">
-              Open
-            </span>
+            <span className="pl-1 pt-1">Open</span>
           </div>
           <div
             className={cx(
               'pl-2 flex justify-center text-center',
               { 'text-white': headerFilter === 'closed' },
-              { 'text-[#93939F]': headerFilter !== 'closed' }
+              { 'text-ring': headerFilter !== 'closed' }
             )}
             onClick={() => setHeaderFilter('closed')}>
             <span className="pt-1.5">
-              <Check color={headerFilter === 'closed' ? '#FFFFFF' : '#93939F'} />
+              <Check className={cx({ 'text-white': headerFilter === 'closed' })} />
             </span>
             <span className={`pl-1 pt-1 `}>
               {mockPullRequests.filter(pr => pr.state === 'closed' || pr.state === 'merged').length}
@@ -252,46 +249,46 @@ export default function PullRequestList() {
               <div className="flex items-center">
                 <div className="w-[14px] align-top pr-0">
                   {pullRequest.merged ? (
-                    <GitMerge color="#800080" className="mt-1.5" />
+                    <GitMerge className="mt-1.5 text-ai" />
                   ) : pullRequest.state?.toLowerCase() === 'closed' ? (
-                    <GitPullRequestClosed color="#ED5E5E" className="mt-1.5" />
+                    <GitPullRequestClosed className="mt-1.5 text-destructive" />
                   ) : (
-                    <GitPullRequest color="#63E9A6" className="mt-1.5" />
+                    <GitPullRequest className="mt-1.5 text-success" />
                   )}
                 </div>
                 <div className="px-2 flex flex-col gap-1 w-full flex-start justify-end">
                   <div className="font-medium text-tertiary-background flex flex-end justify-between">
                     <div className="flex pt-1 justify-center">
-                      <span className="px-3 text   -primary">{pullRequest.title}</span>
+                      <span className="px-3 text-primary">{pullRequest.title}</span>
                       <span className="pt-0.5">
-                        <Check color="#63E9A6" />
-                        <Xmark color="#ED5E5E" />
+                        <Check className="text-success" />
+                        <Xmark className="text-destructive" />
                       </span>
-                      <Badge className="select-none bg-transparent rounded-2xl text-[12px] font-light ml-2.5 py-1 px-2 leading-none text-[#71dbd3] border-[#1d3333] bg-[#111c1d] hover:bg-inherit">
+                      <Badge className="select-none bg-transparent rounded-2xl text-[12px] font-light ml-2.5 py-1 px-2 leading-none text-success border-border  hover:bg-inherit">
                         {'test'}
                       </Badge>
-                      <Badge className="select-none bg-transparent rounded-2xl text-[12px] font-light ml-2.5 py-1 px-2 leading-none text-[#e69c35] border-[#9b7a4b] bg-[#82725b] hover:bg-inherit">
+                      <Badge className="select-none  rounded-2xl text-[12px] font-light ml-2.5 py-1 px-2 leading-none text-ai border-ai/10 bg-muted hover:bg-inherit">
                         {'medium priority'}
                       </Badge>
                     </div>
                     {pullRequest.stats?.conversations && (
                       <span className="pl-2 flex justify-end pr-2">
                         <span className="pt-1.5 pr-1">
-                          <Message color="#60606C" />
+                          <Message />
                         </span>
                         <span className="pt-1 text-primary">{pullRequest.stats?.conversations}</span>
                       </span>
                     )}
                   </div>
-                  <div className="pl-3 font-normal whitespace-nowrap text-[13px] select-none flex">
+                  <div className="pl-3 font-normal whitespace-nowrap text-sm select-none flex">
                     <span className="mr-1 text-tertiary-background">{`#${pullRequest.number}`}</span>
                     <span className="mr-1 text-tertiary-background">opened</span>
                     <span className="mr-1 text-tertiary-background">2 hours ago</span>
                     <span className="mr-1 text-tertiary-background">by {pullRequest.author?.display_name}</span>
-                    <span className="mr-1 text-[#303036]">|</span>
+                    <span className="mr-1 text-tertiary-background">|</span>
                     <span className="mr-1 text-tertiary-background">Review required 1 of 3 tasks</span>
                     <div className="flex text-center">
-                      <span className="mr-1 pl-4 text-tertiary-background text-[12px] flex">
+                      <span className="mr-1 pl-4 text-tertiary-background text-sm flex">
                         <TriangleFlag className="align-middle" />
                         {pullRequest.source_branch}
                       </span>

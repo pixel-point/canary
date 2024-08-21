@@ -77,20 +77,20 @@ const PullRequestSideBar = (props: PullRequestSideBarProps) => {
                     <div className="flex-grow"></div>
 
                     {updatedReviewDecision === PullReqReviewDecision.outdated ? (
-                      <ChatBubbleQuestionSolid color="#E29B36" />
+                      <ChatBubbleQuestionSolid className="text-warning" />
                     ) : updatedReviewDecision === PullReqReviewDecision.approved ? (
-                      <CheckCircleSolid color="#63E9A6" />
+                      <CheckCircleSolid className="text-success" />
                     ) : updatedReviewDecision === PullReqReviewDecision.changeReq ? (
-                      <WarningTriangleSolid color="#ED5E5E" />
+                      <WarningTriangleSolid className="text-destructive" />
                     ) : updatedReviewDecision === PullReqReviewDecision.pending ? (
-                      <WarningCircleSolid color="#E29B36" />
+                      <WarningCircleSolid className="text-warning" />
                     ) : null}
                   </div>
                 )
               }
             )
           ) : (
-            <div className="text-gray-300 text-sm font-[500]">No reviewers</div>
+            <div className="text-tertiary-background text-sm font-[500]">No reviewers</div>
           )}
         </div>
       </div>
