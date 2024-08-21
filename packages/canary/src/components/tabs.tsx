@@ -8,7 +8,7 @@ const tabsListVariants = cva('inline-flex items-center text-muted-foreground', {
     variant: {
       default: 'h-9 rounded-lg bg-muted p-1 justify-center',
       underline: 'h-11 gap-4 justify-center',
-      navigation: 'h-[56px] border-b gap-6 justify-start w-full'
+      navigation: 'h-[44px] border-b gap-6 justify-start w-full px-8'
     }
   },
   defaultVariants: {
@@ -26,7 +26,7 @@ const tabsTriggerVariants = cva(
         underline:
           'px-0 font-normal h-11 border-b-2 border-b-transparent border-solid m-0 data-[state=active]:text-primary data-[state=active]:border-primary',
         navigation:
-          'px-1.5 font-normal h-[56px] border-b border-b-transparent border-solid m-0 data-[state=active]:text-primary data-[state=active]:border-shade-60'
+          'px-0 font-light text-[13px] h-[44px] border-b border-b-transparent border-solid m-0 data-[state=active]:text-primary data-[state=active]:border-primary'
       }
     },
     defaultVariants: {

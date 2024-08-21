@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300 600; /* Supports weights from 300 to 600 */
+  src: url('/fonts/InterVariable.ttf') format('truetype');
+}
+
 :root {
   /* PP Figma shades */
   --black: 210 10% 3%;
@@ -149,22 +156,19 @@
 }
 
 /* Navbar utilities */
-.navbar-company-avatar {
-  @apply w-5 h-5;
-}
 .navbar-item svg {
-  @apply w-3 h-3 ease-in-out duration-150 truncate;
+  @apply w-3.5 h-3.5 opacity-60 ease-in-out duration-150 truncate;
 }
 .navbar-item.active svg,
 .navbar-item:hover svg {
-  @apply brightness-200 contrast-200;
+  @apply opacity-100 brightness-200 contrast-200;
 }
 .navbar-item p {
-  @apply ease-in-out duration-150 truncate;
+  @apply font-normal opacity-60 ease-in-out duration-150 truncate;
 }
 .navbar-item.active p,
 .navbar-item:hover p {
-  @apply text-primary;
+  @apply opacity-100 text-primary;
 }
 
 /* Navbar company badge */

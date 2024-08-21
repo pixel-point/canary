@@ -1,4 +1,16 @@
 // RepoLayout.tsx
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  Topbar
+} from '@harnessio/canary'
 import React from 'react'
 import { NavLink, Outlet, useParams } from 'react-router-dom'
 
@@ -7,10 +19,25 @@ const RepoLayout: React.FC = () => {
 
   return (
     <div>
-      <header style={{ background: '#333', padding: '20px', height: '56px' }}>
-        <h1>Repository {repoId}</h1>
-      </header>
-      <header style={{ background: '#222', padding: '20px' }}>
+      <Topbar.Root>
+        <Topbar.Left>
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/">Repository {repoId}</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="font-thin">&nbsp;/&nbsp;</BreadcrumbSeparator>
+              <BreadcrumbPage>
+                <BreadcrumbLink href="/components">pipeline.yml</BreadcrumbLink>
+              </BreadcrumbPage>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </Topbar.Left>
+        <Topbar.Right>
+          <></>
+        </Topbar.Right>
+      </Topbar.Root>
+      {/* <header style={{ background: '#222', padding: '20px' }}>
         <div style={{ display: 'flex', gap: '10px' }}>
           <NavLink to={`/repos/${repoId}`} style={({ isActive }) => ({ color: isActive ? 'green' : 'inherit' })} end>
             Index
@@ -28,8 +55,27 @@ const RepoLayout: React.FC = () => {
             Branches
           </NavLink>
         </div>
-      </header>
-      <main style={{ padding: '20px' }}>
+      </header> */}
+      <Tabs variant="navigation" defaultValue="index">
+        <TabsList>
+          <NavLink to={`/repos/${repoId}`}>
+            <TabsTrigger value="index">Index</TabsTrigger>
+          </NavLink>
+          <NavLink to={`pipelines`}>
+            <TabsTrigger value="pipelines">Pipelines</TabsTrigger>
+          </NavLink>
+          <NavLink to={`commits`}>
+            <TabsTrigger value="commits">Commits</TabsTrigger>
+          </NavLink>
+          <NavLink to={`pull-requests`}>
+            <TabsTrigger value="pull-requests">Pull Requests</TabsTrigger>
+          </NavLink>
+          <NavLink to={`branches`}>
+            <TabsTrigger value="branches">Branches</TabsTrigger>
+          </NavLink>
+        </TabsList>
+      </Tabs>
+      <main className="p-8">
         <Outlet />
       </main>
     </div>

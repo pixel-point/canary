@@ -35,7 +35,7 @@ function AccordionGroup({ title, children }: { title: string; children: React.Re
       <Accordion type="single" collapsible defaultValue="item-1">
         <AccordionItem value="item-1" className="border-none">
           <AccordionTrigger className="group">
-            <p className="text-xs text-grey-40 font-normal group-hover:text-primary ease-in-out duration-150">
+            <p className="text-xs text-primary opacity-40 font-normal group-hover:text-primary ease-in-out duration-150">
               {title}
             </p>
           </AccordionTrigger>
