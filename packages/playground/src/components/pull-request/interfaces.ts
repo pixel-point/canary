@@ -28,6 +28,18 @@ export interface Reviewer {
   updated: number
 }
 
+export enum MergeCheckStatus {
+  MERGEABLE = 'mergeable',
+  UNCHECKED = 'unchecked',
+  CONFLICT = 'conflict'
+}
+
+export enum PullRequestState {
+  OPEN = 'open',
+  MERGED = 'merged',
+  CLOSED = 'closed'
+}
+
 export interface AddedBy {
   id: number
   uid: string
@@ -47,4 +59,53 @@ export interface ReviewerData {
   sha: string
   reviewer: Reviewer
   added_by: AddedBy
+}
+
+export interface TypesPullReq {
+  author?: TypesPrincipalInfo
+  closed?: number | null
+  created?: number
+  description?: string
+  edited?: number
+  is_draft?: boolean
+  merge_base_sha?: string
+  merge_check_status?: string
+  merge_conflicts?: string[]
+  merge_method?: EnumMergeMethod
+  merge_target_sha?: string | null
+  merged?: number | null
+  merger?: TypesPrincipalInfo
+  number?: number
+  source_branch?: string
+  source_repo_id?: number
+  source_sha?: string
+  state?: EnumPullReqState
+  stats?: TypesPullReqStats
+  target_branch?: string
+  target_repo_id?: number
+  title?: string
+}
+
+export type EnumMergeMethod = 'merge' | 'rebase' | 'squash'
+
+export type EnumPullReqState = 'closed' | 'merged' | 'open'
+
+export interface TypesPullReqStats {
+  additions?: number | null
+  commits?: number | null
+  conversations?: number
+  deletions?: number | null
+  files_changed?: number | null
+  unresolved_count?: number
+}
+export type EnumPrincipalType = 'service' | 'serviceaccount' | 'user'
+
+export interface TypesPrincipalInfo {
+  created?: number
+  display_name?: string
+  email?: string
+  id?: number
+  type?: EnumPrincipalType
+  uid?: string
+  updated?: number
 }

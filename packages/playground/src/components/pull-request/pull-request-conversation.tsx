@@ -3,6 +3,8 @@ import PullRequestSideBar from './pull-request-side-bar'
 import { processReviewDecision, useActivityFilters, useDateFilters } from './utils'
 import { mockReviewers } from './mocks/mockReviewer'
 import PullRequestFilters from './pull-request-filters'
+import PullRequestPanel from './pull-request-panel'
+import { mockPullReqMetadata } from './mocks/mockPullReqMetadata'
 
 export default function PullRequestConversation() {
   const dateFilters = useDateFilters()
@@ -12,7 +14,7 @@ export default function PullRequestConversation() {
   return (
     <div>
       <div className="grid grid-cols-[70%_30%]">
-        <div className=" border mt-1 border-border rounded-md">test</div>
+        <PullRequestPanel pullReqMetadata={mockPullReqMetadata} PRStateLoading={false} />
         <PullRequestSideBar
           // repoMetadata={undefined}
           pullRequestMetadata={undefined}
