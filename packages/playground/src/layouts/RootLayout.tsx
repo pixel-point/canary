@@ -85,9 +85,9 @@ const RootLayout: React.FC = () => {
   ]
 
   return (
-    <div className="bg-background flex">
+    <div className="bg-background grid md:grid-cols-[220px_minmax(900px,_1fr)] min-w-screen">
       {showNavbar && (
-        <Navbar.Root>
+        <Navbar.Root className="max-md:hidden">
           <Navbar.Header>
             <NavbarProjectChooser.Root
               name="Playground"
@@ -117,7 +117,7 @@ const RootLayout: React.FC = () => {
           </Navbar.Footer>
         </Navbar.Root>
       )}
-      <main style={{ flexGrow: 1, padding: '0px' }}>
+      <main className="min-h-screen box-border overflow-y-scroll overflow-x-hidden">
         <Outlet />
       </main>
     </div>

@@ -275,21 +275,19 @@ export default function PipelineEditPage() {
   )
 
   return (
-    <div style={{ height: '650px' }}>
-      <Container.Root wFull={true} hFull={true}>
-        <Container.Main>
-          <div>
-            <PipelineStudioToolbar view={view} setView={setView} />
-          </div>
-          {drawer}
-          {main}
-          <FooterBar
-            commitHistory={{ lastCommittedAt: Date.now(), lastCommittedBy: 'harness.io' }}
-            problems={{ error: 2, info: 5, warning: 12 }}
-            togglePane={() => setPanelOpen(!panelOpen)}
-          />
-        </Container.Main>
-      </Container.Root>
-    </div>
+    <Container.Root wFull={true} hFull={true} className="h-[calc(100vh-144px)]">
+      <Container.Main>
+        <div>
+          <PipelineStudioToolbar view={view} setView={setView} />
+        </div>
+        {drawer}
+        {main}
+        <FooterBar
+          commitHistory={{ lastCommittedAt: Date.now(), lastCommittedBy: 'harness.io' }}
+          problems={{ error: 2, info: 5, warning: 12 }}
+          togglePane={() => setPanelOpen(!panelOpen)}
+        />
+      </Container.Main>
+    </Container.Root>
   )
 }

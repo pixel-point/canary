@@ -2,9 +2,18 @@ import React from 'react'
 import { cn } from '@/lib/utils'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './accordion'
 
-function Root({ children }: { children: React.ReactNode }) {
+interface NavbarRootProps {
+  className?: string
+  children: React.ReactNode
+}
+
+function Root({ className, children }: NavbarRootProps) {
   return (
-    <div className="select-none grid grid-rows-[auto_1fr_auto] w-[220px] h-screen overflow-y-auto border-r text-sm text-grey-70 bg-primary-background">
+    <div
+      className={cn(
+        'select-none grid grid-rows-[auto_1fr_auto] w-[220px] h-screen overflow-y-auto border-r text-sm text-grey-70 bg-primary-background',
+        className
+      )}>
       {children}
     </div>
   )

@@ -7,22 +7,28 @@ const Container = {
     wScreen = true,
     hScreen = true,
     wFull = false,
-    hFull = false
+    hFull = false,
+    className = ''
   }: {
     children: React.ReactNode
     wScreen?: boolean
     hScreen?: boolean
     wFull?: boolean
     hFull?: boolean
+    className?: string
   }) {
     return (
       <div
-        className={cn('grid grid-cols-[auto_1fr] bg-grey-6', {
-          'w-screen': wScreen,
-          'h-screen': hScreen,
-          'w-full': wFull,
-          'h-full': hFull
-        })}>
+        className={cn(
+          'grid grid-cols-[auto_1fr] bg-grey-6',
+          {
+            'w-screen': wScreen,
+            'h-screen': hScreen,
+            'w-full': wFull,
+            'h-full': hFull
+          },
+          className
+        )}>
         {children}
       </div>
     )
