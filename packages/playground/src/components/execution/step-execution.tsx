@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tabs, TabsContent, TabsList, TabsTrigger, Input, Button, Text } from '@harnessio/canary'
+import { Tabs, TabsContent, TabsList, TabsTrigger, Input, Button, Text, ScrollArea } from '@harnessio/canary'
 import { Copy, Edit, Download } from '@harnessio/icons-noir'
 import ConsoleLogs from './console-logs'
 import { data } from './mocks/mockStepLogs'
@@ -48,7 +48,7 @@ export const StepExecution: React.FC<StageExecutionProps> = ({ step, stepIndex }
   return (
     <Layout.Vertical>
       <Layout.Horizontal className="flex justify-between items-center">
-        <Text>{step.name}</Text>
+        <Text className="text-lg">{step.name}</Text>
         <ExecutionStatus.Badge status={step.status} duration={getDuration(step.started, step.stopped)} />
       </Layout.Horizontal>
       <Tabs defaultValue={StepExecutionTab.LOG} className="w-full h-full mt-2">
@@ -64,9 +64,9 @@ export const StepExecution: React.FC<StageExecutionProps> = ({ step, stepIndex }
             <StepExecutionToolbar />
           </Layout.Horizontal>
           <TabsContent value={StepExecutionTab.LOG}>
-            <div className="border-t pt-4">
+            <ScrollArea className="h-[calc(100vh-23rem)] border-t pt-4">
               <ConsoleLogs logs={data[stepIndex]} />
-            </div>
+            </ScrollArea>
           </TabsContent>
         </Layout.Vertical>
       </Tabs>

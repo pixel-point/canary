@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, AvatarFallback, AvatarImage } from '@harnessio/canary'
+import { Avatar, AvatarFallback, AvatarImage, Text } from '@harnessio/canary'
 import { Layout } from './layout/layout'
 
 interface ContactCardProps {
@@ -18,8 +18,8 @@ export const ContactCard: React.FC<ContactCardProps> = props => {
         <AvatarFallback>{fallback}</AvatarFallback>
       </Avatar>
       <div className="flex flex-col">
-        <span className="text-white font-normal text-sm">{authorName}</span>
-        <span className="text-white leading-3 text-xs">{authorEmail}</span>
+        <Text className="text-white font-normal text-sm">{authorName}</Text>
+        <Text className="text-user leading-3 text-xs">{authorEmail}</Text>
       </div>
     </Layout.Horizontal>
   )

@@ -11,7 +11,7 @@ export interface ExecutionTreeProps {
 export const ExecutionTree: React.FC<ExecutionTreeProps> = props => {
   const { defaultSelectedId, elements } = props
   return (
-    <Tree className="bg-grey-6 overflow-hidden p-2" initialSelectedId={defaultSelectedId} elements={elements}>
+    <Tree className="bg-grey-6 overflow-hidden" initialSelectedId={defaultSelectedId} elements={elements}>
       {renderTree(elements, props.onSelectNode)}
     </Tree>
   )
