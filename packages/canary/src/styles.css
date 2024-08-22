@@ -97,10 +97,6 @@
     --error: var(--red);
     --warning: var(--orange);
     --ai: var(--purple);
-    --stage: var(--grey-50);
-    --user: var(--grey-40);
-    --git: var(-grey-90);
-    --log: var(--grey-30);
   }
 }
 

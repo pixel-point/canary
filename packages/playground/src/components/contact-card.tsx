@@ -18,7 +18,7 @@ export const ContactCard: React.FC<ContactCardProps> = props => {
         <AvatarFallback>{fallback}</AvatarFallback>
       </Avatar>
       <div className="flex flex-col">
-        <Text className="text-white font-normal text-sm">{authorName}</Text>
+        <Text className="text-primary text-sm">{authorName}</Text>
         <Text className="text-user leading-3 text-xs">{authorEmail}</Text>
       </div>
     </Layout.Horizontal>
