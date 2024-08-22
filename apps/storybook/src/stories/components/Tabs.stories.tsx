@@ -7,7 +7,7 @@ const meta: Meta<TabsProps> = {
   title: 'Components/Tabs',
   component: Tabs,
   parameters: {
-    //layout: '',
+    layout: 'centered',
     docs: {
       description: {
         component: `Tabs component.`
@@ -15,18 +15,17 @@ const meta: Meta<TabsProps> = {
     }
   },
   tags: ['autodocs'],
-
   argTypes: {
-    defaultValue: { control: 'text' },
-    variant: { control: 'select', options: ['default', 'underline'] }
+    variant: { control: 'select', options: ['default', 'underline'] },
+    value: { control: 'text' },
+    defaultValue: { control: 'text' }
   },
-
   args: {
     variant: 'default',
     defaultValue: '1',
     children: (
       <>
-        <TabsList variant="underline">
+        <TabsList>
           <TabsTrigger value="1">Problems</TabsTrigger>
           <TabsTrigger value="2">Solutions</TabsTrigger>
           <TabsTrigger value="3" disabled>
