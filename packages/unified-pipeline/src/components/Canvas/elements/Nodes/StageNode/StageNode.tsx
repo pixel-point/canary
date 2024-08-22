@@ -207,11 +207,11 @@ const StageNodeInternal: React.FC<NodeProps<GroupNodeProps>> = props => {
               }
         }
         className={cx(
-          'flex flex-col items-center justify-between text-xs font-medium leading-3 box-border text-left p-2.5 rounded-lg bg-[rgba(15,16,17,1)] border border-[rgba(48,51,54,1)] border-dashed',
+          'flex flex-col items-center justify-between text-xs font-medium leading-3 box-border text-left p-2.5 rounded-lg bg-studio-6 border border-studio-5 border-dashed',
           { 'justify-center': !isExpanded },
           { 'w-[337px] h-[77px]': showZeroState }
         )}>
-        <div className="flex items-center justify-between w-full px-2.5 box-border">
+        <div className="flex items-center justify-between w-full box-border">
           <div className="flex items-center">
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <Expand
@@ -220,21 +220,21 @@ const StageNodeInternal: React.FC<NodeProps<GroupNodeProps>> = props => {
                   event.stopPropagation()
                   handleNodeExpandCollapse()
                 }}
-                className={'w-6 h-6 rounded-[4px] hover:cursor-pointer  bg-[rgba(147,147,159,0.1)]'}
+                className={'w-6 h-6 rounded-[4px] hover:cursor-pointer bg-studio-2/10'}
               />
               &nbsp;
-              <span className="text-[rgba(174,174,183,1)] text-xs text-nowrap">{name}</span>
-              {memberCount > 0 && <span className="text-xs text-[rgba(147,147,159,1)]">&nbsp;({memberCount})</span>}
+              <span className="text-studio-8 text-xs text-nowrap">{name}</span>
+              {memberCount > 0 && <span className="text-xs text-studio-2">&nbsp;({memberCount})</span>}
             </div>
           </div>
         </div>
         {memberCount === 0 && (
-          <div className="text-[rgba(147,147,159,1)]" onClick={() => {}}>
+          <div className="text-studio-2" onClick={() => {}}>
             + Add your first step
           </div>
         )}
         {expanded && orientation === GroupOrientation.TB && (
-          <Plus className={cx('w-6 h-6 rounded-[4px] bg-[rgba(147,147,159,0.1)]')} />
+          <Plus className={cx('w-6 h-6 rounded-[4px] bg-studio-2/10')} />
         )}
       </div>
       {/**

@@ -12,7 +12,7 @@ export default function RootNode({ data, xPos, yPos, zIndex }: NodeProps<RootNod
   const { sourcePosition = Position.Right } = data
   return (
     <>
-      <div className="w-10 h-10 rounded-full flex justify-center items-center bg-[rgba(29,29,32)]/[1.0]">
+      <div className="w-10 h-10 rounded-full flex justify-center items-center bg-studio-1">
         <PlaySolid color="green" className="hover:cursor-pointer" />
       </div>
       <Handle position={sourcePosition} type="source" />

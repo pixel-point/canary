@@ -10,7 +10,14 @@ module.exports = {
     extend: {
       colors: {
         studio: {
-          1: 'var(--studio-1)'
+          1: 'rgba(var(--studio-1))',
+          2: 'rgba(var(--studio-2))',
+          3: 'rgba(var(--studio-3))',
+          4: 'rgba(var(--studio-4))',
+          5: 'rgba(var(--studio-5))',
+          6: 'rgba(var(--studio-6))',
+          7: 'rgba(var(--studio-7))',
+          8: 'rgba(var(--studio-8))'
         }
       }
     }

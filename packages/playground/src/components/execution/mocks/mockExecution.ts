@@ -42,7 +42,7 @@ export const data = {
         {
           number: 1,
           name: 'Fortify',
-          status: ExecutionState.FAILURE,
+          status: ExecutionState.RUNNING,
           exit_code: 0,
           started: 1722296944000,
           stopped: 1722296949000,

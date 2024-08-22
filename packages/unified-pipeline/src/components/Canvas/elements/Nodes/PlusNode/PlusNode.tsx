@@ -39,7 +39,7 @@ export default function PlusNode({ data, xPos, yPos, zIndex }: NodeProps<PlusNod
   return (
     <>
       <Handle position={targetPosition} type="target" />
-      <div className="w-5 h-5 rounded-full flex justify-center items-center border border-[rgb(48,48,54)]/[0.6] bg-[rgb(29,29,32)]/[1.0]">
+      <div className="w-5 h-5 rounded-full flex justify-center items-center border border-studio-4/[0.6] bg-studio-1">
         <Plus className="hover:cursor-pointer" />
       </div>
       {enableDiagnostics?.Node && (

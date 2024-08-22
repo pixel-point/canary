@@ -27,16 +27,16 @@ const Badge: React.FC<ExecutionStatusProps & BadgeProps> = props => {
     case ExecutionState.RUNNING:
       return minimal ? (
         <div className="flex items-center gap-1">
-          <div className="w-2 h-2 bg-[rgba(226,155,54,1)] rounded-full" />
+          <div className="w-2 h-2 bg-studio-3 rounded-full" />
           <span className="text-white">Running</span>
         </div>
       ) : (
-        <div className="flex gap-1 items-center border-solid border border-[rgba(226,155,54,1)]/[0.12] px-1 py-0.5 rounded-md bg-[rgba(226,155,54,1)]/[0.1]">
+        <div className="flex gap-1 items-center border-solid border border-studio-3/[0.12] px-1 py-0.5 rounded-md bg-studio-3/10">
           <div className="flex gap-1 items-center">
             <Refresh color="rgba(226,155,54,1)" size="16" className="animate-spin" />
-            <span className="text-[rgba(226,155,54,1)]">Running</span>
+            <span className="text-studio-3">Running</span>
           </div>
-          {duration && <span className="text-[rgba(226,155,54,1)]">{formatDuration(duration)}</span>}
+          {duration && <span className="text-studio-3">{formatDuration(duration)}</span>}
         </div>
       )
     case ExecutionState.ERROR:

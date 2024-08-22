@@ -26,7 +26,7 @@ const CircleOverlay = (props: CircleOverlayInterface) => {
       {circles.map((circle, index) => (
         <div
           key={index}
-          className={`w-[${circle.size}] h-[${circle.size}] absolute translate-x-[-50%] translate-y-[-50%] rounded-full bg-[rgba(255,255,255,${circle.opacity})]`}
+          className={`w-[${circle.size}] h-[${circle.size}] absolute translate-x-[-50%] translate-y-[-50%] rounded-full bg-white/[${circle.opacity}]`}
           style={
             {
               top: props.position.y,

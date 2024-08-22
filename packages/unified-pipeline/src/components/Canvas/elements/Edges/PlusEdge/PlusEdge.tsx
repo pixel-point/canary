@@ -93,8 +93,7 @@ export default function PlusEdge(props: EdgeProps<PlusEdgeProps>) {
               }}
               /* https://github.com/xyflow/xyflow/discussions/3498#discussioncomment-7263647 */
               className={cx(
-                'w-5 h-5 border border-[rgba(48,48,54,0.6)] bg-[rgba(29,29,32,1)] flex items-center justify-center rounded-full',
-                'z-[1]',
+                'z-[1] w-5 h-5 border border-studio-4/[0.6] bg-studio-1 flex items-center justify-center rounded-full',
                 {
                   'z-[2]': data?.zIndex === 2
                 }
