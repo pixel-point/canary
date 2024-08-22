@@ -1,4 +1,4 @@
-import { Badge, Icon, Spacer, StackedList, Text } from '@harnessio/canary'
+import { Badge, Icon, StackedList } from '@harnessio/canary'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
@@ -13,7 +13,6 @@ interface Repo {
 }
 
 interface PageProps {
-  pageTitle: string
   repos?: Repo[]
 }
 
@@ -47,15 +46,10 @@ const Title = ({ title, isPrivate }: { title: string; isPrivate: boolean }) => (
 )
 
 export default function RepoList({ ...props }: PageProps) {
-  const { pageTitle, repos } = props
+  const { repos } = props
 
   return (
-    // TODO: get layout componentized, this wrapper div is just for quick presentation!
-    <div className="px-16 py-16 max-w-[1200px] min-w-[770px] mx-auto">
-      <Text size={5} weight={'medium'}>
-        {pageTitle}
-      </Text>
-      <Spacer size={6} />
+    <>
       {repos && repos.length > 0 && (
         <StackedList.Root>
           {repos.map((repo, repo_idx) => (
@@ -84,6 +78,6 @@ export default function RepoList({ ...props }: PageProps) {
       {!repos && (
         <></> // Handle loading/no items
       )}
-    </div>
+    </>
   )
 }

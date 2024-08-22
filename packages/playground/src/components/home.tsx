@@ -1,7 +1,7 @@
 import { Badge, Icon } from '@harnessio/canary'
 import React from 'react'
 
-export default function HomePage() {
+export default function Home() {
   return (
     <div>
       <p className="text-destructive">Home page</p>

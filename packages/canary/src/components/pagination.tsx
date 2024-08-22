@@ -1,14 +1,14 @@
 import * as React from 'react'
-import { ChevronLeftIcon, ChevronRightIcon, DotsHorizontalIcon } from '@radix-ui/react-icons'
-
+import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { cn } from '@/lib/utils'
 import { ButtonProps, buttonVariants } from '@/components/button'
+import { Icon } from './icon'
 
 const Pagination = ({ className, ...props }: React.ComponentProps<'nav'>) => (
   <nav
     role="navigation"
     aria-label="pagination"
-    className={cn('mx-auto flex w-full justify-center', className)}
+    className={cn('mx-auto flex w-full max-w-full items-center justify-between', className)}
     {...props}
   />
 )
@@ -16,7 +16,7 @@ Pagination.displayName = 'Pagination'
 
 const PaginationContent = React.forwardRef<HTMLUListElement, React.ComponentProps<'ul'>>(
   ({ className, ...props }, ref) => (
-    <ul ref={ref} className={cn('flex flex-row items-center gap-1', className)} {...props} />
+    <ul ref={ref} className={cn('flex flex-grow items-center justify-center gap-3', className)} {...props} />
   )
 )
 PaginationContent.displayName = 'PaginationContent'
@@ -31,16 +31,16 @@ type PaginationLinkProps = {
 } & Pick<ButtonProps, 'size'> &
   React.ComponentProps<'a'>
 
-const PaginationLink = ({ className, isActive, size = 'icon', ...props }: PaginationLinkProps) => (
+const PaginationLink = ({ className, isActive, size, ...props }: PaginationLinkProps) => (
   <a
     aria-current={isActive ? 'page' : undefined}
     className={cn(
       buttonVariants({
         variant: isActive ? 'secondary' : 'tertiary',
-        size: size ? size : 'sm',
+        size: size ? size : 'sm_icon',
         borderRadius: 'full'
       }),
-      'text-[12px] font-light',
+      'text-[12px] font-normal',
       className
     )}
     {...props}
@@ -53,12 +53,12 @@ const PaginationPrevious = ({ isActive, className, ...props }: React.ComponentPr
     aria-label="Go to previous page"
     size="default"
     className={cn(
-      'gap-1 pl-2.5 text-sm font-light bg-transparent',
+      'gap-1.5 pl-2.5 text-sm font-normal bg-transparent',
       { 'text-tertiary-background opacity-50 cursor-default': !isActive },
       className
     )}
     {...props}>
-    <ChevronLeftIcon className="h-4 w-4" />
+    <Icon name="arrow-long" size={12} className="rotate-180 text-tertiary-background opacity-50" />
     <span>Previous</span>
   </PaginationLink>
 )
@@ -68,10 +68,10 @@ const PaginationNext = ({ className, ...props }: React.ComponentProps<typeof Pag
   <PaginationLink
     aria-label="Go to next page"
     size="default"
-    className={cn('gap-1 pr-2.5 text-sm font-light bg-transparent', className)}
+    className={cn('gap-1.5 pr-2.5 text-sm font-normal bg-transparent', className)}
     {...props}>
     <span>Next</span>
-    <ChevronRightIcon className="h-4 w-4" />
+    <Icon name="arrow-long" size={12} />
   </PaginationLink>
 )
 PaginationNext.displayName = 'PaginationNext'
@@ -79,7 +79,7 @@ PaginationNext.displayName = 'PaginationNext'
 const PaginationEllipsis = ({ className, ...props }: React.ComponentProps<'span'>) => (
   <span
     aria-hidden
-    className={cn('flex h-7 w-7 items-center justify-center text-sm font-light bg-tertiary rounded-full', className)}
+    className={cn('flex h-7 w-7 items-center justify-center text-sm font-normal bg-tertiary rounded-full', className)}
     {...props}>
     <DotsHorizontalIcon className="h-4 w-4" />
     <span className="sr-only">More pages</span>

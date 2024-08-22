@@ -1,10 +1,8 @@
 import React from 'react'
 import {
-  Text,
   Spacer,
   ListActions,
   ListPagination,
-  Button,
   SearchBox,
   Pagination,
   PaginationContent,
@@ -12,83 +10,79 @@ import {
   PaginationPrevious,
   PaginationLink,
   PaginationEllipsis,
-  PaginationNext
+  PaginationNext,
+  Button
 } from '@harnessio/canary'
-import PipelineList from '../components/pipeline-list'
+import ExecutionList from '../components/execution-list'
+import { Link } from 'react-router-dom'
 
-const mockPipelines = [
+const mockExecutions = [
   {
     id: '1',
+    number: 733,
     success: true,
-    name: 'TI v2 - Build jhttp - cloud',
+    name: 'removing duplicated metrics for servers and swapping to pattern math…',
     sha: '93dbd09a',
     description: 'fix(deps): update module github.com/aws/aws-sdk-go to',
     version: 'v1.5.4.20',
-    timestamp: '2 hours ago'
+    timestamp: '7 days ago',
+    lastTimestamp: '11:24'
   },
   {
     id: '2',
+    number: 732,
     success: true,
-    name: 'Zuul Cloud',
+    name: '(fix) CI-9642 update go version, remove cli warning messages',
     sha: '366177a6',
     description: 'Update module github.com/aws/aws-sdk-go to',
     version: 'v1.54.19',
-    timestamp: '3 hours ago'
+    timestamp: '4 months ago',
+    lastTimestamp: '11:20'
   },
   {
     id: '3',
+    number: 731,
     success: true,
-    name: 'Zuul K8S',
+    name: 'Bump github.com/containerd/containerd from 1.6.8 to 1.6.18',
     sha: 'da7c1c67',
     description: 'feat: [CDE-119]: Add task handling to spawn and cleanup VM for CDE/gitspaces on bare metalo',
     version: 'v1.5.4.20',
-    timestamp: '5 hours ago'
+    timestamp: '7 months ago',
+    lastTimestamp: '10:50'
   },
   {
     id: '4',
+    number: 730,
     success: true,
-    name: 'build scan push K8S - Trivy',
+    name: '(fix) setup dependencies in drone build',
     sha: '93dbd09a',
     description: 'fix: [CI-13371]: Fix log closers in case of step timeouts',
     version: 'v1.5.4.20',
-    timestamp: '5 hours ago'
+    timestamp: '7 months ago',
+    lastTimestamp: '04:12'
   },
 
   {
     id: '5',
+    number: 729,
     success: false,
-    name: 'build scan push test - k8s - Clone 2',
+    name: 'Add support for jpath in jsonnet (#224) * Add support for jpath in jsonnet Co-a',
     sha: 'fe54f9b1',
     description: 'Update go-jsonnet version to',
     version: 'v0.20.0',
-    timestamp: '13 hours ago'
+    timestamp: '7 months ago',
+    lastTimestamp: '05:36'
   },
   {
     id: '6',
+    number: 728,
     success: true,
-    name: 'build scan push test - cloud',
+    name: 'fix: use right parameter name for secrets-file',
     sha: 'b7765ad1',
     description: 'update google/go-jsonnet version to',
     version: 'v0.20.0',
-    timestamp: '14 hours ago'
-  },
-  {
-    id: '7',
-    success: false,
-    name: 'build scan push test - k8s',
-    sha: 'cf5f4b4a',
-    description: 'fix: [CI-11759]: Fixing sum for Harness code',
-    version: 'v1.5.4.20',
-    timestamp: '15 hours ago'
-  },
-  {
-    id: '8',
-    success: true,
-    name: 'build scan push test - k8s - Clone',
-    sha: 'da7c1c67',
-    description: 'fix: [CI-13371]: Fix log closers in case of step timeouts',
-    version: 'v1.5.4.20',
-    timestamp: '16 hours ago'
+    timestamp: '10 months ago',
+    lastTimestamp: '04:06'
   }
 ]
 
@@ -96,14 +90,10 @@ const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' },
 const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
 const viewOptions = [{ name: 'View option 1' }, { name: 'View option 2' }]
 
-function PipelineListPage() {
+function RepoExecutionListPage() {
   return (
     // TODO: get layout componentized, this wrapper div is just for quick presentation!
-    <div className="px-16 py-16 max-w-[1200px] min-w-[770px] mx-auto">
-      <Text size={5} weight={'medium'}>
-        Pipelines
-      </Text>
-      <Spacer size={6} />
+    <div className="px-6 pb-16 max-w-[1200px] min-w-[770px] mx-auto">
       <ListActions.Root>
         <ListActions.Left>
           <SearchBox.Root placeholder="Search" />
@@ -112,11 +102,13 @@ function PipelineListPage() {
           <ListActions.Dropdown title="Filter" items={filterOptions} />
           <ListActions.Dropdown title="Sort" items={sortOptions} />
           <ListActions.Dropdown title="View" items={viewOptions} />
-          <Button variant="default">Create Pipeline</Button>
+          <Button variant="default" asChild>
+            <Link to="edit">Edit Pipeline</Link>
+          </Button>
         </ListActions.Right>
       </ListActions.Root>
       <Spacer size={5} />
-      <PipelineList pipelines={mockPipelines} />
+      <ExecutionList executions={mockExecutions} />
       <Spacer size={8} />
       <ListPagination.Root>
         <Pagination>
@@ -160,4 +152,4 @@ function PipelineListPage() {
   )
 }
 
-export default PipelineListPage
+export default RepoExecutionListPage

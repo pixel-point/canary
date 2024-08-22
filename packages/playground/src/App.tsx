@@ -6,6 +6,7 @@ import RootLayout from './layouts/RootLayout'
 import RepoLayout from './layouts/RepoLayout'
 import PipelineLayout from './layouts/PipelineLayout'
 import PullRequestLayout from './layouts/PullRequestLayout'
+import ErrorPage from './pages/error-page'
 import HomePage from './pages/home-page'
 import RepoListPage from './pages/repo-list-page'
 import RepoDetailsPage from './pages/repo-details-page'
@@ -25,11 +26,14 @@ import PullRequestChangesPage from './pages/pull-request-changes-page'
 import PullRequestChecksPage from './pages/pull-request-checks-page'
 import PipelineEdit from './pages/pipeline-edit-page'
 import PullRequestCommitsPage from './pages/pull-request-commits-page'
+import RepoPipelineListPage from './pages/repo-pipeline-list-page'
+import RepoExecutionListPage from './pages/repo-execution-list-page'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <RootLayout />,
+    errorElement: <ErrorPage />,
     children: [
       // LANDING, SIGN UP & SIGN IN
       {
@@ -59,7 +63,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'pipelines',
-            element: <PipelineListPage />
+            element: <RepoPipelineListPage />
           },
           {
             path: 'pipelines/:pipelineId',
@@ -67,7 +71,7 @@ const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: <ExecutionListPage />
+                element: <RepoExecutionListPage />
               },
               {
                 path: 'edit',
@@ -75,7 +79,7 @@ const router = createBrowserRouter([
               },
               {
                 path: 'executions',
-                element: <ExecutionListPage />
+                element: <RepoExecutionListPage />
               },
               {
                 path: 'executions/:executionId',
@@ -138,7 +142,7 @@ const router = createBrowserRouter([
             children: [
               {
                 path: 'executions',
-                element: <ExecutionListPage />,
+                element: <RepoExecutionListPage />,
                 children: [
                   {
                     path: ':executionId',
@@ -149,6 +153,11 @@ const router = createBrowserRouter([
             ]
           }
         ]
+      },
+      // EXECUTIONS (OUTSIDE REPOS)
+      {
+        path: 'executions',
+        element: <ExecutionListPage />
       }
     ]
   }
