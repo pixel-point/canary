@@ -22,35 +22,32 @@ const FooterBar: React.FC<FooterProps> = (props: FooterProps) => {
   return (
     <footer
       className={
-        'flex items-center justify-between font-normal leading-[15px] px-4 h-10 bg-grey-6 shrink-0 border border-solid text-grey-60 not-italic border-[#1d1d20] text-[12px]'
+        'flex items-center justify-between font-normal leading-[15px] px-4 h-10 bg-grey-6 shrink-0 border-border border-t text-grey-60 not-italic border-[#1d1d20] text-[12px]'
       }>
-      <div className="flex items-center">
+      <div className="flex gap-2 items-center">
         <div
           onClick={() => {
             props.togglePane?.()
           }}
-          className="flex cursor-pointer hover:bg-white/20 h-10 px-2">
-          <div className="flex items-center">
-            <XmarkCircle />
-            &nbsp;
-            <span className="text-white">{props.problems.error}</span>
+          className="flex gap-2 cursor-pointer hover:bg-primary/10 h-full px-2 py-1.5 rounded-md ease-in-out duration-150">
+          <div className="flex items-center gap-1.5">
+            <XmarkCircle className="text-tertiary-background" />
+            <span className="text-[12px] text-primary">{props.problems.error}</span>
           </div>
-          <div className={'flex items-center mx-2.5'}>
-            <WarningTriangle />
-            &nbsp;
-            <span className="text-white">{props.problems.warning}</span>
+          <div className="flex items-center gap-1.5">
+            <WarningTriangle className="text-tertiary-background" />
+            <span className="text-[12px] text-primary">{props.problems.warning}</span>
           </div>
-          <div className="flex items-center">
-            <InfoCircle />
-            &nbsp;
-            <span className="text-white">{props.problems.info}</span>
+          <div className="flex items-center gap-1.5">
+            <InfoCircle className="text-tertiary-background" />
+            <span className="text-[12px] text-primary">{props.problems.info}</span>
           </div>
         </div>
-        <div className={'flex ml-2'}>
-          <div className="flex items-baseline">
-            <span>Repository:</span>
+        <div className={'flex gap-2'}>
+          <div className="flex gap-1 items-center">
+            <span className="text-tertiary-background text-[12px]">Repository:</span>
             <Select defaultValue="harness-next">
-              <SelectTrigger className="w-fit border-none px-1 text-white text-xs focus:ring-[0px]">
+              <SelectTrigger className="w-fit border-none px-1 text-primary text-[12px] focus:ring-[0px]">
                 <SelectValue placeholder="Select..." />
               </SelectTrigger>
               <SelectContent>
@@ -61,10 +58,10 @@ const FooterBar: React.FC<FooterProps> = (props: FooterProps) => {
               </SelectContent>
             </Select>
           </div>
-          <div className={'flex items-baseline ml-2.5'}>
-            <span>Branch:</span>
+          <div className={'flex items-baseline'}>
+            <span className="text-tertiary-background text-[12px]">Branch:</span>
             <Select defaultValue="main">
-              <SelectTrigger className="w-fit border-none px-1 text-white text-xs focus:ring-[0px]">
+              <SelectTrigger className="w-fit border-none px-1 text-primary text-[12px] focus:ring-[0px]">
                 <SelectValue placeholder="Select..." />
               </SelectTrigger>
               <SelectContent>
@@ -78,10 +75,10 @@ const FooterBar: React.FC<FooterProps> = (props: FooterProps) => {
         </div>
       </div>
       {lastCommittedAt && lastCommittedBy && (
-        <div className="flex">
+        <div className="flex text-[12px] text-tertiary-background">
           Last edited
-          <span className="text-white">&nbsp;{moment(lastCommittedAt).fromNow()}&nbsp;</span>ago by
-          <span className="text-white">&nbsp;{lastCommittedBy}&nbsp;</span>
+          <span className="text-primary">&nbsp;{moment(lastCommittedAt).fromNow()}&nbsp;</span>ago by
+          <span className="text-primary">&nbsp;{lastCommittedBy}&nbsp;</span>
         </div>
       )}
     </footer>

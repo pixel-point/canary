@@ -39,6 +39,7 @@ interface ListItemProps extends React.ComponentProps<'div'>, VariantProps<typeof
   actions?: React.ReactNode
   asChild?: boolean
   isLast?: boolean
+  isHeader?: boolean
 }
 
 interface ListFieldProps extends Omit<React.ComponentProps<'div'>, 'title'>, VariantProps<typeof listFieldVariants> {
@@ -56,14 +57,15 @@ const List = ({ className, children, ...props }: ListProps) => (
 
 List.displayName = 'StackedList'
 
-const ListItem = ({ className, children, thumbnail, actions, asChild, isLast, ...props }: ListItemProps) => {
+const ListItem = ({ className, children, thumbnail, actions, asChild, isLast, isHeader, ...props }: ListItemProps) => {
   const Comp = asChild ? Slot : 'div'
   return (
     <Comp
       className={cn(
         listItemVariants({}),
         className,
-        isLast ? 'border-none' : 'border-b' // Apply the border-b class only if it's not the last item
+        isLast ? 'border-none' : 'border-b', // Apply the border-b class only if it's not the last item
+        isHeader ? 'bg-primary/[0.01]' : ''
       )}
       {...props}>
       {thumbnail && <div className="mr-2 flex items-center">{thumbnail}</div>}

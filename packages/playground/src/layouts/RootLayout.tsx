@@ -71,16 +71,16 @@ const RootLayout: React.FC = () => {
 
   const sampleProjectList = [
     {
-      title: 'Playground',
-      icon: <Icon name="archive" />
+      title: 'Playground'
+      // icon: <Icon name="archive" />
     },
     {
-      title: 'Drone',
-      icon: <Icon name="archive" />
+      title: 'Drone'
+      // icon: <Icon name="archive" />
     },
     {
-      title: 'Pixel Point',
-      icon: <Icon name="archive" />
+      title: 'Pixel Point'
+      // icon: <Icon name="archive" />
     }
   ]
 

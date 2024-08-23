@@ -1,13 +1,19 @@
 import React from 'react'
-import { cn } from '@harnessio/canary'
+import { cn, Spacer } from '@harnessio/canary'
 
 interface PaddingListLayoutProps {
   className?: string
+  spaceTop?: boolean
   children: React.ReactNode
 }
 
-const PaddingListLayout = ({ className, children }: PaddingListLayoutProps) => {
-  return <div className={cn('pt-10 px-6 pb-16 max-w-[1200px] min-w-[770px] mx-auto', className)}>{children}</div>
+const PaddingListLayout = ({ className, spaceTop = true, children }: PaddingListLayoutProps) => {
+  return (
+    <div className={cn('pt-7 px-8 pb-16 max-w-full md:max-w-[1000px] 2xl:max-w-[1200px] mx-auto', className)}>
+      {spaceTop && <Spacer size={8} />}
+      {children}
+    </div>
+  )
 }
 
 export default PaddingListLayout

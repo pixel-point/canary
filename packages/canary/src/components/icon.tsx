@@ -19,6 +19,11 @@ import Success from '../icons/success.svg'
 import Fail from '../icons/fail.svg'
 import TubeSign from '../icons/tube-sign.svg'
 import Signpost from '../icons/signpost.svg'
+import Merged from '../icons/merged.svg'
+import Unmerged from '../icons/unmerged.svg'
+import Comments from '../icons/comments.svg'
+import Tasks from '../icons/tasks.svg'
+import Tick from '../icons/tick.svg'
 // import Fork from '../icons/fork.svg'
 
 const IconNameMap = {
@@ -41,7 +46,12 @@ const IconNameMap = {
   success: Success,
   fail: Fail,
   'tube-sign': TubeSign,
-  signpost: Signpost
+  signpost: Signpost,
+  merged: Merged,
+  unmerged: Unmerged,
+  comments: Comments,
+  tasks: Tasks,
+  tick: Tick
   // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 

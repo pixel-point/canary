@@ -195,3 +195,11 @@
 .entity-list-action-chevron {
   @apply transition-transform transform rotate-0 text-tertiary-background group-hover:text-primary;
 }
+
+/* Temporary studio controls override */
+.react-flow__panel {
+  @apply m-6 flex gap-[1px] left-auto right-0 !important;
+}
+.react-flow__controls-button {
+  @apply invert rounded-md !important;
+}

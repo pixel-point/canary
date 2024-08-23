@@ -105,11 +105,11 @@ const PipelineStudioToolbar = ({
   setView: (view: VisualYamlValue) => void
 }) => {
   return (
-    <Topbar.Root className={cx({ ['border-b-0']: view === 'visual' })}>
+    <Topbar.Root className={cx({ ['border-b-0 px-8 bg-transparent']: view === 'visual' })}>
       <Topbar.Left>
         <VisualYamlToggle view={view} setView={setView} isYamlValid={true} />
       </Topbar.Left>
-      <Topbar.Center>AITextEditor placeholder</Topbar.Center>
+      {/* <Topbar.Center>AITextEditor placeholder</Topbar.Center> */}
       {view === 'yaml' && (
         <Topbar.Right>
           <PipelineStudioToolbarActions
@@ -281,9 +281,7 @@ export default function PipelineEditPage() {
   return (
     <Container.Root wFull={true} hFull={true} className="h-[calc(100vh-100px)]">
       <Container.Main>
-        <div>
-          <PipelineStudioToolbar view={view} setView={setView} />
-        </div>
+        <PipelineStudioToolbar view={view} setView={setView} />
         {drawer}
         {main}
         <FooterBar

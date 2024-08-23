@@ -24,7 +24,9 @@ const RepoLayout: React.FC = () => {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/">{repoId}</BreadcrumbLink>
+                <BreadcrumbLink className="font-medium text-primary" href="/">
+                  {repoId}
+                </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="font-thin">&nbsp;/&nbsp;</BreadcrumbSeparator>
               <BreadcrumbPage>

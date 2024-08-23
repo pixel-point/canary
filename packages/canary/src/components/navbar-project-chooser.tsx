@@ -3,12 +3,10 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Icon } from './icon'
 
 interface ProjectProps {
-  projects: [
-    {
-      title: string
-      icon: React.ReactElement<SVGSVGElement>
-    }
-  ]
+  projects: {
+    title: string
+    icon: React.ReactElement<SVGSVGElement>
+  }[]
   name: string
   avatar: React.ReactElement<SVGSVGElement>
 }
@@ -28,9 +26,12 @@ function Root({ projects, avatar, name }: ProjectProps) {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[180px] p-0 mt-3">
-        {projects.map((project, project_idx) => {
-          return <DropdownMenuItem key={project_idx}>{project.title}</DropdownMenuItem>
-        })}
+        {projects.map((project, project_idx) => (
+          <DropdownMenuItem key={project_idx}>
+            {project.icon}
+            {project.title}
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   )

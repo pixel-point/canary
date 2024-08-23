@@ -94,7 +94,7 @@ const viewOptions = [{ name: 'View option 1' }, { name: 'View option 2' }]
 function RepoExecutionListPage() {
   return (
     //Wrapper component for padding and list layout-Jessie
-    <PaddingListLayout>
+    <PaddingListLayout spaceTop={false}>
       <ListActions.Root>
         <ListActions.Left>
           <SearchBox.Root placeholder="Search" />

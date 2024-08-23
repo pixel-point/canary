@@ -28,6 +28,7 @@ import PipelineEdit from './pages/pipeline-edit-page'
 import PullRequestCommitsPage from './pages/pull-request-commits-page'
 import RepoPipelineListPage from './pages/repo-pipeline-list-page'
 import RepoExecutionListPage from './pages/repo-execution-list-page'
+import FullscreenLayout from './layouts/FullscreenLayout'
 
 const router = createBrowserRouter([
   {
@@ -35,18 +36,10 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     errorElement: <ErrorPage />,
     children: [
-      // LANDING, SIGN UP & SIGN IN
+      // LANDING
       {
         path: '/',
         element: <HomePage />
-      },
-      {
-        path: 'signup',
-        element: <SignUpPage />
-      },
-      {
-        path: 'signin',
-        element: <SignInPage />
       },
       // REPOS
       {
@@ -158,6 +151,27 @@ const router = createBrowserRouter([
       {
         path: 'executions',
         element: <ExecutionListPage />
+      }
+    ]
+  },
+  // SIGN IN & SIGN UP with FullscreenLayout
+  {
+    path: 'signin',
+    element: <FullscreenLayout />,
+    children: [
+      {
+        index: true,
+        element: <SignInPage />
+      }
+    ]
+  },
+  {
+    path: 'signup',
+    element: <FullscreenLayout />,
+    children: [
+      {
+        index: true,
+        element: <SignUpPage />
       }
     ]
   }
