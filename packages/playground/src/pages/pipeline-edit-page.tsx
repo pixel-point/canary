@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { stringify } from 'yaml'
 import cx from 'classnames'
 import { noop } from 'lodash-es'
@@ -49,7 +49,7 @@ MonacoGlobals.set({
 })
 
 function GraphView() {
-  const nodes = useMemo(() => getNodesFromPipelineYaml(pipeline as unknown as string), [])
+  const nodes = useMemo(() => getNodesFromPipelineYaml(pipeline), [])
   return <PipelineStudio nodes={nodes} onAddNode={noop} onDeleteNode={noop} onSelectNode={noop} />
 }
 
@@ -227,8 +227,12 @@ const StepPalettePanel = (): JSX.Element => {
 
 export default function PipelineEditPage() {
   const [view, setView] = useState<'visual' | 'yaml'>('visual')
-  const [panelOpen, setPanelOpen] = useState(true)
+  const [panelOpen, setPanelOpen] = useState(false)
   const [drawerOpen, setDrawerOpen] = useState<'palette' | 'stepform'>()
+
+  useEffect(() => {
+    setPanelOpen(view === 'yaml')
+  }, [view])
 
   const main = useMemo(() => {
     return (

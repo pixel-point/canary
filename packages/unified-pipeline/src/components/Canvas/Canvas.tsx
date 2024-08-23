@@ -26,8 +26,6 @@ import CircleOverlay, { Position } from '../../components/CircleOverlay/CircleOv
 
 import 'reactflow/dist/style.css'
 
-const ANIMATION_DURATION = 500
-
 interface CanvasLayoutProps {
   height: number
   width: number
@@ -75,12 +73,12 @@ const CanvasInternal = (props: CanvasProps) => {
     }).then(({ nodes: layoutedNodes, edges: layoutedEdges }) => {
       setNodes([...layoutedNodes, ...childNodes])
       setEdges(layoutedEdges)
-      window.requestAnimationFrame(() =>
+      window.requestAnimationFrame(() => {
         fitView({
-          duration: ANIMATION_DURATION,
-          nodes: [{ id: layoutedNodes[1].id }]
+          nodes: [{ id: layoutedNodes[1].id }],
+          maxZoom: 1
         })
-      )
+      })
     })
   }, [props.nodes, props.edges])
 
@@ -156,12 +154,6 @@ const CanvasInternal = (props: CanvasProps) => {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         proOptions={{ hideAttribution: true }}
-        fitView
-        onInit={instance =>
-          setTimeout(() => window.requestAnimationFrame(() => instance.fitView({ duration: ANIMATION_DURATION })), 0)
-        }
-        minZoom={0.5}
-        maxZoom={1}
         /* https://github.com/xyflow/xyflow/discussions/2827 */
         nodeOrigin={[0.5, 0.5]}>
         <Controls>
