@@ -15,6 +15,7 @@ import {
   PaginationEllipsis,
   PaginationNext
 } from '@harnessio/canary'
+import PaddingListLayout from '../layouts/PaddingListLayout'
 
 const mockRepos = [
   {
@@ -95,8 +96,7 @@ const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { nam
 
 function RepoListPage() {
   return (
-    // TODO: get layout componentized, this wrapper div is just for quick presentation!
-    <div className="px-16 py-16 max-w-[1200px] min-w-[770px] mx-auto">
+    <PaddingListLayout>
       <Text size={5} weight={'medium'}>
         Repositories
       </Text>
@@ -152,7 +152,7 @@ function RepoListPage() {
           </PaginationContent>
         </Pagination>
       </ListPagination.Root>
-    </div>
+    </PaddingListLayout>
   )
 }
 
