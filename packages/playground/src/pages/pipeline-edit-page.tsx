@@ -279,7 +279,7 @@ export default function PipelineEditPage() {
   )
 
   return (
-    <Container.Root wFull={true} hFull={true} className="h-[calc(100vh-144px)]">
+    <Container.Root wFull={true} hFull={true} className="h-[calc(100vh-100px)]">
       <Container.Main>
         <div>
           <PipelineStudioToolbar view={view} setView={setView} />
