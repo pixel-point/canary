@@ -5,6 +5,7 @@ import { mockReviewers } from './mocks/mockReviewer'
 import PullRequestFilters from './pull-request-filters'
 import PullRequestPanel from './pull-request-panel'
 import { mockPullReqMetadata } from './mocks/mockPullReqMetadata'
+import { mockChecksSuccessData } from './mocks/mockChecksData'
 
 export default function PullRequestConversation() {
   const dateFilters = useDateFilters()
@@ -14,7 +15,7 @@ export default function PullRequestConversation() {
   return (
     <div>
       <div className="grid grid-cols-[70%_30%]">
-        <PullRequestPanel pullReqMetadata={mockPullReqMetadata} PRStateLoading={false} />
+        <PullRequestPanel checks={mockChecksSuccessData} pullReqMetadata={mockPullReqMetadata} PRStateLoading={false} />
         <PullRequestSideBar
           // repoMetadata={undefined}
           pullRequestMetadata={undefined}

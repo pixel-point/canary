@@ -1,5 +1,6 @@
 import { Badge, cn, Icon, StackedList, Text } from '@harnessio/canary'
 import React, { useMemo, useState } from 'react'
+import cx from 'classnames'
 import { Link } from 'react-router-dom'
 
 interface PullRequestProps {
@@ -24,18 +25,34 @@ interface PageProps {
   pullRequests?: PullRequestProps[]
 }
 
-const HeaderTitle = ({ setHeaderFilter }: { setHeaderFilter: (state: string) => void }) => {
+const HeaderTitle = ({
+  setHeaderFilter,
+  headerFilter
+}: {
+  setHeaderFilter: (state: string) => void
+  headerFilter: string
+}) => {
   return (
     <div className="flex gap-4 items-center">
-      <div onClick={() => setHeaderFilter('open')} className="flex gap-2 items-center">
+      <div
+        onClick={() => setHeaderFilter('open')}
+        className={cx('flex gap-2 items-center', {
+          'text-white': headerFilter === 'open',
+          'text-tertiary-background': headerFilter !== 'open'
+        })}>
         <Icon size={16} name="merged" />
         <Text size={2} truncate>
           122 Open
         </Text>
       </div>
-      <div onClick={() => setHeaderFilter('closed')} className="flex gap-2 items-center">
-        <Icon size={12} name="tick" className="text-tertiary-background" />
-        <Text size={2} className="text-tertiary-background" truncate>
+      <div
+        onClick={() => setHeaderFilter('closed')}
+        className={cx('flex gap-2 items-center', {
+          'text-white': headerFilter === 'closed',
+          'text-tertiary-background': headerFilter !== 'closed'
+        })}>
+        <Icon size={12} name="tick" />
+        <Text size={2} truncate>
           8,128 Closed
         </Text>
       </div>
@@ -147,10 +164,14 @@ export default function PullRequestList({ ...props }: PageProps) {
       {filteredData && filteredData.length > 0 && (
         <StackedList.Root>
           <StackedList.Item isHeader>
-            <StackedList.Field title={<HeaderTitle setHeaderFilter={setHeaderFilter} />}></StackedList.Field>
+            <StackedList.Field
+              title={<HeaderTitle headerFilter={headerFilter} setHeaderFilter={setHeaderFilter} />}></StackedList.Field>
           </StackedList.Item>
           {filteredData?.map((pullRequest, pullRequest_idx) => (
-            <StackedList.Item key={pullRequest.name} isLast={filteredData.length - 1 === pullRequest_idx} asChild>
+            <StackedList.Item
+              key={`${pullRequest.name}-${pullRequest_idx}`}
+              isLast={filteredData.length - 1 === pullRequest_idx}
+              asChild>
               <Link to={pullRequest.id}>
                 <StackedList.Field
                   title={

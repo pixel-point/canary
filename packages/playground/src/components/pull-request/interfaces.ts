@@ -109,3 +109,42 @@ export interface TypesPrincipalInfo {
   uid?: string
   updated?: number
 }
+
+export interface TypesCheck {
+  created?: number
+  ended?: number
+  id?: number
+  identifier?: string
+  link?: string
+  metadata?: unknown
+  payload?: TypesCheckPayload
+  reported_by?: TypesPrincipalInfo
+  started?: number
+  status?: EnumCheckStatus
+  summary?: string
+  updated?: number
+}
+
+export interface TypeCheckData {
+  bypassable: boolean
+  required: boolean
+  check: TypesCheck
+}
+
+export interface TypesCheckPayload {
+  data?: unknown
+  kind?: EnumCheckPayloadKind
+  version?: string
+}
+export type EnumCheckPayloadKind = '' | 'markdown' | 'pipeline' | 'raw'
+export type EnumCheckStatus = 'error' | 'failure' | 'pending' | 'running' | 'success'
+
+export enum CheckStatus {
+  PENDING = 'pending',
+  RUNNING = 'running',
+  SUCCESS = 'success',
+  FAILURE = 'failure',
+  ERROR = 'error',
+  SKIPPED = 'skipped',
+  KILLED = 'killed'
+}
