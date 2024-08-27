@@ -138,13 +138,3 @@ export interface TypesCheckPayload {
 }
 export type EnumCheckPayloadKind = '' | 'markdown' | 'pipeline' | 'raw'
 export type EnumCheckStatus = 'error' | 'failure' | 'pending' | 'running' | 'success'
-
-export enum CheckStatus {
-  PENDING = 'pending',
-  RUNNING = 'running',
-  SUCCESS = 'success',
-  FAILURE = 'failure',
-  ERROR = 'error',
-  SKIPPED = 'skipped',
-  KILLED = 'killed'
-}

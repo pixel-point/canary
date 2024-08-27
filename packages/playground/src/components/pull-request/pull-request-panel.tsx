@@ -1,22 +1,31 @@
 import React, { useMemo, useState } from 'react'
 import cx from 'classnames'
 import { SplitButton, Text } from '@harnessio/canary'
-import { MergeCheckStatus, PullRequestState, TypesPullReq, TypeCheckData } from './interfaces'
+import { MergeCheckStatus, PullRequestState, TypesPullReq, TypeCheckData, EnumCheckStatus } from './interfaces'
 import { NavArrowUp, NavArrowDown, WarningTriangleSolid, CheckCircleSolid, Clock } from '@harnessio/icons-noir'
-import { mockChangesData } from './mocks/mockChangesData'
-import { mockChecksSucceededInfo, mockChecksFailedInfo } from './mocks/mockCheckInfo'
-import { mockCommentResolvedInfo, mockCommentUnresolvedInfo } from './mocks/mockCommentInfo'
 
 import PullRequestCheckSection from './sections/pull-request-check-section'
 import PullRequestCommentSection from './sections/pull-request-comment-section'
+import PullRequestChangesSection from './sections/pull-request-changes-section'
 
 interface PullRequestPanelProps {
   pullReqMetadata: TypesPullReq
   PRStateLoading: boolean
   checks?: TypeCheckData[]
+  ruleViolation?: boolean //TODO: fix type
+  checksInfo: { header: string; content: string; status: EnumCheckStatus }
+  changesInfo: { header: string; content: string }
+  commentsInfo: { header: string; content?: string | undefined; status: string }
 }
 
-const PullRequestPanel = ({ pullReqMetadata, PRStateLoading, checks }: PullRequestPanelProps) => {
+const PullRequestPanel = ({
+  pullReqMetadata,
+  PRStateLoading,
+  checks,
+  changesInfo,
+  checksInfo,
+  commentsInfo
+}: PullRequestPanelProps) => {
   const [isExpanded, setExpanded] = useState(false)
 
   const mergeable = useMemo(() => pullReqMetadata.merge_check_status === MergeCheckStatus.MERGEABLE, [pullReqMetadata])
@@ -30,9 +39,6 @@ const PullRequestPanel = ({ pullReqMetadata, PRStateLoading, checks }: PullReque
   )
   const ruleViolation = false
   const checkData = checks || []
-  const changesData = mockChangesData
-  const checksInfo = !ruleViolation ? mockChecksSucceededInfo : mockChecksFailedInfo
-  const commentsInfo = ruleViolation ? mockCommentResolvedInfo : mockCommentUnresolvedInfo
 
   return (
     <div className="border mt-1 border-border rounded-md">
@@ -63,22 +69,7 @@ const PullRequestPanel = ({ pullReqMetadata, PRStateLoading, checks }: PullReque
         </div>
         <div className="px-5">
           {/* TODO: create new components for each new section  */}
-          {!pullReqMetadata.merged && (
-            <div className="py-4 border-b">
-              <div className="flex justify-between">
-                <div className="flex">
-                  <CheckCircleSolid className="text-success mt-1" />
-                  <div className="pl-4 flex flex-col">
-                    <Text size={2}>{changesData.header}</Text>
-                    <Text className="text-tertiary-background" size={1}>
-                      {changesData.content}
-                    </Text>
-                  </div>
-                </div>
-              </div>
-              {/* TODO: add expanded section and show more/less button */}
-            </div>
-          )}
+          {!pullReqMetadata.merged && <PullRequestChangesSection changesInfo={changesInfo} />}
           {!pullReqMetadata.merged && <PullRequestCommentSection commentsInfo={commentsInfo} />}
           <PullRequestCheckSection checkData={checkData} checksInfo={checksInfo} />
           {!pullReqMetadata.merged && (

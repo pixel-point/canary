@@ -11,8 +11,9 @@ import {
   Clock,
   ChatBubble
 } from '@harnessio/icons-noir'
-import { CheckStatus, EnumCheckStatus, TypeCheckData } from '../interfaces'
+import { EnumCheckStatus, TypeCheckData } from '../interfaces'
 import { timeDistance } from '../utils'
+import { ExecutionState } from '../../execution/types'
 
 interface PullRequestMergeSectionProps {
   checkData: TypeCheckData[]
@@ -23,12 +24,12 @@ const PullRequestCheckSection = ({ checkData, checksInfo }: PullRequestMergeSect
 
   const getStatusIcon = (status: EnumCheckStatus) => {
     switch (status) {
-      case CheckStatus.PENDING:
+      case ExecutionState.PENDING:
         return <Clock className="mt-1" />
-      case CheckStatus.RUNNING:
+      case ExecutionState.RUNNING:
         return <ChatBubble className="text-warning mt-1" />
-      case CheckStatus.FAILURE:
-      case CheckStatus.ERROR:
+      case ExecutionState.FAILURE:
+      case ExecutionState.ERROR:
         return <WarningTriangleSolid className="text-destructive mt-1" />
       default:
         return <CheckCircleSolid className="text-success mt-1" />
@@ -69,13 +70,13 @@ const PullRequestCheckSection = ({ checkData, checksInfo }: PullRequestMergeSect
 
                     <div className="truncate min-w-[200px] max-w-[200px] pl-3 pt-0.5"> {check.check.identifier}</div>
                     <div className="truncate max-w-[200px] pl-3 pt-0.5">
-                      {check.check.status === CheckStatus.SUCCESS
+                      {check.check.status === ExecutionState.SUCCESS
                         ? `Succeeded in ${time}`
-                        : check.check.status === CheckStatus.FAILURE
+                        : check.check.status === ExecutionState.FAILURE
                           ? `Failed in ${time}`
-                          : check.check.status === CheckStatus.RUNNING
+                          : check.check.status === ExecutionState.RUNNING
                             ? 'Running...'
-                            : check.check.status === CheckStatus.PENDING
+                            : check.check.status === ExecutionState.PENDING
                               ? 'Pending...'
                               : `Errored in ${time}`}
                     </div>
@@ -93,7 +94,7 @@ const PullRequestCheckSection = ({ checkData, checksInfo }: PullRequestMergeSect
           }) + `?uid=${check.check.identifier}`
         }
       ></Link> */}
-                      {check.check.status !== CheckStatus.PENDING && (
+                      {check.check.status !== ExecutionState.PENDING && (
                         <Text weight="medium" size={1}>
                           Details
                         </Text>

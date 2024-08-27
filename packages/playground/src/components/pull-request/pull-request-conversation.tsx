@@ -6,16 +6,32 @@ import PullRequestFilters from './pull-request-filters'
 import PullRequestPanel from './pull-request-panel'
 import { mockPullReqMetadata } from './mocks/mockPullReqMetadata'
 import { mockChecksSuccessData } from './mocks/mockChecksData'
+import { mockChangesData } from './mocks/mockChangesData'
+import { mockChecksSucceededInfo, mockChecksFailedInfo } from './mocks/mockCheckInfo'
+import { mockCommentResolvedInfo, mockCommentUnresolvedInfo } from './mocks/mockCommentInfo'
 
 export default function PullRequestConversation() {
   const dateFilters = useDateFilters()
   const [dateOrderSort, setDateOrderSort] = useState<{ label: string; value: string }>(dateFilters[0])
   const activityFilters = useActivityFilters()
   const [activityFilter, setActivityFilter] = useState<{ label: string; value: string }>(activityFilters[0])
+  const changesData = mockChangesData
+  const ruleViolation = false
+
+  const checksInfo = !ruleViolation ? mockChecksSucceededInfo : mockChecksFailedInfo
+  const commentsInfo = !ruleViolation ? mockCommentResolvedInfo : mockCommentUnresolvedInfo
   return (
     <div>
       <div className="grid grid-cols-[70%_30%]">
-        <PullRequestPanel checks={mockChecksSuccessData} pullReqMetadata={mockPullReqMetadata} PRStateLoading={false} />
+        <PullRequestPanel
+          changesInfo={changesData}
+          checksInfo={checksInfo}
+          commentsInfo={commentsInfo}
+          ruleViolation={ruleViolation}
+          checks={mockChecksSuccessData}
+          pullReqMetadata={mockPullReqMetadata}
+          PRStateLoading={false}
+        />
         <PullRequestSideBar
           // repoMetadata={undefined}
           pullRequestMetadata={undefined}
