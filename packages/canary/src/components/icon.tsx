@@ -24,6 +24,10 @@ import Unmerged from '../icons/unmerged.svg'
 import Comments from '../icons/comments.svg'
 import Tasks from '../icons/tasks.svg'
 import Tick from '../icons/tick.svg'
+import NoDataFolder from '../icons/no-data-folder.svg'
+import NoDataMerge from '../icons/no-data-merge.svg'
+import NoDataCog from '../icons/no-data-cog.svg'
+import NoSearchMagnifyingGlass from '../icons/no-search-magnifying-glass.svg'
 // import Fork from '../icons/fork.svg'
 
 const IconNameMap = {
@@ -51,7 +55,11 @@ const IconNameMap = {
   unmerged: Unmerged,
   comments: Comments,
   tasks: Tasks,
-  tick: Tick
+  tick: Tick,
+  'no-data-folder': NoDataFolder,
+  'no-data-merge': NoDataMerge,
+  'no-data-cog': NoDataCog,
+  'no-search-magnifying-glass': NoSearchMagnifyingGlass
   // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 

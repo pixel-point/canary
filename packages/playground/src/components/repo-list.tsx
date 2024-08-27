@@ -75,9 +75,6 @@ export default function RepoList({ ...props }: PageProps) {
           ))}
         </StackedList.Root>
       )}
-      {!repos && (
-        <></> // Handle loading/no items
-      )}
     </>
   )
 }
