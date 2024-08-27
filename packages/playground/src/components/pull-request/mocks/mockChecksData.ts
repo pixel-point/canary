@@ -1,3 +1,5 @@
+import { EnumCheckPayloadKind, EnumCheckStatus, EnumPrincipalType } from '../interfaces'
+
 export const mockChecksFailedData = [
   {
     required: false,
@@ -8,12 +10,12 @@ export const mockChecksFailedData = [
       updated: 1715284986898,
       identifier:
         'BIGNAMEBIGBIGNAMEBIGBIGNAMEBIGBIGNAMEBIGBIGNAMEBIGBIGNAMEBIGBIGNAMEBIGBIGNAMEBIGBIGNAMEBIGBIGNAMEBIG',
-      status: 'running',
+      status: 'running' as EnumCheckStatus,
       summary: 'BIGNAMEBIGBIGNAMEBIGBIGNAMEBIGBIGNAMEBIGBIGNAMEBIGBIGNAMEBIGBIGNAMEBIGBIGNAMEBIGBIGNAMEBIGBIGNAMEBIG',
       metadata: {},
       payload: {
         version: '1',
-        kind: 'pipeline',
+        kind: 'pipeline' as EnumCheckPayloadKind,
         data: {
           execution_number: 13,
           repo_id: 3,
@@ -25,7 +27,7 @@ export const mockChecksFailedData = [
         uid: 'gitness',
         display_name: 'Gitness',
         email: 'system@gitness.io',
-        type: 'service',
+        type: 'service' as EnumPrincipalType,
         created: 1699863415934,
         updated: 1699863415934
       },
@@ -40,12 +42,12 @@ export const mockChecksFailedData = [
       created: 1715284980191,
       updated: 1715284984657,
       identifier: 'newpp',
-      status: 'success',
+      status: 'success' as EnumCheckStatus,
       summary: 'newpp',
       metadata: {},
       payload: {
         version: '1',
-        kind: 'pipeline',
+        kind: 'pipeline' as EnumCheckPayloadKind,
         data: {
           execution_number: 31,
           repo_id: 3,
@@ -57,7 +59,7 @@ export const mockChecksFailedData = [
         uid: 'gitness',
         display_name: 'Gitness',
         email: 'system@gitness.io',
-        type: 'service',
+        type: 'service' as EnumPrincipalType,
         created: 1699863415934,
         updated: 1699863415934
       },
@@ -72,12 +74,12 @@ export const mockChecksFailedData = [
       created: 1715284980142,
       updated: 1715284982654,
       identifier: 'post',
-      status: 'error',
+      status: 'error' as EnumCheckStatus,
       summary: 'post',
       metadata: {},
       payload: {
         version: '1',
-        kind: 'pipeline',
+        kind: 'pipeline' as EnumCheckPayloadKind,
         data: {
           execution_number: 32,
           repo_id: 3,
@@ -104,12 +106,12 @@ export const mockChecksFailedData = [
       created: 1715284980048,
       updated: 1715284981432,
       identifier: 'test2',
-      status: 'failed',
+      status: 'failed' as EnumCheckStatus,
       summary: 'test2',
       metadata: {},
       payload: {
         version: '1',
-        kind: 'pipeline',
+        kind: 'pipeline' as EnumCheckPayloadKind,
         data: {
           execution_number: 99,
           repo_id: 3,
@@ -121,7 +123,7 @@ export const mockChecksFailedData = [
         uid: 'gitness',
         display_name: 'Gitness',
         email: 'system@gitness.io',
-        type: 'service',
+        type: 'service' as EnumPrincipalType,
         created: 1699863415934,
         updated: 1699863415934
       },
@@ -136,12 +138,12 @@ export const mockChecksFailedData = [
       created: 1715284980089,
       updated: 1715284982632,
       identifier: 'test3',
-      status: 'pending',
+      status: 'pending' as EnumCheckStatus,
       summary: 'test3',
       metadata: {},
       payload: {
         version: '1',
-        kind: 'pipeline',
+        kind: 'pipeline' as EnumCheckPayloadKind,
         data: {
           execution_number: 97,
           repo_id: 3,
@@ -153,7 +155,7 @@ export const mockChecksFailedData = [
         uid: 'gitness',
         display_name: 'Gitness',
         email: 'system@gitness.io',
-        type: 'service',
+        type: 'service' as EnumPrincipalType,
         created: 1699863415934,
         updated: 1699863415934
       },
@@ -168,12 +170,12 @@ export const mockChecksFailedData = [
       created: 1715284980255,
       updated: 1715284985147,
       identifier: 'thisisabigpipelinenamethisisabigpipelinenamethisisabigpipelinenamethisisabigpipelinename',
-      status: 'success',
+      status: 'success' as EnumCheckStatus,
       summary: 'thisisabigpipelinenamethisisabigpipelinenamethisisabigpipelinenamethisisabigpipelinename',
       metadata: {},
       payload: {
         version: '1',
-        kind: 'pipeline',
+        kind: 'pipeline' as EnumCheckPayloadKind,
         data: {
           execution_number: 15,
           repo_id: 3,
@@ -185,7 +187,7 @@ export const mockChecksFailedData = [
         uid: 'gitness',
         display_name: 'Gitness',
         email: 'system@gitness.io',
-        type: 'service',
+        type: 'service' as EnumPrincipalType,
         created: 1699863415934,
         updated: 1699863415934
       },
@@ -200,12 +202,12 @@ export const mockChecksFailedData = [
       created: 1715284980312,
       updated: 1715284986410,
       identifier: 'thisisabigpipelinenamethisisabigpipelinenamethisisabigpipelinenamethisisabigpipelinenameth',
-      status: 'success',
+      status: 'success' as EnumCheckStatus,
       summary: 'thisisabigpipelinenamethisisabigpipelinenamethisisabigpipelinenamethisisabigpipelinenameth',
       metadata: {},
       payload: {
         version: '1',
-        kind: 'pipeline',
+        kind: 'pipeline' as EnumCheckPayloadKind,
         data: {
           execution_number: 14,
           repo_id: 3,
@@ -217,7 +219,7 @@ export const mockChecksFailedData = [
         uid: 'gitness',
         display_name: 'Gitness',
         email: 'system@gitness.io',
-        type: 'service',
+        type: 'service' as EnumPrincipalType,
         created: 1699863415934,
         updated: 1699863415934
       },
@@ -235,12 +237,12 @@ export const mockChecksSuccessData = [
       created: 1715284980255,
       updated: 1715284985147,
       identifier: 'thisisabighisisabigpipelinename',
-      status: 'success',
+      status: 'success' as EnumCheckStatus,
       summary: 'thisisabigpipelinenamethisisabigpipelinenamethisisabigpipelinenamethisisabigpipelinename',
       metadata: {},
       payload: {
         version: '1',
-        kind: 'pipeline',
+        kind: 'pipeline' as EnumCheckPayloadKind,
         data: {
           execution_number: 15,
           repo_id: 3,
@@ -252,7 +254,7 @@ export const mockChecksSuccessData = [
         uid: 'gitness',
         display_name: 'Gitness',
         email: 'system@gitness.io',
-        type: 'service',
+        type: 'service' as EnumPrincipalType,
         created: 1699863415934,
         updated: 1699863415934
       },
@@ -267,12 +269,12 @@ export const mockChecksSuccessData = [
       created: 1715284980312,
       updated: 1715284986410,
       identifier: 'thisisanameth',
-      status: 'success',
+      status: 'success' as EnumCheckStatus,
       summary: 'thisisabigpipelinenamethisisabigpipelinenamethisisabigpipelinenamethisisabigpipelinenameth',
       metadata: {},
       payload: {
         version: '1',
-        kind: 'pipeline',
+        kind: 'pipeline' as EnumCheckPayloadKind,
         data: {
           execution_number: 14,
           repo_id: 3,
@@ -284,7 +286,7 @@ export const mockChecksSuccessData = [
         uid: 'gitness',
         display_name: 'Gitness',
         email: 'system@gitness.io',
-        type: 'service',
+        type: 'service' as EnumPrincipalType,
         created: 1699863415934,
         updated: 1699863415934
       },

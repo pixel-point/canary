@@ -1,8 +1,10 @@
+import { EnumPrincipalType, EnumPullReqState } from '../interfaces'
+
 export const mockPullReqMetadata = {
   number: 5,
   created: 1723594951898,
   edited: 1723594951898,
-  state: 'open',
+  state: 'open' as EnumPullReqState,
   is_draft: false,
   title: 'prwithnoConflicts.txt',
   description: '',
@@ -12,7 +14,7 @@ export const mockPullReqMetadata = {
   target_repo_id: 24,
   target_branch: 'main',
   merged: null,
-  merge_method: null,
+  merge_method: undefined,
   merge_check_status: 'mergeable',
   merge_target_sha: '3ecbdea21a7d5f20e9a2e4136b93179743c15add',
   merge_base_sha: '3ecbdea21a7d5f20e9a2e4136b93179743c15add',
@@ -21,11 +23,11 @@ export const mockPullReqMetadata = {
     uid: 'admin',
     display_name: 'Administrator',
     email: 'admin@gitness.io',
-    type: 'user',
+    type: 'user' as EnumPrincipalType,
     created: 1699863416002,
     updated: 1699863416002
   },
-  merger: null,
+  merger: undefined,
   stats: {
     commits: 1,
     files_changed: 1,
