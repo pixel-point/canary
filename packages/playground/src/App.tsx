@@ -1,5 +1,5 @@
 import React from 'react'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 
 import { ThemeProvider } from './components/theme-provider'
 import RootLayout from './layouts/RootLayout'
@@ -9,7 +9,6 @@ import PullRequestLayout from './layouts/PullRequestLayout'
 import ErrorPage from './pages/error-page'
 import HomePage from './pages/home-page'
 import RepoListPage from './pages/repo-list-page'
-import RepoDetailsPage from './pages/repo-details-page'
 import PipelineListPage from './pages/pipeline-list-page'
 import PipelineDetailsPage from './pages/pipeline-details-page'
 import SignUpPage from './pages/signup-page'
@@ -17,7 +16,6 @@ import SignInPage from './pages/signin-page'
 import ExecutionListPage from './pages/execution-list-page'
 import ExecutionDetailsPage from './pages/execution-details-page'
 import PullRequestListPage from './pages/pull-request-list-page'
-import PullRequestDetailsPage from './pages/pull-request-details-page'
 import CommitsListPage from './pages/commits-list-page'
 import BranchesPage from './pages/branches-page'
 import CommitsDetailsPage from './pages/commits-details-page'
@@ -52,7 +50,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <RepoDetailsPage />
+            element: <Navigate to="pipelines" />
           },
           {
             path: 'pipelines',
@@ -90,7 +88,7 @@ const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: <PullRequestDetailsPage />
+                element: <Navigate to="conversation" />
               },
               {
                 path: 'conversation',

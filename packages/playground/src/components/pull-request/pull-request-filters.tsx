@@ -1,9 +1,60 @@
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@harnessio/canary'
 import React from 'react'
+import {
+  Text,
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  Button,
+  Icon
+} from '@harnessio/canary'
+
+interface DropdownButtonProps {
+  label: string
+  onClick: () => void
+}
+
+const DropdownButton: React.FC<DropdownButtonProps> = ({ label, onClick }) => {
+  return (
+    <Button variant="ghost" size="default" padding="sm" className="entity-list-action font-normal" onClick={onClick}>
+      {label}&nbsp;
+      <Icon name="chevron-down" size={12} />
+    </Button>
+  )
+}
+
+interface DropdownMenuComponentProps<T> {
+  items: T[]
+  selectedItem: T
+  onItemSelect: (item: T) => void
+}
+
+const DropdownMenuComponent = <T extends { label: string; value: string }>({
+  items,
+  selectedItem,
+  onItemSelect
+}: DropdownMenuComponentProps<T>) => {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <DropdownButton label={selectedItem.label} onClick={() => {}} />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        {items.map(item => (
+          <DropdownMenuItem key={item.value} onClick={() => onItemSelect(item)}>
+            {item.label}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
 interface FilterOption {
   label: string
   value: string
 }
+
 export interface PullRequestFilterProps<T extends FilterOption> {
   activityFilters: T[]
   dateFilters: T[]
@@ -22,33 +73,13 @@ const PullRequestFilters = <T extends FilterOption>({
   setDateOrderSort
 }: PullRequestFilterProps<T>) => {
   return (
-    <div className={'mt-2 py-2 flex space-x-2 pt-4 justify-between border-b border-b-border'}>
-      <div className="">Overview</div>
-      <div className="flex">
-        <Select defaultValue={activityFilter.value}>
-          <SelectTrigger className="w-fit border-none px-1 text-white text-xs focus:ring-[0px]">
-            <SelectValue placeholder="Select..." />
-          </SelectTrigger>
-          <SelectContent>
-            {activityFilters.map(filter => (
-              <SelectItem key={filter.value} value={filter.value} onClick={() => setActivityFilter(filter)}>
-                {filter.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Select defaultValue={dateOrderSort.value}>
-          <SelectTrigger className="w-fit border-none px-1 text-white text-xs focus:ring-[0px]">
-            <SelectValue placeholder="Select..." />
-          </SelectTrigger>
-          <SelectContent>
-            {dateFilters.map(filter => (
-              <SelectItem key={filter.value} value={filter.value} onClick={() => setDateOrderSort(filter)}>
-                {filter.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+    <div className="pb-2 grid grid-cols-[1fr_auto] items-center border-b">
+      <Text size={4} weight="medium">
+        Overview
+      </Text>
+      <div className="flex gap-4 items-center">
+        <DropdownMenuComponent items={activityFilters} selectedItem={activityFilter} onItemSelect={setActivityFilter} />
+        <DropdownMenuComponent items={dateFilters} selectedItem={dateOrderSort} onItemSelect={setDateOrderSort} />
       </div>
     </div>
   )
