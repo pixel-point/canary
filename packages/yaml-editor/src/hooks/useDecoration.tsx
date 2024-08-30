@@ -39,9 +39,11 @@ export const useDecoration: UseDecoration = ({ editorRef, selection }) => {
   )
 
   useEffect(() => {
-    const timeout = setTimeout(() => computeRange(editorRef, selection?.path, selection?.revealInCenter), 100)
+    const handle = requestIdleCallback(() => {
+      computeRange(editorRef, selection?.path, selection?.revealInCenter)
+    })
 
-    return () => clearTimeout(timeout)
+    return () => cancelIdleCallback(handle)
   }, [selection?.path, selection?.revealInCenter, editorRef, computeRange])
 
   useEffect(() => {
