@@ -1,7 +1,6 @@
 import React from 'react'
 import { ExecutionDetails } from '../components/execution/execution-details'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@harnessio/canary'
-
 export enum ExecutionTab {
   SUMMARY = 'summary',
   LOG = 'log',

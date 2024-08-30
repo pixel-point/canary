@@ -2,12 +2,15 @@ import React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger, Input, Button, Text, ScrollArea } from '@harnessio/canary'
 import { Copy, Edit, Download } from '@harnessio/icons-noir'
 import ConsoleLogs from './console-logs'
-import { data } from './mocks/mockStepLogs'
+import { data } from '../../pages/mocks/execution/mockStepLogs'
 import { Layout } from '../layout/layout'
 import { ExecutionState, ExecutionStatus } from './execution-status'
 import { getDuration } from '../../utils/TimeUtils'
+import { KeyValueTable } from './key-value-table'
 
 export interface StepProps {
+  input: []
+  inputTitle: { name: string; value: string }
   name: string
   status: ExecutionState
   started?: number
@@ -45,6 +48,8 @@ const StepExecutionToolbar: React.FC = () => {
 }
 
 export const StepExecution: React.FC<StageExecutionProps> = ({ step, stepIndex }) => {
+  const inputTable = step.input
+  const { name, value } = step.inputTitle
   return (
     <Layout.Vertical>
       <Layout.Horizontal className="flex justify-between items-center">
@@ -66,6 +71,12 @@ export const StepExecution: React.FC<StageExecutionProps> = ({ step, stepIndex }
           <TabsContent value={StepExecutionTab.LOG}>
             <ScrollArea className="h-[calc(100vh-23rem)] border-t pt-4">
               <ConsoleLogs logs={data[stepIndex]} />
+            </ScrollArea>
+          </TabsContent>
+          <TabsContent value={StepExecutionTab.INPUT}>
+            {/*here is the execution details of input table */}
+            <ScrollArea className="h-[calc(100vh-23rem)] border-t pt-4">
+              <KeyValueTable tableSpec={inputTable} tableTitleName={name} tableTitleVal={value} />
             </ScrollArea>
           </TabsContent>
         </Layout.Vertical>

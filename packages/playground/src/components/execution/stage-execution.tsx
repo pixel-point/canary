@@ -80,7 +80,7 @@ export const StageExecution: React.FC<StageExecutionProps> = ({ stage }): React.
         disableUp={stepIndex === 0}
         disableDown={steps.length - 1 === stepIndex}
       />
-      <Layout.Vertical gap="space-y-2" className="p-4">
+      <Layout.Vertical gap="space-y-2" className="p-4 flex-grow">
         {stage?.group ? (
           <Layout.Horizontal gap="space-x-1" className="flex items-center">
             <Text className="text-stage text-sm">{stage.group}</Text>

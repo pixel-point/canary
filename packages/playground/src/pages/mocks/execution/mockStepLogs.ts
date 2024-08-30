@@ -1,4 +1,4 @@
-import type { LivelogLine } from '../types'
+import type { LivelogLine } from '../../../components/execution/types'
 
 export const data: LivelogLine[][] = [
   [
