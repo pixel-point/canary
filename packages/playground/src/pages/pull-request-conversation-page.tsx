@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
 import { mockOverviewData } from '../data/mockOverviewData'
 import { mockReviewers } from '../data/mockReviewer'
-import { mockPullReqMetadata } from '../data/mockPullReqMetadata'
-import { mockChecksSuccessData } from '../data/mockChecksData'
+import {
+  mockPullReqMetadata,
+  mockPullReqMetadataConflict,
+  mockPullReqMetadataUnchecked
+} from '../data/mockPullReqMetadata'
+import { mockChangeReqData } from '../data/mockChangeReqData'
+import { mockChecksFailedData, mockChecksSuccessData } from '../data/mockChecksData'
 import { mockChangesData } from '../data/mockChangesData'
 import { mockChecksSucceededInfo, mockChecksFailedInfo } from '../data/mockCheckInfo'
 import { mockCommentResolvedInfo, mockCommentUnresolvedInfo } from '../data/mockCommentInfo'
@@ -17,6 +22,7 @@ import PullRequestCommentBox from '../components/pull-request/pull-request-comme
 import PullRequestSideBar from '../components/pull-request/pull-request-side-bar'
 import { processReviewDecision, useActivityFilters, useDateFilters } from '../components/pull-request/utils'
 import FullWidth2ColumnLayout from '../layouts/FullWidth2ColumnLayout'
+import { mockCodeOwnerData } from '../data/mockCodeOwner'
 
 export default function PullRequestConversationPage() {
   const [loadState, setLoadState] = useState('data-loaded')
@@ -24,10 +30,32 @@ export default function PullRequestConversationPage() {
   const [dateOrderSort, setDateOrderSort] = useState<{ label: string; value: string }>(dateFilters[0])
   const activityFilters = useActivityFilters()
   const [activityFilter, setActivityFilter] = useState<{ label: string; value: string }>(activityFilters[0])
-  const ruleViolation = false
-  const checksInfo = !ruleViolation ? mockChecksSucceededInfo : mockChecksFailedInfo
-  const commentsInfo = !ruleViolation ? mockCommentResolvedInfo : mockCommentUnresolvedInfo
-
+  const ruleViolation = loadState !== 'data-loaded-checksFailed' ? false : true
+  const checksInfo = loadState === 'data-loaded-checksFailed' ? mockChecksFailedInfo : mockChecksSucceededInfo
+  const commentsInfo = loadState === 'data-loaded-checksFailed' ? mockCommentUnresolvedInfo : mockCommentResolvedInfo
+  const checksData = loadState === 'data-loaded-checksFailed' ? mockChecksFailedData : mockChecksSuccessData
+  const pullReqMetadata =
+    loadState === 'data-loaded-unchecked'
+      ? mockPullReqMetadataUnchecked
+      : loadState === 'data-loaded-conflict'
+        ? mockPullReqMetadataConflict
+        : mockPullReqMetadata
+  // will add appropiate mock data here in upcoming prs
+  const mockMinApproval = 2
+  const mockMinReqLatestApproval = undefined
+  const mockApprovedEvaluations: never[] = [] // will put data here just in next pr
+  const mockChangeReqEvaluations = mockChangeReqData
+  const mockCodeOwners = mockCodeOwnerData
+  const mockLatestApprovalArr: never[] = [] // will put data here just in next pr
+  const mockReqNoChangeReq = false
+  const mockChangeReqReviewer = 'Admin'
+  const mockCodeOwnerChangeReqEntries = undefined
+  const mockReqCodeOwnerApproval = true
+  const mockReqCodeOwnerLatestApproval = false
+  const mockCodeOwnerPendingEntries = undefined
+  const mockCodeOwnerApprovalEntries = undefined
+  const mockLatestCodeOwnerApprovalArr = undefined
+  const mockConflictingFiles = loadState === 'data-loaded-conflict' ? ['test', 't'] : undefined
   if (loadState == 'loading') {
     return (
       <>
@@ -60,9 +88,24 @@ export default function PullRequestConversationPage() {
               checksInfo={checksInfo}
               commentsInfo={commentsInfo}
               ruleViolation={ruleViolation}
-              checks={mockChecksSuccessData}
-              pullReqMetadata={mockPullReqMetadata}
+              checks={checksData}
+              pullReqMetadata={pullReqMetadata}
               PRStateLoading={false}
+              conflictingFiles={mockConflictingFiles}
+              approvedEvaluations={mockApprovedEvaluations}
+              changeReqEvaluations={mockChangeReqEvaluations}
+              codeOwners={mockCodeOwners}
+              latestApprovalArr={mockLatestApprovalArr}
+              reqNoChangeReq={mockReqNoChangeReq}
+              changeReqReviewer={mockChangeReqReviewer}
+              codeOwnerChangeReqEntries={mockCodeOwnerChangeReqEntries}
+              reqCodeOwnerApproval={mockReqCodeOwnerApproval}
+              reqCodeOwnerLatestApproval={mockReqCodeOwnerLatestApproval}
+              codeOwnerPendingEntries={mockCodeOwnerPendingEntries}
+              codeOwnerApprovalEntries={mockCodeOwnerApprovalEntries}
+              latestCodeOwnerApprovalArr={mockLatestCodeOwnerApprovalArr}
+              minApproval={mockMinApproval}
+              minReqLatestApproval={mockMinReqLatestApproval}
             />
             <Spacer size={9} />
             <PullRequestFilters

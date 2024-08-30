@@ -49,6 +49,21 @@ const PlaygroundPullRequestConversationSettings: React.FC<PlaygroundPullRequestC
             className={loadState === 'no-data' ? 'text-emerald-500' : ''}>
             No data
           </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => setLoadState('data-loaded-checksFailed')}
+            className={loadState === 'data-loaded-checksFailed' ? 'text-emerald-500' : ''}>
+            Data loaded - checks failed
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => setLoadState('data-loaded-unchecked')}
+            className={loadState === 'data-loaded-unchecked' ? 'text-emerald-500' : ''}>
+            Data loaded - unchecked pr
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => setLoadState('data-loaded-conflict')}
+            className={loadState === 'data-loaded-conflict' ? 'text-emerald-500' : ''}>
+            Data loaded - conflict pr
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

@@ -176,3 +176,40 @@ export interface TypesIdentity {
   email?: string
   name?: string
 }
+
+export interface TypesPullReqReviewer {
+  added_by?: TypesPrincipalInfo
+  created?: number
+  latest_review_id?: number | null
+  review_decision?: EnumPullReqReviewDecision
+  reviewer?: TypesPrincipalInfo
+  sha?: string
+  type?: EnumPullReqReviewerType
+  updated?: number
+}
+
+export type EnumPullReqReviewerType = 'assigned' | 'requested' | 'self_assigned'
+
+export interface TypesOwnerEvaluation {
+  owner?: TypesPrincipalInfo
+  review_decision?: EnumPullReqReviewDecision
+  review_sha?: string
+}
+
+export interface TypesUserGroupOwnerEvaluation {
+  evaluations?: TypesOwnerEvaluation[] | null
+  id?: string
+  name?: string
+}
+
+export interface TypesCodeOwnerEvaluation {
+  evaluation_entries?: TypesCodeOwnerEvaluationEntry[] | null
+  file_sha?: string
+}
+
+export interface TypesCodeOwnerEvaluationEntry {
+  line_number?: number
+  owner_evaluations?: TypesOwnerEvaluation[] | null
+  pattern?: string
+  user_group_owner_evaluations?: TypesUserGroupOwnerEvaluation[] | null
+}

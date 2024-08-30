@@ -91,7 +91,7 @@ export const mockChecksFailedData = [
         uid: 'gitness',
         display_name: 'Gitness',
         email: 'system@gitness.io',
-        type: 'service',
+        type: 'service' as EnumPrincipalType,
         created: 1699863415934,
         updated: 1699863415934
       },

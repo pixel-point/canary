@@ -1,42 +1,43 @@
 import React from 'react'
-import { Button, Text } from '@harnessio/canary'
+import { AccordionItem, AccordionTrigger, Icon, StackedList, Text } from '@harnessio/canary'
 
-import { CheckCircleSolid, WarningTriangleSolid } from '@harnessio/icons-noir'
+import { WarningTriangleSolid } from '@harnessio/icons-noir'
+import { LineDescription, LineTitle } from '../pull-request-line-title'
 interface PullRequestMergeSectionProps {
   commentsInfo: { header: string; content?: string | undefined; status: string }
   handleAction?: () => void
 }
 const PullRequestCommentSection = ({ commentsInfo, handleAction }: PullRequestMergeSectionProps) => {
   return (
-    <div className="py-4 border-b">
-      <div className="flex justify-between">
-        <div className="flex">
-          {commentsInfo.status === 'success' ? (
-            <CheckCircleSolid className="text-success mt-1" />
-          ) : (
-            <WarningTriangleSolid className="text-destructive mt-1" />
-          )}
-          <div className="pl-4 flex flex-col">
-            <Text size={2}>{commentsInfo.header}</Text>
-            {commentsInfo?.content && (
-              <Text className="text-tertiary-background" size={1}>
-                {commentsInfo.content}
-              </Text>
-            )}
-          </div>
-        </div>
-        {commentsInfo.status === 'failed' ? (
-          <Button
+    <AccordionItem value="item-2">
+      <AccordionTrigger className="text-left" hideChevron>
+        <StackedList.Field
+          title={
+            <LineTitle
+              text={commentsInfo.header}
+              icon={
+                commentsInfo.status === 'success' ? (
+                  <Icon name="success" size={16} />
+                ) : (
+                  <WarningTriangleSolid className="text-destructive mt-1" />
+                )
+              }
+            />
+          }
+          description={commentsInfo.content && <LineDescription text={commentsInfo.content} />}
+        />
+        {commentsInfo.status === 'failed' && (
+          <Text
             onClick={() => {
               handleAction?.()
             }}
-            variant="link">
+            className="pr-2"
+            size={1}>
             View
-          </Button>
-        ) : null}
-        {/* TODO: add expanded section and show more/less button */}
-      </div>
-    </div>
+          </Text>
+        )}
+      </AccordionTrigger>
+    </AccordionItem>
   )
 }
 
