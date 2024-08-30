@@ -19,6 +19,7 @@ import {
 import { type InlineAction } from '@harnessio/yaml-editor'
 import { ArrowLeft, Box, Search, Xmark } from '@harnessio/icons-noir'
 import { YamlEditor, MonacoGlobals } from '@harnessio/yaml-editor'
+import { RenderForm, RootForm, useYupValidationResolver } from '@harnessio/forms'
 import { PipelineStudio, getNodesFromPipelineYaml } from '@harnessio/unified-pipeline'
 import { ILanguageFeaturesService } from 'monaco-editor/esm/vs/editor/common/services/languageFeatures.js'
 import { OutlineModel } from 'monaco-editor/esm/vs/editor/contrib/documentSymbols/browser/outlineModel.js'
@@ -41,6 +42,8 @@ import { StepPaletteFilters } from '../components/pipeline-studio/step-palette/s
 import { StepsPaletteContent } from '../components/pipeline-studio/step-palette/step-palette-content'
 import { StepsPaletteItem } from '../components/pipeline-studio/step-palette/step-palette-item'
 import { stepPaletteItems } from '../assets/stepPaletteItems'
+import inputComponentFactory from '../components/form-inputs/factory/factory'
+import { formDefinition1 } from '../assets/form/formDefinition1'
 
 MonacoGlobals.set({
   ILanguageFeaturesService,
@@ -149,40 +152,52 @@ const PipelineStudioPanel = (): JSX.Element => {
 }
 
 const StepFormPanel = (): JSX.Element => {
-  return (
-    <StepForm.Root>
-      <StepForm.Header>
-        {/* {<StepBreadcrumb title="Deploy to Dev" subTitle="Run" />} */}
-        <StepForm.Title>
-          <Button className="px-2 mr-2" size="sm" variant="ghost" onClick={() => {}}>
-            <ArrowLeft />
-          </Button>
-          Run Step
-        </StepForm.Title>
-        <StepForm.Description>Step description. This can be multiline description.</StepForm.Description>
-        <StepForm.Actions>
-          AI Button placeholder
-          {/* <AIButton label="AI Autofill" /> */}
-        </StepForm.Actions>
-      </StepForm.Header>
+  const formResolver = useMemo(() => useYupValidationResolver(formDefinition1), [formDefinition1])
 
-      <StepFormSection.Root>
-        <StepFormSection.Header>
-          <StepFormSection.Title>General</StepFormSection.Title>
-          {<StepFormSection.Description>Read documentation to learn more.</StepFormSection.Description>}
-        </StepFormSection.Header>
-        <StepFormSection.Form>
-          Form placeholder
-          {/* <RenderForm factory={inputComponentFactory} inputs={formDefinition} /> */}
-        </StepFormSection.Form>
-      </StepFormSection.Root>
-      <StepForm.Footer>
-        <Button onClick={() => {}}>Submit</Button>
-        <Button variant="secondary" onClick={() => {}}>
-          Cancel
-        </Button>
-      </StepForm.Footer>
-    </StepForm.Root>
+  return (
+    <RootForm
+      resolver={formResolver}
+      mode="onSubmit"
+      onSubmit={() => {
+        // console.log('Submit values:')
+        // console.log(values)
+      }}
+      validateAfterFirstSubmit={true}>
+      {rootForm => (
+        <StepForm.Root>
+          <StepForm.Header>
+            {/* {<StepBreadcrumb title="Deploy to Dev" subTitle="Run" />} */}
+            <StepForm.Title>
+              <Button className="px-2 mr-2" size="sm" variant="ghost" onClick={() => {}}>
+                <ArrowLeft />
+              </Button>
+              Run Step
+            </StepForm.Title>
+            <StepForm.Description>Step description. This can be multiline description.</StepForm.Description>
+            <StepForm.Actions>
+              AI Button placeholder
+              {/* <AIButton label="AI Autofill" /> */}
+            </StepForm.Actions>
+          </StepForm.Header>
+
+          <StepFormSection.Root>
+            <StepFormSection.Header>
+              <StepFormSection.Title>General</StepFormSection.Title>
+              {<StepFormSection.Description>Read documentation to learn more.</StepFormSection.Description>}
+            </StepFormSection.Header>
+            <StepFormSection.Form>
+              <RenderForm factory={inputComponentFactory} inputs={formDefinition1} />
+            </StepFormSection.Form>
+          </StepFormSection.Root>
+          <StepForm.Footer>
+            <Button onClick={() => rootForm.submitForm()}>Submit</Button>
+            <Button variant="secondary" onClick={() => {}}>
+              Cancel
+            </Button>
+          </StepForm.Footer>
+        </StepForm.Root>
+      )}
+    </RootForm>
   )
 }
 
@@ -226,9 +241,9 @@ const StepPalettePanel = (): JSX.Element => {
 }
 
 export default function PipelineEditPage() {
-  const [view, setView] = useState<'visual' | 'yaml'>('visual')
+  const [view, setView] = useState<'visual' | 'yaml'>('yaml')
   const [panelOpen, setPanelOpen] = useState(false)
-  const [drawerOpen, setDrawerOpen] = useState<'palette' | 'stepform'>()
+  const [drawerOpen, setDrawerOpen] = useState<'palette' | 'stepform' | undefined>('stepform')
 
   useEffect(() => {
     setPanelOpen(view === 'yaml')

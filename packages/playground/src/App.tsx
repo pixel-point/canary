@@ -1,6 +1,6 @@
 import React from 'react'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
-
+import { TooltipProvider } from '@harnessio/canary'
 import { ThemeProvider } from './components/theme-provider'
 import RootLayout from './layouts/RootLayout'
 import RepoLayout from './layouts/RepoLayout'
@@ -178,7 +178,9 @@ const router = createBrowserRouter([
 export default function App() {
   return (
     <ThemeProvider defaultTheme="dark">
-      <RouterProvider router={router} />
+      <TooltipProvider>
+        <RouterProvider router={router} />
+      </TooltipProvider>
     </ThemeProvider>
   )
 }
