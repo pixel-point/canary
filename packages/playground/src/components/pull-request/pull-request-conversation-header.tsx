@@ -83,7 +83,7 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
                 <Button variant="secondary" size="xs">
                   <GitFork className="pr-1" />
                   {target_branch}
-                </Button>{' '}
+                </Button>
                 <span>from</span>
                 <Button variant="secondary" size="xs">
                   <GitFork className="pr-1" />

@@ -9,7 +9,7 @@ export const mockPullReqMetadata = {
   title: 'prwithnoConflicts.txt',
   description: '',
   source_repo_id: 24,
-  source_branch: 'noConflicts',
+  source_branch: 'source_branch0',
   source_sha: '048f7030a246c1935e1ae836f3a8e112f9e1bc2a',
   target_repo_id: 24,
   target_branch: 'main',

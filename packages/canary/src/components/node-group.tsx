@@ -18,10 +18,14 @@ function Root({ className, children }: NodeGroupRootProps) {
   )
 }
 
-function Icon({ children }: { children: React.ReactNode }) {
+function Icon({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
     <div className="col-start-1 row-start-1">
-      <div className="relative z-20 h-6 w-6 rounded-full flex place-content-center place-items-center p-1 border border-tertiary-background/30 bg-background text-primary">
+      <div
+        className={cn(
+          'relative z-20 h-6 w-6 rounded-full flex place-content-center place-items-center p-1 border border-tertiary-background/30 bg-background text-primary',
+          className
+        )}>
         {children}
       </div>
     </div>

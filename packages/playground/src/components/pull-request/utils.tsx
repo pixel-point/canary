@@ -1,5 +1,12 @@
 import { useMemo } from 'react'
-import { EnumPullReqReviewDecision, PRCommentFilterType, PullReqReviewDecision, orderSortDate } from './interfaces'
+import {
+  CommentItem,
+  EnumPullReqReviewDecision,
+  PRCommentFilterType,
+  PullReqReviewDecision,
+  TypesPullReqActivity,
+  orderSortDate
+} from './interfaces'
 
 export const processReviewDecision = (
   review_decision: EnumPullReqReviewDecision,
@@ -92,4 +99,9 @@ export const timeDistance = (date1 = 0, date2 = 0, onlyHighestDenomination = fal
   return `${days ? days + 'd ' : ''}${hours ? hours + 'h ' : ''}${
     minutes ? minutes + 'm' : hours || days ? '0m' : ''
   } ${seconds}s`
+}
+
+// check if activity item is a system comment
+export function isSystemComment(commentItems: CommentItem<TypesPullReqActivity>[]) {
+  return commentItems[0].payload?.kind === 'system'
 }

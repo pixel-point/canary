@@ -11,6 +11,16 @@ export enum orderSortDate {
   ASC = 'asc',
   DESC = 'desc'
 }
+export enum CommentType {
+  COMMENT = 'comment',
+  CODE_COMMENT = 'code-comment',
+  TITLE_CHANGE = 'title-change',
+  REVIEW_SUBMIT = 'review-submit',
+  MERGE = 'merge',
+  BRANCH_UPDATE = 'branch-update',
+  BRANCH_DELETE = 'branch-delete',
+  STATE_CHANGE = 'state-change'
+}
 
 export enum PullReqReviewDecision {
   approved = 'approved',
@@ -212,4 +222,125 @@ export interface TypesCodeOwnerEvaluationEntry {
   owner_evaluations?: TypesOwnerEvaluation[] | null
   pattern?: string
   user_group_owner_evaluations?: TypesUserGroupOwnerEvaluation[] | null
+}
+
+export interface PullRequestChangesSectionProps {
+  changesInfo: { header: string; content: string; status: string }
+  minApproval?: number
+  codeOwners?: TypesCodeOwnerEvaluation | null
+  minReqLatestApproval?: number
+  approvedEvaluations?: TypesPullReqReviewer[]
+  changeReqEvaluations?: TypesPullReqReviewer[]
+  latestApprovalArr?: TypesPullReqReviewer[]
+  reqNoChangeReq?: boolean
+  changeReqReviewer?: string
+  codeOwnerChangeReqEntries?: (
+    | {
+        owner_evaluations: TypesOwnerEvaluation[]
+        line_number?: number
+        pattern?: string
+        user_group_owner_evaluations?: TypesUserGroupOwnerEvaluation[] | null
+      }
+    | undefined
+  )[]
+  reqCodeOwnerApproval?: boolean
+  reqCodeOwnerLatestApproval?: boolean
+  codeOwnerPendingEntries?: TypesCodeOwnerEvaluationEntry[]
+  codeOwnerApprovalEntries?: (
+    | {
+        owner_evaluations: TypesOwnerEvaluation[]
+        line_number?: number
+        pattern?: string
+        user_group_owner_evaluations?: TypesUserGroupOwnerEvaluation[] | null
+      }
+    | undefined
+  )[]
+  latestCodeOwnerApprovalArr?: (
+    | {
+        entryEvaluation: TypesOwnerEvaluation[]
+      }
+    | undefined
+  )[]
+}
+
+export interface TypesPullReqActivity {
+  author?: TypesPrincipalInfo
+  code_comment?: TypesCodeCommentFields
+  created?: number
+  deleted?: number | null
+  edited?: number
+  id?: number
+  kind?: EnumPullReqActivityKind
+  mentions?: {
+    [key: string]: TypesPrincipalInfo
+  }
+  metadata?: TypesPullReqActivityMetadata
+  order?: number
+  parent_id?: number | null
+  payload?: GeneralPayload
+  pullreq_id?: number
+  repo_id?: number
+  resolved?: number | null
+  resolver?: TypesPrincipalInfo
+  sub_order?: number
+  text?: string
+  type?: EnumPullReqActivityType
+  updated?: number
+}
+export type EnumPullReqActivityType =
+  | 'branch-delete'
+  | 'branch-update'
+  | 'code-comment'
+  | 'comment'
+  | 'merge'
+  | 'review-submit'
+  | 'state-change'
+  | 'title-change'
+
+export type EnumPullReqActivityKind = 'change-comment' | 'comment' | 'system'
+export interface TypesPullReqActivityMetadata {
+  mentions?: TypesPullReqActivityMentionsMetadata
+  suggestions?: TypesPullReqActivitySuggestionsMetadata
+}
+export interface TypesPullReqActivityMentionsMetadata {
+  ids?: number[]
+}
+export interface TypesPullReqActivitySuggestionsMetadata {
+  applied_check_sum?: string
+  applied_commit_sha?: string
+  check_sums?: string[]
+}
+
+export interface TypesCodeCommentFields {
+  line_new?: number
+  line_old?: number
+  merge_base_sha?: string
+  outdated?: boolean
+  path?: string
+  source_sha?: string
+  span_new?: number
+  span_old?: number
+}
+
+interface GeneralPayload {
+  text?: string
+  [key: string]: unknown
+}
+
+export interface CommentItem<T = unknown> {
+  id: number
+  author: string
+  created: string | number
+  edited: string | number
+  updated: string | number
+  deleted: string | number
+  outdated: boolean
+  content: string
+  payload?: T // optional payload for callers to handle on callback calls
+}
+
+export enum MergeStrategy {
+  MERGE = 'merge',
+  SQUASH = 'squash',
+  REBASE = 'rebase'
 }

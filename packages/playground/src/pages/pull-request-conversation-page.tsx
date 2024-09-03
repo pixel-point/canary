@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { mockOverviewData } from '../data/mockOverviewData'
+import { mockOverviewRealData } from '../data/mockOverviewRealData'
+// import { mockOverviewData } from '../data/mockOverviewData'
 import { mockReviewers } from '../data/mockReviewer'
 import {
   mockPullReqMetadata,
@@ -117,7 +118,7 @@ export default function PullRequestConversationPage() {
               setDateOrderSort={setDateOrderSort}
             />
             <Spacer size={6} />
-            <PullRequestOverview data={mockOverviewData} />
+            <PullRequestOverview data={mockOverviewRealData} pullReqMetadata={pullReqMetadata} />
             <Spacer size={9} />
             <PullRequestCommentBox />
             <Spacer size={9} />
