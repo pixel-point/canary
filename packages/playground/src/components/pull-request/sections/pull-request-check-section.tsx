@@ -77,42 +77,61 @@ const PullRequestCheckSection = ({ checkData, checksInfo }: PullRequestMergeSect
                             : `Errored in ${time}`}
                   </Text>
                 </div>
-                <div className="flex items-center gap-4">
-                  <Text size={1} color="tertiaryBackground">
-                    Details
-                  </Text>
-                  {check.required && (
-                    <Badge variant="outline" size="sm">
+                <div className="grid grid-cols-[84px_auto] items-center">
+                  <div className="col-span-1">
+                    {/* TODO: figure out how to do link in this? */}
+                    {/* <Link
+              className="text-blue-500 mx-2"
+              to={
+                routes.toCODEPullRequest({
+                  repoPath: repoMetadata.path as string,
+                  pullRequestId: String(pullReqMetadata.number),
+                  pullRequestSection: PullRequestSection.CHECKS
+                }) + `?uid=${check.check.identifier}`
+              }
+            ></Link> */}
+                    {check.check.status !== ExecutionState.PENDING && (
                       <Text size={1} color="tertiaryBackground">
-                        Required
+                        Details
                       </Text>
-                    </Badge>
-                  )}
+                    )}
+                  </div>
+                  <div className="col-span-1 flex justify-end">
+                    {check.check.status === ExecutionState.PENDING ? (
+                      <Badge variant="outline" size="sm">
+                        <Text size={1} color="tertiaryBackground">
+                          Required
+                        </Text>
+                      </Badge>
+                    ) : (
+                      <div className="min-w-[70px]"></div>
+                    )}
+                  </div>
                 </div>
               </div>
             )
-            //       return (
-            //         <div key={check_idx} className="flex justify-between py-2 border-t">
-            //           <div className="flex items-center">
-            //             {getStatusIcon(check.check.status as EnumCheckStatus)}
+            // return (
+            //   <div key={check_idx} className="flex justify-between py-2 border-t">
+            //     <div className="flex items-center">
+            //       {getStatusIcon(check.check.status as EnumCheckStatus)}
 
-            //             <div className="truncate min-w-[200px] max-w-[200px] pl-3 pt-0.5"> {check.check.identifier}</div>
-            //             <div className="truncate max-w-[200px] pl-3 pt-0.5">
-            //               {check.check.status === ExecutionState.SUCCESS
-            //                 ? `Succeeded in ${time}`
-            //                 : check.check.status === ExecutionState.FAILURE
-            //                   ? `Failed in ${time}`
-            //                   : check.check.status === ExecutionState.RUNNING
-            //                     ? 'Running...'
-            //                     : check.check.status === ExecutionState.PENDING
-            //                       ? 'Pending...'
-            //                       : `Errored in ${time}`}
-            //             </div>
-            //           </div>
-            //           <div className="grid grid-cols-[84px_auto] items-center">
-            //             <div className="col-span-1">
-            //               {/* TODO: figure out how to do link in this? */}
-            //               {/* <Link
+            //       <div className="truncate min-w-[200px] max-w-[200px] pl-3 pt-0.5"> {check.check.identifier}</div>
+            //       <div className="truncate max-w-[200px] pl-3 pt-0.5">
+            //         {check.check.status === ExecutionState.SUCCESS
+            //           ? `Succeeded in ${time}`
+            //           : check.check.status === ExecutionState.FAILURE
+            //             ? `Failed in ${time}`
+            //             : check.check.status === ExecutionState.RUNNING
+            //               ? 'Running...'
+            //               : check.check.status === ExecutionState.PENDING
+            //                 ? 'Pending...'
+            //                 : `Errored in ${time}`}
+            //       </div>
+            //     </div>
+            //     <div className="grid grid-cols-[84px_auto] items-center">
+            //       <div className="col-span-1">
+            //         {/* TODO: figure out how to do link in this? */}
+            //         {/* <Link
             //   className="text-blue-500 mx-2"
             //   to={
             //     routes.toCODEPullRequest({
@@ -122,24 +141,24 @@ const PullRequestCheckSection = ({ checkData, checksInfo }: PullRequestMergeSect
             //     }) + `?uid=${check.check.identifier}`
             //   }
             // ></Link> */}
-            //               {check.check.status !== ExecutionState.PENDING && (
-            //                 <Text weight="medium" size={1}>
-            //                   Details
-            //                 </Text>
-            //               )}
-            //             </div>
-            //             <div className="col-span-1 flex justify-end">
-            //               {check.required ? (
-            //                 <div className="border rounded-full bg-transparent">
-            //                   <Text className="text-xs text-tertiary-background px-2 py-1.5">required</Text>
-            //                 </div>
-            //               ) : (
-            //                 <div className="min-w-[70px]"></div>
-            //               )}
-            //             </div>
+            //         {check.check.status !== ExecutionState.PENDING && (
+            //           <Text weight="medium" size={1}>
+            //             Details
+            //           </Text>
+            //         )}
+            //       </div>
+            //       <div className="col-span-1 flex justify-end">
+            //         {check.required ? (
+            //           <div className="border rounded-full bg-transparent">
+            //             <Text className="text-xs text-tertiary-background px-2 py-1.5">required</Text>
             //           </div>
-            //         </div>
-            //       )
+            //         ) : (
+            //           <div className="min-w-[70px]"></div>
+            //         )}
+            //       </div>
+            //     </div>
+            //   </div>
+            // )
           })}
         </AccordionContent>
       </AccordionItem>
