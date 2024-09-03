@@ -10,15 +10,12 @@ import {
 } from '@harnessio/canary'
 import React from 'react'
 
-interface PlaygroundPullRequestCommitsSettingsProps {
+interface PlaygroundBranchesSettingsProps {
   loadState: string
   setLoadState: (state: string) => void
 }
 
-const PlaygroundPullRequestCommitsSettings: React.FC<PlaygroundPullRequestCommitsSettingsProps> = ({
-  loadState,
-  setLoadState
-}) => {
+const PlaygroundBranchesSettings: React.FC<PlaygroundBranchesSettingsProps> = ({ loadState, setLoadState }) => {
   return (
     <div className="group fixed right-0 bottom-0 z-50 py-3 px-4">
       <DropdownMenu>
@@ -32,7 +29,7 @@ const PlaygroundPullRequestCommitsSettings: React.FC<PlaygroundPullRequestCommit
         <DropdownMenuContent align="end">
           <DropdownMenuItem>
             <Text weight="bold" size={2}>
-              Pull request commits states
+              Branches states
             </Text>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -57,4 +54,4 @@ const PlaygroundPullRequestCommitsSettings: React.FC<PlaygroundPullRequestCommit
   )
 }
 
-export default PlaygroundPullRequestCommitsSettings
+export default PlaygroundBranchesSettings

@@ -11,22 +11,22 @@
 
 :root {
   /* PP Figma shades */
-  --black: 210 10% 3%;
-  --grey-6: 210 8% 6%;
-  --grey-8: 210 7% 8%;
-  --grey-10: 210 6% 10%;
-  --grey-12: 210 6% 12%;
-  --grey-15: 210 6% 15%;
-  --grey-20: 210 6% 20%;
-  --grey-30: 210 6% 30%;
-  --grey-40: 210 6% 40%;
-  --grey-50: 210 6% 50%;
-  --grey-60: 210 6% 60%;
-  --grey-70: 210 6% 70%;
-  --grey-80: 210 6% 80%;
-  --grey-90: 210 6% 90%;
-  --grey-94: 210 6% 94%;
-  --grey-98: 210 6% 98%;
+  --black: 240 10% 3%;
+  --grey-6: 240 8% 6%;
+  --grey-8: 240 7% 8%;
+  --grey-10: 240 6% 10%;
+  --grey-12: 240 6% 12%;
+  --grey-15: 240 6% 15%;
+  --grey-20: 240 6% 20%;
+  --grey-30: 240 6% 30%;
+  --grey-40: 240 6% 40%;
+  --grey-50: 240 6% 50%;
+  --grey-60: 240 6% 60%;
+  --grey-70: 240 6% 70%;
+  --grey-80: 240 6% 80%;
+  --grey-90: 240 6% 90%;
+  --grey-94: 240 6% 94%;
+  --grey-98: 240 6% 98%;
   --white: 0 0% 100%;
 
   /* PP Figma secondary colors */
@@ -34,8 +34,11 @@
   --blue: 216 80% 65%;
   --orange: 35, 75%, 55%;
   --purple: 275 60% 75%;
-  --green: 150, 75%, 65%, 0.7;
-  --red: 0, 80%, 65%, 0.7;
+  --green: 150, 75%, 65%;
+  --red: 0, 80%, 65%;
+  --red-glow: 0, 80%, 65% 0.5;
+  --orange-glow: 35, 75%, 55% 0.5;
+  --green-glow: 150, 75%, 65% 0.5;
 }
 
 @layer themes {
@@ -63,9 +66,17 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
+    --border-background: 240 5.9% 90%;
     --input: 240 5.9% 90%;
+    --input-background: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
     --radius: 0.5rem;
+    --navbar-icon-secondary: 240 6% 40%;
+    --navbar-text-secondary: var(--grey-70);
+    --success: var(--green);
+    --error: var(--red);
+    --warning: var(--orange);
+    --ai: var(--purple);
   }
 
   .dark {
@@ -91,8 +102,12 @@
     --destructive: var(--red);
     --destructive-foreground: var(--white);
     --border: var(--grey-15);
+    --border-background: var(--grey-10);
     --input: var(--grey-15);
+    --input-background: var(--grey-10);
     --ring: var(--grey-80);
+    --navbar-icon-secondary: 240 6% 40%;
+    --navbar-text-secondary: var(--grey-70);
     --success: var(--green);
     --error: var(--red);
     --warning: var(--orange);
@@ -159,41 +174,6 @@
 .form-input {
   @apply font-light text-sm w-full mt-1 border-white/10 bg-white/5 rounded-[4px];
   @apply placeholder:text-white/50 !important;
-}
-
-/* Navbar utilities */
-.navbar-item svg {
-  @apply w-3 h-3 text-tertiary-background opacity-80 ease-in-out duration-150 truncate;
-}
-.navbar-item.active svg,
-.navbar-item:hover svg {
-  @apply text-primary opacity-100 brightness-200 contrast-200 bg-gradient-radial from-primary/15 to-transparent;
-}
-.navbar-item p {
-  @apply font-medium -tracking-[0.02em] text-tertiary-background ease-in-out duration-150 truncate;
-}
-.navbar-item.active p,
-.navbar-item:hover p {
-  @apply opacity-100 text-primary;
-}
-
-/* Navbar company badge */
-[data-state='open'] .nav-company-badge-chevron {
-  @apply transition-transform transform rotate-180;
-}
-.nav-company-badge-chevron {
-  @apply transition-transform transform rotate-0;
-}
-
-/* Entity list actions */
-.entity-list-action {
-  @apply text-tertiary-background font-light text-xs outline-none select-none focus:ring-0 focus:outline-none;
-}
-[data-state='open'] .entity-list-action-chevron {
-  @apply transition-transform transform rotate-180;
-}
-.entity-list-action-chevron {
-  @apply transition-transform transform rotate-0 text-tertiary-background group-hover:text-primary;
 }
 
 /* Temporary studio controls override */

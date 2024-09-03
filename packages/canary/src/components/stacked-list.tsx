@@ -6,7 +6,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { NavArrowRight } from '@harnessio/icons-noir'
 
 const listItemVariants = cva(
-  'p-2 align-middle flex flex-row flex-1 gap-1 px-4 py-3 border-b flex-wrap justify-start items-center hover:bg-primary/5 ease-in-out duration-150 cursor-pointer',
+  'p-2 align-middle flex flex-row flex-1 gap-1 px-4 py-3 border-b flex-wrap justify-start items-center',
   {
     variants: {
       disabled: {
@@ -40,6 +40,7 @@ interface ListItemProps extends React.ComponentProps<'div'>, VariantProps<typeof
   asChild?: boolean
   isLast?: boolean
   isHeader?: boolean
+  disableHover?: boolean
 }
 
 interface ListFieldProps extends Omit<React.ComponentProps<'div'>, 'title'>, VariantProps<typeof listFieldVariants> {
@@ -57,15 +58,26 @@ const List = ({ className, children, ...props }: ListProps) => (
 
 List.displayName = 'StackedList'
 
-const ListItem = ({ className, children, thumbnail, actions, asChild, isLast, isHeader, ...props }: ListItemProps) => {
+const ListItem = ({
+  className,
+  children,
+  thumbnail,
+  actions,
+  asChild,
+  isLast,
+  isHeader,
+  disableHover = false,
+  ...props
+}: ListItemProps) => {
   const Comp = asChild ? Slot : 'div'
   return (
     <Comp
       className={cn(
         listItemVariants({}),
         className,
-        isLast ? 'border-none' : 'border-b', // Apply the border-b class only if it's not the last item
-        isHeader ? 'bg-primary/[0.01]' : ''
+        isLast ? 'border-none' : 'border-b',
+        isHeader ? 'bg-primary/[0.01]' : '',
+        disableHover ? '' : 'hover:bg-primary/5 ease-in-out duration-150 cursor-pointer'
       )}
       {...props}>
       {thumbnail && <div className="mr-2 flex items-center">{thumbnail}</div>}

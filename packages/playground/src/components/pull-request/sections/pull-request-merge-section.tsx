@@ -35,13 +35,13 @@ const PullRequestMergeSection = ({
               icon={
                 unchecked ? (
                   // TODO: update icon for unchecked status
-                  <Clock className="text-warning mt-1" />
+                  <Clock className="text-warning" />
                 ) : (
                   <>
                     {mergeable ? (
-                      <Icon name="success" className="text-success mt-1" />
+                      <Icon name="success" className="text-success" />
                     ) : (
-                      <WarningTriangleSolid className="text-destructive mt-1" />
+                      <WarningTriangleSolid className="text-destructive" />
                     )}
                   </>
                 )

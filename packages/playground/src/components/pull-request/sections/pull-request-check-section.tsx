@@ -1,5 +1,14 @@
 import React from 'react'
-import { AccordionContent, AccordionItem, AccordionTrigger, Icon, StackedList, Text } from '@harnessio/canary'
+import {
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+  Badge,
+  cn,
+  Icon,
+  StackedList,
+  Text
+} from '@harnessio/canary'
 
 import { isEmpty } from 'lodash-es'
 import { WarningTriangleSolid, Clock, ChatBubble } from '@harnessio/icons-noir'
@@ -18,14 +27,14 @@ const PullRequestCheckSection = ({ checkData, checksInfo }: PullRequestMergeSect
     switch (status) {
       // TODO: fix icons to use from nucleo
       case ExecutionState.PENDING:
-        return <Clock className="mt-1" />
+        return <Clock />
       case ExecutionState.RUNNING:
-        return <ChatBubble className="text-warning mt-1" />
+        return <ChatBubble className="text-warning" />
       case ExecutionState.FAILURE:
       case ExecutionState.ERROR:
-        return <WarningTriangleSolid className="text-destructive mt-1" />
+        return <WarningTriangleSolid className="text-destructive" />
       default:
-        return <Icon name="success" className="text-success mt-1" />
+        return <Icon name="success" className="text-success" />
     }
   }
 
@@ -45,16 +54,18 @@ const PullRequestCheckSection = ({ checkData, checksInfo }: PullRequestMergeSect
             Show more
           </Text>
         </AccordionTrigger>
-        <AccordionContent className="pl-6">
+        <AccordionContent className="pl-6 flex flex-col">
           {checkData.map(check => {
             const time = timeDistance(check.check.created, check.check.updated)
-            return (
-              <div className="flex justify-between py-2 border-t">
-                <div className="flex">
-                  {getStatusIcon(check.check.status as EnumCheckStatus)}
 
-                  <div className="truncate min-w-[200px] max-w-[200px] pl-3 pt-0.5"> {check.check.identifier}</div>
-                  <div className="truncate max-w-[200px] pl-3 pt-0.5">
+            return (
+              <div className={cn('flex justify-between gap-2 items-center py-2.5 border-t')}>
+                <div className="flex items-center gap-2">
+                  {getStatusIcon(check.check.status as EnumCheckStatus)}
+                  <Text size={1} color="primary" truncate className="max-w-[300px] overflow-hidden">
+                    {check.check.identifier}
+                  </Text>
+                  <Text size={1} color="tertiaryBackground">
                     {check.check.status === ExecutionState.SUCCESS
                       ? `Succeeded in ${time}`
                       : check.check.status === ExecutionState.FAILURE
@@ -64,39 +75,71 @@ const PullRequestCheckSection = ({ checkData, checksInfo }: PullRequestMergeSect
                           : check.check.status === ExecutionState.PENDING
                             ? 'Pending...'
                             : `Errored in ${time}`}
-                  </div>
+                  </Text>
                 </div>
-                <div className="grid grid-cols-[84px_auto] items-center">
-                  <div className="col-span-1">
-                    {/* TODO: figure out how to do link in this? */}
-                    {/* <Link
-        className="text-blue-500 mx-2"
-        to={
-          routes.toCODEPullRequest({
-            repoPath: repoMetadata.path as string,
-            pullRequestId: String(pullReqMetadata.number),
-            pullRequestSection: PullRequestSection.CHECKS
-          }) + `?uid=${check.check.identifier}`
-        }
-      ></Link> */}
-                    {check.check.status !== ExecutionState.PENDING && (
-                      <Text weight="medium" size={1}>
-                        Details
+                <div className="flex items-center gap-4">
+                  <Text size={1} color="tertiaryBackground">
+                    Details
+                  </Text>
+                  {check.required && (
+                    <Badge variant="outline" size="sm">
+                      <Text size={1} color="tertiaryBackground">
+                        Required
                       </Text>
-                    )}
-                  </div>
-                  <div className="col-span-1 flex justify-end">
-                    {check.required ? (
-                      <div className="border rounded-full bg-transparent">
-                        <Text className="text-xs text-tertiary-background px-2 py-1.5">required</Text>
-                      </div>
-                    ) : (
-                      <div className="min-w-[70px]"></div>
-                    )}
-                  </div>
+                    </Badge>
+                  )}
                 </div>
               </div>
             )
+            //       return (
+            //         <div key={check_idx} className="flex justify-between py-2 border-t">
+            //           <div className="flex items-center">
+            //             {getStatusIcon(check.check.status as EnumCheckStatus)}
+
+            //             <div className="truncate min-w-[200px] max-w-[200px] pl-3 pt-0.5"> {check.check.identifier}</div>
+            //             <div className="truncate max-w-[200px] pl-3 pt-0.5">
+            //               {check.check.status === ExecutionState.SUCCESS
+            //                 ? `Succeeded in ${time}`
+            //                 : check.check.status === ExecutionState.FAILURE
+            //                   ? `Failed in ${time}`
+            //                   : check.check.status === ExecutionState.RUNNING
+            //                     ? 'Running...'
+            //                     : check.check.status === ExecutionState.PENDING
+            //                       ? 'Pending...'
+            //                       : `Errored in ${time}`}
+            //             </div>
+            //           </div>
+            //           <div className="grid grid-cols-[84px_auto] items-center">
+            //             <div className="col-span-1">
+            //               {/* TODO: figure out how to do link in this? */}
+            //               {/* <Link
+            //   className="text-blue-500 mx-2"
+            //   to={
+            //     routes.toCODEPullRequest({
+            //       repoPath: repoMetadata.path as string,
+            //       pullRequestId: String(pullReqMetadata.number),
+            //       pullRequestSection: PullRequestSection.CHECKS
+            //     }) + `?uid=${check.check.identifier}`
+            //   }
+            // ></Link> */}
+            //               {check.check.status !== ExecutionState.PENDING && (
+            //                 <Text weight="medium" size={1}>
+            //                   Details
+            //                 </Text>
+            //               )}
+            //             </div>
+            //             <div className="col-span-1 flex justify-end">
+            //               {check.required ? (
+            //                 <div className="border rounded-full bg-transparent">
+            //                   <Text className="text-xs text-tertiary-background px-2 py-1.5">required</Text>
+            //                 </div>
+            //               ) : (
+            //                 <div className="min-w-[70px]"></div>
+            //               )}
+            //             </div>
+            //           </div>
+            //         </div>
+            //       )
           })}
         </AccordionContent>
       </AccordionItem>

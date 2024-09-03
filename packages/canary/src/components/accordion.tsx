@@ -5,7 +5,6 @@ import { cn } from '@/lib/utils'
 
 const Accordion = AccordionPrimitive.Root
 
-// Define a type for the AccordionItem props, including isLast
 type AccordionItemProps = React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item> & {
   isLast?: boolean
 }
@@ -17,7 +16,6 @@ const AccordionItem = React.forwardRef<React.ElementRef<typeof AccordionPrimitiv
 )
 AccordionItem.displayName = 'AccordionItem'
 
-// Define a type for the AccordionTrigger props, including hideChevron and leftChevron
 type AccordionTriggerProps = React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> & {
   hideChevron?: boolean
   leftChevron?: boolean
@@ -30,6 +28,7 @@ const AccordionTrigger = React.forwardRef<React.ElementRef<typeof AccordionPrimi
         ref={ref}
         className={cn(
           'flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all',
+          '[&>svg]:data-[state=open]:rotate-180 [&>svg]:ease-in-out [&>svg]:duration-100',
           {
             'cursor-default': hideChevron,
             'flex-row-reverse gap-3': leftChevron

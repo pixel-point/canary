@@ -12,6 +12,7 @@ const textVariants = cva('text-base', {
       right: 'text-right'
     },
     size: {
+      0: 'text-[12px]',
       1: 'text-xs',
       2: 'text-sm',
       3: 'text-base',
@@ -76,7 +77,7 @@ interface TextProps extends React.ComponentProps<'span'> {
   /**
    * Sets the text size.
    */
-  size?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
+  size?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
 
   /**
    * Trims the leading whitespace from the start or end

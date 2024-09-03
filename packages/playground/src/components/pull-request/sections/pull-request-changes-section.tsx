@@ -75,20 +75,20 @@ const PullRequestChangesSection = ({
     switch (status) {
       // TODO: fix icons to use from nucleo
       case 'pending':
-        return <Icon name="pending-clock" className="text-warning mt-1" />
+        return <Icon name="pending-clock" className="text-warning" />
       case 'warning':
-        return <Icon name="triangle-warning" className="text-tertiary-background mt-1" />
+        return <Icon name="triangle-warning" className="text-tertiary-background" />
       case 'error':
-        return <Icon name="triangle-warning" className="text-destructive mt-1" />
+        return <Icon name="triangle-warning" className="text-destructive" />
       default:
-        return <Icon name="success" className="text-success mt-1" />
+        return <Icon name="success" className="text-success" />
     }
   }
   function renderCodeOwnerStatus() {
     if (codeOwnerPendingEntries && codeOwnerPendingEntries?.length > 0 && reqCodeOwnerLatestApproval) {
       return (
         <div className="flex pl-2">
-          <Icon name="circle" className="text-warning mt-1" />
+          <Icon name="circle" className="text-warning" />
           <Text className="mt-0.5 pl-2 text-xs">{'Waiting on code owner reviews of latest changes'}</Text>
         </div>
       )
@@ -97,7 +97,7 @@ const PullRequestChangesSection = ({
     if (codeOwnerPendingEntries && codeOwnerPendingEntries?.length > 0 && reqCodeOwnerApproval) {
       return (
         <div className="flex pl-2">
-          <Icon name="circle" className="text-warning mt-1" />
+          <Icon name="circle" className="text-warning" />
           <Text className="mt-0.5 pl-2 text-xs">{`Changes are pending approval from code owners`}</Text>
         </div>
       )
@@ -111,7 +111,7 @@ const PullRequestChangesSection = ({
     ) {
       return (
         <div className="flex pl-2">
-          <Icon name="circle" className="text-tertiary-background mt-1" />
+          <Icon name="circle" className="text-tertiary-background" />
           <Text className="mt-0.5 pl-2 text-xs">{`Some changes were approved by code owners`}</Text>
         </div>
       )
@@ -119,7 +119,7 @@ const PullRequestChangesSection = ({
     if (latestCodeOwnerApprovalArr && latestCodeOwnerApprovalArr?.length > 0 && reqCodeOwnerLatestApproval) {
       return (
         <Text className="flex ml-2">
-          <CheckCircleSolid className="text-success mt-1" />
+          <CheckCircleSolid className="text-success" />
           <Text className="mt-0.5 pl-2 text-xs">{`Latest changes were approved by code owners`}</Text>
         </Text>
       )
@@ -127,7 +127,7 @@ const PullRequestChangesSection = ({
     if (codeOwnerApprovalEntries && codeOwnerApprovalEntries?.length > 0 && reqCodeOwnerApproval) {
       return (
         <Text className="flex ml-2">
-          <CheckCircleSolid className="text-success mt-1" />
+          <CheckCircleSolid className="text-success" />
           <Text className="mt-0.5 pl-2 text-xs">{`Changes were approved by code owners`}</Text>
         </Text>
       )
@@ -141,14 +141,14 @@ const PullRequestChangesSection = ({
       ) {
         return (
           <div className="flex pl-2">
-            <Icon name="pending-clock" className="text-warning mt-1" />
+            <Icon name="pending-clock" className="text-warning" />
             <Text className="mt-0.5 pl-2 text-xs">{`Latest changes are pending approval from required reviewers`}</Text>
           </div>
         )
       }
       return (
         <div className="flex pl-2">
-          <Icon name="circle" className="text-warning mt-1" />
+          <Icon name="circle" className="text-warning" />
           <Text className="mt-0.5 pl-2 text-xs">{`Changes were approved by code owners`}</Text>
         </div>
       )
@@ -156,7 +156,7 @@ const PullRequestChangesSection = ({
 
     return (
       <div className="flex pl-2">
-        <Icon name="circle" className="text-tertiary-background mt-1" />
+        <Icon name="circle" className="text-tertiary-background" />
 
         <Text className="mt-0.5 pl-2 text-xs">{`No codeowner reviews`}</Text>
       </div>
@@ -190,14 +190,14 @@ const PullRequestChangesSection = ({
                 <div className="flex pt-2 border-t mt-3 ml-2 items-center justify-between">
                   {approvedEvaluations && minApproval <= approvedEvaluations?.length ? (
                     <Text className="flex ml-2">
-                      <CheckCircleSolid className="text-success mt-1" />
+                      <CheckCircleSolid className="text-success" />
                       <Text className="mt-0.5 pl-2 text-xs">
                         {`Changes were approved by ${approvedEvaluations?.length} ${approvedEvaluations?.length === 1 ? 'reviewer' : 'reviewers'}`}
                       </Text>
                     </Text>
                   ) : (
                     <div className="flex ml-2">
-                      <Icon name="circle" className="text-warning mt-1" />
+                      <Icon name="circle" className="text-warning" />
                       <Text className="mt-0.5 pl-2 text-xs">{`${(approvedEvaluations && approvedEvaluations.length) || 0}/${minApproval} approvals completed`}</Text>
                     </div>
                   )}
@@ -212,12 +212,12 @@ const PullRequestChangesSection = ({
               <div className="flex pt-2 border-t mt-3 ml-2 items-center justify-between">
                 {latestApprovalArr && minReqLatestApproval && minReqLatestApproval <= latestApprovalArr?.length ? (
                   <Text className="flex ml-2">
-                    <CheckCircleSolid className="text-success mt-1" />
+                    <CheckCircleSolid className="text-success" />
                     <Text className="mt-0.5 pl-2 text-xs">{`Latest changes were approved by ${latestApprovalArr?.length || minReqLatestApproval || 0} ${(latestApprovalArr?.length || minReqLatestApproval) === 1 ? 'reviewer' : 'reviewers'}`}</Text>
                   </Text>
                 ) : (
                   <div className="flex ml-2">
-                    <Icon name="circle" className="text-warning mt-1" />
+                    <Icon name="circle" className="text-warning" />
                     <Text className="mt-0.5 pl-2 text-xs">
                       {`${latestApprovalArr?.length || minReqLatestApproval || 0} ${(latestApprovalArr?.length || minReqLatestApproval) === 1 ? 'approval' : 'approvals'} pending on latest changes`}
                     </Text>
@@ -235,7 +235,7 @@ const PullRequestChangesSection = ({
                 <Text className="flex ml-2">
                   <Icon
                     name="triangle-warning"
-                    className={cx('mt-1', {
+                    className={cx('', {
                       'text-destructive': reqNoChangeReq,
                       'text-tertiary-background': !reqNoChangeReq
                     })}
@@ -257,7 +257,7 @@ const PullRequestChangesSection = ({
                   <Text>
                     <Icon
                       name="triangle-warning"
-                      className={cx('mt-1', {
+                      className={cx('', {
                         'text-destructive': reqCodeOwnerApproval || reqCodeOwnerLatestApproval,
                         'text-tertiary-background': !reqCodeOwnerApproval || !reqCodeOwnerLatestApproval
                       })}

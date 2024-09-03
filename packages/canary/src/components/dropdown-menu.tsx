@@ -1,12 +1,29 @@
 import * as React from 'react'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import { CheckIcon, ChevronRightIcon, DotFilledIcon } from '@radix-ui/react-icons'
-
 import { cn } from '@/lib/utils'
 
 const DropdownMenu = DropdownMenuPrimitive.Root
 
-const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger
+const DropdownMenuTrigger = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Trigger> & {
+    insideSplitButton?: boolean
+  }
+>(({ className, insideSplitButton, children, ...props }, ref) => (
+  <DropdownMenuPrimitive.Trigger
+    ref={ref}
+    className={cn(
+      '[&>svg]:data-[state=open]:rotate-180 [&>svg]:ease-in-out [&>svg]:duration-100',
+      { 'border-l border-inherit flex items-center px-2.5 py-0.5 outline-none cursor-pointer': insideSplitButton },
+      className
+    )}
+    {...props}>
+    {children}
+  </DropdownMenuPrimitive.Trigger>
+))
+
+DropdownMenuTrigger.displayName = DropdownMenuPrimitive.Trigger.displayName
 
 const DropdownMenuGroup = DropdownMenuPrimitive.Group
 

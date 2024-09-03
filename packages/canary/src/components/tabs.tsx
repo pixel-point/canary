@@ -8,7 +8,7 @@ const tabsListVariants = cva('inline-flex items-center text-muted-foreground', {
     variant: {
       default: 'h-9 rounded-lg bg-muted p-1 justify-center',
       underline: 'h-11 gap-4 justify-center',
-      navigation: 'h-[44px] border-b gap-6 justify-start w-full px-8',
+      navigation: 'h-[44px] border-b border-border-background gap-6 justify-start w-full px-8',
       tabnav: 'h-[36px] gap-0 justify-start w-full'
     }
   },
@@ -29,7 +29,7 @@ const tabsTriggerVariants = cva(
         navigation:
           'px-0 font-normal text-xs text-tertiary-background hover:text-primary ease-in-out duration-150 h-[44px] border-b border-b-transparent border-solid m-0 data-[state=active]:text-primary data-[state=active]:border-tertiary-background',
         tabnav:
-          'px-4 items-center gap-2 duration-0 bg-background font-normal text-sm text-tertiary-background hover:text-primary h-[36px] border-t-0 border-l-0 border-r-0 border-b rounded-tl-md rounded-tr-md m-0 data-[state=active]:text-primary [&svg]:data-[state=active]:brightness-200 data-[state=active]:border-t data-[state=active]:border-r data-[state=active]:border-l data-[state=active]:border-b-0'
+          'px-4 items-center gap-2 bg-background font-normal text-sm text-tertiary-background ease-in-out duration-150 hover:text-primary h-[36px] rounded-tl-md rounded-tr-md m-0 data-[state=active]:text-primary [&svg]:data-[state=active]:text-primary shadow-inactive-tab data-[state=active]:shadow-active-tab'
       }
     },
     defaultVariants: {
@@ -70,9 +70,9 @@ const Tabs = React.forwardRef<React.ElementRef<typeof TabsPrimitive.Root>, TabsP
         {variant === 'tabnav' ? (
           <div className="relative w-full grid grid-flow-col grid-cols-[auto_1fr] items-end">
             {children}
-            <div className="h-[36px] border-b" />
-            <div className="absolute right-full w-[9999px] h-[36px] border-b" />
-            <div className="absolute left-full w-[9999px] h-[36px] border-b" />
+            <div className="h-[36px] border-b border-border-background" />
+            <div className="absolute right-full w-[9999px] h-[36px] border-b border-border-background" />
+            <div className="absolute left-full w-[9999px] h-[36px] border-b border-border-background" />
           </div>
         ) : (
           children
@@ -113,7 +113,6 @@ interface TabsTriggerProps
 const TabsTrigger = React.forwardRef<React.ElementRef<typeof TabsPrimitive.Trigger>, TabsTriggerProps>(
   ({ className, variant, ...props }, ref) => {
     const context = React.useContext(TabsContext)
-
     return (
       <TabsPrimitive.Trigger
         ref={ref}

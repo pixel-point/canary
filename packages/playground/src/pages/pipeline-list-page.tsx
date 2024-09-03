@@ -20,6 +20,7 @@ import SkeletonList from '../components/loaders/skeleton-list'
 import NoSearchResults from '../components/no-search-results'
 import NoData from '../components/no-data'
 import PlaygroundListSettings from '../components/playground/list-settings'
+import TopBarWidget from '../components/layout/top-bar-widget'
 
 const mockPipelines = [
   {
@@ -142,6 +143,7 @@ function PipelineListPage() {
 
   return (
     <>
+      <TopBarWidget />
       <PaddingListLayout>
         <Text size={5} weight={'medium'}>
           Pipelines
@@ -149,7 +151,7 @@ function PipelineListPage() {
         <Spacer size={6} />
         <ListActions.Root>
           <ListActions.Left>
-            <SearchBox.Root placeholder="Search" />
+            <SearchBox.Root placeholder="Search pipelines" />
           </ListActions.Left>
           <ListActions.Right>
             <ListActions.Dropdown title="Filter" items={filterOptions} />

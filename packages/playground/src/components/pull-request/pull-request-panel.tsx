@@ -1,5 +1,16 @@
 import React, { useMemo } from 'react'
-import { Accordion, SplitButton, StackedList, Text } from '@harnessio/canary'
+import {
+  Accordion,
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  Icon,
+  StackedList,
+  Text
+} from '@harnessio/canary'
 import {
   MergeCheckStatus,
   PullRequestState,
@@ -89,7 +100,7 @@ const PullRequestPanel = ({
 
   return (
     <StackedList.Root>
-      <StackedList.Item isHeader>
+      <StackedList.Item isHeader disableHover>
         <StackedList.Field
           title={
             <HeaderTitle
@@ -105,13 +116,36 @@ const PullRequestPanel = ({
         <StackedList.Field
           right
           title={
-            <SplitButton variant="outline" size="sm">
+            <Button
+              variant="split"
+              size="xs_split"
+              theme={
+                mergeable && checksInfo.status === 'success'
+                  ? 'success'
+                  : checksInfo.status === 'pending' || checksInfo.status === 'running'
+                    ? 'warning'
+                    : 'error'
+              }
+              dropdown={
+                <DropdownMenu>
+                  <DropdownMenuTrigger insideSplitButton>
+                    <Icon name="chevron-down" size={11} />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="mt-1">
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem>Split button item 1</DropdownMenuItem>
+                      <DropdownMenuItem>Split button item 2</DropdownMenuItem>
+                      <DropdownMenuItem>Split button item 2</DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              }>
               Squash and merge
-            </SplitButton>
+            </Button>
           }
         />
       </StackedList.Item>
-      <StackedList.Item className="py-0 hover:bg-transparent cursor-default">
+      <StackedList.Item disableHover className="py-0 hover:bg-transparent cursor-default">
         <Accordion type="multiple" className="w-full">
           {!pullReqMetadata.merged && (
             <PullRequestChangesSection

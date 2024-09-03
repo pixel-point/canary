@@ -163,7 +163,7 @@ export default function PullRequestList({ ...props }: PageProps) {
     <>
       {filteredData && filteredData.length > 0 && (
         <StackedList.Root>
-          <StackedList.Item isHeader>
+          <StackedList.Item isHeader disableHover>
             <StackedList.Field
               title={<HeaderTitle headerFilter={headerFilter} setHeaderFilter={setHeaderFilter} />}></StackedList.Field>
           </StackedList.Item>

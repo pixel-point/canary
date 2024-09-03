@@ -11,22 +11,22 @@ const RootLayout: React.FC = () => {
   const primaryMenuItems = [
     {
       text: 'Repositories',
-      icon: <Icon name="repositories" />,
+      icon: <Icon name="repositories" size={12} />,
       to: '/repos'
     },
     {
       text: 'Pipelines',
-      icon: <Icon name="pipelines" />,
+      icon: <Icon name="pipelines" size={12} />,
       to: '/pipelines'
     },
     {
       text: 'Executions',
-      icon: <Icon name="executions" />,
+      icon: <Icon name="executions" size={12} />,
       to: '/executions'
     },
     {
       text: 'Featured Flags',
-      icon: <Icon name="featured-flags" />,
+      icon: <Icon name="featured-flags" size={12} />,
       to: '/feature-flags'
     }
   ]
@@ -34,37 +34,37 @@ const RootLayout: React.FC = () => {
   const pinnedMenuItems = [
     {
       text: 'Chaos Engineering',
-      icon: <Icon name="chaos-engineering" />,
+      icon: <Icon name="chaos-engineering" size={12} />,
       to: '/chaos-engineering'
     },
     {
       text: 'Environment',
-      icon: <Icon name="environment" />,
+      icon: <Icon name="environment" size={12} />,
       to: 'environment'
     },
     {
       text: 'Secrets',
-      icon: <Icon name="secrets" />,
+      icon: <Icon name="secrets" size={12} />,
       to: 'secrets'
     },
     {
       text: 'Connectors',
-      icon: <Icon name="connectors" />,
+      icon: <Icon name="connectors" size={12} />,
       to: 'connectors'
     },
     {
       text: 'Home Page',
-      icon: <Icon name="chaos-engineering" />,
+      icon: <Icon name="chaos-engineering" size={12} />,
       to: '/'
     },
     {
       text: 'Sign Up',
-      icon: <Icon name="environment" />,
+      icon: <Icon name="environment" size={12} />,
       to: '/signup'
     },
     {
       text: 'Sign In',
-      icon: <Icon name="secrets" />,
+      icon: <Icon name="secrets" size={12} />,
       to: '/signin'
     }
   ]
@@ -72,15 +72,15 @@ const RootLayout: React.FC = () => {
   const sampleProjectList = [
     {
       title: 'Playground'
-      // icon: <Icon name="archive" />
+      // icon: <Icon name="archive" size={12} />
     },
     {
       title: 'Drone'
-      // icon: <Icon name="archive" />
+      // icon: <Icon name="archive" size={12} />
     },
     {
       title: 'Pixel Point'
-      // icon: <Icon name="archive" />
+      // icon: <Icon name="archive" size={12} />
     }
   ]
 
@@ -91,7 +91,7 @@ const RootLayout: React.FC = () => {
           <Navbar.Header>
             <NavbarProjectChooser.Root
               name="Playground"
-              avatar={<Icon name="harness" size={16} />}
+              avatar={<Icon name="harness-white" size={20} />}
               projects={sampleProjectList}
             />
           </Navbar.Header>
@@ -102,7 +102,7 @@ const RootLayout: React.FC = () => {
                   {({ isActive }) => <Navbar.Item key={idx} text={item.text} icon={item.icon} active={isActive} />}
                 </NavLink>
               ))}
-              <Navbar.Item text="More" icon={<Icon name="ellipsis" />} />
+              <Navbar.Item text="More" icon={<Icon name="ellipsis" size={12} />} />
             </Navbar.Group>
             <Navbar.AccordionGroup title="Pinned">
               {pinnedMenuItems.map((item, idx) => (

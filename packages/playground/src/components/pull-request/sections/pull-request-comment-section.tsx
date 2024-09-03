@@ -19,7 +19,7 @@ const PullRequestCommentSection = ({ commentsInfo, handleAction }: PullRequestMe
                 commentsInfo.status === 'success' ? (
                   <Icon name="success" size={16} />
                 ) : (
-                  <WarningTriangleSolid className="text-destructive mt-1" />
+                  <WarningTriangleSolid className="text-destructive" />
                 )
               }
             />

@@ -2,6 +2,7 @@ import * as React from 'react'
 import ChevronDown from '../icons/chevron-down.svg'
 import Archive from '../icons/repositories-icon.svg'
 import Harness from '../icons/harness.svg'
+import HarnessWhite from '../icons/harness-white.svg'
 import Pipelines from '../icons/pipelines-icon.svg'
 import Executions from '../icons/executions-icon.svg'
 import FeaturedFlags from '../icons/featured-flags-icon.svg'
@@ -35,6 +36,7 @@ import Clone from '../icons/clone.svg'
 import TriangleWarning from '../icons/triangle-warning.svg'
 import PendingClock from '../icons/pending-clock.svg'
 import Circle from '../icons/circle.svg'
+import AppleShortcut from '../icons/apple-shortcut.svg'
 import Edit from '../icons/edit.svg'
 
 // import Fork from '../icons/fork.svg'
@@ -43,6 +45,7 @@ const IconNameMap = {
   'chevron-down': ChevronDown,
   archive: Archive,
   harness: Harness,
+  'harness-white': HarnessWhite,
   pipelines: Pipelines,
   executions: Executions,
   'featured-flags': FeaturedFlags,
@@ -76,7 +79,9 @@ const IconNameMap = {
   'triangle-warning': TriangleWarning,
   'pending-clock': PendingClock,
   circle: Circle,
+  'apple-shortcut': AppleShortcut,
   'edit-pen': Edit
+
   // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 
@@ -90,7 +95,6 @@ export interface IconProps {
 
 const Icon: React.FC<IconProps> = ({ name, size = 16, height, width, className }) => {
   const Component = IconNameMap[name]
-  console.log({ Component })
   return <Component width={width || size} height={height || size} className={className} />
 }
 

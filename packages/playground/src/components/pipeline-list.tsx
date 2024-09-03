@@ -1,6 +1,13 @@
-import { Icon, StackedList } from '@harnessio/canary'
+import { Icon, StackedList, Meter } from '@harnessio/canary'
 import React from 'react'
 import { Link } from 'react-router-dom'
+
+export enum MeterState {
+  Empty = 0,
+  Error = 1,
+  Warning = 2,
+  Success = 3
+}
 
 interface Pipeline {
   id: string
@@ -10,6 +17,10 @@ interface Pipeline {
   description: string
   version: string
   timestamp: string
+  meter?: {
+    id: string
+    state: MeterState
+  }[]
 }
 
 interface PageProps {
@@ -57,7 +68,12 @@ export default function PipelineList({ ...props }: PageProps) {
                     <Description sha={pipeline.sha} description={pipeline.description} version={pipeline.version} />
                   }
                 />
-                <StackedList.Field title={pipeline.timestamp} right label secondary />
+                <StackedList.Field
+                  label
+                  secondary
+                  title={pipeline.meter ? <Meter.Root data={pipeline.meter} /> : pipeline.timestamp}
+                  right
+                />
               </Link>
             </StackedList.Item>
           ))}

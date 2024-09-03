@@ -18,7 +18,9 @@ module.exports = {
       },
       colors: {
         border: 'hsl(var(--border))',
+        'border-background': 'hsl(var(--border-background))',
         input: 'hsl(var(--input))',
+        'input-background': 'hsl(var(--input-background))',
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
@@ -57,11 +59,26 @@ module.exports = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))'
         },
+        'navbar-icon': {
+          secondary: 'hsl(var(--navbar-icon-secondary))'
+        },
+        'navbar-text': {
+          secondary: 'hsl(var(--navbar-text-secondary))'
+        },
         white: {
           DEFAULT: 'hsl(var(--white))'
         },
         black: {
           DEFAULT: 'hsl(var(--black))'
+        },
+        red: {
+          DEFAULT: 'hsl(var(--red))'
+        },
+        green: {
+          DEFAULT: 'hsl(var(--green))'
+        },
+        orange: {
+          DEFAULT: 'hsl(var(--orange))'
         },
         success: {
           DEFAULT: 'hsl(var(--success))'
@@ -71,6 +88,15 @@ module.exports = {
         },
         warning: {
           DEFAULT: 'hsl(var(--warning))'
+        },
+        'success-glow': {
+          DEFAULT: 'hsl(var(--success-glow))'
+        },
+        'error-glow': {
+          DEFAULT: 'hsl(var(--error-glow))'
+        },
+        'warning-glow': {
+          DEFAULT: 'hsl(var(--warning-glow))'
         },
         ai: {
           DEFAULT: 'hsl(var(--ai))'
@@ -88,6 +114,16 @@ module.exports = {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))'
+      },
+      boxShadow: {
+        't-md': '0 -1px 0 0 var(--border-background)',
+        'l-md': '-1px 0 0 0 var(--border-background)',
+        'r-md': '1px 0 0 0 var(--border-background)',
+        'b-md': '0 1px 0 0 var(--border-background)',
+        'active-tab':
+          'inset 0 1px 0 0 hsl(var(--border-background)), inset 1px 0 0 0 hsl(var(--border-background)), inset -1px 0 0 0 hsl(var(--border-background))',
+        'inactive-tab': 'inset 0 -1px 0 0 hsl(var(--border-background))',
+        'error-glow': '0 0 6px 2px hsl(var(--error))'
       },
       keyframes: {
         'accordion-down': {

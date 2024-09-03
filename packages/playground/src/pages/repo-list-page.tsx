@@ -20,6 +20,7 @@ import PlaygroundListSettings from '../components/playground/list-settings'
 import SkeletonList from '../components/loaders/skeleton-list'
 import NoData from '../components/no-data'
 import NoSearchResults from '../components/no-search-results'
+import TopBarWidget from '../components/layout/top-bar-widget'
 
 const mockRepos = [
   {
@@ -142,6 +143,7 @@ function RepoListPage() {
 
   return (
     <>
+      <TopBarWidget />
       <PaddingListLayout>
         <Text size={5} weight={'medium'}>
           Repositories
@@ -149,7 +151,7 @@ function RepoListPage() {
         <Spacer size={6} />
         <ListActions.Root>
           <ListActions.Left>
-            <SearchBox.Root placeholder="Search" />
+            <SearchBox.Root placeholder="Search repositories" />
           </ListActions.Left>
           <ListActions.Right>
             <ListActions.Dropdown title="Filter" items={filterOptions} />
