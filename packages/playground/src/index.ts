@@ -1,5 +1,6 @@
 export * from './components/execution-list'
-
+export * from './components/pipeline-list'
+export * from './components/theme-provider'
 export * from './components/pipeline-studio/pipeline-studio-toolbar-actions'
 export * from './components/pipeline-studio/problems'
 export * from './components/pipeline-studio/visual-yaml-toggle'

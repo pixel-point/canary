@@ -14,7 +14,7 @@ import {
   PaginationEllipsis,
   PaginationNext
 } from '@harnessio/canary'
-import PipelineList from '../components/pipeline-list'
+import { PipelineList } from '../components/pipeline-list'
 import PaddingListLayout from '../layouts/PaddingListLayout'
 import SkeletonList from '../components/loaders/skeleton-list'
 import NoSearchResults from '../components/no-search-results'
