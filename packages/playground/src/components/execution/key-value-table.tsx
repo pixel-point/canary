@@ -25,98 +25,120 @@ interface KeyValueTableProps {
   tableSpec: KeyValuePair[]
 }
 
+//manage style for using repeatly
+const accordionContentStyle = `w-full pl-1 pr-0 pb-0`
+const specTitleStyle = 'flex-grow text-studio-2 text-left'
+
 export const KeyValueTable: React.FC<KeyValueTableProps> = ({
   className,
   tableTitleName,
   tableTitleVal,
   tableSpec
 }) => {
-  // ToDO:const getAccordian = () => <div></div> // do this function recursively
+  const renderListItems = (items: KeyValuePair[], level: number = 1) => {
+    //detect if the listItems is objects or array, tailwind css will not generate
+    const listItems = Array.isArray(items) ? items : [items]
+
+    return listItems.map((item, index: number) => {
+      if (typeof item.value === 'string') {
+        return (
+          <ul className="border-b flex flex-row align-middle" key={index} style={{ paddingLeft: `${level / 2}rem` }}>
+            <li className="pr-2.5 py-2.5 w-1/2 text-studio-7" style={{ paddingLeft: `${level * 1 + 1}rem` }}>
+              <Text size={2} weight="normal">
+                {item.name}
+              </Text>
+            </li>
+            <li className="pr-2.5 py-2.5 w-1/2 text-studio-7">
+              <Text size={2} weight="normal">
+                {item.value}
+              </Text>
+            </li>
+          </ul>
+        )
+      } else if (Array.isArray(item.value) || typeof item.value === 'object') {
+        return (
+          <Accordion type="single" key={index} className="border-0" defaultValue={item.name} collapsible>
+            <AccordionItem value={item.name} className="border-0">
+              <AccordionTrigger
+                className="w-full pt-2 pb-2 pr-4 flex gap-1"
+                leftChevron
+                style={{
+                  paddingLeft: `${level * 1 + 1}rem`
+                }}>
+                <Text size={2} weight="normal" className={specTitleStyle}>
+                  {item.name}
+                </Text>
+              </AccordionTrigger>
+              <AccordionContent className={accordionContentStyle}>
+                {renderListItems(item.value, level + 1)}
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        )
+      }
+      return null
+    })
+  }
+
+  const renderTableRows = (tableSpec: KeyValuePair[]) => {
+    return tableSpec.map((item, index: number) => {
+      if (typeof item.value === 'string') {
+        return (
+          <TableRow key={index} className="border-b">
+            <TableCell className="pt-2.5 pl-4 w-1/2">
+              <Text size={2} weight="normal" className="text-studio-7">
+                {item.name}
+              </Text>
+            </TableCell>
+            <TableCell className="pt-2.5 w-1/2">
+              <Text size={2} weight="normal" className="text-studio-7">
+                {item.value}
+              </Text>
+            </TableCell>
+          </TableRow>
+        )
+      } else if (Array.isArray(item.value) || typeof item.value === 'object') {
+        return (
+          <TableRow key={index} className="border-0">
+            <TableCell colSpan={2} className="p-0 border-0">
+              <Accordion type="single" collapsible defaultValue={item.name}>
+                <AccordionItem value={item.name} className="border-0">
+                  <AccordionTrigger
+                    className="w-full pt-2 pb-2 pl-4 flex pr-4 gap-1 data-[state=open]:border-b-0 data-[state=closed]:border-b"
+                    leftChevron>
+                    <Text size={2} weight="normal" className={specTitleStyle}>
+                      {item.name}
+                    </Text>
+                  </AccordionTrigger>
+                  <AccordionContent className={accordionContentStyle}>{renderListItems(item.value)}</AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </TableCell>
+          </TableRow>
+        )
+      }
+      return null
+    })
+  }
+
   return (
     <div className="overflow-x-auto pt-4">
       <Table className={className}>
         <TableHeader>
           <TableRow>
             <TableHead>
-              <Text size={2} weight="semibold" className="text-ring">
+              <Text size={2} weight="semibold" className="text-primary">
                 {tableTitleName}
               </Text>
             </TableHead>
             <TableHead>
-              <Text size={2} weight="semibold" className="text-ring">
+              <Text size={2} weight="semibold" className="text-primary">
                 {tableTitleVal}
               </Text>
             </TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
-          {/* Todo: currently for the simple data, will add more accdordin sec with recursive data */}
-          {Array.isArray(tableSpec) &&
-            tableSpec.map((item, index: number) => {
-              //make the detection better
-              if (typeof item.value === 'string') {
-                return (
-                  <TableRow key={index}>
-                    <TableCell className="pt-2.5 pl-4 w-1/2">
-                      <Text size={2} weight="normal" className="text-ring">
-                        {item.name}
-                      </Text>
-                    </TableCell>
-                    <TableCell className="pt-2.5 w-1/2">
-                      <Text size={2} weight="normal" className="text-ring">
-                        {item.value}
-                      </Text>
-                    </TableCell>
-                  </TableRow>
-                )
-              }
-            })}
-          {/* // currently low level for nested accordions-successfully
-              // Todo: render span first recurively and then add the accordion */}
-          <TableRow key="test">
-            <TableCell colSpan={2} className="p-0">
-              <Accordion collapsible type="single">
-                <AccordionItem value="specs">
-                  <AccordionTrigger className="w-full pt-2 pb-2 pl-4 flex">
-                    <Text
-                      size={2}
-                      weight="normal"
-                      className="text-ring text-left"
-                      style={{ color: 'rgba(147, 147, 159, 1)' }}>
-                      specs
-                    </Text>
-                  </AccordionTrigger>
-                  <AccordionContent className="w-full pl-0 pr-0">
-                    <ul className="border-b">
-                      <li className="p-2.5 pl-8 inline-block w-1/2">
-                        <Text size={2} weight="normal" className="text-ring">
-                          this is spec test col1
-                        </Text>
-                      </li>
-                      <li className="p-2.5 inline-block w-1/2">
-                        <Text size={2} weight="normal" className="text-ring">
-                          this is spec test value col1
-                        </Text>
-                      </li>
-                    </ul>
-                    <ul className="border-b">
-                      <li className="p-2.5 pl-8 inline-block w-1/2">
-                        <Text size={2} weight="normal" className="text-ring">
-                          this is spec test col2
-                        </Text>
-                      </li>
-                      <li className="p-2.5 inline-block w-1/2">
-                        <Text size={2} weight="normal" className="text-ring">
-                          this is spec test value col2
-                        </Text>
-                      </li>
-                    </ul>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </TableCell>
-          </TableRow>
-        </TableBody>
+        <TableBody>{Array.isArray(tableSpec) && renderTableRows(tableSpec)}</TableBody>
       </Table>
     </div>
   )
