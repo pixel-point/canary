@@ -4,7 +4,7 @@ export const mockCodeOwnerData = {
   evaluation_entries: [
     {
       line_number: 2,
-      pattern: '**',
+      pattern: 'WORKSPACE',
       owner_evaluations: [
         {
           owner: {
@@ -16,7 +16,33 @@ export const mockCodeOwnerData = {
             created: 1707765218469,
             updated: 1707765218469
           },
-          review_decision: '' as EnumPullReqReviewDecision,
+          review_decision: 'approved' as EnumPullReqReviewDecision,
+          review_sha: ''
+        },
+        {
+          owner: {
+            id: 15,
+            uid: 'admin',
+            display_name: 'admin',
+            email: 'admin@harness.io',
+            type: 'user' as EnumPrincipalType,
+            created: 1707765218469,
+            updated: 1707765218469
+          },
+          review_decision: 'changereq' as EnumPullReqReviewDecision,
+          review_sha: ''
+        },
+        {
+          owner: {
+            id: 15,
+            uid: 'calvin',
+            display_name: 'Calvin Lee',
+            email: 'cl@harness.io',
+            type: 'user' as EnumPrincipalType,
+            created: 1707765218469,
+            updated: 1707765218469
+          },
+          review_decision: 'approved' as EnumPullReqReviewDecision,
           review_sha: ''
         }
       ],

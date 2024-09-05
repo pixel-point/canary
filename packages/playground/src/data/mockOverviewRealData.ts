@@ -1,3 +1,9 @@
+import {
+  EnumPrincipalType,
+  EnumPullReqActivityKind,
+  EnumPullReqActivityType
+} from '../components/pull-request/interfaces'
+
 export const mockOverviewRealData = [
   [
     {
@@ -17,8 +23,8 @@ export const mockOverviewRealData = [
         pullreq_id: 59,
         order: 2,
         sub_order: 0,
-        type: 'branch-delete',
-        kind: 'system',
+        type: 'branch-delete' as EnumPullReqActivityType,
+        kind: 'system' as EnumPullReqActivityKind,
         text: '',
         payload: {
           sha: '3024731eb5c27938cce2a7686506aea543fd0cc1'
@@ -28,7 +34,7 @@ export const mockOverviewRealData = [
           uid: 'admin',
           display_name: 'Administrator',
           email: 'admin@gitness.io',
-          type: 'user',
+          type: 'user' as EnumPrincipalType,
           created: 1699863416002,
           updated: 1699863416002
         }
@@ -57,8 +63,8 @@ export const mockOverviewRealData = [
         pullreq_id: 59,
         order: 1,
         sub_order: 0,
-        type: 'merge',
-        kind: 'system',
+        type: 'merge' as EnumPullReqActivityType,
+        kind: 'system' as EnumPullReqActivityKind,
         text: '',
         payload: {
           merge_method: 'merge',
@@ -72,7 +78,7 @@ export const mockOverviewRealData = [
           uid: 'admin',
           display_name: 'Administrator',
           email: 'admin@gitness.io',
-          type: 'user',
+          type: 'user' as EnumPrincipalType,
           created: 1699863416002,
           updated: 1699863416002
         }
@@ -99,8 +105,8 @@ export const mockOverviewRealData = [
         pullreq_id: 12,
         order: 68,
         sub_order: 0,
-        type: 'state-change',
-        kind: 'system',
+        type: 'state-change' as EnumPullReqActivityType,
+        kind: 'system' as EnumPullReqActivityKind,
         text: '',
         payload: {
           old: 'open',
@@ -113,7 +119,7 @@ export const mockOverviewRealData = [
           uid: 'admin',
           display_name: 'Administrator',
           email: 'admin@gitness.io',
-          type: 'user',
+          type: 'user' as EnumPrincipalType,
           created: 1699863416002,
           updated: 1699863416002
         }
@@ -140,8 +146,8 @@ export const mockOverviewRealData = [
         pullreq_id: 12,
         order: 67,
         sub_order: 0,
-        type: 'state-change',
-        kind: 'system',
+        type: 'state-change' as EnumPullReqActivityType,
+        kind: 'system' as EnumPullReqActivityKind,
         text: '',
         payload: {
           old: 'open',
@@ -154,7 +160,7 @@ export const mockOverviewRealData = [
           uid: 'admin',
           display_name: 'Administrator',
           email: 'admin@gitness.io',
-          type: 'user',
+          type: 'user' as EnumPrincipalType,
           created: 1699863416002,
           updated: 1699863416002
         }
@@ -181,8 +187,8 @@ export const mockOverviewRealData = [
         pullreq_id: 12,
         order: 66,
         sub_order: 0,
-        type: 'state-change',
-        kind: 'system',
+        type: 'state-change' as EnumPullReqActivityType,
+        kind: 'system' as EnumPullReqActivityKind,
         text: '',
         payload: {
           old: 'open',
@@ -195,7 +201,7 @@ export const mockOverviewRealData = [
           uid: 'admin',
           display_name: 'Administrator',
           email: 'admin@gitness.io',
-          type: 'user',
+          type: 'user' as EnumPrincipalType,
           created: 1699863416002,
           updated: 1699863416002
         }
@@ -222,8 +228,8 @@ export const mockOverviewRealData = [
         pullreq_id: 12,
         order: 65,
         sub_order: 0,
-        type: 'state-change',
-        kind: 'system',
+        type: 'state-change' as EnumPullReqActivityType,
+        kind: 'system' as EnumPullReqActivityKind,
         text: '',
         payload: {
           old: 'closed',
@@ -236,7 +242,7 @@ export const mockOverviewRealData = [
           uid: 'admin',
           display_name: 'Administrator',
           email: 'admin@gitness.io',
-          type: 'user',
+          type: 'user' as EnumPrincipalType,
           created: 1699863416002,
           updated: 1699863416002
         }
@@ -263,8 +269,8 @@ export const mockOverviewRealData = [
         pullreq_id: 12,
         order: 64,
         sub_order: 0,
-        type: 'state-change',
-        kind: 'system',
+        type: 'state-change' as EnumPullReqActivityType,
+        kind: 'system' as EnumPullReqActivityKind,
         text: '',
         payload: {
           old: 'open',
@@ -277,7 +283,7 @@ export const mockOverviewRealData = [
           uid: 'admin',
           display_name: 'Administrator',
           email: 'admin@gitness.io',
-          type: 'user',
+          type: 'user' as EnumPrincipalType,
           created: 1699863416002,
           updated: 1699863416002
         }
@@ -304,8 +310,8 @@ export const mockOverviewRealData = [
         pullreq_id: 12,
         order: 63,
         sub_order: 0,
-        type: 'branch-update',
-        kind: 'system',
+        type: 'branch-update' as EnumPullReqActivityType,
+        kind: 'system' as EnumPullReqActivityKind,
         text: '',
         payload: {
           old: '1f248b1b2abfad1c10a3feaa4208e52e600a2681',
@@ -316,7 +322,7 @@ export const mockOverviewRealData = [
           uid: 'admin',
           display_name: 'Administrator',
           email: 'admin@gitness.io',
-          type: 'user',
+          type: 'user' as EnumPrincipalType,
           created: 1699863416002,
           updated: 1699863416002
         }
@@ -343,8 +349,8 @@ export const mockOverviewRealData = [
         pullreq_id: 12,
         order: 62,
         sub_order: 0,
-        type: 'comment',
-        kind: 'comment',
+        type: 'comment' as EnumPullReqActivityType,
+        kind: 'comment' as EnumPullReqActivityKind,
         text: 'testddd',
         payload: {},
         author: {
@@ -352,7 +358,7 @@ export const mockOverviewRealData = [
           uid: 'admin',
           display_name: 'Administrator',
           email: 'admin@gitness.io',
-          type: 'user',
+          type: 'user' as EnumPrincipalType,
           created: 1699863416002,
           updated: 1699863416002
         }
@@ -366,6 +372,7 @@ export const mockOverviewRealData = [
       updated: 1725156127220,
       outdated: false,
       content: 'ddddd',
+      deleted: 'false',
       payload: {
         id: 308,
         created: 1725156127220,
@@ -376,8 +383,8 @@ export const mockOverviewRealData = [
         pullreq_id: 12,
         order: 62,
         sub_order: 1,
-        type: 'comment',
-        kind: 'comment',
+        type: 'comment' as EnumPullReqActivityType,
+        kind: 'comment' as EnumPullReqActivityKind,
         text: 'ddddd',
         payload: {},
         author: {
@@ -385,7 +392,7 @@ export const mockOverviewRealData = [
           uid: 'admin',
           display_name: 'Administrator',
           email: 'admin@gitness.io',
-          type: 'user',
+          type: 'user' as EnumPrincipalType,
           created: 1699863416002,
           updated: 1699863416002
         }
@@ -412,8 +419,8 @@ export const mockOverviewRealData = [
         pullreq_id: 12,
         order: 61,
         sub_order: 0,
-        type: 'title-change',
-        kind: 'system',
+        type: 'title-change' as EnumPullReqActivityType,
+        kind: 'system' as EnumPullReqActivityKind,
         text: '',
         payload: {
           old: 'Create xcxc.txt',
@@ -424,7 +431,7 @@ export const mockOverviewRealData = [
           uid: 'admin',
           display_name: 'Administrator',
           email: 'admin@gitness.io',
-          type: 'user',
+          type: 'user' as EnumPrincipalType,
           created: 1699863416002,
           updated: 1699863416002
         }
@@ -451,8 +458,8 @@ export const mockOverviewRealData = [
         pullreq_id: 12,
         order: 60,
         sub_order: 0,
-        type: 'code-comment',
-        kind: 'change-comment',
+        type: 'code-comment' as EnumPullReqActivityType,
+        kind: 'change-comment' as EnumPullReqActivityKind,
         text: 'saw',
         payload: {
           title: '@@ -0,0 +1,3 @@',
@@ -465,7 +472,7 @@ export const mockOverviewRealData = [
           uid: 'admin',
           display_name: 'Administrator',
           email: 'admin@gitness.io',
-          type: 'user',
+          type: 'user' as EnumPrincipalType,
           created: 1699863416002,
           updated: 1699863416002
         },
@@ -489,6 +496,7 @@ export const mockOverviewRealData = [
       updated: 1725156116112,
       outdated: false,
       content: 'test',
+      deleted: 'false',
       payload: {
         id: 306,
         created: 1725156116112,
@@ -499,8 +507,8 @@ export const mockOverviewRealData = [
         pullreq_id: 12,
         order: 60,
         sub_order: 1,
-        type: 'comment',
-        kind: 'change-comment',
+        type: 'comment' as EnumPullReqActivityType,
+        kind: 'change-comment' as EnumPullReqActivityKind,
         text: 'test',
         payload: {},
         author: {
@@ -508,7 +516,7 @@ export const mockOverviewRealData = [
           uid: 'admin',
           display_name: 'Administrator',
           email: 'admin@gitness.io',
-          type: 'user',
+          type: 'user' as EnumPrincipalType,
           created: 1699863416002,
           updated: 1699863416002
         }
@@ -535,8 +543,8 @@ export const mockOverviewRealData = [
         pullreq_id: 12,
         order: 59,
         sub_order: 0,
-        type: 'branch-update',
-        kind: 'system',
+        type: 'branch-update' as EnumPullReqActivityType,
+        kind: 'system' as EnumPullReqActivityKind,
         text: '',
         payload: {
           old: '4db87d4622af902510a642e6e58b435febaa1cbb',
@@ -547,7 +555,7 @@ export const mockOverviewRealData = [
           uid: 'admin',
           display_name: 'Administrator',
           email: 'admin@gitness.io',
-          type: 'user',
+          type: 'user' as EnumPrincipalType,
           created: 1699863416002,
           updated: 1699863416002
         }
@@ -574,8 +582,8 @@ export const mockOverviewRealData = [
         pullreq_id: 12,
         order: 58,
         sub_order: 0,
-        type: 'review-submit',
-        kind: 'system',
+        type: 'review-submit' as EnumPullReqActivityType,
+        kind: 'system' as EnumPullReqActivityKind,
         text: '',
         payload: {
           commit_sha: '4db87d4622af902510a642e6e58b435febaa1cbb',
@@ -586,7 +594,7 @@ export const mockOverviewRealData = [
           uid: 'default',
           display_name: 'default',
           email: 'default@harness.io',
-          type: 'user',
+          type: 'user' as EnumPrincipalType,
           created: 1700943243392,
           updated: 1700943243392
         }
@@ -613,8 +621,8 @@ export const mockOverviewRealData = [
         pullreq_id: 12,
         order: 57,
         sub_order: 0,
-        type: 'branch-update',
-        kind: 'system',
+        type: 'branch-update' as EnumPullReqActivityType,
+        kind: 'system' as EnumPullReqActivityKind,
         text: '',
         payload: {
           old: 'b12d8960b142b4f10109d08b7615d554cfe40bb8',
@@ -625,7 +633,7 @@ export const mockOverviewRealData = [
           uid: 'default',
           display_name: 'default',
           email: 'default@harness.io',
-          type: 'user',
+          type: 'user' as EnumPrincipalType,
           created: 1700943243392,
           updated: 1700943243392
         }
@@ -652,8 +660,8 @@ export const mockOverviewRealData = [
         pullreq_id: 12,
         order: 56,
         sub_order: 0,
-        type: 'review-submit',
-        kind: 'system',
+        type: 'review-submit' as EnumPullReqActivityType,
+        kind: 'system' as EnumPullReqActivityKind,
         text: '',
         payload: {
           commit_sha: 'b12d8960b142b4f10109d08b7615d554cfe40bb8',
@@ -664,7 +672,7 @@ export const mockOverviewRealData = [
           uid: 'default',
           display_name: 'default',
           email: 'default@harness.io',
-          type: 'user',
+          type: 'user' as EnumPrincipalType,
           created: 1700943243392,
           updated: 1700943243392
         }
@@ -691,8 +699,8 @@ export const mockOverviewRealData = [
         pullreq_id: 12,
         order: 55,
         sub_order: 0,
-        type: 'review-submit',
-        kind: 'system',
+        type: 'review-submit' as EnumPullReqActivityType,
+        kind: 'system' as EnumPullReqActivityKind,
         text: '',
         payload: {
           commit_sha: 'b12d8960b142b4f10109d08b7615d554cfe40bb8',
@@ -703,7 +711,7 @@ export const mockOverviewRealData = [
           uid: 'default',
           display_name: 'default',
           email: 'default@harness.io',
-          type: 'user',
+          type: 'user' as EnumPrincipalType,
           created: 1700943243392,
           updated: 1700943243392
         }

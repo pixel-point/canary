@@ -1,6 +1,15 @@
 import { CheckCircleSolid } from '@harnessio/icons-noir'
 import React from 'react'
-import { AccordionContent, AccordionItem, AccordionTrigger, Icon, StackedList, Text } from '@harnessio/canary'
+import {
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+  Avatar,
+  AvatarFallback,
+  Icon,
+  StackedList,
+  Text
+} from '@harnessio/canary'
 import { LineDescription, LineTitle } from '../pull-request-line-title'
 import { isEmpty } from 'lodash-es'
 import cx from 'classnames'
@@ -11,6 +20,7 @@ import {
   TypesPullReqReviewer,
   TypesUserGroupOwnerEvaluation
 } from '../interfaces'
+import { getInitials } from '../../../utils/utils'
 
 interface PullRequestChangesSectionProps {
   changesInfo: { header: string; content: string; status: string }
@@ -49,6 +59,50 @@ interface PullRequestChangesSectionProps {
       }
     | undefined
   )[]
+}
+interface AvatarItemProps {
+  evaluations: TypesOwnerEvaluation[] | undefined
+}
+interface HeaderItemProps {
+  header: string
+}
+const HeaderItem: React.FC<HeaderItemProps> = ({ header }: HeaderItemProps) => {
+  return (
+    <Text size={0} color="tertiaryBackground">
+      {header}
+    </Text>
+  )
+}
+
+const AvatarItem: React.FC<AvatarItemProps> = ({ evaluations }: AvatarItemProps) => {
+  return (
+    <StackedList.Field
+      className="pb-0"
+      title={
+        <div className="flex items-center">
+          {evaluations &&
+            evaluations.map(({ owner }, idx) => {
+              if (idx < 2) {
+                return (
+                  <Avatar className={cx('w-6 h-6 rounded-full')}>
+                    <AvatarFallback>
+                      <Text size={1} color="tertiaryBackground">
+                        {owner?.display_name && getInitials(owner?.display_name)}
+                      </Text>
+                    </AvatarFallback>
+                  </Avatar>
+                )
+              }
+              if (idx === 2 && evaluations.length && evaluations.length > 2) {
+                // TODO: do popover with all the names
+                return <Text size={0}>{`+${evaluations.length - 2}`}</Text>
+              }
+              return null
+            })}
+        </div>
+      }
+    />
+  )
 }
 
 const PullRequestChangesSection = ({
@@ -89,7 +143,7 @@ const PullRequestChangesSection = ({
       return (
         <div className="flex pl-2">
           <Icon name="circle" className="text-warning" />
-          <Text className="mt-0.5 pl-2 text-xs">{'Waiting on code owner reviews of latest changes'}</Text>
+          <Text className="pl-2 text-xs">{'Waiting on code owner reviews of latest changes'}</Text>
         </div>
       )
     }
@@ -98,7 +152,7 @@ const PullRequestChangesSection = ({
       return (
         <div className="flex pl-2">
           <Icon name="circle" className="text-warning" />
-          <Text className="mt-0.5 pl-2 text-xs">{`Changes are pending approval from code owners`}</Text>
+          <Text className="pl-2 text-xs">{`Changes are pending approval from code owners`}</Text>
         </div>
       )
     }
@@ -112,7 +166,7 @@ const PullRequestChangesSection = ({
       return (
         <div className="flex pl-2">
           <Icon name="circle" className="text-tertiary-background" />
-          <Text className="mt-0.5 pl-2 text-xs">{`Some changes were approved by code owners`}</Text>
+          <Text className="pl-2 text-xs">{`Some changes were approved by code owners`}</Text>
         </div>
       )
     }
@@ -120,7 +174,7 @@ const PullRequestChangesSection = ({
       return (
         <Text className="flex ml-2">
           <CheckCircleSolid className="text-success" />
-          <Text className="mt-0.5 pl-2 text-xs">{`Latest changes were approved by code owners`}</Text>
+          <Text className="pl-2 text-xs">{`Latest changes were approved by code owners`}</Text>
         </Text>
       )
     }
@@ -128,7 +182,7 @@ const PullRequestChangesSection = ({
       return (
         <Text className="flex ml-2">
           <CheckCircleSolid className="text-success" />
-          <Text className="mt-0.5 pl-2 text-xs">{`Changes were approved by code owners`}</Text>
+          <Text className="pl-2 text-xs">{`Changes were approved by code owners`}</Text>
         </Text>
       )
     }
@@ -142,14 +196,14 @@ const PullRequestChangesSection = ({
         return (
           <div className="flex pl-2">
             <Icon name="pending-clock" className="text-warning" />
-            <Text className="mt-0.5 pl-2 text-xs">{`Latest changes are pending approval from required reviewers`}</Text>
+            <Text className="pl-2 text-xs">{`Latest changes are pending approval from required reviewers`}</Text>
           </div>
         )
       }
       return (
         <div className="flex pl-2">
           <Icon name="circle" className="text-warning" />
-          <Text className="mt-0.5 pl-2 text-xs">{`Changes were approved by code owners`}</Text>
+          <Text className="pl-2 text-xs">{`Changes were approved by code owners`}</Text>
         </div>
       )
     }
@@ -158,7 +212,7 @@ const PullRequestChangesSection = ({
       <div className="flex pl-2">
         <Icon name="circle" className="text-tertiary-background" />
 
-        <Text className="mt-0.5 pl-2 text-xs">{`No codeowner reviews`}</Text>
+        <Text className="pl-2 text-xs">{`No codeowner reviews`}</Text>
       </div>
     )
   }
@@ -191,14 +245,14 @@ const PullRequestChangesSection = ({
                   {approvedEvaluations && minApproval <= approvedEvaluations?.length ? (
                     <Text className="flex ml-2">
                       <CheckCircleSolid className="text-success" />
-                      <Text className="mt-0.5 pl-2 text-xs">
+                      <Text className="pl-2 text-xs">
                         {`Changes were approved by ${approvedEvaluations?.length} ${approvedEvaluations?.length === 1 ? 'reviewer' : 'reviewers'}`}
                       </Text>
                     </Text>
                   ) : (
                     <div className="flex ml-2">
                       <Icon name="circle" className="text-warning" />
-                      <Text className="mt-0.5 pl-2 text-xs">{`${(approvedEvaluations && approvedEvaluations.length) || 0}/${minApproval} approvals completed`}</Text>
+                      <Text className="pl-2 text-xs">{`${(approvedEvaluations && approvedEvaluations.length) || 0}/${minApproval} approvals completed`}</Text>
                     </div>
                   )}
                   <div className="border rounded-full bg-transparent">
@@ -213,12 +267,12 @@ const PullRequestChangesSection = ({
                 {latestApprovalArr && minReqLatestApproval && minReqLatestApproval <= latestApprovalArr?.length ? (
                   <Text className="flex ml-2">
                     <CheckCircleSolid className="text-success" />
-                    <Text className="mt-0.5 pl-2 text-xs">{`Latest changes were approved by ${latestApprovalArr?.length || minReqLatestApproval || 0} ${(latestApprovalArr?.length || minReqLatestApproval) === 1 ? 'reviewer' : 'reviewers'}`}</Text>
+                    <Text className="pl-2 text-xs">{`Latest changes were approved by ${latestApprovalArr?.length || minReqLatestApproval || 0} ${(latestApprovalArr?.length || minReqLatestApproval) === 1 ? 'reviewer' : 'reviewers'}`}</Text>
                   </Text>
                 ) : (
                   <div className="flex ml-2">
                     <Icon name="circle" className="text-warning" />
-                    <Text className="mt-0.5 pl-2 text-xs">
+                    <Text className="pl-2 text-xs">
                       {`${latestApprovalArr?.length || minReqLatestApproval || 0} ${(latestApprovalArr?.length || minReqLatestApproval) === 1 ? 'approval' : 'approvals'} pending on latest changes`}
                     </Text>
                   </div>
@@ -240,7 +294,7 @@ const PullRequestChangesSection = ({
                       'text-tertiary-background': !reqNoChangeReq
                     })}
                   />
-                  <Text className="mt-0.5 pl-2 text-xs">{`${changeReqReviewer} requested changes to the pull request`}</Text>
+                  <Text className="pl-2 text-xs">{`${changeReqReviewer} requested changes to the pull request`}</Text>
                 </Text>
                 {reqNoChangeReq && (
                   <div className="border rounded-full bg-transparent">
@@ -262,7 +316,7 @@ const PullRequestChangesSection = ({
                         'text-tertiary-background': !reqCodeOwnerApproval || !reqCodeOwnerLatestApproval
                       })}
                     />
-                    <Text className="mt-0.5 pl-2 text-xs">{'Code owners requested changes to the pull request'}</Text>
+                    <Text className="pl-2 text-xs">{'Code owners requested changes to the pull request'}</Text>
                   </Text>
                 ) : (
                   renderCodeOwnerStatus()
@@ -276,13 +330,38 @@ const PullRequestChangesSection = ({
             </div>
           )}
           {/* TODO: add codeowners table */}
-          {/* {codeOwners && !isEmpty(codeOwners?.evaluation_entries) && (
-          <Container
-            className={css.codeOwnerContainer}
-            padding={{ top: 'small', bottom: 'small', left: 'xxxlarge', right: 'small' }}>
-            <CodeOwnerSection data={codeOwners} pullReqMetadata={pullReqMetadata} repoMetadata={repoMetadata} />
-          </Container>
-        )} */}
+          {codeOwners && !isEmpty(codeOwners?.evaluation_entries) && (
+            <div className="ml-6 bg-inherit">
+              <StackedList.Root className="bg-inherit cursor-default border-transparent ml-2">
+                <StackedList.Item
+                  isHeader
+                  disableHover
+                  className="cursor-default px-0 !bg-transparent text-tertiary-background">
+                  <StackedList.Field title={<HeaderItem header="Code" />} />
+                  <StackedList.Field title={<HeaderItem header="Owners" />} />
+                  <StackedList.Field title={<HeaderItem header="Changes requested by" />} />
+                  <StackedList.Field title={<HeaderItem header="Approved by" />} />
+                </StackedList.Item>
+
+                {codeOwners?.evaluation_entries?.map(entry => {
+                  const changeReqEvaluations = entry?.owner_evaluations?.filter(
+                    evaluation => evaluation.review_decision === 'changereq'
+                  )
+                  const approvedEvaluations = entry?.owner_evaluations?.filter(
+                    evaluation => evaluation.review_decision === 'approved'
+                  )
+                  return (
+                    <StackedList.Item disableHover className="px-0 pb-0">
+                      <StackedList.Field title={entry?.pattern} />
+                      {entry?.owner_evaluations && <AvatarItem evaluations={entry?.owner_evaluations} />}
+                      {changeReqEvaluations && <AvatarItem evaluations={changeReqEvaluations} />}
+                      {approvedEvaluations && <AvatarItem evaluations={approvedEvaluations} />}
+                    </StackedList.Item>
+                  )
+                })}
+              </StackedList.Root>
+            </div>
+          )}
         </div>
       </AccordionContent>
     </AccordionItem>
