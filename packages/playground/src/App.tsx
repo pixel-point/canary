@@ -7,12 +7,10 @@ import RepoLayout from './layouts/RepoLayout'
 import PipelineLayout from './layouts/PipelineLayout'
 import PullRequestLayout from './layouts/PullRequestLayout'
 import ErrorPage from './pages/error-page'
-import HomePage from './pages/home-page'
+import LandingPage from './pages/landing-page'
 import RepoListPage from './pages/repo-list-page'
 import PipelineListPage from './pages/pipeline-list-page'
 import PipelineDetailsPage from './pages/pipeline-details-page'
-import SignUpPage from './pages/signup-page'
-import SignInPage from './pages/signin-page'
 import ExecutionListPage from './pages/execution-list-page'
 import ExecutionDetailsPage from './pages/execution-details-page'
 import PullRequestListPage from './pages/pull-request-list-page'
@@ -26,7 +24,6 @@ import PipelineEdit from './pages/pipeline-edit-page'
 import PullRequestCommitsPage from './pages/pull-request-commits-page'
 import RepoPipelineListPage from './pages/repo-pipeline-list-page'
 import RepoExecutionListPage from './pages/repo-execution-list-page'
-import FullscreenLayout from './layouts/FullscreenLayout'
 
 const router = createBrowserRouter([
   {
@@ -37,7 +34,7 @@ const router = createBrowserRouter([
       // LANDING
       {
         path: '/',
-        element: <HomePage />
+        element: <LandingPage />
       },
       // REPOS
       {
@@ -149,27 +146,6 @@ const router = createBrowserRouter([
       {
         path: 'executions',
         element: <ExecutionListPage />
-      }
-    ]
-  },
-  // SIGN IN & SIGN UP with FullscreenLayout
-  {
-    path: 'signin',
-    element: <FullscreenLayout />,
-    children: [
-      {
-        index: true,
-        element: <SignInPage />
-      }
-    ]
-  },
-  {
-    path: 'signup',
-    element: <FullscreenLayout />,
-    children: [
-      {
-        index: true,
-        element: <SignUpPage />
       }
     ]
   }

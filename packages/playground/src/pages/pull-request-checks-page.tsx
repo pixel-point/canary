@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PullRequestChecks from '../components/pull-request/pull-request-checks'
-import PlaygroundPullRequestChecksSettings from '../components/playground/pull-request-checks-settings'
+import PlaygroundPullRequestChecksSettings from '../settings/pull-request-checks-settings'
 import SkeletonList from '../components/loaders/skeleton-list'
 import NoData from '../components/no-data'
 

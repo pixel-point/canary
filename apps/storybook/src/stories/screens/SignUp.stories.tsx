@@ -68,7 +68,6 @@ export function SignUp() {
             <CardHeader className="card-auth-header relative z-10">
               <CardTitle className="flex flex-col place-items-center">
                 <Logo />
-                <p className="title-primary">Sign up to Gitness</p>
               </CardTitle>
             </CardHeader>
             <CardContent className="card-auth-content relative z-10">

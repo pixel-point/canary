@@ -1,7 +1,7 @@
 // RootLayout.tsx
 import { Navbar, Icon, NavbarProjectChooser, NavbarUser } from '@harnessio/canary'
 import React from 'react'
-import { Outlet, NavLink, useLocation } from 'react-router-dom'
+import { Outlet, NavLink, useLocation, Link } from 'react-router-dom'
 
 const RootLayout: React.FC = () => {
   const location = useLocation()
@@ -51,36 +51,6 @@ const RootLayout: React.FC = () => {
       text: 'Connectors',
       icon: <Icon name="connectors" size={12} />,
       to: 'connectors'
-    },
-    {
-      text: 'Home Page',
-      icon: <Icon name="chaos-engineering" size={12} />,
-      to: '/'
-    },
-    {
-      text: 'Sign Up',
-      icon: <Icon name="environment" size={12} />,
-      to: '/signup'
-    },
-    {
-      text: 'Sign In',
-      icon: <Icon name="secrets" size={12} />,
-      to: '/signin'
-    }
-  ]
-
-  const sampleProjectList = [
-    {
-      title: 'Playground'
-      // icon: <Icon name="archive" size={12} />
-    },
-    {
-      title: 'Drone'
-      // icon: <Icon name="archive" size={12} />
-    },
-    {
-      title: 'Pixel Point'
-      // icon: <Icon name="archive" size={12} />
     }
   ]
 
@@ -90,9 +60,11 @@ const RootLayout: React.FC = () => {
         <Navbar.Root className="max-md:hidden">
           <Navbar.Header>
             <NavbarProjectChooser.Root
-              name="Playground"
-              avatar={<Icon name="harness-white" size={20} />}
-              projects={sampleProjectList}
+              avatarLink={
+                <Link to="/">
+                  <Icon name="harness" size={20} className="text-primary" />
+                </Link>
+              }
             />
           </Navbar.Header>
           <Navbar.Content>

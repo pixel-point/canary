@@ -12,7 +12,7 @@ import { mockChecksFailedData, mockChecksSuccessData } from '../data/mockChecksD
 import { mockChangesData } from '../data/mockChangesData'
 import { mockChecksSucceededInfo, mockChecksFailedInfo } from '../data/mockCheckInfo'
 import { mockCommentResolvedInfo, mockCommentUnresolvedInfo } from '../data/mockCommentInfo'
-import PlaygroundPullRequestConversationSettings from '../components/playground/pull-request-conversation-settings'
+import PlaygroundPullRequestConversationSettings from '../settings/pull-request-conversation-settings'
 import SkeletonList from '../components/loaders/skeleton-list'
 import NoData from '../components/no-data'
 import PullRequestPanel from '../components/pull-request/pull-request-panel'

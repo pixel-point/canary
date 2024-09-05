@@ -38,6 +38,7 @@ import PendingClock from '../icons/pending-clock.svg'
 import Circle from '../icons/circle.svg'
 import AppleShortcut from '../icons/apple-shortcut.svg'
 import Edit from '../icons/edit.svg'
+import GitnessLogo from '../icons/gitness-logo.svg'
 
 // import Fork from '../icons/fork.svg'
 
@@ -80,7 +81,8 @@ const IconNameMap = {
   'pending-clock': PendingClock,
   circle: Circle,
   'apple-shortcut': AppleShortcut,
-  'edit-pen': Edit
+  'edit-pen': Edit,
+  'gitness-logo': GitnessLogo
 
   // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>

@@ -12,7 +12,7 @@ import {
   PaginationPrevious,
   Spacer
 } from '@harnessio/canary'
-import PlaygroundPullRequestCommitsSettings from '../components/playground/pull-request-commits-settings'
+import PlaygroundPullRequestCommitsSettings from '../settings/pull-request-commits-settings'
 import SkeletonList from '../components/loaders/skeleton-list'
 import NoData from '../components/no-data'
 

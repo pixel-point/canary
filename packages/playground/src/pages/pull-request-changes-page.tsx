@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import PlaygroundPullRequestChangesSettings from '../components/playground/pull-request-changes-settings'
+import PlaygroundPullRequestChangesSettings from '../settings/pull-request-changes-settings'
 import SkeletonList from '../components/loaders/skeleton-list'
 import NoData from '../components/no-data'
 import { ListActions, Spacer, SplitButton } from '@harnessio/canary'

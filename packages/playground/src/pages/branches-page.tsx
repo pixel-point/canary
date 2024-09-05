@@ -4,7 +4,7 @@ import SkeletonList from '../components/loaders/skeleton-list'
 import NoData from '../components/no-data'
 import PaddingListLayout from '../layouts/PaddingListLayout'
 import { ListActions, SearchBox, Spacer, Text } from '@harnessio/canary'
-import PlaygroundBranchesSettings from '../components/playground/branches-settings'
+import PlaygroundBranchesSettings from '../settings/branches-settings'
 
 const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
 const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]

@@ -497,8 +497,8 @@ importers:
         specifier: ^0.9.1
         version: 0.9.1(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       zod:
-        specifier: ^3.23.8
-        version: 3.23.8
+        specifier: link:@hookform/resolvers/zod
+        version: link:@hookform/resolvers/zod
     devDependencies:
       '@testing-library/react':
         specifier: ^13.4.0
@@ -688,6 +688,9 @@ importers:
       '@harnessio/yaml-editor':
         specifier: ^0.11.0
         version: 0.11.0(@monaco-editor/react@4.6.0(monaco-editor@0.50.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(monaco-editor@0.50.0)(monaco-yaml@5.2.1(monaco-editor@0.50.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@hookform/resolvers':
+        specifier: ^3.6.0
+        version: 3.9.0(react-hook-form@7.53.0(react@18.3.1))
       '@monaco-editor/react':
         specifier: 4.6.0
         version: 4.6.0(monaco-editor@0.50.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -748,6 +751,9 @@ importers:
       yup:
         specifier: ^0.29.1
         version: 0.29.3
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
     devDependencies:
       '@types/lodash-es':
         specifier: ^4.17.9

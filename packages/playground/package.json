@@ -55,6 +55,7 @@
     "@types/yup": "^0.29.0",
     "@uiw/react-markdown-preview": "^4.1.15",
     "caret-xy": "^2.0.3",
+    "clipboard-copy": "^3.1.0",
     "lodash-es": "^4.17.21",
     "lucide-react": "^0.407.0",
     "match-sorter": "^6.3.1",
@@ -68,8 +69,9 @@
     "react-keywords": "^1.0.0",
     "yaml": "^2.5.0",
     "yaml-loader": "^0.8.1",
-    "clipboard-copy": "^3.1.0",
-    "yup": "^0.29.1"
+    "yup": "^0.29.1",
+    "zod": "^3.23.8",
+    "@hookform/resolvers": "^3.6.0"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.9",

@@ -4,15 +4,10 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Spacer } from './spacer'
 
 interface ProjectProps {
-  projects: {
-    title: string
-    icon?: React.ReactElement<SVGSVGElement>
-  }[]
-  name: string
-  avatar: React.ReactElement<SVGSVGElement>
+  avatarLink: React.ReactNode
 }
 
-function Root({ avatar }: ProjectProps) {
+function Root({ avatarLink }: ProjectProps) {
   const [isSearchDialogOpen, setSearchDialogOpen] = useState(false)
 
   const openSearchDialog = () => {
@@ -25,7 +20,7 @@ function Root({ avatar }: ProjectProps) {
 
   return (
     <div className="grid grid-cols-[auto_1fr] w-full items-center gap-2.5 justify-items-start">
-      <div className="flex items-center">{avatar}</div>
+      <div className="flex items-center">{avatarLink}</div>
       <SearchBox
         textSize={1}
         width="full"
@@ -35,19 +30,17 @@ function Root({ avatar }: ProjectProps) {
         onSearch={openSearchDialog}
         showOnFocus
       />
-      {isSearchDialogOpen && (
-        <Dialog open={true} defaultOpen onOpenChange={closeSearchDialog}>
-          <DialogContent className="max-w-[800px] h-[600px] bg-primary-background border-border">
-            <DialogHeader>
-              <DialogTitle>Search</DialogTitle>
-              <DialogDescription>
-                <Spacer size={6} />
-                <SearchBox width="full" placeholder="Search..." />
-              </DialogDescription>
-            </DialogHeader>
-          </DialogContent>
-        </Dialog>
-      )}
+      <Dialog open={isSearchDialogOpen} onOpenChange={closeSearchDialog}>
+        <DialogContent className="max-w-[800px] h-[600px] bg-primary-background border-border">
+          <DialogHeader>
+            <DialogTitle>Search</DialogTitle>
+            <DialogDescription>
+              <Spacer size={6} />
+              <SearchBox width="full" placeholder="Search..." />
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
