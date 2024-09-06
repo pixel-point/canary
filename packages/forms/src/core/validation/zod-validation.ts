@@ -1,6 +1,25 @@
-import * as Yup from 'yup'
-import { get, isArray, isEmpty, isUndefined, merge, set } from 'lodash-es'
+import * as zod from 'zod'
+import { get, isArray, isEmpty, isUndefined, merge, set, isObject } from 'lodash-es'
 import type { AnyFormikValue, IFormDefinition, IGlobalValidationConfig, IInputDefinition } from '../../types/types'
+
+export function processValidationParseResponse(anyArray: string | Record<string, unknown>): string | undefined {
+  const error = typeof anyArray === 'string' ? JSON.parse(anyArray) : anyArray
+
+  if (typeof error === 'string') {
+    return error
+  }
+
+  if (isArray(error)) {
+    return processValidationParseResponse(error[0])
+  }
+
+  const errorObj = error as { message: string }
+  if (isObject(errorObj) && errorObj?.message) {
+    return error?.message
+  }
+
+  return 'Unknown error'
+}
 
 /**
  * Internal type used for preparing data model for creating schema
@@ -9,7 +28,7 @@ type SchemaTreeNode = { [key: string]: SchemaTreeNode } & {
   _input?: IInputDefinition
   _isList?: boolean
   _isArrayItem?: boolean
-  _schema?: Yup.ObjectSchema<any>
+  _schema?: zod.ZodObject<zod.ZodRawShape>
   _schemaObj?: { [key: string]: SchemaTreeNode }
   _requiredOnly?: boolean
 }
@@ -39,14 +58,14 @@ export function getValidationSchema<T = any>(
   inputs: IFormDefinition,
   values: AnyFormikValue,
   options?: IGetValidationSchemaOptions<T>
-): Yup.ObjectSchema<any> {
+): zod.ZodObject<zod.ZodRawShape> {
   let schemaTreeNode: SchemaTreeNode = {}
 
   // 1. Prepare three model
   populateSchemaTreeRec(schemaTreeNode, inputs.inputs, values, options)
 
-  console.log('Internal model:')
-  console.log(schemaTreeNode)
+  // console.log('Internal model:')
+  // console.log(schemaTreeNode)
 
   if (options?.prefix) {
     const prefixWithoutDot = options?.prefix.replace(/.$/, '')
@@ -54,37 +73,32 @@ export function getValidationSchema<T = any>(
   }
 
   // 2. Generate schema from model
-  const schema = Yup.object().shape(generateSchemaRec(schemaTreeNode, values, options))
+  const schema = zod.object(generateSchemaRec(schemaTreeNode, values, options))
 
-  console.log('Schema:')
-  console.log(schema)
+  // console.log('Schema:')
+  // console.log(schema)
 
   return schema
 }
 
 function generateSchemaRec(schemaObj: SchemaTreeNode, values: AnyFormikValue, options?: IGetValidationSchemaOptions) {
-  const objectSchemas: { [key: string]: Yup.Schema<unknown> } = {}
+  const objectSchemas: { [key: string]: zod.Schema<unknown> } = {}
 
   Object.keys(schemaObj).forEach(key => {
     const { _requiredOnly, _schemaObj, _input, _isList, _isArrayItem, _schema /*...nestedSchemaObj*/ } = schemaObj[key]
     if (_isList && _schemaObj && _input) {
-      const arraySchema = Yup.array().of(Yup.object().shape(generateSchemaRec(_schemaObj, values, options)))
-
+      const arraySchema = zod.array(zod.object(generateSchemaRec(_schemaObj, values, options)))
       const enhancedSchema = getSchemaForArray(_schema, _input, values, options, arraySchema)
-      //const enhancedSchema = getSchemaForPrimitive(_chainSchema, _input, values, options, arraySchema)
-
       objectSchemas[key] = enhancedSchema!
     } else if (_isArrayItem && _input) {
       const innerSchema = _schemaObj?.___array
         ? generateSchemaRec({ ___array: _schemaObj.___array }, values, options)
-        : { ___array: Yup.mixed() }
-
-      const arraySchema = Yup.array().of(innerSchema.___array)
-
+        : { ___array: zod.any() }
+      const arraySchema = zod.array(innerSchema.___array)
       const enhancedSchema = getSchemaForArray(_schema, _input, values, options, arraySchema)
       objectSchemas[key] = enhancedSchema!
     } else if (_schema && _input) {
-      const enhancedSchema: Yup.Schema<unknown> = getSchemaForPrimitive(_schema, _input, options)
+      const enhancedSchema: zod.Schema<unknown> = getSchemaForPrimitive(_schema, _input, options)
       objectSchemas[key] = enhancedSchema
       // TODO check this
       // objectSchemas[key] = !isEmpty(nestedSchemaObj)
@@ -111,7 +125,7 @@ function generateSchemaRec(schemaObj: SchemaTreeNode, values: AnyFormikValue, op
       //   ? addNestedSchema(nestedSchemaObj, requiredSchema, options)
       //   : requiredSchema
     } else {
-      objectSchemas[key] = Yup.object().shape(generateSchemaRec(schemaObj[key], options))
+      objectSchemas[key] = zod.object(generateSchemaRec(schemaObj[key], options))
     }
   })
 
@@ -119,108 +133,122 @@ function generateSchemaRec(schemaObj: SchemaTreeNode, values: AnyFormikValue, op
 }
 
 function getSchemaForPrimitive(
-  schema: Yup.MixedSchema<unknown> | Yup.NotRequiredArraySchema<unknown> | undefined,
+  schema: zod.Schema<unknown> | undefined,
   input: IInputDefinition,
   options?: IGetValidationSchemaOptions
 ) {
-  console.log(input, 'input validation')
-  return Yup.string().test({
-    name: 'validator-custom-name',
-    test: function (value) {
-      //console.log('TEST:' + value)
-      // 1. Required validation
-      if (input.required && !getRequiredSchema(input, options).isValidSync(value)) {
-        return this.createError({
-          message: `Required field`
-        })
-      }
-
-      // 2. Global validation
-      if (options?.validationConfig?.globalValidation) {
-        const validationRes = options?.validationConfig?.globalValidation(value, input!, options.metadata)
-
-        if (validationRes.error) {
-          return this.createError({
-            message: validationRes.error
-          })
-        }
-
-        if (!validationRes.continue) {
-          return true
-        }
-      }
-
-      //3. Input validation
-      if (schema) {
-        //console.log('validate sync', value)
-
-        try {
-          //console.log('validate sync', value)
-          schema.validateSync(value)
-          //console.log(schema)
-        } catch (validationErrorsObj: any) {
-          //console.log(validationErrorsObj)
-
-          if (validationErrorsObj?.errors?.[0]) {
-            return this.createError({
-              message: validationErrorsObj.errors[0]
-            })
-          }
-        }
-      }
-
-      // 4. If all validations pass return true
-      return true
-    }
-  })
-}
-
-function getSchemaForArray(
-  schema: Yup.MixedSchema<unknown> | Yup.NotRequiredArraySchema<unknown> | undefined,
-  input: IInputDefinition,
-  _values: AnyFormikValue, // TODO remove this
-  options?: IGetValidationSchemaOptions,
-  arraySchema?: Yup.NotRequiredArraySchema<unknown>
-) {
-  return Yup.lazy((value: any) => {
+  return zod.string().superRefine(async (value, ctx) => {
     // 1. Required validation
     if (input.required) {
-      console.log('123')
-      const requiredSchema = getRequiredSchema(input, options)
-      if (!requiredSchema.isValidSync(value)) {
-        console.log('456')
-        console.log(requiredSchema)
-
-        return requiredSchema
+      const requiredSchemaResponse = await getRequiredSchema(input, options).safeParseAsync(value)
+      if (!requiredSchemaResponse.success) {
+        ctx.addIssue({
+          code: zod.ZodIssueCode.custom,
+          message: `Required field`
+        })
       }
     }
 
     // 2. Global validation
     if (options?.validationConfig?.globalValidation) {
-      const validationRes = options?.validationConfig?.globalValidation(value, input, options.metadata)
+      const validationRes = options?.validationConfig?.globalValidation(value, input!, options.metadata)
 
       if (validationRes.error) {
-        return Yup.mixed().test(validationRes.error, validationRes.error, () => false)
-      } else if (!validationRes.continue) {
-        return Yup.mixed()
+        ctx.addIssue({
+          code: zod.ZodIssueCode.custom,
+          message: validationRes.error
+        })
+      }
+
+      if (!validationRes.continue) {
+        return true
       }
     }
 
-    // 3. Prevent more validation if value is not an array
-    if (!isArray(value)) {
-      return Yup.mixed().test('Value is not array', 'Value is not array', () => false)
-    }
-
-    // 4. Input validation
+    //3. Input validation
     if (schema) {
-      if (!schema.isValidSync(value)) {
-        return schema
+      const schemaResponse = await schema.safeParseAsync(value)
+
+      if (!schemaResponse.success) {
+        ctx.addIssue({
+          code: zod.ZodIssueCode.custom,
+          message: processValidationParseResponse(schemaResponse?.error.message)
+        })
       }
     }
-
-    // 5. Return dynamically created validation for nested inputs
-    return arraySchema ?? Yup.mixed()
   })
+}
+
+function getSchemaForArray(
+  schema: zod.Schema | undefined,
+  input: IInputDefinition,
+  _values: AnyFormikValue, // TODO remove this
+  options?: IGetValidationSchemaOptions,
+  arraySchema?: zod.ZodTypeAny
+) {
+  return zod
+    .any()
+    .superRefine(async (value: any, ctx) => {
+      // 1. Required validation
+      if (input.required) {
+        const requiredSchema = getRequiredSchema(input, options)
+        const requiredSchemaResult = await requiredSchema.safeParseAsync(value)
+        if (!requiredSchemaResult.success) {
+          // TODO: move this logic to utils. (check if there is better solution)
+          const message = processValidationParseResponse(requiredSchemaResult.error.message)
+          ctx.addIssue({ code: zod.ZodIssueCode.custom, message: message, fatal: true })
+          return zod.NEVER
+        }
+      }
+
+      // 2. Global validation
+      if (options?.validationConfig?.globalValidation) {
+        const validationRes = options?.validationConfig?.globalValidation(value, input, options.metadata)
+
+        if (validationRes.error) {
+          ctx.addIssue({
+            code: zod.ZodIssueCode.custom,
+            message: processValidationParseResponse(validationRes.error)
+          })
+          return zod.NEVER
+        } else if (!validationRes.continue) {
+          return zod.NEVER
+        }
+      }
+
+      // 3. Prevent more validation if value is not an array
+      if (!isArray(value)) {
+        ctx.addIssue({
+          code: zod.ZodIssueCode.custom,
+          message: "'Value is not array'"
+        })
+        return zod.NEVER
+      }
+
+      // 4. Input validation
+      if (schema) {
+        const schemaResult = await schema.safeParseAsync(value)
+
+        if (!schemaResult.success) {
+          ctx.addIssue({
+            code: zod.ZodIssueCode.custom,
+            message: processValidationParseResponse(schemaResult.error.message)
+          })
+          return zod.NEVER
+        }
+      }
+
+      // NOTE: THIS IS MOVED TO pipe(...) - delete following block
+      // // 5. Return dynamically created validation for nested inputs
+      // const arraySchemaResponse = await arraySchema?.safeParseAsync(value)
+      // if (!arraySchemaResponse?.success) {
+      //   ctx.addIssue({
+      //     code: zod.ZodIssueCode.custom,
+      //     message: arraySchemaResponse?.error.message
+      //   })
+      // }
+    })
+    .pipe(arraySchema ?? zod.any())
 }
 
 function populateSchemaTreeRec<T = any>(
@@ -260,7 +288,10 @@ function populateSchemaTreeRec<T = any>(
         const listSchemaObj: SchemaTreeNode = {}
         populateSchemaTreeRec(
           listSchemaObj,
-          (input.inputConfig as any).inputs.map((item: any) => ({ ...item, path: item.relativePath })),
+          (input.inputConfig as { inputs: (IInputDefinition & { relativePath: string })[] }).inputs.map(item => ({
+            ...item,
+            path: item.relativePath
+          })),
           values,
           options,
           utils
@@ -268,10 +299,6 @@ function populateSchemaTreeRec<T = any>(
 
         const existingSchema = get(schemaObj, input.path)
         set(schemaObj, input.path, merge(existingSchema, { _schemaObj: listSchemaObj, _isList: true, _input: input }))
-
-        console.log('debug 1')
-
-        console.log(get(schemaObj, input.path))
       }
 
       // handle array
@@ -279,7 +306,7 @@ function populateSchemaTreeRec<T = any>(
         let arraySchemaObj = {}
         populateSchemaTreeRec(
           arraySchemaObj,
-          [{ ...(input.inputConfig as any).input, path: '___array' }],
+          [{ ...(input.inputConfig as { input: IInputDefinition }).input, path: '___array' }],
           values,
           options,
           utils
@@ -300,10 +327,7 @@ function populateSchemaTreeRec<T = any>(
   })
 }
 
-function getRequiredSchema(
-  input: IInputDefinition,
-  options?: IGetValidationSchemaOptions
-): Yup.MixedSchema | Yup.NotRequiredArraySchema<unknown> {
+function getRequiredSchema(input: IInputDefinition, options?: IGetValidationSchemaOptions): zod.Schema<unknown> {
   if (options?.validationConfig?.requiredSchemaPerInput?.[input.inputType]) {
     return options?.validationConfig?.requiredSchemaPerInput?.[input.inputType]
   } else if (options?.validationConfig?.requiredSchema) {
@@ -316,14 +340,18 @@ function getRequiredSchema(
     'Required fields'
 
   // Default "required value" validation
-  return Yup.mixed().test({
-    name: requiredMessage,
-    message: requiredMessage,
-    test: function (value) {
-      if (typeof value === 'object' && isEmpty(value)) {
-        return false
-      }
-      return !(isUndefined(value) || value === '')
+  return zod.any().superRefine((value, ctx) => {
+    if (typeof value === 'object' && isEmpty(value)) {
+      ctx.addIssue({
+        code: zod.ZodIssueCode.custom,
+        message: `Required field`
+      })
+    }
+    if (isUndefined(value) || value === '') {
+      ctx.addIssue({
+        code: zod.ZodIssueCode.custom,
+        message: `Required field`
+      })
     }
   })
 }

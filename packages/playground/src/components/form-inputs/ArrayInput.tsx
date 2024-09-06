@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { Controller, useFieldArray } from '@harnessio/forms'
-import { Button, FormField } from '@harnessio/canary'
+import { Button, FormField, FormItem } from '@harnessio/canary'
 import { Plus, Trash } from '@harnessio/icons-noir'
 import { InputType } from './types'
 import { InputComponent, InputProps } from '@harnessio/forms'
@@ -45,7 +45,7 @@ function ArrayInputInternal(props: InputProps<AnyFormikValue, ArrayInputConfig>)
       <FormField
         name={path}
         render={() => (
-          <>
+          <FormItem>
             <InputLabel label={label} required={required} description={description} />
             <Controller
               name={path}
@@ -79,7 +79,7 @@ function ArrayInputInternal(props: InputProps<AnyFormikValue, ArrayInputConfig>)
               )}
             />
             <InputError />
-          </>
+          </FormItem>
         )}
       />
     </InputWrapper>

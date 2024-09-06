@@ -18,7 +18,6 @@ export function InputComponentRenderer<T = unknown>({
   input
 }: InputComponentRendererProps<T>): JSX.Element | null {
   const { getValues, formState } = useFormContext()
-  console.log(formState.errors, 'errors 5')
   const { metadata = {}, fixedValues = {} /*getValuesWithDependencies*/ } = {} as any // useRootFormikContext()
 
   const inputComponent = factory?.getComponent<T>(input.inputType as string)

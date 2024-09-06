@@ -1,4 +1,4 @@
-import type { MixedSchema, Schema } from 'yup'
+import type { Schema } from 'zod'
 
 export type AnyFormikValue = any
 
@@ -86,9 +86,9 @@ export interface IInputDefinition<T = unknown> {
 // hasMultiUsage?: boolean
 
 export interface IGlobalValidationConfig<T extends string = string> {
-  requiredSchema?: MixedSchema<unknown>
+  requiredSchema?: Schema<unknown>
   requiredMessage?: string
-  requiredSchemaPerInput?: Record<T, MixedSchema<unknown>>
+  requiredSchemaPerInput?: Record<T, Schema<unknown>>
   requiredMessagePerInput?: Record<T, string>
   /**
    * Execute right after required validation and before input validation.

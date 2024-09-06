@@ -20,9 +20,9 @@ export * from './form/RenderInputs/RenderInputs'
 export * from './utils/utils'
 
 // export validation utils
-export * from './core/validation/validation'
+export * from './core/validation/zod-validation'
 
 // TODO: this is for yup (if we switch to zod remove it)
-export * from './core/utils/yup-resolver'
+export * from './core/utils/zod-resolver'
 
 export * from 'react-hook-form'

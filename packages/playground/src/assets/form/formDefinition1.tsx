@@ -1,6 +1,10 @@
+import * as zod from 'zod'
 import { IFormDefinition, IInputDefinition } from '@harnessio/forms'
 import { InputConfigType, InputType } from '../../components/form-inputs/types'
-import * as Yup from 'yup'
+
+function delay(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
 
 type IInputConfigWithConfig = IInputDefinition & InputConfigType
 
@@ -12,10 +16,13 @@ const inputs: IInputConfigWithConfig[] = [
     description: 'This is a string input',
     required: true,
     validation: {
-      schema: Yup.mixed().test({
-        message: 'Value not equal to 123',
-        test: value => {
-          return value === '123'
+      schema: zod.any().superRefine(async (val, ctx) => {
+        await delay(500)
+        if (val !== 'AB') {
+          ctx.addIssue({
+            code: zod.ZodIssueCode.custom,
+            message: `Value not equal to AB`
+          })
         }
       })
     }
@@ -28,14 +35,27 @@ const inputs: IInputConfigWithConfig[] = [
     required: true,
     inputConfig: {
       input: {
-        path: '', // TODO this should be not required
-        inputType: InputType.string,
-        label: 'List prop',
+        inputType: InputType.array,
+        path: '',
+        label: 'Array inner',
+        description: 'This is a array in the array input',
         required: true,
-        validation: {
-          schema: Yup.mixed().test('Value is not a integer', 'Value is not a integer', value => {
-            return value === parseInt(value).toString()
-          })
+        inputConfig: {
+          input: {
+            path: '', // TODO this should be not required
+            inputType: InputType.string,
+            label: 'List prop',
+            required: true,
+            validation: {
+              schema: zod.any().refine(
+                async value => {
+                  await delay(1000)
+                  return value === 'QWE'
+                },
+                { message: 'Value is not QWE' }
+              )
+            }
+          }
         }
       }
     }
@@ -59,9 +79,12 @@ const inputs: IInputConfigWithConfig[] = [
           relativePath: 'arrayProp2',
           required: true,
           validation: {
-            schema: Yup.mixed().test('Value is not a integer', 'Value is not a integer', value => {
-              return value === parseInt(value).toString()
-            })
+            schema: zod.any().refine(
+              value => {
+                return value === 'QWE'
+              },
+              { message: 'Value is not QWE' }
+            )
           }
         }
       ]
@@ -73,12 +96,12 @@ const inputs: IInputConfigWithConfig[] = [
     path: 'stringProp2',
     required: true,
     validation: {
-      schema: Yup.mixed().test({
-        message: 'Value not equal to AB',
-        test: value => {
-          return value === 'AB'
-        }
-      })
+      schema: zod.any().refine(
+        val => {
+          return val === '123'
+        },
+        { message: `Value not equal to 123` }
+      )
     }
   }
 ]

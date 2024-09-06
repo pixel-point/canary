@@ -19,7 +19,7 @@ import {
 import { type InlineAction } from '@harnessio/yaml-editor'
 import { ArrowLeft, Box, Search, Xmark } from '@harnessio/icons-noir'
 import { YamlEditor, MonacoGlobals } from '@harnessio/yaml-editor'
-import { RenderForm, RootForm, useYupValidationResolver } from '@harnessio/forms'
+import { RenderForm, RootForm, useZodValidationResolver } from '@harnessio/forms'
 import { PipelineStudio, getNodesFromPipelineYaml } from '@harnessio/unified-pipeline'
 import { ILanguageFeaturesService } from 'monaco-editor/esm/vs/editor/common/services/languageFeatures.js'
 import { OutlineModel } from 'monaco-editor/esm/vs/editor/contrib/documentSymbols/browser/outlineModel.js'
@@ -152,7 +152,7 @@ const PipelineStudioPanel = (): JSX.Element => {
 }
 
 const StepFormPanel = (): JSX.Element => {
-  const formResolver = useMemo(() => useYupValidationResolver(formDefinition1), [formDefinition1])
+  const formResolver = useMemo(() => useZodValidationResolver(formDefinition1), [formDefinition1])
 
   return (
     <RootForm
@@ -190,7 +190,10 @@ const StepFormPanel = (): JSX.Element => {
             </StepFormSection.Form>
           </StepFormSection.Root>
           <StepForm.Footer>
-            <Button onClick={() => rootForm.submitForm()}>Submit</Button>
+            <div className="flex gap-2">
+              <Button onClick={() => rootForm.submitForm()}>Submit</Button>
+              {rootForm.formState.isValidating && <p>Validating....</p>}
+            </div>
             <Button variant="secondary" onClick={() => {}}>
               Cancel
             </Button>
@@ -241,9 +244,9 @@ const StepPalettePanel = (): JSX.Element => {
 }
 
 export default function PipelineEditPage() {
-  const [view, setView] = useState<'visual' | 'yaml'>('yaml')
+  const [view, setView] = useState<'visual' | 'yaml'>('visual')
   const [panelOpen, setPanelOpen] = useState(false)
-  const [drawerOpen, setDrawerOpen] = useState<'palette' | 'stepform' | undefined>('stepform')
+  const [drawerOpen, setDrawerOpen] = useState<'palette' | 'stepform' | undefined>()
 
   useEffect(() => {
     setPanelOpen(view === 'yaml')
