@@ -11,6 +11,8 @@ import { KeyValueTable } from './key-value-table'
 export interface StepProps {
   input: []
   inputTitle: { name: string; value: string }
+  output: []
+  outputTitle: { name: string; value: string }
   name: string
   status: ExecutionState
   started?: number
@@ -49,7 +51,7 @@ const StepExecutionToolbar: React.FC = () => {
 
 export const StepExecution: React.FC<StageExecutionProps> = ({ step, stepIndex }) => {
   const inputTable = step.input
-  const { name, value } = step.inputTitle
+  const outputTable = step.output
   return (
     <Layout.Vertical>
       <Layout.Horizontal className="flex justify-between items-center">
@@ -76,7 +78,23 @@ export const StepExecution: React.FC<StageExecutionProps> = ({ step, stepIndex }
           <TabsContent value={StepExecutionTab.INPUT}>
             {/*here is the execution details of input table */}
             <ScrollArea className="h-[calc(100vh-23rem)] border-t pt-4">
-              <KeyValueTable tableSpec={inputTable} tableTitleName={name} tableTitleVal={value} />
+              <KeyValueTable
+                className="pt-2"
+                tableSpec={inputTable}
+                tableTitleName={step.inputTitle.name}
+                tableTitleVal={step.inputTitle.value}
+              />
+            </ScrollArea>
+          </TabsContent>
+          <TabsContent value={StepExecutionTab.OUTPUT}>
+            {/*here is the execution details of output table */}
+            <ScrollArea className="h-[calc(100vh-23rem)] border-t pt-4">
+              <KeyValueTable
+                className="pt-2"
+                tableSpec={outputTable}
+                tableTitleName={step.outputTitle.name}
+                tableTitleVal={step.outputTitle.value}
+              />
             </ScrollArea>
           </TabsContent>
         </Layout.Vertical>
