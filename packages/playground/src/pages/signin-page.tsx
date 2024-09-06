@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   Card,
   CardContent,
@@ -19,6 +19,8 @@ import Floating1ColumnLayout from '../layouts/Floating1ColumnLayout'
 
 interface PageProps {
   handleSignUp?: () => void
+  handleSignIn: (data: DataProps) => void
+  isLoading?: boolean
 }
 
 interface DataProps {
@@ -31,7 +33,7 @@ const signInSchema = z.object({
   password: z.string().min(6, { message: 'Password must be at least 6 characters' })
 })
 
-export default function SignInPage({ handleSignUp }: PageProps) {
+export function SignInPage({ handleSignUp, handleSignIn, isLoading }: PageProps) {
   const {
     register,
     handleSubmit,
@@ -39,15 +41,9 @@ export default function SignInPage({ handleSignUp }: PageProps) {
   } = useForm({
     resolver: zodResolver(signInSchema)
   })
-  const [isLoading, setIsloading] = useState<boolean>(false)
 
   const onSubmit = (data: DataProps) => {
-    console.log(data)
-
-    setIsloading(true)
-    setTimeout(() => {
-      setIsloading(false)
-    }, 2000)
+    handleSignIn(data)
   }
 
   return (
