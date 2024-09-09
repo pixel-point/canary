@@ -7,7 +7,7 @@ const getRandomPercentageWidth = (min: number, max: number) => `${Math.floor(Mat
 // Helper function to generate random pixel width within a range
 const getRandomPixelWidth = (min: number, max: number) => `${Math.floor(Math.random() * (max - min + 1)) + min}px`
 
-export default function SkeletonList() {
+export const SkeletonList = () => {
   const listItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
   return (

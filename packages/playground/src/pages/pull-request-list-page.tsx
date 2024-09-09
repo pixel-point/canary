@@ -15,9 +15,9 @@ import {
   Text
 } from '@harnessio/canary'
 import { Link } from 'react-router-dom'
-import PaddingListLayout from '../layouts/PaddingListLayout'
+import { PaddingListLayout } from '../layouts/PaddingListLayout'
 import PullRequestList from '../components/pull-request/pull-request-list'
-import SkeletonList from '../components/loaders/skeleton-list'
+import { SkeletonList } from '../components/loaders/skeleton-list'
 import NoSearchResults from '../components/no-search-results'
 import NoData from '../components/no-data'
 import PlaygroundListSettings from '../settings/list-settings'

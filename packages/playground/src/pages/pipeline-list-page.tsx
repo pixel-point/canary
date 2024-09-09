@@ -15,12 +15,12 @@ import {
   PaginationNext
 } from '@harnessio/canary'
 import { PipelineList } from '../components/pipeline-list'
-import PaddingListLayout from '../layouts/PaddingListLayout'
-import SkeletonList from '../components/loaders/skeleton-list'
+import { PaddingListLayout } from '../layouts/PaddingListLayout'
+import { SkeletonList } from '../components/loaders/skeleton-list'
 import NoSearchResults from '../components/no-search-results'
 import NoData from '../components/no-data'
 import PlaygroundListSettings from '../settings/list-settings'
-import TopBarWidget from '../components/layout/top-bar-widget'
+import { TopBarWidget } from '../components/layout/top-bar-widget'
 
 const mockPipelines = [
   {
@@ -30,7 +30,7 @@ const mockPipelines = [
     sha: '93dbd09a',
     description: 'fix(deps): update module github.com/aws/aws-sdk-go to',
     version: 'v1.5.4.20',
-    timestamp: '2 hours ago'
+    timestamp: 1723478906498
   },
   {
     id: '2',
@@ -39,7 +39,7 @@ const mockPipelines = [
     sha: '366177a6',
     description: 'Update module github.com/aws/aws-sdk-go to',
     version: 'v1.54.19',
-    timestamp: '3 hours ago'
+    timestamp: 1723478906498
   },
   {
     id: '3',
@@ -48,7 +48,7 @@ const mockPipelines = [
     sha: 'da7c1c67',
     description: 'feat: [CDE-119]: Add task handling to spawn and cleanup VM for CDE/gitspaces on bare metalo',
     version: 'v1.5.4.20',
-    timestamp: '5 hours ago'
+    timestamp: 1723478906498
   },
   {
     id: '4',
@@ -57,7 +57,7 @@ const mockPipelines = [
     sha: '93dbd09a',
     description: 'fix: [CI-13371]: Fix log closers in case of step timeouts',
     version: 'v1.5.4.20',
-    timestamp: '5 hours ago'
+    timestamp: 1723478906498
   },
 
   {
@@ -67,7 +67,7 @@ const mockPipelines = [
     sha: 'fe54f9b1',
     description: 'Update go-jsonnet version to',
     version: 'v0.20.0',
-    timestamp: '13 hours ago'
+    timestamp: 1723478906498
   },
   {
     id: '6',
@@ -76,7 +76,7 @@ const mockPipelines = [
     sha: 'b7765ad1',
     description: 'update google/go-jsonnet version to',
     version: 'v0.20.0',
-    timestamp: '14 hours ago'
+    timestamp: 1723478906498
   },
   {
     id: '7',
@@ -85,7 +85,7 @@ const mockPipelines = [
     sha: 'cf5f4b4a',
     description: 'fix: [CI-11759]: Fixing sum for Harness code',
     version: 'v1.5.4.20',
-    timestamp: '15 hours ago'
+    timestamp: 1723478906498
   },
   {
     id: '8',
@@ -94,7 +94,7 @@ const mockPipelines = [
     sha: 'da7c1c67',
     description: 'fix: [CI-13371]: Fix log closers in case of step timeouts',
     version: 'v1.5.4.20',
-    timestamp: '16 hours ago'
+    timestamp: 1723478906498
   }
 ]
 

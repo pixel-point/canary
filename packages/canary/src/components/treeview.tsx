@@ -68,6 +68,7 @@ const useTree = () => {
   return context
 }
 
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 interface TreeViewComponentProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 type Direction = 'rtl' | 'ltr' | undefined
@@ -202,6 +203,7 @@ const TreeIndicator = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEle
 
 TreeIndicator.displayName = 'TreeIndicator'
 
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 interface FolderComponentProps extends React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item> {}
 
 type FolderProps = {

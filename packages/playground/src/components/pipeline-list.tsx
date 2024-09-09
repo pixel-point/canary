@@ -1,6 +1,8 @@
 import { Icon, StackedList, Meter } from '@harnessio/canary'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { ExecutionState } from './execution/types'
+import { ExecutionStatus } from './execution/execution-status'
 
 export enum MeterState {
   Empty = 0,
@@ -11,12 +13,12 @@ export enum MeterState {
 
 interface Pipeline {
   id: string
-  success: boolean
+  status: ExecutionState
   name: string
   sha: string
   description: string
   version: string
-  timestamp: string
+  timestamp: number
   meter?: {
     id: string
     state: MeterState
@@ -27,10 +29,10 @@ interface PageProps {
   pipelines?: Pipeline[]
 }
 
-const Title = ({ success, title }: { success: boolean; title: string }) => {
+const Title = ({ status, title }: { status: ExecutionState; title: string }) => {
   return (
     <div className="flex gap-2 items-center">
-      <Icon size={16} name={success ? 'success' : 'fail'} />
+      <ExecutionStatus.Icon status={status} />
       {title}
     </div>
   )
@@ -41,7 +43,7 @@ const Description = ({ sha, description, version }: { sha: string; description: 
     <div className="flex gap-2 items-center">
       <div className="ml-[24px] px-1.5 rounded-md flex gap-1 items-center bg-tertiary-background/10">
         <Icon size={11} name={'tube-sign'} />
-        {sha}
+        {sha?.slice(0, 7)}
       </div>
       <div>{description}</div>
       <div className="flex gap-1 items-center">
@@ -63,7 +65,7 @@ export const PipelineList = ({ ...props }: PageProps) => {
             <StackedList.Item key={pipeline.name} isLast={pipelines.length - 1 === pipeline_idx} asChild>
               <Link to={`${pipeline.id}`}>
                 <StackedList.Field
-                  title={<Title success={pipeline.success} title={pipeline.name} />}
+                  title={<Title status={pipeline.status} title={pipeline.name} />}
                   description={
                     <Description sha={pipeline.sha} description={pipeline.description} version={pipeline.version} />
                   }

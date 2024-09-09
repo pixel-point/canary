@@ -13,7 +13,7 @@ import {
   Spacer
 } from '@harnessio/canary'
 import PlaygroundPullRequestCommitsSettings from '../settings/pull-request-commits-settings'
-import SkeletonList from '../components/loaders/skeleton-list'
+import { SkeletonList } from '../components/loaders/skeleton-list'
 import NoData from '../components/no-data'
 
 export default function PullRequestCommitsPage() {

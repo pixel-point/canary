@@ -1,4 +1,5 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
 import {
   Topbar,
   Breadcrumb,
@@ -15,7 +16,6 @@ import {
   BreadcrumbSeparator,
   cn
 } from '@harnessio/canary'
-import { useParams } from 'react-router-dom'
 
 // Project Dropdown Component
 const AvatarDropdown = ({ isPrimary }: { isPrimary: boolean }) => (
@@ -82,7 +82,7 @@ const Breadcrumbs: React.FC<{ items: BreadcrumbItemProps[] }> = ({ items }) => {
 }
 
 // TopBar Widget Component
-const TopBarWidget = () => {
+export const TopBarWidget = () => {
   const { repoId, executionId } = useParams<{ repoId: string; executionId: string }>()
 
   // Construct breadcrumb items dynamically based on the route parameters
@@ -102,5 +102,3 @@ const TopBarWidget = () => {
     </Topbar.Root>
   )
 }
-
-export default TopBarWidget

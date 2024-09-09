@@ -39,59 +39,59 @@ export default function NoirListing() {
       strokeWidth={strokeWidth}
       // renderHook={props => console.log('render icon', props.name, props)}
     >
-      <div className='icons-container'>
-      <header className="page-header">
-        <div className="search-container">
-          <Input
-            placeholder="Search..."
-            type="search"
-            autoCapitalize="none"
-            tabIndex={1}
-            autoFocus
-            onInput={(e: ChangeEvent<HTMLInputElement>) => {
-              setSearch(e.target.value)
-              window.scrollTo({ top: 0 })
-            }}
-          />
-        </div>
-        <details className="settings-container" open={false}>
-          <summary>
-            <Noir.Settings size="24" color="inherit" className="settings-icon" />
-          </summary>
-          <Settings />
-        </details>
-      </header>
-      <main>
-        <div className="iconset-list">
-          <div>
-            {filteredData.map(({ name, fqn, Component, ComponentName }) => {
-              const title = `<${ComponentName} />`
-
-              return (
-                <section key={name}>
-                  <div
-                    className="box"
-                    title={title}
-                    onClick={() => {
-                      setSelectedIcon({ name, fqn, Component, ComponentName })
-                      setOpenIconDialog(true)
-                    }}
-                    {...ButtonRoleProps}>
-                    <Component />
-                  </div>
-                  <p className="icon-name">
-                    &lt;
-                    <Keywords value={search}>{ComponentName}</Keywords> /&gt;
-                  </p>
-                </section>
-              )
-            })}
+      <div className="icons-container">
+        <header className="page-header">
+          <div className="search-container">
+            <Input
+              placeholder="Search..."
+              type="search"
+              autoCapitalize="none"
+              tabIndex={1}
+              autoFocus
+              onInput={(e: ChangeEvent<HTMLInputElement>) => {
+                setSearch(e.target.value)
+                window.scrollTo({ top: 0 })
+              }}
+            />
           </div>
-        </div>
-        {selectedIcon && openIconDialog && (
-          <IconDialog selectedIcon={selectedIcon} open={true} onClose={() => setOpenIconDialog(false)} />
-        )}
-      </main>
+          <details className="settings-container" open={false}>
+            <summary>
+              <Noir.Settings size="24" color="inherit" className="settings-icon" />
+            </summary>
+            <Settings />
+          </details>
+        </header>
+        <main>
+          <div className="iconset-list">
+            <div>
+              {filteredData.map(({ name, fqn, Component, ComponentName }) => {
+                const title = `<${ComponentName} />`
+
+                return (
+                  <section key={name}>
+                    <div
+                      className="box"
+                      title={title}
+                      onClick={() => {
+                        setSelectedIcon({ name, fqn, Component, ComponentName })
+                        setOpenIconDialog(true)
+                      }}
+                      {...ButtonRoleProps}>
+                      <Component />
+                    </div>
+                    <p className="icon-name">
+                      &lt;
+                      <Keywords value={search}>{ComponentName}</Keywords> /&gt;
+                    </p>
+                  </section>
+                )
+              })}
+            </div>
+          </div>
+          {selectedIcon && openIconDialog && (
+            <IconDialog selectedIcon={selectedIcon} open={true} onClose={() => setOpenIconDialog(false)} />
+          )}
+        </main>
       </div>
     </IconContextProvider>
   )
@@ -130,6 +130,7 @@ ${svg}
   }, [svgContent])
 
   useEffect(() => {
+    /* eslint-disable @typescript-eslint/no-unused-expressions */
     open && ref.current?.showModal()
   }, [open])
   const gridSize = 128

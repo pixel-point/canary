@@ -745,6 +745,9 @@ importers:
       react-keywords:
         specifier: ^1.0.0
         version: 1.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-router-dom:
+        specifier: ^6.26.0
+        version: 6.26.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       yaml:
         specifier: ^2.5.0
         version: 2.5.0
@@ -794,9 +797,6 @@ importers:
       npm-run-all:
         specifier: ^4.1.5
         version: 4.1.5
-      react-router-dom:
-        specifier: ^6.26.0
-        version: 6.26.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       tailwindcss:
         specifier: ^3.4.4
         version: 3.4.10

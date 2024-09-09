@@ -32,6 +32,7 @@ const listFieldVariants = cva(
   }
 )
 
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 interface ListProps extends React.ComponentProps<'div'> {}
 
 interface ListItemProps extends React.ComponentProps<'div'>, VariantProps<typeof listItemVariants> {

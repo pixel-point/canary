@@ -12,7 +12,8 @@ const external = [
   'moment',
   '@harnessio/icons-noir',
   '@harnessio/canary',
-  '@harnessio/unified-pipeline'
+  '@harnessio/unified-pipeline',
+  'react-router-dom'
 ]
 
 // https://vitejs.dev/config/

@@ -3,7 +3,7 @@ import { Navbar, Icon, NavbarProjectChooser, NavbarUser } from '@harnessio/canar
 import React from 'react'
 import { Outlet, NavLink, useLocation, Link } from 'react-router-dom'
 
-const RootLayout: React.FC = () => {
+export const RootLayout: React.FC = () => {
   const location = useLocation()
   const hideNavbarPaths = ['/signin', '/signup']
   const showNavbar = !hideNavbarPaths.includes(location.pathname)
@@ -95,5 +95,3 @@ const RootLayout: React.FC = () => {
     </div>
   )
 }
-
-export default RootLayout

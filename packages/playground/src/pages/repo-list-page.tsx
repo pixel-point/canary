@@ -15,12 +15,12 @@ import {
   PaginationEllipsis,
   PaginationNext
 } from '@harnessio/canary'
-import PaddingListLayout from '../layouts/PaddingListLayout'
+import { PaddingListLayout } from '../layouts/PaddingListLayout'
 import PlaygroundListSettings from '../settings/list-settings'
-import SkeletonList from '../components/loaders/skeleton-list'
+import { SkeletonList } from '../components/loaders/skeleton-list'
 import NoData from '../components/no-data'
 import NoSearchResults from '../components/no-search-results'
-import TopBarWidget from '../components/layout/top-bar-widget'
+import { TopBarWidget } from '../components/layout/top-bar-widget'
 
 const mockRepos = [
   {

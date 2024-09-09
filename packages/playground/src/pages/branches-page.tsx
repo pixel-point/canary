@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import BranchesList from '../components/branches'
-import SkeletonList from '../components/loaders/skeleton-list'
+import { SkeletonList } from '../components/loaders/skeleton-list'
 import NoData from '../components/no-data'
-import PaddingListLayout from '../layouts/PaddingListLayout'
+import { PaddingListLayout } from '../layouts/PaddingListLayout'
 import { ListActions, SearchBox, Spacer, Text } from '@harnessio/canary'
 import PlaygroundBranchesSettings from '../settings/branches-settings'
 
