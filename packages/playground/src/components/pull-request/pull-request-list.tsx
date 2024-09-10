@@ -3,7 +3,7 @@ import React, { useMemo, useState } from 'react'
 import cx from 'classnames'
 
 interface PullRequestProps {
-  merged: boolean | number | null | undefined // TODO: Should merged really be all these??
+  merged: number | null | undefined // TODO: Should merged really be all these??
   name: string | undefined
   number?: number
   sha?: string

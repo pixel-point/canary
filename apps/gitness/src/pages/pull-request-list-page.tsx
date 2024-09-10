@@ -21,6 +21,8 @@ const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' },
 const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
 
 function PullRequestListPage() {
+  const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => <Link to={to}>{children}</Link>
+
   const { data: pullrequests, isFetching } = useListPullReqQuery(
     {
       repo_ref: 'best/testt2/+',
@@ -144,6 +146,7 @@ function PullRequestListPage() {
     }
     return (
       <PullRequestList
+        LinkComponent={LinkComponent}
         // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
         pullRequests={pullrequests?.content?.map((item: TypesPullReq) => ({
           number: item.number,

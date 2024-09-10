@@ -90,7 +90,7 @@ const mockPullRequests = [
     id: '4',
     number: 14285,
     merged: 12323,
-    state: 'closed',
+    state: 'merged',
     name: '[framework-fixtures]: Bump the core group',
     sha: '93dbd09a',
     reviewRequired: false,
@@ -118,7 +118,7 @@ const mockPullRequests = [
   {
     id: '5',
     number: 14286,
-    merged: false,
+    merged: null,
     state: 'open',
     name: 'Test PPR RSC encoding fixAdd support for jpath in jsonnet (#224) * Add support for jpath in jsonnet Co-a',
     sha: 'fe54f9b1',
@@ -142,7 +142,8 @@ const mockPullRequests = [
   {
     id: '6',
     number: 14287,
-    merged: true,
+    merged: 1233,
+    state: 'merged',
     name: 'fix: u[cli] implements vc deploy --logs and vc inspect --logsse right parameter name for secrets-file',
     sha: 'b7765ad1',
     reviewRequired: true,
