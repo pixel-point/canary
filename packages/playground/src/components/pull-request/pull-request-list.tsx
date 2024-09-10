@@ -4,17 +4,17 @@ import cx from 'classnames'
 import { Link } from 'react-router-dom'
 
 interface PullRequestProps {
-  id: string
-  merged: boolean
-  name: string
-  number: number
+  merged: number | null | undefined
+  name: string | undefined
+  number?: number
   sha?: string
-  author: string
+  author?: string
   reviewRequired: boolean
-  tasks: number
-  version?: string
+  tasks?: number
+  source_branch?: string
   timestamp: string
-  comments: number
+  comments?: number
+  state?: string
   labels?: {
     text: string
     color: string
@@ -103,16 +103,16 @@ const Title = ({
 const Description = ({
   reviewRequired,
   number,
-  tasks,
+  // tasks,
   author,
-  version,
+  source_branch,
   timestamp
 }: {
   number: number
   reviewRequired: boolean
-  tasks: number
+  tasks?: number
   author: string
-  version: string
+  source_branch: string
   timestamp: string
 }) => {
   return (
@@ -124,11 +124,11 @@ const Description = ({
       <div className="flex gap-1 items-center">{reviewRequired ? 'Review required' : 'Draft'}</div>
       <div className="flex gap-1 items-center">
         <Icon size={11} name={'tasks'} />
-        {tasks} task{tasks == 1 ? '' : 's'}
+        {/* {tasks} task{tasks == 1 ? '' : 's'} */}3 tasks
       </div>
       <div className="flex gap-1 items-center">
         <Icon size={11} name={'signpost'} />
-        {version}
+        {source_branch}
       </div>
     </div>
   )
@@ -145,15 +145,15 @@ const Comments = ({ comments }: { comments: number }) => {
   )
 }
 
-export default function PullRequestList({ ...props }: PageProps) {
+export function PullRequestList({ ...props }: PageProps) {
   const { pullRequests } = props
 
   const [headerFilter, setHeaderFilter] = useState('open')
   const filteredData = useMemo(
     () =>
       pullRequests?.filter(pr => {
-        if (headerFilter === 'open') return !pr.merged
-        if (headerFilter === 'closed') return pr.merged
+        if (headerFilter === 'open') return pr.state === 'open'
+        if (headerFilter === 'closed') return pr.state !== 'open' || pr.merged !== null
         return true
       }),
     [headerFilter]
@@ -172,24 +172,32 @@ export default function PullRequestList({ ...props }: PageProps) {
               key={`${pullRequest.name}-${pullRequest_idx}`}
               isLast={filteredData.length - 1 === pullRequest_idx}
               asChild>
-              <Link to={pullRequest.id}>
-                <StackedList.Field
-                  title={
-                    <Title success={pullRequest.merged} title={pullRequest.name} labels={pullRequest.labels || []} />
-                  }
-                  description={
-                    <Description
-                      number={pullRequest.number || 123}
-                      author={pullRequest.author}
-                      reviewRequired={pullRequest.reviewRequired}
-                      tasks={pullRequest.tasks}
-                      version={pullRequest.version || ''}
-                      timestamp={pullRequest.timestamp || '1 hour ago'}
-                    />
-                  }
-                />
-                <StackedList.Field title={<Comments comments={pullRequest.comments} />} right label secondary />
-              </Link>
+              {pullRequest.number && (
+                <Link to={pullRequest?.number?.toString()}>
+                  <StackedList.Field
+                    title={
+                      pullRequest.name && (
+                        <Title success={true} title={pullRequest.name} labels={pullRequest.labels || []} />
+                      )
+                    }
+                    description={
+                      pullRequest.author && (
+                        <Description
+                          number={pullRequest.number || 123}
+                          author={pullRequest.author}
+                          reviewRequired={pullRequest.reviewRequired}
+                          tasks={pullRequest.tasks}
+                          source_branch={pullRequest.source_branch || ''}
+                          timestamp={pullRequest.timestamp || '1 hour ago'}
+                        />
+                      )
+                    }
+                  />
+                  {pullRequest.comments && (
+                    <StackedList.Field title={<Comments comments={pullRequest.comments} />} right label secondary />
+                  )}
+                </Link>
+              )}
             </StackedList.Item>
           ))}
         </StackedList.Root>

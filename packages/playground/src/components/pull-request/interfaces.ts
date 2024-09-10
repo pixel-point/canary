@@ -94,7 +94,38 @@ export interface TypesPullReq {
   target_branch?: string
   target_repo_id?: number
   title?: string
+  labels?: TypesLabelPullReqAssignmentInfo[]
 }
+
+export interface TypesLabelPullReqAssignmentInfo {
+  color?: EnumLabelColor
+  id?: number
+  key?: string
+  scope?: number
+  value?: string | null
+  value_color?: EnumLabelColor
+  value_count?: number
+  value_id?: number | null
+}
+
+export type EnumLabelColor =
+  | 'accent'
+  | 'background'
+  | 'blue'
+  | 'brown'
+  | 'cyan'
+  | 'green'
+  | 'indigo'
+  | 'lime'
+  | 'mint'
+  | 'orange'
+  | 'pink'
+  | 'purple'
+  | 'red'
+  | 'stroke'
+  | 'text'
+  | 'violet'
+  | 'yellow'
 
 export type EnumMergeMethod = 'merge' | 'rebase' | 'squash'
 

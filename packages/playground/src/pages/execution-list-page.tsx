@@ -16,8 +16,8 @@ import {
 import ExecutionList from '../components/execution-list'
 import { PaddingListLayout } from '../layouts/PaddingListLayout'
 import { SkeletonList } from '../components/loaders/skeleton-list'
-import NoSearchResults from '../components/no-search-results'
-import NoData from '../components/no-data'
+import { NoSearchResults } from '../components/no-search-results'
+import { NoData } from '../components/no-data'
 import PlaygroundListSettings from '../settings/list-settings'
 import { TopBarWidget } from '../components/layout/top-bar-widget'
 

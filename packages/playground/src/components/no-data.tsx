@@ -20,7 +20,7 @@ export interface NoDataProps {
   setLoadState?: React.Dispatch<React.SetStateAction<string>>
 }
 
-const NoData: React.FC<NoDataProps> = ({
+export const NoData: React.FC<NoDataProps> = ({
   iconName,
   iconSize = 112,
   title,
@@ -66,5 +66,3 @@ const NoData: React.FC<NoDataProps> = ({
     </div>
   )
 }
-
-export default NoData
