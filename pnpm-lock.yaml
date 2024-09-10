@@ -24,8 +24,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/canary
       '@harnessio/code-service-client':
-        specifier: 1.1.0
-        version: 1.1.0
+        specifier: 1.2.0
+        version: 1.2.0
       '@harnessio/playground':
         specifier: workspace:*
         version: link:../../packages/playground
@@ -2352,8 +2352,8 @@ packages:
   '@floating-ui/utils@0.2.7':
     resolution: {integrity: sha512-X8R8Oj771YRl/w+c1HqAC1szL8zWQRwFvgDwT129k9ACdBoud/+/rX9V0qiMl6LWUdP9voC2nDVZYPMQQsb6eA==}
 
-  '@harnessio/code-service-client@1.1.0':
-    resolution: {integrity: sha512-WyXx63dVJOQAzKuK79wRcFkhQNnTJafQrA8GOw9yzb8XbRIfUn2c1OFkv0N5SOFZ1OFlk2EbuagqFI5Eg8qu2Q==}
+  '@harnessio/code-service-client@1.2.0':
+    resolution: {integrity: sha512-8B7toG7JcoFcs2GfL6C04OKpoCVCz5Zoa4fpv6Fe/6QgLMXBYBG+fWw18dCFeSP+gxJIMYe4TC9k3jRodnrYTg==}
 
   '@harnessio/icons-noir@0.2.1':
     resolution: {integrity: sha512-gJJmolPrbwVfwznPN6zjOuUqVKCYb7Q/ZvZMR5WvlNdTxl8/UukhtGiCCEdy/JRU4zcZqm24FW2L40+Qv2Tz0Q==}
@@ -10633,7 +10633,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.7': {}
 
-  '@harnessio/code-service-client@1.1.0': {}
+  '@harnessio/code-service-client@1.2.0': {}
 
   '@harnessio/icons-noir@0.2.1(@harnessio/svg-icon-react@0.2.1(@harnessio/svg-icon@0.2.1)(react@18.3.1))(@harnessio/svg-icon@0.2.1)(react@18.3.1)':
     dependencies:
