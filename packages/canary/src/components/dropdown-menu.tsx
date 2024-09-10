@@ -14,7 +14,7 @@ const DropdownMenuTrigger = React.forwardRef<
   <DropdownMenuPrimitive.Trigger
     ref={ref}
     className={cn(
-      '[&>svg]:data-[state=open]:rotate-180 [&>svg]:ease-in-out [&>svg]:duration-100',
+      '[&>svg.chevron-down]:data-[state=open]:rotate-180 [&>svg.chevron-down]:ease-in-out [&>svg.chevron-down]:duration-100',
       { 'border-l border-inherit flex items-center px-2.5 py-0.5 outline-none cursor-pointer': insideSplitButton },
       className
     )}

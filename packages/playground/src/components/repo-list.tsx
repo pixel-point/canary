@@ -1,6 +1,5 @@
-import { Badge, Icon, StackedList } from '@harnessio/canary'
+import { Badge, cn, Icon, StackedList } from '@harnessio/canary'
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 interface Repo {
   id: string
@@ -10,10 +9,12 @@ interface Repo {
   stars: number
   forks: number
   pulls: number
+  timestamp: string
 }
 
 interface PageProps {
   repos?: Repo[]
+  LinkComponent: React.ComponentType<{ to: string; children: React.ReactNode }>
 }
 
 const Stats = ({ stars, forks, pulls }: { stars: number; forks: number; pulls: number }) => (
@@ -37,24 +38,24 @@ const Title = ({ title, isPrivate }: { title: string; isPrivate: boolean }) => (
   <>
     {title}
     <Badge
-      className={`select-none bg-transparent rounded-full text-[11px] font-normal ml-2.5 py-1 px-2 leading-none text-[#71dbd3] border-[#1d3333] bg-[#111c1d] hover:bg-inherit ${
-        isPrivate && 'border-[#242428] bg-[#151518] text-[#93939f]'
-      }`}>
+      size="sm"
+      disableHover
+      className={cn('ml-3 rounded-full border border-[hsla(var(--success),0.4)] text-success bg-transparent', {
+        'border border-muted bg-background text-tertiary-background': isPrivate
+      })}>
       {isPrivate ? 'Private' : 'Public'}
     </Badge>
   </>
 )
 
-export default function RepoList({ ...props }: PageProps) {
-  const { repos } = props
-
+export default function RepoList({ repos, LinkComponent }: PageProps) {
   return (
     <>
       {repos && repos.length > 0 && (
         <StackedList.Root>
           {repos.map((repo, repo_idx) => (
-            <StackedList.Item key={repo.name} isLast={repos.length - 1 === repo_idx} asChild>
-              <Link to={`/repos/${repo.name}`}>
+            <LinkComponent to={repo.name}>
+              <StackedList.Item key={repo.name} isLast={repos.length - 1 === repo_idx}>
                 <StackedList.Field
                   description={repo.description}
                   title={<Title title={repo.name} isPrivate={repo.private} />}
@@ -62,7 +63,7 @@ export default function RepoList({ ...props }: PageProps) {
                 <StackedList.Field
                   title={
                     <>
-                      Updated <em>2 hours ago</em>
+                      Updated <em>{repo.timestamp}</em>
                     </>
                   }
                   description={<Stats stars={repo.stars} forks={repo.forks} pulls={repo.pulls} />}
@@ -70,8 +71,8 @@ export default function RepoList({ ...props }: PageProps) {
                   label
                   secondary
                 />
-              </Link>
-            </StackedList.Item>
+              </StackedList.Item>
+            </LinkComponent>
           ))}
         </StackedList.Root>
       )}

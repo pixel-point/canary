@@ -97,11 +97,7 @@ export default function NoirListing() {
   )
 }
 
-const IconDialog: React.FC<DialogConfigAttributes & { selectedIcon: IconMetadata }> = ({
-  selectedIcon,
-  open,
-  ...others
-}) => {
+const IconDialog: React.FC<DialogConfigAttributes & { selectedIcon: IconMetadata }> = ({ selectedIcon, ...others }) => {
   const ref = useRef<HTMLDialogElement>(null)
   const { size, strokeWidth, color, Settings } = useSettings()
   const [svg, setSvg] = useState('')

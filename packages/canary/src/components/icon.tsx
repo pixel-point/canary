@@ -2,7 +2,6 @@ import * as React from 'react'
 import ChevronDown from '../icons/chevron-down.svg'
 import Archive from '../icons/repositories-icon.svg'
 import Harness from '../icons/harness.svg'
-import HarnessWhite from '../icons/harness-white.svg'
 import Pipelines from '../icons/pipelines-icon.svg'
 import Executions from '../icons/executions-icon.svg'
 import FeaturedFlags from '../icons/featured-flags-icon.svg'
@@ -39,6 +38,13 @@ import Circle from '../icons/circle.svg'
 import AppleShortcut from '../icons/apple-shortcut.svg'
 import Edit from '../icons/edit.svg'
 import GitnessLogo from '../icons/gitness-logo.svg'
+import Folder from '../icons/folder.svg'
+import File from '../icons/file.svg'
+import Tag from '../icons/tag.svg'
+import Branch from '../icons/branch.svg'
+import OpenPR from '../icons/open-pr.svg'
+import Plus from '../icons/plus.svg'
+import Running from '../icons/running.svg'
 
 // import Fork from '../icons/fork.svg'
 
@@ -46,7 +52,6 @@ const IconNameMap = {
   'chevron-down': ChevronDown,
   archive: Archive,
   harness: Harness,
-  'harness-white': HarnessWhite,
   pipelines: Pipelines,
   executions: Executions,
   'featured-flags': FeaturedFlags,
@@ -82,7 +87,14 @@ const IconNameMap = {
   circle: Circle,
   'apple-shortcut': AppleShortcut,
   'edit-pen': Edit,
-  'gitness-logo': GitnessLogo
+  'gitness-logo': GitnessLogo,
+  folder: Folder,
+  file: File,
+  tag: Tag,
+  branch: Branch,
+  'open-pr': OpenPR,
+  plus: Plus,
+  running: Running
 
   // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>

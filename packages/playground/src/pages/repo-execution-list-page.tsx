@@ -26,11 +26,9 @@ const mockExecutions = [
   {
     id: '1',
     number: 733,
-    success: true,
     name: 'removing duplicated metrics for servers and swapping to pattern math…',
     sha: '93dbd09a',
     description: 'fix(deps): update module github.com/aws/aws-sdk-go to',
-    version: 'v1.5.4.20',
     timestamp: '7 days ago',
     lastTimestamp: '11:24'
   },
@@ -51,7 +49,6 @@ const mockExecutions = [
     success: true,
     name: 'Bump github.com/containerd/containerd from 1.6.8 to 1.6.18',
     sha: 'da7c1c67',
-    description: 'feat: [CDE-119]: Add task handling to spawn and cleanup VM for CDE/gitspaces on bare metalo',
     version: 'v1.5.4.20',
     timestamp: '7 months ago',
     lastTimestamp: '10:50'
@@ -99,10 +96,14 @@ const viewOptions = [{ name: 'View option 1' }, { name: 'View option 2' }]
 function RepoExecutionListPage() {
   const [loadState, setLoadState] = useState('data-loaded')
 
+  const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => (
+    <Link to={`executions/${to}`}>{children}</Link>
+  )
+
   const renderListContent = () => {
     switch (loadState) {
       case 'data-loaded':
-        return <ExecutionList executions={mockExecutions} />
+        return <ExecutionList executions={mockExecutions} LinkComponent={LinkComponent} />
       case 'loading':
         return <SkeletonList />
       case 'no-search-matches':

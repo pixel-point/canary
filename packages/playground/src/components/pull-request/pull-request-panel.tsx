@@ -17,7 +17,8 @@ import {
   TypesPullReq,
   TypeCheckData,
   EnumCheckStatus,
-  PullRequestChangesSectionProps
+  PullRequestChangesSectionProps,
+  PullRequestAction
 } from './interfaces'
 import PullRequestCheckSection from './sections/pull-request-check-section'
 import PullRequestCommentSection from './sections/pull-request-comment-section'
@@ -32,6 +33,7 @@ interface PullRequestPanelProps extends PullRequestChangesSectionProps {
   ruleViolation?: boolean //TODO: fix type
   checksInfo: { header: string; content: string; status: EnumCheckStatus }
   commentsInfo: { header: string; content?: string | undefined; status: string }
+  actions: PullRequestAction[]
 }
 
 interface HeaderProps {
@@ -85,7 +87,8 @@ const PullRequestPanel = ({
   codeOwnerPendingEntries,
   codeOwnerApprovalEntries,
   latestCodeOwnerApprovalArr,
-  conflictingFiles
+  conflictingFiles,
+  actions
 }: PullRequestPanelProps) => {
   const mergeable = useMemo(() => pullReqMetadata.merge_check_status === MergeCheckStatus.MERGEABLE, [pullReqMetadata])
   const isClosed = pullReqMetadata.state === PullRequestState.CLOSED
@@ -129,13 +132,14 @@ const PullRequestPanel = ({
               dropdown={
                 <DropdownMenu>
                   <DropdownMenuTrigger insideSplitButton>
-                    <Icon name="chevron-down" size={11} />
+                    <Icon name="chevron-down" size={11} className="chevron-down" />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="mt-1">
                     <DropdownMenuGroup>
-                      <DropdownMenuItem>Split button item 1</DropdownMenuItem>
-                      <DropdownMenuItem>Split button item 2</DropdownMenuItem>
-                      <DropdownMenuItem>Split button item 2</DropdownMenuItem>
+                      {actions &&
+                        actions.map((action, action_idx) => {
+                          return <DropdownMenuItem key={action_idx}>{action.title}</DropdownMenuItem>
+                        })}
                     </DropdownMenuGroup>
                   </DropdownMenuContent>
                 </DropdownMenu>

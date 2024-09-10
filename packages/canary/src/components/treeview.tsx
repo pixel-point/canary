@@ -69,6 +69,7 @@ const useTree = () => {
 }
 
 /* eslint-disable @typescript-eslint/no-empty-object-type */
+/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 interface TreeViewComponentProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 type Direction = 'rtl' | 'ltr' | undefined
@@ -80,7 +81,7 @@ type TreeViewProps = {
   initialExpendedItems?: string[]
   openIcon?: React.ReactNode
   closeIcon?: React.ReactNode
-} & TreeViewComponentProps
+} & React.HTMLAttributes<HTMLDivElement>
 
 const Tree = forwardRef<HTMLDivElement, TreeViewProps>(
   (
@@ -204,6 +205,7 @@ const TreeIndicator = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEle
 TreeIndicator.displayName = 'TreeIndicator'
 
 /* eslint-disable @typescript-eslint/no-empty-object-type */
+/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 interface FolderComponentProps extends React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item> {}
 
 type FolderProps = {
@@ -211,7 +213,7 @@ type FolderProps = {
   element: string
   isSelectable?: boolean
   isSelect?: boolean
-} & FolderComponentProps &
+} & React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item> &
   ExecutionDetail
 
 const Folder = forwardRef<HTMLDivElement, FolderProps & React.HTMLAttributes<HTMLDivElement>>(

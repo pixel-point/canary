@@ -36,9 +36,6 @@
   --purple: 275 60% 75%;
   --green: 150, 75%, 65%;
   --red: 0, 80%, 65%;
-  --red-glow: 0, 80%, 65% 0.5;
-  --orange-glow: 35, 75%, 55% 0.5;
-  --green-glow: 150, 75%, 65% 0.5;
 }
 
 @layer themes {
@@ -53,9 +50,11 @@
     --primary: 240 5.9% 10%;
     --primary-background: 240 5.9% 10%;
     --primary-foreground: 0 0% 98%;
+    --primary-muted: var(--grey-70);
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
     --secondary-background: 0 0% 100%;
+    --secondary-muted: var(--grey-40);
     --tertiary: 240 4.8% 95.9%;
     --tertiary-foreground: 240 5.9% 10%;
     --tertiary-background: 240 6% 60%;
@@ -71,8 +70,6 @@
     --input-background: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
     --radius: 0.5rem;
-    --navbar-icon-secondary: 240 6% 40%;
-    --navbar-text-secondary: var(--grey-70);
     --success: var(--green);
     --error: var(--red);
     --warning: var(--orange);
@@ -89,9 +86,11 @@
     --primary: var(--white);
     --primary-background: var(--black);
     --primary-foreground: var(--grey-10);
+    --primary-muted: var(--grey-70);
     --secondary: var(--grey-15);
     --secondary-foreground: var(--white);
     --secondary-background: var(--grey-6);
+    --secondary-muted: var(--grey-40);
     --tertiary: var(--grey-12);
     --tertiary-foreground: var(--white);
     --tertiary-background: var(--grey-60);
@@ -106,8 +105,6 @@
     --input: var(--grey-15);
     --input-background: var(--grey-10);
     --ring: var(--grey-80);
-    --navbar-icon-secondary: 240 6% 40%;
-    --navbar-text-secondary: var(--grey-70);
     --success: var(--green);
     --error: var(--red);
     --warning: var(--orange);
@@ -129,31 +126,10 @@
   }
 }
 
-@layer utilities {
-  /* TODO Check this – should not be necessary when the custom color has been defined in tailwind config already */
-  .text-tertiary-background {
-    color: hsl(var(--tertiary-background));
-  }
-}
-
 /* Text utilities */
-.title-primary {
-  @apply text-neutral-300 text-3xl leading-relaxed;
-}
 .text-radial-gradient {
-  @apply bg-gradient-radial from-[#CA9AF4]/70 to-[#CA9AF4]/0 bg-clip-text text-white/70;
-}
-
-.section-title {
-  @apply text-3xl text-primary font-normal -tracking-[2%];
-}
-
-.section-title-small {
-  @apply text-xl text-primary font-normal -tracking-[2%];
-}
-
-.section-description {
-  @apply text-sm text-[#C9C9CF] font-light;
+  /* remove hardcode colors */
+  @apply bg-gradient-radial from-[#CA9AF4]/70 to-[#CA9AF4]/0 bg-clip-text text-primary/70;
 }
 
 /* Card utilities */
@@ -169,11 +145,11 @@
 
 /* Form utilities */
 .text-form-error {
-  @apply font-light text-red-500 text-xs mt-2;
+  @apply font-light text-destructive text-xs mt-2;
 }
 .form-input {
-  @apply font-light text-sm w-full mt-1 border-white/10 bg-white/5 rounded-[4px];
-  @apply placeholder:text-white/50 !important;
+  @apply font-light text-sm w-full mt-1 border-primary/10 bg-primary/5 rounded-[4px];
+  @apply placeholder:text-primary/50 !important;
 }
 
 /* Temporary studio controls override */

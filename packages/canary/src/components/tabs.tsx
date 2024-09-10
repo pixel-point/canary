@@ -29,7 +29,7 @@ const tabsTriggerVariants = cva(
         navigation:
           'px-0 font-normal text-xs text-tertiary-background hover:text-primary ease-in-out duration-150 h-[44px] border-b border-b-transparent border-solid m-0 data-[state=active]:text-primary data-[state=active]:border-tertiary-background',
         tabnav:
-          'px-4 items-center gap-2 bg-background font-normal text-sm text-tertiary-background ease-in-out duration-150 hover:text-primary h-[36px] rounded-tl-md rounded-tr-md m-0 data-[state=active]:text-primary [&svg]:data-[state=active]:text-primary shadow-inactive-tab data-[state=active]:shadow-active-tab'
+          'px-4 items-center gap-2 bg-background font-normal text-sm text-tertiary-background ease-in-out duration-150 hover:text-primary h-[36px] rounded-tl-md rounded-tr-md m-0 data-[state=active]:text-primary [&svg]:data-[state=active]:text-primary tabnav-inactive data-[state=active]:tabnav-active'
       }
     },
     defaultVariants: {

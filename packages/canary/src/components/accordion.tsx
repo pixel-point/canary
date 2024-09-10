@@ -38,7 +38,7 @@ const AccordionTrigger = React.forwardRef<React.ElementRef<typeof AccordionPrimi
         {...props}>
         {/* {!hideChevron && leftChevron && <Icon name="chevron-down" className="h-2.5 w-2.5 shrink-0 text-primary" />} */}
         {children}
-        {!hideChevron && <Icon name="chevron-down" className="h-2.5 w-2.5 shrink-0 text-primary" />}
+        {!hideChevron && <Icon name="chevron-down" className="chevron-down h-2.5 w-2.5 shrink-0 text-primary" />}
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   )

@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import CommitsList from '../components/commits-list'
+import BranchesList from '../components/branches-list'
 import { SkeletonList } from '../components/loaders/skeleton-list'
 import { NoData } from '../components/no-data'
-import PlaygroundCommitsSettings from '../settings/commits-settings'
 import { PaddingListLayout } from '../layouts/PaddingListLayout'
 import {
+  Button,
   ListActions,
   ListPagination,
   Pagination,
@@ -14,42 +14,23 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
+  SearchBox,
   Spacer,
   Text
 } from '@harnessio/canary'
-import BranchChooser from '../components/branch-chooser'
-import { mockRepos } from '../data/mockReposData'
-import { Link } from 'react-router-dom'
+import PlaygroundBranchesSettings from '../settings/branches-settings'
+import { mockBranchData } from '../data/mockBranchData'
 
 const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
 const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
 
-const mockBranchList = [
-  {
-    name: 'main'
-  },
-  {
-    name: 'new-feature'
-  },
-  {
-    name: 'test-wip'
-  },
-  {
-    name: 'display-db'
-  }
-]
-
-export default function CommitsListPage() {
+export default function BranchesListPage() {
   const [loadState, setLoadState] = useState('data-loaded')
-
-  const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => (
-    <Link to={`/repos/${to}`}>{children}</Link>
-  )
 
   const renderContent = () => {
     switch (loadState) {
       case 'data-loaded':
-        return <CommitsList repos={mockRepos} LinkComponent={LinkComponent} />
+        return <BranchesList branches={mockBranchData} />
       case 'loading':
         return <SkeletonList />
 
@@ -61,8 +42,8 @@ export default function CommitsListPage() {
   if (loadState == 'no-data') {
     return (
       <>
-        <NoData iconName="no-data-folder" title="No commits yet" description={['There are no commits yet.']} />
-        <PlaygroundCommitsSettings loadState={loadState} setLoadState={setLoadState} />
+        <NoData iconName="no-data-folder" title="No branches yet" description={['There are no branches yet.']} />
+        <PlaygroundBranchesSettings loadState={loadState} setLoadState={setLoadState} />
       </>
     )
   }
@@ -70,16 +51,17 @@ export default function CommitsListPage() {
     <PaddingListLayout spaceTop={false}>
       <Spacer size={2} />
       <Text size={5} weight={'medium'}>
-        Commits
+        Branches
       </Text>
       <Spacer size={6} />
       <ListActions.Root>
         <ListActions.Left>
-          <BranchChooser name={'main'} branchList={mockBranchList} />
+          <SearchBox.Root placeholder="Search branches" />
         </ListActions.Left>
         <ListActions.Right>
           <ListActions.Dropdown title="Filter" items={filterOptions} />
           <ListActions.Dropdown title="Sort" items={sortOptions} />
+          <Button variant="default">Create Branch</Button>
         </ListActions.Right>
       </ListActions.Root>
       <Spacer size={5} />
@@ -125,7 +107,7 @@ export default function CommitsListPage() {
           </Pagination>
         </ListPagination.Root>
       )}
-      <PlaygroundCommitsSettings loadState={loadState} setLoadState={setLoadState} />
+      <PlaygroundBranchesSettings loadState={loadState} setLoadState={setLoadState} />
     </PaddingListLayout>
   )
 }

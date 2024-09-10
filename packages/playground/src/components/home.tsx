@@ -53,7 +53,7 @@ export default function Home({ isAuthed, onSelectProject, handleSignIn, handleSi
                 {selectedProject
                   ? mockProjects.find(project => project.name === selectedProject)?.name
                   : 'Select your project...'}
-                <Icon name="chevron-down" size={12} />
+                <Icon name="chevron-down" size={12} className="chevron-down " />
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[200px] p-0">

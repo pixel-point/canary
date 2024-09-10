@@ -16,39 +16,49 @@ import {
   BreadcrumbSeparator,
   cn
 } from '@harnessio/canary'
+import { getInitials } from '../../utils/utils'
 
-// Project Dropdown Component
-const AvatarDropdown = ({ isPrimary }: { isPrimary: boolean }) => (
-  <DropdownMenu>
-    <DropdownMenuTrigger className="group flex items-center gap-2 outline-none">
-      <Avatar className="w-7 h-7">
-        <AvatarFallback>P</AvatarFallback>
-      </Avatar>
-      {/* Conditionally apply text-primary if this is the only breadcrumb */}
-      <BreadcrumbLink
-        className={cn('font-medium', { 'text-primary': isPrimary, 'text-navbar-text-secondary': !isPrimary })}>
-        Pixel Point
-      </BreadcrumbLink>
-      <Icon
-        name="chevron-down"
-        size={10}
-        className={cn({ 'text-primary': isPrimary, 'text-navbar-text-secondary group-hover:text-primary': !isPrimary })}
-      />
-    </DropdownMenuTrigger>
-    <DropdownMenuContent align="start" className="mt-1.5">
-      <DropdownMenuItem>Pixel Point</DropdownMenuItem>
-      <DropdownMenuItem>United Bank</DropdownMenuItem>
-      <DropdownMenuItem>Code Wizards</DropdownMenuItem>
-    </DropdownMenuContent>
-  </DropdownMenu>
-)
+interface Project {
+  id: string
+  name: string
+}
 
-// Breadcrumb Item Component
+interface WidgetProps {
+  projects: Project[]
+}
+
 interface BreadcrumbItemProps {
   label: string
   link?: string
   isLast: boolean
 }
+
+const ProjectDropdown: React.FC<{ isPrimary: boolean; projects: Project[] }> = ({ isPrimary, projects }) => (
+  <DropdownMenu>
+    <DropdownMenuTrigger className="group flex items-center gap-2 outline-none">
+      <Avatar className="w-7 h-7">
+        <AvatarFallback>{getInitials(projects[0].name, 1)}</AvatarFallback>
+      </Avatar>
+      <BreadcrumbLink
+        className={cn('font-medium', { 'text-primary': isPrimary, 'text-navbar-text-secondary': !isPrimary })}>
+        {projects[0].name}
+      </BreadcrumbLink>
+      <Icon
+        name="chevron-down"
+        size={10}
+        className={cn('chevron-down', {
+          'text-primary': isPrimary,
+          'text-navbar-text-secondary group-hover:text-primary': !isPrimary
+        })}
+      />
+    </DropdownMenuTrigger>
+    <DropdownMenuContent align="start" className="mt-1.5">
+      {projects.map(project => (
+        <DropdownMenuItem key={project.id}>{project.name}</DropdownMenuItem>
+      ))}
+    </DropdownMenuContent>
+  </DropdownMenu>
+)
 
 const BreadcrumbNavItem: React.FC<BreadcrumbItemProps> = ({ label, link, isLast }) => (
   <BreadcrumbItem>
@@ -58,16 +68,14 @@ const BreadcrumbNavItem: React.FC<BreadcrumbItemProps> = ({ label, link, isLast 
   </BreadcrumbItem>
 )
 
-// Breadcrumb Component
-const Breadcrumbs: React.FC<{ items: BreadcrumbItemProps[] }> = ({ items }) => {
-  const isOnlyPixelPoint = items.length === 0
+const Breadcrumbs: React.FC<{ items: BreadcrumbItemProps[]; projects: Project[] }> = ({ items, projects }) => {
+  const level1Only = items.length === 0
 
   return (
     <Breadcrumb className="select-none">
       <BreadcrumbList>
-        {/* Pixel Point item should be primary if it is the only breadcrumb item */}
         <BreadcrumbItem>
-          <AvatarDropdown isPrimary={isOnlyPixelPoint} />
+          <ProjectDropdown isPrimary={level1Only} projects={projects} />
         </BreadcrumbItem>
 
         {items.map((item, index) => (
@@ -81,24 +89,19 @@ const Breadcrumbs: React.FC<{ items: BreadcrumbItemProps[] }> = ({ items }) => {
   )
 }
 
-// TopBar Widget Component
-export const TopBarWidget = () => {
+export const TopBarWidget: React.FC<WidgetProps> = ({ projects }) => {
   const { repoId, executionId } = useParams<{ repoId: string; executionId: string }>()
 
-  // Construct breadcrumb items dynamically based on the route parameters
-  const breadcrumbItems = [
-    repoId && { label: repoId, link: `/repos/${repoId}` },
-    executionId && { label: 'Pipelines', link: `/repos/${repoId}/pipelines` }
-  ].filter(Boolean) as BreadcrumbItemProps[] // Filter out undefined values and cast to BreadcrumbItemProps[]
+  const breadcrumbItems: BreadcrumbItemProps[] = [
+    repoId ? { label: repoId, link: `/repos/${repoId}`, isLast: !executionId } : null,
+    executionId ? { label: 'Pipelines', link: `/repos/${repoId}/pipelines`, isLast: true } : null
+  ].filter(Boolean) as BreadcrumbItemProps[]
 
   return (
     <Topbar.Root>
       <Topbar.Left>
-        <Breadcrumbs items={breadcrumbItems} />
+        <Breadcrumbs items={breadcrumbItems} projects={projects} />
       </Topbar.Left>
-      <Topbar.Right>
-        <></>
-      </Topbar.Right>
     </Topbar.Root>
   )
 }

@@ -18,7 +18,7 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({ label, onClick }) => {
   return (
     <Button variant="ghost" size="default" padding="sm" className="entity-list-action font-normal" onClick={onClick}>
       {label}&nbsp;
-      <Icon name="chevron-down" size={12} />
+      <Icon name="chevron-down" size={12} className="chevron-down" />
     </Button>
   )
 }

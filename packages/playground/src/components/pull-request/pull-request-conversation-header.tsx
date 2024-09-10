@@ -15,8 +15,7 @@
  */
 
 import React, { useMemo } from 'react'
-import { Badge, Button, Text } from '@harnessio/canary'
-import { GitFork } from '@harnessio/icons-noir'
+import { Badge, Button, Icon, Text } from '@harnessio/canary'
 import moment from 'moment'
 
 interface PullRequestTitleProps {
@@ -81,12 +80,12 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
                 </span>
                 <span>into</span>
                 <Button variant="secondary" size="xs">
-                  <GitFork className="pr-1" />
+                  <Icon name="branch" size={12} className="text-tertiary-background mr-1" />
                   {target_branch}
                 </Button>
                 <span>from</span>
                 <Button variant="secondary" size="xs">
-                  <GitFork className="pr-1" />
+                  <Icon name="branch" size={12} className="text-tertiary-background mr-1" />
                   {source_branch}
                 </Button>
                 <span>&nbsp;|&nbsp;</span>

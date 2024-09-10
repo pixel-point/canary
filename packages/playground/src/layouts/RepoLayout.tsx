@@ -2,16 +2,20 @@ import { Tabs, TabsList, TabsTrigger } from '@harnessio/canary'
 import React from 'react'
 import { NavLink, Outlet, useParams } from 'react-router-dom'
 import { TopBarWidget } from '../components/layout/top-bar-widget'
+import { mockProjects } from '../data/mockProjects'
 
 const RepoLayout: React.FC = () => {
   const { executionId } = useParams<{ executionId: string }>()
 
   return (
     <div>
-      <TopBarWidget />
+      <TopBarWidget projects={mockProjects} />
       {!executionId && (
-        <Tabs variant="navigation" defaultValue="pipelines">
+        <Tabs variant="navigation" defaultValue="summary">
           <TabsList>
+            <NavLink to={`summary`}>
+              <TabsTrigger value="summary">Summary</TabsTrigger>
+            </NavLink>
             <NavLink to={`pipelines`}>
               <TabsTrigger value="pipelines">Pipelines</TabsTrigger>
             </NavLink>

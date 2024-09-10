@@ -10,12 +10,13 @@ import ErrorPage from './pages/error-page'
 import LandingPage from './pages/landing-page'
 import RepoListPage from './pages/repo-list-page'
 import PipelineListPage from './pages/pipeline-list-page'
+import RepoSummaryPage from './pages/repo-summary-page'
 import PipelineDetailsPage from './pages/pipeline-details-page'
 import ExecutionListPage from './pages/execution-list-page'
 import ExecutionDetailsPage from './pages/execution-details-page'
 import PullRequestListPage from './pages/pull-request-list-page'
 import CommitsListPage from './pages/commits-list-page'
-import BranchesPage from './pages/branches-page'
+import BranchesListPage from './pages/branches-list-page'
 import CommitsDetailsPage from './pages/commits-details-page'
 import PullRequestConversationPage from './pages/pull-request-conversation-page'
 import PullRequestChangesPage from './pages/pull-request-changes-page'
@@ -47,7 +48,11 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Navigate to="pipelines" />
+            element: <Navigate to="summary" />
+          },
+          {
+            path: 'summary',
+            element: <RepoSummaryPage />
           },
           {
             path: 'pipelines',
@@ -107,7 +112,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'branches',
-            element: <BranchesPage />
+            element: <BranchesListPage />
           },
           {
             path: 'commits',

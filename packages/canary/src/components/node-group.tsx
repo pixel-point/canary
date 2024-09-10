@@ -18,15 +18,28 @@ function Root({ className, children }: NodeGroupRootProps) {
   )
 }
 
-function Icon({ children, className }: { children: React.ReactNode; className?: string }) {
+function Icon({
+  children,
+  simpleNodeIcon,
+  className
+}: {
+  children?: React.ReactNode
+  simpleNodeIcon?: boolean
+  className?: string
+}) {
   return (
     <div className="col-start-1 row-start-1 self-start">
       <div
         className={cn(
           'relative z-20 h-6 w-6 rounded-full flex place-content-center place-items-center p-1 border border-tertiary-background/30 bg-background text-primary',
+          { 'border-none bg-transprent': simpleNodeIcon },
           className
         )}>
-        {children}
+        {simpleNodeIcon ? (
+          <div className="w-[4px] h-[4px] bg-primary rounded-[1px] shadow-sm shadow-primary/10" />
+        ) : (
+          <>{children}</>
+        )}
       </div>
     </div>
   )
@@ -44,8 +57,8 @@ function Content({ children }: { children: React.ReactNode }) {
   return <div className="col-start-2 row-start-2">{children}</div>
 }
 
-function Connector() {
-  return <div className="z-10 absolute left-[12px] top-0 bottom-0 w-[1px] border-l" />
+function Connector({ first }: { first?: boolean }) {
+  return <div className={cn('z-10 absolute left-[12px] top-0 bottom-0 w-[1px] border-l', { 'top-3': first })} />
 }
 
 export { Root, Icon, Title, Content, Connector }

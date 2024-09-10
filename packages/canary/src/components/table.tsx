@@ -1,14 +1,34 @@
 import * as React from 'react'
-
 import { cn } from '@/lib/utils'
+import { cva, type VariantProps } from 'class-variance-authority'
 
-const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
-  ({ className, ...props }, ref) => (
-    <div className="relative w-full overflow-auto">
-      <table ref={ref} className={cn('w-full caption-bottom text-sm', className)} {...props} />
-    </div>
-  )
-)
+const tableVariants = cva('', {
+  variants: {
+    variant: {
+      default: 'w-full caption-bottom text-sm',
+      asStackedList: 'w-full text-sm'
+    }
+  },
+  defaultVariants: {
+    variant: 'default'
+  }
+})
+
+export interface TableProps extends React.HTMLAttributes<HTMLTableElement>, VariantProps<typeof tableVariants> {}
+
+const Table = React.forwardRef<HTMLTableElement, TableProps>(({ variant, className, ...props }, ref) => (
+  <div
+    className={cn(
+      'relative w-full overflow-auto',
+      {
+        'rounded-md border [&_th]:px-4 [&_td]:px-4 [&_td]:py-2.5 [&_td]:align-middle [&_thead]:bg-primary/[0.02]':
+          variant === 'asStackedList'
+      },
+      className
+    )}>
+    <table ref={ref} className={cn(tableVariants({ variant }))} {...props} />
+  </div>
+))
 Table.displayName = 'Table'
 
 const TableHeader = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(

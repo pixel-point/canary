@@ -66,7 +66,7 @@ function Item({ icon, text, active }: ItemProps) {
     <div className={cn('group flex gap-2.5 items-center cursor-pointer group select-none py-1.5')}>
       <div
         className={cn(
-          'flex items-center text-navbar-icon-secondary group-hover:text-primary ease-in-out duration-100 truncate',
+          'flex items-center text-secondary-muted group-hover:text-primary ease-in-out duration-100 truncate',
           { 'text-primary': active }
         )}>
         {icon}
@@ -75,7 +75,7 @@ function Item({ icon, text, active }: ItemProps) {
         size={2}
         weight="medium"
         className={cn(
-          '-tracking-[0.02em] text-navbar-text-secondary group-hover:text-primary ease-in-out duration-100 truncate',
+          '-tracking-[0.02em] text-primary-muted group-hover:text-primary ease-in-out duration-100 truncate',
           {
             'text-primary': active
           }

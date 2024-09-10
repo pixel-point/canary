@@ -36,21 +36,7 @@ const mockPullRequests = [
     author: 'fgarson',
     source_branch: 'v1.5.4.20',
     timestamp: '1 hour ago',
-    comments: 4,
-    labels: [
-      {
-        text: 'feature',
-        color: 'mint'
-      },
-      {
-        text: 'bug',
-        color: 'red'
-      },
-      {
-        text: 'community',
-        color: 'blue'
-      }
-    ]
+    comments: 4
   },
   {
     id: '2',
@@ -188,10 +174,12 @@ const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { nam
 function PullRequestListPage() {
   const [loadState, setLoadState] = useState('data-loaded')
 
+  const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => <Link to={to}>{children}</Link>
+
   const renderListContent = () => {
     switch (loadState) {
       case 'data-loaded':
-        return <PullRequestList pullRequests={mockPullRequests} />
+        return <PullRequestList pullRequests={mockPullRequests} LinkComponent={LinkComponent} />
       case 'loading':
         return <SkeletonList />
       case 'no-search-matches':

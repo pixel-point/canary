@@ -57,7 +57,7 @@ export const RootLayout: React.FC = () => {
   return (
     <div className="bg-background grid md:grid-cols-[220px_minmax(900px,_1fr)] min-w-screen">
       {showNavbar && (
-        <Navbar.Root className="max-md:hidden">
+        <Navbar.Root className="max-md:hidden fixed top-0 left-0 bottom-0">
           <Navbar.Header>
             <NavbarProjectChooser.Root
               avatarLink={
@@ -89,7 +89,7 @@ export const RootLayout: React.FC = () => {
           </Navbar.Footer>
         </Navbar.Root>
       )}
-      <main className="min-h-screen box-border overflow-y-scroll overflow-x-hidden">
+      <main className="col-start-2 min-h-screen box-border overflow-y-scroll overflow-x-hidden">
         <Outlet />
       </main>
     </div>

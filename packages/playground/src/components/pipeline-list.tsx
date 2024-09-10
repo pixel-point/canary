@@ -1,6 +1,5 @@
-import { Icon, StackedList, Meter } from '@harnessio/canary'
+import { Icon, StackedList, Meter, Text } from '@harnessio/canary'
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { ExecutionState } from './execution/types'
 import { ExecutionStatus } from './execution/execution-status'
 
@@ -13,12 +12,12 @@ export enum MeterState {
 
 interface Pipeline {
   id: string
-  status: ExecutionState
+  status?: ExecutionState
   name: string
-  sha: string
-  description: string
-  version: string
-  timestamp: number
+  sha?: string
+  description?: string
+  version?: string
+  timestamp: string
   meter?: {
     id: string
     state: MeterState
@@ -27,47 +26,69 @@ interface Pipeline {
 
 interface PageProps {
   pipelines?: Pipeline[]
+  LinkComponent: React.ComponentType<{ to: string; children: React.ReactNode }>
 }
 
-const Title = ({ status, title }: { status: ExecutionState; title: string }) => {
+const Title = ({ status, title }: { status?: ExecutionState; title: string }) => {
+  const isValidStatus = (status: ExecutionState | undefined): status is ExecutionState =>
+    [ExecutionState.SUCCESS, ExecutionState.ERROR, ExecutionState.FAILURE, ExecutionState.RUNNING].includes(
+      status as ExecutionState
+    )
+
   return (
     <div className="flex gap-2 items-center">
-      <ExecutionStatus.Icon status={status} />
-      {title}
+      {isValidStatus(status) ? (
+        <ExecutionStatus.Icon status={status} />
+      ) : (
+        <div className="w-4 h-4 rounded-full bg-primary/5 border border-muted border-dotted" />
+      )}
+      <Text truncate>{title}</Text>
     </div>
   )
 }
 
 const Description = ({ sha, description, version }: { sha: string; description: string; version: string }) => {
   return (
-    <div className="flex gap-2 items-center">
-      <div className="ml-[24px] px-1.5 rounded-md flex gap-1 items-center bg-tertiary-background/10">
-        <Icon size={11} name={'tube-sign'} />
-        {sha?.slice(0, 7)}
-      </div>
-      <div>{description}</div>
-      <div className="flex gap-1 items-center">
-        <Icon size={11} name={'signpost'} />
-        {version}
-      </div>
+    <div className="pl-[24px] inline-flex gap-2 items-center max-w-full overflow-hidden">
+      {sha && (
+        <div className="px-1.5 rounded-md flex gap-1 items-center bg-tertiary-background/10">
+          <Icon size={11} name={'tube-sign'} />
+          {sha?.slice(0, 7)}
+        </div>
+      )}
+      {description && (
+        <div className="break-words w-full overflow-hidden">
+          <Text size={1} color="tertiaryBackground">
+            {description || ''}
+          </Text>
+        </div>
+      )}
+      {version && (
+        <div className="flex gap-1 items-center">
+          <Icon size={11} name={'signpost'} />
+          {version}
+        </div>
+      )}
     </div>
   )
 }
 
-export const PipelineList = ({ ...props }: PageProps) => {
-  const { pipelines } = props
-
+export const PipelineList = ({ pipelines, LinkComponent }: PageProps) => {
   return (
     <>
       {pipelines && pipelines.length > 0 && (
         <StackedList.Root>
           {pipelines.map((pipeline, pipeline_idx) => (
-            <StackedList.Item key={pipeline.name} isLast={pipelines.length - 1 === pipeline_idx} asChild>
-              <Link to={`${pipeline.id}`}>
+            <LinkComponent to={pipeline.id}>
+              <StackedList.Item key={pipeline.name} isLast={pipelines.length - 1 === pipeline_idx}>
                 <StackedList.Field
                   title={<Title status={pipeline.status} title={pipeline.name} />}
                   description={
-                    <Description sha={pipeline.sha} description={pipeline.description} version={pipeline.version} />
+                    <Description
+                      sha={pipeline.sha || ''}
+                      description={pipeline.description || ''}
+                      version={pipeline.version || ''}
+                    />
                   }
                 />
                 <StackedList.Field
@@ -76,13 +97,10 @@ export const PipelineList = ({ ...props }: PageProps) => {
                   title={pipeline.meter ? <Meter.Root data={pipeline.meter} /> : pipeline.timestamp}
                   right
                 />
-              </Link>
-            </StackedList.Item>
+              </StackedList.Item>
+            </LinkComponent>
           ))}
         </StackedList.Root>
-      )}
-      {!pipelines && (
-        <></> // Handle loading/no items
       )}
     </>
   )

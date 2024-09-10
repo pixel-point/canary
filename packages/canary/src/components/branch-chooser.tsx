@@ -29,7 +29,7 @@ function Dropdown({ title, items }: DropdownProps) {
         <Text size={2} className="text-primary/80">
           {title}
         </Text>
-        <Icon name="chevron-down" size={12} className="chevron-down " />
+        <Icon name="chevron-down" size={12} />
       </DropdownMenuTrigger>
       {items && (
         <DropdownMenuContent align="end">

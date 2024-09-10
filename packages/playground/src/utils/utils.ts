@@ -1,10 +1,14 @@
-export const getInitials = (name: string) => {
-  // Split the name into an array of words
-  const words = name.split(' ')
-  // Map over the words to get the first letter of each
-  const initials = words.map(word => word[0].toUpperCase()).join('')
-  // Return the initials
-  return initials
+export const getInitials = (name: string, length?: number) => {
+  // Split the name into an array of words, ignoring empty strings
+  const words = name.split(' ').filter(Boolean)
+
+  // Get the initials from the words
+  const initials = words
+    .map(word => word[0].toUpperCase()) // Get the first letter of each word
+    .join('')
+
+  // If length is provided, truncate the initials to the desired length
+  return length ? initials.slice(0, length) : initials
 }
 
 const LOCALE = Intl.NumberFormat().resolvedOptions?.().locale || 'en-US'

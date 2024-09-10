@@ -1,6 +1,7 @@
 import React from 'react'
-import { CheckCircleSolid, Refresh, Xmark, XmarkCircleSolid } from '@harnessio/icons-noir'
+import { Refresh, Xmark } from '@harnessio/icons-noir' // TODO: Lose these!
 import { formatDuration } from '../../utils/TimeUtils'
+import { Icon as CanaryIcon } from '@harnessio/canary'
 
 export enum ExecutionState {
   PENDING = 'pending',
@@ -62,14 +63,15 @@ const Badge: React.FC<ExecutionStatusProps & BadgeProps> = props => {
 
 const Icon: React.FC<ExecutionStatusProps> = props => {
   const { status } = props
+
   switch (status) {
     case ExecutionState.FAILURE:
     case ExecutionState.ERROR:
-      return <XmarkCircleSolid color="#ed5e5e" size="16px" className="mt-0.5" />
+      return <CanaryIcon size={16} name="fail" />
     case ExecutionState.SUCCESS:
-      return <CheckCircleSolid color="#63E9A6" size="16px" className="mt-0.5" />
+      return <CanaryIcon size={16} name="success" />
     case ExecutionState.RUNNING:
-      return <Refresh color="rgba(226,155,54,1)" size="16" className="animate-spin" />
+      return <CanaryIcon size={16} name="running" className="animate-spin text-warning rounded-full" />
     default:
       return <></>
   }
