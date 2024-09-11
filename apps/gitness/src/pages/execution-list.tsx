@@ -1,5 +1,5 @@
+import { TypesExecution, useListExecutionsQuery } from '@harnessio/code-service-client'
 import {
-  Button,
   ListActions,
   ListPagination,
   Pagination,
@@ -13,8 +13,7 @@ import {
   Spacer,
   Text
 } from '@harnessio/canary'
-import { useListPipelinesQuery, TypesPipeline, ListPipelinesOkResponse } from '@harnessio/code-service-client'
-import { PipelineList, MeterState, PaddingListLayout, SkeletonList } from '@harnessio/playground'
+import { PaddingListLayout, ExecutionList, SkeletonList, timeDistance, NoData } from '@harnessio/playground'
 import { ExecutionState } from '../types'
 import { Link } from 'react-router-dom'
 
@@ -22,47 +21,75 @@ const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' },
 const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
 const viewOptions = [{ name: 'View option 1' }, { name: 'View option 2' }]
 
-export default function PipelinesPage() {
-  const { data: pipelines, isFetching } = useListPipelinesQuery(
+export default function ExecutionsPage() {
+  const {
+    data: executions,
+    isFetching,
+    error,
+    isSuccess
+  } = useListExecutionsQuery(
     {
       repo_ref: 'workspace/repo/+',
-      queryParams: { page: 0, limit: 10, query: '', latest: true }
+      pipeline_identifier: 'pipeline-id',
+      queryParams: { page: 0, limit: 10 }
     },
     /* To enable mock data */
     {
       // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-      placeholderData: {
-        content: [{ identifier: 'pipeline1' }, { identifier: 'pipeline2' }]
-      } as ListPipelinesOkResponse,
+      placeholderData: { content: [{ identifier: 'pipeline1' }, { identifier: 'pipeline2' }] },
       enabled: true
     }
   )
 
   const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => <Link to={to}>{children}</Link>
+
   const renderListContent = () => {
     if (isFetching) {
       return <SkeletonList />
     }
-    return (
-      <PipelineList
-        // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-        pipelines={pipelines?.content?.map((item: TypesPipeline) => ({
-          id: item?.id,
-          status: item?.execution?.status,
-          name: item?.identifier,
-          sha: item?.execution?.after,
-          description: item?.execution?.message,
-          timestamp: item?.created,
-          meter: [
-            {
-              id: item?.execution?.number,
-              state: item?.execution?.status === ExecutionState.SUCCESS ? MeterState.Success : MeterState.Error
-            }
-          ]
-        }))}
-        LinkComponent={LinkComponent}
-      />
-    )
+    if (isSuccess) {
+      // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
+      if (executions?.content?.length) {
+        return (
+          <ExecutionList
+            // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
+            executions={executions?.content?.map((item: TypesExecution) => ({
+              id: item?.number,
+              number: item?.number,
+              status: item?.status,
+              success: item?.status === 'success',
+              name: item?.message,
+              sha: item?.after?.slice(0, 6),
+              timestamp: `${timeDistance(item?.finished, Date.now(), true)} ago`,
+              lastTimestamp: timeDistance(
+                item?.started,
+                item?.status === ExecutionState.RUNNING ? Date.now() : item?.finished,
+                true
+              )
+            }))}
+            LinkComponent={LinkComponent}
+          />
+        )
+      }
+
+      return (
+        <>
+          <NoData
+            iconName="no-data-cog"
+            title="No executions yet"
+            description={[
+              "Your pipeline executions will appear here once they're completed.",
+              'Start your pipeline to see the results.'
+            ]}
+            primaryButton={{ label: 'Create pipeline' }}
+            secondaryButton={{ label: 'Import pipeline' }}
+          />
+        </>
+      )
+    } else {
+      console.log({ error })
+      return <></>
+    }
   }
 
   return (
@@ -70,18 +97,17 @@ export default function PipelinesPage() {
       {/* <TopBarWidget /> */}
       <PaddingListLayout>
         <Text size={5} weight={'medium'}>
-          Pipelines
+          Executions
         </Text>
         <Spacer size={6} />
         <ListActions.Root>
           <ListActions.Left>
-            <SearchBox.Root placeholder="Search pipelines" />
+            <SearchBox.Root placeholder="Search executions" />
           </ListActions.Left>
           <ListActions.Right>
             <ListActions.Dropdown title="Filter" items={filterOptions} />
             <ListActions.Dropdown title="Sort" items={sortOptions} />
             <ListActions.Dropdown title="View" items={viewOptions} />
-            <Button variant="default">Create Pipeline</Button>
           </ListActions.Right>
         </ListActions.Root>
         <Spacer size={5} />
@@ -103,6 +129,7 @@ export default function PipelinesPage() {
                   2
                 </PaginationLink>
               </PaginationItem>
+
               <PaginationItem>
                 <PaginationLink size="sm_icon" href="#">
                   <PaginationEllipsis />

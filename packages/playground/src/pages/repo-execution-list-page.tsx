@@ -14,7 +14,7 @@ import {
   Button,
   Text
 } from '@harnessio/canary'
-import ExecutionList from '../components/execution-list'
+import { ExecutionList } from '../components/execution-list'
 import { Link } from 'react-router-dom'
 import { PaddingListLayout } from '../layouts/PaddingListLayout'
 import { SkeletonList } from '../components/loaders/skeleton-list'

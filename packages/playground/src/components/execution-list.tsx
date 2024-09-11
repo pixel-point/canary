@@ -57,7 +57,7 @@ const Description = ({ sha, description, version }: { sha: string; description: 
   )
 }
 
-export default function ExecutionList({ executions, LinkComponent }: PageProps) {
+export const ExecutionList = ({ executions, LinkComponent }: PageProps) => {
   return (
     <>
       {executions && executions.length > 0 && (

@@ -13,7 +13,7 @@ import {
   PaginationEllipsis,
   PaginationNext
 } from '@harnessio/canary'
-import ExecutionList from '../components/execution-list'
+import { ExecutionList } from '../components/execution-list'
 import { PaddingListLayout } from '../layouts/PaddingListLayout'
 import { SkeletonList } from '../components/loaders/skeleton-list'
 import { NoSearchResults } from '../components/no-search-results'
