@@ -30,6 +30,7 @@ import { VisualYamlToggle, VisualYamlValue } from '../components/pipeline-studio
 import { PipelineStudioToolbarActions } from '../components/pipeline-studio/pipeline-studio-toolbar-actions'
 import { FooterBar } from '../components/pipeline-studio/footer-bar/footer-bar'
 import pipeline from '../assets/pipeline.yaml'
+// import pipelineV0 from '../assets/pipelineV0.yaml'
 import { themes } from '../assets/monacoTheme'
 import { Problems } from '../components/pipeline-studio/problems'
 import { problemsMock } from '../assets/problemsMock'
@@ -53,6 +54,9 @@ MonacoGlobals.set({
 
 function GraphView() {
   const nodes = useMemo(() => getNodesFromPipelineYaml(pipeline), [])
+
+  // const nodesV0 = useMemo(() => getNodesFromV0PipelineYaml(pipelineV0 as unknown as string), [])
+
   return <PipelineStudio nodes={nodes} onAddNode={noop} onDeleteNode={noop} onSelectNode={noop} />
 }
 

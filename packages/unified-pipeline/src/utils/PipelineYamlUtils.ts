@@ -8,7 +8,7 @@ import type { AtomicNodeProps } from '../components/Canvas/elements/Nodes/Atomic
 import type { GroupNodeProps } from '../components/Canvas/elements/Nodes/GroupNode/GroupNode'
 import { getIdFromName } from './StringUtils'
 import { sortNodes } from '../components/Canvas/utils/NodeUtils'
-import { parsePipelineYaml } from './ParserUtils'
+import { parseV0PipelineYaml, parsePipelineYaml } from './ParserUtils'
 
 const STAGES_PATH = 'stages'
 const PIPELINE_STAGES_PATH = `pipeline.${STAGES_PATH}`
@@ -181,13 +181,50 @@ const processNode = ({
       } else {
         const atomicNodes: ReactFlowNode[] = []
         if (groupChildNode.children && groupChildNode.children?.length > 0) {
-          atomicNodes.push(
-            ...getAtomicNodesForContainer({
-              stageNode: groupChildNode,
-              readonly,
-              zIndex: zIndex + 1
-            })
-          )
+          const stepNodes = groupChildNode.children
+          stepNodes.forEach((stepNode: Node, stepNodeIdx: number) => {
+            // check if it is atomic step node or step group
+            const isStepGroup = isGroupNode(stepNode)
+            // if step group process with container else atomic
+            if (isStepGroup) {
+              const atomicStepNodes: ReactFlowNode[] = []
+              atomicStepNodes.push(
+                ...getAtomicNodesForContainer({
+                  stageNode: stepNode,
+                  readonly,
+                  zIndex: zIndex + 2
+                })
+              )
+              nodes.push(...atomicStepNodes)
+              const stepGroupContainerNode = getGroupMemberNode({
+                nodeType: NodeType.STAGE,
+                memberNode: stepNode,
+                childNodes: atomicStepNodes,
+                groupId: groupChildNode.name,
+                pathPrefix: '',
+                position: DEFAULT_NODE_LOCATION,
+                readonly
+              })
+              atomicNodes.push(stepGroupContainerNode)
+            } else {
+              atomicNodes.push(
+                getAtomicStepNode({
+                  parentNode: groupChildNode,
+                  stepNode: stepNode,
+                  stepNodeIdx: stepNodeIdx,
+                  readonly,
+                  zIndex: zIndex + 1
+                })
+              )
+            }
+          })
+          // atomicNodes.push(
+          //   ...getAtomicNodesForContainer({
+          //     stageNode: groupChildNode,
+          //     readonly,
+          //     zIndex: zIndex + 1
+          //   })
+          // )
         }
         const containerNode = getGroupMemberNode({
           nodeType: NodeType.STAGE,
@@ -268,7 +305,8 @@ export const getAtomicNodesForContainer = ({
           expandable: stepNode.expandable,
           positionType: PositionType.RELATIVE,
           deletable: true,
-          readonly
+          readonly,
+          parallel: stepNode.parallel
         } as AtomicNodeProps,
         position: DEFAULT_NODE_LOCATION,
         type: NodeType.ATOMIC,
@@ -287,6 +325,45 @@ export const getAtomicNodesForContainer = ({
   return childNodes.sort(sortNodes)
 }
 
+export const getAtomicStepNode = ({
+  parentNode,
+  stepNode,
+  stepNodeIdx,
+  hidden = false,
+  readonly,
+  zIndex = 1
+}: {
+  parentNode: Node
+  stepNode: Node
+  stepNodeIdx: number
+  hidden?: boolean
+  readonly?: boolean
+  zIndex?: number
+}): ReactFlowNode => {
+  const parentNodeId = getIdFromName(parentNode.name)
+  const id = getIdFromName(`${parentNode.name} child ${stepNodeIdx + 1}`)
+  return {
+    id,
+    data: {
+      name: stepNode.name,
+      icon: stepNode.icon,
+      path: getStepNodePath(parentNode.path, stepNodeIdx),
+      expandable: stepNode.expandable,
+      positionType: PositionType.RELATIVE,
+      deletable: true,
+      readonly,
+      parallel: stepNode.parallel
+    } as AtomicNodeProps,
+    position: DEFAULT_NODE_LOCATION,
+    type: NodeType.ATOMIC,
+    selectable: true,
+    parentNode: parentNodeId,
+    extent: 'parent',
+    zIndex,
+    hidden
+  }
+}
+
 export const getNodesFromPipelineYaml = (pipelineYamlAsObject: Record<string, any>): Graph['nodes'] => {
   if (
     !pipelineYamlAsObject ||
@@ -296,6 +373,20 @@ export const getNodesFromPipelineYaml = (pipelineYamlAsObject: Record<string, an
   )
     return []
   return parsePipelineYaml({
+    yamlObject: pipelineYamlAsObject,
+    pathPrefix: PIPELINE_STAGES_PATH
+  })
+}
+
+export const getNodesFromV0PipelineYaml = (pipelineYamlAsObject: Record<string, any>): Graph['nodes'] => {
+  if (
+    !pipelineYamlAsObject ||
+    isEmpty(pipelineYamlAsObject) ||
+    isUndefined(pipelineYamlAsObject) ||
+    !has(pipelineYamlAsObject, PIPELINE_STAGES_PATH)
+  )
+    return []
+  return parseV0PipelineYaml({
     yamlObject: pipelineYamlAsObject,
     pathPrefix: PIPELINE_STAGES_PATH
   })
