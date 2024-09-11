@@ -1,7 +1,7 @@
 import { Badge, cn, Icon, StackedList } from '@harnessio/canary'
 import React from 'react'
 
-interface Repo {
+export interface Repo {
   id: string
   name: string
   description?: string
@@ -12,7 +12,7 @@ interface Repo {
   timestamp: string
 }
 
-interface PageProps {
+export interface PageProps {
   repos?: Repo[]
   LinkComponent: React.ComponentType<{ to: string; children: React.ReactNode }>
 }
@@ -48,7 +48,7 @@ const Title = ({ title, isPrivate }: { title: string; isPrivate: boolean }) => (
   </>
 )
 
-export default function RepoList({ repos, LinkComponent }: PageProps) {
+export function RepoList({ repos, LinkComponent }: PageProps) {
   return (
     <>
       {repos && repos.length > 0 && (

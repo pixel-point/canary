@@ -8,6 +8,7 @@ import PipelineListPage from './pages/pipeline-list'
 import SignInPage from './pages/signin'
 import PullRequestListPage from './pages/pull-request-list-page'
 import ExecutionsPage from './pages/execution-list'
+import ReposListPage from './pages/repo-list'
 
 const BASE_URL_PREFIX = '/api/v1'
 
@@ -41,6 +42,10 @@ export default function App() {
       path: '/',
       element: <RootLayout />,
       children: [
+        {
+          path: 'repos',
+          element: <ReposListPage />
+        },
         {
           path: 'pipelines',
           element: <PipelineListPage />

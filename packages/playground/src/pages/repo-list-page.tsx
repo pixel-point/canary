@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import RepoList from '../components/repo-list'
+import { RepoList } from '../components/repo-list'
 import {
   Text,
   Spacer,
