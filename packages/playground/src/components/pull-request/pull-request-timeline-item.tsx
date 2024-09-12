@@ -7,10 +7,12 @@ interface TimelineItemProps {
     name?: string
     description?: React.ReactNode
   }[]
-  content?: string
+  content?: React.ReactNode
   icon: React.ReactNode
   isLast: boolean
   hideIconBorder?: boolean
+  hideReply?: boolean
+  contentClassName?: string
 }
 
 interface ItemHeaderProps {
@@ -36,7 +38,15 @@ const ItemHeader: React.FC<ItemHeaderProps> = React.memo(({ avatar, name, descri
   </div>
 ))
 
-const PullRequestTimelineItem: React.FC<TimelineItemProps> = ({ header, content, icon, isLast, hideIconBorder }) => (
+const PullRequestTimelineItem: React.FC<TimelineItemProps> = ({
+  header,
+  content,
+  icon,
+  isLast,
+  hideIconBorder,
+  hideReply = false,
+  contentClassName
+}) => (
   <NodeGroup.Root>
     <NodeGroup.Icon className={cx({ 'border-transparent': hideIconBorder })}>{icon}</NodeGroup.Icon>
     <NodeGroup.Title>
@@ -46,16 +56,14 @@ const PullRequestTimelineItem: React.FC<TimelineItemProps> = ({ header, content,
     {content && (
       <NodeGroup.Content>
         {/* Remove h-32, only for show */}
-        <Card className="bg-transparent rounded-md">
-          <div className="flex h-32  px-4 py-4">
-            <Text size={2} color="primary" className="hidden">
-              {content}
-            </Text>
-          </div>
-          <div className="flex items-center gap-3 border-t px-4 py-4">
-            <div className='h-6 w-6 rounded-full bg-tertiary-background bg-[url("../images/user-avatar.svg")] bg-cover'></div>
-            <Input placeholder={'Reply here'} />
-          </div>
+        <Card className={cx('bg-transparent rounded-md', contentClassName)}>
+          {content}
+          {!hideReply && (
+            <div className="flex items-center gap-3 border-t px-4 py-4">
+              <div className='h-6 w-6 rounded-full bg-tertiary-background bg-[url("../images/user-avatar.svg")] bg-cover'></div>
+              <Input placeholder={'Reply here'} />
+            </div>
+          )}
         </Card>
       </NodeGroup.Content>
     )}

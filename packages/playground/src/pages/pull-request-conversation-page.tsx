@@ -25,6 +25,7 @@ import { processReviewDecision, useActivityFilters, useDateFilters } from '../co
 import FullWidth2ColumnLayout from '../layouts/FullWidth2ColumnLayout'
 import { mockCodeOwnerData } from '../data/mockCodeOwner'
 import { mockPullRequestActions } from '../data/mockPullRequestActions'
+import * as data from '../data/mockDiffViewerdata'
 
 export default function PullRequestConversationPage() {
   const [loadState, setLoadState] = useState('data-loaded')
@@ -120,7 +121,13 @@ export default function PullRequestConversationPage() {
               setDateOrderSort={setDateOrderSort}
             />
             <Spacer size={6} />
-            <PullRequestOverview data={mockOverviewRealData} pullReqMetadata={pullReqMetadata} />
+            <PullRequestOverview
+              data={mockOverviewRealData}
+              pullReqMetadata={pullReqMetadata}
+              activityFilter={activityFilter}
+              dateOrderSort={dateOrderSort}
+              diffData={data['a']}
+            />
             <Spacer size={9} />
             <PullRequestCommentBox />
             <Spacer size={9} />

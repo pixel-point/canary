@@ -353,9 +353,25 @@ export interface TypesCodeCommentFields {
   span_old?: number
 }
 
-interface GeneralPayload {
+export interface GeneralPayload {
   text?: string
   [key: string]: unknown
+  payload?: GeneralPayload
+  type?: EnumPullReqActivityType
+  kind?: EnumPullReqActivityKind
+}
+
+export interface PayloadAuthor {
+  display_name: string
+}
+
+export interface Payload {
+  payload: {
+    author: PayloadAuthor
+  }
+}
+export interface PayloadCodeComment {
+  path: string
 }
 
 export interface CommentItem<T = unknown> {

@@ -1,6 +1,13 @@
 import React from 'react'
 import { Button, Icon, Text } from '@harnessio/canary'
-import { CommentItem, CommentType, MergeStrategy, TypesPullReq, TypesPullReqActivity } from './interfaces'
+import {
+  CommentItem,
+  CommentType,
+  MergeStrategy,
+  PayloadAuthor,
+  TypesPullReq,
+  TypesPullReqActivity
+} from './interfaces'
 import PullRequestTimelineItem from './pull-request-timeline-item'
 
 interface SystemCommentProps extends TypesPullReq {
@@ -11,9 +18,9 @@ interface SystemCommentProps extends TypesPullReq {
 }
 const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems, isLast, pullReqMetadata }) => {
   const payload = commentItems[0].payload
-  const type = payload?.type
-  const openFromDraft = payload?.payload?.old_draft === true && payload?.payload?.new_draft === false
-  const changedToDraft = payload?.payload?.old_draft === false && payload?.payload?.new_draft === true
+  const type = payload?.payload?.type
+  const openFromDraft = payload?.payload?.payload?.old_draft === true && payload?.payload?.payload?.new_draft === false
+  const changedToDraft = payload?.payload?.payload?.old_draft === false && payload?.payload?.payload?.new_draft === true
 
   switch (type) {
     case CommentType.MERGE:
@@ -27,10 +34,10 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
                   <div className='h-6 w-6 rounded-full bg-tertiary-background bg-[url("../images/user-avatar.svg")] bg-cover'></div>
                 </>
               ),
-              name: payload?.author?.display_name,
+              name: (payload?.payload?.author as PayloadAuthor)?.display_name,
               description: (
                 <>
-                  {payload?.payload?.merge_method === MergeStrategy.REBASE ? (
+                  {payload?.payload?.payload?.merge_method === MergeStrategy.REBASE ? (
                     <Text color="tertiaryBackground">
                       rebased changes from branch
                       <Button className="ml-1 mr-1" variant="secondary" size="xs">
@@ -40,7 +47,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
                       <Button className="ml-1 mr-1" variant="secondary" size="xs">
                         {pullReqMetadata.target_branch}
                       </Button>
-                      , now at {payload?.payload?.merge_sha as string}
+                      , now at {payload?.payload?.payload?.merge_sha as string}
                     </Text>
                   ) : (
                     <Text color="tertiaryBackground">
@@ -54,7 +61,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
                       </Button>
                       by commit
                       <Button className="ml-1 mr-1" variant="secondary" size="xs">
-                        {(payload?.payload?.merge_sha as string).substring(0, 6)}
+                        {(payload?.payload?.payload?.merge_sha as string)?.substring(0, 6)}
                       </Button>
                     </Text>
                   )}
@@ -79,16 +86,16 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
                   <div className='h-6 w-6 rounded-full bg-tertiary-background bg-[url("../images/user-avatar.svg")] bg-cover'></div>
                 </>
               ),
-              name: payload?.author?.display_name,
+              name: (payload?.payload?.author as PayloadAuthor)?.display_name,
               // TODO: fix timeline item to handle commit update as rn it doesnt work
               description:
-                payload?.payload?.decision === 'approved'
+                payload?.payload?.payload?.decision === 'approved'
                   ? 'approved these changes'
                   : 'requested changes to this pull request'
             }
           ]}
           icon={
-            payload?.payload?.decision === 'approved' ? (
+            payload?.payload?.payload?.decision === 'approved' ? (
               <Icon name="success" size={18} />
             ) : (
               <Icon name="triangle-warning" size={18} className="text-destructive" />
@@ -109,9 +116,9 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
                 </>
               ),
               // TODO: fix timeline item to handle commit update as rn it doesnt work
-              name: 'chore: add new text framework',
+              name: payload?.payload?.payload?.commit_title as string,
               // TODO: add modals or popovers to substring stuff
-              description: `${(payload?.payload?.new as string)?.substring(0, 6)}`
+              description: `${(payload?.payload?.payload?.new as string)?.substring(0, 6)}`
             }
           ]}
           icon={<Icon name="tube-sign" size={14} />}
@@ -129,7 +136,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
                   <div className='h-6 w-6 rounded-full bg-tertiary-background bg-[url("../images/user-avatar.svg")] bg-cover'></div>
                 </>
               ),
-              name: payload?.author?.display_name,
+              name: (payload?.payload?.author as PayloadAuthor)?.display_name,
               description: (
                 <Text color="tertiaryBackground">
                   deleted the
@@ -156,7 +163,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
                   <div className='h-6 w-6 rounded-full bg-tertiary-background bg-[url("../images/user-avatar.svg")] bg-cover'></div>
                 </>
               ),
-              name: payload?.author?.display_name,
+              name: (payload?.payload?.author as PayloadAuthor)?.display_name,
               description: (
                 <>
                   {openFromDraft || changedToDraft ? (
@@ -164,7 +171,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
                       {changedToDraft ? 'marked pull request as draft' : 'opened pull request for review'}
                     </Text>
                   ) : (
-                    <Text color="tertiaryBackground">{`changed pull request state from ${payload?.payload?.old} to ${payload?.payload?.new}`}</Text>
+                    <Text color="tertiaryBackground">{`changed pull request state from ${payload?.payload?.payload?.old} to ${payload?.payload?.payload?.new}`}</Text>
                   )}
                 </>
               )
@@ -185,11 +192,11 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
                   <div className='h-6 w-6 rounded-full bg-tertiary-background bg-[url("../images/user-avatar.svg")] bg-cover'></div>
                 </>
               ),
-              name: payload?.author?.display_name,
+              name: (payload?.payload?.author as PayloadAuthor)?.display_name,
               description: (
                 <Text color="tertiaryBackground">
-                  changed title from <span className="line-through">{payload?.payload?.old as string}</span> to{' '}
-                  {payload?.payload?.new as string}
+                  changed title from <span className="line-through">{payload?.payload?.payload?.old as string}</span> to{' '}
+                  {payload?.payload?.payload?.new as string}
                 </Text>
               )
             }

@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import {
   CommentItem,
+  EnumCheckPayloadKind,
   EnumPullReqReviewDecision,
   PRCommentFilterType,
   PullReqReviewDecision,
@@ -63,5 +64,14 @@ export function useDateFilters() {
 
 // check if activity item is a system comment
 export function isSystemComment(commentItems: CommentItem<TypesPullReqActivity>[]) {
-  return commentItems[0].payload?.kind === 'system'
+  return commentItems[0]?.payload?.payload?.kind === ('system' as EnumCheckPayloadKind)
+}
+
+//  check if comment item is a code comment
+export function isCodeComment(commentItems: CommentItem<TypesPullReqActivity>[]) {
+  return commentItems[0]?.payload?.payload?.type === 'code-comment'
+}
+// check if activity item is a comment
+export function isComment(commentItems: CommentItem<TypesPullReqActivity>[]) {
+  return commentItems[0]?.payload?.payload?.type === 'comment'
 }
