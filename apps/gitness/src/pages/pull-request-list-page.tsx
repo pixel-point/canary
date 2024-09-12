@@ -25,7 +25,7 @@ function PullRequestListPage() {
 
   const { data: pullrequests, isFetching } = useListPullReqQuery(
     {
-      repo_ref: 'best/testt2/+',
+      repo_ref: 'workspace/repo/+',
       queryParams: { page: 0, limit: 10, query: '' }
     },
     /* To enable mock data */
@@ -127,8 +127,8 @@ function PullRequestListPage() {
     if (isFetching) {
       return <SkeletonList />
     }
-
-    if (pullrequests?.length === 0) {
+    // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
+    if (pullrequests?.content?.length === 0) {
       return (
         <NoData
           insideTabView

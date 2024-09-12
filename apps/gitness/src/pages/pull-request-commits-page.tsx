@@ -1,6 +1,4 @@
-import React, { useState } from 'react'
-import { PullRequestCommits } from '../components/pull-request/pull-request-commits'
-import { mockCommitData } from '../data/mockCommitData'
+import React from 'react'
 import {
   ListPagination,
   Pagination,
@@ -12,29 +10,43 @@ import {
   PaginationPrevious,
   Spacer
 } from '@harnessio/canary'
-import PlaygroundPullRequestCommitsSettings from '../settings/pull-request-commits-settings'
-import { SkeletonList } from '../components/loaders/skeleton-list'
-import { NoData } from '../components/no-data'
+import { NoData, PullRequestCommits, SkeletonList } from '@harnessio/playground'
+import { useListPullReqCommitsQuery, TypesCommit } from '@harnessio/code-service-client'
 
 export default function PullRequestCommitsPage() {
-  const [loadState, setLoadState] = useState('data-loaded')
+  const { data: commitData, isFetching } = useListPullReqCommitsQuery({
+    repo_ref: 'workspace/repo/+',
+    pullreq_number: 1,
+    queryParams: { page: 0, limit: 10 }
+  })
 
   const renderContent = () => {
-    switch (loadState) {
-      case 'data-loaded':
-        return <PullRequestCommits data={mockCommitData} />
-      case 'loading':
-        return <SkeletonList />
-      case 'no-data':
-        return (
-          <NoData
-            iconName="no-data-folder"
-            title="No commits yet"
-            description={['There are no commits for this pull request yet.']}
-          />
-        )
-      default:
-        return null
+    if (isFetching) {
+      return <SkeletonList />
+    }
+    // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
+    if (commitData?.content?.length) {
+      return (
+        <PullRequestCommits
+          // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
+          data={commitData?.content.map((item: TypesCommit) => ({
+            sha: item.sha,
+            parent_shas: item.parent_shas,
+            title: item.title,
+            message: item.message,
+            author: item.author,
+            committer: item.committer
+          }))}
+        />
+      )
+    } else {
+      return (
+        <NoData
+          iconName="no-data-folder"
+          title="No commits yet"
+          description={['There are no commits for this pull request yet.']}
+        />
+      )
     }
   }
 
@@ -43,7 +55,7 @@ export default function PullRequestCommitsPage() {
       {renderContent()}
       <Spacer size={8} />
       {/* TODO: actually add pagination when apis are implemented */}
-      {loadState == 'data-loaded' && (
+      {!isFetching && (
         <ListPagination.Root>
           <Pagination>
             <PaginationContent>
@@ -82,7 +94,6 @@ export default function PullRequestCommitsPage() {
           </Pagination>
         </ListPagination.Root>
       )}
-      <PlaygroundPullRequestCommitsSettings loadState={loadState} setLoadState={setLoadState} />
     </>
   )
 }

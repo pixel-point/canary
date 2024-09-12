@@ -8,7 +8,7 @@ interface Floating1ColumnLayoutProps {
   verticalCenter?: boolean
 }
 
-const Floating1ColumnLayout = ({
+export const Floating1ColumnLayout = ({
   className,
   maxWidth = 'default', // Default to 'default' key
   verticalCenter = false,
@@ -29,5 +29,3 @@ const Floating1ColumnLayout = ({
 
   return <div className={computedClassName}>{children}</div>
 }
-
-export default Floating1ColumnLayout
