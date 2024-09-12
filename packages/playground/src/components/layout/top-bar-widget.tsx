@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import {
   Topbar,
@@ -19,7 +19,7 @@ import {
 import { getInitials } from '../../utils/utils'
 
 interface Project {
-  id: string
+  id: number
   name: string
 }
 
@@ -33,32 +33,44 @@ interface BreadcrumbItemProps {
   isLast: boolean
 }
 
-const ProjectDropdown: React.FC<{ isPrimary: boolean; projects: Project[] }> = ({ isPrimary, projects }) => (
-  <DropdownMenu>
-    <DropdownMenuTrigger className="group flex items-center gap-2 outline-none">
-      <Avatar className="w-7 h-7">
-        <AvatarFallback>{getInitials(projects[0].name, 1)}</AvatarFallback>
-      </Avatar>
-      <BreadcrumbLink
-        className={cn('font-medium', { 'text-primary': isPrimary, 'text-navbar-text-secondary': !isPrimary })}>
-        {projects[0].name}
-      </BreadcrumbLink>
-      <Icon
-        name="chevron-down"
-        size={10}
-        className={cn('chevron-down', {
-          'text-primary': isPrimary,
-          'text-navbar-text-secondary group-hover:text-primary': !isPrimary
-        })}
-      />
-    </DropdownMenuTrigger>
-    <DropdownMenuContent align="start" className="mt-1.5">
-      {projects.map(project => (
-        <DropdownMenuItem key={project.id}>{project.name}</DropdownMenuItem>
-      ))}
-    </DropdownMenuContent>
-  </DropdownMenu>
-)
+const ProjectDropdown: React.FC<{ isPrimary: boolean; projects: Project[] }> = ({ isPrimary, projects }) => {
+  const [selectedProject, setSelectedProject] = useState<string>('Please select a project')
+
+  const handleOptionChange = (project: Project) => {
+    setSelectedProject(project.name)
+  }
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger className="group flex items-center gap-2 outline-none">
+        <Avatar className="w-7 h-7">
+          <AvatarFallback>{getInitials(selectedProject, 1)}</AvatarFallback>
+        </Avatar>
+        <BreadcrumbLink
+          className={cn('font-medium', { 'text-primary': isPrimary, 'text-navbar-text-secondary': !isPrimary })}>
+          {selectedProject}
+        </BreadcrumbLink>
+        <Icon
+          name="chevron-down"
+          size={10}
+          className={cn('chevron-down', {
+            'text-primary': isPrimary,
+            'text-navbar-text-secondary group-hover:text-primary': !isPrimary
+          })}
+        />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start" className="mt-1.5">
+        {projects.length === 0
+          ? 'No Projects Found'
+          : projects.map(project => (
+              <DropdownMenuItem key={project.id} onClick={() => handleOptionChange(project)}>
+                {project.name}
+              </DropdownMenuItem>
+            ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
 
 const BreadcrumbNavItem: React.FC<BreadcrumbItemProps> = ({ label, link, isLast }) => (
   <BreadcrumbItem>
