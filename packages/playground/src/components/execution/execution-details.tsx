@@ -14,8 +14,8 @@ import { ContactCard } from '../contact-card'
 import { ScrollArea } from '@harnessio/canary'
 
 interface ExecutionProps {
-  pipelineId: unknown
-  executionId: unknown
+  pipelineId: number
+  executionId: number
 }
 
 export const ExecutionDetails: React.FC<ExecutionProps> = (): React.ReactElement => {

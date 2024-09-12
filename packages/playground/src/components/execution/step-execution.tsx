@@ -6,20 +6,18 @@ import { data } from '../../pages/mocks/execution/mockStepLogs'
 import { Layout } from '../layout/layout'
 import { ExecutionState, ExecutionStatus } from './execution-status'
 import { getDuration } from '../../utils/TimeUtils'
-import { KeyValueTable } from './key-value-table'
+import { KeyValuePair, KeyValueTable } from './key-value-table'
 
 export interface StepProps {
-  input: []
-  inputTitle: { name: string; value: string }
-  output: []
-  outputTitle: { name: string; value: string }
   name: string
   status: ExecutionState
   started?: number
   stopped?: number
+  inputs?: KeyValuePair[]
+  outputs?: KeyValuePair[]
 }
 
-interface StageExecutionProps {
+interface StepExecutionProps {
   step: StepProps
   stepIndex: number
 }
@@ -49,9 +47,9 @@ const StepExecutionToolbar: React.FC = () => {
   )
 }
 
-export const StepExecution: React.FC<StageExecutionProps> = ({ step, stepIndex }) => {
-  const inputTable = step.input
-  const outputTable = step.output
+export const StepExecution: React.FC<StepExecutionProps> = ({ step, stepIndex }) => {
+  const inputTable = step?.inputs || []
+  const outputTable = step?.outputs || []
   return (
     <Layout.Vertical>
       <Layout.Horizontal className="flex justify-between items-center">
@@ -81,8 +79,8 @@ export const StepExecution: React.FC<StageExecutionProps> = ({ step, stepIndex }
               <KeyValueTable
                 className="pt-2"
                 tableSpec={inputTable}
-                tableTitleName={step.inputTitle.name}
-                tableTitleVal={step.inputTitle.value}
+                tableTitleName={'Input Name'}
+                tableTitleVal={'Input Value'}
               />
             </ScrollArea>
           </TabsContent>
@@ -92,8 +90,8 @@ export const StepExecution: React.FC<StageExecutionProps> = ({ step, stepIndex }
               <KeyValueTable
                 className="pt-2"
                 tableSpec={outputTable}
-                tableTitleName={step.outputTitle.name}
-                tableTitleVal={step.outputTitle.value}
+                tableTitleName={'Output Name'}
+                tableTitleVal={'Output Value'}
               />
             </ScrollArea>
           </TabsContent>

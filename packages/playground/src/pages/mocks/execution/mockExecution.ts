@@ -49,15 +49,7 @@ export const data = {
           stopped: 1722296949000,
           image: 'drone/git:latest',
           detached: false,
-          inputTitle: {
-            name: 'Input Name',
-            value: 'Input Value'
-          },
-          outputTitle: {
-            name: 'Output Name',
-            value: 'Output Value'
-          },
-          input: [
+          inputs: [
             {
               name: '21212',
               value: 'Input Value'
@@ -144,12 +136,17 @@ export const data = {
             },
             {
               name: 'spec',
-              value: [{ name: 'instance selection', value: { name: 'type', value: 'Percentage' } }]
+              value: [
+                {
+                  name: 'instance selection',
+                  value: [{ name: 'type', value: 'Percentage' }]
+                }
+              ]
             },
             {
               name: 'spec',
               value: [
-                { name: 'instance selection', value: { name: 'type', value: 'Percentage' } },
+                { name: 'instance selection', value: [{ name: 'type', value: 'Percentage' }] },
                 {
                   name: 'instance selection',
                   value: [
@@ -157,13 +154,13 @@ export const data = {
                     { name: 'type', value: 'Percentage' }
                   ]
                 },
-                { name: 'spec', value: { name: 'percentage', value: '5' } },
+                { name: 'spec', value: [{ name: 'percentage', value: '5' }] },
                 { name: 'skipDryRun', value: 'false' },
                 { name: 'delegate selectors', value: 'value1' }
               ]
             }
           ],
-          output: [
+          outputs: [
             {
               name: '12345',
               value: 'Output Value'
@@ -250,12 +247,12 @@ export const data = {
             },
             {
               name: 'spec',
-              value: [{ name: 'instance selection', value: { name: 'type', value: 'Fixed' } }]
+              value: [{ name: 'instance selection', value: [{ name: 'type', value: 'Fixed' }] }]
             },
             {
               name: 'spec',
               value: [
-                { name: 'instance selection', value: { name: 'type', value: 'Fixed' } },
+                { name: 'instance selection', value: [{ name: 'type', value: 'Fixed' }] },
                 {
                   name: 'instance selection',
                   value: [
@@ -263,7 +260,7 @@ export const data = {
                     { name: 'type', value: 'Fixed' }
                   ]
                 },
-                { name: 'spec', value: { name: 'percentage', value: '10' } },
+                { name: 'spec', value: [{ name: 'percentage', value: '10' }] },
                 { name: 'skipDryRun', value: 'true' },
                 { name: 'delegate selectors', value: 'value2' }
               ]
@@ -280,15 +277,7 @@ export const data = {
           depends_on: ['clone'],
           image: 'docker.io/library/alpine:latest',
           detached: false,
-          inputTitle: {
-            name: 'Input Name',
-            value: 'Input Value'
-          },
-          outputTitle: {
-            name: 'Output Name',
-            value: 'Output Value'
-          },
-          input: [
+          inputs: [
             {
               name: '21212',
               value: 'Input Value'
@@ -375,12 +364,12 @@ export const data = {
             },
             {
               name: 'spec',
-              value: [{ name: 'instance selection', value: { name: 'type', value: 'Percentage' } }]
+              value: [{ name: 'instance selection', value: [{ name: 'type', value: 'Percentage' }] }]
             },
             {
               name: 'spec',
               value: [
-                { name: 'instance selection', value: { name: 'type', value: 'Percentage' } },
+                { name: 'instance selection', value: [{ name: 'type', value: 'Percentage' }] },
                 {
                   name: 'instance selection',
                   value: [
@@ -388,13 +377,13 @@ export const data = {
                     { name: 'type', value: 'Percentage' }
                   ]
                 },
-                { name: 'spec', value: { name: 'percentage', value: '5' } },
+                { name: 'spec', value: [{ name: 'percentage', value: '5' }] },
                 { name: 'skipDryRun', value: 'false' },
                 { name: 'delegate selectors', value: 'value1' }
               ]
             }
           ],
-          output: [
+          outputs: [
             {
               name: '12345',
               value: 'Output Value'
@@ -481,12 +470,12 @@ export const data = {
             },
             {
               name: 'spec',
-              value: [{ name: 'instance selection', value: { name: 'type', value: 'Fixed' } }]
+              value: [{ name: 'instance selection', value: [{ name: 'type', value: 'Fixed' }] }]
             },
             {
               name: 'spec',
               value: [
-                { name: 'instance selection', value: { name: 'type', value: 'Fixed' } },
+                { name: 'instance selection', value: [{ name: 'type', value: 'Fixed' }] },
                 {
                   name: 'instance selection',
                   value: [
@@ -494,7 +483,7 @@ export const data = {
                     { name: 'type', value: 'Fixed' }
                   ]
                 },
-                { name: 'spec', value: { name: 'percentage', value: '10' } },
+                { name: 'spec', value: [{ name: 'percentage', value: '10' }] },
                 { name: 'skipDryRun', value: 'true' },
                 { name: 'delegate selectors', value: 'value2' }
               ]
@@ -511,15 +500,7 @@ export const data = {
           depends_on: ['clone'],
           image: 'docker.io/library/alpine:latest',
           detached: false,
-          inputTitle: {
-            name: 'Input Name',
-            value: 'Input Value'
-          },
-          outputTitle: {
-            name: 'Output Name',
-            value: 'Output Value'
-          },
-          input: [
+          inputs: [
             {
               name: '21212',
               value: 'Input Value'
@@ -606,12 +587,12 @@ export const data = {
             },
             {
               name: 'spec',
-              value: [{ name: 'instance selection', value: { name: 'type', value: 'Percentage' } }]
+              value: [{ name: 'instance selection', value: [{ name: 'type', value: 'Percentage' }] }]
             },
             {
               name: 'spec',
               value: [
-                { name: 'instance selection', value: { name: 'type', value: 'Percentage' } },
+                { name: 'instance selection', value: [{ name: 'type', value: 'Percentage' }] },
                 {
                   name: 'instance selection',
                   value: [
@@ -619,13 +600,13 @@ export const data = {
                     { name: 'type', value: 'Percentage' }
                   ]
                 },
-                { name: 'spec', value: { name: 'percentage', value: '5' } },
+                { name: 'spec', value: [{ name: 'percentage', value: '5' }] },
                 { name: 'skipDryRun', value: 'false' },
                 { name: 'delegate selectors', value: 'value1' }
               ]
             }
           ],
-          output: [
+          outputs: [
             {
               name: '21212',
               value: 'Input Value'
@@ -712,12 +693,12 @@ export const data = {
             },
             {
               name: 'spec',
-              value: [{ name: 'instance selection', value: { name: 'type', value: 'Percentage' } }]
+              value: [{ name: 'instance selection', value: [{ name: 'type', value: 'Percentage' }] }]
             },
             {
               name: 'spec',
               value: [
-                { name: 'instance selection', value: { name: 'type', value: 'Percentage' } },
+                { name: 'instance selection', value: [{ name: 'type', value: 'Percentage' }] },
                 {
                   name: 'instance selection',
                   value: [
@@ -725,7 +706,7 @@ export const data = {
                     { name: 'type', value: 'Percentage' }
                   ]
                 },
-                { name: 'spec', value: { name: 'percentage', value: '5' } },
+                { name: 'spec', value: [{ name: 'percentage', value: '5' }] },
                 { name: 'skipDryRun', value: 'false' },
                 { name: 'delegate selectors', value: 'value1' }
               ]
@@ -757,15 +738,7 @@ export const data = {
           stopped: 1722296944000,
           image: 'drone/git:latest',
           detached: false,
-          inputTitle: {
-            name: 'Input Name',
-            value: 'Input Value'
-          },
-          outputTitle: {
-            name: 'Output Name',
-            value: 'Output Value'
-          },
-          input: [
+          inputs: [
             {
               name: '21212',
               value: 'Input Value'
@@ -852,12 +825,12 @@ export const data = {
             },
             {
               name: 'spec',
-              value: [{ name: 'instance selection', value: { name: 'type', value: 'Percentage' } }]
+              value: [{ name: 'instance selection', value: [{ name: 'type', value: 'Percentage' }] }]
             },
             {
               name: 'spec',
               value: [
-                { name: 'instance selection', value: { name: 'type', value: 'Percentage' } },
+                { name: 'instance selection', value: [{ name: 'type', value: 'Percentage' }] },
                 {
                   name: 'instance selection',
                   value: [
@@ -865,13 +838,13 @@ export const data = {
                     { name: 'type', value: 'Percentage' }
                   ]
                 },
-                { name: 'spec', value: { name: 'percentage', value: '5' } },
+                { name: 'spec', value: [{ name: 'percentage', value: '5' }] },
                 { name: 'skipDryRun', value: 'false' },
                 { name: 'delegate selectors', value: 'value1' }
               ]
             }
           ],
-          output: [
+          outputs: [
             {
               name: '12345',
               value: 'Output Value'
@@ -958,12 +931,12 @@ export const data = {
             },
             {
               name: 'spec',
-              value: [{ name: 'instance selection', value: { name: 'type', value: 'Fixed' } }]
+              value: [{ name: 'instance selection', value: [{ name: 'type', value: 'Fixed' }] }]
             },
             {
               name: 'spec',
               value: [
-                { name: 'instance selection', value: { name: 'type', value: 'Fixed' } },
+                { name: 'instance selection', value: [{ name: 'type', value: 'Fixed' }] },
                 {
                   name: 'instance selection',
                   value: [
@@ -971,7 +944,7 @@ export const data = {
                     { name: 'type', value: 'Fixed' }
                   ]
                 },
-                { name: 'spec', value: { name: 'percentage', value: '10' } },
+                { name: 'spec', value: [{ name: 'percentage', value: '10' }] },
                 { name: 'skipDryRun', value: 'true' },
                 { name: 'delegate selectors', value: 'value2' }
               ]
@@ -988,15 +961,7 @@ export const data = {
           depends_on: ['clone'],
           image: 'docker.io/library/alpine:latest',
           detached: false,
-          inputTitle: {
-            name: 'Input Name',
-            value: 'Input Value'
-          },
-          outputTitle: {
-            name: 'Output Name',
-            value: 'Output Value'
-          },
-          input: [
+          inputs: [
             {
               name: '21212',
               value: 'Input Value'
@@ -1083,12 +1048,12 @@ export const data = {
             },
             {
               name: 'spec',
-              value: [{ name: 'instance selection', value: { name: 'type', value: 'Percentage' } }]
+              value: [{ name: 'instance selection', value: [{ name: 'type', value: 'Percentage' }] }]
             },
             {
               name: 'spec',
               value: [
-                { name: 'instance selection', value: { name: 'type', value: 'Percentage' } },
+                { name: 'instance selection', value: [{ name: 'type', value: 'Percentage' }] },
                 {
                   name: 'instance selection',
                   value: [
@@ -1096,13 +1061,13 @@ export const data = {
                     { name: 'type', value: 'Percentage' }
                   ]
                 },
-                { name: 'spec', value: { name: 'percentage', value: '5' } },
+                { name: 'spec', value: [{ name: 'percentage', value: '5' }] },
                 { name: 'skipDryRun', value: 'false' },
                 { name: 'delegate selectors', value: 'value1' }
               ]
             }
           ],
-          output: [
+          outputs: [
             {
               name: '12345',
               value: 'Output Value'
@@ -1189,12 +1154,12 @@ export const data = {
             },
             {
               name: 'spec',
-              value: [{ name: 'instance selection', value: { name: 'type', value: 'Fixed' } }]
+              value: [{ name: 'instance selection', value: [{ name: 'type', value: 'Fixed' }] }]
             },
             {
               name: 'spec',
               value: [
-                { name: 'instance selection', value: { name: 'type', value: 'Fixed' } },
+                { name: 'instance selection', value: [{ name: 'type', value: 'Fixed' }] },
                 {
                   name: 'instance selection',
                   value: [
@@ -1202,7 +1167,7 @@ export const data = {
                     { name: 'type', value: 'Fixed' }
                   ]
                 },
-                { name: 'spec', value: { name: 'percentage', value: '10' } },
+                { name: 'spec', value: [{ name: 'percentage', value: '10' }] },
                 { name: 'skipDryRun', value: 'true' },
                 { name: 'delegate selectors', value: 'value2' }
               ]
@@ -1219,15 +1184,7 @@ export const data = {
           depends_on: ['clone'],
           image: 'docker.io/library/alpine:latest',
           detached: false,
-          inputTitle: {
-            name: 'Input Name',
-            value: 'Input Value'
-          },
-          outputTitle: {
-            name: 'Output Name',
-            value: 'Output Value'
-          },
-          input: [
+          inputs: [
             {
               name: '21212',
               value: 'Input Value'
@@ -1314,12 +1271,12 @@ export const data = {
             },
             {
               name: 'spec',
-              value: [{ name: 'instance selection', value: { name: 'type', value: 'Percentage' } }]
+              value: [{ name: 'instance selection', value: [{ name: 'type', value: 'Percentage' }] }]
             },
             {
               name: 'spec',
               value: [
-                { name: 'instance selection', value: { name: 'type', value: 'Percentage' } },
+                { name: 'instance selection', value: [{ name: 'type', value: 'Percentage' }] },
                 {
                   name: 'instance selection',
                   value: [
@@ -1327,13 +1284,13 @@ export const data = {
                     { name: 'type', value: 'Percentage' }
                   ]
                 },
-                { name: 'spec', value: { name: 'percentage', value: '5' } },
+                { name: 'spec', value: [{ name: 'percentage', value: '5' }] },
                 { name: 'skipDryRun', value: 'false' },
                 { name: 'delegate selectors', value: 'value1' }
               ]
             }
           ],
-          output: [
+          outputs: [
             {
               name: '12345',
               value: 'Output Value'
@@ -1420,12 +1377,12 @@ export const data = {
             },
             {
               name: 'spec',
-              value: [{ name: 'instance selection', value: { name: 'type', value: 'Fixed' } }]
+              value: [{ name: 'instance selection', value: [{ name: 'type', value: 'Fixed' }] }]
             },
             {
               name: 'spec',
               value: [
-                { name: 'instance selection', value: { name: 'type', value: 'Fixed' } },
+                { name: 'instance selection', value: [{ name: 'type', value: 'Fixed' }] },
                 {
                   name: 'instance selection',
                   value: [
@@ -1433,7 +1390,7 @@ export const data = {
                     { name: 'type', value: 'Fixed' }
                   ]
                 },
-                { name: 'spec', value: { name: 'percentage', value: '10' } },
+                { name: 'spec', value: [{ name: 'percentage', value: '10' }] },
                 { name: 'skipDryRun', value: 'true' },
                 { name: 'delegate selectors', value: 'value2' }
               ]

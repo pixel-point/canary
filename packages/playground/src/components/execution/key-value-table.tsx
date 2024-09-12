@@ -13,7 +13,7 @@ import {
   AccordionTrigger
 } from '@harnessio/canary'
 
-type KeyValuePair = {
+export type KeyValuePair = {
   name: string
   value: string | KeyValuePair[]
 }

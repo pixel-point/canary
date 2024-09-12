@@ -8,12 +8,13 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuItem
+  DropdownMenuItem,
+  IconProps
 } from '@harnessio/canary'
 
 interface DetailsProps {
   id: string
-  iconName: 'tube-sign' | 'open-pr' | 'tag' | 'branch' | string
+  iconName: 'tube-sign' | 'open-pr' | 'tag' | 'branch' | IconProps['name']
   name: string
   count: number
 }
