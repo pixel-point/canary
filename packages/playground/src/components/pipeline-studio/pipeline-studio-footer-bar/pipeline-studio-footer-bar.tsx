@@ -3,7 +3,7 @@ import moment from 'moment'
 import { XmarkCircle, WarningTriangle, InfoCircle } from '@harnessio/icons-noir'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@harnessio/canary'
 
-interface FooterProps {
+interface PipelineStudioFooterBarProps {
   problems: {
     error: number
     warning: number
@@ -16,7 +16,7 @@ interface FooterProps {
   togglePane?: () => void
 }
 
-const FooterBar: React.FC<FooterProps> = (props: FooterProps) => {
+const PipelineStudioFooterBar: React.FC<PipelineStudioFooterBarProps> = (props: PipelineStudioFooterBarProps) => {
   const lastCommittedAt = props.commitHistory.lastCommittedAt
   const lastCommittedBy = props.commitHistory.lastCommittedBy
   return (
@@ -85,4 +85,4 @@ const FooterBar: React.FC<FooterProps> = (props: FooterProps) => {
   )
 }
 
-export { FooterBar }
+export { PipelineStudioFooterBar }

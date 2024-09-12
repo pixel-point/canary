@@ -16,13 +16,21 @@
   "dependencies": {
     "@harnessio/canary": "workspace:*",
     "@harnessio/code-service-client": "1.2.0",
+    "@harnessio/forms": "workspace:*",
     "@harnessio/playground": "workspace:*",
+    "@harnessio/unified-pipeline": "workspace:*",
+    "@harnessio/yaml-editor": "workspace:*",
     "@tanstack/react-query": "4.36.1",
+    "clsx": "^2.1.1",
+    "monaco-editor": "0.50.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "yaml": "^2.5.0",
+    "lodash-es": "^4.17.21"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
+    "@types/lodash-es": "^4.17.12",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
@@ -35,7 +43,8 @@
     "tailwindcss": "^3.4.4",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
-    "vite": "^5.4.1"
+    "vite": "^5.4.1",
+    "vite-plugin-monaco-editor": "^1.1.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

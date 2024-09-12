@@ -49,7 +49,7 @@
     "@harnessio/forms": "workspace:*",
     "@harnessio/icons-noir": "workspace:*",
     "@harnessio/unified-pipeline": "workspace:*",
-    "@harnessio/yaml-editor": "^0.11.0",
+    "@harnessio/yaml-editor": "workspace:*",
     "@hookform/resolvers": "^3.6.0",
     "@monaco-editor/react": "4.6.0",
     "@rollup/plugin-yaml": "^4.1.2",

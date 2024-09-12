@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { XmarkCircle, WarningTriangle, InfoCircle } from '@harnessio/icons-noir'
+import { XmarkCircle, WarningTriangle, InfoCircle, CheckCircle } from '@harnessio/icons-noir'
 
 export type ProblemSeverity = 'error' | 'warning' | 'info'
 
@@ -115,4 +115,12 @@ const Problems = <T,>(props: ProblemsProps<T>): React.ReactElement => {
   )
 }
 
-export { Problems }
+function NoProblemsFound(): JSX.Element {
+  return (
+    <div className="flex items-center pl-4 gap-2">
+      <CheckCircle className="text-green-600" /> No problems found
+    </div>
+  )
+}
+
+export { Problems, NoProblemsFound }

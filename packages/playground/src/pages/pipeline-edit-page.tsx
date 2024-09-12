@@ -28,7 +28,7 @@ import { Container } from '../components/layout/container'
 import { Topbar } from '../components/layout/topbar'
 import { VisualYamlToggle, VisualYamlValue } from '../components/pipeline-studio/visual-yaml-toggle'
 import { PipelineStudioToolbarActions } from '../components/pipeline-studio/pipeline-studio-toolbar-actions'
-import { FooterBar } from '../components/pipeline-studio/footer-bar/footer-bar'
+import { PipelineStudioFooterBar } from '../components/pipeline-studio/pipeline-studio-footer-bar/pipeline-studio-footer-bar'
 import pipeline from '../assets/pipeline.yaml'
 // import pipelineV0 from '../assets/pipelineV0.yaml'
 import { themes } from '../assets/monacoTheme'
@@ -43,7 +43,7 @@ import { StepPaletteFilters } from '../components/pipeline-studio/step-palette/s
 import { StepsPaletteContent } from '../components/pipeline-studio/step-palette/step-palette-content'
 import { StepsPaletteItem } from '../components/pipeline-studio/step-palette/step-palette-item'
 import { stepPaletteItems } from '../assets/stepPaletteItems'
-import inputComponentFactory from '../components/form-inputs/factory/factory'
+import { inputComponentFactory } from '../components/form-inputs/factory/factory'
 import { formDefinition1 } from '../assets/form/formDefinition1'
 
 MonacoGlobals.set({
@@ -306,7 +306,7 @@ export default function PipelineEditPage() {
         <PipelineStudioToolbar view={view} setView={setView} />
         {drawer}
         {main}
-        <FooterBar
+        <PipelineStudioFooterBar
           commitHistory={{ lastCommittedAt: Date.now(), lastCommittedBy: 'harness.io' }}
           problems={{ error: 2, info: 5, warning: 12 }}
           togglePane={() => setPanelOpen(!panelOpen)}

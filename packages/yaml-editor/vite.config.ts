@@ -3,26 +3,21 @@ import react from '@vitejs/plugin-react-swc'
 import monacoEditorPlugin from 'vite-plugin-monaco-editor'
 import dts from 'vite-plugin-dts'
 import { resolve } from 'path'
-import yaml from '@rollup/plugin-yaml'
+const pkg = require('./package.json')
 
-const external = [
-  'react',
-  'react-dom',
-  'lodash-es',
-  'moment',
-  '@harnessio/icons-noir',
-  '@harnessio/canary',
-  '@harnessio/forms',
-  '@harnessio/unified-pipeline',
-  'react-router-dom'
-]
+const external = Object.keys(pkg.devDependencies || [])
+  .concat(Object.keys(pkg.peerDependencies || []))
+  .concat(Object.keys(pkg.peerDependencies || []))
+  .concat([
+    'monaco-editor/esm/vs/editor/standalone/browser/standaloneServices.js',
+    'monaco-editor/esm/vs/editor/standalone/browser/outlineModel.js',
+    'monaco-editor/esm/vs/editor/standalone/browser/ILanguageFeaturesService.js'
+  ])
 
-// https://vitejs.dev/config/
 export default defineConfig({
   define: { 'process.env.NODE_ENV': '"production"' },
   plugins: [
     react(),
-    yaml({}),
     dts({
       outDir: 'dist',
       tsconfigPath: './tsconfig.json'
@@ -34,7 +29,7 @@ export default defineConfig({
     copyPublicDir: false,
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'playground',
+      name: 'yaml-editor',
       fileName: 'index',
       formats: ['es']
     },

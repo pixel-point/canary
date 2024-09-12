@@ -2,6 +2,7 @@ import React from 'react'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ThemeProvider, RootLayout } from '@harnessio/playground'
+import { TooltipProvider } from '@harnessio/canary'
 import { CodeServiceAPIClient } from '@harnessio/code-service-client'
 import { queryClient } from './framework/queryClient'
 import PipelineListPage from './pages/pipeline-list'
@@ -12,6 +13,7 @@ import ReposListPage from './pages/repo-list'
 import PullRequestLayout from './layouts/PullRequestLayout'
 import PullRequestCommitsPage from './pages/pull-request-commits-page'
 import RepoLayout from './layouts/RepoLayout'
+import PipelineEditPage from './pages/pipeline-edit/pipeline-edit'
 
 const BASE_URL_PREFIX = '/api/v1'
 
@@ -84,6 +86,24 @@ export default function App() {
         {
           path: 'executions',
           element: <ExecutionsPage />
+        },
+        {
+          path: ':spaceId/:repoId',
+          element: <RepoLayout />,
+          children: [
+            {
+              index: true,
+              element: <>Repos list</>
+            },
+            {
+              path: 'pipelines/:pipelineId/edit',
+              element: <PipelineEditPage />
+            },
+            {
+              path: 'pipelines/:pipelineId/execution/:executionId',
+              element: <div>Execution page</div>
+            }
+          ]
         }
       ]
     },
@@ -96,7 +116,9 @@ export default function App() {
   return (
     <ThemeProvider defaultTheme="dark">
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <TooltipProvider>
+          <RouterProvider router={router} />
+        </TooltipProvider>
       </QueryClientProvider>
     </ThemeProvider>
   )

@@ -12,4 +12,4 @@ inputComponentFactory.registerComponent(new NumberInput())
 inputComponentFactory.registerComponent(new ArrayInput())
 inputComponentFactory.registerComponent(new ListInput())
 
-export default inputComponentFactory
+export { inputComponentFactory }

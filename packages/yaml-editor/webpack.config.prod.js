@@ -10,9 +10,7 @@ module.exports = {
   output: {
     filename: 'index.js',
     path: path.resolve(__dirname, 'dist'),
-    library: 'YamlEditor',
-    libraryTarget: 'umd',
-    clean: true
+    library: 'YamlEditor'
   },
   externals: {
     'monaco-editor-react': '@monaco-editor/react',
