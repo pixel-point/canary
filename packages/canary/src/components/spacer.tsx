@@ -17,7 +17,11 @@ const spacerVariants = cva('block pb-px mt-4', {
       9: 'mt-9',
       10: 'mt-10',
       11: 'mt-11',
-      12: 'mt-12'
+      12: 'mt-12',
+      13: 'mt-13',
+      14: 'mt-14',
+      15: 'mt-15',
+      16: 'mt-16'
     }
   }
 })

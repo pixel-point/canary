@@ -45,6 +45,15 @@ import Branch from '../icons/branch.svg'
 import OpenPR from '../icons/open-pr.svg'
 import Plus from '../icons/plus.svg'
 import Running from '../icons/running.svg'
+import CircleArrowTopRight from '../icons/circle-arrow-top-right.svg'
+import BoxLightning from '../icons/box-lightning.svg'
+import BoxCloning from '../icons/box-cloning.svg'
+import BoxPullRequests from '../icons/box-pull-requests.svg'
+import BoxGuide from '../icons/box-guide.svg'
+import NodeLogo from '../icons/node-logo.svg'
+import PythonLogo from '../icons/python-logo.svg'
+import PythonAndNodeLogo from '../icons/python-and-node-logo.svg'
+import AISparks from '../icons/ai-sparks.svg'
 
 // import Fork from '../icons/fork.svg'
 
@@ -94,7 +103,16 @@ const IconNameMap = {
   branch: Branch,
   'open-pr': OpenPR,
   plus: Plus,
-  running: Running
+  running: Running,
+  'circle-arrow-top-right': CircleArrowTopRight,
+  'box-lightning': BoxLightning,
+  'box-cloning': BoxCloning,
+  'box-pull-requests': BoxPullRequests,
+  'box-guide': BoxGuide,
+  'node-logo': NodeLogo,
+  'python-logo': PythonLogo,
+  'python-and-node-logo': PythonAndNodeLogo,
+  'ai-sparks': AISparks
 
   // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>

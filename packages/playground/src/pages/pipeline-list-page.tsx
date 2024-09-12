@@ -20,8 +20,6 @@ import { SkeletonList } from '../components/loaders/skeleton-list'
 import { NoSearchResults } from '../components/no-search-results'
 import { NoData } from '../components/no-data'
 import PlaygroundListSettings from '../settings/list-settings'
-import { TopBarWidget } from '../components/layout/top-bar-widget'
-import { mockProjects } from '../data/mockProjects'
 import { Link } from 'react-router-dom'
 import { mockPipelines } from '../data/mockPipelinesData'
 
@@ -72,7 +70,6 @@ function PipelineListPage() {
 
   return (
     <>
-      <TopBarWidget projects={mockProjects} />
       <PaddingListLayout>
         <Text size={5} weight={'medium'}>
           Pipelines
@@ -86,7 +83,9 @@ function PipelineListPage() {
             <ListActions.Dropdown title="Filter" items={filterOptions} />
             <ListActions.Dropdown title="Sort" items={sortOptions} />
             <ListActions.Dropdown title="View" items={viewOptions} />
-            <Button variant="default">Create Pipeline</Button>
+            <Button variant="default" asChild>
+              <Link to="create">Create Pipeline</Link>
+            </Button>
           </ListActions.Right>
         </ListActions.Root>
         <Spacer size={5} />

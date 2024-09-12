@@ -8,7 +8,7 @@ const RepoLayout: React.FC = () => {
   const { executionId } = useParams<{ executionId: string }>()
 
   return (
-    <div>
+    <>
       <TopBarWidget projects={mockProjects} />
       {!executionId && (
         <Tabs variant="navigation" defaultValue="summary">
@@ -34,7 +34,7 @@ const RepoLayout: React.FC = () => {
       <main className="min-h-[calc(100vh-100px)] box-border overflow-hidden">
         <Outlet />
       </main>
-    </div>
+    </>
   )
 }
 
