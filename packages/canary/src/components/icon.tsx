@@ -60,6 +60,7 @@ import PrClosed from '../icons/pr-closed.svg'
 import PrMerge from '../icons/pr-merge.svg'
 import GitBranch from '../icons/git-branch.svg'
 import PrComment from '../icons/pr-comment.svg'
+import CreateWorkspace from '../icons/create-workspace.svg'
 // import Fork from '../icons/fork.svg'
 
 const IconNameMap = {
@@ -123,7 +124,8 @@ const IconNameMap = {
   'pr-closed': PrClosed,
   'pr-merge': PrMerge,
   'git-branch': GitBranch,
-  'pr-comment': PrComment
+  'pr-comment': PrComment,
+  'create-workspace': CreateWorkspace
   // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 

@@ -34,7 +34,7 @@ interface BreadcrumbItemProps {
 }
 
 const ProjectDropdown: React.FC<{ isPrimary: boolean; projects: Project[] }> = ({ isPrimary, projects }) => {
-  const [selectedProject, setSelectedProject] = useState<string>('Please select a project')
+  const [selectedProject, setSelectedProject] = useState<string>(projects[0].name || 'Select a project') // For Playground only, let's display the first project always
 
   const handleOptionChange = (project: Project) => {
     setSelectedProject(project.name)
