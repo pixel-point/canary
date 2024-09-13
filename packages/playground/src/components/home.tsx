@@ -1,3 +1,4 @@
+import React, { useState } from 'react'
 import {
   Button,
   ButtonGroup,
@@ -15,17 +16,25 @@ import {
   SpotlightsBG,
   Text
 } from '@harnessio/canary'
-import React, { useState } from 'react'
-import { mockProjects } from '../data/mockProjects'
+import { type Project } from '../components/layout/top-bar-widget'
 
 interface HomeProps {
+  title: string
   isAuthed: boolean
+  projects?: Project[]
   onSelectProject?: (projectName: string) => void
   handleSignIn?: () => void
   handleSignUp?: () => void
 }
 
-export default function Home({ isAuthed, onSelectProject, handleSignIn, handleSignUp }: HomeProps) {
+export const Home: React.FC<HomeProps> = ({
+  title,
+  isAuthed,
+  projects,
+  onSelectProject,
+  handleSignIn,
+  handleSignUp
+}) => {
   const [open, setOpen] = useState(false)
   const [selectedProject, setSelectedProject] = useState('')
 
@@ -40,7 +49,7 @@ export default function Home({ isAuthed, onSelectProject, handleSignIn, handleSi
       <SpotlightsBG.Root>
         <SpotlightsBG.Content>
           <Text size={6} weight="medium" align="center" className="text-primary">
-            Canary Playground
+            {title}
           </Text>
           <Spacer size={2} />
           <Text size={3} weight="normal" align="center" className="text-tertiary-background">
@@ -51,7 +60,7 @@ export default function Home({ isAuthed, onSelectProject, handleSignIn, handleSi
             <PopoverTrigger className="self-center" asChild>
               <Button variant="outline" role="combobox" aria-expanded={open} className="w-[200px] justify-between">
                 {selectedProject
-                  ? mockProjects.find(project => project.name === selectedProject)?.name
+                  ? projects?.find(project => project.name === selectedProject)?.name
                   : 'Select your project...'}
                 <Icon name="chevron-down" size={12} className="chevron-down " />
               </Button>
@@ -62,7 +71,7 @@ export default function Home({ isAuthed, onSelectProject, handleSignIn, handleSi
                 <CommandList>
                   <CommandEmpty>No project found.</CommandEmpty>
                   <CommandGroup>
-                    {mockProjects.map(project => (
+                    {projects?.map(project => (
                       <CommandItem
                         key={project.id}
                         value={project.name}

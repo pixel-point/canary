@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import {
   Button,
   ListActions,
@@ -16,16 +17,17 @@ import {
 import { useListPipelinesQuery, TypesPipeline, ListPipelinesOkResponse } from '@harnessio/code-service-client'
 import { PipelineList, MeterState, PaddingListLayout, SkeletonList } from '@harnessio/playground'
 import { ExecutionState } from '../types'
-import Header from '../components/Header'
+import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 
 const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
 const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
 const viewOptions = [{ name: 'View option 1' }, { name: 'View option 2' }]
 
 export default function PipelinesPage() {
+  const repoRef = useGetRepoRef()
   const { data: pipelines, isFetching } = useListPipelinesQuery(
     {
-      repo_ref: 'workspace/repo/+',
+      repo_ref: repoRef,
       queryParams: { page: 0, limit: 10, query: '', latest: true }
     },
     /* To enable mock data */
@@ -39,6 +41,7 @@ export default function PipelinesPage() {
   )
 
   const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => <Link to={to}>{children}</Link>
+
   const renderListContent = () => {
     if (isFetching) {
       return <SkeletonList />
@@ -67,7 +70,6 @@ export default function PipelinesPage() {
 
   return (
     <>
-      <Header />
       <PaddingListLayout>
         <Text size={5} weight={'medium'}>
           Pipelines

@@ -1,6 +1,7 @@
 export * from './components/layout/container'
 export * from './components/layout/layout'
 export * from './components/layout/topbar'
+export * from './components/home'
 
 export * from './components/execution-list'
 export * from './components/pipeline-list'

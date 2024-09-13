@@ -1,30 +1,15 @@
 import { Topbar, Text } from '@harnessio/canary'
 import { TopBarWidget } from '@harnessio/playground'
-import { useMembershipSpacesQuery, TypesSpace } from '@harnessio/code-service-client'
+import { TypesMembershipSpace } from '@harnessio/code-service-client'
+import { useAppContext } from '../framework/context/AppContext'
 
 export default function Header() {
-  //fetch projects api to get the list of projects
-  const { data: projects, isLoading } = useMembershipSpacesQuery({
-    queryParams: { page: 1, limit: 30, sort: 'identifier', order: 'asc' }
-  })
-  //prevent rendering the page until the projects are loaded
-  if (isLoading) {
-    return (
-      <Topbar.Root>
-        <Topbar.Left>
-          <Text size={2} weight="medium" className="text-primary">
-            Loading Your Projects...
-          </Text>
-        </Topbar.Left>
-      </Topbar.Root>
-    )
-  }
+  const { spaces } = useAppContext()
 
-  const projectsItem: TypesSpace[] =
-    // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-    projects?.content?.map(membership => ({
-      id: membership?.space?.id,
-      name: membership?.space?.identifier
+  const projectsItem =
+    spaces.map((space: TypesMembershipSpace) => ({
+      id: space?.space?.id,
+      name: space?.space?.identifier
     })) || []
 
   if (projectsItem.length === 0) {

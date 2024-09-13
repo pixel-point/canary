@@ -16,16 +16,18 @@ import {
 import { Link } from 'react-router-dom'
 import { PaddingListLayout, SkeletonList, PullRequestList, NoData } from '@harnessio/playground'
 import { ListPullReqOkResponse, TypesPullReq, useListPullReqQuery } from '@harnessio/code-service-client'
+import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 
 const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
 const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
 
 function PullRequestListPage() {
   const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => <Link to={to}>{children}</Link>
+  const repoRef = useGetRepoRef()
 
   const { data: pullrequests, isFetching } = useListPullReqQuery(
     {
-      repo_ref: 'workspace/repo/+',
+      repo_ref: repoRef,
       queryParams: { page: 0, limit: 10, query: '' }
     },
     /* To enable mock data */

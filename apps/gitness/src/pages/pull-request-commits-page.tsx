@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   ListPagination,
   Pagination,
@@ -12,10 +11,12 @@ import {
 } from '@harnessio/canary'
 import { NoData, PullRequestCommits, SkeletonList } from '@harnessio/playground'
 import { useListPullReqCommitsQuery, TypesCommit } from '@harnessio/code-service-client'
+import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 
 export default function PullRequestCommitsPage() {
+  const repoRef = useGetRepoRef()
   const { data: commitData, isFetching } = useListPullReqCommitsQuery({
-    repo_ref: 'workspace/repo/+',
+    repo_ref: repoRef,
     pullreq_number: 1,
     queryParams: { page: 0, limit: 10 }
   })

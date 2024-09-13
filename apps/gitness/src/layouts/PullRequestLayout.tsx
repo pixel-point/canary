@@ -3,12 +3,14 @@ import { NavLink, Outlet } from 'react-router-dom'
 import { Badge, Icon, Spacer, Tabs, TabsList, TabsTrigger } from '@harnessio/canary'
 import { Floating1ColumnLayout, PullRequestHeader } from '@harnessio/playground'
 import { TypesPullReq, useGetPullReqQuery } from '@harnessio/code-service-client'
+import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 
 const PullRequestLayout: React.FC = () => {
   const [pullRequest, setPullRequest] = useState<TypesPullReq>()
+  const repoRef = useGetRepoRef()
 
   const { data: pullRequestData, isFetching } = useGetPullReqQuery({
-    repo_ref: 'workspace/repo/+',
+    repo_ref: repoRef,
     pullreq_number: 1
   })
 
@@ -23,10 +25,7 @@ const PullRequestLayout: React.FC = () => {
     <>
       <Floating1ColumnLayout>
         <Spacer size={8} />
-        {
-          // @ts-expect-error, remove "@ts-expect-error" once code api's dont pass all fields as optional
-          pullRequest && <PullRequestHeader data={pullRequest} />
-        }
+        {pullRequest && <PullRequestHeader data={pullRequest} />}
         <Tabs variant="tabnav" defaultValue="conversation">
           <TabsList>
             <NavLink to={`conversation`}>

@@ -16,12 +16,14 @@ import {
 import { PaddingListLayout, ExecutionList, SkeletonList, timeDistance, NoData } from '@harnessio/playground'
 import { ExecutionState } from '../types'
 import { Link } from 'react-router-dom'
+import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 
 const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
 const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
 const viewOptions = [{ name: 'View option 1' }, { name: 'View option 2' }]
 
 export default function ExecutionsPage() {
+  const repoRef = useGetRepoRef()
   const {
     data: executions,
     isFetching,
@@ -29,7 +31,7 @@ export default function ExecutionsPage() {
     isSuccess
   } = useListExecutionsQuery(
     {
-      repo_ref: 'workspace/repo/+',
+      repo_ref: repoRef,
       pipeline_identifier: 'pipeline-id',
       queryParams: { page: 0, limit: 10 }
     },

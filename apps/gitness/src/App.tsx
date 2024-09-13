@@ -14,6 +14,8 @@ import PullRequestLayout from './layouts/PullRequestLayout'
 import PullRequestCommitsPage from './pages/pull-request-commits-page'
 import RepoLayout from './layouts/RepoLayout'
 import PipelineEditPage from './pages/pipeline-edit/pipeline-edit'
+import { LandingPage } from './pages/landing-page'
+import { AppProvider } from './framework/context/AppContext'
 
 const BASE_URL_PREFIX = '/api/v1'
 
@@ -47,21 +49,35 @@ export default function App() {
       path: '/',
       element: <RootLayout />,
       children: [
+        { index: true, element: <LandingPage /> },
         {
-          path: 'repos',
+          path: ':spaceId/repos',
           element: <ReposListPage />
         },
         {
-          path: 'repos/:repoId',
+          path: ':spaceId/repos/:repoId',
           element: <RepoLayout />,
           children: [
             {
               index: true,
-              element: <Navigate to="pull-requests" />
+              element: <>Summary</>
             },
             {
               path: 'pull-requests',
               element: <PullRequestListPage />
+            },
+            {
+              path: 'pipelines',
+              children: [
+                {
+                  index: true,
+                  element: <PipelineListPage />
+                },
+                {
+                  path: ':pipelineId',
+                  element: <ExecutionsPage />
+                }
+              ]
             },
             {
               path: 'pull-requests/:pullRequestId',
@@ -79,10 +95,12 @@ export default function App() {
             }
           ]
         },
+        // Pipelines (OUTSIDE REPOS)
         {
           path: 'pipelines',
           element: <PipelineListPage />
         },
+        // Executions (OUTSIDE REPOS)
         {
           path: 'executions',
           element: <ExecutionsPage />
@@ -114,12 +132,14 @@ export default function App() {
   ])
 
   return (
-    <ThemeProvider defaultTheme="dark">
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <RouterProvider router={router} />
-        </TooltipProvider>
-      </QueryClientProvider>
-    </ThemeProvider>
+    <AppProvider>
+      <ThemeProvider defaultTheme="dark">
+        <QueryClientProvider client={queryClient}>
+          <TooltipProvider>
+            <RouterProvider router={router} />
+          </TooltipProvider>
+        </QueryClientProvider>
+      </ThemeProvider>
+    </AppProvider>
   )
 }

@@ -18,7 +18,7 @@ import {
 } from '@harnessio/canary'
 import { getInitials } from '../../utils/utils'
 
-interface Project {
+export interface Project {
   id: number
   name: string
 }
