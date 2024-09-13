@@ -17,6 +17,7 @@ import { orderBy } from 'lodash-es'
 import PullRequestDiffViewer from './pull-request-diff-viewer'
 import { useDiffConfig } from './hooks/useDiffConfig'
 import { DiffModeEnum } from '@git-diff-view/react'
+import PullRequestDescBox from './pull-request-description-box'
 
 interface PullRequestOverviewProps {
   data: TypesPullReqActivity[]
@@ -122,12 +123,19 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
     return (
       <div className="flex flex-col">
         <div>
+          <PullRequestDescBox
+            createdAt={pullReqMetadata?.created}
+            isLast={!(activityBlocks?.length > 0)}
+            author={pullReqMetadata?.author?.display_name}
+            prNum={`#${pullReqMetadata.number}`}
+            description={pullReqMetadata?.description}
+          />
           {activityBlocks?.map((commentItems, index) => {
             if (isSystemComment(commentItems)) {
               return (
                 <PullRequestSystemComments
                   commentItems={commentItems}
-                  isLast={data.length - 1 === index}
+                  isLast={activityBlocks.length - 1 === index}
                   pullReqMetadata={pullReqMetadata}
                 />
               )
@@ -217,7 +225,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                       </div>
                       //
                     }
-                    icon={<Icon name="chaos-engineering" size={14} />}
+                    icon={<Icon name="pr-review" size={12} />}
                     isLast={data.length - 1 === index}
                   />
                 )
@@ -269,7 +277,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                     </div>
                     //
                   }
-                  icon={<Icon name="chaos-engineering" size={14} />}
+                  icon={<Icon name="pr-comment" size={12} />}
                   isLast={data.length - 1 === index}
                 />
               )

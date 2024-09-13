@@ -80,7 +80,7 @@ const Title = ({
   return (
     <div className="flex gap-2 items-center">
       {typeof success === 'boolean' ? (
-        <Icon size={16} name={success ? 'merged' : 'unmerged'} />
+        <Icon size={16} name={success ? 'merged' : 'pr-draft'} />
       ) : (
         <div className="w-4 h-4 rounded-full bg-primary/5 border border-muted border-dotted" />
       )}

@@ -10,6 +10,8 @@ export const getInitials = (name: string, length?: number) => {
   // If length is provided, truncate the initials to the desired length
   return length ? initials.slice(0, length) : initials
 }
+export const INITIAL_ZOOM_LEVEL = 1
+export const ZOOM_INC_DEC_LEVEL = 0.1
 
 const LOCALE = Intl.NumberFormat().resolvedOptions?.().locale || 'en-US'
 

@@ -22,6 +22,17 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
   const openFromDraft = payload?.payload?.payload?.old_draft === true && payload?.payload?.payload?.new_draft === false
   const changedToDraft = payload?.payload?.payload?.old_draft === false && payload?.payload?.payload?.new_draft === true
 
+  const getIcon = () => {
+    if (openFromDraft || changedToDraft) {
+      return changedToDraft ? <Icon name="pr-draft" size={12} /> : <Icon name="pr-review" size={12} />
+    } else {
+      if (payload?.payload?.payload?.old === 'closed' && payload?.payload?.payload?.new === 'open') {
+        return <Icon name="pr-open" size={12} />
+      } else {
+        return <Icon name="pr-closed" size={12} />
+      }
+    }
+  }
   switch (type) {
     case CommentType.MERGE:
       return (
@@ -70,7 +81,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
             }
           ]}
           //Fix icon for this state
-          icon={<Icon name="merged" size={14} className="p-0.5 text-tertiary-background" />}
+          icon={<Icon name="pr-merge" size={12} />}
           isLast={isLast}
         />
       )
@@ -148,7 +159,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
               )
             }
           ]}
-          icon={<Icon name="edit-pen" size={14} className="p-0.5" />}
+          icon={<Icon name="git-branch" size={12} />}
           isLast={isLast}
         />
       )
@@ -177,7 +188,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
               )
             }
           ]}
-          icon={<Icon name="unmerged" className="p-0.5" />}
+          icon={getIcon()}
           isLast={isLast}
         />
       )

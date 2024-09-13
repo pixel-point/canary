@@ -54,7 +54,12 @@ import NodeLogo from '../icons/node-logo.svg'
 import PythonLogo from '../icons/python-logo.svg'
 import PythonAndNodeLogo from '../icons/python-and-node-logo.svg'
 import AISparks from '../icons/ai-sparks.svg'
-
+import PrOpen from '../icons/pr-open.svg'
+import PrReview from '../icons/pr-review.svg'
+import PrClosed from '../icons/pr-closed.svg'
+import PrMerge from '../icons/pr-merge.svg'
+import GitBranch from '../icons/git-branch.svg'
+import PrComment from '../icons/pr-comment.svg'
 // import Fork from '../icons/fork.svg'
 
 const IconNameMap = {
@@ -79,7 +84,7 @@ const IconNameMap = {
   'tube-sign': TubeSign,
   signpost: Signpost,
   merged: Merged,
-  unmerged: Unmerged,
+  'pr-draft': Unmerged,
   comments: Comments,
   tasks: Tasks,
   tick: Tick,
@@ -112,8 +117,13 @@ const IconNameMap = {
   'node-logo': NodeLogo,
   'python-logo': PythonLogo,
   'python-and-node-logo': PythonAndNodeLogo,
-  'ai-sparks': AISparks
-
+  'ai-sparks': AISparks,
+  'pr-open': PrOpen,
+  'pr-review': PrReview,
+  'pr-closed': PrClosed,
+  'pr-merge': PrMerge,
+  'git-branch': GitBranch,
+  'pr-comment': PrComment
   // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 
