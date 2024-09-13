@@ -41,11 +41,7 @@ const PullRequestCheckSection = ({ checkData, checksInfo }: PullRequestMergeSect
   return (
     !isEmpty(checkData) && (
       <AccordionItem value="item-3">
-        <AccordionTrigger
-          onClick={e => {
-            console.log(e)
-          }}
-          className="text-left">
+        <AccordionTrigger className="text-left">
           <StackedList.Field
             title={<LineTitle text={checksInfo.header} icon={getStatusIcon(checksInfo.status)} />}
             description={<LineDescription text={checksInfo.content} />}

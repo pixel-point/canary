@@ -60,6 +60,15 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
   dateOrderSort,
   diffData
 }) => {
+  const {
+    // mode,
+    // setMode,
+    highlight,
+    // setHighlight,
+    wrap,
+    //  setWrap,
+    fontsize
+  } = useDiffConfig()
   const activityBlocks = useMemo(() => {
     // Each block may have one or more activities which are grouped into it. For example, one comment block
     // contains a parent comment and multiple replied comments
@@ -75,7 +84,6 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
     // Then add their children as follow-up elements (same array)
     parentActivities?.forEach(parentActivity => {
       const childActivities = data?.filter(activity => activity.payload?.parent_id === parentActivity[0].id)
-      console.log(parentActivity[0].id, parentActivity, childActivities)
 
       childActivities?.forEach(childComment => {
         parentActivity.push(childComment)
@@ -113,9 +121,9 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
 
     return blocks
   }, [
-    data,
-    dateOrderSort,
-    activityFilter
+    data
+    // dateOrderSort,
+    // activityFilter
     // currentUser?.uid
   ])
 
@@ -140,16 +148,6 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                 />
               )
             } else {
-              const {
-                // mode,
-                // setMode,
-                highlight,
-                // setHighlight,
-                wrap,
-                //  setWrap,
-                fontsize
-              } = useDiffConfig()
-              console.log(commentItems)
               const payload = commentItems[0]?.payload?.payload // Ensure payload is typed correctly
               if (payload?.type === ('code-comment' as EnumPullReqActivityType)) {
                 return (

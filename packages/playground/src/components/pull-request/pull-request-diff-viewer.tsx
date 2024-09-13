@@ -192,7 +192,6 @@ const PullRequestDiffViewer = ({ data, highlight, fontsize, mode, wrap, addWidge
     // setExpandAll(false)
     // setDiffFileInstance(instance)
   }, [handleClick])
-  console.log(diffFileInstance)
   return (
     <DiffView<string>
       ref={ref}
@@ -202,7 +201,6 @@ const PullRequestDiffViewer = ({ data, highlight, fontsize, mode, wrap, addWidge
       //     return <></>
       //   }}
       renderWidgetLine={({ onClose, side, lineNumber }) => {
-        console.log('hi')
         return (
           <div className="flex w-full absolute flex-col border px-[4px] py-[8px]">
             <TextArea onChange={v => (valRef.current = v)} />

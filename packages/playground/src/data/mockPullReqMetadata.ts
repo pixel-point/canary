@@ -45,7 +45,7 @@ export const mockPullReqMetadataUnchecked = {
   state: 'open' as EnumPullReqState,
   is_draft: false,
   title: 'prwithnoConflicts.txt',
-  description: '',
+  description: 'tt',
   source_repo_id: 24,
   source_branch: 'noConflicts',
   source_sha: '048f7030a246c1935e1ae836f3a8e112f9e1bc2a',
