@@ -27,6 +27,7 @@ function Root({ avatarLink }: ProjectProps) {
         placeholder="Search..."
         hasShortcut
         shortcutLetter="K"
+        shortcutModifier="cmd"
         onSearch={openSearchDialog}
         showOnFocus
       />

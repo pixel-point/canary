@@ -25,6 +25,7 @@ interface SearchBoxProps {
   width?: 'full' | 'fixed'
   hasShortcut?: boolean
   shortcutLetter?: string
+  shortcutModifier?: string
   textSize?: TextSize
   onSearch?: () => void
   showOnFocus?: boolean // New prop to control dialog appearance on focus
@@ -36,6 +37,7 @@ function Root({
   width = 'fixed',
   hasShortcut = false,
   shortcutLetter,
+  shortcutModifier,
   onSearch,
   showOnFocus = false // Default to false
 }: SearchBoxProps) {
@@ -62,16 +64,26 @@ function Root({
 
   useEffect(() => {
     const handleShortcutKey = (e: KeyboardEvent) => {
-      if (hasShortcut && shortcutLetter && e.key.toLowerCase() === shortcutLetter.toLowerCase()) {
-        handleSearch()
+      if (hasShortcut && shortcutLetter && shortcutModifier) {
+        const isModifierPressed =
+          (shortcutModifier === 'cmd' && e.metaKey) || // For Mac Command key
+          (shortcutModifier === 'ctrl' && e.ctrlKey) || // For Ctrl key on Windows/Linux
+          (shortcutModifier === 'alt' && e.altKey) || // For Alt key
+          (shortcutModifier === 'shift' && e.shiftKey) // For Shift key
+
+        if (isModifierPressed && e.key.toLowerCase() === shortcutLetter.toLowerCase()) {
+          e.preventDefault() // Prevent the default behavior (optional)
+          handleSearch()
+        }
       }
     }
+
     window.addEventListener('keydown', handleShortcutKey)
 
     return () => {
       window.removeEventListener('keydown', handleShortcutKey)
     }
-  }, [hasShortcut, shortcutLetter, handleSearch])
+  }, [hasShortcut, shortcutLetter, shortcutModifier, handleSearch])
 
   return (
     <div className={cn('relative', width === 'full' ? 'w-full' : 'w-96')}>
