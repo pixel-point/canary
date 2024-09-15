@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { noop } from 'lodash-es'
 import {
   Text,
   Spacer,
@@ -21,7 +23,6 @@ import { NoData } from '../components/no-data'
 import PlaygroundListSettings from '../settings/list-settings'
 import { TopBarWidget } from '../components/layout/top-bar-widget'
 import { mockProjects } from '../data/mockProjects'
-import { Link } from 'react-router-dom'
 
 const mockExecutions = [
   {
@@ -143,7 +144,7 @@ function ExecutionListPage() {
 
   return (
     <>
-      <TopBarWidget projects={mockProjects} />
+      <TopBarWidget projects={mockProjects} onSelectProject={noop} />
       <PaddingListLayout>
         <Text size={5} weight={'medium'}>
           Executions

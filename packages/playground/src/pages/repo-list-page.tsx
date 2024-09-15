@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { noop } from 'lodash-es'
 import { RepoList } from '../components/repo-list'
 import {
   Text,
@@ -76,7 +77,7 @@ function RepoListPage() {
 
   return (
     <>
-      <TopBarWidget projects={mockProjects} />
+      <TopBarWidget projects={mockProjects} onSelectProject={noop} />
       <PaddingListLayout>
         <Text size={5} weight={'medium'}>
           Repositories

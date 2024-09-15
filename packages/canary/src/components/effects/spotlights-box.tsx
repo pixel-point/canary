@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Icon } from '../icon'
+import { Icon, IconProps } from '../icon'
 
 interface PageProps {
   children: React.ReactNode
-  logo: React.ReactElement<SVGSVGElement>
+  logo: IconProps['name']
   logoSize?: number
   highlightTop?: string
   highlightBottom?: string

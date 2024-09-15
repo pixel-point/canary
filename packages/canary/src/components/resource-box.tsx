@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon } from './icon'
+import { Icon, IconProps } from './icon'
 
 function Root({ children }: { children: React.ReactNode }) {
   return (
@@ -27,7 +27,7 @@ function List({ children }: { children: React.ReactNode }) {
   return <div className="flex flex-col gap-3">{children}</div>
 }
 
-function ListItem({ children, iconName }: { children: React.ReactNode; iconName?: string }) {
+function ListItem({ children, iconName }: { children: React.ReactNode; iconName?: IconProps['name'] }) {
   return (
     <div className="grid grid-cols-[auto_1fr] gap-2">
       <div>{iconName && <Icon name={iconName} size={20} className="text-tertiary-background" />}</div>

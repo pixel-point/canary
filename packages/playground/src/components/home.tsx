@@ -16,7 +16,7 @@ import {
   SpotlightsBG,
   Text
 } from '@harnessio/canary'
-import { type Project } from '../components/layout/top-bar-widget'
+import { type Project } from '../components/project-dropdown'
 
 interface HomeProps {
   title: string
@@ -75,7 +75,11 @@ export const Home: React.FC<HomeProps> = ({
                       <CommandItem
                         key={project.id}
                         value={project.name}
-                        onSelect={() => handleSelectProject(project.name)}>
+                        onSelect={() => {
+                          if (project.name) {
+                            handleSelectProject(project.name)
+                          }
+                        }}>
                         {project.name}
                       </CommandItem>
                     ))}

@@ -1,18 +1,20 @@
-export const mockProjects = [
+import { Project } from '../components/project-dropdown'
+
+export const mockProjects: Project[] = [
   {
-    id: '0',
+    id: 0,
     name: 'Pixel Point'
   },
   {
-    id: '1',
+    id: 1,
     name: 'United Bank'
   },
   {
-    id: '2',
+    id: 2,
     name: 'Code Wizards'
   },
   {
-    id: '3',
+    id: 3,
     name: 'Electric Fish'
   }
 ]

@@ -1,15 +1,19 @@
 import { Topbar, Text } from '@harnessio/canary'
 import { TopBarWidget } from '@harnessio/playground'
+import { useNavigate } from 'react-router-dom'
 import { TypesMembershipSpace } from '@harnessio/code-service-client'
 import { useAppContext } from '../framework/context/AppContext'
+import { useGetSpaceURLParam } from '../framework/hooks/useGetSpaceParam'
 
 export default function Header() {
-  const { spaces } = useAppContext()
+  const navigate = useNavigate()
+  const space = useGetSpaceURLParam()
+  const { spaces, setSelectedSpace } = useAppContext()
 
   const projectsItem =
     spaces.map((space: TypesMembershipSpace) => ({
       id: space?.space?.id,
-      name: space?.space?.identifier
+      name: space?.space?.path
     })) || []
 
   if (projectsItem.length === 0) {
@@ -27,5 +31,16 @@ export default function Header() {
     )
   }
 
-  return <TopBarWidget projects={projectsItem} />
+  return (
+    <TopBarWidget
+      projects={projectsItem}
+      onSelectProject={selectedProject => {
+        if (selectedProject?.name) {
+          setSelectedSpace(selectedProject.name)
+          navigate(`/${selectedProject.name}/repos`)
+        }
+      }}
+      preselectedProject={projectsItem.find(item => item.name === space)}
+    />
+  )
 }
