@@ -353,7 +353,7 @@ export interface TypesCodeCommentFields {
   span_old?: number
 }
 
-export interface GeneralPayload {
+export interface GeneralPayload extends TypesPullReqActivity {
   text?: string
   [key: string]: unknown
   payload?: GeneralPayload

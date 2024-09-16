@@ -21,6 +21,8 @@ import PullRequestDescBox from './pull-request-description-box'
 
 interface PullRequestOverviewProps {
   data: TypesPullReqActivity[]
+  currentUser?: string
+  handleSaveComment: (comment: string, parentId?: number) => void
   // data: CommentItem<TypesPullReqActivity>[][]
   pullReqMetadata: TypesPullReq
   activityFilter: { label: string; value: string }
@@ -58,7 +60,8 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
   pullReqMetadata,
   activityFilter,
   dateOrderSort,
-  diffData
+  diffData,
+  handleSaveComment
 }) => {
   const {
     // mode,
@@ -121,12 +124,12 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
 
     return blocks
   }, [
-    data
+    data,
+    handleSaveComment
     // dateOrderSort,
     // activityFilter
     // currentUser?.uid
   ])
-
   const renderedActivityBlocks = useMemo(() => {
     return (
       <div className="flex flex-col">
@@ -225,6 +228,8 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                     }
                     icon={<Icon name="pr-review" size={12} />}
                     isLast={data.length - 1 === index}
+                    handleSaveComment={handleSaveComment}
+                    parentCommentId={payload?.id}
                   />
                 )
               }
@@ -276,7 +281,9 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                     //
                   }
                   icon={<Icon name="pr-comment" size={12} />}
-                  isLast={data.length - 1 === index}
+                  isLast={activityBlocks.length - 1 === index}
+                  handleSaveComment={handleSaveComment}
+                  parentCommentId={payload?.id}
                 />
               )
             }
@@ -284,7 +291,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
         </div>
       </div>
     ) // [activityBlocks, currentUser, pullReqMetadata, activities]
-  }, [data])
+  }, [data, handleSaveComment])
 
   return <div>{renderedActivityBlocks}</div>
 }

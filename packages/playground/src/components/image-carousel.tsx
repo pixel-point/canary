@@ -20,16 +20,9 @@ interface ImageCarouselProps {
 // TODO: rewrite this to actually work
 const ImageCarousel = (props: ImageCarouselProps) => {
   const { isOpen, setIsOpen, setZoomLevel, zoomLevel, imgEvent } = props
-  const [
-    imgTitle
-    // setImageTitle
-  ] = useState(imgEvent[0])
+  const [imgTitle] = useState(imgEvent && imgEvent.length > 0 ? imgEvent[0] : '')
   return (
     <Dialog
-      //   portalClassName={css.portalContainer}
-      //   title={imgTitle ? imgTitle.substring(imgTitle.lastIndexOf('/') + 1, imgTitle.length) : 'image'}
-      //   autoFocus={true}
-      //   className={css.imageModal}
       open={isOpen}
       onOpenChange={() => {
         setIsOpen(false)
@@ -41,21 +34,13 @@ const ImageCarousel = (props: ImageCarouselProps) => {
             {imgTitle ? imgTitle.substring(imgTitle.lastIndexOf('/') + 1, imgTitle.length) : 'image'}
           </DialogTitle>
           <DialogDescription>
-            <Carousel
-            // className={css.content}
-            //   hideSlideChangeButtons={false}
-            //   hideIndicators={false}
-            //   onChange={({idx}) => {
-            //     setImageTitle(imgEvent[idx - 1])
-            //   }}
-            >
+            <Carousel>
               {imgEvent &&
                 imgEvent.map(image => {
                   return (
                     <>
                       <img
                         style={{ transform: `scale(${zoomLevel || 1})`, height: `${window.innerHeight - 200}px` }}
-                        // className={css.image}
                         src={image}
                       />
                     </>
@@ -75,13 +60,7 @@ const ImageCarousel = (props: ImageCarouselProps) => {
                     }
                   }}
                 />
-                {/* <Button
-              variation={ButtonVariation.TERTIARY}
-              icon="canvas-selector"
-              data-testid="canvasButton"
-              tooltip={getString('resetZoom')}
-              onClick={() => setZoomLevel(INITIAL_ZOOM_LEVEL)}
-            /> */}
+
                 <Button
                   variation={'icon'}
                   icon="zoom-out"

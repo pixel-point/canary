@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { mockOverviewRealData } from '../data/mockOverviewRealData'
 // import { mockOverviewData } from '../data/mockOverviewData'
 import { mockReviewers } from '../data/mockReviewer'
@@ -26,7 +26,38 @@ import FullWidth2ColumnLayout from '../layouts/FullWidth2ColumnLayout'
 import { mockCodeOwnerData } from '../data/mockCodeOwner'
 import { mockPullRequestActions } from '../data/mockPullRequestActions'
 import * as data from '../data/mockDiffViewerdata'
+import { TypesPullReqActivity } from '../components/pull-request/interfaces'
+// Mock useMutate hook
+// Define the type for the useFakeMutate parameters
+interface UseFakeMutateParams {
+  verb: string
+  path: string
+}
 
+// Define the type for the response data
+interface ResponseData {
+  id: number
+  text: string
+  parent_id?: number
+  [key: string]: unknown // Add other fields as necessary
+}
+interface CommentData {
+  text: string
+  parent_id?: number
+}
+// Mock useMutate hook
+const useFakeMutate = ({ verb, path }: UseFakeMutateParams) => {
+  console.log(verb, path)
+  const mutate = (data: CommentData) => {
+    return new Promise<{ data: ResponseData }>(resolve => {
+      setTimeout(() => {
+        // Simulate a successful API response
+        resolve({ data: { ...data, id: Date.now() } })
+      }, 1000)
+    })
+  }
+  return { mutate }
+}
 export default function PullRequestConversationPage() {
   const [loadState, setLoadState] = useState('data-loaded')
   const dateFilters = useDateFilters()
@@ -59,6 +90,61 @@ export default function PullRequestConversationPage() {
   const mockCodeOwnerApprovalEntries = undefined
   const mockLatestCodeOwnerApprovalArr = undefined
   const mockConflictingFiles = loadState === 'data-loaded-conflict' ? ['test', 't'] : undefined
+  const [mockActivties, setMockActivities] = useState<TypesPullReqActivity[]>(mockOverviewRealData)
+  const currentUser = 'Calvin'
+  // const path = useMemo(
+  //   () => `/api/v1/repos/${repoMetadata.path}/+/pullreq/${pullReqMetadata.number}/comments`,
+  //   [repoMetadata.path, pullReqMetadata.number]
+  // )
+  const path = useMemo(
+    () => `/api/v1/repos/repo/+/pullreq/${pullReqMetadata.number}/comments`,
+    [pullReqMetadata.number]
+  )
+  const { mutate: saveComment } = useFakeMutate({ verb: 'POST', path })
+  let count = 5
+  const handleSaveComment = (comment: string, parentId?: number) => {
+    // Create a temporary comment object
+
+    const newComment: TypesPullReqActivity = {
+      id: count, // Temporary ID
+      author: { display_name: currentUser }, // Replace with actual user data
+      created: Date.now(),
+      edited: Date.now(),
+      updated: Date.now(),
+      deleted: 0,
+      code_comment: undefined,
+      text: comment,
+      payload: {
+        message: comment,
+        parent_id: parentId,
+        author: { display_name: currentUser },
+        id: count, // Temporary ID
+        created: Date.now(),
+        edited: Date.now(),
+        updated: Date.now(),
+        deleted: 0,
+        code_comment: undefined,
+        text: comment
+      }
+    }
+    count = count + 1
+
+    // Update the state locally
+    setMockActivities(prevData => [...prevData, newComment])
+
+    // Persist the new comment to the API
+    saveComment({ text: comment, parent_id: parentId })
+      .then(() => {
+        // TODO: set response after saving the comment to update the local state with the new comment data
+        // Update the state with the response from the API
+        // setMockActivities(prevData => prevData.map(item => (item.id === newComment.id ? response.data : item)))
+      })
+      .catch(error => {
+        // Handle error (e.g., remove the temporary comment or show an error message)
+        setMockActivities(prevData => prevData.filter(item => item.id !== newComment.id))
+        console.error('Failed to save comment:', error)
+      })
+  }
   if (loadState == 'loading') {
     return (
       <>
@@ -80,7 +166,6 @@ export default function PullRequestConversationPage() {
       </>
     )
   }
-
   return (
     <>
       <FullWidth2ColumnLayout
@@ -122,14 +207,16 @@ export default function PullRequestConversationPage() {
             />
             <Spacer size={6} />
             <PullRequestOverview
-              data={mockOverviewRealData}
+              data={mockActivties}
               pullReqMetadata={pullReqMetadata}
               activityFilter={activityFilter}
               dateOrderSort={dateOrderSort}
               diffData={data['a']}
+              handleSaveComment={handleSaveComment}
+              currentUser={currentUser}
             />
             <Spacer size={9} />
-            <PullRequestCommentBox />
+            <PullRequestCommentBox currentUser={currentUser} onSaveComment={handleSaveComment} />
             <Spacer size={9} />
           </>
         }

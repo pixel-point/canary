@@ -46,7 +46,7 @@ const PullRequestDescBox: React.FC<PullRequestDescBoxProps> = ({ isLast, author,
       content={
         <div className="flex py-4 px-4">
           <Text size={2} color="primary">
-            {description && <MarkdownViewer source={description} darkMode />}
+            {description && <MarkdownViewer source={description} />}
           </Text>
         </div>
       }
