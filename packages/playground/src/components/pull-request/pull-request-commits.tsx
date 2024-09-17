@@ -1,8 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { TypesCommit } from './interfaces'
 import { formatDate, getInitials } from '../../utils/utils'
-import { Icon, StackedList, Text, NodeGroup, Avatar, AvatarFallback } from '@harnessio/canary'
+import { StackedList, Text, NodeGroup, Avatar, AvatarFallback, Icon, cn } from '@harnessio/canary'
 import copy from 'clipboard-copy'
+import { ShaBadge } from '../..'
+import { Link } from 'react-router-dom'
 
 interface CommitProps {
   data?: TypesCommit[]
@@ -10,16 +12,15 @@ interface CommitProps {
 
 interface CommitActionButtonProps {
   sha: string
-  href: string
-  enableCopy?: boolean
 }
 
-function CommitActions({ sha, enableCopy }: CommitActionButtonProps) {
+function CommitActions({ sha }: CommitActionButtonProps) {
   const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     let timeoutId: number
     if (copied) {
+      copy(sha)
       timeoutId = window.setTimeout(() => setCopied(false), 2500)
     }
     return () => {
@@ -28,28 +29,18 @@ function CommitActions({ sha, enableCopy }: CommitActionButtonProps) {
   }, [copied])
 
   return (
-    <div className="grid grid-flow-col grid-col-[1fr_auto] border rounded-md">
-      <div className="flex items-center px-2 py-0.5">
-        <Text size={1} className="text-tertiary-background">
-          {sha.substring(0, 6)}
-        </Text>
-        {/* </Link> */}
-      </div>
-      {enableCopy && (
-        <div
-          className="flex items-center border-l px-1 py-0.5 pointer-events-auto"
-          onClick={() => {
-            setCopied(true)
-            copy(sha)
-          }}>
-          {copied ? (
-            <Icon size={14} name="tick" />
-          ) : (
-            <Icon name="clone" size={14} className="text-tertiary-background" />
-          )}
-        </div>
-      )}
-    </div>
+    <ShaBadge.Root>
+      <ShaBadge.Content>
+        <Link to="#">
+          <Text size={1} className="text-tertiary-background">
+            {sha.substring(0, 6)}
+          </Text>
+        </Link>
+      </ShaBadge.Content>
+      <ShaBadge.Icon handleClick={() => setCopied(true)}>
+        <Icon size={12} name={copied ? 'tick' : 'clone'} className={cn({ 'text-success': copied })} />
+      </ShaBadge.Icon>
+    </ShaBadge.Root>
   )
 }
 
@@ -72,16 +63,14 @@ export const PullRequestCommits = ({ ...props }: CommitProps) => {
     <>
       {Object.entries(commitsGroupedByDate).map(([date, commitData]) => (
         <NodeGroup.Root>
-          <NodeGroup.Icon>
-            <Icon name="chaos-engineering" size={14} />
-          </NodeGroup.Icon>
+          <NodeGroup.Icon simpleNodeIcon />
           <NodeGroup.Title>{date && <Text color="tertiaryBackground">Commits on {date}</Text>}</NodeGroup.Title>
           <NodeGroup.Content>
             {commitData && commitData.length > 0 && (
-              <StackedList.Root className="pointer-events-none">
+              <StackedList.Root>
                 {commitData.map((commit, repo_idx) => (
                   <StackedList.Item
-                    className="pointer-events-none hover:bg-transparent"
+                    className="hover:bg-transparent"
                     key={commit.title}
                     isLast={commitData.length - 1 === repo_idx}>
                     <StackedList.Field
@@ -105,12 +94,7 @@ export const PullRequestCommits = ({ ...props }: CommitProps) => {
                       }
                     />
                     {commit?.sha && (
-                      <StackedList.Field
-                        title={<CommitActions sha={commit.sha} enableCopy href={''} />}
-                        right
-                        label
-                        secondary
-                      />
+                      <StackedList.Field title={<CommitActions sha={commit.sha} />} right label secondary />
                     )}
                   </StackedList.Item>
                 ))}
