@@ -8,7 +8,9 @@ interface SettingsProps {
 
 const PRChangesSettings = ({ loadState, setLoadState }: SettingsProps) => {
   const settingsOptions = [
-    { key: 'data-loaded', label: 'Data loaded' },
+    { key: 'data-loaded-success', label: 'Data loaded - approved' },
+    { key: 'data-loaded-warning', label: 'Data loaded - warning' },
+    { key: 'data-loaded-error', label: 'Data loaded - error' },
     { key: 'loading', label: 'Loading' },
     { key: 'no-data', label: 'No data' }
   ]
