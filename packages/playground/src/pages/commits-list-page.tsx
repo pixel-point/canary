@@ -17,7 +17,7 @@ import {
   Spacer,
   Text
 } from '@harnessio/canary'
-import BranchChooser from '../components/branch-chooser'
+import { BranchChooser } from '../components/branch-chooser'
 import { mockRepos } from '../data/mockReposData'
 import { Link } from 'react-router-dom'
 

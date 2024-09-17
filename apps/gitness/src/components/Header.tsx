@@ -8,7 +8,7 @@ import { useGetSpaceURLParam } from '../framework/hooks/useGetSpaceParam'
 export default function Header() {
   const navigate = useNavigate()
   const space = useGetSpaceURLParam()
-  const { spaces, setSelectedSpace } = useAppContext()
+  const { spaces } = useAppContext()
 
   const projectsItem =
     spaces.map((space: TypesMembershipSpace) => ({
@@ -36,7 +36,6 @@ export default function Header() {
       projects={projectsItem}
       onSelectProject={selectedProject => {
         if (selectedProject?.name) {
-          setSelectedSpace(selectedProject.name)
           navigate(`/${selectedProject.name}/repos`)
         }
       }}

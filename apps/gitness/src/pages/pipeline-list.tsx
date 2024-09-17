@@ -50,7 +50,7 @@ export default function PipelinesPage() {
       <PipelineList
         // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
         pipelines={pipelines?.content?.map((item: TypesPipeline) => ({
-          id: item?.id,
+          id: item?.identifier,
           status: item?.execution?.status,
           name: item?.identifier,
           sha: item?.execution?.after,

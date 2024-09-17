@@ -18,7 +18,7 @@ interface PageProps {
   branchList: BranchListProps[]
 }
 
-export default function RepoSummaryPanel({ ...props }: PageProps) {
+export const BranchChooser = ({ ...props }: PageProps) => {
   const { name, branchList } = props
 
   return (

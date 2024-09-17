@@ -16,8 +16,8 @@ import {
 import { useListReposQuery } from '@harnessio/code-service-client'
 import { PaddingListLayout, SkeletonList, RepoList, Repo } from '@harnessio/playground'
 import { Link } from 'react-router-dom'
-import { useGetSpaceURLParam } from '../framework/hooks/useGetSpaceParam'
-import Header from '../components/Header'
+import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
+import Header from '../../components/Header'
 
 const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
 const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]

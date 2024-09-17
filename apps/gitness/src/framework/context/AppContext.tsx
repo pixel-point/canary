@@ -2,15 +2,13 @@ import React, { createContext, useContext, useState, ReactNode } from 'react'
 import {
   CodeServiceAPIClient,
   MembershipSpacesOkResponse,
-  TypesSpace,
+  TypesMembershipSpace,
   membershipSpaces
 } from '@harnessio/code-service-client'
 
 interface AppContextType {
-  selectedSpace: string
-  setSelectedSpace: (space: string) => void
-  spaces: TypesSpace[]
-  setSpaces: (spaces: TypesSpace[]) => void
+  spaces: TypesMembershipSpace[]
+  setSpaces: (spaces: TypesMembershipSpace[]) => void
 }
 
 const BASE_URL_PREFIX = '/api/v1'
@@ -18,8 +16,7 @@ const BASE_URL_PREFIX = '/api/v1'
 const AppContext = createContext<AppContextType | undefined>(undefined)
 
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [selectedSpace, setSelectedSpace] = useState<string>('')
-  const [spaces, setSpaces] = useState<TypesSpace[]>([])
+  const [spaces, setSpaces] = useState<TypesMembershipSpace[]>([])
 
   React.useEffect(() => {
     new CodeServiceAPIClient({
@@ -49,16 +46,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
       const spacesList: TypesMembershipSpace[] = response?.content
       setSpaces(spacesList)
-      const preSelectedProject = spacesList?.[0]
-      if (preSelectedProject?.space?.path) {
-        setSelectedSpace(preSelectedProject.space.path)
-      }
     })
   }, [])
 
-  return (
-    <AppContext.Provider value={{ selectedSpace, setSelectedSpace, spaces, setSpaces }}>{children}</AppContext.Provider>
-  )
+  return <AppContext.Provider value={{ spaces, setSpaces }}>{children}</AppContext.Provider>
 }
 
 export const useAppContext = (): AppContextType => {

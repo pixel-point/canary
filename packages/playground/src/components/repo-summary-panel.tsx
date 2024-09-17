@@ -25,7 +25,7 @@ interface PageProps {
   details: DetailsProps[]
 }
 
-export default function RepoSummaryPanel({ ...props }: PageProps) {
+export const RepoSummaryPanel = ({ ...props }: PageProps) => {
   const { title, timestamp, details } = props
 
   return (

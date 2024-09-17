@@ -19,7 +19,7 @@ import { PaddingListLayout } from '../layouts/PaddingListLayout'
 import { SkeletonList } from '../components/loaders/skeleton-list'
 import { NoSearchResults } from '../components/no-search-results'
 import { NoData } from '../components/no-data'
-import PlaygroundListSettings from '../settings/list-settings'
+import { PlaygroundListSettings } from '../settings/list-settings'
 import { Link } from 'react-router-dom'
 import { mockPipelines } from '../data/mockPipelinesData'
 

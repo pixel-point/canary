@@ -1,6 +1,10 @@
 export * from './components/layout/container'
 export * from './components/layout/layout'
 export * from './components/layout/topbar'
+export * from './layouts/FullWidth2ColumnLayout'
+export * from './components/repo-summary-panel'
+export * from './components/branch-chooser'
+export * from './components/repo-summary'
 
 export * from './components/execution-list'
 export * from './components/pipeline-list'

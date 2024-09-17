@@ -6,7 +6,7 @@ interface SettingsProps {
   setLoadState: (state: string) => void
 }
 
-const ListSettings = ({ loadState, setLoadState }: SettingsProps) => {
+export const PlaygroundListSettings = ({ loadState, setLoadState }: SettingsProps) => {
   const settingsOptions = [
     { key: 'data-loaded', label: 'Data loaded' },
     { key: 'loading', label: 'Loading' },
@@ -23,5 +23,3 @@ const ListSettings = ({ loadState, setLoadState }: SettingsProps) => {
     />
   )
 }
-
-export default ListSettings

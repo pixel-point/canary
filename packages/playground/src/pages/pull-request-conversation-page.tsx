@@ -22,7 +22,7 @@ import PullRequestOverview from '../components/pull-request/pull-request-overvie
 import PullRequestCommentBox from '../components/pull-request/pull-request-comment-box'
 import PullRequestSideBar from '../components/pull-request/pull-request-side-bar'
 import { processReviewDecision, useActivityFilters, useDateFilters } from '../components/pull-request/utils'
-import FullWidth2ColumnLayout from '../layouts/FullWidth2ColumnLayout'
+import { FullWidth2ColumnLayout } from '../layouts/FullWidth2ColumnLayout'
 import { mockCodeOwnerData } from '../data/mockCodeOwner'
 import { mockPullRequestActions } from '../data/mockPullRequestActions'
 import * as data from '../data/mockDiffViewerdata'
