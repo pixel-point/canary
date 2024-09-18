@@ -5,7 +5,7 @@ import { SignInPage } from '../pages/signin-page'
 import { useNavigate } from 'react-router-dom'
 import SignUpPage from './signup-page'
 import { mockProjects } from '../data/mockProjects'
-import { CreateWorkspacePage } from './create-workspace-page'
+import { CreateProjectPage } from './create-project-page'
 
 export default function LandingPage() {
   const [loadState, setLoadState] = useState('home-auth')
@@ -31,8 +31,8 @@ export default function LandingPage() {
         return (
           <Home isAuthed={false} handleSignUp={handleSignUp} handleSignIn={handleSignIn} title="Canary Playground" />
         )
-      case 'create-workspace':
-        return <CreateWorkspacePage handleSignUp={handleSignUp} handleSignIn={handleSignIn} />
+      case 'create-project':
+        return <CreateProjectPage handleSignUp={handleSignUp} handleSignIn={handleSignIn} />
       case 'sign-in':
         return <SignInPage handleSignUp={handleSignUp} handleSignIn={handleSignIn} />
       case 'sign-up':

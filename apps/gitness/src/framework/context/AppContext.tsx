@@ -3,13 +3,18 @@ import {
   CodeServiceAPIClient,
   MembershipSpacesOkResponse,
   TypesMembershipSpace,
-  membershipSpaces
+  membershipSpaces,
+  TypesSpace
 } from '@harnessio/code-service-client'
 
 interface AppContextType {
   spaces: TypesMembershipSpace[]
   setSpaces: (spaces: TypesMembershipSpace[]) => void
+  addSpaces: (newSpaces: TypesSpace[]) => void
 }
+//refactor the code to use the context api because of the error message from vite:
+//Could not Fast Refresh ("useAppContext" export is incompatible)
+//Vite's fast refresh mechanism cannot handle the way useAppContext is exported
 
 const BASE_URL_PREFIX = '/api/v1'
 
@@ -49,7 +54,14 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     })
   }, [])
 
-  return <AppContext.Provider value={{ spaces, setSpaces }}>{children}</AppContext.Provider>
+  const addSpaces = (newSpaces: TypesSpace[]) => {
+    setSpaces(prevSpaces => [
+      ...prevSpaces, // Keep the previous spaces
+      ...newSpaces // Add new spaces to the array
+    ])
+  }
+
+  return <AppContext.Provider value={{ spaces, setSpaces, addSpaces }}>{children}</AppContext.Provider>
 }
 
 export const useAppContext = (): AppContextType => {

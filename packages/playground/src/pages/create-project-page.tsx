@@ -6,31 +6,34 @@ import { z } from 'zod'
 import { Floating1ColumnLayout } from '../layouts/Floating1ColumnLayout'
 
 interface PageProps {
-  handleSignUp?: () => void
-  handleSignIn: (data: DataProps) => void
   isLoading?: boolean
+  onFormSubmit: (data: InputProps) => void
+  apiError?: string | null
 }
-
-interface DataProps {
-  email?: string
-  password?: string
+interface InputProps {
+  identifier: string
+  description?: string
+  is_public?: boolean
+  parent_ref?: string
 }
-
-const createWorkspaceSchema = z.object({
-  workspaceName: z.string().email({ message: 'Invalid workspace name' })
+//temperate the rule of form validation
+const createProjectSchema = z.object({
+  identifier: z.string().min(4, {
+    message: 'Your project name cannot be empty and must contain at least 4 characters.'
+  })
 })
 
-export function CreateWorkspacePage({ handleSignUp, handleSignIn, isLoading }: PageProps) {
+export function CreateProjectPage({ isLoading, onFormSubmit, apiError }: PageProps) {
   const {
     register,
-    handleSubmit,
+    handleSubmit, //// react-hook-form's handleSubmit
     formState: { errors }
-  } = useForm({
-    resolver: zodResolver(createWorkspaceSchema)
+  } = useForm<InputProps>({
+    resolver: zodResolver(createProjectSchema)
   })
 
-  const onSubmit = (data: DataProps) => {
-    handleSignIn(data)
+  const onSubmit = (data: InputProps) => {
+    onFormSubmit(data)
   }
 
   return (
@@ -41,33 +44,41 @@ export function CreateWorkspacePage({ handleSignUp, handleSignIn, isLoading }: P
             <Icon name="create-workspace" size={112} />
             <Spacer size={4} />
             <Text size={6} weight="medium" color="primary">
-              Create new workspace
+              Create your new project
             </Text>
             <Spacer size={2} />
             <Text size={2} color="tertiaryBackground">
-              Organize your projects, pipelines, and more.
+              Orginaze your projects, pipelines and more.
             </Text>
           </CardTitle>
         </CardHeader>
         <Spacer size={1} />
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Label htmlFor="email" variant="sm">
-              Workspace name
+            <Label htmlFor="identifier" variant="sm">
+              Project name
             </Label>
             <Spacer size={1} />
             <Input
-              id="workspaceName"
+              id="identifier"
               type="text"
-              {...register('workspaceName')}
-              placeholder="Enter your workspace name"
+              {...register('identifier', { required: true })}
+              placeholder="Please enter your project name, ex: my-project"
               autoFocus
             />
-            {errors.workspaceName && (
+            {errors.identifier && (
               <>
                 <Spacer size={2} />
                 <Text size={1} className="text-destructive">
-                  {errors.workspaceName.message?.toString()}
+                  {errors.identifier.message?.toString()}
+                </Text>
+              </>
+            )}
+            {apiError && (
+              <>
+                <Spacer size={2} />
+                <Text size={1} className="text-destructive">
+                  {apiError?.toString()}
                 </Text>
               </>
             )}
@@ -77,12 +88,6 @@ export function CreateWorkspacePage({ handleSignUp, handleSignIn, isLoading }: P
             </Button>
           </form>
           <Spacer size={4} />
-          <Text size={1} color="tertiaryBackground" weight="normal" align="center" className="block">
-            Want to use a different account?{' '}
-            <a className="text-primary" onClick={handleSignUp}>
-              Log out
-            </a>
-          </Text>
         </CardContent>
       </Card>
     </Floating1ColumnLayout>

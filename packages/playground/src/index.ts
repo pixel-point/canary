@@ -50,6 +50,7 @@ export * from './components/form-inputs/common/InputLabel'
 export * from './components/form-inputs/common/InputWrapper'
 
 export * from './pages/signin-page'
+export * from './pages/create-project-page'
 export * from './utils/utils'
 
 export * as ShaBadge from './components/sha-badge'
