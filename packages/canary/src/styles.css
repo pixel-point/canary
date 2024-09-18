@@ -75,6 +75,10 @@
     --error: var(--red);
     --warning: var(--orange);
     --ai: var(--purple);
+    --ai-button-stop-1: 36 60% 95%;
+    --ai-button-stop-2: 335 58% 76%;
+    --ai-button-stop-3: 246 66% 72%;
+    --ai-button-stop-4: 188 97% 89%;
     --diff-grey: hsl(0, 0%, 33%);
     --diff-add-content--: hsl(156, 28%, 10%);
     --diff-del-content--: hsl(356, 28%, 11%);
@@ -128,6 +132,10 @@
     --error: var(--red);
     --warning: var(--orange);
     --ai: var(--purple);
+    --ai-button-stop-1: 36 60% 95%;
+    --ai-button-stop-2: 335 58% 76%;
+    --ai-button-stop-3: 246 66% 72%;
+    --ai-button-stop-4: 188 97% 89%;
   }
 }
 

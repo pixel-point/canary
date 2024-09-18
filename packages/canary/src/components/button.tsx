@@ -16,7 +16,8 @@ const buttonVariants = cva(
         tertiary: 'bg-tertiary text-secondary-foreground shadow-sm hover:bg-tertiary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
-        split: 'border flex items-center gap-1.5 p-0'
+        split: 'border flex items-center gap-1.5 p-0',
+        'gradient-border': 'bg-background hover:bg-accent hover:text-accent-foreground'
       },
       size: {
         default: 'h-9 px-4 py-2',
@@ -41,6 +42,9 @@ const buttonVariants = cva(
       padding: {
         default: '',
         sm: 'px-2.5'
+      },
+      gradient: {
+        default: 'ai-button'
       }
     },
     compoundVariants: [
@@ -55,7 +59,8 @@ const buttonVariants = cva(
       size: 'default',
       theme: 'default',
       padding: 'default',
-      borderRadius: 'default'
+      borderRadius: 'default',
+      gradient: 'default'
     }
   }
 )
@@ -67,6 +72,7 @@ export interface ButtonProps
   loading?: boolean
   spinner?: React.ReactNode
   dropdown?: React.ReactNode
+  gradientType?: string
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -78,6 +84,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       padding,
       theme,
       borderRadius,
+      gradientType,
       asChild = false,
       loading,
       disabled,
@@ -100,6 +107,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             theme,
             padding,
             borderRadius,
+            gradientType,
             asChild,
             loading,
             disabled,
@@ -112,6 +120,26 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       children
     )
 
+    const gradientClassMap: Record<string, string> = {
+      'ai-button': 'bg-ai-button'
+    }
+
+    const gradientClass = gradientType ? gradientClassMap[gradientType] : ''
+
+    if (variant === 'gradient-border' && gradientType) {
+      return (
+        <div className={cn(buttonVariants({ size, borderRadius }), 'p-[1px]', gradientClass)}>
+          <Comp
+            className={cn(buttonVariants({ variant, padding, borderRadius, className }), 'h-full')}
+            ref={ref}
+            disabled={disabled || loading}
+            {...props}>
+            {_children}
+          </Comp>
+        </div>
+      )
+    }
+
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, theme, padding, borderRadius, className }))}
@@ -121,7 +149,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {variant === 'split' && dropdown ? (
           <>
             <div className="flex pl-2.5 pr-1 py-0.5 items-center">{_children}</div>
-            {dropdown && dropdown}
+            {dropdown}
           </>
         ) : (
           _children

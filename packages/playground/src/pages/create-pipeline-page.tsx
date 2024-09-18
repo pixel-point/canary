@@ -191,7 +191,7 @@ export default function CreatePipelinePage() {
       <AIPrompt
         placeholder="Start by describing your project goals or key requirements..."
         useAIButton={
-          <Button variant="outline" size="sm" borderRadius="full">
+          <Button variant="gradient-border" gradientType="ai-button" size="sm" borderRadius="full">
             <Icon name="ai-sparks" size={22} />
             <Text size={2} className="ml-1">
               Create with AI
