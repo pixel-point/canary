@@ -111,7 +111,7 @@ export default function RepoList({ repos, LinkComponent }: PageProps) {
               ))}
             </StackedList.Root>
           </NodeGroup.Content>
-          <NodeGroup.Connector />
+          <NodeGroup.Connector last />
         </NodeGroup.Root>
       )}
     </>

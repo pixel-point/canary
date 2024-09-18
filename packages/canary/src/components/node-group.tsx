@@ -57,8 +57,16 @@ function Content({ children }: { children: React.ReactNode }) {
   return <div className="col-start-2 row-start-2">{children}</div>
 }
 
-function Connector({ first }: { first?: boolean }) {
-  return <div className={cn('z-10 absolute left-[12px] top-0 bottom-0 w-[1px] border-l', { 'top-3': first })} />
+function Connector({ first, last }: { first?: boolean; last?: boolean }) {
+  return (
+    <div
+      className={cn(
+        'z-10 absolute left-[12px] top-0 bottom-0 w-[1px] border-l',
+        { 'top-3': first },
+        { 'bottom-8': last }
+      )}
+    />
+  )
 }
 
 export { Root, Icon, Title, Content, Connector }

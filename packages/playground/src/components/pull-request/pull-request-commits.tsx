@@ -59,9 +59,12 @@ export const PullRequestCommits = ({ ...props }: CommitProps) => {
     [data]
   )
 
+  const entries = Object.entries(commitsGroupedByDate)
+  const totalNodes = entries.length
+
   return (
     <>
-      {Object.entries(commitsGroupedByDate).map(([date, commitData]) => (
+      {entries.map(([date, commitData], node_idx) => (
         <NodeGroup.Root>
           <NodeGroup.Icon simpleNodeIcon />
           <NodeGroup.Title>{date && <Text color="tertiaryBackground">Commits on {date}</Text>}</NodeGroup.Title>
@@ -101,7 +104,7 @@ export const PullRequestCommits = ({ ...props }: CommitProps) => {
               </StackedList.Root>
             )}
           </NodeGroup.Content>
-          <NodeGroup.Connector />
+          <NodeGroup.Connector first={node_idx === 0} last={node_idx === totalNodes - 1} />
         </NodeGroup.Root>
       ))}
     </>
