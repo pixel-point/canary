@@ -57,16 +57,63 @@ function AccordionGroup({ title, children }: { title: string; children: React.Re
 interface ItemProps {
   icon: React.ReactElement<SVGSVGElement>
   text: string
+  description?: string
   active?: boolean
+  className?: string
+  submenuItem?: boolean
   onClick?: () => void
 }
 
-function Item({ icon, text, active }: ItemProps) {
-  return (
-    <div className={cn('group flex gap-2.5 items-center cursor-pointer group select-none py-1.5')}>
+function Item({ icon, text, description, active, submenuItem, className }: ItemProps) {
+  if (submenuItem)
+    return (
       <div
         className={cn(
-          'flex items-center text-secondary-muted group-hover:text-primary ease-in-out duration-100 truncate',
+          'group relative grid grid-cols-[auto_1fr] gap-3 items-center cursor-pointer group select-none py-1.5',
+          className
+        )}>
+        <div className="absolute -left-2 -right-2 w-auto h-full bg-transparent group-hover:bg-background rounded-md z-0" />
+        <div
+          className={cn(
+            'flex z-10 col-start-1 row-span-full items-center text-secondary-muted group-hover:text-primary ease-in-out duration-100 truncate',
+            { 'text-primary': active }
+          )}>
+          <div className="rounded-md bg-tertiary">{icon}</div>
+        </div>
+        <div className="flex flex-col items-start col-start-2">
+          <Text
+            size={2}
+            truncate
+            weight="medium"
+            className={cn(
+              '-tracking-[0.02em] text-primary-muted group-hover:text-primary ease-in-out duration-100 truncate z-10',
+              {
+                'text-primary': active
+              }
+            )}>
+            {text}
+          </Text>
+          <Text
+            size={1}
+            truncate
+            color="tertiaryBackground"
+            className={cn(
+              '-tracking-[0.02em] opacity-60 group-hover:opacity-100 group-hover:text-primary/80 ease-in-out duration-100 truncate z-10',
+              {
+                'text-primary': active
+              }
+            )}>
+            {description}
+          </Text>
+        </div>
+      </div>
+    )
+
+  return (
+    <div className={cn('group flex gap-2.5 items-center cursor-pointer group select-none py-1.5', className)}>
+      <div
+        className={cn(
+          'flex z-10 items-center text-secondary-muted group-hover:text-primary ease-in-out duration-100 truncate',
           { 'text-primary': active }
         )}>
         {icon}
@@ -75,7 +122,7 @@ function Item({ icon, text, active }: ItemProps) {
         size={2}
         weight="medium"
         className={cn(
-          '-tracking-[0.02em] text-primary-muted group-hover:text-primary ease-in-out duration-100 truncate',
+          '-tracking-[0.02em] text-primary-muted group-hover:text-primary ease-in-out duration-100 truncate z-10',
           {
             'text-primary': active
           }
