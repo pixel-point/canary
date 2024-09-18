@@ -17,7 +17,7 @@ import {
   Spacer,
   Text
 } from '@harnessio/canary'
-import { BranchChooser } from '../components/branch-chooser'
+import { BranchSelector } from '../components/branch-chooser'
 import { mockRepos } from '../data/mockReposData'
 import { Link } from 'react-router-dom'
 
@@ -75,7 +75,7 @@ export default function CommitsListPage() {
       <Spacer size={6} />
       <ListActions.Root>
         <ListActions.Left>
-          <BranchChooser name={'main'} branchList={mockBranchList} />
+          <BranchSelector name={'main'} branchList={mockBranchList} />
         </ListActions.Left>
         <ListActions.Right>
           <ListActions.Dropdown title="Filter" items={filterOptions} />

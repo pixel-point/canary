@@ -18,7 +18,7 @@ interface PageProps {
   branchList: BranchListProps[]
 }
 
-export const BranchChooser = ({ ...props }: PageProps) => {
+export const BranchSelector = ({ ...props }: PageProps) => {
   const { name, branchList } = props
 
   return (

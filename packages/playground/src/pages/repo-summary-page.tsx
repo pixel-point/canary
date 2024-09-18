@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { pick } from 'lodash-es'
 import {
   Spacer,
   ListActions,
@@ -14,7 +15,7 @@ import { Summary } from '../components/repo-summary'
 import { NoData } from '../components/no-data'
 import { NoSearchResults } from '../components/no-search-results'
 import { RepoSummaryPanel } from '../components/repo-summary-panel'
-import { BranchChooser } from '../components/branch-chooser'
+import { BranchSelector } from '../components/branch-chooser'
 import { SkeletonList } from '../components/loaders/skeleton-list'
 import { PlaygroundListSettings } from '../settings/list-settings'
 import { FullWidth2ColumnLayout } from '../layouts/FullWidth2ColumnLayout'
@@ -69,7 +70,12 @@ function RepoSummaryPage() {
   const renderListContent = () => {
     switch (loadState) {
       case 'data-loaded':
-        return <Summary files={mockFiles} />
+        return (
+          <Summary
+            files={mockFiles}
+            latestFile={pick(mockFiles[0], ['user', 'lastCommitMessage', 'timestamp', 'sha'])}
+          />
+        )
       case 'loading':
         return <SkeletonList />
       case 'no-search-matches':
@@ -93,7 +99,7 @@ function RepoSummaryPage() {
         <NoData
           insideTabView
           iconName="no-data-folder"
-          title="No pipelines yet"
+          title="No files yet"
           description={['There are no files in this repository yet.', 'Create new or import an existing file.']}
           primaryButton={{ label: 'Create file' }}
           secondaryButton={{ label: 'Import file' }}
@@ -112,7 +118,7 @@ function RepoSummaryPage() {
             <ListActions.Root>
               <ListActions.Left>
                 <ButtonGroup.Root>
-                  <BranchChooser name={'main'} branchList={mockBranchList} />
+                  <BranchSelector name={'main'} branchList={mockBranchList} />
                   <SearchBox.Root placeholder="Search" />
                 </ButtonGroup.Root>
               </ListActions.Left>

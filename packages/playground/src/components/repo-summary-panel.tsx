@@ -26,7 +26,7 @@ interface PageProps {
 }
 
 export const RepoSummaryPanel = ({ ...props }: PageProps) => {
-  const { title, timestamp, details } = props
+  const { title, details } = props
 
   return (
     <div className="flex flex-col">
@@ -51,9 +51,9 @@ export const RepoSummaryPanel = ({ ...props }: PageProps) => {
       </div>
 
       <Spacer size={2} />
-      <Text size={1} color={'tertiaryBackground'}>
+      {/* <Text size={1} color={'tertiaryBackground'}>
         Created {timestamp}
-      </Text>
+      </Text> */}
       <Spacer size={5} />
       <div className="flex flex-col gap-3">
         {details &&

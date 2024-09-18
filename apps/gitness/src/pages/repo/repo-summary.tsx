@@ -1,31 +1,50 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Button, ButtonGroup, Icon, ListActions, SearchBox, Spacer, StackedList, Text } from '@harnessio/canary'
 import {
   Floating1ColumnLayout,
   FullWidth2ColumnLayout,
   RepoSummaryPanel,
-  BranchChooser,
+  BranchSelector,
   SkeletonList,
-  NoSearchResults,
   Summary,
-  NoData
+  SummaryItemType,
+  NoData,
+  MarkdownViewer
 } from '@harnessio/playground'
 import {
   useListBranchesQuery,
   useSummaryQuery,
   TypesRepositorySummary,
-  useGetContentQuery
+  useGetContentQuery,
+  useFindRepositoryQuery,
+  pathDetails,
+  RepoPathsDetailsOutput,
+  GitPathDetails,
+  OpenapiGetContentOutput
 } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
-import { decodeGitContent, normalizeGitRef } from '../../utils/git-utils'
+import { decodeGitContent, getTrimmedSha, normalizeGitRef } from '../../utils/git-utils'
+import { timeAgo } from '../pipeline-edit/utils/time-utils'
 
 export const RepoSummary: React.FC = () => {
-  const [loadState] = useState('data-loaded')
+  const [loading, setLoading] = useState(false)
+  const [files, setFiles] = useState([])
   const repoRef = useGetRepoRef()
+
+  const { data: repository } = useFindRepositoryQuery({ repo_ref: repoRef })
+  // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
+  const defaultBranch = repository?.content?.default_branch
+  const normalizedGitRef = normalizeGitRef(defaultBranch)
+
   const { data: branches } = useListBranchesQuery({
     repo_ref: repoRef,
     queryParams: { include_commit: false, sort: 'date', order: 'asc', limit: 20, page: 1, query: '' }
   })
+
+  // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
+  const branchList = branches?.content?.map(item => ({
+    name: item?.name
+  }))
 
   const { data: repoSummary } = useSummaryQuery({
     repo_ref: repoRef,
@@ -36,53 +55,106 @@ export const RepoSummary: React.FC = () => {
     // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
     (repoSummary?.content || {}) as TypesRepositorySummary
 
-  const { data: yamlContentRaw } = useGetContentQuery({
+  const { data: readmeContent } = useGetContentQuery({
     path: 'README.md',
     repo_ref: repoRef,
-    queryParams: { include_commit: false, git_ref: normalizeGitRef('master') ?? '' }
+    queryParams: { include_commit: false, git_ref: normalizedGitRef }
   })
 
   // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-  const readmeContentRaw = yamlContentRaw?.content?.content?.data
+  const readmeContentRaw = readmeContent?.content?.content?.data
 
   const decodedReadmeContent = useMemo(() => {
     return decodeGitContent(readmeContentRaw)
-  }, [readmeContentRaw])
+  }, [readmeContent])
 
-  const renderListContent = () => {
-    switch (loadState) {
-      case 'data-loaded':
-        return <Summary files={[]} />
-      case 'loading':
-        return <SkeletonList />
-      case 'no-search-matches':
-        return (
-          <NoSearchResults
-            iconName="no-search-magnifying-glass"
-            title="No search results"
-            description={['Check your spelling and filter options,', 'or search for a different keyword.']}
-            primaryButton={{ label: 'Clear search' }}
-            secondaryButton={{ label: 'Clear filters' }}
-          />
-        )
-      default:
-        return null
+  const { data: repoDetails } = useGetContentQuery({
+    path: '',
+    repo_ref: repoRef,
+    queryParams: { include_commit: true, git_ref: normalizedGitRef }
+  })
+
+  const repoDetailsContent = repoDetails?.content
+  const repoEntryPathToFileTypeMap = useMemo(
+    (): Map<string, OpenapiGetContentOutput['type']> =>
+      new Map(
+        // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
+        repoDetailsContent?.content?.entries.map(entry => [entry.path, entry.type])
+      ),
+    // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
+    [repoDetailsContent?.content?.entries]
+  )
+
+  const getSummaryItemType = (type: OpenapiGetContentOutput['type']): SummaryItemType => {
+    if (type === 'dir') {
+      return SummaryItemType.Folder
+    } else if (type === 'file') {
+      return SummaryItemType.File
     }
   }
 
-  if (loadState == 'no-data') {
-    return (
-      <>
+  useEffect(() => {
+    setLoading(true)
+    if (repoEntryPathToFileTypeMap.size > 0) {
+      pathDetails({
+        queryParams: { git_ref: normalizedGitRef },
+        body: { paths: Array.from(repoEntryPathToFileTypeMap.keys()) },
+        repo_ref: repoRef
+      })
+        .then((response: RepoPathsDetailsOutput) => {
+          // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
+          if (response?.content?.details && response.content.details.length > 0) {
+            setFiles(
+              // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
+              response.content.details.map((item: GitPathDetails) => ({
+                id: item?.path,
+                name: item?.path,
+                type: item?.path && getSummaryItemType(repoEntryPathToFileTypeMap.get(item.path)),
+                user: { name: item?.last_commit?.author?.identity?.name },
+                lastCommitMessage: item?.last_commit?.message,
+                timestamp: item?.last_commit?.author?.when && timeAgo(item.last_commit.author.when),
+                sha: item?.last_commit?.sha && getTrimmedSha(item.last_commit.sha)
+              }))
+            )
+          }
+        })
+        .catch()
+        .finally(() => {
+          setLoading(false)
+        })
+    }
+  }, [repoEntryPathToFileTypeMap.size, repoRef])
+
+  const renderListContent = () => {
+    if (loading) return <SkeletonList />
+
+    if (!loading && repoEntryPathToFileTypeMap.size > 0) {
+      // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
+      const { author, message, sha } = repoDetailsContent?.latest_commit || {}
+      return (
+        <Summary
+          latestFile={{
+            user: {
+              name: author?.identity?.name || ''
+            },
+            lastCommitMessage: message || '',
+            timestamp: author?.when && timeAgo(author.when),
+            sha: sha && getTrimmedSha(sha)
+          }}
+          files={files}
+        />
+      )
+    } else
+      return (
         <NoData
           insideTabView
           iconName="no-data-folder"
-          title="No pipelines yet"
+          title="No files yet"
           description={['There are no files in this repository yet.', 'Create new or import an existing file.']}
           primaryButton={{ label: 'Create file' }}
           secondaryButton={{ label: 'Import file' }}
         />
-      </>
-    )
+      )
   }
   return (
     <Floating1ColumnLayout>
@@ -93,13 +165,7 @@ export const RepoSummary: React.FC = () => {
             <ListActions.Root>
               <ListActions.Left>
                 <ButtonGroup.Root>
-                  <BranchChooser
-                    name={'main'}
-                    branchList={// @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-                    branches?.content?.map(item => ({
-                      name: item?.name
-                    }))}
-                  />
+                  <BranchSelector name={defaultBranch} branchList={branchList} />
                   <SearchBox.Root placeholder="Search" />
                 </ButtonGroup.Root>
               </ListActions.Left>
@@ -120,15 +186,15 @@ export const RepoSummary: React.FC = () => {
               <StackedList.Item isHeader disableHover>
                 <StackedList.Field title={<Text color="tertiaryBackground">README.md</Text>} />
               </StackedList.Item>
-              {/* Need to render this decoded content in a markdown viewer */}
-              <StackedList.Item disableHover>{decodedReadmeContent}</StackedList.Item>
+              <StackedList.Item disableHover>
+                <MarkdownViewer source={decodedReadmeContent || ''} />
+              </StackedList.Item>
             </StackedList.Root>
           </>
         }
         rightColumn={
           <RepoSummaryPanel
             title="Summary"
-            timestamp={'May 6, 2024'}
             details={[
               {
                 id: '0',

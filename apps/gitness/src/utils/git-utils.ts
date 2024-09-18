@@ -10,7 +10,7 @@ export const decodeGitContent = (content = '') => {
       // Return original base64 content for binary file
       return content
     } catch (exception) {
-      console.error(exception) // eslint-disable-line no-console
+      console.error(exception)
     }
   }
   return ''
@@ -34,4 +34,10 @@ export const normalizeGitRef = (gitRef: string | undefined) => {
   } else {
     return `refs/heads/${gitRef}`
   }
+}
+
+const TRIMMED_SHA_LIMIT = 7
+
+export const getTrimmedSha = (sha: string): string => {
+  return sha.slice(0, TRIMMED_SHA_LIMIT)
 }

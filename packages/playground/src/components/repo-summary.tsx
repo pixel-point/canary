@@ -38,10 +38,11 @@ interface FileProps {
 }
 
 interface PageProps {
+  latestFile: Pick<FileProps, 'user' | 'lastCommitMessage' | 'timestamp' | 'sha'>
   files?: FileProps[]
 }
 
-const TopTitle = ({ file }: { file: FileProps }) => {
+const TopTitle = ({ file }: { file: Pick<FileProps, 'user' | 'lastCommitMessage' | 'timestamp' | 'sha'> }) => {
   const { user, lastCommitMessage } = file
 
   return (
@@ -64,9 +65,8 @@ const TopTitle = ({ file }: { file: FileProps }) => {
   )
 }
 
-const TopDetails = ({ file }: { file: FileProps }) => {
+const TopDetails = ({ file }: { file: Pick<FileProps, 'user' | 'lastCommitMessage' | 'timestamp' | 'sha'> }) => {
   const { sha, timestamp } = file
-
   return (
     <ButtonGroup.Root verticalAlign="center" spacing="2">
       <Text size={2} weight="normal" color="tertiaryBackground">
@@ -83,16 +83,16 @@ const TopDetails = ({ file }: { file: FileProps }) => {
 }
 
 export const Summary = ({ ...props }: PageProps) => {
-  const { files } = props
+  const { latestFile, files } = props
 
   return (
     <>
       <StackedList.Root>
         <StackedList.Item disableHover>
-          {files && files.length > 0 && files[0] ? (
+          {latestFile ? (
             <>
-              <StackedList.Field title={<TopTitle file={files[0]} />} />
-              <StackedList.Field right title={<TopDetails file={files[0]} />} />
+              <StackedList.Field title={<TopTitle file={latestFile} />} />
+              <StackedList.Field right title={<TopDetails file={latestFile} />} />
             </>
           ) : (
             <Text>No files available</Text>
