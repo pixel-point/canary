@@ -61,6 +61,7 @@ import PrMerge from '../icons/pr-merge.svg'
 import GitBranch from '../icons/git-branch.svg'
 import PrComment from '../icons/pr-comment.svg'
 import CreateWorkspace from '../icons/create-workspace.svg'
+import NoDataWebhooks from '../icons/no-data-webhooks.svg'
 import SubRocket from '../icons/sub-rocket.svg'
 import SubSocket from '../icons/sub-socket.svg'
 import SubFlag from '../icons/sub-flag.svg'
@@ -73,8 +74,6 @@ import SubReliability from '../icons/sub-reliability.svg'
 import SubShield from '../icons/sub-shield.svg'
 import SubChaos from '../icons/sub-chaos.svg'
 import SubRepository from '../icons/sub-repository.svg'
-
-// import Fork from '../icons/fork.svg'
 
 const IconNameMap = {
   'chevron-down': ChevronDown,
@@ -139,6 +138,7 @@ const IconNameMap = {
   'git-branch': GitBranch,
   'pr-comment': PrComment,
   'create-workspace': CreateWorkspace,
+  'no-data-webhooks': NoDataWebhooks,
   'sub-rocket': SubRocket,
   'sub-socket': SubSocket,
   'sub-flag': SubFlag,
@@ -151,7 +151,6 @@ const IconNameMap = {
   'sub-shield': SubShield,
   'sub-chaos': SubChaos,
   'sub-repository': SubRepository
-  // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 
 export interface IconProps {

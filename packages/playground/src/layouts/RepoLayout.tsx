@@ -26,6 +26,9 @@ const RepoLayout: React.FC = () => {
             <NavLink to={`pull-requests`}>
               <TabsTrigger value="pull-requests">Pull Requests</TabsTrigger>
             </NavLink>
+            <NavLink to={`webhooks`}>
+              <TabsTrigger value="webhooks">Webhooks</TabsTrigger>
+            </NavLink>
             <NavLink to={`branches`}>
               <TabsTrigger value="branches">Branches</TabsTrigger>
             </NavLink>

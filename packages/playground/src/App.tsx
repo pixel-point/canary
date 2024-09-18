@@ -25,6 +25,7 @@ import PullRequestCommitsPage from './pages/pull-request-commits-page'
 import RepoPipelineListPage from './pages/repo-pipeline-list-page'
 import RepoExecutionListPage from './pages/repo-execution-list-page'
 import CreatePipelinePage from './pages/create-pipeline-page'
+import RepoWebhooksListPage from './pages/repo-webhooks-page'
 
 const router = createBrowserRouter([
   {
@@ -116,6 +117,10 @@ const router = createBrowserRouter([
           {
             path: 'branches',
             element: <BranchesListPage />
+          },
+          {
+            path: 'webhooks',
+            element: <RepoWebhooksListPage />
           },
           {
             path: 'commits',
