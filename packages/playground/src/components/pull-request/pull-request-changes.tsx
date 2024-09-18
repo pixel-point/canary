@@ -71,7 +71,6 @@ const PullRequestAccordion: React.FC<{
             <AccordionTrigger leftChevron className="text-left p-4">
               <StackedList.Field title={<LineTitle text={title} />} />
             </AccordionTrigger>
-
             <AccordionContent>
               <div className="flex border-t w-full p-4">
                 <div className="bg-transparent">

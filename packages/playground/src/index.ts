@@ -54,3 +54,4 @@ export * from './pages/create-project-page'
 export * from './utils/utils'
 
 export * as ShaBadge from './components/sha-badge'
+export * as FileViewGauge from './components/file-view-gauge'
