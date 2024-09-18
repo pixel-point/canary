@@ -16,31 +16,59 @@ const badgeVariants = cva(
       size: {
         default: 'px-2.5 py-0.5 text-xs font-semibold',
         lg: 'px-3 py-1 text-xs font-normal',
-        sm: 'px-2 py-0 text-[12px] font-normal',
+        sm: 'h-5 px-1 text-[12px]',
         xs: 'px-1.5 py-0 text-[11px] font-light'
       },
+      borderRadius: {
+        default: '',
+        full: 'rounded-full'
+      },
       hover: {
-        enabled: '', // Default hover styles are applied
-        disabled: 'hover:bg-transparent hover:shadow-none' // No hover effect
+        enabled: '',
+        disabled: 'hover:bg-transparent hover:shadow-none'
+      },
+      theme: {
+        default: '',
+        destructive: 'text-error border-[hsla(var(--error),0.3)] bg-[hsla(var(--error),0.1)]',
+        warning: 'text-warning border-[hsla(var(--warning),0.3)] bg-[hsla(var(--warning),0.1)]',
+        success: 'text-success border-[hsla(var(--success),0.3)] bg-[hsla(var(--success),0.1)]',
+        muted: 'text-tertiary-background border-tertiary-background/20 bg-tertiary-background/10'
       }
     },
+    compoundVariants: [
+      {
+        size: 'sm',
+        borderRadius: 'full',
+        className: 'px-2'
+      }
+    ],
     defaultVariants: {
       variant: 'default',
       size: 'default',
-      hover: 'enabled' // Default hover behavior enabled
+      hover: 'enabled',
+      theme: 'default'
     }
   }
 )
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {
-  disableHover?: boolean // Add this prop to control hover behavior
+  disableHover?: boolean
+  color?: 'destructive' | 'success' | 'warning' | 'muted' | 'default'
 }
 
-function Badge({ className, variant, size, disableHover, ...props }: BadgeProps) {
+function Badge({
+  className,
+  variant,
+  size,
+  borderRadius = 'default',
+  theme = 'default',
+  disableHover,
+  ...props
+}: BadgeProps) {
   return (
     <div
       className={cn(
-        badgeVariants({ variant, size, hover: disableHover ? 'disabled' : 'enabled' }), // Apply hover variant based on prop
+        badgeVariants({ variant, size, borderRadius, theme, hover: disableHover ? 'disabled' : 'enabled' }),
         className
       )}
       {...props}

@@ -91,11 +91,7 @@ const Title = ({
         labels.map((l, l_idx) => {
           const { border, text, bg } = colorMapping[l.color] || { border: '', text: '' }
           return (
-            <Badge
-              key={l_idx}
-              variant="outline"
-              size={'sm'}
-              className={cn('rounded-full text-[12px] font-normal', border, text, bg)}>
+            <Badge key={l_idx} variant="outline" size={'sm'} borderRadius="full" className={cn(border, text, bg)}>
               <p className="truncate">{l.text}</p>
             </Badge>
           )

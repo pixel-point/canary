@@ -1,4 +1,4 @@
-import { Badge, cn, Icon, StackedList } from '@harnessio/canary'
+import { Badge, Icon, StackedList } from '@harnessio/canary'
 import React from 'react'
 
 export interface Repo {
@@ -35,17 +35,12 @@ const Stats = ({ stars, forks, pulls }: { stars: number; forks: number; pulls: n
 )
 
 const Title = ({ title, isPrivate }: { title: string; isPrivate: boolean }) => (
-  <>
+  <div className="inline-flex gap-2 items-center">
     {title}
-    <Badge
-      size="sm"
-      disableHover
-      className={cn('ml-3 rounded-full border border-[hsla(var(--success),0.4)] text-success bg-transparent', {
-        'border border-muted bg-background text-tertiary-background': isPrivate
-      })}>
+    <Badge size="sm" disableHover borderRadius="full" theme={isPrivate ? 'muted' : 'success'}>
       {isPrivate ? 'Private' : 'Public'}
     </Badge>
-  </>
+  </div>
 )
 
 export function RepoList({ repos, LinkComponent }: PageProps) {

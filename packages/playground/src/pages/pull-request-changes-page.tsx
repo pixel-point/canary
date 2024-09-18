@@ -136,23 +136,21 @@ const FilterSortViewDropdowns: React.FC<FilterViewProps> = ({ active }) => {
               <DropdownMenuContent align="end" className="mt-1">
                 <DropdownMenuGroup>
                   {mockApprovalItems &&
-                    mockApprovalItems[0].items.map(itm => {
-                      return (
-                        <DropdownMenuItem key={itm.id}>
-                          <RadioGroup className="flex items-start gap-2">
-                            <RadioGroupItem value="false" className="w-3 h-3 text-tertiary-background mt-1" />
-                            <div className="flex flex-col">
-                              <Text truncate size={1} color="primary">
-                                {itm.title}
-                              </Text>
-                              <Text size={1} color="tertiaryBackground">
-                                {itm.description}
-                              </Text>
-                            </div>
-                          </RadioGroup>
-                        </DropdownMenuItem>
-                      )
-                    })}
+                    mockApprovalItems[index].items.map(itm => (
+                      <DropdownMenuItem key={itm.id}>
+                        <RadioGroup className="flex items-start gap-2">
+                          <RadioGroupItem value="false" className="w-3 h-3 text-tertiary-background mt-1" />
+                          <div className="flex flex-col">
+                            <Text truncate size={1} color="primary">
+                              {itm.title}
+                            </Text>
+                            <Text size={1} color="tertiaryBackground">
+                              {itm.description}
+                            </Text>
+                          </div>
+                        </RadioGroup>
+                      </DropdownMenuItem>
+                    ))}
                 </DropdownMenuGroup>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -165,18 +163,20 @@ const FilterSortViewDropdowns: React.FC<FilterViewProps> = ({ active }) => {
 }
 
 export default function PullRequestChangesPage() {
-  const [loadState, setLoadState] = useState('data-loaded-success') // Change to data-loaded when component work is finished
+  const [loadState, setLoadState] = useState('data-loaded-success') // Updated loadState default to prevent infinite render
 
   const pullRequestData = [
-    'All checks have succeeded',
-    'New commit pushed',
-    'Conflicts resolved',
-    'All checks have succeeded',
-    'New commit pushed',
-    'Conflicts resolved',
-    'All checks have succeeded',
-    'New commit pushed',
-    'Conflicts resolved'
+    { text: 'All checks have succeeded', numAdditions: 34, numDeletions: 36 },
+    { text: 'New commit pushed', numAdditions: 17, numDeletions: 19 },
+    { text: 'Conflicts resolved', numAdditions: 9, numDeletions: 32 },
+    { text: 'All checks have succeeded', numAdditions: 2, numDeletions: 0 },
+    { text: 'All checks have succeeded', numAdditions: 34 },
+    { text: 'New commit pushed', numAdditions: 99, numDeletions: 200 },
+    { text: 'Conflicts resolved', numAdditions: 24, numDeletions: 30 },
+    { text: 'All checks have succeeded', numAdditions: 34, numDeletions: 36 },
+    { text: 'All checks have succeeded', numAdditions: 322, numDeletions: 400 },
+    { text: 'New commit pushed', numAdditions: 29, numDeletions: 30 },
+    { text: 'Conflicts resolved', numAdditions: 45, numDeletions: 76 }
   ]
 
   const renderContent = () => {
@@ -212,6 +212,4 @@ export default function PullRequestChangesPage() {
       <PlaygroundPullRequestChangesSettings loadState={loadState} setLoadState={setLoadState} />
     </>
   )
-
-  return null
 }
