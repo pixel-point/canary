@@ -14,7 +14,7 @@ import {
   Spacer,
   Text
 } from '@harnessio/canary'
-import { useListPipelinesQuery, TypesPipeline, ListPipelinesOkResponse } from '@harnessio/code-service-client'
+import { useListPipelinesQuery, TypesPipeline } from '@harnessio/code-service-client'
 import { PipelineList, MeterState, PaddingListLayout, SkeletonList } from '@harnessio/playground'
 import { ExecutionState } from '../types'
 import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
@@ -32,10 +32,7 @@ export default function PipelinesPage() {
     },
     /* To enable mock data */
     {
-      // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-      placeholderData: {
-        content: [{ identifier: 'pipeline1' }, { identifier: 'pipeline2' }]
-      } as ListPipelinesOkResponse,
+      placeholderData: [{ identifier: 'pipeline1' }, { identifier: 'pipeline2' }],
       enabled: true
     }
   )
@@ -48,8 +45,7 @@ export default function PipelinesPage() {
     }
     return (
       <PipelineList
-        // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-        pipelines={pipelines?.content?.map((item: TypesPipeline) => ({
+        pipelines={pipelines?.map((item: TypesPipeline) => ({
           id: item?.identifier,
           status: item?.execution?.status,
           name: item?.identifier,

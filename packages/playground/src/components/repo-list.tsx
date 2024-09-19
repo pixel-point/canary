@@ -4,12 +4,12 @@ import React from 'react'
 export interface Repo {
   id: string
   name: string
-  description?: string
   private: boolean
-  stars: number
   forks: number
   pulls: number
   timestamp: string
+  description?: string
+  stars?: number
 }
 
 export interface PageProps {
@@ -17,7 +17,7 @@ export interface PageProps {
   LinkComponent: React.ComponentType<{ to: string; children: React.ReactNode }>
 }
 
-const Stats = ({ stars, forks, pulls }: { stars: number; forks: number; pulls: number }) => (
+const Stats = ({ stars, forks, pulls }: { stars?: number; forks: number; pulls: number }) => (
   <div className="flex gap-3 justify-end items-center select-none font-medium">
     <span className="flex gap-1.5 items-center">
       <Icon width={16} name="star" className="text-tertiary-background" />

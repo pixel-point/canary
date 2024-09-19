@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { SignInPage } from '@harnessio/playground'
 import { useOnLoginMutation } from '@harnessio/code-service-client'
 import { useNavigate } from 'react-router-dom'
+import { DataProps } from '@harnessio/playground'
 
 export default function SignIn() {
   const navigate = useNavigate()
@@ -16,10 +17,8 @@ export default function SignIn() {
   useEffect(() => {
     if (isSuccess) {
       // Redirect to the home page
-      // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-      if (data?.content?.access_token) {
-        // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-        localStorage.setItem('token', data.content.access_token)
+      if (data?.access_token) {
+        localStorage.setItem('token', data.access_token)
       }
       navigate('/')
     } else {
@@ -30,7 +29,7 @@ export default function SignIn() {
   return (
     <SignInPage
       isLoading={isLoading}
-      handleSignIn={data => {
+      handleSignIn={(data: DataProps) => {
         login({
           body: {
             login_identifier: data.email,

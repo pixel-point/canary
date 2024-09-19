@@ -23,7 +23,7 @@ interface PageProps {
   isLoading?: boolean
 }
 
-interface DataProps {
+export interface DataProps {
   email?: string
   password?: string
 }

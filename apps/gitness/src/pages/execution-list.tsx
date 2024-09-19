@@ -27,8 +27,7 @@ export default function ExecutionsListPage() {
     },
     /* To enable mock data */
     {
-      // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-      placeholderData: { content: [{ identifier: 'pipeline1' }, { identifier: 'pipeline2' }] },
+      placeholderData: [{ message: 'Pipeline execution failed' }, { message: 'Execution successful' }],
       enabled: true
     }
   )
@@ -40,12 +39,10 @@ export default function ExecutionsListPage() {
       return <SkeletonList />
     }
     if (isSuccess) {
-      // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-      if (executions?.content?.length) {
+      if (executions?.length) {
         return (
           <ExecutionList
-            // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-            executions={executions?.content?.map((item: TypesExecution) => ({
+            executions={executions?.map((item: TypesExecution) => ({
               id: item?.number,
               number: item?.number,
               status: item?.status,

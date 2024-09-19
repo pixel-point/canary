@@ -20,11 +20,9 @@ export default function CreateProject() {
     {
       onSuccess: (data: CreateSpaceOkResponse) => {
         setApiError(null)
+        addSpaces([data])
         //onSuccess in react-query has allowed 200-299
-        const spaceData = data?.content || data
-        const spaceId = data?.content.id || data.id
-        addSpaces([spaceData])
-        navigate(`/${spaceId}/repos`)
+        navigate(`/${data?.identifier}/repos`)
       },
       onError: (error: CreateSpaceErrorResponse) => {
         const message = error.message || 'An unknown error occurred.'

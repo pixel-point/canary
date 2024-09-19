@@ -15,12 +15,10 @@ export default function PullRequestCommitsPage() {
     if (isFetching) {
       return <SkeletonList />
     }
-    // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-    if (commitData?.content?.length) {
+    if (commitData?.length) {
       return (
         <PullRequestCommits
-          // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-          data={commitData?.content.map((item: TypesCommit) => ({
+          data={commitData?.map((item: TypesCommit) => ({
             sha: item.sha,
             parent_shas: item.parent_shas,
             title: item.title,

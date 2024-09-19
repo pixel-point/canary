@@ -27,13 +27,13 @@ interface UserProps {
   avatarUrl?: string
 }
 
-interface FileProps {
+export interface FileProps {
   id: string
   type: SummaryItemType
-  user?: UserProps
   name: string
   lastCommitMessage: string
   timestamp: string
+  user?: UserProps
   sha?: string
 }
 

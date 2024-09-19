@@ -16,8 +16,7 @@ const PullRequestLayout: React.FC = () => {
 
   useEffect(() => {
     if (!isFetching && pullRequestData) {
-      // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-      setPullRequest(pullRequestData.content)
+      setPullRequest(pullRequestData)
     }
   }, [pullRequestData, isFetching])
 

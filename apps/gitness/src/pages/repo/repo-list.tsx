@@ -13,11 +13,12 @@ import {
   Spacer,
   Text
 } from '@harnessio/canary'
-import { useListReposQuery } from '@harnessio/code-service-client'
-import { PaddingListLayout, SkeletonList, RepoList, Repo } from '@harnessio/playground'
+import { useListReposQuery, RepoRepositoryOutput } from '@harnessio/code-service-client'
+import { PaddingListLayout, SkeletonList, RepoList } from '@harnessio/playground'
 import { Link } from 'react-router-dom'
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
 import Header from '../../components/Header'
+import { timeAgoFromEpochTime } from '../pipeline-edit/utils/time-utils'
 
 const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
 const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
@@ -37,18 +38,17 @@ export default function ReposListPage() {
       data && (
         <RepoList
           LinkComponent={LinkComponent}
-          // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-          repos={data?.content?.map(repo => {
+          repos={data?.map((repo: RepoRepositoryOutput) => {
             return {
               id: repo.id,
               name: repo.identifier,
               description: repo.description,
-              private: repo.private,
-              stars: repo.stars,
-              forks: repo.forks,
-              pulls: repo.pulls,
-              timestamp: repo.timestamp
-            } as Repo
+              private: !repo.is_public,
+              stars: 0,
+              forks: repo.num_forks,
+              pulls: repo.num_pulls,
+              timestamp: repo.updated && timeAgoFromEpochTime(repo.updated)
+            }
           })}
         />
       )

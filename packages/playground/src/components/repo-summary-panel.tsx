@@ -21,12 +21,12 @@ interface DetailsProps {
 
 interface PageProps {
   title: string
-  timestamp: string
   details: DetailsProps[]
+  timestamp?: string
 }
 
 export const RepoSummaryPanel = ({ ...props }: PageProps) => {
-  const { title, details } = props
+  const { title, details, timestamp } = props
 
   return (
     <div className="flex flex-col">
@@ -51,9 +51,11 @@ export const RepoSummaryPanel = ({ ...props }: PageProps) => {
       </div>
 
       <Spacer size={2} />
-      {/* <Text size={1} color={'tertiaryBackground'}>
-        Created {timestamp}
-      </Text> */}
+      {timestamp && (
+        <Text size={1} color={'tertiaryBackground'}>
+          Created {timestamp}
+        </Text>
+      )}
       <Spacer size={5} />
       <div className="flex flex-col gap-3">
         {details &&

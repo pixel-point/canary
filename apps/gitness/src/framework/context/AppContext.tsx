@@ -12,9 +12,6 @@ interface AppContextType {
   setSpaces: (spaces: TypesMembershipSpace[]) => void
   addSpaces: (newSpaces: TypesSpace[]) => void
 }
-//refactor the code to use the context api because of the error message from vite:
-//Could not Fast Refresh ("useAppContext" export is incompatible)
-//Vite's fast refresh mechanism cannot handle the way useAppContext is exported
 
 const BASE_URL_PREFIX = '/api/v1'
 
@@ -48,17 +45,12 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     membershipSpaces({
       queryParams: { page: 1, limit: 10, sort: 'identifier', order: 'asc' }
     }).then((response: MembershipSpacesOkResponse) => {
-      // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-      const spacesList: TypesMembershipSpace[] = response?.content
-      setSpaces(spacesList)
+      setSpaces(response)
     })
   }, [])
 
   const addSpaces = (newSpaces: TypesSpace[]) => {
-    setSpaces(prevSpaces => [
-      ...prevSpaces, // Keep the previous spaces
-      ...newSpaces // Add new spaces to the array
-    ])
+    setSpaces(prevSpaces => [...prevSpaces, ...newSpaces])
   }
 
   return <AppContext.Provider value={{ spaces, setSpaces, addSpaces }}>{children}</AppContext.Provider>

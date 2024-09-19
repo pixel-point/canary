@@ -7,6 +7,7 @@ import {
   BranchSelector,
   SkeletonList,
   Summary,
+  FileProps,
   SummaryItemType,
   NoData,
   MarkdownViewer
@@ -14,13 +15,13 @@ import {
 import {
   useListBranchesQuery,
   useSummaryQuery,
-  TypesRepositorySummary,
   useGetContentQuery,
   useFindRepositoryQuery,
   pathDetails,
   RepoPathsDetailsOutput,
   GitPathDetails,
-  OpenapiGetContentOutput
+  OpenapiGetContentOutput,
+  OpenapiContentInfo
 } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { decodeGitContent, getTrimmedSha, normalizeGitRef } from '../../utils/git-utils'
@@ -28,12 +29,11 @@ import { timeAgo } from '../pipeline-edit/utils/time-utils'
 
 export const RepoSummary: React.FC = () => {
   const [loading, setLoading] = useState(false)
-  const [files, setFiles] = useState([])
+  const [files, setFiles] = useState<FileProps[]>([])
   const repoRef = useGetRepoRef()
 
   const { data: repository } = useFindRepositoryQuery({ repo_ref: repoRef })
-  // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-  const defaultBranch = repository?.content?.default_branch
+  const defaultBranch = repository?.default_branch
   const normalizedGitRef = normalizeGitRef(defaultBranch)
 
   const { data: branches } = useListBranchesQuery({
@@ -41,8 +41,7 @@ export const RepoSummary: React.FC = () => {
     queryParams: { include_commit: false, sort: 'date', order: 'asc', limit: 20, page: 1, query: '' }
   })
 
-  // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-  const branchList = branches?.content?.map(item => ({
+  const branchList = branches?.map(item => ({
     name: item?.name
   }))
 
@@ -51,9 +50,7 @@ export const RepoSummary: React.FC = () => {
     queryParams: { include_commit: false, sort: 'date', order: 'asc', limit: 20, page: 1, query: '' }
   })
 
-  const { branch_count, default_branch_commit_count, pull_req_summary, tag_count } =
-    // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-    (repoSummary?.content || {}) as TypesRepositorySummary
+  const { branch_count, default_branch_commit_count, pull_req_summary, tag_count } = repoSummary || {}
 
   const { data: readmeContent } = useGetContentQuery({
     path: 'README.md',
@@ -61,11 +58,8 @@ export const RepoSummary: React.FC = () => {
     queryParams: { include_commit: false, git_ref: normalizedGitRef }
   })
 
-  // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-  const readmeContentRaw = readmeContent?.content?.content?.data
-
   const decodedReadmeContent = useMemo(() => {
-    return decodeGitContent(readmeContentRaw)
+    return decodeGitContent(readmeContent?.content?.data)
   }, [readmeContent])
 
   const { data: repoDetails } = useGetContentQuery({
@@ -74,23 +68,17 @@ export const RepoSummary: React.FC = () => {
     queryParams: { include_commit: true, git_ref: normalizedGitRef }
   })
 
-  const repoDetailsContent = repoDetails?.content
-  const repoEntryPathToFileTypeMap = useMemo(
-    (): Map<string, OpenapiGetContentOutput['type']> =>
-      new Map(
-        // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-        repoDetailsContent?.content?.entries.map(entry => [entry.path, entry.type])
-      ),
-    // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-    [repoDetailsContent?.content?.entries]
-  )
+  const repoEntryPathToFileTypeMap = useMemo((): Map<string, OpenapiGetContentOutput['type']> => {
+    if (repoDetails?.content?.entries?.length === 0) return new Map()
+    const nonEmtpyPathEntries = repoDetails?.content?.entries?.filter(entry => !!entry.path) || []
+    return new Map(nonEmtpyPathEntries.map((entry: OpenapiContentInfo) => [entry?.path ? entry.path : '', entry.type]))
+  }, [repoDetails?.content?.entries])
 
   const getSummaryItemType = (type: OpenapiGetContentOutput['type']): SummaryItemType => {
     if (type === 'dir') {
       return SummaryItemType.Folder
-    } else if (type === 'file') {
-      return SummaryItemType.File
     }
+    return SummaryItemType.File
   }
 
   useEffect(() => {
@@ -102,19 +90,22 @@ export const RepoSummary: React.FC = () => {
         repo_ref: repoRef
       })
         .then((response: RepoPathsDetailsOutput) => {
-          // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-          if (response?.content?.details && response.content.details.length > 0) {
+          if (response?.details && response.details.length > 0) {
             setFiles(
-              // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-              response.content.details.map((item: GitPathDetails) => ({
-                id: item?.path,
-                name: item?.path,
-                type: item?.path && getSummaryItemType(repoEntryPathToFileTypeMap.get(item.path)),
-                user: { name: item?.last_commit?.author?.identity?.name },
-                lastCommitMessage: item?.last_commit?.message,
-                timestamp: item?.last_commit?.author?.when && timeAgo(item.last_commit.author.when),
-                sha: item?.last_commit?.sha && getTrimmedSha(item.last_commit.sha)
-              }))
+              response.details.map(
+                (item: GitPathDetails) =>
+                  ({
+                    id: item?.path || '',
+                    type: item?.path
+                      ? getSummaryItemType(repoEntryPathToFileTypeMap.get(item.path))
+                      : SummaryItemType.File,
+                    name: item?.path || '',
+                    lastCommitMessage: item?.last_commit?.message || '',
+                    timestamp: item?.last_commit?.author?.when ? timeAgo(item.last_commit.author.when) : '',
+                    user: { name: item?.last_commit?.author?.identity?.name },
+                    sha: item?.last_commit?.sha && getTrimmedSha(item.last_commit.sha)
+                  }) as FileProps
+              )
             )
           }
         })
@@ -129,8 +120,7 @@ export const RepoSummary: React.FC = () => {
     if (loading) return <SkeletonList />
 
     if (!loading && repoEntryPathToFileTypeMap.size > 0) {
-      // @ts-expect-error remove "@ts-expect-error" once type issue for "content" is resolved
-      const { author, message, sha } = repoDetailsContent?.latest_commit || {}
+      const { author, message, sha } = repoDetails?.latest_commit || {}
       return (
         <Summary
           latestFile={{

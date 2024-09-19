@@ -1,5 +1,5 @@
 import { Topbar, Text } from '@harnessio/canary'
-import { TopBarWidget } from '@harnessio/playground'
+import { TopBarWidget, Project } from '@harnessio/playground'
 import { useNavigate } from 'react-router-dom'
 import { TypesMembershipSpace } from '@harnessio/code-service-client'
 import { useAppContext } from '../framework/context/AppContext'
@@ -11,15 +11,12 @@ export default function Header() {
   const { spaces } = useAppContext()
 
   const projectsItem =
-    spaces.map((space: TypesMembershipSpace) => ({
+    spaces?.map((space: TypesMembershipSpace) => ({
       id: space?.space?.id,
       name: space?.space?.path
     })) || []
 
   if (projectsItem.length === 0) {
-    //temporary for edge cases
-    //will redirect to the create project page for next steps if the user doesn't have any projects
-    //currently the create project page is not implemented in the playground
     return (
       <Topbar.Root>
         <Topbar.Left>
@@ -34,7 +31,7 @@ export default function Header() {
   return (
     <TopBarWidget
       projects={projectsItem}
-      onSelectProject={selectedProject => {
+      onSelectProject={(selectedProject: Project) => {
         if (selectedProject?.name) {
           navigate(`/${selectedProject.name}/repos`)
         }
