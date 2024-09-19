@@ -42,7 +42,7 @@ const PullRequestLayout: React.FC = () => {
                 <Icon size={16} name="tube-sign" />
                 Commits
                 <Badge variant="outline" size="xs">
-                  2
+                  {pullRequest?.stats?.commits}
                 </Badge>
               </TabsTrigger>
             </NavLink>
@@ -51,7 +51,7 @@ const PullRequestLayout: React.FC = () => {
                 <Icon size={14} name="changes" />
                 Changes
                 <Badge variant="outline" size="xs">
-                  2
+                  {pullRequest?.stats?.files_changed}
                 </Badge>
               </TabsTrigger>
             </NavLink>

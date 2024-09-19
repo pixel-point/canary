@@ -1,14 +1,4 @@
-import {
-  ListPagination,
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-  Spacer
-} from '@harnessio/canary'
+import { Spacer } from '@harnessio/canary'
 import { NoData, PullRequestCommits, SkeletonList } from '@harnessio/playground'
 import { useListPullReqCommitsQuery, TypesCommit } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
@@ -56,45 +46,6 @@ export default function PullRequestCommitsPage() {
       {renderContent()}
       <Spacer size={8} />
       {/* TODO: actually add pagination when apis are implemented */}
-      {!isFetching && (
-        <ListPagination.Root>
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious size="sm" href="#" />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink isActive size="sm_icon" href="#">
-                  1
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink size="sm_icon" href="#">
-                  2
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink size="sm_icon" href="#">
-                  <PaginationEllipsis />
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink size="sm_icon" href="#">
-                  4
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink size="sm_icon" href="#">
-                  5
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext size="sm" href="#" />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </ListPagination.Root>
-      )}
     </>
   )
 }

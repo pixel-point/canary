@@ -1,18 +1,5 @@
 import { TypesExecution, useListExecutionsQuery } from '@harnessio/code-service-client'
-import {
-  ListActions,
-  ListPagination,
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-  SearchBox,
-  Spacer,
-  Text
-} from '@harnessio/canary'
+import { ListActions, SearchBox, Spacer, Text } from '@harnessio/canary'
 import { PaddingListLayout, ExecutionList, SkeletonList, timeDistance, NoData } from '@harnessio/playground'
 import { ExecutionState } from '../types'
 import { Link, useParams } from 'react-router-dom'
@@ -118,44 +105,6 @@ export default function ExecutionsListPage() {
         <Spacer size={5} />
         {renderListContent()}
         <Spacer size={8} />
-        <ListPagination.Root>
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious size="sm" href="#" />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink isActive size="sm_icon" href="#">
-                  1
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink size="sm_icon" href="#">
-                  2
-                </PaginationLink>
-              </PaginationItem>
-
-              <PaginationItem>
-                <PaginationLink size="sm_icon" href="#">
-                  <PaginationEllipsis />
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink size="sm_icon" href="#">
-                  4
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink size="sm_icon" href="#">
-                  5
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext size="sm" href="#" />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </ListPagination.Root>
       </PaddingListLayout>
     </>
   )

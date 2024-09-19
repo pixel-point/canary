@@ -17,6 +17,7 @@ import { AppProvider } from './framework/context/AppContext'
 import { RepoSummary } from './pages/repo/repo-summary'
 import CreateProject from './pages/create-project'
 import { PipelineCreate } from './pages/pipeline-create/pipeline-create'
+import RepoCommitsPage from './pages/repo/repo-commits'
 
 export default function App() {
   const router = createBrowserRouter([
@@ -69,6 +70,10 @@ export default function App() {
                   element: <PullRequestCommitsPage />
                 }
               ]
+            },
+            {
+              path: 'commits',
+              element: <RepoCommitsPage />
             }
           ]
         },
