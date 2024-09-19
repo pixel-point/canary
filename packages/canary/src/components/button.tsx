@@ -17,11 +17,11 @@ const buttonVariants = cva(
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
         split: 'border flex items-center gap-1.5 p-0',
-        'gradient-border': 'bg-background hover:bg-accent hover:text-accent-foreground'
+        'gradient-border': 'bg-background hover:bg-accent text-primary hover:text-accent-foreground'
       },
       size: {
         default: 'h-9 px-4 py-2',
-        sm: 'h-5 px-1 text-[12px]',
+        sm: 'h-8 px-3 py-0 text-sm font-normal',
         xs: 'h-auto py-0.5 px-1.5 text-xs font-normal',
         lg: 'h-10 px-8',
         icon: 'h-9 w-9',
@@ -47,13 +47,6 @@ const buttonVariants = cva(
         default: 'ai-button'
       }
     },
-    compoundVariants: [
-      {
-        size: 'sm',
-        borderRadius: 'full',
-        className: 'px-2'
-      }
-    ],
     defaultVariants: {
       variant: 'default',
       size: 'default',
