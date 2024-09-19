@@ -16,6 +16,7 @@ import { LandingPage } from './pages/landing-page'
 import { AppProvider } from './framework/context/AppContext'
 import { RepoSummary } from './pages/repo/repo-summary'
 import CreateProject from './pages/create-project'
+import { PipelineCreate } from './pages/pipeline-create/pipeline-create'
 
 export default function App() {
   const router = createBrowserRouter([
@@ -48,7 +49,11 @@ export default function App() {
               path: 'pipelines',
               children: [
                 { index: true, element: <PipelineListPage /> },
-                { path: ':pipelineId', element: <ExecutionsListPage /> }
+                { path: ':pipelineId', element: <ExecutionsListPage /> },
+                {
+                  path: 'create',
+                  element: <PipelineCreate />
+                }
               ]
             },
             {
@@ -68,6 +73,11 @@ export default function App() {
           ]
         },
         // Pipelines (OUTSIDE REPOS)
+        //
+        /**
+         * 🚨 Root level pipelines will be disabled 🚨
+         * Pipelines will only be part of repos for now
+         */
         {
           path: 'pipelines',
           element: <PipelineListPage />
@@ -86,8 +96,16 @@ export default function App() {
               element: <>Repos list</>
             },
             {
+              path: 'pipelines',
+              element: <PipelineListPage />
+            },
+            {
               path: 'pipelines/:pipelineId/edit',
               element: <PipelineEditPage />
+            },
+            {
+              path: 'pipelines/create',
+              element: <PipelineCreate />
             },
             {
               path: 'pipelines/:pipelineId/execution/:executionId',

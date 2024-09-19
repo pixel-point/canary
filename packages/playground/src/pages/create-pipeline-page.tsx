@@ -13,6 +13,7 @@ import {
 } from '@harnessio/canary'
 import { Floating1ColumnLayout } from '../layouts/Floating1ColumnLayout'
 import { Link } from 'react-router-dom'
+import noop from 'lodash-es/noop'
 
 const SectionList = ({ children }: { children: React.ReactNode }) => (
   <div className="flex flex-col gap-9 w-full">{children}</div>
@@ -25,6 +26,10 @@ type Template = {
   logoName: string
   href?: string
   logoSize?: number
+}
+
+interface CreatePipelinePageProps {
+  onClickStartFromScratch?: () => void
 }
 
 const TemplateSection = () => {
@@ -156,7 +161,7 @@ const ResourceSectionList = ({ sections }: { sections: ResourceSectionData[] }) 
   </>
 )
 
-export default function CreatePipelinePage() {
+export function CreatePipelinePage({ onClickStartFromScratch = noop }: CreatePipelinePageProps) {
   const resourceSections: ResourceSectionData[] = [
     {
       title: 'Documentation',
@@ -199,7 +204,7 @@ export default function CreatePipelinePage() {
           </Button>
         }
         useManualButton={
-          <Button variant="outline" size="sm" borderRadius="full">
+          <Button onClick={onClickStartFromScratch} variant="outline" size="sm" borderRadius="full">
             Start from scratch
           </Button>
         }>

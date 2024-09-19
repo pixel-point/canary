@@ -7,3 +7,9 @@ export enum ExecutionState {
   SKIPPED = 'skipped',
   KILLED = 'killed'
 }
+
+export interface CreateFormType {
+  name: string
+  branch: string
+  yamlPath: string
+}

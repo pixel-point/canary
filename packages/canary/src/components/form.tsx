@@ -1,12 +1,25 @@
 import * as React from 'react'
 import * as LabelPrimitive from '@radix-ui/react-label'
 import { Slot } from '@radix-ui/react-slot'
-import { Controller, ControllerProps, FieldPath, FieldValues, FormProvider, useFormContext } from 'react-hook-form'
+import {
+  Controller,
+  ControllerProps,
+  FieldPath,
+  FieldValues,
+  FormProvider,
+  useFormContext,
+  useForm,
+  UseFormReturn,
+  SubmitHandler
+} from 'react-hook-form'
 
 import { cn } from '@/lib/utils'
 import { Label } from '@/components/label'
 
-const Form = FormProvider
+interface ZodFormProps<T extends FieldValues> {
+  form: UseFormReturn<T>
+  onSubmit: SubmitHandler<T>
+}
 
 type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
@@ -132,4 +145,20 @@ const FormMessage = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<
 )
 FormMessage.displayName = 'FormMessage'
 
-export { useFormField, Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage, FormField }
+/**
+ * Form returns a form component that integrates Zod validation with React Hook Form.
+ */
+function Form<T extends FieldValues>(props: ZodFormProps<T> & Omit<React.ComponentProps<'form'>, 'onSubmit'>) {
+  const { form, onSubmit, children, ...rest } = props
+
+  return (
+    <FormProvider {...form}>
+      <form {...rest} onSubmit={form.handleSubmit(onSubmit)}>
+        {children}
+      </form>
+    </FormProvider>
+  )
+}
+Form.displayName = 'Form'
+
+export { useFormField, Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage, FormField, useForm }
