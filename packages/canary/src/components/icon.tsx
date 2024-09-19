@@ -74,6 +74,8 @@ import SubReliability from '../icons/sub-reliability.svg'
 import SubShield from '../icons/sub-shield.svg'
 import SubChaos from '../icons/sub-chaos.svg'
 import SubRepository from '../icons/sub-repository.svg'
+import AddFile from '../icons/add-file.svg'
+import AddFolder from '../icons/add-folder.svg'
 
 const IconNameMap = {
   'chevron-down': ChevronDown,
@@ -150,7 +152,9 @@ const IconNameMap = {
   'sub-reliability': SubReliability,
   'sub-shield': SubShield,
   'sub-chaos': SubChaos,
-  'sub-repository': SubRepository
+  'sub-repository': SubRepository,
+  'add-folder': AddFolder,
+  'add-file': AddFile
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 
 export interface IconProps {

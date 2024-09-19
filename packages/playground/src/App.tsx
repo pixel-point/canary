@@ -26,8 +26,49 @@ import RepoPipelineListPage from './pages/repo-pipeline-list-page'
 import RepoExecutionListPage from './pages/repo-execution-list-page'
 import RepoWebhooksListPage from './pages/repo-webhooks-page'
 import { CreatePipelinePage } from './pages/create-pipeline-page'
+import { SandboxRoot } from './layouts/SandboxRoot'
+import { SandboxRepo } from './layouts/SandboxRepo'
+import { SandboxRepoListPage } from './pages/sandbox-repo-list-page'
+import { SandboxRepoSummaryPage } from './pages/sandbox-repo-summary-page'
+import { SandboxRepoSinglePage } from './pages/sandbox-repo-single-page'
+import { SandboxRepoCodePage } from './pages/sandbox-repo-code-page'
 
 const router = createBrowserRouter([
+  // TEMPORARY LAYOUT SANDBOX
+  {
+    path: '/sandbox',
+    element: <SandboxRoot />,
+    children: [
+      {
+        path: 'repos',
+        element: <SandboxRepo />, // Contains the breadcrumbs header
+        children: [
+          {
+            index: true,
+            element: <SandboxRepoListPage />
+          },
+          {
+            path: ':repoId',
+            element: <SandboxRepoSinglePage />, // Contains the nav tabs header AND inherits the breadcrumbs header
+            children: [
+              {
+                path: 'summary',
+                element: <SandboxRepoSummaryPage />
+              },
+              {
+                path: 'code',
+                element: <SandboxRepoCodePage />
+              }
+            ]
+          }
+        ]
+      },
+      {
+        path: 'landing',
+        element: <div>Sandbox landing</div>
+      }
+    ]
+  },
   {
     path: '/',
     element: <RootLayout />,
@@ -145,22 +186,6 @@ const router = createBrowserRouter([
             path: 'create',
             element: <CreatePipelinePage />
           }
-          // {
-          //   path: ':pipelineId',
-          //   element: <PipelineDetailsPage />,
-          //   children: [
-          //     {
-          //       path: 'executions',
-          //       element: <RepoExecutionListPage />,
-          //       children: [
-          //         {
-          //           path: ':executionId',
-          //           element: <ExecutionDetailsPage />
-          //         }
-          //       ]
-          //     }
-          //   ]
-          // }
         ]
       },
       // EXECUTIONS (OUTSIDE REPOS)
