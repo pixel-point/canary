@@ -1,4 +1,10 @@
-export const navbarSubmenuData = [
+import { IconProps } from '@harnessio/canary'
+
+export const navbarSubmenuData: {
+  groupId: number
+  title: string
+  items: { id: number; iconName: IconProps['name']; title: string; description: string }[]
+}[] = [
   {
     groupId: 0,
     title: 'DevOps Modernization',

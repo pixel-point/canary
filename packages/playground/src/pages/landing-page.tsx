@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { noop } from 'lodash-es'
 import { Home } from '../components/home'
 import PlaygroundLandingSettings from '../settings/landing-settings'
 import { SignInPage } from '../pages/signin-page'
@@ -32,7 +33,7 @@ export default function LandingPage() {
           <Home isAuthed={false} handleSignUp={handleSignUp} handleSignIn={handleSignIn} title="Canary Playground" />
         )
       case 'create-project':
-        return <CreateProjectPage handleSignUp={handleSignUp} handleSignIn={handleSignIn} />
+        return <CreateProjectPage onFormSubmit={noop} />
       case 'sign-in':
         return <SignInPage handleSignUp={handleSignUp} handleSignIn={handleSignIn} />
       case 'sign-up':

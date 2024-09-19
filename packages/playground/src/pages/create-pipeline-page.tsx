@@ -9,7 +9,8 @@ import {
   SpotlightsBox,
   ButtonGroup,
   Input,
-  AIPrompt
+  AIPrompt,
+  IconProps
 } from '@harnessio/canary'
 import { Floating1ColumnLayout } from '../layouts/Floating1ColumnLayout'
 import { Link } from 'react-router-dom'
@@ -23,7 +24,7 @@ type Template = {
   title: string
   highlightTop: string
   highlightBottom: string
-  logoName: string
+  logoName: IconProps['name']
   href?: string
   logoSize?: number
 }
@@ -85,7 +86,7 @@ type ResourceItem = {
   title: string
   content: string
   href?: string
-  iconName: string
+  iconName: IconProps['name']
 }
 
 type ResourceSectionData = {
