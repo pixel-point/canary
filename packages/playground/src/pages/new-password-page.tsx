@@ -1,66 +1,40 @@
-import React, { useState } from 'react'
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Button,
-  Input,
-  Label,
-  Icon,
-  Text,
-  Spacer,
-  Dock
-} from '@harnessio/canary'
+import React from 'react'
+import { Card, CardContent, CardHeader, CardTitle, Button, Input, Label, Icon, Text, Spacer } from '@harnessio/canary'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Floating1ColumnLayout } from '../layouts/Floating1ColumnLayout'
+import { noop } from 'lodash-es'
 
 interface PageProps {
   handleSignIn?: () => void
+  isLoading?: boolean
 }
 
-interface DataProps {
-  userId?: string
-  email?: string
+export interface DataProps {
   password?: string
   confirmPassword?: string
 }
 
-const signUpSchema = z.object({
-  userId: z.string().nonempty({ message: 'User ID cannot be blank' }),
-  email: z.string().email({ message: 'Invalid email address' }),
+const newPasswordSchema = z.object({
   password: z.string().min(6, { message: 'Password must be at least 6 characters' }),
   confirmPassword: z.string()
 })
 
-export function SignUpPage({ handleSignIn }: PageProps) {
+export function NewPasswordPage({ handleSignIn, isLoading }: PageProps) {
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors }
   } = useForm({
-    resolver: zodResolver(signUpSchema)
+    resolver: zodResolver(newPasswordSchema)
   })
-  const [isLoading, setIsLoading] = useState(false)
 
-  // Watch password and confirmPassword fields
+  const onSubmit = () => noop
+
   const password = watch('password', '')
   const confirmPassword = watch('confirmPassword', '')
-
-  const onSubmit = (data: DataProps) => {
-    if (data.password !== data.confirmPassword) {
-      // Manually set error for confirmPassword
-      return
-    }
-
-    setIsLoading(true)
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 2000)
-  }
 
   return (
     <Floating1ColumnLayout maxWidth="md" verticalCenter>
@@ -69,56 +43,22 @@ export function SignUpPage({ handleSignIn }: PageProps) {
           <CardTitle className="flex flex-col place-items-center">
             <Icon name="gitness-logo" size={104} />
             <Text size={6} weight="medium" color="primary">
-              Sign up to Playground
+              Create new password
             </Text>
             <Spacer size={2} />
-
-            <Text size={2} color="tertiaryBackground">
-              Let's start your journery with us today.
+            <Text size={2} color="tertiaryBackground" align="center">
+              Your new password must be different from your previously used password.
             </Text>
           </CardTitle>
         </CardHeader>
         <Spacer size={1} />
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Label htmlFor="userId" variant="sm">
-              User ID
-            </Label>
-            <Spacer size={1} />
-            <Input id="userId" type="text" {...register('userId')} placeholder="Enter your user ID" autoFocus />
-            {errors.userId && (
-              <>
-                <Spacer size={2} />
-                <Text size={1} className="text-destructive">
-                  {errors.userId.message?.toString()}
-                </Text>
-              </>
-            )}
-            <Spacer size={4} />
-            <Label htmlFor="email" variant="sm">
-              Email
-            </Label>
-            <Spacer size={1} />
-            <Input id="email" type="email" {...register('email')} placeholder="email@work.com" />
-            {errors.email && (
-              <>
-                <Spacer size={2} />
-                <Text size={1} className="text-destructive">
-                  {errors.email.message?.toString()}
-                </Text>
-              </>
-            )}
-            <Spacer size={4} />
             <Label htmlFor="password" variant="sm">
-              Password
+              New password
             </Label>
             <Spacer size={1} />
-            <Input
-              id="password"
-              type="password"
-              {...register('password')}
-              placeholder="Enter the password for your account"
-            />
+            <Input id="password" type="password" {...register('password')} placeholder="Password (6+ characters)" />
             {errors.password && (
               <>
                 <Spacer size={2} />
@@ -136,7 +76,7 @@ export function SignUpPage({ handleSignIn }: PageProps) {
               id="confirmPassword"
               type="password"
               {...register('confirmPassword')}
-              placeholder="Re-enter your password"
+              placeholder="Confirm password"
               className="form-input"
             />
             {errors.confirmPassword && (
@@ -154,7 +94,7 @@ export function SignUpPage({ handleSignIn }: PageProps) {
             )}
             <Spacer size={8} />
             <Button variant="default" borderRadius="full" type="submit" loading={isLoading} className="w-full">
-              {isLoading ? 'Signing up...' : 'Sign up'}
+              {isLoading ? 'Saving...' : 'Save'}
             </Button>
           </form>
           <Spacer size={4} />
@@ -166,12 +106,6 @@ export function SignUpPage({ handleSignIn }: PageProps) {
           </Text>
         </CardContent>
       </Card>
-      <Dock.Root>
-        <Text size={1} color="tertiaryBackground">
-          By joining, you agree to <a className="text-primary">Terms of Service</a> and{' '}
-          <a className="text-primary">Privacy Policy</a>
-        </Text>
-      </Dock.Root>
     </Floating1ColumnLayout>
   )
 }

@@ -4,7 +4,10 @@ import { Home } from '../components/home'
 import PlaygroundLandingSettings from '../settings/landing-settings'
 import { SignInPage } from '../pages/signin-page'
 import { useNavigate } from 'react-router-dom'
-import SignUpPage from './signup-page'
+import { SignUpPage } from './signup-page'
+import { ForgotPasswordPage } from './forgot-password-page'
+import { OTPPage } from './otp-page'
+import { NewPasswordPage } from './new-password-page'
 import { mockProjects } from '../data/mockProjects'
 import { CreateProjectPage } from './create-project-page'
 
@@ -38,6 +41,12 @@ export default function LandingPage() {
         return <SignInPage handleSignUp={handleSignUp} handleSignIn={handleSignIn} />
       case 'sign-up':
         return <SignUpPage handleSignIn={handleSignIn} />
+      case 'password-forgot':
+        return <ForgotPasswordPage handleSignUp={handleSignUp} />
+      case 'password-new':
+        return <NewPasswordPage handleSignIn={handleSignIn} />
+      case 'password-otp':
+        return <OTPPage handleResend={noop} />
       default:
         return null
     }
