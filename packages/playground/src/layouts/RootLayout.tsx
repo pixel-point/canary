@@ -93,12 +93,21 @@ export const RootLayout: React.FC = () => {
                 ))}
               </Navbar.AccordionGroup>
               {/* Sandboxed new layout examples */}
-              <Navbar.AccordionGroup title="Layout sandbox">
-                <NavLink to="/sandbox/repos">
-                  <Navbar.Item text="Repositories" icon={<Icon name="repositories" size={12} />} />
-                </NavLink>
+              <Navbar.AccordionGroup title="Layout Sandbox">
                 <NavLink to="/sandbox/landing">
                   <Navbar.Item text="Landing" icon={<Icon name="harness" size={12} />} />
+                </NavLink>
+                <NavLink to="/sandbox/repos">
+                  <Navbar.Item text="Repo List" icon={<Icon name="repositories" size={12} />} />
+                </NavLink>
+                <NavLink to="/sandbox/repos/drone/summary">
+                  <Navbar.Item
+                    text="Repo&nbsp;&nbsp;/&nbsp;&nbsp;Summary"
+                    icon={<Icon name="repositories" size={12} />}
+                  />
+                </NavLink>
+                <NavLink to="/sandbox/repos/drone/code">
+                  <Navbar.Item text="Repo&nbsp;&nbsp;/&nbsp;&nbsp;Code" icon={<Icon name="repositories" size={12} />} />
                 </NavLink>
               </Navbar.AccordionGroup>
             </Navbar.Content>

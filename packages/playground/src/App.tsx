@@ -32,6 +32,7 @@ import { SandboxRepoListPage } from './pages/sandbox-repo-list-page'
 import { SandboxRepoSummaryPage } from './pages/sandbox-repo-summary-page'
 import { SandboxRepoSinglePage } from './pages/sandbox-repo-single-page'
 import { SandboxRepoCodePage } from './pages/sandbox-repo-code-page'
+import { SandboxLandingPage } from './pages/sandbox-landing-page'
 
 const router = createBrowserRouter([
   // TEMPORARY LAYOUT SANDBOX
@@ -65,7 +66,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'landing',
-        element: <div>Sandbox landing</div>
+        element: <SandboxLandingPage />
       }
     ]
   },

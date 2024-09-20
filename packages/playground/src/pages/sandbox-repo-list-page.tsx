@@ -34,7 +34,7 @@ function SandboxRepoListPage() {
     <>
       {loadState.includes('sub') && (
         <SandboxLayout.LeftSubPanel hasHeader>
-          <div className="px-8 py-5">
+          <SandboxLayout.Content>
             <Text as="p" size={2} className="text-primary/70">
               SubMenu
             </Text>
@@ -45,72 +45,74 @@ function SandboxRepoListPage() {
             <Text as="p" size={2} className="text-primary/70">
               End of SubMenu
             </Text>
-          </div>
+          </SandboxLayout.Content>
         </SandboxLayout.LeftSubPanel>
       )}
-      <SandboxLayout.Content
+      <SandboxLayout.Main
         hasHeader
         hasLeftPanel
         hasLeftSubPanel={loadState.includes('sub')}
         fullWidth={loadState.includes('full')}>
-        <Spacer size={16} />
-        <Text size={5} weight={'medium'}>
-          Repositories
-        </Text>
-        <Spacer size={6} />
-        <ListActions.Root>
-          <ListActions.Left>
-            <SearchBox.Root placeholder="Search repositories" />
-          </ListActions.Left>
-          <ListActions.Right>
-            <ListActions.Dropdown title="Filter" items={filterOptions} />
-            <ListActions.Dropdown title="Sort" items={sortOptions} />
-            <Button variant="default">Create repository</Button>
-          </ListActions.Right>
-        </ListActions.Root>
-        <Spacer size={5} />
-        <RepoList repos={mockRepos} LinkComponent={LinkComponent} /> <Spacer size={8} />
-        {loadState === 'data-loaded' && (
-          <ListPagination.Root>
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious size="sm" href="#" />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink isActive size="sm_icon" href="#">
-                    1
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink size="sm_icon" href="#">
-                    2
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink size="sm_icon" href="#">
-                    <PaginationEllipsis />
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink size="sm_icon" href="#">
-                    4
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink size="sm_icon" href="#">
-                    5
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationNext size="sm" href="#" />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </ListPagination.Root>
-        )}
-        <PlaygroundSandboxLayoutSettings loadState={loadState} setLoadState={setLoadState} />
-      </SandboxLayout.Content>
+        <SandboxLayout.Content>
+          <Spacer size={10} />
+          <Text size={5} weight={'medium'}>
+            Repositories
+          </Text>
+          <Spacer size={6} />
+          <ListActions.Root>
+            <ListActions.Left>
+              <SearchBox.Root placeholder="Search repositories" />
+            </ListActions.Left>
+            <ListActions.Right>
+              <ListActions.Dropdown title="Filter" items={filterOptions} />
+              <ListActions.Dropdown title="Sort" items={sortOptions} />
+              <Button variant="default">Create repository</Button>
+            </ListActions.Right>
+          </ListActions.Root>
+          <Spacer size={5} />
+          <RepoList repos={mockRepos} LinkComponent={LinkComponent} /> <Spacer size={8} />
+          {loadState === 'data-loaded' && (
+            <ListPagination.Root>
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious size="sm" href="#" />
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink isActive size="sm_icon" href="#">
+                      1
+                    </PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink size="sm_icon" href="#">
+                      2
+                    </PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink size="sm_icon" href="#">
+                      <PaginationEllipsis />
+                    </PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink size="sm_icon" href="#">
+                      4
+                    </PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink size="sm_icon" href="#">
+                      5
+                    </PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationNext size="sm" href="#" />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </ListPagination.Root>
+          )}
+          <PlaygroundSandboxLayoutSettings loadState={loadState} setLoadState={setLoadState} />
+        </SandboxLayout.Content>
+      </SandboxLayout.Main>
     </>
   )
 }

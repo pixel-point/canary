@@ -88,7 +88,7 @@ export const Summary = ({ ...props }: PageProps) => {
   return (
     <>
       <StackedList.Root>
-        <StackedList.Item disableHover>
+        <StackedList.Item disableHover isHeader className="py-2.5 px-3">
           {latestFile ? (
             <>
               <StackedList.Field title={<TopTitle file={latestFile} />} />

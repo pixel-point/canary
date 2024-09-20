@@ -30,7 +30,6 @@ export const RepoSummaryPanel = ({ ...props }: PageProps) => {
 
   return (
     <div className="flex flex-col">
-      <Spacer size={5} />
       <div className="flex justify-between items-center">
         <Text size={4} weight={'medium'} truncate>
           {title}

@@ -14,7 +14,6 @@ import {
 import { Summary } from '../components/repo-summary'
 import { RepoSummaryPanel } from '../components/repo-summary-panel'
 import { BranchSelector } from '../components/branch-chooser'
-import { FullWidth2ColumnLayout } from '../layouts/FullWidth2ColumnLayout'
 import { mockFiles } from '../data/mockSummaryFiiles'
 import { SandboxLayout } from '..'
 import { PlaygroundSandboxLayoutSettings } from '../settings/sandbox-settings'
@@ -68,7 +67,7 @@ function SandboxRepoSummaryPage() {
     <>
       {loadState.includes('sub') && (
         <SandboxLayout.LeftSubPanel hasHeader hasSubHeader>
-          <div className="px-8 py-5">
+          <SandboxLayout.Content>
             <Text as="p" size={2} className="text-primary/70">
               SubMenu
             </Text>
@@ -79,23 +78,22 @@ function SandboxRepoSummaryPage() {
             <Text as="p" size={2} className="text-primary/70">
               End of SubMenu
             </Text>
-          </div>
+          </SandboxLayout.Content>
         </SandboxLayout.LeftSubPanel>
       )}
-      <SandboxLayout.Content
+      <SandboxLayout.Main
         fullWidth={loadState.includes('full')}
         hasLeftPanel
         hasLeftSubPanel={loadState.includes('sub')}
         hasHeader
         hasSubHeader>
-        <FullWidth2ColumnLayout
-          leftColumn={
-            <>
-              <Spacer size={6} />
+        <SandboxLayout.Columns columnWidths="1fr 220px">
+          <SandboxLayout.Column>
+            <SandboxLayout.Content>
               <ListActions.Root>
                 <ListActions.Left>
                   <ButtonGroup.Root>
-                    <BranchSelector name={'main'} branchList={mockBranchList} />
+                    <BranchSelector size="default" name={'main'} branchList={mockBranchList} />
                     <SearchBox.Root placeholder="Search" />
                   </ButtonGroup.Root>
                 </ListActions.Left>
@@ -120,7 +118,6 @@ function SandboxRepoSummaryPage() {
                   <StackedList.Field title={<Text color="tertiaryBackground">README.md</Text>} />
                 </StackedList.Item>
                 <StackedList.Item disableHover>
-                  {/* Dummy WYSIWYG content */}
                   <div className="flex flex-col gap-4 px-3 py-2">
                     <Text size={5} weight="medium">
                       Pixel Point — Web Design and Development
@@ -160,11 +157,15 @@ function SandboxRepoSummaryPage() {
                   </div>
                 </StackedList.Item>
               </StackedList.Root>
-            </>
-          }
-          rightColumn={<RepoSummaryPanel title="Summary" timestamp={'May 6, 2024'} details={mockSummaryDetails} />}
-        />
-      </SandboxLayout.Content>
+            </SandboxLayout.Content>
+          </SandboxLayout.Column>
+          <SandboxLayout.Column>
+            <SandboxLayout.Content className="pl-0">
+              <RepoSummaryPanel title="Summary" timestamp={'May 6, 2024'} details={mockSummaryDetails} />
+            </SandboxLayout.Content>
+          </SandboxLayout.Column>
+        </SandboxLayout.Columns>
+      </SandboxLayout.Main>
       <PlaygroundSandboxLayoutSettings loadState={loadState} setLoadState={setLoadState} />
     </>
   )
