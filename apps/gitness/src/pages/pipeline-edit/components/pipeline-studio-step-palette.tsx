@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,25 +6,46 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-  Input
+  Input,
+  Icon,
+  Button
 } from '@harnessio/canary'
-import { StepsPalette, StepsPaletteContent, StepsPaletteItem, StepPaletteFilters } from '@harnessio/playground'
+import { ListPluginsOkResponse, useListPluginsQuery } from '@harnessio/code-service-client'
+import {
+  StepForm,
+  StepsPalette,
+  StepsPaletteContent,
+  StepsPaletteItem,
+  StepPaletteFilters
+} from '@harnessio/playground'
 import { usePipelineDataContext } from '../context/PipelineStudioDataProvider'
 import { StepDrawer, usePipelineViewContext } from '../context/PipelineStudioViewProvider'
 import { TypesPlugin } from '../types/api-types'
-import { fetchPlugins } from '../utils/api'
 
-const PipelineStudioStepPalette = (): React.ReactElement => {
+interface PipelineStudioStepFormProps {
+  requestClose: () => void
+}
+
+const PipelineStudioStepPalette = (props: PipelineStudioStepFormProps): JSX.Element => {
+  const { requestClose } = props
   const { addStepIntention, setCurrentStepFormDefinition } = usePipelineDataContext()
   const { setStepDrawerOpen } = usePipelineViewContext()
 
   const [pluginsData, setPluginsData] = useState<TypesPlugin[]>([])
 
+  // TODO: only 100 items
+  const { data: pluginsResponseRaw } = useListPluginsQuery({ queryParams: { limit: 100, page: 1 } })
+
+  // TODO: response type
+  const pluginsResponse = useMemo(
+    () => (pluginsResponseRaw as unknown as { content: ListPluginsOkResponse | undefined })?.content,
+    [pluginsResponseRaw]
+  )
   useEffect(() => {
-    fetchPlugins(1).then(data => {
-      setPluginsData(data.map(d => ({ ...d, spec: JSON.parse(d.spec ?? '') })))
-    })
-  }, [])
+    // TODO: Do not parse all plugins in advance  - check if its not needed (wrap inside try...catch)
+    // TODO: duplicated code
+    setPluginsData(pluginsResponse?.map(d => ({ ...d, spec: JSON.parse(d.spec ?? '') })) ?? [])
+  }, [pluginsData])
 
   return (
     <StepsPalette.Root>
@@ -48,10 +69,29 @@ const PipelineStudioStepPalette = (): React.ReactElement => {
       </StepsPalette.Header>
       <StepsPaletteContent.Root>
         <StepsPaletteContent.Section>
-          <StepsPaletteContent.SectionHeader>
-            <div>Build</div>
-            <div>See all &gt; </div>
-          </StepsPaletteContent.SectionHeader>
+          <StepsPaletteContent.SectionHeader>Run</StepsPaletteContent.SectionHeader>
+          <StepsPaletteContent.SectionItem>
+            <StepsPaletteItem.Root
+              onClick={() => {
+                // TODO: duplicated run step form def
+                setCurrentStepFormDefinition({ identifier: 'run', description: 'Run step description.', type: 'step' })
+                setStepDrawerOpen(StepDrawer.Form)
+              }}>
+              <StepsPaletteItem.Left>
+                <Icon name="harness-plugin" size={36} />
+              </StepsPaletteItem.Left>
+              <StepsPaletteItem.Right>
+                <StepsPaletteItem.Header>
+                  <StepsPaletteItem.Title>run</StepsPaletteItem.Title>
+                  <StepsPaletteItem.BadgeWrapper>verified</StepsPaletteItem.BadgeWrapper>
+                </StepsPaletteItem.Header>
+                <StepsPaletteItem.Description>Run step description.</StepsPaletteItem.Description>
+              </StepsPaletteItem.Right>
+            </StepsPaletteItem.Root>
+          </StepsPaletteContent.SectionItem>
+        </StepsPaletteContent.Section>
+        <StepsPaletteContent.Section>
+          <StepsPaletteContent.SectionHeader>Plugins</StepsPaletteContent.SectionHeader>
           {pluginsData.map(item => (
             <StepsPaletteContent.SectionItem key={item.identifier}>
               <StepsPaletteItem.Root
@@ -64,8 +104,7 @@ const PipelineStudioStepPalette = (): React.ReactElement => {
                   }
                 }}>
                 <StepsPaletteItem.Left>
-                  {/* <Box size="36" />  */}
-                  []
+                  <Icon name="harness-plugin" size={36} />
                 </StepsPaletteItem.Left>
                 <StepsPaletteItem.Right>
                   <StepsPaletteItem.Header>
@@ -79,6 +118,11 @@ const PipelineStudioStepPalette = (): React.ReactElement => {
           ))}
         </StepsPaletteContent.Section>
       </StepsPaletteContent.Root>
+      <StepForm.Footer>
+        <Button variant="secondary" onClick={requestClose}>
+          Cancel
+        </Button>
+      </StepForm.Footer>
     </StepsPalette.Root>
   )
 }

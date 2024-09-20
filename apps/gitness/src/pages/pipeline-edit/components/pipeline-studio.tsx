@@ -1,7 +1,6 @@
-import { Container } from '@harnessio/playground'
 import { useCallback, useEffect, useMemo } from 'react'
+import { Container, PipelineStudioFooterBar } from '@harnessio/playground'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup, Sheet, SheetContent } from '@harnessio/canary'
-import { PipelineStudioFooterBar } from '@harnessio/playground'
 import { PipelineStudioPanel } from './pipeline-studio-panel'
 import { PipelineStudioToolbar } from './pipeline-studio-toolbar'
 import { StepDrawer, usePipelineViewContext } from '../context/PipelineStudioViewProvider'
@@ -17,7 +16,7 @@ export default function PipelineEdit() {
   const { view, setView, panelOpen, stepDrawerOpen, setStepDrawerOpen, setPanelOpen } = usePipelineViewContext()
   const { problems } = usePipelineDataContext()
 
-  //const { clearAddStepIntention, clearEditStepIntention, setCurrentStepFormDefinition } = usePipelineDataContext()
+  const { clearAddStepIntention, clearEditStepIntention, setCurrentStepFormDefinition } = usePipelineDataContext()
 
   useEffect(() => {
     setPanelOpen(view === 'yaml')
@@ -50,17 +49,21 @@ export default function PipelineEdit() {
   const renderSheetContent = useCallback(() => {
     switch (stepDrawerOpen) {
       case StepDrawer.Collection:
-        return <PipelineStudioStepPalette />
+        return (
+          <PipelineStudioStepPalette
+            requestClose={() => {
+              setStepDrawerOpen(StepDrawer.None)
+            }}
+          />
+        )
       case StepDrawer.Form:
         return (
           <PipelineStudioStepForm
             requestClose={() => {
               setStepDrawerOpen(StepDrawer.None)
-              // TODO:
-              //   // cleanup
-              //   clearAddStepIntention()
-              //   clearEditStepIntention()
-              //   setCurrentStepFormDefinition(null)
+              clearAddStepIntention()
+              clearEditStepIntention()
+              setCurrentStepFormDefinition(null)
             }}
           />
         )

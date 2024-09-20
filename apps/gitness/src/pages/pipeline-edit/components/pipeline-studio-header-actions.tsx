@@ -1,16 +1,11 @@
-import { Button, CanaryOutletFactory, CanaryOutletName, DropdownMenuItem, SplitButton } from '@harnessio/canary'
+import { useParams, useNavigate } from 'react-router-dom'
+import { Button, DropdownMenuItem, SplitButton, Icon } from '@harnessio/canary'
 import {
   OpenapiCommitFilesRequest,
   useCommitFilesMutation,
   useCreateExecutionMutation
 } from '@harnessio/code-service-client'
 import { PipelineParams, usePipelineDataContext } from '../context/PipelineStudioDataProvider'
-import { useParams, useNavigate } from 'react-router-dom'
-
-// TODO: set icon adn move to "root"
-CanaryOutletFactory.registerOutlet(CanaryOutletName.SPLIT_ICON, () => {
-  return <>&gt;</> // <NavArrowDown strokeWidth="2" />
-})
 
 const PipelineStudioHeaderActions = (): JSX.Element => {
   const {
@@ -97,7 +92,7 @@ const PipelineStudioHeaderActions = (): JSX.Element => {
             </DropdownMenuItem>
           </>
         }>
-        Save and run
+        <Icon name="lightning" className="mr-2" /> Save and run
       </SplitButton>
     )
   }

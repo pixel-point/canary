@@ -269,7 +269,7 @@ const processNode = ({
   return nodes
 }
 
-export const getStepNodePath = (stageNodePath: string, stepIndex: number) => `${stageNodePath}.spec.steps.${stepIndex}`
+export const getStepNodePath = (stageNodePath: string, stepIndex: number) => `${stageNodePath}.steps.${stepIndex}`
 
 /**
  *

@@ -225,7 +225,6 @@ const PipelineStudioDataProvider = ({ children }: React.PropsWithChildren) => {
     return decodeGitContent(pipelineYAMLFileContent?.content?.data) !== yamlRevision.yaml
   }, [yamlRevision.yaml, pipelineYAMLFileContent?.content?.data])
 
-  console.log(isDirty, 'isDirty')
   // if (!isLoading && !yamlRevision.yaml) {
   //   return (
   //     <CreatePipeline

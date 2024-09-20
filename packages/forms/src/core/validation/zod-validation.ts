@@ -87,14 +87,14 @@ function generateSchemaRec(schemaObj: SchemaTreeNode, values: AnyFormikValue, op
   Object.keys(schemaObj).forEach(key => {
     const { _requiredOnly, _schemaObj, _input, _isList, _isArrayItem, _schema /*...nestedSchemaObj*/ } = schemaObj[key]
     if (_isList && _schemaObj && _input) {
-      const arraySchema = zod.array(zod.object(generateSchemaRec(_schemaObj, values, options)))
+      const arraySchema = zod.array(zod.object(generateSchemaRec(_schemaObj, values, options))).optional()
       const enhancedSchema = getSchemaForArray(_schema, _input, values, options, arraySchema)
       objectSchemas[key] = enhancedSchema!
     } else if (_isArrayItem && _input) {
       const innerSchema = _schemaObj?.___array
         ? generateSchemaRec({ ___array: _schemaObj.___array }, values, options)
         : { ___array: zod.any() }
-      const arraySchema = zod.array(innerSchema.___array)
+      const arraySchema = zod.array(innerSchema.___array).optional()
       const enhancedSchema = getSchemaForArray(_schema, _input, values, options, arraySchema)
       objectSchemas[key] = enhancedSchema!
     } else if (_schema && _input) {
@@ -190,15 +190,16 @@ function getSchemaForArray(
     .any()
     .superRefine(async (value: any, ctx) => {
       // 1. Required validation
-      if (input.required) {
-        const requiredSchema = getRequiredSchema(input, options)
-        const requiredSchemaResult = await requiredSchema.safeParseAsync(value)
-        if (!requiredSchemaResult.success) {
-          // TODO: move this logic to utils. (check if there is better solution)
-          const message = processValidationParseResponse(requiredSchemaResult.error.message)
-          ctx.addIssue({ code: zod.ZodIssueCode.custom, message: message, fatal: true })
-          return zod.NEVER
-        }
+      const requiredSchema = getRequiredSchema(input, options)
+      const requiredSchemaResult = await requiredSchema.safeParseAsync(value)
+      if (input.required && !requiredSchemaResult.success) {
+        // TODO: move this logic to utils. (check if there is better solution)
+        const message = processValidationParseResponse(requiredSchemaResult.error.message)
+        ctx.addIssue({ code: zod.ZodIssueCode.custom, message: message, fatal: true })
+        return zod.NEVER
+      }
+      if (!input.required && !requiredSchemaResult.success) {
+        return zod.NEVER
       }
 
       // 2. Global validation

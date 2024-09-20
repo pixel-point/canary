@@ -10,7 +10,7 @@ type IInputConfigWithConfig = IInputDefinition & InputConfigType
 
 const inputs: IInputConfigWithConfig[] = [
   {
-    inputType: InputType.string,
+    inputType: InputType.text,
     path: 'stringProp1',
     label: 'String',
     description: 'This is a string input',
@@ -43,7 +43,7 @@ const inputs: IInputConfigWithConfig[] = [
         inputConfig: {
           input: {
             path: '', // TODO this should be not required
-            inputType: InputType.string,
+            inputType: InputType.text,
             label: 'List prop',
             required: true,
             validation: {
@@ -74,7 +74,7 @@ const inputs: IInputConfigWithConfig[] = [
           relativePath: 'booleanProp1'
         },
         {
-          inputType: InputType.string,
+          inputType: InputType.text,
           label: 'Array prop 2',
           relativePath: 'arrayProp2',
           required: true,
@@ -91,7 +91,7 @@ const inputs: IInputConfigWithConfig[] = [
     }
   },
   {
-    inputType: InputType.string,
+    inputType: InputType.text,
     label: 'String 2',
     path: 'stringProp2',
     required: true,

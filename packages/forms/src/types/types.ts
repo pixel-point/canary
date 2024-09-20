@@ -78,6 +78,9 @@ export interface IInputDefinition<T = unknown> {
   before?: JSX.Element | string
   after?: JSX.Element | string
   description?: string
+
+  inputTransform?: (value: any, values: any) => { value: any; path?: string } | undefined
+  outputTransform?: (value: any, values: any) => { value: any; path?: string } | undefined
 }
 // TODO:
 // dependencies?: UIInputDependency[]

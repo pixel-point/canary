@@ -52,8 +52,8 @@ function ArrayInputInternal(props: InputProps<AnyFormikValue, ArrayInputConfig>)
               render={() => (
                 <div className="flex flex-col">
                   <div>
-                    {fields.map((_item, idx) => (
-                      <div key={idx} className="flex items-end space-x-2">
+                    {fields.map((item, idx) => (
+                      <div key={item.id} className="flex items-end space-x-2">
                         {inputConfig?.input && (
                           <RenderInputs items={getChildInputs(inputConfig?.input, path, idx)} factory={factory} />
                         )}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormControl, FormField, FormItem, Input } from '@harnessio/canary'
+import { FormControl, FormField, FormItem, Textarea } from '@harnessio/canary'
 import { InputComponent, InputProps } from '@harnessio/forms'
 import type { AnyFormikValue } from '@harnessio/forms'
 import InputLabel from './common/InputLabel'
@@ -7,11 +7,11 @@ import InputWrapper from './common/InputWrapper'
 import { InputError } from './common/InputError'
 import { InputType } from './types'
 
-export interface TextInputConfig {
-  inputType: InputType.text
+export interface TextAreaInputConfig {
+  inputType: InputType.textarea
 }
 
-function TextInputInternal(props: InputProps<AnyFormikValue>): JSX.Element {
+function TextAreaInputInternal(props: InputProps<AnyFormikValue>): JSX.Element {
   const { readonly, path, input } = props
   const { label = '', required, placeholder, description } = input
 
@@ -23,7 +23,7 @@ function TextInputInternal(props: InputProps<AnyFormikValue>): JSX.Element {
           <FormItem>
             <InputLabel label={label} description={description} required={required} />
             <FormControl>
-              <Input placeholder={placeholder} {...field} disabled={readonly} tabIndex={0} />
+              <Textarea placeholder={placeholder} {...field} disabled={readonly} />
             </FormControl>
             <InputError />
           </FormItem>
@@ -33,10 +33,10 @@ function TextInputInternal(props: InputProps<AnyFormikValue>): JSX.Element {
   )
 }
 
-export class TextInput extends InputComponent<AnyFormikValue> {
-  public internalType = InputType.text
+export class TextAreaInput extends InputComponent<AnyFormikValue> {
+  public internalType = InputType.textarea
 
   renderComponent(props: InputProps<AnyFormikValue>): JSX.Element {
-    return <TextInputInternal {...props} />
+    return <TextAreaInputInternal {...props} />
   }
 }

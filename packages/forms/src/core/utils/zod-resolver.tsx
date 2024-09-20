@@ -15,7 +15,7 @@ export function useZodValidationResolver(formDefinition: IFormDefinition): Resol
         const values = await validationSchema.parseAsync(data)
 
         return {
-          values,
+          values: data, // TODO: check this - values does not contains all data
           errors: {}
         }
       } catch (error: any) {

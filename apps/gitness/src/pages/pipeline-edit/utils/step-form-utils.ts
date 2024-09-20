@@ -29,7 +29,7 @@ export function apiInput2IInputDefinition(inputName: string, input: ApiInput, pr
   let arrayInput: UIInputWithConfigsForArray | undefined
   if (input.type === 'array') {
     arrayInput = {
-      inputType: InputType.string
+      inputType: InputType.text
     }
   }
 
@@ -37,7 +37,8 @@ export function apiInput2IInputDefinition(inputName: string, input: ApiInput, pr
     label: generateFriendlyName(inputName),
     path: prefix ? `${prefix}.${inputName}` : inputName,
     description: input.description,
-    inputType: input.type,
+    // TODO: add mapper for this
+    inputType: input.type === 'string' ? 'text' : input.type,
     //required: input.required,
     ...(arrayInput ? { inputConfig: { input: arrayInput } } : {})
   }

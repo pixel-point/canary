@@ -1,12 +1,22 @@
-import { Button } from '@harnessio/canary'
-import { IFormDefinition, RenderForm, RootForm } from '@harnessio/forms'
-import { StepForm, StepFormSection, inputComponentFactory } from '@harnessio/playground'
 import { useEffect, useMemo, useState } from 'react'
-import { usePipelineDataContext } from '../context/PipelineStudioDataProvider'
-import { StepDrawer, usePipelineViewContext } from '../context/PipelineStudioViewProvider'
 import { parse } from 'yaml'
 import { get, set } from 'lodash-es'
-import { ApiInputs, apiInput2IInputDefinition } from '../utils/step-form-utils'
+import { Button } from '@harnessio/canary'
+import {
+  IFormDefinition,
+  RenderForm,
+  RootForm,
+  getTransformers,
+  inputTransformValues,
+  outputTransformValues
+} from '@harnessio/forms'
+import { Icon } from '@harnessio/canary'
+import { ListPluginsOkResponse, useListPluginsQuery } from '@harnessio/code-service-client'
+import { runStepFormDefinition } from '@harnessio/playground'
+import { StepForm, StepFormSection, inputComponentFactory } from '@harnessio/playground'
+import { usePipelineDataContext } from '../context/PipelineStudioDataProvider'
+import { StepDrawer, usePipelineViewContext } from '../context/PipelineStudioViewProvider'
+import { ApiInputs, addNameInput, apiInput2IInputDefinition } from '../utils/step-form-utils'
 
 interface PipelineStudioStepFormProps {
   requestClose: () => void
@@ -14,43 +24,83 @@ interface PipelineStudioStepFormProps {
 
 export const PipelineStudioStepForm = (props: PipelineStudioStepFormProps): JSX.Element => {
   const { requestClose } = props
-  const { yamlRevision, requestYamlModifications, currentStepFormDefinition, addStepIntention, editStepIntention } =
-    usePipelineDataContext()
+  const {
+    yamlRevision,
+    requestYamlModifications,
+    currentStepFormDefinition,
+    addStepIntention,
+    editStepIntention,
+    setCurrentStepFormDefinition
+  } = usePipelineDataContext()
   const { setStepDrawerOpen } = usePipelineViewContext()
 
-  const [_defaultStepValues, setDefaultStepValues] = useState({})
+  const [defaultStepValues, setDefaultStepValues] = useState({})
+
+  // TODO: only 100 items
+  const { data: pluginsResponseRaw } = useListPluginsQuery(
+    { queryParams: { limit: 100, page: 1 } },
+    { enabled: !!editStepIntention }
+  )
+  // TODO: response type
+  const pluginsResponse = useMemo(
+    () => (pluginsResponseRaw as unknown as { content: ListPluginsOkResponse | undefined })?.content,
+    [pluginsResponseRaw]
+  )
+  // TODO
+  const plugins = useMemo(() => {
+    // TODO: Do not parse all plugins in advance  - check if its not needed (wrap inside try...catch)
+    // TODO: duplicated code
+
+    return pluginsResponse?.map(d => ({ ...d, spec: JSON.parse(d.spec ?? '') })) ?? []
+  }, [pluginsResponse])
 
   useEffect(() => {
-    if (editStepIntention) {
+    if (editStepIntention && !addStepIntention && plugins) {
       const yamlJson = parse(yamlRevision.yaml)
       const step = get(yamlJson, editStepIntention.path)
-      setDefaultStepValues(step)
-      //const stepIdentifier = step?.spec?.name
-      // TODO
-      //   fetchPlugins(1).then(data => {
-      //     const stepData = data?.find((_plugin: TypesPlugin) => _plugin.identifier === stepIdentifier)
-      //     setCurrentStepFormDefinition({ ...stepData, spec: JSON.parse(stepData?.spec ?? '') })
-      //   })
+
+      // TODO: abstract this
+      if (step.run) {
+        // transform step value for form value
+        const transformers = getTransformers(runStepFormDefinition)
+
+        const stepValue = inputTransformValues(step, transformers)
+        setDefaultStepValues(stepValue)
+
+        // TODO: duplicated run step form def
+        setCurrentStepFormDefinition({ identifier: 'run', description: 'Run step description.', type: 'step' })
+      } else {
+        setDefaultStepValues(step)
+        const editStep = plugins.find(plugin => plugin.identifier === step?.spec?.name)
+        setCurrentStepFormDefinition(editStep ?? null)
+      }
     }
-  }, [editStepIntention])
+  }, [editStepIntention, plugins])
 
   // const title = currentStepFormDefinition?.identifier
   // const description = currentStepFormDefinition?.description
 
-  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-  const inputs = (currentStepFormDefinition?.spec as any)?.spec?.inputs as ApiInputs
+  let formDefinition: IFormDefinition = { inputs: [] }
 
-  const formInputs: IFormDefinition['inputs'] = useMemo(() => {
-    return Object.keys(inputs ?? {}).map(inputName => {
-      return apiInput2IInputDefinition(inputName, inputs[inputName], 'spec.inputs')
-    })
-  }, [inputs])
+  if (currentStepFormDefinition?.identifier) {
+    // TODO: abstract this
+    if (currentStepFormDefinition?.identifier === 'run') {
+      formDefinition = runStepFormDefinition
+    } else {
+      // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+      const inputs = (currentStepFormDefinition?.spec as any)?.spec?.inputs as ApiInputs
 
-  const formDefinition: IFormDefinition = { inputs: formInputs } // { inputs: addNameInput(formInputs, 'spec.name') }
+      const formInputs: IFormDefinition['inputs'] = Object.keys(inputs ?? {}).map(inputName => {
+        return apiInput2IInputDefinition(inputName, inputs[inputName], 'spec.inputs')
+      })
+
+      formDefinition = { inputs: addNameInput(formInputs, 'name') }
+    }
+  }
 
   return (
     <RootForm
-      // TODO
+      defaultValues={defaultStepValues}
       // resolver={useZodValidationResolver(formDefinition)}
       resolver={data => ({
         values: data,
@@ -58,20 +108,26 @@ export const PipelineStudioStepForm = (props: PipelineStudioStepFormProps): JSX.
       })}
       mode="onSubmit"
       onSubmit={values => {
-        const step = values
-        set(step, 'type', 'plugin')
-        set(step, 'spec.name', currentStepFormDefinition?.identifier)
+        let stepValue = values
+        // TODO: abstract this
+        if (currentStepFormDefinition?.identifier !== 'run') {
+          set(stepValue, 'type', 'plugin')
+          set(stepValue, 'spec.name', currentStepFormDefinition?.identifier)
+        } else {
+          const transformers = getTransformers(runStepFormDefinition)
+          stepValue = outputTransformValues(values, transformers)
+        }
 
         if (addStepIntention) {
           requestYamlModifications.injectInArray({
             path: addStepIntention?.path,
             position: addStepIntention?.position,
-            item: step
+            item: stepValue
           })
         } else if (editStepIntention) {
           requestYamlModifications.updateInArray({
             path: editStepIntention?.path,
-            item: step
+            item: stepValue
           })
         }
 
@@ -90,11 +146,11 @@ export const PipelineStudioStepForm = (props: PipelineStudioStepFormProps): JSX.
                 onClick={() => {
                   setStepDrawerOpen(StepDrawer.Collection)
                 }}>
-                {/* <ArrowLeft /> TODO */} &lt;
+                <Icon name="arrow-long" className="rotate-180" />
               </Button>
               Run Step
             </StepForm.Title>
-            <StepForm.Description>Step description. This can be multiline description.</StepForm.Description>
+            <StepForm.Description>{currentStepFormDefinition?.description}</StepForm.Description>
             <StepForm.Actions>
               AI Button placeholder
               {/* <AIButton label="AI Autofill" /> */}
@@ -103,17 +159,29 @@ export const PipelineStudioStepForm = (props: PipelineStudioStepFormProps): JSX.
           <StepFormSection.Root>
             <StepFormSection.Header>
               <StepFormSection.Title>General</StepFormSection.Title>
-              {<StepFormSection.Description>Read documentation to learn more.</StepFormSection.Description>}
+              {/* <StepFormSection.Description>Read documentation to learn more.</StepFormSection.Description> */}
             </StepFormSection.Header>
             <StepFormSection.Form>
               <RenderForm className="space-y-4" factory={inputComponentFactory} inputs={formDefinition} />
             </StepFormSection.Form>
           </StepFormSection.Root>
           <StepForm.Footer>
-            <Button onClick={() => rootForm.submitForm()}>Submit</Button>
-            <Button variant="secondary" onClick={() => {}}>
-              Cancel
-            </Button>
+            <div className="flex gap-x-3">
+              <Button onClick={() => rootForm.submitForm()}>Submit</Button>
+              <Button variant="secondary" onClick={requestClose}>
+                Cancel
+              </Button>
+            </div>
+            {editStepIntention && (
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  requestYamlModifications.deleteInArray({ path: editStepIntention.path })
+                  requestClose()
+                }}>
+                <Icon name="trash" />
+              </Button>
+            )}
           </StepForm.Footer>
         </StepForm.Root>
       )}

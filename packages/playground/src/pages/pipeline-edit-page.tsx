@@ -19,7 +19,13 @@ import {
 import { type InlineAction } from '@harnessio/yaml-editor'
 import { ArrowLeft, Box, Search, Xmark } from '@harnessio/icons-noir'
 import { YamlEditor, MonacoGlobals } from '@harnessio/yaml-editor'
-import { RenderForm, RootForm, useZodValidationResolver } from '@harnessio/forms'
+import {
+  RenderForm,
+  RootForm,
+  // getTransformers,
+  // outputTransformValues,
+  useZodValidationResolver
+} from '@harnessio/forms'
 import { PipelineStudio, getNodesFromPipelineYaml } from '@harnessio/unified-pipeline'
 import { ILanguageFeaturesService } from 'monaco-editor/esm/vs/editor/common/services/languageFeatures.js'
 import { OutlineModel } from 'monaco-editor/esm/vs/editor/contrib/documentSymbols/browser/outlineModel.js'
@@ -44,7 +50,7 @@ import { StepsPaletteContent } from '../components/pipeline-studio/step-palette/
 import { StepsPaletteItem } from '../components/pipeline-studio/step-palette/step-palette-item'
 import { stepPaletteItems } from '../assets/stepPaletteItems'
 import { inputComponentFactory } from '../components/form-inputs/factory/factory'
-import { formDefinition1 } from '../assets/form/formDefinition1'
+import { runStepFormDefinition } from '../assets/form/runStepFormDefinition'
 
 MonacoGlobals.set({
   ILanguageFeaturesService,
@@ -156,16 +162,20 @@ const PipelineStudioPanel = (): JSX.Element => {
 }
 
 const StepFormPanel = (): JSX.Element => {
-  const formResolver = useMemo(() => useZodValidationResolver(formDefinition1), [formDefinition1])
+  const formResolver = useMemo(() => useZodValidationResolver(runStepFormDefinition), [runStepFormDefinition])
 
   return (
     <RootForm
       resolver={formResolver}
       mode="onSubmit"
-      onSubmit={() => {
-        // console.log('Submit values:')
-        // console.log(values)
-      }}
+      // onSubmit={() => {
+      //   // const transformers = getTransformers(runStepFormDefinition)
+      //   // const transformedValues = outputTransformValues(values, transformers)
+      //   // console.log(transformedValues)
+      // }}
+      // onValuesChange={values => {
+      //   // console.log(values)
+      // }}
       validateAfterFirstSubmit={true}>
       {rootForm => (
         <StepForm.Root>
@@ -190,7 +200,7 @@ const StepFormPanel = (): JSX.Element => {
               {<StepFormSection.Description>Read documentation to learn more.</StepFormSection.Description>}
             </StepFormSection.Header>
             <StepFormSection.Form>
-              <RenderForm factory={inputComponentFactory} inputs={formDefinition1} />
+              <RenderForm className="space-y-4" factory={inputComponentFactory} inputs={runStepFormDefinition} />
             </StepFormSection.Form>
           </StepFormSection.Root>
           <StepForm.Footer>

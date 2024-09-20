@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { InlineAction, YamlEditor, MonacoGlobals } from '@harnessio/yaml-editor'
 import { ILanguageFeaturesService } from 'monaco-editor/esm/vs/editor/common/services/languageFeatures.js'
 import { OutlineModel } from 'monaco-editor/esm/vs/editor/contrib/documentSymbols/browser/outlineModel.js'
@@ -102,8 +102,6 @@ const PipelineStudioYamlView = (): JSX.Element => {
     [addStep, deleteStep, editStep]
   )
   const inlineActions = useMemo(() => getInlineActionConfig(inlineActionCallback), [inlineActionCallback])
-
-  console.log(inlineActions)
 
   useEffect(() => {
     if (yamlRevision.yaml !== currentYamlRef.current) {

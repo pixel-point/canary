@@ -76,6 +76,12 @@ import SubChaos from '../icons/sub-chaos.svg'
 import SubRepository from '../icons/sub-repository.svg'
 import AddFile from '../icons/add-file.svg'
 import AddFolder from '../icons/add-folder.svg'
+import Lightning from '../icons/lightning.svg'
+import HarnessPlugin from '../icons/harness-plugin.svg'
+import BitrisePlugin from '../icons/bitrise-plugin.svg'
+import Trash from '../icons/trash.svg'
+import XMark from '../icons/x-mark.svg'
+// import Fork from '../icons/fork.svg'
 
 const IconNameMap = {
   'chevron-down': ChevronDown,
@@ -154,7 +160,13 @@ const IconNameMap = {
   'sub-chaos': SubChaos,
   'sub-repository': SubRepository,
   'add-folder': AddFolder,
-  'add-file': AddFile
+  'add-file': AddFile,
+  lightning: Lightning,
+  'harness-plugin': HarnessPlugin,
+  'bitrise-plugin': BitrisePlugin,
+  trash: Trash,
+  'x-mark': XMark
+  // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 
 export interface IconProps {

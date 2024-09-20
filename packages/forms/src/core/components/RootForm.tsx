@@ -80,7 +80,7 @@ export function RootForm<TFieldValues extends FieldValues = FieldValues, TContex
     methods.reset(defaultValues)
   }, [methods.reset, defaultValues])
 
-  const { getValues } = methods
+  const { getValues, handleSubmit } = methods
   const values = getValues()
 
   useEffect(() => {
@@ -96,10 +96,12 @@ export function RootForm<TFieldValues extends FieldValues = FieldValues, TContex
       {typeof children === 'function'
         ? children({
             ...methods,
-            submitForm: () => {
+            submitForm: async () => {
               if (onSubmit) {
                 submittedRef.current = true
-                methods.handleSubmit(onSubmit)()
+                handleSubmit(values => {
+                  onSubmit(values)
+                })()
               }
             }
           })

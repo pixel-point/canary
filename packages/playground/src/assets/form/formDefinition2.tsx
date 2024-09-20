@@ -25,7 +25,7 @@ const inputs: IInputConfigWithConfig[] = [
     inputConfig: {
       inputs: [
         {
-          inputType: InputType.string,
+          inputType: InputType.text,
           label: 'First array prop',
           relativePath: 'firstArrayProp',
           required: true,
@@ -48,7 +48,7 @@ const inputs: IInputConfigWithConfig[] = [
             layout: 'grid',
             inputs: [
               {
-                inputType: InputType.string,
+                inputType: InputType.text,
                 label: 'Second array prop',
                 relativePath: 'secondArrayProp',
                 required: true,
@@ -71,7 +71,7 @@ const inputs: IInputConfigWithConfig[] = [
                   layout: 'default',
                   inputs: [
                     {
-                      inputType: InputType.string,
+                      inputType: InputType.text,
                       relativePath: 'thirdArrayProp1',
                       required: false,
                       label: 'Third array prop 1',

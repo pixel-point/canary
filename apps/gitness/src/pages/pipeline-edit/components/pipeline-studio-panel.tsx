@@ -1,4 +1,4 @@
-import { Badge, Button, Tabs, TabsContent, TabsList, TabsTrigger } from '@harnessio/canary'
+import { Badge, Button, Tabs, TabsContent, TabsList, TabsTrigger, Icon } from '@harnessio/canary'
 import { PipelineStudioProblemsPanel } from './pipeline-studio-problems-panel'
 import { usePipelineDataContext } from '../context/PipelineStudioDataProvider'
 import { usePipelineViewContext } from '../context/PipelineStudioViewProvider'
@@ -21,15 +21,15 @@ export const PipelineStudioPanel = (): JSX.Element => {
           </TabsTrigger>
           <TabsTrigger value="suggestions">Suggestions</TabsTrigger>
         </TabsList>
-        <div>
+        <div className="flex items-center">
           <Button
             onClick={() => {
               setPanelOpen(false)
             }}
             variant="ghost"
             size="sm"
-            className="m-1 px-2">
-            {/* <Xmark /> */} x
+            className="mx-2 px-2">
+            <Icon name="x-mark" />
           </Button>
         </div>
       </div>
