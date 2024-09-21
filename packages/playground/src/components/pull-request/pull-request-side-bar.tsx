@@ -7,9 +7,9 @@ import { getInitials } from '../../utils/utils'
 
 interface PullRequestSideBarProps {
   reviewers?: {
-    reviewer: { display_name: string; id: number }
-    review_decision: EnumPullReqReviewDecision
-    sha: string
+    reviewer?: { display_name?: string; id?: number }
+    review_decision?: EnumPullReqReviewDecision
+    sha?: string
   }[]
   processReviewDecision: (
     review_decision: EnumPullReqReviewDecision,
@@ -29,26 +29,26 @@ const PullRequestSideBar = (props: PullRequestSideBarProps) => {
     sha,
     sourceSHA
   }: {
-    reviewer: { display_name: string; id: number }
-    reviewDecision: EnumPullReqReviewDecision
-    sha: string
+    reviewer?: { display_name?: string; id?: number }
+    reviewDecision?: EnumPullReqReviewDecision
+    sha?: string
     sourceSHA?: string
   }) => {
-    const updatedReviewDecision = processReviewDecision(reviewDecision, sha, sourceSHA)
+    const updatedReviewDecision = reviewDecision && processReviewDecision(reviewDecision, sha, sourceSHA)
 
     return (
-      <div key={reviewer.id} className="flex items-center space-x-2 mr-1">
+      <div key={reviewer?.id} className="flex items-center space-x-2 mr-1">
         <Avatar
           className={cx('w-7 h-7 rounded-full', {
             'p-0': updatedReviewDecision !== PullReqReviewDecision.changeReq
           })}>
           <AvatarFallback>
             <Text size={1} color="tertiaryBackground">
-              {getInitials(reviewer.display_name)}
+              {getInitials(reviewer?.display_name || '')}
             </Text>
           </AvatarFallback>
         </Avatar>
-        <div className="truncate reviewerName">{reviewer.display_name}</div>
+        <div className="truncate reviewerName">{reviewer?.display_name}</div>
         <div className="flex-grow"></div>
 
         {updatedReviewDecision === PullReqReviewDecision.outdated ? (
@@ -69,7 +69,7 @@ const PullRequestSideBar = (props: PullRequestSideBarProps) => {
       {reviewers.length ? (
         reviewers.map(({ reviewer, review_decision, sha }) => (
           <ReviewerItem
-            key={reviewer.id}
+            key={reviewer?.id}
             reviewer={reviewer}
             reviewDecision={review_decision}
             sha={sha}
@@ -105,4 +105,4 @@ const PullRequestSideBar = (props: PullRequestSideBarProps) => {
   )
 }
 
-export default PullRequestSideBar
+export { PullRequestSideBar }

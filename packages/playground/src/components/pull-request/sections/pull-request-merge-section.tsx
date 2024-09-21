@@ -6,7 +6,7 @@ import { isEmpty } from 'lodash-es'
 interface PullRequestMergeSectionProps {
   unchecked: boolean
   mergeable: boolean
-  pullReqMetadata: { target_branch?: string }
+  pullReqMetadata: { target_branch?: string | undefined } | undefined
   conflictingFiles?: string[]
 }
 const PullRequestMergeSection = ({
@@ -30,7 +30,7 @@ const PullRequestMergeSection = ({
                   ? 'Merge check in progress...'
                   : !mergeable
                     ? 'Conflicts found in this branch'
-                    : `This branch has no conflicts with ${pullReqMetadata.target_branch} branch`
+                    : `This branch has no conflicts with ${pullReqMetadata?.target_branch} branch`
               }
               icon={
                 unchecked ? (

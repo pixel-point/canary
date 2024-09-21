@@ -26,7 +26,7 @@ import PullRequestChangesSection from './sections/pull-request-changes-section'
 import PullRequestMergeSection from './sections/pull-request-merge-section'
 
 interface PullRequestPanelProps extends PullRequestChangesSectionProps {
-  pullReqMetadata: TypesPullReq
+  pullReqMetadata: TypesPullReq | undefined
   conflictingFiles?: string[]
   PRStateLoading: boolean
   checks?: TypeCheckData[]
@@ -90,13 +90,13 @@ const PullRequestPanel = ({
   conflictingFiles,
   actions
 }: PullRequestPanelProps) => {
-  const mergeable = useMemo(() => pullReqMetadata.merge_check_status === MergeCheckStatus.MERGEABLE, [pullReqMetadata])
-  const isClosed = pullReqMetadata.state === PullRequestState.CLOSED
-  const isOpen = pullReqMetadata.state === PullRequestState.OPEN
-  //   const isConflict = pullReqMetadata.merge_check_status === MergeCheckStatus.CONFLICT
-  const isDraft = pullReqMetadata.is_draft
+  const mergeable = useMemo(() => pullReqMetadata?.merge_check_status === MergeCheckStatus.MERGEABLE, [pullReqMetadata])
+  const isClosed = pullReqMetadata?.state === PullRequestState.CLOSED
+  const isOpen = pullReqMetadata?.state === PullRequestState.OPEN
+  //   const isConflict = pullReqMetadata?.merge_check_status === MergeCheckStatus.CONFLICT
+  const isDraft = pullReqMetadata?.is_draft
   const unchecked = useMemo(
-    () => pullReqMetadata.merge_check_status === MergeCheckStatus.UNCHECKED && !isClosed,
+    () => pullReqMetadata?.merge_check_status === MergeCheckStatus.UNCHECKED && !isClosed,
     [pullReqMetadata, isClosed]
   )
   const checkData = checks || []
@@ -138,7 +138,11 @@ const PullRequestPanel = ({
                     <DropdownMenuGroup>
                       {actions &&
                         actions.map((action, action_idx) => {
-                          return <DropdownMenuItem key={action_idx}>{action.title}</DropdownMenuItem>
+                          return (
+                            <DropdownMenuItem onClick={action.action} key={action_idx}>
+                              {action.title}
+                            </DropdownMenuItem>
+                          )
                         })}
                     </DropdownMenuGroup>
                   </DropdownMenuContent>
@@ -151,7 +155,7 @@ const PullRequestPanel = ({
       </StackedList.Item>
       <StackedList.Item disableHover className="py-0 hover:bg-transparent cursor-default">
         <Accordion type="multiple" className="w-full">
-          {!pullReqMetadata.merged && (
+          {!pullReqMetadata?.merged && (
             <PullRequestChangesSection
               changesInfo={changesInfo}
               minApproval={minApproval}
@@ -170,10 +174,10 @@ const PullRequestPanel = ({
               latestCodeOwnerApprovalArr={latestCodeOwnerApprovalArr}
             />
           )}
-          {!pullReqMetadata.merged && <PullRequestCommentSection commentsInfo={commentsInfo} />}
+          {!pullReqMetadata?.merged && <PullRequestCommentSection commentsInfo={commentsInfo} />}
           <PullRequestCheckSection checkData={checkData} checksInfo={checksInfo} />
 
-          {!pullReqMetadata.merged && (
+          {!pullReqMetadata?.merged && (
             <PullRequestMergeSection
               unchecked={unchecked}
               mergeable={mergeable}
@@ -187,4 +191,4 @@ const PullRequestPanel = ({
   )
 }
 
-export default PullRequestPanel
+export { PullRequestPanel }

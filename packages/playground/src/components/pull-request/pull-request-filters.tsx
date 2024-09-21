@@ -85,4 +85,4 @@ const PullRequestFilters = <T extends FilterOption>({
   )
 }
 
-export default PullRequestFilters
+export { PullRequestFilters }

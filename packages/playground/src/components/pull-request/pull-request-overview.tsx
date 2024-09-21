@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { Button, Icon, Text } from '@harnessio/canary'
+import { Avatar, AvatarFallback, AvatarImage, Button, Icon, Text } from '@harnessio/canary'
 import {
   CommentItem,
   EnumPullReqActivityType,
@@ -18,16 +18,18 @@ import PullRequestDiffViewer from './pull-request-diff-viewer'
 import { useDiffConfig } from './hooks/useDiffConfig'
 import { DiffModeEnum } from '@git-diff-view/react'
 import PullRequestDescBox from './pull-request-description-box'
+import { getInitials, timeAgo } from '../../utils/utils'
+import AvatarUrl from '../../../public/images/user-avatar.svg'
 
 interface PullRequestOverviewProps {
-  data: TypesPullReqActivity[]
+  data?: TypesPullReqActivity[]
   currentUser?: string
   handleSaveComment: (comment: string, parentId?: number) => void
   // data: CommentItem<TypesPullReqActivity>[][]
-  pullReqMetadata: TypesPullReq
+  pullReqMetadata: TypesPullReq | undefined
   activityFilter: { label: string; value: string }
   dateOrderSort: { label: string; value: string }
-  diffData:
+  diffData?:
     | {
         oldFile?: {
           fileName?: string | null
@@ -138,7 +140,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
             createdAt={pullReqMetadata?.created}
             isLast={!(activityBlocks?.length > 0)}
             author={pullReqMetadata?.author?.display_name}
-            prNum={`#${pullReqMetadata.number}`}
+            prNum={`#${pullReqMetadata?.number}`}
             description={pullReqMetadata?.description}
           />
           {activityBlocks?.map((commentItems, index) => {
@@ -152,6 +154,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
               )
             } else {
               const payload = commentItems[0]?.payload?.payload // Ensure payload is typed correctly
+
               if (payload?.type === ('code-comment' as EnumPullReqActivityType)) {
                 return (
                   <PullRequestTimelineItem
@@ -159,13 +162,20 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                     header={[
                       {
                         avatar: (
-                          <>
-                            <div className='h-6 w-6 rounded-full bg-tertiary-background bg-[url("../images/user-avatar.svg")] bg-cover'></div>
-                          </>
+                          <Avatar className="w-6 h-6 rounded-full p-0">
+                            <AvatarImage src={AvatarUrl} />
+
+                            <AvatarFallback>
+                              <Text size={1} color="tertiaryBackground">
+                                {/* TODO: fix fallback string */}
+                                {getInitials((payload?.author as PayloadAuthor)?.display_name || '')}
+                              </Text>
+                            </AvatarFallback>
+                          </Avatar>
                         ),
                         name: (payload?.author as PayloadAuthor)?.display_name,
                         // TODO: fix comment to tell between comment or code comment?
-                        description: `reviewed 3 hours ago `
+                        description: `reviewed ${timeAgo(payload?.created ?? Date.now())}`
                       }
                     ]}
                     content={
@@ -199,14 +209,23 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                             return (
                               <PullRequestTimelineItem
                                 icon={
-                                  <div className='h-6 w-6 rounded-full bg-tertiary-background bg-[url("../images/user-avatar.svg")] bg-cover'></div>
+                                  <Avatar className="w-6 h-6 rounded-full p-0">
+                                    <AvatarImage src={AvatarUrl} />
+
+                                    <AvatarFallback>
+                                      <Text size={1} color="tertiaryBackground">
+                                        {/* TODO: fix fallback string */}
+                                        {getInitials((payload?.author as PayloadAuthor)?.display_name || '')}
+                                      </Text>
+                                    </AvatarFallback>
+                                  </Avatar>
                                 }
                                 isLast={commentItems.length - 1 === idx}
                                 header={[
                                   {
                                     name: (payload?.author as PayloadAuthor)?.display_name,
                                     // TODO: fix comment to tell between comment or code comment?
-                                    description: `3 hours ago `
+                                    description: `${timeAgo(payload?.created ?? Date.now())}`
                                   }
                                 ]}
                                 hideReply
@@ -227,7 +246,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                       //
                     }
                     icon={<Icon name="pr-review" size={12} />}
-                    isLast={data.length - 1 === index}
+                    isLast={(data && data?.length - 1 === index) ?? false}
                     handleSaveComment={handleSaveComment}
                     parentCommentId={payload?.id}
                   />
@@ -239,13 +258,20 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                   header={[
                     {
                       avatar: (
-                        <>
-                          <div className='h-6 w-6 rounded-full bg-tertiary-background bg-[url("../images/user-avatar.svg")] bg-cover'></div>
-                        </>
+                        <Avatar className="w-6 h-6 rounded-full p-0">
+                          <AvatarImage src={AvatarUrl} />
+
+                          <AvatarFallback>
+                            <Text size={1} color="tertiaryBackground">
+                              {/* TODO: fix fallback string */}
+                              {getInitials((payload?.author as PayloadAuthor)?.display_name || '')}
+                            </Text>
+                          </AvatarFallback>
+                        </Avatar>
                       ),
                       name: (payload?.author as PayloadAuthor)?.display_name,
                       // TODO: fix comment to tell between comment or code comment?
-                      description: `commented 3 hours ago`
+                      description: `commented ${timeAgo(payload?.created ?? Date.now())}`
                     }
                   ]}
                   content={
@@ -254,14 +280,23 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                         return (
                           <PullRequestTimelineItem
                             icon={
-                              <div className='h-6 w-6 rounded-full bg-tertiary-background bg-[url("../images/user-avatar.svg")] bg-cover'></div>
+                              <Avatar className="w-6 h-6 rounded-full p-0">
+                                <AvatarImage src={AvatarUrl} />
+
+                                <AvatarFallback>
+                                  <Text size={1} color="tertiaryBackground">
+                                    {/* TODO: fix fallback string */}
+                                    {getInitials((payload?.author as PayloadAuthor)?.display_name || '')}
+                                  </Text>
+                                </AvatarFallback>
+                              </Avatar>
                             }
                             isLast={commentItems.length - 1 === idx}
                             header={[
                               {
                                 name: (payload?.author as PayloadAuthor)?.display_name,
                                 // TODO: fix comment to tell between comment or code comment?
-                                description: ` 3 hours ago `
+                                description: `${timeAgo(payload?.created ?? Date.now())}`
                               }
                             ]}
                             hideReply
@@ -291,9 +326,9 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
         </div>
       </div>
     ) // [activityBlocks, currentUser, pullReqMetadata, activities]
-  }, [data, handleSaveComment])
+  }, [data, handleSaveComment, pullReqMetadata])
 
   return <div>{renderedActivityBlocks}</div>
 }
 
-export default PullRequestOverview
+export { PullRequestOverview }

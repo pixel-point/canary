@@ -398,4 +398,5 @@ export interface PullRequestAction {
   id: string
   title: string
   description?: string
+  action?: () => void
 }
