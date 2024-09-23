@@ -45,7 +45,7 @@ function LeftSubPanel({
   return (
     <section
       className={cn(
-        'fixed left-[220px] top-0 bottom-0 z-50 w-[248px] border-r border-border-background overflow-y-auto',
+        'fixed left-[220px] top-0 bottom-0 z-40 w-[248px] border-r border-border-background overflow-y-auto',
         paddingTopClass,
         className
       )}
@@ -57,7 +57,7 @@ function LeftSubPanel({
 
 function Header({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <header className={cn('h-[55px] fixed top-0 left-[220px] right-0 z-50 bg-background', className)} role="banner">
+    <header className={cn('h-[55px] fixed top-0 left-[220px] right-0 z-40 bg-background', className)} role="banner">
       {children}
     </header>
   )
@@ -104,19 +104,19 @@ function Main({
 
   if (fullWidth) {
     return (
-      <div
+      <section
         role="region"
         aria-label="Main Content"
         className={cn('h-full', paddingLeftClass, paddingTopClass, className)}>
         {children}
-      </div>
+      </section>
     )
   }
 
   return (
-    <div role="region" aria-label="Main Content" className={cn('h-full', paddingLeftClass)}>
+    <section role="region" aria-label="Main Content" className={cn('h-full', paddingLeftClass)}>
       <div className={cn('h-full mx-auto max-w-[1200px]', paddingTopClass, className)}>{children}</div>
-    </div>
+    </section>
   )
 }
 

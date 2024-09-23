@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { SandboxLayout } from '../index'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import { Icon, Navbar, NavbarProjectChooser, NavbarUser } from '@harnessio/canary'
+import { MoreSubmenu } from '../components/more-submenu'
 
 export const SandboxRoot: React.FC = () => {
   const [showMore, setShowMore] = useState<boolean>(false)
@@ -58,7 +59,7 @@ export const SandboxRoot: React.FC = () => {
   return (
     <SandboxLayout.Root>
       <SandboxLayout.LeftPanel>
-        <Navbar.Root className="max-md:hidden fixed top-0 left-0 bottom-0 z-50">
+        <Navbar.Root>
           <Navbar.Header>
             <NavbarProjectChooser.Root
               avatarLink={
@@ -111,6 +112,7 @@ export const SandboxRoot: React.FC = () => {
         </Navbar.Root>
       </SandboxLayout.LeftPanel>
       <Outlet />
+      <MoreSubmenu showMore={showMore} handleMore={handleMore} />
     </SandboxLayout.Root>
   )
 }

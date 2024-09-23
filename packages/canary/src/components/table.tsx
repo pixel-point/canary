@@ -2,11 +2,12 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 import { cva, type VariantProps } from 'class-variance-authority'
 
-const tableVariants = cva('', {
+const tableVariants = cva('w-full text-sm', {
   variants: {
     variant: {
-      default: 'w-full caption-bottom text-sm',
-      asStackedList: 'w-full text-sm'
+      default: 'caption-bottom ',
+      asStackedList:
+        'rounded-md border [&_th]:px-4 [&_td]:px-4 [&_td]:py-2.5 [&_td]:align-top [&_thead]:bg-primary/[0.02]'
     }
   },
   defaultVariants: {
@@ -14,21 +15,21 @@ const tableVariants = cva('', {
   }
 })
 
-export interface TableProps extends React.HTMLAttributes<HTMLTableElement>, VariantProps<typeof tableVariants> {}
+export interface TableProps extends React.HTMLAttributes<HTMLTableElement>, VariantProps<typeof tableVariants> {
+  disableXScroll?: boolean
+}
 
-const Table = React.forwardRef<HTMLTableElement, TableProps>(({ variant, className, ...props }, ref) => (
-  <div
-    className={cn(
-      'relative w-full overflow-auto',
-      {
-        'rounded-md border [&_th]:px-4 [&_td]:px-4 [&_td]:py-2.5 [&_td]:align-middle [&_thead]:bg-primary/[0.02]':
-          variant === 'asStackedList'
-      },
-      className
-    )}>
-    <table ref={ref} className={cn(tableVariants({ variant }))} {...props} />
-  </div>
-))
+const Table = React.forwardRef<HTMLTableElement, TableProps>(
+  ({ variant, disableXScroll, className, ...props }, ref) => (
+    <div className={cn('relative w-full overflow-auto', tableVariants({ variant }), className)}>
+      <table
+        ref={ref}
+        className={cn('overflow-x-auto w-full', { 'overflow-x-hidden min-w-auto': disableXScroll })}
+        {...props}
+      />
+    </div>
+  )
+)
 Table.displayName = 'Table'
 
 const TableHeader = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(
