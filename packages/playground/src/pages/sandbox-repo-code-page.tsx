@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { pick } from 'lodash-es'
+import { noop, pick } from 'lodash-es'
 import {
   Spacer,
   ListActions,
@@ -81,7 +81,7 @@ function Sidebar() {
   return (
     <div className="flex flex-col gap-5">
       <div className="w-full grid grid-cols-[1fr] auto-cols-auto grid-flow-col gap-3 items-center">
-        <BranchSelector size="sm" name="main" branchList={mockBranchList} />
+        <BranchSelector size="sm" name="main" branchList={mockBranchList} selectBranch={noop} />
         <ButtonGroup.Root
           spacing="0"
           className="shadow-border shadow-[inset_0_0_0_1px] rounded-md h-full overflow-hidden">

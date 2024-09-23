@@ -20,6 +20,7 @@ import {
 import { BranchSelector } from '../components/branch-chooser'
 import { mockRepos } from '../data/mockReposData'
 import { Link } from 'react-router-dom'
+import { noop } from 'lodash-es'
 
 const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
 const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
@@ -75,7 +76,7 @@ export default function CommitsListPage() {
       <Spacer size={6} />
       <ListActions.Root>
         <ListActions.Left>
-          <BranchSelector name={'main'} branchList={mockBranchList} />
+          <BranchSelector name={'main'} branchList={mockBranchList} selectBranch={noop} />
         </ListActions.Left>
         <ListActions.Right>
           <ListActions.Dropdown title="Filter" items={filterOptions} />

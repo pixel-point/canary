@@ -17,10 +17,11 @@ interface PageProps {
   name: string
   branchList: BranchListProps[]
   size?: 'default' | 'sm'
+  selectBranch: (branch: string) => void
 }
 
 export const BranchSelector = ({ ...props }: PageProps) => {
-  const { name, branchList, size = 'default' } = props
+  const { name, branchList, size = 'default', selectBranch } = props
 
   return (
     <DropdownMenu>
@@ -34,7 +35,7 @@ export const BranchSelector = ({ ...props }: PageProps) => {
       <DropdownMenuContent align="start">
         {branchList &&
           branchList.map(branch => {
-            return <DropdownMenuItem>{branch.name}</DropdownMenuItem>
+            return <DropdownMenuItem onClick={() => selectBranch(branch.name)}>{branch.name}</DropdownMenuItem>
           })}
       </DropdownMenuContent>
     </DropdownMenu>

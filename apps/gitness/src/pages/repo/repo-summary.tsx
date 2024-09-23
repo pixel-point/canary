@@ -33,13 +33,13 @@ export const RepoSummary: React.FC = () => {
   const repoRef = useGetRepoRef()
 
   const { data: repository } = useFindRepositoryQuery({ repo_ref: repoRef })
-  const defaultBranch = repository?.default_branch
-  const normalizedGitRef = normalizeGitRef(defaultBranch)
 
   const { data: branches } = useListBranchesQuery({
     repo_ref: repoRef,
     queryParams: { include_commit: false, sort: 'date', order: 'asc', limit: 20, page: 1, query: '' }
   })
+
+  const [selectedBranch, setSelectedBranch] = useState<string>('')
 
   const branchList = branches?.map(item => ({
     name: item?.name
@@ -55,7 +55,7 @@ export const RepoSummary: React.FC = () => {
   const { data: readmeContent } = useGetContentQuery({
     path: 'README.md',
     repo_ref: repoRef,
-    queryParams: { include_commit: false, git_ref: normalizedGitRef }
+    queryParams: { include_commit: false, git_ref: normalizeGitRef(selectedBranch) }
   })
 
   const decodedReadmeContent = useMemo(() => {
@@ -65,7 +65,7 @@ export const RepoSummary: React.FC = () => {
   const { data: repoDetails } = useGetContentQuery({
     path: '',
     repo_ref: repoRef,
-    queryParams: { include_commit: true, git_ref: normalizedGitRef }
+    queryParams: { include_commit: true, git_ref: normalizeGitRef(selectedBranch) }
   })
 
   const repoEntryPathToFileTypeMap = useMemo((): Map<string, OpenapiGetContentOutput['type']> => {
@@ -85,7 +85,7 @@ export const RepoSummary: React.FC = () => {
     setLoading(true)
     if (repoEntryPathToFileTypeMap.size > 0) {
       pathDetails({
-        queryParams: { git_ref: normalizedGitRef },
+        queryParams: { git_ref: normalizeGitRef(selectedBranch) },
         body: { paths: Array.from(repoEntryPathToFileTypeMap.keys()) },
         repo_ref: repoRef
       })
@@ -115,6 +115,16 @@ export const RepoSummary: React.FC = () => {
         })
     }
   }, [repoEntryPathToFileTypeMap.size, repoRef])
+
+  useEffect(() => {
+    if (repository) {
+      setSelectedBranch(repository?.default_branch || '')
+    }
+  }, [repository])
+
+  const selectBranch = (branch: string) => {
+    setSelectedBranch(branch)
+  }
 
   const renderListContent = () => {
     if (loading) return <SkeletonList />
@@ -155,7 +165,11 @@ export const RepoSummary: React.FC = () => {
             <ListActions.Root>
               <ListActions.Left>
                 <ButtonGroup.Root>
-                  <BranchSelector name={defaultBranch} branchList={branchList} />
+                  <BranchSelector
+                    name={selectedBranch}
+                    branchList={branchList}
+                    selectBranch={branch => selectBranch(branch)}
+                  />
                   <SearchBox.Root placeholder="Search" />
                 </ButtonGroup.Root>
               </ListActions.Left>

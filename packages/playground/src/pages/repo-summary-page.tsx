@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { pick } from 'lodash-es'
+import { noop, pick } from 'lodash-es'
 import {
   Spacer,
   ListActions,
@@ -118,7 +118,7 @@ function RepoSummaryPage() {
             <ListActions.Root>
               <ListActions.Left>
                 <ButtonGroup.Root>
-                  <BranchSelector name={'main'} branchList={mockBranchList} />
+                  <BranchSelector name={'main'} branchList={mockBranchList} selectBranch={noop} />
                   <SearchBox.Root placeholder="Search" />
                 </ButtonGroup.Root>
               </ListActions.Left>
