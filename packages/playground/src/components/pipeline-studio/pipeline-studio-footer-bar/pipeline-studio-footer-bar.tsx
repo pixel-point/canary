@@ -1,7 +1,5 @@
 import React from 'react'
-import moment from 'moment'
 import { XmarkCircle, WarningTriangle, InfoCircle } from '@harnessio/icons-noir'
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@harnessio/canary'
 
 interface PipelineStudioFooterBarProps {
   problems: {
@@ -43,7 +41,7 @@ const PipelineStudioFooterBar: React.FC<PipelineStudioFooterBarProps> = (props: 
             <span className="text-[12px] text-primary">{props.problems.info}</span>
           </div>
         </div>
-        <div className={'flex gap-2'}>
+        {/* <div className={'flex gap-2'}>
           <div className="flex gap-1 items-center">
             <span className="text-tertiary-background text-[12px]">Repository:</span>
             <Select defaultValue="harness-next">
@@ -72,12 +70,12 @@ const PipelineStudioFooterBar: React.FC<PipelineStudioFooterBarProps> = (props: 
               </SelectContent>
             </Select>
           </div>
-        </div>
+        </div> */}
       </div>
       {lastCommittedAt && lastCommittedBy && (
         <div className="flex text-[12px] text-tertiary-background">
           Last edited
-          <span className="text-primary">&nbsp;{moment(lastCommittedAt).fromNow()}&nbsp;</span>ago by
+          <span className="text-primary">&nbsp;{lastCommittedAt}&nbsp;</span> ago by
           <span className="text-primary">&nbsp;{lastCommittedBy}&nbsp;</span>
         </div>
       )}

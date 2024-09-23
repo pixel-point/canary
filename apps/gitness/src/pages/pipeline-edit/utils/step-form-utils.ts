@@ -45,5 +45,5 @@ export function apiInput2IInputDefinition(inputName: string, input: ApiInput, pr
 }
 
 export function addNameInput(inputs: IInputDefinition[], path: string): IInputDefinition[] {
-  return [{ path, label: 'Name', description: 'Name of the step', inputType: InputType.string }, ...inputs]
+  return [{ path, label: 'Name', description: 'Name of the step', inputType: 'text' }, ...inputs]
 }

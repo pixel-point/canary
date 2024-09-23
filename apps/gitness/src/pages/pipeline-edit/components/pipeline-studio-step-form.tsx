@@ -55,7 +55,7 @@ export const PipelineStudioStepForm = (props: PipelineStudioStepFormProps): JSX.
   }, [pluginsResponse])
 
   useEffect(() => {
-    if (editStepIntention && !addStepIntention && plugins) {
+    if (editStepIntention && plugins) {
       const yamlJson = parse(yamlRevision.yaml)
       const step = get(yamlJson, editStepIntention.path)
 

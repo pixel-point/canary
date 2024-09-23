@@ -11,12 +11,14 @@ import { PipelineStudioYamlView } from './pipeline-studio-yaml-view'
 import { usePipelineDataContext } from '../context/PipelineStudioDataProvider'
 import { PipelineStudioStepPalette } from './pipeline-studio-step-palette'
 import PipelineStudioHeaderActions from './pipeline-studio-header-actions'
+import { timeAgo } from '../utils/time-utils'
 
 export default function PipelineEdit() {
   const { view, setView, panelOpen, stepDrawerOpen, setStepDrawerOpen, setPanelOpen } = usePipelineViewContext()
   const { problems } = usePipelineDataContext()
 
-  const { clearAddStepIntention, clearEditStepIntention, setCurrentStepFormDefinition } = usePipelineDataContext()
+  const { clearAddStepIntention, clearEditStepIntention, setCurrentStepFormDefinition, latestCommitAuthor } =
+    usePipelineDataContext()
 
   useEffect(() => {
     setPanelOpen(view === 'yaml')
@@ -53,6 +55,9 @@ export default function PipelineEdit() {
           <PipelineStudioStepPalette
             requestClose={() => {
               setStepDrawerOpen(StepDrawer.None)
+              clearAddStepIntention()
+              clearEditStepIntention()
+              setCurrentStepFormDefinition(null)
             }}
           />
         )
@@ -77,7 +82,12 @@ export default function PipelineEdit() {
       <Sheet
         open={stepDrawerOpen !== StepDrawer.None}
         onOpenChange={open => {
-          if (!open) setStepDrawerOpen(StepDrawer.None)
+          if (!open) {
+            setStepDrawerOpen(StepDrawer.None)
+            clearAddStepIntention()
+            clearEditStepIntention()
+            setCurrentStepFormDefinition(null)
+          }
         }}>
         <SheetContent className="p-0">{renderSheetContent()}</SheetContent>
       </Sheet>
@@ -94,11 +104,16 @@ export default function PipelineEdit() {
         </div>
         {drawer}
         {main}
-        <PipelineStudioFooterBar
-          commitHistory={{ lastCommittedAt: Date.now(), lastCommittedBy: 'harness.io' }}
-          problems={problems.problemsCount}
-          togglePane={() => setPanelOpen(!panelOpen)}
-        />
+        {latestCommitAuthor ? (
+          <PipelineStudioFooterBar
+            commitHistory={{
+              lastCommittedAt: latestCommitAuthor.when ? timeAgo(latestCommitAuthor.when) : '',
+              lastCommittedBy: latestCommitAuthor.identity?.name ?? ''
+            }}
+            problems={problems.problemsCount}
+            togglePane={() => setPanelOpen(!panelOpen)}
+          />
+        ) : null}
       </Container.Main>
     </Container.Root>
   )

@@ -1,13 +1,13 @@
-import { get } from 'lodash-es'
-import { parse, parseDocument, stringify } from 'yaml'
+import { YAMLSeq, parseDocument } from 'yaml'
 
+// TODO: split this to addToArray and insertInArray
 export function injectItemInArray(
   yaml: string,
   injectData: { path: string; position: 'after' | 'before' | 'last' | undefined; item: unknown }
 ): string {
   const { path, position, item } = injectData
 
-  // if position is "last" path points to array
+  // if position is "last", path points to an array
   if (position === 'last') {
     const doc = parseDocument(yaml)
 
@@ -17,16 +17,18 @@ export function injectItemInArray(
 
     return doc.toString()
   }
-  // if position is "after" or "before" path points to array element
+  // if position is "after" or "before", path points to an array element
   else if (position === 'after' || position === 'before') {
-    // TODO use DOC
-    const yamlJson = parse(yaml)
     const pathParts = path.split('.')
     const index = parseInt(pathParts.pop() ?? '0')
-    const arrayPath = pathParts.join('.')
-    const arr = get(yamlJson, arrayPath)
-    arr.splice(position == 'before' ? index : index + 1, 0, item)
-    return stringify(yamlJson)
+
+    const doc = parseDocument(yaml)
+
+    const yamlItem = doc.createNode(item)
+    const collection = doc.getIn(pathParts) as YAMLSeq
+    collection.items.splice(position == 'before' ? index : index + 1, 0, yamlItem)
+
+    return doc.toString()
   }
 
   return yaml
@@ -35,7 +37,6 @@ export function injectItemInArray(
 export function updateItemInArray(yaml: string, injectData: { path: string; item: unknown }): string {
   const { path, item } = injectData
 
-  // if position is "last" path points to array
   const doc = parseDocument(yaml)
 
   doc.setIn(path.split('.'), item)

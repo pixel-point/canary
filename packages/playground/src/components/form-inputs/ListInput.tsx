@@ -27,9 +27,10 @@ function ListInputInternal(props: InputProps<AnyFormikValue, ListInputConfig>): 
   const { label, required, inputConfig, description } = input
 
   const isGrid = inputConfig?.layout === 'grid'
-  const len = inputConfig?.inputs.length
-  const frArr = new Array(len).fill('1fr', 0, len)
-  const rowStyle = isGrid ? `grid grid-cols-[${frArr.join('_')}_auto] gap-2` : 'flex flex-col space-y-4'
+  // const len = inputConfig?.inputs.length
+  // const frArr = new Array(len).fill('1fr', 0, len)
+  const rowClass = isGrid ? `grid gap-2` : 'flex flex-col space-y-4'
+  const rowStyle = isGrid ? { gridTemplateColumns: `repeat(${inputConfig?.inputs.length}, 1fr) auto` } : {}
 
   const { fields, append, remove } = useFieldArray({
     name: path
@@ -70,7 +71,7 @@ function ListInputInternal(props: InputProps<AnyFormikValue, ListInputConfig>): 
                 <div>
                   <div>
                     {isGrid && fields.length > 0 && (
-                      <div className={rowStyle}>
+                      <div className={rowClass} style={rowStyle}>
                         {inputConfig?.inputs.map(rowInput => (
                           <InputLabel
                             label={rowInput.label}
@@ -81,7 +82,7 @@ function ListInputInternal(props: InputProps<AnyFormikValue, ListInputConfig>): 
                       </div>
                     )}
                     {fields.map((_item, idx) => (
-                      <div key={_item.id} className={rowStyle}>
+                      <div key={_item.id} className={rowClass} style={rowStyle}>
                         {inputConfig?.inputs && (
                           <RenderInputs items={getChildInputs(inputConfig?.inputs, path, idx)} factory={factory} />
                         )}

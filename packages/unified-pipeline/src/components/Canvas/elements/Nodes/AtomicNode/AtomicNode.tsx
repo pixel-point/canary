@@ -17,6 +17,7 @@ import { STEP_NODE_HEIGHT, STEP_NODE_WIDTH } from '../../../utils/LROrientation/
 import { Status } from '../../../../../utils/Constants'
 // import cardBg from '../../../../../assets/images/card-glow.svg'
 import { DEFAULT_NODE_LOCATION } from '../../../../../components/Canvas/utils/LROrientation/Constants'
+import { useInteractionContext } from '../../../../../framework/InteractionContext/InteractionContext'
 
 export interface AtomicNodeProps extends DefaultNodeProps, ExpandNodeProps, DeleteNodeProps {
   /**
@@ -26,7 +27,8 @@ export interface AtomicNodeProps extends DefaultNodeProps, ExpandNodeProps, Dele
 
 export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex }: NodeProps<AtomicNodeProps>) {
   const { deleteElements, getEdges, addNodes } = useReactFlow()
-  const { icon, name, readonly, groupId } = data
+  const { handleAddClick, selectedNodePath } = useInteractionContext()
+  const { icon, name, readonly, groupId, path } = data
   const { enableDiagnostics } = useCanvasStore()
   const [width] = useState<number>(STEP_NODE_WIDTH)
   const [height] = useState<number>(STEP_NODE_HEIGHT)
@@ -97,7 +99,8 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
         <div
           className={cx(
             'border p-px rounded-md bg-studio-primary border-studio-4/[0.6] shadow-[0px_4px_12px_0px_rgba(0,0,0,0.3)]',
-            { 'gradient-border-gray': status === Status.DONE }
+            { 'gradient-border-gray': status === Status.DONE },
+            { 'border-studio-node-selected': selectedNodePath === path }
           )}>
           <div
             style={{
@@ -115,14 +118,21 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
       )}
       <Handle type="source" position={Position.Right} isConnectable={isConnectable}>
         {status !== Status.QUEUED && (
-          <Plus
-            className={cx(
-              'hover:cursor-pointer rounded-full w-5 h-5 opacity-0 border border-studio-4/[0.6] bg-studio-1 text-studio-7 transform -translate-x-2 -translate-y-2',
-              {
-                'transition-opacity duration-200 ease-in-out opacity-100': showPlus
-              }
-            )}
-          />
+          <div
+            className="hover:cursor-pointer w-8 h-8 -translate-x-4 -translate-y-4 flex items-center justify-center"
+            onClick={e => {
+              e.stopPropagation()
+              handleAddClick(data)
+            }}>
+            <Plus
+              className={cx(
+                'rounded-full w-8 h-8 opacity-0 border border-studio-4/[0.6] hover:border-studio-4 bg-studio-1 text-studio-7 transform translate-x-[2px] translate-y-[2px]',
+                {
+                  'transition-opacity duration-200 ease-in-out opacity-100': showPlus
+                }
+              )}
+            />
+          </div>
         )}
       </Handle>
     </div>

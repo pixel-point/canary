@@ -12,6 +12,7 @@ import { TypesPlugin } from '../types/api-types'
 import {
   OpenapiGetContentOutput,
   TypesPipeline,
+  TypesSignature,
   useFindPipelineQuery,
   useGetContentQuery
 } from '@harnessio/code-service-client'
@@ -53,11 +54,7 @@ interface PipelineStudioDataContextProps {
   editStepIntention: { path: string } | null
   //
   requestYamlModifications: {
-    injectInArray: (props: {
-      path: string
-      position: 'first' | 'last' | 'after' | 'before' | undefined
-      item: unknown
-    }) => void
+    injectInArray: (props: { path: string; position: 'last' | 'after' | 'before' | undefined; item: unknown }) => void
     updateInArray: (props: { path: string; item: unknown }) => void
     deleteInArray: (props: { path: string }) => void
   }
@@ -69,6 +66,8 @@ interface PipelineStudioDataContextProps {
   pipelineYAMLFileContent: OpenapiGetContentOutput | undefined
   fetchPipelineYAMLFileContent?: ReturnType<typeof useGetContentQuery>['refetch']
   fetchingPipelineYAMLFileContent?: boolean
+  //
+  latestCommitAuthor: TypesSignature | null
 }
 
 const PipelineStudioDataContext = createContext<PipelineStudioDataContextProps>({
@@ -91,7 +90,7 @@ const PipelineStudioDataContext = createContext<PipelineStudioDataContextProps>(
   requestYamlModifications: {
     injectInArray: (_props: {
       path: string
-      position: 'first' | 'last' | 'after' | 'after' | 'before' | undefined
+      position: 'last' | 'after' | 'after' | 'before' | undefined
       item: unknown
     }) => undefined,
     updateInArray: (_props: { path: string; item: unknown }) => undefined,
@@ -102,7 +101,9 @@ const PipelineStudioDataContext = createContext<PipelineStudioDataContextProps>(
   currentStepFormDefinition: null,
   //
   pipelineData: undefined,
-  pipelineYAMLFileContent: undefined
+  pipelineYAMLFileContent: undefined,
+  //
+  latestCommitAuthor: null
 })
 
 const PipelineStudioDataProvider = ({ children }: React.PropsWithChildren) => {
@@ -139,7 +140,7 @@ const PipelineStudioDataProvider = ({ children }: React.PropsWithChildren) => {
     {
       path: pipelineData?.config_path ?? '',
       repo_ref: repoRef,
-      queryParams: { git_ref: normalizeGitRef(pipelineData?.default_branch) ?? '' }
+      queryParams: { git_ref: normalizeGitRef(pipelineData?.default_branch) ?? '', include_commit: true }
     },
     { enabled: !!pipelineData?.default_branch }
   )
@@ -147,6 +148,11 @@ const PipelineStudioDataProvider = ({ children }: React.PropsWithChildren) => {
   const pipelineYAMLFileContent = (pipelineYAMLFileContentRaw as { content: unknown })?.content as
     | OpenapiGetContentOutput
     | undefined
+
+  const latestCommitAuthor = useMemo(
+    () => pipelineYAMLFileContent?.latest_commit?.author ?? null,
+    [pipelineYAMLFileContent?.latest_commit?.author]
+  )
 
   const decodedPipelineYaml = useMemo(() => {
     return decodeGitContent(pipelineYAMLFileContent?.content?.data)
@@ -179,7 +185,7 @@ const PipelineStudioDataProvider = ({ children }: React.PropsWithChildren) => {
   const [currentStepFormDefinition, setCurrentStepFormDefinition] = useState<TypesPlugin | null>(null)
 
   const injectInArray = useCallback(
-    (injectData: { path: string; position: 'after' | 'before' | 'first' | 'last' | undefined; item: unknown }) => {
+    (injectData: { path: string; position: 'after' | 'before' | 'last' | undefined; item: unknown }) => {
       const yaml = injectItemInArray(latestYaml.current, injectData)
       setYamlRevision({ yaml: yaml })
     },
@@ -276,7 +282,9 @@ const PipelineStudioDataProvider = ({ children }: React.PropsWithChildren) => {
         pipelineData,
         pipelineYAMLFileContent,
         fetchPipelineYAMLFileContent,
-        fetchingPipelineYAMLFileContent
+        fetchingPipelineYAMLFileContent,
+        //
+        latestCommitAuthor
       }}>
       {children}
     </PipelineStudioDataContext.Provider>

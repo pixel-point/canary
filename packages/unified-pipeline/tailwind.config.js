@@ -17,7 +17,8 @@ module.exports = {
           5: 'rgba(var(--studio-5))',
           6: 'rgba(var(--studio-6))',
           7: 'rgba(var(--studio-7))',
-          8: 'rgba(var(--studio-8))'
+          8: 'rgba(var(--studio-8))',
+          'node-selected': 'rgba(var(--studio-node-border-selected))'
         }
       }
     }

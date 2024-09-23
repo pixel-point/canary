@@ -3,6 +3,7 @@ import { parse } from 'yaml'
 import { PipelineStudio, getNodesFromPipelineYaml, type Node } from '@harnessio/unified-pipeline'
 import { usePipelineDataContext } from '../context/PipelineStudioDataProvider'
 import { StepDrawer, usePipelineViewContext } from '../context/PipelineStudioViewProvider'
+import { InteractionContextProvider } from '../context/InteractionContextProvider'
 
 export const PipelineStudioGraphView = (): React.ReactElement => {
   const { yamlRevision, setEditStepIntention } = usePipelineDataContext()
@@ -24,17 +25,19 @@ export const PipelineStudioGraphView = (): React.ReactElement => {
 
   return (
     <div className="flex h-full w-full">
-      <PipelineStudio
-        nodes={nodes}
-        onAddNode={() => {}}
-        onDeleteNode={() => {}}
-        onSelectNode={node => {
-          if (node.type === 'atomic') {
-            setStepDrawerOpen(StepDrawer.Form)
-            setEditStepIntention({ path: node.data.path })
-          }
-        }}
-      />
+      <InteractionContextProvider>
+        <PipelineStudio
+          nodes={nodes}
+          onAddNode={() => {}}
+          onDeleteNode={() => {}}
+          onSelectNode={node => {
+            if (node.type === 'atomic') {
+              setStepDrawerOpen(StepDrawer.Form)
+              setEditStepIntention({ path: node.data.path })
+            }
+          }}
+        />
+      </InteractionContextProvider>
     </div>
   )
 }
