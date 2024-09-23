@@ -31,7 +31,7 @@ function Content({ children }: { children: React.ReactNode }) {
 function Group({ children, topBorder }: { children: React.ReactNode; topBorder?: boolean }) {
   return (
     <div
-      className={cn('p-5 py-3.5 flex flex-col gap-1.5', {
+      className={cn('w-full overflow-x-hidden p-5 py-3.5 flex flex-col gap-1.5', {
         'border-t border-border-background': topBorder
       })}>
       {children}
@@ -41,7 +41,7 @@ function Group({ children, topBorder }: { children: React.ReactNode; topBorder?:
 
 function AccordionGroup({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="p-5 py-0.5 border-t border-border-background">
+    <div className="w-full overflow-x-hidden p-5 py-0.5 border-t border-border-background">
       <Accordion type="single" collapsible defaultValue="item-1">
         <AccordionItem value="item-1" className="border-none">
           <AccordionTrigger className="group text-primary opacity-40">

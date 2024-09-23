@@ -81,6 +81,8 @@ import HarnessPlugin from '../icons/harness-plugin.svg'
 import BitrisePlugin from '../icons/bitrise-plugin.svg'
 import Trash from '../icons/trash.svg'
 import XMark from '../icons/x-mark.svg'
+import Pin from '../icons/pin.svg'
+import Unpin from '../icons/unpin.svg'
 // import Fork from '../icons/fork.svg'
 
 const IconNameMap = {
@@ -165,7 +167,9 @@ const IconNameMap = {
   'harness-plugin': HarnessPlugin,
   'bitrise-plugin': BitrisePlugin,
   trash: Trash,
-  'x-mark': XMark
+  'x-mark': XMark,
+  pin: Pin,
+  unpin: Unpin
   // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 
