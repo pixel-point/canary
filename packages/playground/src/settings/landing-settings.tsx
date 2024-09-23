@@ -10,7 +10,7 @@ const LandingSettings = ({ loadState, setLoadState }: SettingsProps) => {
   const settingsOptions = [
     { key: 'home-auth', label: 'Home page (authed)' },
     { key: 'home-unauth', label: 'Home page (unauthed)' },
-    { key: 'create-workspace', label: 'Create workspace' },
+    { key: 'create-project', label: 'Create project' },
     { key: 'sign-in', label: 'Sign in' },
     { key: 'sign-up', label: 'Sign up' },
     { key: 'password-forgot', label: 'Forgot password' },

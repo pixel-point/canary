@@ -63,7 +63,7 @@ export function CreateProjectPage({ isLoading, onFormSubmit, apiError }: PagePro
               id="identifier"
               type="text"
               {...register('identifier', { required: true })}
-              placeholder="Please enter your project name, ex: my-project"
+              placeholder="Enter your project name"
               autoFocus
             />
             {errors.identifier && (
@@ -84,7 +84,7 @@ export function CreateProjectPage({ isLoading, onFormSubmit, apiError }: PagePro
             )}
             <Spacer size={8} />
             <Button variant="default" borderRadius="full" type="submit" loading={isLoading} className="w-full">
-              {isLoading ? 'Creating workspace...' : 'Create workspace'}
+              {isLoading ? 'Creating project...' : 'Create project'}
             </Button>
           </form>
           <Spacer size={4} />
