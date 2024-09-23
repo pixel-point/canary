@@ -17,10 +17,10 @@ export enum WebhookState {
 
 interface Webhook {
   id: number
-  status: WebhookState
-  name: string
+  enabled: boolean
+  display_name: string
   description?: string
-  timestamp: string
+  // timestamp: string
 }
 
 interface PageProps {
@@ -28,11 +28,11 @@ interface PageProps {
   LinkComponent: React.ComponentType<{ to: string; children: React.ReactNode }>
 }
 
-const Title = ({ title, status }: { title: string; status: WebhookState }) => {
+const Title = ({ title, enabled }: { title: string; enabled: boolean }) => {
   return (
     <div className="inline-flex gap-2 items-center">
       <Text truncate>{title}</Text>
-      {status && status == WebhookState.ENABLED ? (
+      {enabled ? (
         // TODO: Update Badge component with standarized color variants
         <Badge
           variant="outline"
@@ -73,9 +73,9 @@ export const WebhooksList = ({ webhooks, LinkComponent }: PageProps) => {
         <StackedList.Root>
           {webhooks.map((webhook, webhook_idx) => (
             <LinkComponent to={webhook.id.toString()}>
-              <StackedList.Item key={webhook.name} isLast={webhooks.length - 1 === webhook_idx}>
+              <StackedList.Item key={webhook.display_name} isLast={webhooks.length - 1 === webhook_idx}>
                 <StackedList.Field
-                  title={<Title title={webhook.name} status={webhook.status} />}
+                  title={<Title title={webhook.display_name} enabled={webhook.enabled} />}
                   description={webhook.description}
                 />
                 <StackedList.Field label secondary title={<Action id={webhook.id} />} right />
