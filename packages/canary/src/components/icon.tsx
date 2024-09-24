@@ -27,6 +27,7 @@ import Tick from '../icons/tick.svg'
 import NoDataFolder from '../icons/no-data-folder.svg'
 import NoDataMerge from '../icons/no-data-merge.svg'
 import NoDataCog from '../icons/no-data-cog.svg'
+import NoDataBranches from '../icons/no-data-branches.svg'
 import NoSearchMagnifyingGlass from '../icons/no-search-magnifying-glass.svg'
 import Changes from '../icons/changes.svg'
 import Checks from '../icons/checks.svg'
@@ -114,6 +115,7 @@ const IconNameMap = {
   'no-data-folder': NoDataFolder,
   'no-data-merge': NoDataMerge,
   'no-data-cog': NoDataCog,
+  'no-data-branches': NoDataBranches,
   'no-search-magnifying-glass': NoSearchMagnifyingGlass,
   changes: Changes,
   checks: Checks,

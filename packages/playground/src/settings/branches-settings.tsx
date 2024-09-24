@@ -10,7 +10,7 @@ const BranchesSettings = ({ loadState, setLoadState }: SettingsProps) => {
   const settingsOptions = [
     { key: 'data-loaded', label: 'Data loaded' },
     { key: 'loading', label: 'Loading' },
-    { key: 'no-data', label: 'No data' }
+    { key: 'no-data', label: 'No branches yet' }
   ]
 
   return (

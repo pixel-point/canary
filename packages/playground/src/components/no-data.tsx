@@ -11,6 +11,7 @@ export interface NoDataProps {
     | 'no-data-merge'
     | 'no-data-cog'
     | 'no-data-webhooks'
+    | 'no-data-branches'
   iconSize?: number
   description: string[]
   primaryButton?: {

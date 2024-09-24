@@ -19,6 +19,7 @@ import CreateProject from './pages/create-project'
 import { PipelineCreate } from './pages/pipeline-create/pipeline-create'
 import RepoCommitsPage from './pages/repo/repo-commits'
 import RepoWebhooksListPage from './pages/repo/repo-webhooks'
+import { ReposBranchesListPage } from './pages/repo/repo-branch-list'
 
 export default function App() {
   const router = createBrowserRouter([
@@ -77,9 +78,11 @@ export default function App() {
               element: <RepoCommitsPage />
             },
             {
-              path: 'webhooks',
-              element: <RepoWebhooksListPage />
-            }
+              path: 'branches',
+              element: <ReposBranchesListPage />
+            },
+            {path: 'webhooks',
+              element: <RepoWebhooksListPage />}
           ]
         },
         // Pipelines (OUTSIDE REPOS)

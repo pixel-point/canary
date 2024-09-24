@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import BranchesList from '../components/branches-list'
+import { BranchesList } from '../components/branches-list'
 import { SkeletonList } from '../components/loaders/skeleton-list'
 import { NoData } from '../components/no-data'
 import { PaddingListLayout } from '../layouts/PaddingListLayout'
@@ -42,7 +42,15 @@ export default function BranchesListPage() {
   if (loadState == 'no-data') {
     return (
       <>
-        <NoData iconName="no-data-folder" title="No branches yet" description={['There are no branches yet.']} />
+        <NoData
+          iconName="no-data-merge"
+          title="No branches yet"
+          description={[
+            "Your branches will appear here once they're created.",
+            'Start branching to see your work organized.'
+          ]}
+          primaryButton={{ label: 'Create new branch' }}
+        />
         <PlaygroundBranchesSettings loadState={loadState} setLoadState={setLoadState} />
       </>
     )
