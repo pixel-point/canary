@@ -3,7 +3,6 @@ import ChevronDown from '../icons/chevron-down.svg'
 import Archive from '../icons/repositories-icon.svg'
 import Harness from '../icons/harness.svg'
 import Pipelines from '../icons/pipelines-icon.svg'
-import Executions from '../icons/executions-icon.svg'
 import FeaturedFlags from '../icons/featured-flags-icon.svg'
 import Ellipsis from '../icons/more-dots-icon.svg'
 import Repositories from '../icons/repositories-icon.svg'
@@ -70,6 +69,7 @@ import HarnessPlugin from '../icons/harness-plugin.svg'
 import BitrisePlugin from '../icons/bitrise-plugin.svg'
 import Trash from '../icons/trash.svg'
 import XMark from '../icons/x-mark.svg'
+import Cog6 from '../icons/cog-6.svg'
 import Pin from '../icons/pin.svg'
 import Unpin from '../icons/unpin.svg'
 import Rocket from '../icons/rocket.svg'
@@ -90,7 +90,6 @@ const IconNameMap = {
   archive: Archive,
   harness: Harness,
   pipelines: Pipelines,
-  executions: Executions,
   'featured-flags': FeaturedFlags,
   ellipsis: Ellipsis,
   repositories: Repositories,
@@ -157,6 +156,7 @@ const IconNameMap = {
   'bitrise-plugin': BitrisePlugin,
   trash: Trash,
   'x-mark': XMark,
+  'cog-6': Cog6,
   pin: Pin,
   unpin: Unpin,
   rocket: Rocket,

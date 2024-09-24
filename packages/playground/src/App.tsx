@@ -33,6 +33,14 @@ import { SandboxRepoSummaryPage } from './pages/sandbox-repo-summary-page'
 import { SandboxRepoSinglePage } from './pages/sandbox-repo-single-page'
 import { SandboxRepoCodePage } from './pages/sandbox-repo-code-page'
 import { SandboxLandingPage } from './pages/sandbox-landing-page'
+import { SandboxSettings } from './layouts/SandboxSettings'
+import { SandboxSettingsPage } from './pages/sandbox-settings-page'
+import { SandboxSettingsAccountPage } from './pages/sandbox-settings-account-page'
+import { SandboxSettingsAccountGeneralPage } from './pages/sandbox-settings-account-general-page'
+import { SandboxSettingsAccountKeysPage } from './pages/sandbox-settings-account-keys-page'
+import { SandboxSettingsProjectPage } from './pages/sandbox-settings-project-page'
+import { SandboxSettingsProjectGeneralPage } from './pages/sandbox-settings-project-general-page'
+import { SandboxSettingsProjectMembersPage } from './pages/sandbox-settings-project-members-page'
 
 const router = createBrowserRouter([
   // TEMPORARY LAYOUT SANDBOX
@@ -63,6 +71,53 @@ const router = createBrowserRouter([
             ]
           }
         ]
+      },
+      {
+        path: 'settings',
+        element: <SandboxSettings />,
+        children: [
+          {
+            path: 'account',
+            element: <SandboxSettingsAccountPage />,
+            children: [
+              {
+                index: true,
+                element: <Navigate to="general" />
+              },
+              {
+                path: 'general',
+                element: <SandboxSettingsAccountGeneralPage />
+              },
+              {
+                path: 'keys',
+                element: <SandboxSettingsAccountKeysPage />
+              }
+            ]
+          },
+          {
+            path: 'project',
+            element: <SandboxSettingsProjectPage />,
+            children: [
+              {
+                index: true,
+                element: <Navigate to="general" />
+              },
+              {
+                path: 'general',
+                element: <SandboxSettingsProjectGeneralPage />
+              },
+              {
+                path: 'members',
+                element: <SandboxSettingsProjectMembersPage />
+              }
+            ]
+          }
+        ]
+      },
+      {
+        path: 'settings',
+        index: true,
+        element: <SandboxSettingsPage />
       },
       {
         path: 'landing',
