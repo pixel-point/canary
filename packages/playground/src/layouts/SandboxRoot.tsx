@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { SandboxLayout } from '../index'
 import { Link, NavLink, Outlet } from 'react-router-dom'
-import { Icon, Navbar, NavbarProjectChooser, NavbarUser } from '@harnessio/canary'
 import { Icon, IconProps, Navbar, NavbarProjectChooser, NavbarUser } from '@harnessio/canary'
 import { MoreSubmenu } from '../components/more-submenu'
 import { navbarSubmenuData } from '../data/mockNavbarSubmenuData'
