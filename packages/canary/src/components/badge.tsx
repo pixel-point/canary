@@ -32,6 +32,7 @@ const badgeVariants = cva(
         destructive: 'text-error border-[hsla(var(--error),0.3)] bg-[hsla(var(--error),0.1)]',
         warning: 'text-warning border-[hsla(var(--warning),0.3)] bg-[hsla(var(--warning),0.1)]',
         success: 'text-success border-[hsla(var(--success),0.3)] bg-[hsla(var(--success),0.1)]',
+        emphasis: 'text-emphasis border-[hsla(var(--emphasis),0.3)] bg-[hsla(var(--emphasis),0.1)]',
         muted: 'text-tertiary-background border-tertiary-background/20 bg-tertiary-background/10'
       }
     },

@@ -77,6 +77,9 @@ export default {
         warning: {
           DEFAULT: 'hsl(var(--warning))'
         },
+        emphasis: {
+          DEFAULT: 'hsl(var(--emphasis))'
+        },
         ai: {
           DEFAULT: 'hsl(var(--ai))'
         }

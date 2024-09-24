@@ -52,22 +52,10 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
       <div className="">
         <div className="flex space-x-2 text-tertiary-background ">
           <div className="flex gap-2.5 items-center align-middle text-center">
-            {/* TODO:add status in badge or create a component to handle status */}
-            {merged ? (
-              <Badge
-                disableHover
-                size="default"
-                className={`select-none bg-emerald-300/20 text-emerald-400 font-medium`}>
-                {'Merged'}
-              </Badge>
-            ) : (
-              <Badge
-                disableHover
-                size="default"
-                className={`select-none bg-emerald-300/10 text-emerald-400 rounded-full border border-emerald-400/20 font-medium`}>
-                {'Open'}
-              </Badge>
-            )}
+            <Badge disableHover borderRadius="full" theme={merged ? 'emphasis' : 'success'} className={`select-none`}>
+              <Icon name={merged ? 'merged' : 'merged'} size={12} />
+              &nbsp;{merged ? 'Merged' : 'Open'}
+            </Badge>
             <div className="flex gap-2">
               <Text
                 size={2}
