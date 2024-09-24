@@ -77,6 +77,7 @@ export const RootLayout: React.FC = () => {
   function handleMore() {
     setShowMore(!showMore)
   }
+
   function handlePinItem(item: NavbarItem) {
     setPinnedItems(prevPinnedItems => {
       const isPinned = prevPinnedItems.some(pinned => pinned.id === item.id)

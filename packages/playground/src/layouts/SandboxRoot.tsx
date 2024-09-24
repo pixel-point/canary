@@ -1,8 +1,17 @@
 import React, { useState } from 'react'
 import { SandboxLayout } from '../index'
 import { Link, NavLink, Outlet } from 'react-router-dom'
-import { Icon, Navbar, NavbarProjectChooser, NavbarUser } from '@harnessio/canary'
+import { Icon, IconProps, Navbar, NavbarProjectChooser, NavbarUser } from '@harnessio/canary'
 import { MoreSubmenu } from '../components/more-submenu'
+import { navbarSubmenuData } from '../data/mockNavbarSubmenuData'
+
+interface NavbarItem {
+  id: number
+  title: string
+  iconName: IconProps['name']
+  description: string
+  to?: string
+}
 
 export const SandboxRoot: React.FC = () => {
   const [showMore, setShowMore] = useState<boolean>(false)
@@ -30,32 +39,67 @@ export const SandboxRoot: React.FC = () => {
     }
   ]
 
-  const pinnedMenuItems = [
+  const initialPinnedMenuItems: NavbarItem[] = [
     {
-      text: 'Chaos Engineering',
-      icon: <Icon name="chaos-engineering" size={12} />,
+      id: 4,
+      title: 'Chaos Engineering',
+      iconName: 'chaos-engineering',
+      description: 'Manage chaos experiments',
       to: '/chaos-engineering'
     },
     {
-      text: 'Environment',
-      icon: <Icon name="environment" size={12} />,
-      to: 'environment'
+      id: 12,
+      title: 'Environment',
+      iconName: 'environment',
+      description: 'Manage your environments',
+      to: '/environment'
     },
     {
-      text: 'Secrets',
-      icon: <Icon name="secrets" size={12} />,
-      to: 'secrets'
+      id: 13,
+      title: 'Secrets',
+      iconName: 'secrets',
+      description: 'Store your secrets securely',
+      to: '/secrets'
     },
     {
-      text: 'Connectors',
-      icon: <Icon name="connectors" size={12} />,
-      to: 'connectors'
+      id: 14,
+      title: 'Connectors',
+      iconName: 'connectors',
+      description: 'Manage your connectors',
+      to: '/connectors'
     }
   ]
+
+  const [pinnedItems, setPinnedItems] = useState<NavbarItem[]>(initialPinnedMenuItems)
 
   function handleMore() {
     setShowMore(!showMore)
   }
+
+  function handlePinItem(item: NavbarItem) {
+    setPinnedItems(prevPinnedItems => {
+      const isPinned = prevPinnedItems.some(pinned => pinned.id === item.id)
+      if (isPinned) {
+        return prevPinnedItems.filter(pinned => pinned.id !== item.id)
+      } else {
+        const itemToPin = navbarSubmenuData.flatMap(group => group.items).find(i => i.id === item.id)
+        if (itemToPin) {
+          return [
+            {
+              id: itemToPin.id,
+              title: itemToPin.title,
+              iconName: itemToPin.iconName,
+              description: itemToPin.description,
+              to: itemToPin.to || ''
+            },
+            ...prevPinnedItems
+          ]
+        }
+        return prevPinnedItems
+      }
+    })
+  }
+
   return (
     <SandboxLayout.Root>
       <SandboxLayout.LeftPanel>
@@ -81,9 +125,16 @@ export const SandboxRoot: React.FC = () => {
               </div>
             </Navbar.Group>
             <Navbar.AccordionGroup title="Pinned">
-              {pinnedMenuItems.map((item, idx) => (
-                <NavLink key={idx} to={item.to || ''}>
-                  {({ isActive }) => <Navbar.Item key={idx} text={item.text} icon={item.icon} active={isActive} />}
+              {pinnedItems.map(item => (
+                <NavLink key={item.id} to={item.to || ''}>
+                  {({ isActive }) => (
+                    <Navbar.Item
+                      key={item.id}
+                      text={item.title}
+                      icon={<Icon name={item.iconName} size={12} />}
+                      active={isActive}
+                    />
+                  )}
                 </NavLink>
               ))}
             </Navbar.AccordionGroup>
@@ -115,7 +166,7 @@ export const SandboxRoot: React.FC = () => {
         </Navbar.Root>
       </SandboxLayout.LeftPanel>
       <Outlet />
-      <MoreSubmenu showMore={showMore} handleMore={handleMore} />
+      <MoreSubmenu showMore={showMore} handleMore={handleMore} onPinItem={handlePinItem} pinnedItems={pinnedItems} />
     </SandboxLayout.Root>
   )
 }

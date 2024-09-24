@@ -113,7 +113,7 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
     <div className={cn('group flex gap-2.5 items-center cursor-pointer group select-none py-1.5', className)}>
       <div
         className={cn(
-          'flex z-10 items-center text-secondary-muted group-hover:text-primary ease-in-out duration-100 truncate',
+          'w-3 min-w-3 flex z-10 items-center text-secondary-muted group-hover:text-primary ease-in-out duration-100 truncate',
           { 'text-primary': active }
         )}>
         {icon}
