@@ -52,7 +52,16 @@ export default function App() {
               path: 'pipelines',
               children: [
                 { index: true, element: <PipelineListPage /> },
-                { path: ':pipelineId', element: <ExecutionsListPage /> },
+                {
+                  path: ':pipelineId',
+                  children: [
+                    { index: true, element: <ExecutionsListPage /> },
+                    {
+                      path: 'edit',
+                      element: <PipelineEditPage />
+                    }
+                  ]
+                },
                 {
                   path: 'create',
                   element: <PipelineCreate />
@@ -81,8 +90,7 @@ export default function App() {
               path: 'branches',
               element: <ReposBranchesListPage />
             },
-            {path: 'webhooks',
-              element: <RepoWebhooksListPage />}
+            { path: 'webhooks', element: <RepoWebhooksListPage /> }
           ]
         },
         // Pipelines (OUTSIDE REPOS)

@@ -1,5 +1,5 @@
 import { TypesExecution, useListExecutionsQuery } from '@harnessio/code-service-client'
-import { ListActions, SearchBox, Spacer, Text } from '@harnessio/canary'
+import { ListActions, SearchBox, Spacer, Text, Button } from '@harnessio/canary'
 import { PaddingListLayout, ExecutionList, SkeletonList, timeDistance, NoData } from '@harnessio/playground'
 import { ExecutionState } from '../types'
 import { Link, useParams } from 'react-router-dom'
@@ -97,6 +97,9 @@ export default function ExecutionsListPage() {
             <ListActions.Dropdown title="Filter" items={filterOptions} />
             <ListActions.Dropdown title="Sort" items={sortOptions} />
             <ListActions.Dropdown title="View" items={viewOptions} />
+            <Button variant="default" asChild>
+              <Link to="edit">Edit Pipeline</Link>
+            </Button>
           </ListActions.Right>
         </ListActions.Root>
         <Spacer size={5} />
