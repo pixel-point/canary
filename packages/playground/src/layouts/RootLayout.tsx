@@ -1,4 +1,4 @@
-import { Navbar, Icon, NavbarProjectChooser, NavbarUser } from '@harnessio/canary'
+import { Navbar, Icon, NavbarProjectChooser, NavbarUser, IconProps } from '@harnessio/canary'
 import React, { useState } from 'react'
 import { Outlet, NavLink, useLocation, Link } from 'react-router-dom'
 import { MoreSubmenu } from '../components/more-submenu'
@@ -7,7 +7,7 @@ import { navbarSubmenuData } from '../data/mockNavbarSubmenuData'
 interface NavbarItem {
   id: number
   title: string
-  iconName: string
+  iconName: IconProps['name']
   description: string
   to?: string
 }
@@ -89,7 +89,7 @@ export const RootLayout: React.FC = () => {
             {
               id: itemToPin.id,
               title: itemToPin.title,
-              iconName: itemToPin.navbarIconName,
+              iconName: itemToPin.iconName,
               description: itemToPin.description,
               to: itemToPin.to || ''
             },

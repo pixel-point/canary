@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { Navbar, Sheet, SheetContent, Icon, Text, Spacer, cn } from '@harnessio/canary'
+import { Navbar, Sheet, SheetContent, Icon, Text, Spacer, cn, IconProps } from '@harnessio/canary'
 import { navbarSubmenuData } from '../data/mockNavbarSubmenuData'
 
 interface NavbarItem {
   id: number
   title: string
-  iconName: string
+  iconName: IconProps['name']
   description: string
   to?: string
 }
@@ -15,6 +15,19 @@ interface MoreSubmenuProps {
   handleMore: () => void
   onPinItem: (item: NavbarItem) => void
   pinnedItems: NavbarItem[]
+}
+
+function MoreIcon({ iconName }: { iconName: IconProps['name'] }) {
+  return (
+    <div
+      className={cn(
+        'relative flex place-content-center place-items-center h-8 w-8 bg-background rounded-md border border-primary/10 text-primary/80',
+        { 'text-success': iconName === 'pin' },
+        { 'text-destructive': iconName === 'unpin' }
+      )}>
+      <Icon name={iconName} size={16} />
+    </div>
+  )
 }
 
 export function MoreSubmenu({ showMore, handleMore, onPinItem, pinnedItems }: MoreSubmenuProps) {
@@ -52,7 +65,7 @@ export function MoreSubmenu({ showMore, handleMore, onPinItem, pinnedItems }: Mo
                         text={item.title || ''}
                         description={item.description || ''}
                         submenuItem
-                        icon={<Icon name={iconName} size={32} />}
+                        icon={<MoreIcon iconName={iconName} />}
                       />
                     </div>
                   )
