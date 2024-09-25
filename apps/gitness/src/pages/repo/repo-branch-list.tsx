@@ -1,4 +1,3 @@
-// import React, { useState } from 'react'
 import { SkeletonList, NoData, PaddingListLayout, BranchesList } from '@harnessio/playground'
 import {
   Button,
@@ -30,6 +29,7 @@ export function ReposBranchesListPage() {
   })
 
   //lack of data : avatarUrl: string, checking status , behindAhead{behind: num, ahead:num}, pullRequest{sha: string, branch number : 145}
+  //TODO: fetching behindAhead data
   const renderContent = () => {
     if (isLoading) {
       return <SkeletonList />
