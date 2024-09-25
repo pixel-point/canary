@@ -52,7 +52,7 @@ export function ReposBranchesListPage() {
         requests: brancheslistData?.map(branch => ({ from: branch.name, to: repoMetadata?.default_branch })) || []
       }
     })
-  }, [mutate, brancheslistData, repoMetadata?.default_branch]) // Include missing dependencies
+  }, [mutate, brancheslistData, repoMetadata?.default_branch])
 
   const renderContent = () => {
     if (isLoading) {
