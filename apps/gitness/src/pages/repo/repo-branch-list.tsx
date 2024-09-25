@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { SkeletonList, NoData, PaddingListLayout, BranchesList } from '@harnessio/playground'
 import {
   Button,
@@ -15,9 +16,12 @@ import {
 } from '@harnessio/canary'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { usePagination } from '../../framework/hooks/usePagination'
-
-import { useListBranchesQuery, TypesBranch } from '@harnessio/code-service-client'
-
+import {
+  useListBranchesQuery,
+  TypesBranch,
+  useCalculateCommitDivergenceMutation,
+  useFindRepositoryQuery
+} from '@harnessio/code-service-client'
 import { timeAgo } from '../pipeline-edit/utils/time-utils'
 
 const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
@@ -31,14 +35,24 @@ export function ReposBranchesListPage() {
   const repoRef = useGetRepoRef()
 
   const { currentPage, previousPage, nextPage, handleClick } = usePagination(1, totalPages)
+  const { data: repoMetadata } = useFindRepositoryQuery({ repo_ref: repoRef })
 
   const { isLoading, data: brancheslistData } = useListBranchesQuery({
     queryParams: { page: currentPage, limit: 20, sort: 'date', order: 'desc', include_commit: true },
     repo_ref: repoRef
   })
 
-  //lack of data : avatarUrl: string, checking status , behindAhead{behind: num, ahead:num}, pullRequest{sha: string, branch number : 145}
-  //TODO: fetching behindAhead data
+  const { data: branchesDivergenceData, mutate } = useCalculateCommitDivergenceMutation({
+    repo_ref: repoRef
+  })
+
+  useEffect(() => {
+    mutate({
+      body: {
+        requests: brancheslistData?.map(branch => ({ from: branch.name, to: repoMetadata?.default_branch })) || []
+      }
+    })
+  }, [mutate, brancheslistData, repoMetadata?.default_branch]) // Include missing dependencies
 
   const renderContent = () => {
     if (isLoading) {
@@ -61,10 +75,23 @@ export function ReposBranchesListPage() {
       )
     }
 
+    //get the data arr from behindAhead
+    const behindAhead =
+      branchesDivergenceData?.map(divergence => {
+        return {
+          behind: divergence.behind,
+          ahead: divergence.ahead
+        }
+      }) || []
+
     return (
       <BranchesList
-        branches={brancheslistData?.map((branch: TypesBranch) => {
+        branches={brancheslistData?.map((branch: TypesBranch, index) => {
+          const behindAheadValue = behindAhead[index]
+          const branchAhead = behindAheadValue?.ahead
+          const branchBehind = behindAheadValue?.behind
           return {
+            id: index,
             name: branch.name,
             sha: branch.commit?.sha,
             timestamp: timeAgo(branch.commit?.committer?.when || ''),
@@ -78,15 +105,10 @@ export function ReposBranchesListPage() {
               total: 1,
               status: 1
             },
-            //hardcoded
             behindAhead: {
-              behind: 1,
-              ahead: 1
+              behind: branchBehind || 0,
+              ahead: branchAhead || 0
             }
-            //temporary hide this column
-            // pullRequest: {
-            //   sha: '123' //hardcoded
-            // }
           }
         })}
       />

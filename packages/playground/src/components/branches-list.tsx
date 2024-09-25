@@ -18,7 +18,7 @@ import AvatarUrl from '../../public/images/user-avatar.svg'
 import { CopyButton } from './copy-button'
 
 interface BranchProps {
-  // id: string
+  id: number
   name: string
   sha: string
   timestamp: string
@@ -27,18 +27,18 @@ interface BranchProps {
     avatarUrl?: string
   }
   checks: {
-    done: number
-    total: number
-    status: number
+    done?: number
+    total?: number
+    status?: number
   }
   behindAhead: {
-    behind: number
-    ahead: number
+    behind?: number
+    ahead?: number
   }
 }
 
 interface PageProps {
-  branches: BranchProps[]
+  branches: BranchProps[] | undefined
 }
 
 export const BranchesList = ({ branches }: PageProps) => {
@@ -49,7 +49,7 @@ export const BranchesList = ({ branches }: PageProps) => {
           <TableHead>Branch</TableHead>
           <TableHead>Updated</TableHead>
           <TableHead className="hidden">Check status</TableHead>
-          <TableHead className="text-center hidden">Behind | Ahead</TableHead>
+          <TableHead className="text-center">Behind | Ahead</TableHead>
           {/* since we don't have the data for pull request, we can temporary hide this column */}
           <TableHead className="hidden">Pull request</TableHead>
           <TableHead>
@@ -95,7 +95,7 @@ export const BranchesList = ({ branches }: PageProps) => {
                     </Text>
                   </div>
                 </TableCell>
-                <TableCell className="hidden">
+                <TableCell>
                   <div className="flex gap-1.5 items-center">
                     <Text wrap="nowrap" truncate className="text-tertiary-background text-center flex-grow">
                       {branch.behindAhead.behind} | {branch.behindAhead.ahead}
