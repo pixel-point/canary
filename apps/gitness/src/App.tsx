@@ -20,6 +20,8 @@ import { PipelineCreate } from './pages/pipeline-create/pipeline-create'
 import RepoCommitsPage from './pages/repo/repo-commits'
 import RepoWebhooksListPage from './pages/repo/repo-webhooks'
 import { ReposBranchesListPage } from './pages/repo/repo-branch-list'
+import PullRequestDataProvider from './pages/pull-request/context/pull-request-data-provider'
+import PullRequestConversationPage from './pages/pull-request/pull-request-conversation-page'
 
 export default function App() {
   const router = createBrowserRouter([
@@ -74,11 +76,19 @@ export default function App() {
               children: [
                 {
                   index: true,
-                  element: <Navigate to="commits" />
+                  element: <Navigate to="conversation" />
                 },
                 {
                   path: 'commits',
                   element: <PullRequestCommitsPage />
+                },
+                {
+                  path: 'conversation',
+                  element: (
+                    <PullRequestDataProvider>
+                      <PullRequestConversationPage />
+                    </PullRequestDataProvider>
+                  )
                 }
               ]
             },
