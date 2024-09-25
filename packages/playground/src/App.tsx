@@ -48,6 +48,7 @@ import { SandboxSettingsAccountKeysPage } from './pages/sandbox-settings-account
 import { SandboxSettingsProjectPage } from './pages/sandbox-settings-project-page'
 import { SandboxSettingsProjectGeneralPage } from './pages/sandbox-settings-project-general-page'
 import { SandboxSettingsProjectMembersPage } from './pages/sandbox-settings-project-members-page'
+import { SandboxRepoCreatePage } from './pages/sandbox-repo-create-page'
 import { SandboxRepoSettingsPage } from './pages/sandbox-repo-settings-page'
 import { RepoSettingsGeneralPage } from './pages/repo-settings-general-page'
 import { RepoSettingsCollaborationsPage } from './pages/repo-settings-collaborations-page'
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <SandboxRepoListPage />
+          },
+          {
+            path: 'create',
+            element: <SandboxRepoCreatePage />
           },
           {
             path: ':repoId',
@@ -111,6 +116,7 @@ const router = createBrowserRouter([
           }
         ]
       },
+
       {
         path: 'executions',
         element: <SandboxExecutions />,

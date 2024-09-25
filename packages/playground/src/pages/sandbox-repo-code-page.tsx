@@ -77,6 +77,7 @@ const sidebarItems = [
   { id: 40, type: 'file', name: 'nginx.conf' }
 ]
 
+// Move sidebar function to playground components
 function Sidebar() {
   return (
     <div className="flex flex-col gap-5">
