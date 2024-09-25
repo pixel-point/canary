@@ -213,6 +213,7 @@ const PullRequestDataProvider: React.FC<PullRequestDataProviderProps> = ({ child
   useEffect(() => {
     if (activities) {
       setPullReqActivities(oldActivities => (isEqual(oldActivities, activities) ? oldActivities : activities))
+      dryMerge()
     }
   }, [activities, setPullReqActivities])
 

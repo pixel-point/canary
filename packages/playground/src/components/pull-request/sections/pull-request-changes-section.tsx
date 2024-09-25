@@ -315,7 +315,7 @@ const PullRequestChangesSection = ({
             <div className="ml-4">
               <div className="flex pt-2 border-t mt-3 ml-2 items-center justify-between">
                 {codeOwnerChangeReqEntries && codeOwnerChangeReqEntries?.length > 0 ? (
-                  <Text>
+                  <Text className="flex ml-2">
                     <Icon
                       name="triangle-warning"
                       className={cx('', {
