@@ -63,14 +63,13 @@ const PipelineStudioHeaderActions = (): JSX.Element => {
       queryParams: { branch: 'main' }
     })
       .then(response => {
-        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-        const executionId = (response as any)?.content?.number
-        navigate(`../pipelines/${pipelineData?.identifier}/execution/${executionId}`)
-        // TODO: toast
+        const executionId = response.number
+        navigate(`../execution/${executionId}`)
+        // TODO: toast here ?
       })
       .catch(error => {
         console.error(error)
-        // TODO: error
+        // TODO: error toast here ?
       })
   }
 

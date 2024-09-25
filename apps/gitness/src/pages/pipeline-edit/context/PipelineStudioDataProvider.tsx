@@ -124,15 +124,13 @@ const PipelineStudioDataProvider = ({ children }: React.PropsWithChildren) => {
   const { pipelineId = '', repoId, spaceId } = useParams<PipelineParams>()
   const repoRef = `${spaceId}/${repoId}/+`
 
-  const { data, isLoading: fetchingPipeline } = useFindPipelineQuery({
+  const { data: pipelineData, isLoading: fetchingPipeline } = useFindPipelineQuery({
     pipeline_identifier: pipelineId,
     repo_ref: repoRef
   })
-  // TODO: style and model does not match
-  const pipelineData = (data as { content: unknown })?.content as TypesPipeline | undefined
 
   const {
-    data: pipelineYAMLFileContentRaw,
+    data: pipelineYAMLFileContent,
     error: pipelineYAMLFileError,
     isLoading: fetchingPipelineYAMLFileContent,
     refetch: fetchPipelineYAMLFileContent
@@ -144,10 +142,6 @@ const PipelineStudioDataProvider = ({ children }: React.PropsWithChildren) => {
     },
     { enabled: !!pipelineData?.default_branch }
   )
-  // TODO: style and model does not match
-  const pipelineYAMLFileContent = (pipelineYAMLFileContentRaw as { content: unknown })?.content as
-    | OpenapiGetContentOutput
-    | undefined
 
   const latestCommitAuthor = useMemo(
     () => pipelineYAMLFileContent?.latest_commit?.author ?? null,

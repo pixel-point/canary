@@ -119,7 +119,7 @@ export default function App() {
           element: <ExecutionsListPage />
         },
         {
-          path: ':spaceId/:repoId',
+          path: ':spaceId/repos/:repoId',
           element: <RepoLayout />,
           children: [
             {
