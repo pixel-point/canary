@@ -87,9 +87,7 @@ export function ReposBranchesListPage() {
     return (
       <BranchesList
         branches={brancheslistData?.map((branch: TypesBranch, index) => {
-          const behindAheadValue = behindAhead[index]
-          const branchAhead = behindAheadValue?.ahead
-          const branchBehind = behindAheadValue?.behind
+          const { ahead: branchAhead, behind: branchBehind } = behindAhead[index] || {}
           return {
             id: index,
             name: branch.name,
