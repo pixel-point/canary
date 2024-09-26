@@ -74,7 +74,7 @@ export function ReposBranchesListPage() {
     if (isError) {
       return (
         <div className="mt-40">
-          <NoData iconName="no-data-branches" title="Data not available" description={[`${error.message}`]} />
+          <NoData iconName="no-data-branches" title="Data not available" description={[`${error?.message}`]} />
         </div>
       )
     }
