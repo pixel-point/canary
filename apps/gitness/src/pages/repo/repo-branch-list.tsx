@@ -66,7 +66,7 @@ export function ReposBranchesListPage() {
     })
   }, [mutate, brancheslistData, repoMetadata?.default_branch])
 
-  const renderContent = (error: ListBranchesErrorResponse) => {
+  const renderContent = (error?: ListBranchesErrorResponse) => {
     if (isLoading) {
       return <SkeletonList />
     }
@@ -187,6 +187,7 @@ export function ReposBranchesListPage() {
                   size="sm"
                   href="#"
                   onClick={() => currentPage < totalPages && nextPage()}
+                  disabled={currentPage === totalPages}
                   disabled={currentPage === totalPages}
                 />
               </PaginationItem>
