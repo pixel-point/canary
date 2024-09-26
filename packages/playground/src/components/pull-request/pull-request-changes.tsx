@@ -127,7 +127,7 @@ const PullRequestAccordion: React.FC<{
   )
 }
 
-export default function PullRequestChanges({ data, diffData }: DataProps) {
+export function PullRequestChanges({ data, diffData }: DataProps) {
   return (
     <div className="flex flex-col gap-4">
       {data.map((item, index) => (

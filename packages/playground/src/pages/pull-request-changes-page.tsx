@@ -17,7 +17,7 @@ import {
   RadioGroup
 } from '@harnessio/canary'
 import * as data from '../data/mockDiffViewerdata'
-import PullRequestChanges from '../components/pull-request/pull-request-changes'
+import { PullRequestChanges } from '../components/pull-request/pull-request-changes'
 import { FileViewGauge } from '..'
 
 interface FilterViewProps {
