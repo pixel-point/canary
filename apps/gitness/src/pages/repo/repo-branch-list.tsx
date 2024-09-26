@@ -188,7 +188,6 @@ export function ReposBranchesListPage() {
                   href="#"
                   onClick={() => currentPage < totalPages && nextPage()}
                   disabled={currentPage === totalPages}
-                  disabled={currentPage === totalPages}
                 />
               </PaginationItem>
             </PaginationContent>
