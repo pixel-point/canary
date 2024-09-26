@@ -149,7 +149,7 @@ export default function App() {
               element: <PipelineCreate />
             },
             {
-              path: 'pipelines/:pipelineId/execution/:executionId',
+              path: 'pipelines/:pipelineId/executions/:executionId',
               element: <div>Execution page</div>
             }
           ]

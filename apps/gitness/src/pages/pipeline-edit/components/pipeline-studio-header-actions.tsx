@@ -15,7 +15,8 @@ const PipelineStudioHeaderActions = (): JSX.Element => {
     fetchingPipelineYAMLFileContent,
     yamlRevision,
     isExistingPipeline,
-    isDirty
+    isDirty,
+    gitInfo
   } = usePipelineDataContext()
 
   const navigate = useNavigate()
@@ -60,11 +61,11 @@ const PipelineStudioHeaderActions = (): JSX.Element => {
     createExecutionAsync({
       pipeline_identifier: pipelineData?.identifier ?? '',
       repo_ref: repoRef,
-      queryParams: { branch: 'main' }
+      queryParams: { branch: gitInfo?.default_branch }
     })
       .then(response => {
         const executionId = response.number
-        navigate(`../execution/${executionId}`)
+        navigate(`../executions/${executionId}`)
         // TODO: toast here ?
       })
       .catch(error => {

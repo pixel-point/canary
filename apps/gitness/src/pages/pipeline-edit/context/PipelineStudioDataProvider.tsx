@@ -1,14 +1,8 @@
 import React, { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { isEmpty, isUndefined } from 'lodash-es'
 import { Skeleton } from '@harnessio/canary'
 import { useYamlEditorContext } from '@harnessio/yaml-editor'
-// import CreatePipeline from 'pages/CreatePipeline/CreatePipeline'
-import { countProblems, monacoMarkers2Problems } from '../utils/problems-utils'
-import type { YamlProblemSeverity } from '../types/types'
-import type { InlineActionArgsType } from '../utils/inline-actions'
-import { deleteItemInArray, injectItemInArray, updateItemInArray } from '../utils/yaml-utils'
-import { Problem } from '@harnessio/playground'
-import { TypesPlugin } from '../types/api-types'
 import {
   OpenapiGetContentOutput,
   TypesPipeline,
@@ -16,7 +10,13 @@ import {
   useFindPipelineQuery,
   useGetContentQuery
 } from '@harnessio/code-service-client'
-import { useParams } from 'react-router-dom'
+import { Problem } from '@harnessio/playground'
+// import CreatePipeline from 'pages/CreatePipeline/CreatePipeline'
+import { countProblems, monacoMarkers2Problems } from '../utils/problems-utils'
+import type { YamlProblemSeverity } from '../types/types'
+import type { InlineActionArgsType } from '../utils/inline-actions'
+import { deleteItemInArray, injectItemInArray, updateItemInArray } from '../utils/yaml-utils'
+import { TypesPlugin } from '../types/api-types'
 import { decodeGitContent, normalizeGitRef } from '../../../utils/git-utils'
 
 // TODO: temp interface for params
@@ -45,6 +45,7 @@ interface PipelineStudioDataContextProps {
     problems: Problem[]
     problemsCount: Record<YamlProblemSeverity | 'all', number>
   }
+  gitInfo: { default_branch: TypesPipeline['default_branch'] }
   // TODO: check if this should be here
   setAddStepIntention: (props: { path: string; position: InlineActionArgsType['position'] }) => void
   clearAddStepIntention: () => void
@@ -78,6 +79,7 @@ const PipelineStudioDataContext = createContext<PipelineStudioDataContextProps>(
   setYamlRevision: (_yamlRevision: YamlRevision) => undefined,
   //
   problems: { problems: [], problemsCount: { all: 0, error: 0, info: 0, warning: 0 } },
+  gitInfo: { default_branch: '' },
   //
   setAddStepIntention: (_props: { path: string; position: InlineActionArgsType['position'] } | null) => undefined,
   clearAddStepIntention: () => undefined,
@@ -260,6 +262,7 @@ const PipelineStudioDataProvider = ({ children }: React.PropsWithChildren) => {
         setYamlRevision,
         //
         problems: problemsData,
+        gitInfo: { default_branch: pipelineData?.default_branch || '' },
         //
         addStepIntention,
         setAddStepIntention,
