@@ -42,7 +42,7 @@ export function ReposBranchesListPage() {
     repo_ref: repoRef
   })
 
-  const { data: branchesDivergenceData, mutate } = useCalculateCommitDivergenceMutation({
+  const { data: getBranchDivergence, mutate } = useCalculateCommitDivergenceMutation({
     repo_ref: repoRef
   })
 
@@ -77,7 +77,7 @@ export function ReposBranchesListPage() {
 
     //get the data arr from behindAhead
     const behindAhead =
-      branchesDivergenceData?.map(divergence => {
+      getBranchDivergence?.map(divergence => {
         return {
           behind: divergence.behind,
           ahead: divergence.ahead
