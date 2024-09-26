@@ -1,5 +1,6 @@
 import React, { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { stringify } from 'yaml'
 import { isEmpty, isUndefined } from 'lodash-es'
 import { Skeleton } from '@harnessio/canary'
 import { useYamlEditorContext } from '@harnessio/yaml-editor'
@@ -11,13 +12,13 @@ import {
   useGetContentQuery
 } from '@harnessio/code-service-client'
 import { Problem } from '@harnessio/playground'
-// import CreatePipeline from 'pages/CreatePipeline/CreatePipeline'
 import { countProblems, monacoMarkers2Problems } from '../utils/problems-utils'
 import type { YamlProblemSeverity } from '../types/types'
 import type { InlineActionArgsType } from '../utils/inline-actions'
 import { deleteItemInArray, injectItemInArray, updateItemInArray } from '../utils/yaml-utils'
 import { TypesPlugin } from '../types/api-types'
 import { decodeGitContent, normalizeGitRef } from '../../../utils/git-utils'
+import { starterPipelineV1 } from '../utils/pipelines'
 
 // TODO: temp interface for params
 export interface PipelineParams extends Record<string, string> {
@@ -133,7 +134,6 @@ const PipelineStudioDataProvider = ({ children }: React.PropsWithChildren) => {
 
   const {
     data: pipelineYAMLFileContent,
-    error: pipelineYAMLFileError,
     isLoading: fetchingPipelineYAMLFileContent,
     refetch: fetchPipelineYAMLFileContent
   } = useGetContentQuery(
@@ -142,7 +142,10 @@ const PipelineStudioDataProvider = ({ children }: React.PropsWithChildren) => {
       repo_ref: repoRef,
       queryParams: { git_ref: normalizeGitRef(pipelineData?.default_branch) ?? '', include_commit: true }
     },
-    { enabled: !!pipelineData?.default_branch }
+    {
+      enabled: !!pipelineData?.default_branch,
+      retry: false
+    }
   )
 
   const latestCommitAuthor = useMemo(
@@ -155,8 +158,11 @@ const PipelineStudioDataProvider = ({ children }: React.PropsWithChildren) => {
   }, [pipelineYAMLFileContent?.content?.data])
 
   useEffect(() => {
-    setIsExistingPipeline(!isEmpty(decodedPipelineYaml) && !isUndefined(decodedPipelineYaml))
-  }, [decodedPipelineYaml])
+    if (fetchingPipelineYAMLFileContent === false) {
+      setIsExistingPipeline(!isEmpty(decodedPipelineYaml) && !isUndefined(decodedPipelineYaml))
+      setYamlRevision({ yaml: stringify(starterPipelineV1) })
+    }
+  }, [decodedPipelineYaml, fetchingPipelineYAMLFileContent])
 
   useEffect(() => {
     const yaml = decodeGitContent(pipelineYAMLFileContent?.content?.data)
@@ -226,21 +232,6 @@ const PipelineStudioDataProvider = ({ children }: React.PropsWithChildren) => {
   const isDirty = useMemo(() => {
     return decodeGitContent(pipelineYAMLFileContent?.content?.data) !== yamlRevision.yaml
   }, [yamlRevision.yaml, pipelineYAMLFileContent?.content?.data])
-
-  // if (!isLoading && !yamlRevision.yaml) {
-  //   return (
-  //     <CreatePipeline
-  //       setYaml={(aiYaml: string) => {
-  //         setYamlRevision({ yaml: aiYaml })
-  //       }}
-  //     />
-  //   )
-  // }
-
-  if (pipelineYAMLFileError) {
-    // TODO
-    return <>Something went wrong</>
-  }
 
   if (fetchingPipelineYAMLFileContent || fetchingPipeline) {
     return (
