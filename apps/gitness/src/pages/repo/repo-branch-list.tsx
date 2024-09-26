@@ -5,7 +5,6 @@ import {
   ListPagination,
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -15,6 +14,8 @@ import {
   Text
 } from '@harnessio/canary'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
+import { usePagination } from '../../framework/hooks/usePagination'
+
 import { useListBranchesQuery, TypesBranch } from '@harnessio/code-service-client'
 import { timeAgo } from '../pipeline-edit/utils/time-utils'
 
@@ -22,9 +23,16 @@ const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' },
 const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
 
 export function ReposBranchesListPage() {
+  // lack of data: total branches
+  // hardcoded
+  const totalPages = 10
+
   const repoRef = useGetRepoRef()
+
+  const { currentPage, previousPage, nextPage, handleClick } = usePagination(1, totalPages)
+
   const { isLoading, data: brancheslistData } = useListBranchesQuery({
-    queryParams: { page: 1, limit: 20, sort: 'date', order: 'asc', include_commit: true },
+    queryParams: { page: currentPage, limit: 20, sort: 'date', order: 'desc', include_commit: true },
     repo_ref: repoRef
   })
 
@@ -82,7 +90,6 @@ export function ReposBranchesListPage() {
       />
     )
   }
-
   return (
     <PaddingListLayout spaceTop={false}>
       <Spacer size={2} />
@@ -112,36 +119,36 @@ export function ReposBranchesListPage() {
           <Pagination>
             <PaginationContent>
               <PaginationItem>
-                <PaginationPrevious size="sm" href="#" />
+                <PaginationPrevious
+                  size="sm"
+                  href="#"
+                  onClick={() => currentPage > 1 && previousPage()}
+                  disabled={currentPage === 1}
+                />
               </PaginationItem>
+              {/* <PaginationItem>
+              <PaginationLink size="sm_icon" href="#">
+                <PaginationEllipsis />
+              </PaginationLink>
+            </PaginationItem> */}
+              {Array.from({ length: totalPages }, (_, index) => (
+                <PaginationItem key={index}>
+                  <PaginationLink
+                    isActive={currentPage === index + 1}
+                    size="sm_icon"
+                    href="#"
+                    onClick={() => handleClick(index + 1)}>
+                    {index + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
               <PaginationItem>
-                <PaginationLink isActive size="sm_icon" href="#">
-                  1
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink size="sm_icon" href="#">
-                  2
-                </PaginationLink>
-              </PaginationItem>
-
-              <PaginationItem>
-                <PaginationLink size="sm_icon" href="#">
-                  <PaginationEllipsis />
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink size="sm_icon" href="#">
-                  4
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink size="sm_icon" href="#">
-                  5
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext size="sm" href="#" />
+                <PaginationNext
+                  size="sm"
+                  href="#"
+                  onClick={() => currentPage < totalPages && nextPage()}
+                  disabled={currentPage === totalPages}
+                />
               </PaginationItem>
             </PaginationContent>
           </Pagination>
