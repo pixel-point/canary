@@ -105,7 +105,8 @@ export function ReposBranchesListPage() {
             },
             behindAhead: {
               behind: branchBehind || 0,
-              ahead: branchAhead || 0
+              ahead: branchAhead || 0,
+              default: repoMetadata?.default_branch === branch.name
             }
           }
         })}

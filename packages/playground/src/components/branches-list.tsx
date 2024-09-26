@@ -10,7 +10,8 @@ import {
   Text,
   Avatar,
   AvatarImage,
-  AvatarFallback
+  AvatarFallback,
+  Badge
 } from '@harnessio/canary'
 import React from 'react'
 import { getInitials } from '../utils/utils'
@@ -34,6 +35,7 @@ interface BranchProps {
   behindAhead: {
     behind?: number
     ahead?: number
+    default?: boolean
   }
 }
 
@@ -96,10 +98,20 @@ export const BranchesList = ({ branches }: PageProps) => {
                   </div>
                 </TableCell>
                 <TableCell>
-                  <div className="flex gap-1.5 items-center">
-                    <Text wrap="nowrap" truncate className="text-tertiary-background text-center flex-grow">
-                      {branch.behindAhead.behind} | {branch.behindAhead.ahead}
-                    </Text>
+                  <div className="flex gap-1.5 items-center content-center">
+                    {branch.behindAhead.default ? (
+                      <Badge
+                        variant="outline"
+                        size="xs"
+                        className="rounded-full font-normal text-xs p-2 h-5 text-tertiary-background text-center"
+                        style={{ margin: '0 auto' }}>
+                        Default
+                      </Badge>
+                    ) : (
+                      <Text wrap="nowrap" truncate className="text-tertiary-background text-center flex-grow">
+                        {branch.behindAhead.behind} | {branch.behindAhead.ahead}
+                      </Text>
+                    )}
                   </div>
                 </TableCell>
                 {/* since we don't have the data for pull request, we can temporary hide this column */}
