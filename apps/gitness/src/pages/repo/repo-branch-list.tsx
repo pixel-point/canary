@@ -19,6 +19,7 @@ import { usePagination } from '../../framework/hooks/usePagination'
 import {
   useListBranchesQuery,
   TypesBranch,
+  ListBranchesErrorResponse,
   useCalculateCommitDivergenceMutation,
   useFindRepositoryQuery
 } from '@harnessio/code-service-client'
@@ -37,10 +38,21 @@ export function ReposBranchesListPage() {
   const { currentPage, previousPage, nextPage, handleClick } = usePagination(1, totalPages)
   const { data: repoMetadata } = useFindRepositoryQuery({ repo_ref: repoRef })
 
-  const { isLoading, data: brancheslistData } = useListBranchesQuery({
-    queryParams: { page: currentPage, limit: 20, sort: 'date', order: 'desc', include_commit: true },
-    repo_ref: repoRef
-  })
+  const {
+    isLoading,
+    data: brancheslistData,
+    isError
+  } = useListBranchesQuery(
+    {
+      queryParams: { page: currentPage, limit: 20, sort: 'date', order: 'desc', include_commit: true },
+      repo_ref: repoRef
+    },
+    {
+      onError: (error: ListBranchesErrorResponse) => {
+        console.error('Error BranchList', error)
+      }
+    }
+  )
 
   const { data: getBranchDivergence, mutate } = useCalculateCommitDivergenceMutation({
     repo_ref: repoRef
@@ -54,9 +66,17 @@ export function ReposBranchesListPage() {
     })
   }, [mutate, brancheslistData, repoMetadata?.default_branch])
 
-  const renderContent = () => {
+  const renderContent = (error: ListBranchesErrorResponse) => {
     if (isLoading) {
       return <SkeletonList />
+    }
+
+    if (isError) {
+      return (
+        <div className="mt-40">
+          <NoData iconName="no-data-branches" title="Data not available" description={[`${error.message}`]} />
+        </div>
+      )
     }
 
     if (brancheslistData?.length === 0 || brancheslistData === undefined) {
