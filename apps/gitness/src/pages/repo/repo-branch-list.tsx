@@ -84,17 +84,19 @@ export function ReposBranchesListPage() {
         }
       }) || []
 
+    console.log(brancheslistData)
+
     return (
       <BranchesList
         branches={brancheslistData?.map((branch: TypesBranch, index) => {
           const { ahead: branchAhead, behind: branchBehind } = behindAhead[index] || {}
           return {
             id: index,
-            name: branch.name,
-            sha: branch.commit?.sha,
+            name: branch.name || '',
+            sha: branch.commit?.sha || '',
             timestamp: timeAgo(branch.commit?.committer?.when || ''),
             user: {
-              name: branch.commit?.committer?.identity?.name,
+              name: branch.commit?.committer?.identity?.name || 'Unknown User',
               avatarUrl: ''
             },
             //hardcoded

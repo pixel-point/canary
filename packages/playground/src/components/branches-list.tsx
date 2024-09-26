@@ -40,7 +40,7 @@ interface BranchProps {
 }
 
 interface PageProps {
-  branches: BranchProps[] | undefined
+  branches: BranchProps[]
 }
 
 export const BranchesList = ({ branches }: PageProps) => {
