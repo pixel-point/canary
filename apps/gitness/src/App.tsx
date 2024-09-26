@@ -18,6 +18,7 @@ import { RepoSummary } from './pages/repo/repo-summary'
 import CreateProject from './pages/create-project'
 import { PipelineCreate } from './pages/pipeline-create/pipeline-create'
 import RepoCommitsPage from './pages/repo/repo-commits'
+import { Execution } from './pages/execution/execution-details'
 import RepoWebhooksListPage from './pages/repo/repo-webhooks'
 import { ReposBranchesListPage } from './pages/repo/repo-branch-list'
 import PullRequestDataProvider from './pages/pull-request/context/pull-request-data-provider'
@@ -59,6 +60,7 @@ export default function App() {
                   path: ':pipelineId',
                   children: [
                     { index: true, element: <ExecutionsListPage /> },
+                    { path: 'executions/:executionId', element: <Execution /> },
                     {
                       path: 'edit',
                       element: <PipelineEditPage />
