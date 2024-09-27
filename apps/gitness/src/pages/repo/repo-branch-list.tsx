@@ -104,8 +104,6 @@ export function ReposBranchesListPage() {
         }
       }) || []
 
-    console.log(brancheslistData)
-
     return (
       <BranchesList
         branches={brancheslistData?.map((branch: TypesBranch, index) => {
