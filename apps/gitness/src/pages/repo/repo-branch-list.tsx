@@ -54,16 +54,18 @@ export function ReposBranchesListPage() {
     }
   )
 
-  const { data: getBranchDivergence, mutate } = useCalculateCommitDivergenceMutation({
+  const { data: branchDivergence, mutate } = useCalculateCommitDivergenceMutation({
     repo_ref: repoRef
   })
 
   useEffect(() => {
-    mutate({
-      body: {
-        requests: brancheslistData?.map(branch => ({ from: branch.name, to: repoMetadata?.default_branch })) || []
-      }
-    })
+    if (brancheslistData !== undefined) {
+      mutate({
+        body: {
+          requests: brancheslistData?.map(branch => ({ from: branch.name, to: repoMetadata?.default_branch })) || []
+        }
+      })
+    }
   }, [mutate, brancheslistData, repoMetadata?.default_branch])
 
   const renderContent = (error?: ListBranchesErrorResponse) => {
@@ -97,7 +99,7 @@ export function ReposBranchesListPage() {
 
     //get the data arr from behindAhead
     const behindAhead =
-      getBranchDivergence?.map(divergence => {
+      branchDivergence?.map(divergence => {
         return {
           behind: divergence.behind,
           ahead: divergence.ahead
@@ -114,7 +116,7 @@ export function ReposBranchesListPage() {
             sha: branch.commit?.sha || '',
             timestamp: timeAgo(branch.commit?.committer?.when || ''),
             user: {
-              name: branch.commit?.committer?.identity?.name || 'Unknown User',
+              name: branch.commit?.committer?.identity?.name || '',
               avatarUrl: ''
             },
             //hardcoded
