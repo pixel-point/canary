@@ -17,6 +17,7 @@ import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { usePagination } from '../../framework/hooks/usePagination'
 
 import { useListBranchesQuery, TypesBranch } from '@harnessio/code-service-client'
+
 import { timeAgo } from '../pipeline-edit/utils/time-utils'
 
 const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
@@ -38,6 +39,7 @@ export function ReposBranchesListPage() {
 
   //lack of data : avatarUrl: string, checking status , behindAhead{behind: num, ahead:num}, pullRequest{sha: string, branch number : 145}
   //TODO: fetching behindAhead data
+
   const renderContent = () => {
     if (isLoading) {
       return <SkeletonList />
@@ -126,11 +128,6 @@ export function ReposBranchesListPage() {
                   disabled={currentPage === 1}
                 />
               </PaginationItem>
-              {/* <PaginationItem>
-              <PaginationLink size="sm_icon" href="#">
-                <PaginationEllipsis />
-              </PaginationLink>
-            </PaginationItem> */}
               {Array.from({ length: totalPages }, (_, index) => (
                 <PaginationItem key={index}>
                   <PaginationLink
