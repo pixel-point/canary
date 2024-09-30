@@ -59,7 +59,7 @@ export function ReposBranchesListPage() {
   })
 
   useEffect(() => {
-    if (brancheslistData !== undefined) {
+    if (brancheslistData?.length !== 0 || brancheslistData !== undefined) {
       mutate({
         body: {
           requests: brancheslistData?.map(branch => ({ from: branch.name, to: repoMetadata?.default_branch })) || []
