@@ -3,7 +3,13 @@ import * as AccordionPrimitive from '@radix-ui/react-accordion'
 import { Icon } from './icon'
 import { cn } from '@/lib/utils'
 
-const Accordion = AccordionPrimitive.Root
+type AccordionProps = React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Root> & {
+  onValueChange?: (value: string | string[]) => void
+}
+const Accordion = React.forwardRef<React.ElementRef<typeof AccordionPrimitive.Root>, AccordionProps>(
+  ({ onValueChange, ...props }, ref) => <AccordionPrimitive.Root ref={ref} {...props} onValueChange={onValueChange} />
+)
+Accordion.displayName = 'Accordion'
 
 type AccordionItemProps = React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item> & {
   isLast?: boolean

@@ -64,9 +64,15 @@ function FileItem({ children, key, isActive }: ItemProps) {
   )
 }
 
-function Root({ children }: { children: React.ReactNode }) {
+function Root({
+  children,
+  onValueChange
+}: {
+  children: React.ReactNode
+  onValueChange: (value: string | string[]) => void
+}) {
   return (
-    <Accordion type="multiple" className="w-full">
+    <Accordion type="multiple" className="w-full" onValueChange={onValueChange}>
       {children}
     </Accordion>
   )

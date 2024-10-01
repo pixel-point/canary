@@ -84,7 +84,7 @@ function Sidebar() {
         </ButtonGroup.Root>
       </div>
       <SearchBox.Root width="full" placeholder="Search" />
-      <FileExplorer.Root>
+      <FileExplorer.Root onValueChange={noop}>
         {/* 2 nested levels of identical data for demo purposes */}
         {sidebarItems.map(itm =>
           itm.type === 'file' ? (
@@ -97,7 +97,7 @@ function Sidebar() {
               value={itm.id.toString()}
               // isActive={itm_idx === 3}
               content={
-                <FileExplorer.Root>
+                <FileExplorer.Root onValueChange={noop}>
                   {sidebarItems.map(itm =>
                     itm.type === 'file' ? (
                       <Link to="#">
@@ -108,7 +108,7 @@ function Sidebar() {
                         key={itm.id.toString()}
                         value={itm.id.toString()}
                         content={
-                          <FileExplorer.Root>
+                          <FileExplorer.Root onValueChange={noop}>
                             {sidebarItems.map(itm =>
                               itm.type === 'file' ? (
                                 <Link to="#">
