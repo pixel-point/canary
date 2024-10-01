@@ -14,24 +14,31 @@ function FolderItem({ children, key, value, isActive, content, chevronClass }: I
   return (
     <AccordionItem key={key} value={value || ''} className="border-none">
       <AccordionTrigger
-        className="p-0 w-full"
+        className={cn('p-0 w-full group', 'text-tertiary-background data-[state=open]:text-primary')}
         leftChevron
         rotateChevron
         chevronClass={chevronClass || 'text-tertiary-background group-hover:text-primary'}>
         <div
-          className={cn('group w-full flex justify-start text-tertiary-background overflow-hidden', {
+          className={cn(' w-full flex justify-start overflow-hidden transition-colors duration-200', {
             'text-primary': isActive
           })}>
           <div className="flex gap-2 items-center py-1 w-full">
-            <Icon name="folder" size={12} className="min-w-[12px] group-hover:text-primary ease-in-out duration-100" />
-            <Text as="p" size={2} className="text-inherit group-hover:text-primary ease-in-out duration-100 truncate">
+            <Icon
+              name="folder"
+              size={12}
+              className="min-w-[12px] group-hover:text-primary group-data-[state=open]:text-primary ease-in-out duration-100"
+            />
+            <Text
+              as="p"
+              size={2}
+              className="text-inherit group-hover:text-primary group-data-[state=open]:text-primary ease-in-out duration-100 truncate">
               {children}
             </Text>
           </div>
         </div>
       </AccordionTrigger>
       {content && (
-        <AccordionContent className="pl-5 pb-0 flex gap-2 items-center py-1 overflow-hidden w-full">
+        <AccordionContent className="pl-1.5 pb-0 flex gap-2 items-center py-1 overflow-hidden w-full">
           {content}
         </AccordionContent>
       )}

@@ -86,7 +86,7 @@ function Sidebar() {
       <SearchBox.Root width="full" placeholder="Search" />
       <FileExplorer.Root>
         {/* 2 nested levels of identical data for demo purposes */}
-        {sidebarItems.map((itm, itm_idx) =>
+        {sidebarItems.map(itm =>
           itm.type === 'file' ? (
             <Link to="#">
               <FileExplorer.FileItem key={itm.id.toString()}>{itm.name}</FileExplorer.FileItem>
@@ -95,7 +95,7 @@ function Sidebar() {
             <FileExplorer.FolderItem
               key={itm.id.toString()}
               value={itm.id.toString()}
-              isActive={itm_idx === 3}
+              // isActive={itm_idx === 3}
               content={
                 <FileExplorer.Root>
                   {sidebarItems.map(itm =>
