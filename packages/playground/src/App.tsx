@@ -43,7 +43,6 @@ import { SandboxExecutionSecurityTestsPage } from './pages/sandbox-executions-se
 import { SandboxExecutionSecretsPage } from './pages/sandbox-executions-secrets-page'
 import { SandboxSettings } from './layouts/SandboxSettings'
 import { SandboxSettingsAccountPage } from './pages/sandbox-settings-account-page'
-import { SandboxSettingsAccountGeneralPage } from './pages/sandbox-settings-account-general-page'
 import { SandboxSettingsAccountKeysPage } from './pages/sandbox-settings-account-keys-page'
 import { SandboxSettingsProjectPage } from './pages/sandbox-settings-project-page'
 import { SandboxSettingsProjectGeneralPage } from './pages/sandbox-settings-project-general-page'
@@ -54,6 +53,7 @@ import { RepoSettingsGeneralPage } from './pages/repo-settings-general-page'
 import { RepoSettingsCollaborationsPage } from './pages/repo-settings-collaborations-page'
 import { RepoSettingsModerationPage } from './pages/repo-settings-moderation-page'
 import { RepoSettingsPlaceholderPage } from './pages/repo-settings-placeholder-page'
+import { SandboxSettingsAccountGeneralPage } from './pages/sandbox-settings-account-general-page'
 
 const router = createBrowserRouter([
   // TEMPORARY LAYOUT SANDBOX

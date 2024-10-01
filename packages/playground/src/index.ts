@@ -77,7 +77,7 @@ export * from './components/contact-card'
 export * from './constants/ExecutionConstants'
 export * from './components/execution/execution-tree-utils'
 
-export * as FormField from './components/form-field'
+export * as FormFieldSet from './components/form-field-set'
 
 // SANDBOX LAYOUTS
 export * as SandboxLayout from './layouts/SandboxLayout'

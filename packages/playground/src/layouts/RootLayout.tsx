@@ -161,11 +161,14 @@ export const RootLayout: React.FC = () => {
                 <NavLink to="/sandbox/executions">
                   <Navbar.Item text="Executions" icon={<Icon name="cog-6" size={12} />} />
                 </NavLink>
-                <NavLink to="/sandbox/settings">
-                  <Navbar.Item text="Settings" icon={<Icon name="cog-6" size={12} />} />
-                </NavLink>
                 <NavLink to="/sandbox/repos/create">
-                  <Navbar.Item text="Create repo" icon={<Icon name="repositories" size={12} />} />
+                  <Navbar.Item text="Create repository" icon={<Icon name="repositories" size={12} />} />
+                </NavLink>
+                <NavLink to="/sandbox/settings/account">
+                  <Navbar.Item text="Account settings" icon={<Icon name="cog-6" size={12} />} />
+                </NavLink>
+                <NavLink to="/sandbox/settings/project">
+                  <Navbar.Item text="Project settings" icon={<Icon name="cog-6" size={12} />} />
                 </NavLink>
               </Navbar.AccordionGroup>
             </Navbar.Content>
