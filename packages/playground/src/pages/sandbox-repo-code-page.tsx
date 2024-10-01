@@ -71,7 +71,7 @@ function Sidebar() {
   return (
     <div className="flex flex-col gap-5">
       <div className="w-full grid grid-cols-[1fr] auto-cols-auto grid-flow-col gap-3 items-center">
-        <BranchSelector size="sm" name="main" branchList={mockBranchList} selectBranch={noop} />
+        <BranchSelector size="sm" name="main" branchList={mockBranchList} selectBranch={noop} width="full" />
         <ButtonGroup.Root
           spacing="0"
           className="shadow-border shadow-[inset_0_0_0_1px] rounded-md h-full overflow-hidden">
