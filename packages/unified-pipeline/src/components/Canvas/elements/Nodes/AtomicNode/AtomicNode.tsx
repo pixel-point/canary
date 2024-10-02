@@ -105,11 +105,11 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
           <div
             style={{
               width,
-              height
+              minHeight: height
             }}
-            className="content-layer p-2.5 rounded-md">
+            className="content-layer p-2.5 rounded-md space-y-2.5">
             {icon}
-            <Text className="text-[11px] text-white font-normal leading-4">{name}</Text>
+            <Text className="text-[11px] text-white font-normal leading-4 line-clamp-2">{name}</Text>
             {enableDiagnostics?.Node && (
               <span className="text-tiny text-red">{getNodeDiagnostics({ xPos, yPos, zIndex })}</span>
             )}

@@ -196,3 +196,5 @@ export function Canvas(props: CanvasProps) {
     </ReactFlowProvider>
   )
 }
+Canvas.displayName = 'PipelineCanvas'
+CanvasInternal.displayName = 'PipelineCanvasWithReactFlow'

@@ -3,8 +3,9 @@ import { get, has } from 'lodash-es'
 import { Node } from '../components/Canvas/types'
 import { StageCategory } from '../components/PipelineConfigPanel/types'
 import { getIdFromName } from './StringUtils'
-import Bitbucket from '../icons/Bitbucket'
-import Slack from '../icons/Slack'
+import { Icon } from '@harnessio/canary'
+import { getIconBasedOnStep } from './stepUtils/stepIconUtil'
+import { getNameBasedOnStep } from './stepUtils/stepNameUtil'
 
 const STAGE_LABEL = 'Stage'
 const STAGE_GROUP_LABEL = 'Stage Group'
@@ -142,19 +143,25 @@ const getChildNodes = (stage: Record<string, any>): Node[] => {
   return childNodes
 }
 
+function getIconAndDisplayName(step: Record<string, any>, stepIndex: number, isV0yaml?: boolean) {
+  return {
+    name: getNameBasedOnStep(step, stepIndex),
+    icon: (
+      <div className="node-icon">
+        <Icon name={getIconBasedOnStep(step)} />
+      </div>
+    )
+  }
+}
+
 const getStepNode = (step: Record<string, any>, stepIndex: number, isV0yaml?: boolean, isParallel?: boolean): Node => {
   return {
-    name: get(step, isV0yaml ? 'step.name' : 'name', `step ${stepIndex + 1}`),
-    icon: getPlaceholderIcon(stepIndex),
+    ...getIconAndDisplayName(step, stepIndex, isV0yaml),
     expandable: false,
     path: '',
     deletable: false,
     ...(isParallel && { parallel: isParallel })
   } as Node
-}
-
-const getPlaceholderIcon = (stepIndex: number): React.ReactElement => {
-  return stepIndex % 2 ? <Bitbucket /> : <Slack />
 }
 
 /* Parser Utils for V0 pipeline yaml */

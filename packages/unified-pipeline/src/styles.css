@@ -16,6 +16,12 @@
   --studio-node-border-selected: 228, 228, 231;
 }
 
+@layer components {
+  .node-icon {
+    @apply rounded-[4px] bg-teal-300 text-secondary h-8 w-8 grid place-items-center;
+  }
+}
+
 @layer utilities {
   .gradient-border-gray {
     @apply bg-transparent; /* Base background if needed */

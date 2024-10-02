@@ -15,7 +15,7 @@ interface PipelineStudioProps {
   readonly?: boolean
 }
 
-const PipelineStudio = memo((props: PipelineStudioProps) => <PipelineStudioInternal {...props}/>)
+const PipelineStudio = memo((props: PipelineStudioProps) => <PipelineStudioInternal {...props} />)
 
 function PipelineStudioInternal(props: PipelineStudioProps): JSX.Element {
   const [height, setHeight] = useState<number>(0)
@@ -78,5 +78,7 @@ function PipelineStudioInternal(props: PipelineStudioProps): JSX.Element {
     </div>
   )
 }
+PipelineStudioInternal.displayName = 'PipelineStudioMemo'
+PipelineStudio.displayName = 'PipelineStudio'
 
-export {PipelineStudio, type PipelineStudioProps}
+export { PipelineStudio, type PipelineStudioProps }

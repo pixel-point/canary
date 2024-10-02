@@ -59,6 +59,7 @@ import PrReview from '../icons/pr-review.svg'
 import PrClosed from '../icons/pr-closed.svg'
 import PrMerge from '../icons/pr-merge.svg'
 import GitBranch from '../icons/git-branch.svg'
+import GithubActions from '../icons/github-actions.svg'
 import PrComment from '../icons/pr-comment.svg'
 import CreateWorkspace from '../icons/create-workspace.svg'
 import NoDataWebhooks from '../icons/no-data-webhooks.svg'
@@ -84,6 +85,8 @@ import Chain from '../icons/chain.svg'
 import ShieldTick from '../icons/shield-tick.svg'
 import CloudMining from '../icons/cloud-mining.svg'
 import PRMerged from '../icons/pr-merged.svg'
+import Run from '../icons/run.svg'
+import RunTest from '../icons/run-test.svg'
 // import Fork from '../icons/fork.svg'
 
 const IconNameMap = {
@@ -126,6 +129,7 @@ const IconNameMap = {
   'apple-shortcut': AppleShortcut,
   'edit-pen': Edit,
   'gitness-logo': GitnessLogo,
+  'github-actions': GithubActions,
   folder: Folder,
   file: File,
   tag: Tag,
@@ -171,7 +175,9 @@ const IconNameMap = {
   chain: Chain,
   'shield-tick': ShieldTick,
   'cloud-mining': CloudMining,
-  'pr-merged': PRMerged
+  'pr-merged': PRMerged,
+  run: Run,
+  'run-test': RunTest
   // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 
