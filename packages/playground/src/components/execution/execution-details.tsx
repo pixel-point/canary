@@ -28,7 +28,7 @@ export const ExecutionDetails: React.FC<ExecutionProps> = (): React.ReactElement
   return (
     <Layout.Horizontal className="px-8">
       <div className="w-2/3">
-        <StageExecution stage={stages[stageIdx]} selectedStepIdx={stepIdx} logs={mockStepLogs[stepIdx]} />
+        <StageExecution stage={stages[stageIdx]} selectedStepIdx={stepIdx} logs={mockStepLogs[stepIdx]} onEdit={noop} />
       </div>
       <ScrollArea className="w-1/3 h-[calc(100vh-16rem)] pt-4">
         <ContactCard authorEmail={execution.author_email} authorName={execution.author_name} />

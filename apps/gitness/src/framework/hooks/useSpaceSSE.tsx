@@ -27,7 +27,7 @@ const useSpaceSSE = ({ space, events: _events, onEvent, onError, shouldRun = tru
     // Conditionally establish the event stream - don't want to open on a finished execution
     if (shouldRun && events.length > 0) {
       if (!eventSourceRef.current) {
-        const pathAndQuery = `code/api/v1/spaces/${space}/+/events`
+        const pathAndQuery = `/api/v1/spaces/${space}/+/events`
 
         const options: { heartbeatTimeout: number; headers?: { Authorization?: string } } = {
           heartbeatTimeout: 999999999

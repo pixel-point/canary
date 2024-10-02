@@ -11,5 +11,6 @@ export enum ExecutionState {
   FAILURE = 'failure',
   ERROR = 'error',
   SKIPPED = 'skipped',
-  KILLED = 'killed'
+  KILLED = 'killed',
+  WAITING_ON_DEPENDENCIES = 'waiting_on_dependencies'
 }

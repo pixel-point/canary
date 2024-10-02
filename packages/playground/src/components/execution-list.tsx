@@ -1,9 +1,11 @@
 import { Icon, StackedList, Text } from '@harnessio/canary'
 import React from 'react'
+import { ExecutionState } from './execution/types'
+import { ExecutionStatus } from './execution/execution-status'
 
 export interface Execution {
   id: string
-  success?: boolean
+  status: ExecutionState
   name: string
   sha?: string
   description?: string
@@ -17,14 +19,10 @@ interface PageProps {
   LinkComponent: React.ComponentType<{ to: string; children: React.ReactNode }>
 }
 
-const Title = ({ success, title }: { success?: boolean; title: string }) => {
+const Title = ({ status, title }: { status: ExecutionState; title: string }) => {
   return (
     <div className="flex gap-2 items-center">
-      {typeof success === 'boolean' ? (
-        <Icon size={16} name={success ? 'success' : 'fail'} />
-      ) : (
-        <div className="w-4 h-4 rounded-full bg-primary/5 border border-muted border-dotted" />
-      )}
+      <ExecutionStatus.Icon status={status} />
       <Text truncate>{title}</Text>
     </div>
   )
@@ -65,7 +63,7 @@ export const ExecutionList = ({ executions, LinkComponent }: PageProps) => {
             <LinkComponent to={execution.id}>
               <StackedList.Item key={execution.name} isLast={executions.length - 1 === execution_idx}>
                 <StackedList.Field
-                  title={<Title success={execution.success} title={execution.name} />}
+                  title={<Title status={execution.status} title={execution.name} />}
                   description={
                     <Description
                       sha={execution.sha || ''}

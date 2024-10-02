@@ -1,9 +1,10 @@
 /**
- * Formats timestamp, such as, "2024-09-10T13:38:55-07:00" is formatted as "1 hour ago"
+ * Formats ISO format date string to human-readable duration format.
+ * For e.g., "2024-09-10T13:38:55-07:00" is formatted as "1 hour ago".
  * @param timestamp
- * @returns formatted timestamp
+ * @returns formatted duration string
  */
-export const timeAgo = (timestamp: string): string => {
+export const timeAgoFromISOTime = (timestamp: string): string => {
   const date = new Date(timestamp)
   const now = new Date()
 
@@ -40,9 +41,10 @@ export const timeAgo = (timestamp: string): string => {
 }
 
 /**
- * Formats epoch timestamp, such as, "1726260316887" is formatted as "1 hour ago"
+ * Formats epoch timestamp to human-readable duration format.
+ * For e.g. "1726260316887" is formatted as "1 hour ago".
  * @param timestamp
- * @returns formatted timestamp
+ * @returns formatted duration string
  */
 export const timeAgoFromEpochTime = (timestamp: number): string => {
   const now = Date.now()
@@ -84,4 +86,32 @@ export const getDuration = (startTime?: number, endTime?: number): number => {
   if (!endTime || !startTime) return 0
   if (startTime > endTime) return 0
   return endTime - startTime
+}
+
+/**
+ * Formats duration in milliseconds to human-readable duration format.
+ * For 3723000 is formatted as "1h 2m 3s".
+ * @param durationInMs
+ * @returns
+ */
+export const formatDuration = (durationInMs: number): string => {
+  const seconds = Math.floor(durationInMs / 1000)
+  const minutes = Math.floor(seconds / 60)
+  const hours = Math.floor(minutes / 60)
+
+  const remainingSeconds = seconds % 60
+  const remainingMinutes = minutes % 60
+  const formatted = []
+
+  if (hours > 0) {
+    formatted.push(new Intl.NumberFormat().format(hours) + 'h')
+  }
+  if (remainingMinutes > 0) {
+    formatted.push(new Intl.NumberFormat().format(remainingMinutes) + 'm')
+  }
+  if (remainingSeconds > 0) {
+    formatted.push(new Intl.NumberFormat().format(remainingSeconds) + 's')
+  }
+
+  return formatted.join(' ')
 }

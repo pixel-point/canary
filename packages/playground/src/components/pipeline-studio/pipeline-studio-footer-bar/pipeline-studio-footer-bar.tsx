@@ -8,7 +8,7 @@ interface PipelineStudioFooterBarProps {
     info: number
   }
   commitHistory: {
-    lastCommittedAt: number
+    lastCommittedAt: string
     lastCommittedBy: string
   }
   togglePane?: () => void

@@ -25,7 +25,7 @@ import {
 } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { decodeGitContent, getTrimmedSha, normalizeGitRef } from '../../utils/git-utils'
-import { timeAgo } from '../pipeline-edit/utils/time-utils'
+import { timeAgoFromISOTime } from '../pipeline-edit/utils/time-utils'
 
 export const RepoSummary: React.FC = () => {
   const [loading, setLoading] = useState(false)
@@ -101,7 +101,7 @@ export const RepoSummary: React.FC = () => {
                       : SummaryItemType.File,
                     name: item?.path || '',
                     lastCommitMessage: item?.last_commit?.message || '',
-                    timestamp: item?.last_commit?.author?.when ? timeAgo(item.last_commit.author.when) : '',
+                    timestamp: item?.last_commit?.author?.when ? timeAgoFromISOTime(item.last_commit.author.when) : '',
                     user: { name: item?.last_commit?.author?.identity?.name },
                     sha: item?.last_commit?.sha && getTrimmedSha(item.last_commit.sha)
                   }) as FileProps
@@ -138,7 +138,7 @@ export const RepoSummary: React.FC = () => {
               name: author?.identity?.name || ''
             },
             lastCommitMessage: message || '',
-            timestamp: author?.when && timeAgo(author.when),
+            timestamp: author?.when ? timeAgoFromISOTime(author.when) : '',
             sha: sha && getTrimmedSha(sha)
           }}
           files={files}

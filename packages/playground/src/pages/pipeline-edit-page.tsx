@@ -317,7 +317,7 @@ export default function PipelineEditPage() {
         {drawer}
         {main}
         <PipelineStudioFooterBar
-          commitHistory={{ lastCommittedAt: Date.now(), lastCommittedBy: 'harness.io' }}
+          commitHistory={{ lastCommittedAt: '1s', lastCommittedBy: 'harness.io' }}
           problems={{ error: 2, info: 5, warning: 12 }}
           togglePane={() => setPanelOpen(!panelOpen)}
         />

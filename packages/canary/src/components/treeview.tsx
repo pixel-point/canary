@@ -1,16 +1,28 @@
 import { ScrollArea } from '@radix-ui/react-scroll-area'
 import { cn } from '../lib/utils'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
-import { NavArrowRight, NavArrowDown, Circle, CheckCircleSolid, XmarkCircleSolid } from '@harnessio/icons-noir'
+import {
+  NavArrowRight,
+  NavArrowDown,
+  Circle,
+  CheckCircleSolid,
+  XmarkCircleSolid,
+  Refresh,
+  ClockSolid
+} from '@harnessio/icons-noir'
 import React, { createContext, forwardRef, useCallback, useContext, useEffect, useState } from 'react'
 
+/**
+ * @TODO remove this from treeview component
+ */
 enum Status {
-  QUEUED,
-  IN_PROGRESS,
-  SUCCESS,
-  FAILED,
-  SKIPPED,
-  UNKNOWN
+  QUEUED = 'queued',
+  IN_PROGRESS = 'in_progress',
+  SUCCESS = 'success',
+  FAILED = 'failed',
+  SKIPPED = 'skipped',
+  WAITING_ON_DEPENDENCIES = 'waiting_on_dependencies',
+  UNKNOWN = 'unknown'
 }
 
 type ExecutionDetail = {
@@ -21,19 +33,21 @@ type ExecutionDetail = {
 
 const getStatusIcon = (status: Status): React.ReactElement => {
   switch (status) {
-    case Status.QUEUED:
-      return <Circle size="16" />
     case Status.IN_PROGRESS:
-      return <Circle size="16" />
+      return <Refresh size="16" className="animate-spin text-warning" />
     case Status.SUCCESS:
       return <CheckCircleSolid color="#63E9A6" size="16" />
     case Status.FAILED:
       return <XmarkCircleSolid color="#db6662" size="16" />
+    case Status.QUEUED:
+      return <ClockSolid size="16" />
+    case Status.WAITING_ON_DEPENDENCIES:
+      return <ClockSolid size="16" />
     case Status.SKIPPED:
       return <Circle size="16" />
     case Status.UNKNOWN:
     default:
-      return <></>
+      return <Circle size="16" />
   }
 }
 
@@ -220,9 +234,11 @@ const Folder = forwardRef<HTMLDivElement, FolderProps & React.HTMLAttributes<HTM
           })}
           disabled={!isSelectable}
           onClick={() => handleExpand(value)}>
-          {expendedItems?.includes(value)
-            ? (openIcon ?? <NavArrowDown className="h-4 w-4" size="12" />)
-            : (closeIcon ?? <NavArrowRight className="h-4 w-4" size="12" />)}
+          <div className="mt-1 pt-1">
+            {expendedItems?.includes(value)
+              ? (openIcon ?? <NavArrowDown className="h-4 w-4" size="12" />)
+              : (closeIcon ?? <NavArrowRight className="h-4 w-4" size="12" />)}
+          </div>
           <div className="flex items-baseline justify-between w-full mt-1 mr-1">
             <div className="flex items-baseline">
               <div className="flex self-center mr-1">{getStatusIcon(status)}</div>
@@ -351,7 +367,6 @@ const CollapseButton = forwardRef<
     }, [])
 
     useEffect(() => {
-      console.log(expandAll)
       if (expandAll) {
         expendAllTree(elements)
       }

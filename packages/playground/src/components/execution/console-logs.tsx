@@ -55,7 +55,7 @@ const ConsoleLogs: FC<ConsoleLogsProps> = ({ logs }) => {
         return (
           <div className="flex items-baseline leading-[21px] mb-2" key={index}>
             {typeof log.pos === 'number' && <Text className={'text-log flex justify-end min-w-5'}>{log.pos + 1}</Text>}
-            <div className="text-ring font-mono text-sm font-normal ml-2">
+            <div className="text-ring font-mono text-sm font-normal ml-2 flex gap-1">
               {log?.time ? <Text>[{formatTimestamp(log.time)}]</Text> : null}
               <Text className="text-ring">{log.out}</Text>
             </div>

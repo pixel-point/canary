@@ -20,6 +20,7 @@ export interface StepProps {
 interface StepExecutionProps {
   step: StepProps
   logs: LivelogLine[]
+  onEdit: () => void
 }
 
 enum StepExecutionTab {
@@ -28,7 +29,7 @@ enum StepExecutionTab {
   OUTPUT = 'output'
 }
 
-const StepExecutionToolbar: React.FC = () => {
+const StepExecutionToolbar: React.FC<Pick<StepExecutionProps, 'onEdit'>> = ({ onEdit }) => {
   return (
     <Layout.Horizontal>
       <Input placeholder="Find in logs" />
@@ -36,7 +37,7 @@ const StepExecutionToolbar: React.FC = () => {
         <Button variant="outline" size="icon" className="rounded-tr-none rounded-br-none border-r-0">
           <Copy className="h-4 w-4" />
         </Button>
-        <Button variant="outline" size="icon" className="rounded-none">
+        <Button variant="outline" size="icon" className="rounded-none" onClick={onEdit}>
           <Edit className="h-4 w-4" />
         </Button>
         <Button variant="outline" size="icon" className="rounded-tl-none rounded-bl-none border-l-0">
@@ -47,7 +48,7 @@ const StepExecutionToolbar: React.FC = () => {
   )
 }
 
-export const StepExecution: React.FC<StepExecutionProps> = ({ step, logs }) => {
+export const StepExecution: React.FC<StepExecutionProps> = ({ step, logs, onEdit }) => {
   if (!step) return null
   const inputTable = step?.inputs || []
   const outputTable = step?.outputs || []
@@ -70,7 +71,7 @@ export const StepExecution: React.FC<StepExecutionProps> = ({ step, logs }) => {
               <TabsTrigger value={StepExecutionTab.INPUT}>Inputs</TabsTrigger>
               <TabsTrigger value={StepExecutionTab.OUTPUT}>Output</TabsTrigger>
             </TabsList>
-            <StepExecutionToolbar />
+            <StepExecutionToolbar onEdit={onEdit} />
           </Layout.Horizontal>
           <TabsContent value={StepExecutionTab.LOG}>
             <ScrollArea className="h-[calc(100vh-23rem)] border-t pt-4">

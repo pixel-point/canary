@@ -16,20 +16,20 @@ export function Execution() {
     return (
       <div className="w-[395px] h-[660px]">
         <Tree className="rounded-md bg-background overflow-hidden p-2" initialSelectedId="1" elements={elements}>
-          <Folder element="DAST" value="1" status={Status.SUCCESS} duration={15}>
-            <File value="2" status={Status.SUCCESS} duration={5} isSelect={true}>
+          <Folder element="DAST" value="1" status={Status.SUCCESS} duration={'15s'}>
+            <File value="2" status={Status.SUCCESS} duration={'5s'} isSelect={true}>
               <p>Fortify</p>
             </File>
-            <File value="3" status={Status.SUCCESS} duration={5}>
+            <File value="3" status={Status.SUCCESS} duration={'5s'}>
               <p>Veracode</p>
             </File>
-            <File value="4" status={Status.SUCCESS} duration={5}>
+            <File value="4" status={Status.SUCCESS} duration={'5'}>
               <p>Checkmarx</p>
             </File>
           </Folder>
           <Folder element="Deploy to Prod" value="5" status={Status.FAILED}>
             <Folder element="SBOM and SLSA Validation" value="6" status={Status.FAILED}>
-              <File value="9" status={Status.FAILED} duration={15}>
+              <File value="9" status={Status.FAILED} duration={'15'}>
                 <p>SoftwareSupply Chain Validation</p>
               </File>
               <File value="10" status={Status.FAILED}>

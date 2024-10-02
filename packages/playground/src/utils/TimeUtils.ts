@@ -3,8 +3,8 @@
  * @param endTs
  * @returns duration in "1h 2m 3s" format
  */
-export const getFormattedDuration = (startTs: number, endTs: number): string => {
-  if (startTs > endTs) return '0s'
+export const getFormattedDuration = (startTs = 0, endTs = 0): string => {
+  if (startTs >= endTs) return '0s'
   const totalSeconds = Math.floor((endTs - startTs) / 1000)
   const hours = Math.floor(totalSeconds / 3600)
   const minutes = Math.floor((totalSeconds % 3600) / 60)

@@ -11,7 +11,7 @@ import { PipelineStudioYamlView } from './pipeline-studio-yaml-view'
 import { usePipelineDataContext } from '../context/PipelineStudioDataProvider'
 import { PipelineStudioStepPalette } from './pipeline-studio-step-palette'
 import PipelineStudioHeaderActions from './pipeline-studio-header-actions'
-import { timeAgo } from '../utils/time-utils'
+import { timeAgoFromISOTime } from '../utils/time-utils'
 
 export default function PipelineEdit() {
   const { view, setView, panelOpen, stepDrawerOpen, setStepDrawerOpen, setPanelOpen } = usePipelineViewContext()
@@ -109,7 +109,7 @@ export default function PipelineEdit() {
         {latestCommitAuthor ? (
           <PipelineStudioFooterBar
             commitHistory={{
-              lastCommittedAt: latestCommitAuthor.when ? timeAgo(latestCommitAuthor.when) : '',
+              lastCommittedAt: latestCommitAuthor.when ? timeAgoFromISOTime(latestCommitAuthor.when) : '',
               lastCommittedBy: latestCommitAuthor.identity?.name ?? ''
             }}
             problems={problems.problemsCount}

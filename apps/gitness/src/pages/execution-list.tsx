@@ -45,7 +45,7 @@ export default function ExecutionsListPage() {
             executions={executions?.map((item: TypesExecution) => ({
               id: item?.number && `executions/${item.number}`,
               status: item?.status,
-              success: item?.status === 'success',
+              success: item?.status,
               name: item?.message || item?.title,
               sha: item?.after?.slice(0, 6),
               description: getLabel(item),

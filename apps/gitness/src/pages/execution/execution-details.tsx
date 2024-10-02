@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { TypesStage, useFindExecutionQuery, useViewLogsQuery } from '@harnessio/code-service-client'
 import { Badge, Icon, ScrollArea, Separator, Text } from '@harnessio/canary'
 import {
@@ -9,14 +9,20 @@ import {
   StageExecution,
   ContactCard,
   convertExecutionToTree,
-  StageProps
+  StageProps,
+  getStepId,
+  parseStageStepId
 } from '@harnessio/playground'
 import { PathParams } from '../../RouteDefinitions'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
-import { ExecutionState } from '../../types'
-import { getDuration, timeAgoFromEpochTime } from '../pipeline-edit/utils/time-utils'
+import { ExecutionEvent, ExecutionState } from '../../types'
+import { getDuration, timeAgoFromEpochTime, formatDuration } from '../pipeline-edit/utils/time-utils'
+import useSpaceSSE from '../../framework/hooks/useSpaceSSE'
+import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
 
 const ExecutionLogs: React.FC = () => {
+  const navigate = useNavigate()
+  const space = useGetSpaceURLParam() ?? ''
   const { pipelineId, executionId } = useParams<PathParams>()
   const repoRef = useGetRepoRef()
   const [stage, setStage] = useState<TypesStage>()
@@ -25,10 +31,42 @@ const ExecutionLogs: React.FC = () => {
   const pipelineIdentifier = pipelineId || ''
   const executionNum = executionId || ''
 
-  const { data: execution } = useFindExecutionQuery({
+  const { data: execution, refetch: fetchExecution } = useFindExecutionQuery({
     pipeline_identifier: pipelineIdentifier,
     execution_number: executionNum,
     repo_ref: repoRef
+  })
+
+  const onEvent = useCallback(
+    (data: { repo_id: number | undefined; pipeline_id: number | undefined; number: number | undefined }) => {
+      if (
+        data?.repo_id === execution?.repo_id &&
+        data?.pipeline_id === execution?.pipeline_id &&
+        data?.number === execution?.number
+      ) {
+        fetchExecution()
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [execution?.number, execution?.pipeline_id, execution?.repo_id]
+  )
+
+  useSpaceSSE({
+    space,
+    events: useMemo(
+      () => [
+        ExecutionEvent.EXECUTION_UPDATED,
+        ExecutionEvent.EXECUTION_COMPLETED,
+        ExecutionEvent.EXECUTION_CANCELED,
+        ExecutionEvent.EXECUTION_RUNNING
+      ],
+      []
+    ),
+    onEvent,
+    shouldRun: useMemo(
+      () => [ExecutionState.RUNNING, ExecutionState.PENDING].includes(execution?.status as ExecutionState),
+      [execution?.status]
+    )
   })
 
   const { data: logs } = useViewLogsQuery({
@@ -54,6 +92,7 @@ const ExecutionLogs: React.FC = () => {
             stage={stage as StageProps}
             logs={logs ?? []}
             selectedStepIdx={stepNum > 0 ? stepNum - 1 : 0}
+            onEdit={() => navigate('../edit')}
           />
         )}
       </div>
@@ -84,7 +123,7 @@ const ExecutionLogs: React.FC = () => {
               <ExecutionStatus.Badge
                 status={execution.status as ExecutionState}
                 minimal
-                duration={getDuration(execution?.started, execution?.finished)}
+                duration={formatDuration(getDuration(execution?.started, execution?.finished))}
               />
             </Layout.Vertical>
           )}
@@ -98,15 +137,19 @@ const ExecutionLogs: React.FC = () => {
         <Separator className="my-4" />
         {execution && (
           <ExecutionTree
-            defaultSelectedId=""
+            defaultSelectedId={getStepId(stageNum, stepNum)}
             elements={convertExecutionToTree(execution)}
-            onSelectNode={({ parentId: stageNum, childId: stepNum }: { parentId: string; childId: string }) => {
+            onSelectNode={({ childId: fullStepId }: { parentId: string; childId: string }) => {
               try {
-                setStageNum(parseInt(stageNum))
-                setStepNum(parseInt(stepNum))
-                /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-              } catch (e) {
-                // ignore exception
+                const { stageId, stepId } = parseStageStepId(fullStepId) || {}
+                if (!isNaN(Number(stageId))) {
+                  setStageNum(Number(stageId))
+                }
+                if (!isNaN(Number(stepId))) {
+                  setStepNum(Number(stepId))
+                }
+              } catch {
+                // Ignore exception
               }
             }}
           />

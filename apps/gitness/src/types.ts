@@ -6,6 +6,16 @@ import {
   TypesUserGroupOwnerEvaluation
 } from '@harnessio/code-service-client'
 
+/**
+ * Ensure this should come from @harnessio/code-service-client instead
+ */
+export enum ExecutionEvent {
+  EXECUTION_UPDATED = 'execution_updated',
+  EXECUTION_COMPLETED = 'execution_completed',
+  EXECUTION_CANCELED = 'execution_canceled',
+  EXECUTION_RUNNING = 'execution_running'
+}
+
 export enum ExecutionState {
   PENDING = 'pending',
   RUNNING = 'running',
