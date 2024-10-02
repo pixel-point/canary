@@ -19,6 +19,7 @@ import {
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+
 import { FormFieldSet } from '../index'
 import { MessageTheme } from '../components/form-field-set'
 
@@ -31,9 +32,14 @@ const formSchema = z.object({
   access: z.enum(['1', '2'], { errorMap: () => ({ message: 'Please select who has access' }) })
 })
 
-type FormFields = z.infer<typeof formSchema> // Automatically generate a type from the schema
+export type FormFields = z.infer<typeof formSchema> // Automatically generate a type from the schema
 
-function SandboxRepoCreatePage() {
+interface SandboxRepoCreatePageProps {
+  onFormSubmit: (data: FormFields) => void
+  onFormCancel: () => void
+  apiError?: string | null
+}
+const SandboxRepoCreatePage: React.FC<SandboxRepoCreatePageProps> = ({ onFormSubmit, apiError, onFormCancel }) => {
   const {
     register,
     handleSubmit,
@@ -71,16 +77,16 @@ function SandboxRepoCreatePage() {
   const onSubmit: SubmitHandler<FormFields> = data => {
     setIsSubmitting(true)
     setTimeout(() => {
-      console.log(data)
+      onFormSubmit(data)
       reset()
       setIsSubmitting(false)
-      setIsSubmitted(true) // Set submitted state to true
-      setTimeout(() => setIsSubmitted(false), 2000) // Reset the submitted state after 2 seconds
+      setIsSubmitted(true)
+      setTimeout(() => setIsSubmitted(false), 2000)
     }, 2000)
   }
 
   const handleCancel = () => {
-    console.log('Cancel button clicked')
+    onFormCancel()
   }
 
   return (
@@ -201,6 +207,14 @@ function SandboxRepoCreatePage() {
                 )}
               </FormFieldSet.ControlGroup>
             </FormFieldSet.Root>
+            {apiError && (
+              <>
+                <Spacer size={2} />
+                <Text size={1} className="text-destructive">
+                  {apiError?.toString()}
+                </Text>
+              </>
+            )}
 
             {/* SUBMIT BUTTONS */}
             <FormFieldSet.Root>
