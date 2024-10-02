@@ -20,28 +20,16 @@ interface HeaderProps {
   text: string
   numAdditions?: number
   numDeletions?: number
+  data?: string
+  title: string
+  lang: string
 }
 
 interface DataProps {
   data: HeaderProps[]
-  diffData:
-    | {
-        oldFile?: {
-          fileName?: string | null
-          fileLang?: string | null
-          content?: string | null
-        }
-        newFile?: {
-          fileName?: string | null
-          fileLang?: string | null
-          content?: string | null
-        }
-        hunks: string[]
-      }
-    | undefined
 }
 
-const LineTitle: React.FC<HeaderProps> = ({ text, numAdditions, numDeletions }) => (
+const LineTitle: React.FC<Omit<HeaderProps, 'title' | 'data' | 'lang'>> = ({ text, numAdditions, numDeletions }) => (
   <div className="flex items-center gap-3 justify-between">
     <div className="inline-flex gap-2 items-center">
       <Text weight="medium">{text}</Text>
@@ -76,22 +64,8 @@ const LineTitle: React.FC<HeaderProps> = ({ text, numAdditions, numDeletions }) 
 
 const PullRequestAccordion: React.FC<{
   header: HeaderProps
-  data:
-    | {
-        oldFile?: {
-          fileName?: string | null
-          fileLang?: string | null
-          content?: string | null
-        }
-        newFile?: {
-          fileName?: string | null
-          fileLang?: string | null
-          content?: string | null
-        }
-        hunks: string[]
-      }
-    | undefined
-}> = ({ header, data }) => {
+  data?: string
+}> = ({ header }) => {
   const { highlight, wrap, fontsize } = useDiffConfig()
 
   return (
@@ -110,12 +84,14 @@ const PullRequestAccordion: React.FC<{
               <div className="flex border-t w-full p-4">
                 <div className="bg-transparent">
                   <PullRequestDiffViewer
-                    data={data}
+                    data={header.data}
                     fontsize={fontsize}
                     highlight={highlight}
                     mode={DiffModeEnum.Split}
                     wrap={wrap}
                     addWidget
+                    fileName={header.title}
+                    lang={header.lang}
                   />
                 </div>
               </div>
@@ -127,11 +103,11 @@ const PullRequestAccordion: React.FC<{
   )
 }
 
-export function PullRequestChanges({ data, diffData }: DataProps) {
+export function PullRequestChanges({ data }: DataProps) {
   return (
     <div className="flex flex-col gap-4">
       {data.map((item, index) => (
-        <PullRequestAccordion key={index} header={item} data={diffData} />
+        <PullRequestAccordion key={index} header={item} data={item?.data} />
       ))}
     </div>
   )

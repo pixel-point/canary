@@ -15,14 +15,13 @@ import {
 import { isCodeComment, isComment, isSystemComment } from './utils'
 import PullRequestTimelineItem from './pull-request-timeline-item'
 import PullRequestSystemComments from './pull-request-system-comments'
-import { orderBy } from 'lodash-es'
+import { get, orderBy } from 'lodash-es'
 import PullRequestDiffViewer from './pull-request-diff-viewer'
 import { useDiffConfig } from './hooks/useDiffConfig'
 import { DiffModeEnum } from '@git-diff-view/react'
 import PullRequestDescBox from './pull-request-description-box'
 import { getInitials, timeAgo } from '../../utils/utils'
 import AvatarUrl from '../../../public/images/user-avatar.svg'
-
 interface PullRequestOverviewProps {
   data?: TypesPullReqActivity[]
   currentUser?: string
@@ -31,21 +30,7 @@ interface PullRequestOverviewProps {
   pullReqMetadata: TypesPullReq | undefined
   activityFilter: { label: string; value: string }
   dateOrderSort: { label: string; value: string }
-  diffData?:
-    | {
-        oldFile?: {
-          fileName?: string | null
-          fileLang?: string | null
-          content?: string | null
-        }
-        newFile?: {
-          fileName?: string | null
-          fileLang?: string | null
-          content?: string | null
-        }
-        hunks: string[]
-      }
-    | undefined
+  diffData?: { text: string; numAdditions?: number; numDeletions?: number; data?: string; title: string; lang: string }
 }
 export const activityToCommentItem = (activity: TypesPullReqActivity): CommentItem<TypesPullReqActivity> => ({
   id: activity.id || 0,
@@ -64,7 +49,6 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
   pullReqMetadata,
   activityFilter,
   dateOrderSort,
-  diffData,
   handleSaveComment
 }) => {
   const {
@@ -156,6 +140,15 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
               )
             } else {
               const payload = commentItems[0]?.payload?.payload // Ensure payload is typed correctly
+              const codeDiffSnapshot = [
+                `diff --git a/src b/dest`,
+                `new file mode 100644`,
+                'index 0000000..0000000',
+                `--- a/src/${get(payload, 'code_comment.path')}`,
+                `+++ b/dest/${get(payload, 'code_comment.path')}`,
+                `${get(payload, 'payload.title', '')} ttttt`,
+                ...get(payload, 'payload.lines', [])
+              ].join('\n')
 
               if (payload?.type === ('code-comment' as EnumPullReqActivityType)) {
                 return (
@@ -199,7 +192,9 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                           </div>
                         </div>
                         <PullRequestDiffViewer
-                          data={diffData}
+                          data={codeDiffSnapshot}
+                          fileName={payload?.code_comment?.path ?? ''}
+                          lang={(payload?.code_comment?.path && payload?.code_comment?.path.split('.').pop()) || ''}
                           fontsize={fontsize}
                           highlight={highlight}
                           mode={DiffModeEnum.Unified}
@@ -218,7 +213,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                                       <Text size={1} color="tertiaryBackground">
                                         {/* TODO: fix fallback string */}
                                         {getInitials(
-                                          ((commentItem as TypesPullReqActivity)?.author as PayloadAuthor)
+                                          ((commentItem as TypesPullReqActivity)?.payload?.author as PayloadAuthor)
                                             ?.display_name || ''
                                         )}
                                       </Text>
@@ -228,7 +223,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                                 isLast={commentItems.length - 1 === idx}
                                 header={[
                                   {
-                                    name: ((commentItem as TypesPullReqActivity)?.author as PayloadAuthor)
+                                    name: ((commentItem as TypesPullReqActivity)?.payload?.author as PayloadAuthor)
                                       ?.display_name,
                                     // TODO: fix comment to tell between comment or code comment?
                                     description:
@@ -294,8 +289,8 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                                   <Text size={1} color="tertiaryBackground">
                                     {/* TODO: fix fallback string */}
                                     {getInitials(
-                                      ((commentItem as TypesPullReqActivity)?.author as PayloadAuthor).display_name ||
-                                        ''
+                                      ((commentItem as TypesPullReqActivity)?.payload?.author as PayloadAuthor)
+                                        .display_name || ''
                                     )}
                                   </Text>
                                 </AvatarFallback>
@@ -304,7 +299,8 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                             isLast={commentItems.length - 1 === idx}
                             header={[
                               {
-                                name: ((commentItem as TypesPullReqActivity)?.author as PayloadAuthor)?.display_name,
+                                name: ((commentItem as TypesPullReqActivity)?.payload?.author as PayloadAuthor)
+                                  ?.display_name,
                                 // TODO: fix comment to tell between comment or code comment?
                                 description:
                                   commentItem?.created && `${timeAgo((commentItem as PayloadCreated)?.created)}`

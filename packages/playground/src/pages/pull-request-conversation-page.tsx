@@ -25,7 +25,6 @@ import { processReviewDecision, useActivityFilters, useDateFilters } from '../co
 import { FullWidth2ColumnLayout } from '../layouts/FullWidth2ColumnLayout'
 import { mockCodeOwnerData } from '../data/mockCodeOwner'
 import { mockPullRequestActions } from '../data/mockPullRequestActions'
-import * as data from '../data/mockDiffViewerdata'
 import { TypesPullReqActivity } from '../components/pull-request/interfaces'
 // Mock useMutate hook
 // Define the type for the useFakeMutate parameters
@@ -211,7 +210,6 @@ export default function PullRequestConversationPage() {
               pullReqMetadata={pullReqMetadata}
               activityFilter={activityFilter}
               dateOrderSort={dateOrderSort}
-              diffData={data['a']}
               handleSaveComment={handleSaveComment}
               currentUser={currentUser}
             />

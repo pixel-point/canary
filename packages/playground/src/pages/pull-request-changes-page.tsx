@@ -16,9 +16,9 @@ import {
   RadioGroupItem,
   RadioGroup
 } from '@harnessio/canary'
-import * as data from '../data/mockDiffViewerdata'
 import { PullRequestChanges } from '../components/pull-request/pull-request-changes'
 import { FileViewGauge } from '..'
+import { mockDiffData } from '../data/mockDiffData'
 
 interface FilterViewProps {
   active: string
@@ -165,26 +165,12 @@ const FilterSortViewDropdowns: React.FC<FilterViewProps> = ({ active }) => {
 export default function PullRequestChangesPage() {
   const [loadState, setLoadState] = useState('data-loaded-success') // Updated loadState default to prevent infinite render
 
-  const pullRequestData = [
-    { text: 'All checks have succeeded', numAdditions: 34, numDeletions: 36 },
-    { text: 'New commit pushed', numAdditions: 17, numDeletions: 19 },
-    { text: 'Conflicts resolved', numAdditions: 9, numDeletions: 32 },
-    { text: 'All checks have succeeded', numAdditions: 2, numDeletions: 0 },
-    { text: 'All checks have succeeded', numAdditions: 34 },
-    { text: 'New commit pushed', numAdditions: 99, numDeletions: 200 },
-    { text: 'Conflicts resolved', numAdditions: 24, numDeletions: 30 },
-    { text: 'All checks have succeeded', numAdditions: 34, numDeletions: 36 },
-    { text: 'All checks have succeeded', numAdditions: 322, numDeletions: 400 },
-    { text: 'New commit pushed', numAdditions: 29, numDeletions: 30 },
-    { text: 'Conflicts resolved', numAdditions: 45, numDeletions: 76 }
-  ]
-
   const renderContent = () => {
     switch (loadState) {
       case 'data-loaded-success':
       case 'data-loaded-warning':
       case 'data-loaded-error':
-        return <PullRequestChanges data={pullRequestData} diffData={data['b']} />
+        return <PullRequestChanges data={mockDiffData} />
       case 'loading':
         return <SkeletonList />
       case 'no-data':

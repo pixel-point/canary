@@ -37,20 +37,6 @@ import { PathParams } from '../../RouteDefinitions'
 import { usePullRequestData } from './context/pull-request-data-provider'
 import { isEmpty } from 'lodash-es'
 import { CodeOwnerReqDecision } from '../../types'
-export const diffdata = {
-  oldFile: {
-    fileName: null,
-    content: ''
-  },
-  newFile: {
-    fileName: 'src/components/MultiLevelReview/AddReviewConfigModal.tsx'
-    // content:
-    //   "import type { DepoCatalogueReviewers, UpdateCatalogueReviewersParams } from '@/apis/modules/catalogue/module';\nimport { DepoCatalogueReviewEnum } from '@/apis/modules/catalogue/module';\nimport { gsModalSize } from '@/utils/commonVariable';\nimport { Button, Form, Modal, Radio, message } from 'antd';\nimport { useEffect, useMemo, useState } from 'react';\nimport { UserSelect } from '../UserSelect';\nimport { useCatalogueTree } from '@/hooks/useCatalogueTree';\nimport type { IUserInfo } from '@/apis/modules/user/module';\nimport { updateCatalogueReviewers } from '@/apis/modules/catalogue';\n\nexport const AddReviewConfig = ({ currentReviewList }: { currentReviewList: DepoCatalogueReviewers }) => {\n  const [isOpen, setIsOpen] = useState(false);\n\n  const [loading, setLoading] = useState(false);\n\n  const [userList, setUserList] = useState<IUserInfo[]>([]);\n\n  const { computedSelectItem, reloadCatalogueItemReviewers } = useCatalogueTree.useShallowSelector((s) => ({\n    computedSelectItem: s.computedSelectItem,\n    reloadCatalogueItemReviewers: s.getCatalogueItemReviewers,\n  }));\n\n  const [form] = Form.useForm<{ reviewers: number[]; type: DepoCatalogueReviewEnum }>();\n\n  const selectedList = useMemo(() => currentReviewList.map(i => i.reviewers || []).reduce((p, c) => p.concat(c), []), [currentReviewList])\n\n  useEffect(() => {\n    return () => form.resetFields();\n  }, [form, isOpen]);\n\n  const onSubmit = async () => {\n    if (loading) return;\n    try {\n      setLoading(true);\n      const formValue = await form.validateFields();\n      if (!computedSelectItem) {\n        message.error('意料之外的错误，请刷新重试');\n        return;\n      }\n      const params: UpdateCatalogueReviewersParams = {\n        dirId: computedSelectItem.id,\n        updateCatalogueReviewLevels: [\n          {\n            level: currentReviewList.length + 1,\n            type: formValue.type,\n            reviewers: userList\n              .filter((i) => formValue.reviewers.includes(i.id))\n              .map((i) => ({ id: i.id, username: i.username, nickname: i.nickname })),\n          },\n        ],\n      };\n      const response = await updateCatalogueReviewers(params);\n      if (response.success) {\n        await reloadCatalogueItemReviewers();\n        setIsOpen(false);\n      }\n    } finally {\n      setLoading(false);\n    }\n  };\n\n  return (\n    <>\n      <Button onClick={() => setIsOpen(true)}>新增审查层级</Button>\n      <Modal\n        title=\"新增审查层级\"\n        visible={isOpen}\n        okText=\"提交更改\"\n        width={gsModalSize}\n        onOk={onSubmit}\n        confirmLoading={loading}\n        onCancel={() => setIsOpen(false)}\n      >\n        <Form form={form} labelCol={{ span: 4 }} wrapperCol={{ span: 20 }} initialValues={{ type: DepoCatalogueReviewEnum.OR }}>\n          <Form.Item label=\"直接审查人\" name=\"reviewers\" rules={[{ required: true, message: '请选择审查人' }]}>\n            <UserSelect\n              mode=\"multiple\"\n              onLoad={(list) => setUserList(list)}\n              disableItems={selectedList}\n              filterOption={(input, option) => !!option?.label?.toString().toLowerCase().includes(input?.toLowerCase())}\n            />\n          </Form.Item>\n          <Form.Item label=\"审查条件\" name=\"type\" rules={[{ required: true, message: '请选择审查条件' }]}>\n            <Radio.Group size=\"middle\" style={{ width: '100%' }}>\n              <Radio.Button value={DepoCatalogueReviewEnum.AND}>会签</Radio.Button>\n              <Radio.Button value={DepoCatalogueReviewEnum.OR}>或签</Radio.Button>\n            </Radio.Group>\n          </Form.Item>\n        </Form>\n      </Modal>\n    </>\n  );\n};",
-  },
-  hunks: [
-    'diff --git a/packages/myreact-reactivity/src/reactive/feature.ts b/packages/myreact-reactivity/src/reactive/feature.ts\nindex 5b301628..15aac42f 100644\n--- a/packages/myreact-reactivity/src/reactive/feature.ts\n+++ b/packages/myreact-reactivity/src/reactive/feature.ts\n@@ -74,7 +74,7 @@ export function createReactive<P extends Record<string, unknown>, S extends Reco\n \n     componentWillUnmount(): void {\n       this.props.$$__instance__$$.onUnmounted.forEach((f) => f());\n-      this.effect.stop();\n+      this.reactiveEffect.stop();\n     '
-  ]
-}
 
 export default function PullRequestConversationPage() {
   const {
@@ -310,7 +296,6 @@ export default function PullRequestConversationPage() {
               pullReqMetadata={pullReqMetadata}
               activityFilter={activityFilter}
               dateOrderSort={dateOrderSort}
-              diffData={diffdata}
               handleSaveComment={handleSaveComment}
               currentUser={currentUser}
             />
