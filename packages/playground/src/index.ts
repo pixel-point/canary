@@ -46,6 +46,7 @@ export * from './components/pipeline-studio/step-palette/step-palette-item'
 export * from './assets/form/run-step'
 export * from './components/pipeline-studio/pipeline-studio-footer-bar/pipeline-studio-footer-bar'
 export * from './components/branches-list'
+export * from './components/divergence-gauge'
 
 export * from './components/form-inputs/factory/factory'
 export * from './components/form-inputs/ArrayInput'
