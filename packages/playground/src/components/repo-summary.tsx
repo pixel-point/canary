@@ -119,11 +119,15 @@ export const Summary = ({ ...props }: PageProps) => {
                     ) : (
                       <Icon name="folder" size={14} className="text-tertiary-background" />
                     )}
-                    <Text color="primary">{file.name}</Text>
+                    <Text truncate color="primary">
+                      {file.name}
+                    </Text>
                   </ButtonGroup.Root>
                 </TableCell>
                 <TableCell>
-                  <Text color="tertiaryBackground">{file.lastCommitMessage}</Text>
+                  <Text color="tertiaryBackground" className="line-clamp-1">
+                    {file.lastCommitMessage}
+                  </Text>
                 </TableCell>
                 <TableCell className="text-right">
                   <Text color="tertiaryBackground" wrap="nowrap">
