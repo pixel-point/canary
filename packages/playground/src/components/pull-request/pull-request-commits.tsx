@@ -1,47 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { TypesCommit } from './interfaces'
 import { formatDate, getInitials } from '../../utils/utils'
-import { StackedList, Text, NodeGroup, Avatar, AvatarFallback, Icon, cn } from '@harnessio/canary'
-import copy from 'clipboard-copy'
-import { ShaBadge } from '../..'
-import { Link } from 'react-router-dom'
-
+import { StackedList, Text, NodeGroup, Avatar, AvatarFallback } from '@harnessio/canary'
+import { CommitCopyActions } from '../commit-copy-actions'
+//Icon, cn
 interface CommitProps {
   data?: TypesCommit[]
-}
-
-interface CommitActionButtonProps {
-  sha: string
-}
-
-function CommitActions({ sha }: CommitActionButtonProps) {
-  const [copied, setCopied] = useState(false)
-
-  useEffect(() => {
-    let timeoutId: number
-    if (copied) {
-      copy(sha)
-      timeoutId = window.setTimeout(() => setCopied(false), 2500)
-    }
-    return () => {
-      clearTimeout(timeoutId)
-    }
-  }, [copied])
-
-  return (
-    <ShaBadge.Root>
-      <ShaBadge.Content>
-        <Link to="#">
-          <Text size={1} className="text-tertiary-background">
-            {sha.substring(0, 6)}
-          </Text>
-        </Link>
-      </ShaBadge.Content>
-      <ShaBadge.Icon handleClick={() => setCopied(true)}>
-        <Icon size={12} name={copied ? 'tick' : 'clone'} className={cn({ 'text-success': copied })} />
-      </ShaBadge.Icon>
-    </ShaBadge.Root>
-  )
 }
 
 export const PullRequestCommits = ({ ...props }: CommitProps) => {
@@ -97,7 +61,7 @@ export const PullRequestCommits = ({ ...props }: CommitProps) => {
                       }
                     />
                     {commit?.sha && (
-                      <StackedList.Field title={<CommitActions sha={commit.sha} />} right label secondary />
+                      <StackedList.Field title={<CommitCopyActions sha={commit.sha} />} right label secondary />
                     )}
                   </StackedList.Item>
                 ))}
