@@ -3,7 +3,8 @@ import { Text, Icon, cn } from '@harnessio/canary'
 import copy from 'clipboard-copy'
 import { ShaBadge } from '..'
 import { Link } from 'react-router-dom'
-
+//TODO: it need to pass url to copy function in the future, it is used in branch-list & pull-request-commit list
+// not have commit detail page yet
 export const CommitCopyActions = ({ sha }: { sha: string }) => {
   const [copied, setCopied] = useState(false)
 
