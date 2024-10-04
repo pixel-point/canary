@@ -73,8 +73,4 @@ const useSpaceSSE = ({ space, events: _events, onEvent, onError, shouldRun = tru
   }, [space, events, shouldRun, onEvent, onError, bearerToken])
 }
 
-export enum SSEEvents {
-  PULLREQ_UPDATED = 'pullreq_updated'
-}
-
 export default useSpaceSSE

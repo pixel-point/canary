@@ -9,11 +9,12 @@ import {
 /**
  * Ensure this should come from @harnessio/code-service-client instead
  */
-export enum ExecutionEvent {
+export enum SSEEvent {
   EXECUTION_UPDATED = 'execution_updated',
   EXECUTION_COMPLETED = 'execution_completed',
   EXECUTION_CANCELED = 'execution_canceled',
-  EXECUTION_RUNNING = 'execution_running'
+  EXECUTION_RUNNING = 'execution_running',
+  PULLREQ_UPDATED = 'pullreq_updated'
 }
 
 export enum ExecutionState {

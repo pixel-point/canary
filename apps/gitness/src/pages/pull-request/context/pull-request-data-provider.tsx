@@ -21,9 +21,9 @@ import { useGetSpaceURLParam } from '../../../framework/hooks/useGetSpaceParam'
 import { useGetRepoRef } from '../../../framework/hooks/useGetRepoPath'
 import { useParams } from 'react-router-dom'
 import { PathParams } from '../../../RouteDefinitions'
-import useSpaceSSE, { SSEEvents } from '../../../framework/hooks/useSpaceSSE'
+import useSpaceSSE from '../../../framework/hooks/useSpaceSSE'
 import { usePRChecksDecision } from '../hooks/usePRChecksDecision'
-import { ExecutionState } from '../../../types'
+import { ExecutionState, SSEEvent } from '../../../types'
 import { PullRequestState } from '../types/types'
 import { extractSpecificViolations } from '../utils'
 export const codeOwnersNotFoundMessage = 'CODEOWNERS file not found'
@@ -134,7 +134,7 @@ const PullRequestDataProvider: React.FC<PullRequestDataProviderProps> = ({ child
 
   useSpaceSSE({
     space,
-    events: useMemo(() => [SSEEvents.PULLREQ_UPDATED], []),
+    events: useMemo(() => [SSEEvent.PULLREQ_UPDATED], []),
     onEvent: useCallback(
       (data: TypesPullReq) => {
         if (data && String(data?.number) === pullRequestId) {
