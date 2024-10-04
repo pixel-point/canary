@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   Button,
   Icon,
@@ -13,10 +14,10 @@ import {
   AvatarFallback,
   Badge
 } from '@harnessio/canary'
-import React from 'react'
 import { getInitials } from '../utils/utils'
 import { CopyButton } from './copy-button'
 import { DivergenceGauge } from './divergence-gauge'
+import { CommitCopyActions } from './commit-copy-actions'
 
 interface BranchProps {
   id: number
@@ -67,7 +68,6 @@ export const BranchesList = ({ branches }: PageProps) => {
       <TableBody>
         {branches &&
           branches.map(branch => {
-            const shortSha = branch.sha.slice(0, 7)
             return (
               <TableRow>
                 {/* branch name */}
@@ -127,8 +127,8 @@ export const BranchesList = ({ branches }: PageProps) => {
                   <TableCell className="content-center">
                     <div className="flex gap-1.5 items-center justify-center">
                       {/* <Icon name="open-pr" size={11} className="text-success" /> */}
-                      <Text wrap="nowrap" size={1} truncate className="text-tertiary-background">
-                        {shortSha}
+                      <Text wrap="nowrap" size={1} truncate className="text-tertiary-background font-mono">
+                        <CommitCopyActions sha={branch.sha} />
                       </Text>
                     </div>
                   </TableCell>
