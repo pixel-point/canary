@@ -25,3 +25,7 @@ export { SelectorType }
 
 import type { ContainsPathSelector, PathSelector } from './types/selectors'
 export type { ContainsPathSelector, PathSelector }
+
+import { CodeEditor, CodeEditorProps } from './components/CodeEditor'
+export { CodeEditor }
+export type { CodeEditorProps }
