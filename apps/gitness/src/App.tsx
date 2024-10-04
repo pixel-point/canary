@@ -98,16 +98,24 @@ export default function App() {
                   element: <Navigate to="conversation" />
                 },
                 {
-                  path: 'commits',
-                  element: <PullRequestCommitsPage />
-                },
-                {
                   path: 'conversation',
                   element: (
                     <PullRequestDataProvider>
                       <PullRequestConversationPage />
                     </PullRequestDataProvider>
                   )
+                },
+                {
+                  path: 'commits',
+                  element: <PullRequestCommitsPage />
+                },
+                {
+                  path: 'changes',
+                  element: <>Changes</>
+                },
+                {
+                  path: 'checks',
+                  element: <>Checks</>
                 }
               ]
             },
