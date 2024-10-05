@@ -11,12 +11,11 @@ import {
 } from '@harnessio/canary'
 
 const SandboxSettings: React.FC = () => {
-  // Determine if the current route matches 'account' or 'project'
-  const isAccountRoute = useMatch('/sandbox/settings/account/*')
+  const isAccountRoute = useMatch('/sandbox/settings/profile/*')
   const isProjectRoute = useMatch('/sandbox/settings/project/*')
 
   // Set the breadcrumb label based on the route
-  const breadcrumbLabel = isAccountRoute ? 'Account' : isProjectRoute ? 'Project' : ''
+  const breadcrumbLabel = isAccountRoute ? 'Profile' : isProjectRoute ? 'Project' : ''
 
   return (
     <SandboxLayout.Root>

@@ -1,6 +1,13 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { ThemeProvider, RootLayout, SandboxRoot } from '@harnessio/playground'
+import {
+  ThemeProvider,
+  RootLayout,
+  SandboxRoot,
+  SandboxSettings,
+  SandboxSettingsAccountPage,
+  SandboxSettingsAccountKeysPage
+} from '@harnessio/playground'
 import { TooltipProvider } from '@harnessio/canary'
 import { queryClient } from './framework/queryClient'
 import PipelineListPage from './pages/pipeline-list'
@@ -27,6 +34,7 @@ import PullRequestConversationPage from './pages/pull-request/pull-request-conve
 import { RepoFiles } from './pages/repo/repo-files'
 import { SandboxRepoHeader } from './pages/repo-sandbox/repo-sandbox-header'
 import ReposSandboxListPage from './pages/repo-sandbox/repo-sandbox-list'
+import { SettingsAccountGeneralPage } from './pages/profile-settings/profile-settings-general-container'
 
 export default function App() {
   const router = createBrowserRouter([
@@ -195,6 +203,31 @@ export default function App() {
             {
               path: ':spaceId/repos/create',
               element: <CreateRepo />
+            }
+          ]
+        },
+        {
+          path: 'settings',
+          element: <SandboxSettings />,
+
+          children: [
+            {
+              path: 'profile',
+              element: <SandboxSettingsAccountPage />,
+              children: [
+                {
+                  index: true,
+                  element: <Navigate to="general" />
+                },
+                {
+                  path: 'general',
+                  element: <SettingsAccountGeneralPage />
+                },
+                {
+                  path: 'keys',
+                  element: <SandboxSettingsAccountKeysPage />
+                }
+              ]
             }
           ]
         }
