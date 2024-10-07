@@ -34,6 +34,7 @@ import PullRequestConversationPage from './pages/pull-request/pull-request-conve
 import { RepoFiles } from './pages/repo/repo-files'
 import { SandboxRepoHeader } from './pages/repo-sandbox/repo-sandbox-header'
 import ReposSandboxListPage from './pages/repo-sandbox/repo-sandbox-list'
+import { FileViewer } from './components/FileViewer'
 import { SettingsAccountGeneralPage } from './pages/profile-settings/profile-settings-general-container'
 import PullRequestChangesPage from './pages/pull-request/pull-request-changes-page'
 
@@ -67,7 +68,27 @@ export default function App() {
             },
             {
               path: 'code',
-              element: <RepoFiles />
+              element: <RepoFiles />,
+              children: [
+                {
+                  index: true,
+                  element: <FileViewer />
+                },
+                {
+                  path: ':gitRef',
+                  element: <FileViewer />,
+                  children: [
+                    {
+                      index: true,
+                      element: <FileViewer />
+                    },
+                    {
+                      path: '~/:resourcePath*',
+                      element: <FileViewer />
+                    }
+                  ]
+                }
+              ]
             },
             {
               path: 'pipelines',

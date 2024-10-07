@@ -4,6 +4,8 @@ export type PathParams = {
   pipelineId?: string
   executionId?: string
   pullRequestId?: string
+  gitRef: string
+  resourcePath?: string
 }
 
 export const PathProps = {
@@ -11,7 +13,9 @@ export const PathProps = {
   repoId: ':repoId',
   pipelineId: ':pipelineId',
   executionId: ':executionId',
-  pullRequestId: ':pullRequestId'
+  pullRequestId: ':pullRequestId',
+  gitRef: ':gitRef*',
+  resourcePath: ':resourcePath*'
 }
 
 export type PullRequestRoutePathParams = Omit<PathParams, 'pipelineId' | 'executionId'>

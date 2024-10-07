@@ -1,5 +1,6 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, cn, Icon, Text } from '@harnessio/canary'
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 interface ItemProps {
   children: React.ReactNode
@@ -8,9 +9,10 @@ interface ItemProps {
   isActive?: boolean
   content?: React.ReactNode
   chevronClass?: string
+  link: string
 }
 
-function FolderItem({ children, key, value, isActive, content, chevronClass }: ItemProps) {
+function FolderItem({ children, key, value, isActive, content, chevronClass, link }: ItemProps) {
   return (
     <AccordionItem key={key} value={value || ''} className="border-none">
       <AccordionTrigger
@@ -28,12 +30,14 @@ function FolderItem({ children, key, value, isActive, content, chevronClass }: I
               size={12}
               className="min-w-[12px] group-hover:text-primary group-data-[state=open]:text-primary ease-in-out duration-100"
             />
-            <Text
-              as="p"
-              size={2}
-              className="text-inherit group-hover:text-primary group-data-[state=open]:text-primary ease-in-out duration-100 truncate">
-              {children}
-            </Text>
+            <Link to={link}>
+              <Text
+                as="p"
+                size={2}
+                className="text-inherit group-hover:text-primary group-data-[state=open]:text-primary ease-in-out duration-100 truncate">
+                {children}
+              </Text>
+            </Link>
           </div>
         </div>
       </AccordionTrigger>
@@ -66,13 +70,15 @@ function FileItem({ children, key, isActive }: ItemProps) {
 
 function Root({
   children,
-  onValueChange
+  onValueChange,
+  value
 }: {
   children: React.ReactNode
   onValueChange: (value: string | string[]) => void
+  value: string[]
 }) {
   return (
-    <Accordion type="multiple" className="w-full" onValueChange={onValueChange}>
+    <Accordion type="multiple" className="w-full" onValueChange={onValueChange} value={value}>
       {children}
     </Accordion>
   )
