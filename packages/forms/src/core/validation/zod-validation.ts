@@ -125,7 +125,7 @@ function generateSchemaRec(schemaObj: SchemaTreeNode, values: AnyFormikValue, op
       //   ? addNestedSchema(nestedSchemaObj, requiredSchema, options)
       //   : requiredSchema
     } else {
-      objectSchemas[key] = zod.object(generateSchemaRec(schemaObj[key], options))
+      objectSchemas[key] = zod.object(generateSchemaRec(schemaObj[key], options)).optional()
     }
   })
 

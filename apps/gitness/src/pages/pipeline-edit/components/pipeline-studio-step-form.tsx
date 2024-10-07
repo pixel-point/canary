@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { parse } from 'yaml'
-import { get, set } from 'lodash-es'
+import { get, pick, set } from 'lodash-es'
 import { Button } from '@harnessio/canary'
 import {
   IFormDefinition,
@@ -8,7 +8,8 @@ import {
   RootForm,
   getTransformers,
   inputTransformValues,
-  outputTransformValues
+  outputTransformValues,
+  useZodValidationResolver
 } from '@harnessio/forms'
 import { Icon } from '@harnessio/canary'
 import { useListPluginsQuery } from '@harnessio/code-service-client'
@@ -16,10 +17,9 @@ import {
   StepForm,
   StepFormSection,
   inputComponentFactory,
-  runStepFormDefinition,
-  RUN_STEP_DESCRIPTION,
-  RUN_STEP_IDENTIFIER,
-  TEMPLATE_STEP_IDENTIFIER
+  TEMPLATE_STEP_IDENTIFIER,
+  getHarnessStepDefinition,
+  getHarnessStepIdentifier
 } from '@harnessio/playground'
 import { usePipelineDataContext } from '../context/PipelineStudioDataProvider'
 import { ApiInputs, addNameInput, apiInput2IInputDefinition } from '../utils/step-form-utils'
@@ -54,54 +54,65 @@ export const PipelineStudioStepForm = (props: PipelineStudioStepFormProps): JSX.
     }
   }, [pluginsResponse])
 
+  // process harness step
   useEffect(() => {
-    if (editStepIntention && plugins) {
+    if (editStepIntention) {
       const yamlJson = parse(yamlRevision.yaml)
       const step = get(yamlJson, editStepIntention.path)
 
-      // TODO: abstract this
-      if (step[RUN_STEP_IDENTIFIER]) {
-        // transform step value for form value
-        const transformers = getTransformers(runStepFormDefinition)
+      const harnessStepIdentifier = getHarnessStepIdentifier(step)
+
+      if (harnessStepIdentifier) {
+        const stepDefinition = getHarnessStepDefinition(harnessStepIdentifier)
+        const transformers = getTransformers(stepDefinition?.formDefinition ?? { inputs: [] })
 
         const stepValue = inputTransformValues(step, transformers)
         setDefaultStepValues(stepValue)
 
         setCurrentStepFormDefinition({
-          identifier: RUN_STEP_IDENTIFIER,
-          description: RUN_STEP_DESCRIPTION,
-          type: 'step'
+          ...pick(stepDefinition, 'identifier', 'description'),
+          type: 'step' // TODO: this may be not needed
         })
-      } else if (step[TEMPLATE_STEP_IDENTIFIER]) {
-        setDefaultStepValues(step)
-        const editStep = plugins.find(plugin => plugin.identifier === step.template.uses)
-        setCurrentStepFormDefinition(editStep ?? null)
-      } else {
-        // TODO: unknown state
       }
     }
   }, [editStepIntention, plugins])
 
-  // const title = currentStepFormDefinition?.identifier
-  // const description = currentStepFormDefinition?.description
+  // process template step
+  useEffect(() => {
+    if (editStepIntention && plugins) {
+      const yamlJson = parse(yamlRevision.yaml)
+      const step = get(yamlJson, editStepIntention.path)
 
-  let formDefinition: IFormDefinition = { inputs: [] }
-
-  if (currentStepFormDefinition?.identifier) {
-    // TODO: abstract this
-    if (currentStepFormDefinition?.identifier === RUN_STEP_IDENTIFIER) {
-      formDefinition = runStepFormDefinition
-    } else {
-      // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-      const inputs = (currentStepFormDefinition?.spec as any)?.spec?.inputs as ApiInputs
-
-      const formInputs: IFormDefinition['inputs'] = Object.keys(inputs ?? {}).map(inputName => {
-        return apiInput2IInputDefinition(inputName, inputs[inputName], 'template.with')
-      })
-
-      formDefinition = { inputs: addNameInput(formInputs, 'template.name') }
+      if (step[TEMPLATE_STEP_IDENTIFIER]) {
+        setDefaultStepValues(step)
+        const editStep = plugins.find(plugin => plugin.identifier === step.template.uses)
+        setCurrentStepFormDefinition(editStep ?? null)
+      }
     }
-  }
+  }, [editStepIntention, plugins])
+
+  const formDefinition: IFormDefinition = useMemo(() => {
+    if (currentStepFormDefinition?.identifier) {
+      const harnessStepDefinition = getHarnessStepDefinition(currentStepFormDefinition.identifier)
+      if (harnessStepDefinition) {
+        return {
+          ...harnessStepDefinition.formDefinition,
+          inputs: addNameInput(harnessStepDefinition.formDefinition.inputs, 'name')
+        }
+      } else {
+        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+        const inputs = (currentStepFormDefinition?.spec as any)?.spec?.inputs as ApiInputs
+
+        const formInputs: IFormDefinition['inputs'] = Object.keys(inputs ?? {}).map(inputName => {
+          return apiInput2IInputDefinition(inputName, inputs[inputName], 'template.with')
+        })
+
+        return { inputs: addNameInput(formInputs, 'name') }
+      }
+    }
+
+    return { inputs: [] }
+  }, [currentStepFormDefinition])
 
   const formRef = useRef<HTMLDivElement | null>(null)
   // NOTE: custom focus implementation to select first field in the form
@@ -117,31 +128,25 @@ export const PipelineStudioStepForm = (props: PipelineStudioStepFormProps): JSX.
   return (
     <RootForm
       defaultValues={defaultStepValues}
-      // resolver={useZodValidationResolver(formDefinition)}
-      resolver={data => ({
-        values: data,
-        errors: {}
-      })}
+      resolver={useZodValidationResolver(formDefinition)}
       mode="onSubmit"
       onSubmit={values => {
         const transformers = getTransformers(formDefinition)
         const stepValue = outputTransformValues(values, transformers)
 
-        // TODO: abstract this
-        // if its plugin/template
-        if (currentStepFormDefinition?.identifier !== RUN_STEP_IDENTIFIER) {
+        if (currentStepFormDefinition?.identifier === TEMPLATE_STEP_IDENTIFIER) {
           set(stepValue, 'template.uses', currentStepFormDefinition?.identifier)
         }
 
         if (addStepIntention) {
           requestYamlModifications.injectInArray({
-            path: addStepIntention?.path,
-            position: addStepIntention?.position,
+            path: addStepIntention.path,
+            position: addStepIntention.position,
             item: stepValue
           })
         } else if (editStepIntention) {
           requestYamlModifications.updateInArray({
-            path: editStepIntention?.path,
+            path: editStepIntention.path,
             item: stepValue
           })
         }
@@ -163,7 +168,7 @@ export const PipelineStudioStepForm = (props: PipelineStudioStepFormProps): JSX.
                 }}>
                 <Icon name="arrow-long" className="rotate-180" />
               </Button> */}
-              Run Step
+              {editStepIntention ? 'Edit' : 'Add'} Step
             </StepForm.Title>
             <StepForm.Description>{currentStepFormDefinition?.description}</StepForm.Description>
             {/* <StepForm.Actions>

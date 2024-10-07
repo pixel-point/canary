@@ -1,7 +1,7 @@
 import React from 'react'
 
 function InputWrapper({ children }: React.PropsWithChildren): JSX.Element {
-  return <div>{children}</div>
+  return <>{children}</>
 }
 
 export default InputWrapper
