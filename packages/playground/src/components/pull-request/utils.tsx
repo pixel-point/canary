@@ -7,6 +7,8 @@ import {
   TypesPullReqActivity,
   orderSortDate
 } from './interfaces'
+import type * as Diff2Html from 'diff2html'
+import HoganJsUtils from 'diff2html/lib/hoganjs-utils'
 
 export const processReviewDecision = (
   review_decision: EnumPullReqReviewDecision,
@@ -73,4 +75,95 @@ export function isCodeComment(commentItems: CommentItem<TypesPullReqActivity>[])
 // check if activity item is a comment
 export function isComment(commentItems: CommentItem<TypesPullReqActivity>[]) {
   return commentItems[0]?.payload?.payload?.type === 'comment'
+}
+
+export const DIFF2HTML_CONFIG = {
+  outputFormat: 'side-by-side',
+  drawFileList: false,
+  fileListStartVisible: false,
+  fileContentToggle: true,
+  matching: 'lines',
+  synchronisedScroll: true,
+  highlight: true,
+  renderNothingWhenEmpty: false,
+  compiledTemplates: {
+    'generic-line': HoganJsUtils.compile(`
+      <tr>
+        <td class="{{lineClass}} {{type}}">
+          <div class="relative z-[100] w-0 h-0 inline-block">
+            <span class="annotation-for-line" data-annotation-for-line="{{lineNumber}}" tab-index="0" role="button">+</span>
+            <span data-selected-indicator></span>
+          </div>{{{lineNumber}}}<!-- {{{filePath}}} --></td>
+        <td class="{{type}}" data-content-for-line-number="{{lineNumber}}" data-content-for-file-path="{{file.filePath}}">
+            <div class="{{contentClass}} relative z-[1]">
+            {{#prefix}}
+              <span class="d2h-code-line-prefix">{{{prefix}}}</span>
+            {{/prefix}}
+            {{^prefix}}
+              <span class="d2h-code-line-prefix">&nbsp;</span>
+            {{/prefix}}
+            {{#content}}
+              <span class="d2h-code-line-ctn">{{{content}}}</span>
+            {{/content}}
+            {{^content}}
+              <span class="d2h-code-line-ctn"><br></span>
+            {{/content}}
+            </div>
+        </td>
+      </tr>
+    `),
+    'side-by-side-file-diff': HoganJsUtils.compile(`
+      <div id="{{fileHtmlId}}" data="{{file.filePath}}" class="d2h-file-wrapper side-by-side-file-diff" data-lang="{{file.language}}">
+        <div class="d2h-file-header">
+          {{{filePath}}}
+        </div>
+        <div class="d2h-files-diff">
+            <div class="d2h-file-side-diff left">
+                <div
+                class="d2h-code-wrapper">
+                    <table class="d2h-diff-table" cellpadding="0px" cellspacing="0px">
+                        <tbody class="d2h-diff-tbody rounded-bl-[var(--radius)] rounded-br-[var(--radius)]">
+                        {{{diffs.left}}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="d2h-file-side-diff right">
+                <div class="d2h-code-wrapper">
+                    <table class="d2h-diff-table" cellpadding="0px" cellspacing="0px">
+                        <tbody class="d2h-diff-tbody rounded-bl-[var(--radius)] rounded-br-[var(--radius)]">
+                        {{{diffs.right}}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+      </div>
+    `),
+    'line-by-line-file-diff': HoganJsUtils.compile(`
+      <div id="{{fileHtmlId}}" data="{{file.filePath}}" class="d2h-file-wrapper {{file.filePath}} line-by-line-file-diff" data-lang="{{file.language}}">
+        <div class="d2h-file-header">
+        {{{filePath}}}
+        </div>
+        <div class="d2h-file-diff">
+            <div class="d2h-code-wrapper">
+                <table class="d2h-diff-table" cellpadding="0px" cellspacing="0px">
+                    <tbody class="d2h-diff-tbody rounded-bl-[var(--radius)] rounded-br-[var(--radius)]">
+                    {{{diffs}}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      </div>
+    `),
+    'line-by-line-numbers': HoganJsUtils.compile(`
+      <div class="line-num1" data-line-number="{{oldNumber}}">{{oldNumber}}</div>
+      <div class="line-num2" data-line-number="{{newNumber}}">{{newNumber}}</div>
+    `)
+  }
+} as Readonly<Diff2Html.Diff2HtmlConfig>
+
+export enum ViewStyle {
+  SIDE_BY_SIDE = 'side-by-side',
+  LINE_BY_LINE = 'line-by-line'
 }

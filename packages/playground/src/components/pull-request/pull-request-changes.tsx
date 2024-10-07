@@ -63,7 +63,7 @@ const LineTitle: React.FC<Omit<HeaderProps, 'title' | 'data' | 'lang'>> = ({ tex
 )
 
 const PullRequestAccordion: React.FC<{
-  header: HeaderProps
+  header?: HeaderProps
   data?: string
 }> = ({ header }) => {
   const { highlight, wrap, fontsize } = useDiffConfig()
@@ -72,26 +72,30 @@ const PullRequestAccordion: React.FC<{
     <StackedList.Root>
       <StackedList.Item disableHover isHeader className="p-0 hover:bg-transparent cursor-default">
         <Accordion type="multiple" className="w-full">
-          <AccordionItem isLast value={header.text}>
+          <AccordionItem isLast value={header?.text ?? ''}>
             <AccordionTrigger leftChevron className="text-left p-4">
               <StackedList.Field
                 title={
-                  <LineTitle text={header.text} numAdditions={header.numAdditions} numDeletions={header.numDeletions} />
+                  <LineTitle
+                    text={header?.text ?? ''}
+                    numAdditions={header?.numAdditions}
+                    numDeletions={header?.numDeletions}
+                  />
                 }
               />
             </AccordionTrigger>
             <AccordionContent>
-              <div className="flex border-t w-full p-4">
+              <div className="flex border-t w-full">
                 <div className="bg-transparent">
                   <PullRequestDiffViewer
-                    data={header.data}
+                    data={header?.data}
                     fontsize={fontsize}
                     highlight={highlight}
                     mode={DiffModeEnum.Split}
                     wrap={wrap}
                     addWidget
-                    fileName={header.title}
-                    lang={header.lang}
+                    fileName={header?.title ?? ''}
+                    lang={header?.lang ?? ''}
                   />
                 </div>
               </div>

@@ -104,7 +104,7 @@ export default function PullRequestConversationPage() {
 
   useEffect(() => {
     refetchCodeOwners()
-  }, [pullReqMetadata, pullReqMetadata?.title, pullReqMetadata?.state, pullReqMetadata?.source_sha])
+  }, [pullReqMetadata, pullReqMetadata?.title, pullReqMetadata?.state, pullReqMetadata?.source_sha, refetchCodeOwners])
 
   // If you need to update activities when activityData changes, use useEffect
   useEffect(() => {
@@ -178,7 +178,7 @@ export default function PullRequestConversationPage() {
     refetchCodeOwners()
     refetchPullReq()
     refetchActivities()
-  }, [refetchCodeOwners])
+  }, [refetchCodeOwners]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleMerge = () => {
     const payload: OpenapiMergePullReq = {

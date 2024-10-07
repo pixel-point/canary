@@ -35,6 +35,7 @@ import { RepoFiles } from './pages/repo/repo-files'
 import { SandboxRepoHeader } from './pages/repo-sandbox/repo-sandbox-header'
 import ReposSandboxListPage from './pages/repo-sandbox/repo-sandbox-list'
 import { SettingsAccountGeneralPage } from './pages/profile-settings/profile-settings-general-container'
+import PullRequestChangesPage from './pages/pull-request/pull-request-changes-page'
 
 export default function App() {
   const router = createBrowserRouter([
@@ -119,7 +120,11 @@ export default function App() {
                 },
                 {
                   path: 'changes',
-                  element: <>Changes</>
+                  element: (
+                    <PullRequestDataProvider>
+                      <PullRequestChangesPage />
+                    </PullRequestDataProvider>
+                  )
                 },
                 {
                   path: 'checks',

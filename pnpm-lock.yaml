@@ -47,6 +47,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      diff2html:
+        specifier: 3.4.22
+        version: 3.4.22
       event-source-polyfill:
         specifier: ^1.0.22
         version: 1.0.31

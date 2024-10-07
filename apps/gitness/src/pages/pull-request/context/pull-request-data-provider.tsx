@@ -215,7 +215,7 @@ const PullRequestDataProvider: React.FC<PullRequestDataProviderProps> = ({ child
       setPullReqActivities(oldActivities => (isEqual(oldActivities, activities) ? oldActivities : activities))
       dryMerge()
     }
-  }, [activities, setPullReqActivities])
+  }, [activities, setPullReqActivities]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     return () => {
@@ -249,7 +249,7 @@ const PullRequestDataProvider: React.FC<PullRequestDataProviderProps> = ({ child
     return () => {
       clearInterval(intervalId)
     }
-  }, [pullReqMetadata, pullRequestId, refetchPullReq])
+  }, [pullReqMetadata, pullRequestId, refetchPullReq]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (ruleViolationArr) {
