@@ -24,7 +24,7 @@ export const CommitCopyActions = ({ sha }: { sha: string }) => {
       <ShaBadge.Content>
         <Link to="#">
           <Text size={1} className="text-tertiary-background">
-            {sha.substring(0, 6)}
+            {sha.substring(0, 7)}
           </Text>
         </Link>
       </ShaBadge.Content>

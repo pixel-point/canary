@@ -3,7 +3,7 @@ import { TypesCommit } from './interfaces'
 import { formatDate, getInitials } from '../../utils/utils'
 import { StackedList, Text, NodeGroup, Avatar, AvatarFallback } from '@harnessio/canary'
 import { CommitCopyActions } from '../commit-copy-actions'
-//Icon, cn
+
 interface CommitProps {
   data?: TypesCommit[]
 }
