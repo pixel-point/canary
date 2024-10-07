@@ -1,26 +1,31 @@
 import {
   Spacer,
-  ListActions,
   ListPagination,
-  SearchBox,
   Pagination,
   PaginationContent,
   PaginationItem,
   PaginationPrevious,
   PaginationLink,
   PaginationNext,
-  Button,
   Text
 } from '@harnessio/canary'
 import { Link } from 'react-router-dom'
-import { PaddingListLayout, SkeletonList, PullRequestList, NoData } from '@harnessio/playground'
+import { PaddingListLayout, SkeletonList, PullRequestList, NoData, useCommonFilter } from '@harnessio/playground'
 import { TypesPullReq, useListPullReqQuery } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 import { usePagination } from '../framework/hooks/usePagination'
 import { timeAgoFromEpochTime } from './pipeline-edit/utils/time-utils'
+import { DropdownItemProps } from '../../../../packages/canary/dist/components/list-actions'
 
-const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
-const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
+// const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
+
+const sortOptions = [
+  { name: 'Created', value: 'created' },
+  { name: 'Edited', value: 'edited' },
+  { name: 'Merged', value: 'merged' },
+  { name: 'Number', value: 'number' },
+  { name: 'Updated', value: 'updated' }
+] as const satisfies DropdownItemProps[]
 
 function PullRequestListPage() {
   // hardcoded
@@ -29,10 +34,12 @@ function PullRequestListPage() {
   const repoRef = useGetRepoRef()
   const { currentPage, previousPage, nextPage, handleClick } = usePagination(1, totalPages)
 
+  const { Filter, sort } = useCommonFilter({ sortOptions })
+
   const { data: pullrequests, isFetching } = useListPullReqQuery(
     {
       repo_ref: repoRef,
-      queryParams: { page: 0, limit: 10, query: '' }
+      queryParams: { page: 0, limit: 10, query: '', sort }
     },
     /* To enable mock data */
     {
@@ -175,18 +182,10 @@ function PullRequestListPage() {
           Pull Requests
         </Text>
         <Spacer size={6} />
-        <ListActions.Root>
-          <ListActions.Left>
-            <SearchBox.Root placeholder="Search pull requests" />
-          </ListActions.Left>
-          <ListActions.Right>
-            <ListActions.Dropdown title="Filter" items={filterOptions} />
-            <ListActions.Dropdown title="Sort" items={sortOptions} />
-            <Button variant="default" asChild>
-              <Link to="edit">Create Pull Request</Link>
-            </Button>
-          </ListActions.Right>
-        </ListActions.Root>
+
+        {/* ⭐️ Filter Component */}
+        <Filter />
+
         <Spacer size={5} />
         {renderListContent()}
         <Spacer size={8} />
