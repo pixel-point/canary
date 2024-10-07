@@ -1,4 +1,5 @@
 import React from 'react'
+import { noop } from 'lodash-es'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import { TooltipProvider } from '@harnessio/canary'
 import { ThemeProvider } from './components/theme-provider'
@@ -72,7 +73,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'create',
-            element: <SandboxRepoCreatePage />
+            element: <SandboxRepoCreatePage apiError="" isLoading isSuccess onFormCancel={noop} onFormSubmit={noop} />
           },
           {
             path: ':repoId',

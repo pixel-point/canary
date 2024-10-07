@@ -24,3 +24,32 @@ export const getFormattedDuration = (startTs = 0, endTs = 0): string => {
 
   return parts.join(' ')
 }
+
+/**
+ * Formats duration in milliseconds to human-readable duration format.
+ * For 3723000 is formatted as "1h 2m 3s".
+ * @param durationInMs
+ * @returns
+ */
+export const formatDuration = (durationInMs: number): string => {
+  if (!durationInMs) return '0s'
+  const seconds = Math.floor(durationInMs / 1000)
+  const minutes = Math.floor(seconds / 60)
+  const hours = Math.floor(minutes / 60)
+
+  const remainingSeconds = seconds % 60
+  const remainingMinutes = minutes % 60
+  const formatted = []
+
+  if (hours > 0) {
+    formatted.push(new Intl.NumberFormat().format(hours) + 'h')
+  }
+  if (remainingMinutes > 0) {
+    formatted.push(new Intl.NumberFormat().format(remainingMinutes) + 'm')
+  }
+  if (remainingSeconds > 0) {
+    formatted.push(new Intl.NumberFormat().format(remainingSeconds) + 's')
+  }
+
+  return formatted.join(' ')
+}

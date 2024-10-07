@@ -53,6 +53,7 @@ export const useLogs = ({
     }
     return () => {
       if (eventSourceRef.current) eventSourceRef.current.close()
+      setLogs([])
     }
   }, [executionNum, pipelineId, repoPath, stageNum, stepNum, stepStatus])
   return { logs }

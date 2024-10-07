@@ -30,18 +30,9 @@ interface PageProps {
 }
 
 const Title = ({ status, title }: { status?: ExecutionState; title: string }) => {
-  const isValidStatus = (status: ExecutionState | undefined): status is ExecutionState =>
-    [ExecutionState.SUCCESS, ExecutionState.ERROR, ExecutionState.FAILURE, ExecutionState.RUNNING].includes(
-      status as ExecutionState
-    )
-
   return (
     <div className="flex gap-2 items-center">
-      {isValidStatus(status) ? (
-        <ExecutionStatus.Icon status={status} />
-      ) : (
-        <div className="w-4 h-4 rounded-full bg-primary/5 border border-muted border-dotted" />
-      )}
+      {status && <ExecutionStatus.Icon status={status} />}
       <Text truncate>{title}</Text>
     </div>
   )

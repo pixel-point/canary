@@ -1,15 +1,8 @@
 import { ScrollArea } from '@radix-ui/react-scroll-area'
 import { cn } from '../lib/utils'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
-import {
-  NavArrowRight,
-  NavArrowDown,
-  Circle,
-  CheckCircleSolid,
-  XmarkCircleSolid,
-  Refresh,
-  ClockSolid
-} from '@harnessio/icons-noir'
+import { NavArrowRight, NavArrowDown } from '@harnessio/icons-noir'
+import { Icon as CanaryIcon } from '../components/icon'
 import React, { createContext, forwardRef, useCallback, useContext, useEffect, useState } from 'react'
 
 /**
@@ -34,20 +27,18 @@ type ExecutionDetail = {
 const getStatusIcon = (status: Status): React.ReactElement => {
   switch (status) {
     case Status.IN_PROGRESS:
-      return <Refresh size="16" className="animate-spin text-warning" />
+      return <CanaryIcon size={16} name="running" className="animate-spin text-warning" />
     case Status.SUCCESS:
-      return <CheckCircleSolid color="#63E9A6" size="16" />
+      return <CanaryIcon name="success" size={16} />
     case Status.FAILED:
-      return <XmarkCircleSolid color="#db6662" size="16" />
-    case Status.QUEUED:
-      return <ClockSolid size="16" />
+      return <CanaryIcon name="fail" size={16} />
     case Status.WAITING_ON_DEPENDENCIES:
-      return <ClockSolid size="16" />
+    case Status.QUEUED:
+      return <CanaryIcon name="pending-clock" size={16} />
     case Status.SKIPPED:
-      return <Circle size="16" />
     case Status.UNKNOWN:
     default:
-      return <Circle size="16" />
+      return <CanaryIcon name="circle" size={16} />
   }
 }
 
@@ -243,10 +234,10 @@ const Folder = forwardRef<HTMLDivElement, FolderProps & React.HTMLAttributes<HTM
             <div className="flex items-baseline">
               <div className="flex self-center mr-1">{getStatusIcon(status)}</div>
               <span className="ml-1 font-normal text-sm">
-                {element}&nbsp;<span className="text-[#787887]">({React.Children.count(children)})</span>
+                {element}&nbsp;<span className="text-muted-foreground">({React.Children.count(children)})</span>
               </span>
             </div>
-            <span className="text-[#93939F]">{duration ?? '--'}</span>
+            <span className="text-muted-foreground">{duration ?? '--'}</span>
           </div>
         </AccordionPrimitive.Trigger>
         <AccordionPrimitive.Content className="text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down relative overflow-hidden h-full">
@@ -321,7 +312,7 @@ const File = forwardRef<
               <div className="flex self-center h-4 w-4 mr-1">{getStatusIcon(status)}</div>
               <span className="ml-1 font-normal text-sm">{children}</span>
             </div>
-            <span className="text-[#93939F]">{duration ?? '--'}</span>
+            <span className="text-muted-foreground">{duration ?? '--'}</span>
           </div>
         </AccordionPrimitive.Trigger>
       </AccordionPrimitive.Item>

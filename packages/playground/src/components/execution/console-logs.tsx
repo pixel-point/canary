@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import { Text } from '@harnessio/canary'
 import { LivelogLine } from './types'
+import { formatDuration } from '../../utils/TimeUtils'
 
 interface ConsoleLogsProps {
   logs: LivelogLine[]
@@ -34,38 +35,20 @@ export const createStreamedLogLineElement = (log: LivelogLine) => {
   return lineElement
 }
 
-const formatTimestamp = (timestamp: number): string => {
-  const date = new Date(timestamp)
-
-  const hours = String(date.getUTCHours()).padStart(2, '0')
-  const minutes = String(date.getUTCMinutes()).padStart(2, '0')
-  const seconds = String(date.getUTCSeconds()).padStart(2, '0')
-  const milliseconds = String(date.getUTCMilliseconds()).padStart(3, '0')
-
-  // Convert milliseconds to MsMsMsMS format
-  const milliSecs = milliseconds.padEnd(4, '0') // Pad to 4 digits
-
-  return `${hours}:${minutes}:${seconds}.${milliSecs}`
-}
-
-const ConsoleLogs: FC<ConsoleLogsProps> = ({ logs }) => {
-  return (
-    <>
-      {logs.map((log, index) => {
-        return (
-          <div className="flex items-baseline leading-[21px] mb-2" key={index}>
-            {log?.pos && typeof log.pos === 'number' && (
-              <Text className={'text-log flex justify-end min-w-5'}>{log.pos + 1}</Text>
-            )}
-            <div className="text-ring font-mono text-sm font-normal ml-2 flex gap-1">
-              {log?.time ? <Text>[{formatTimestamp(log.time)}]</Text> : null}
-              {log?.out && <Text className="text-ring">{log.out}</Text>}
-            </div>
-          </div>
-        )
-      })}
-    </>
-  )
-}
+const ConsoleLogs: FC<ConsoleLogsProps> = ({ logs }) => (
+  <>
+    {logs.map(({ pos, time, out }, index) => (
+      <div className="flex items-baseline justify-between leading-[21px] mb-2" key={index}>
+        <div className="flex items-baseline">
+          {pos !== undefined && !isNaN(pos) && pos >= 0 && (
+            <Text className="text-log flex justify-end min-w-5">{pos + 1}</Text>
+          )}
+          {out && <Text className="text-ring font-mono text-sm font-normal ml-2 flex gap-1">{out}</Text>}
+        </div>
+        <Text className="text-log text-sm font-normal mr-2 flex gap-1">{formatDuration(time ? time * 1_000 : 0)}</Text>
+      </div>
+    ))}
+  </>
+)
 
 export default ConsoleLogs

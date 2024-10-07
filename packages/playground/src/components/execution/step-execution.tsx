@@ -3,10 +3,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger, Input, Button, Text, ScrollAr
 import { Copy, Edit, Download } from '@harnessio/icons-noir'
 import ConsoleLogs from './console-logs'
 import { Layout } from '../layout/layout'
-import { ExecutionState, ExecutionStatus } from './execution-status'
+import { ExecutionStatus } from './execution-status'
 import { getFormattedDuration } from '../../utils/TimeUtils'
 import { KeyValuePair, KeyValueTable } from './key-value-table'
-import { LivelogLine } from './types'
+import { ExecutionState, LivelogLine } from './types'
 
 export interface StepProps {
   name?: string
