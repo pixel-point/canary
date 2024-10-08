@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { isEqual } from 'lodash-es'
 import { EventSourcePolyfill } from 'event-source-polyfill'
+import useToken from './useToken'
 
 type UseSpaceSSEProps = {
   space: string
@@ -15,8 +16,7 @@ const useSpaceSSE = ({ space, events: _events, onEvent, onError, shouldRun = tru
   //   const { standalone, routingId, hooks } = useAppContext()
   const [events, setEvents] = useState(_events)
   const eventSourceRef = useRef<EventSource | null>(null)
-  //   const bearerToken = hooks?.useGetToken?.() || ''
-  const bearerToken = localStorage.getItem('token')
+  const { token: bearerToken } = useToken()
   useEffect(() => {
     if (!isEqual(events, _events)) {
       setEvents(_events)

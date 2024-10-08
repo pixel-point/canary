@@ -11,7 +11,7 @@ import {
 import { TooltipProvider } from '@harnessio/canary'
 import { queryClient } from './framework/queryClient'
 import PipelineListPage from './pages/pipeline-list'
-import SignInPage from './pages/signin'
+import { SignIn } from './pages/signin'
 import PullRequestListPage from './pages/pull-request-list-page'
 import ExecutionsListPage from './pages/execution-list'
 import ReposListPage from './pages/repo/repo-list'
@@ -37,6 +37,7 @@ import ReposSandboxListPage from './pages/repo-sandbox/repo-sandbox-list'
 import { FileViewer } from './components/FileViewer'
 import { SettingsAccountGeneralPage } from './pages/profile-settings/profile-settings-general-container'
 import PullRequestChangesPage from './pages/pull-request/pull-request-changes-page'
+import { Logout } from './pages/logout'
 
 export default function App() {
   const router = createBrowserRouter([
@@ -212,7 +213,11 @@ export default function App() {
     },
     {
       path: '/signin',
-      element: <SignInPage />
+      element: <SignIn />
+    },
+    {
+      path: '/logout',
+      element: <Logout />
     },
     {
       path: '/sandbox',

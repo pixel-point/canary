@@ -1,10 +1,11 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react'
+import React, { createContext, useContext, useState, ReactNode, useEffect, useLayoutEffect } from 'react'
 import {
   CodeServiceAPIClient,
   TypesMembershipSpace,
   membershipSpaces,
   TypesSpace
 } from '@harnessio/code-service-client'
+import useToken from '../hooks/useToken'
 
 interface AppContextType {
   spaces: TypesMembershipSpace[]
@@ -18,13 +19,12 @@ const AppContext = createContext<AppContextType | undefined>(undefined)
 
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [spaces, setSpaces] = useState<TypesMembershipSpace[]>([])
+  const { token } = useToken()
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     new CodeServiceAPIClient({
       urlInterceptor: (url: string) => `${BASE_URL_PREFIX}${url}`,
       requestInterceptor: (request: Request): Request => {
-        // Retrieve the token from storage and add to headers if available
-        const token = localStorage.getItem('token')
         if (token) {
           const newRequest = request.clone()
           newRequest.headers.set('Authorization', `Bearer ${token}`)
@@ -35,18 +35,22 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       responseInterceptor: (response: Response) => {
         switch (response.status) {
           case 401:
-            localStorage.removeItem('token')
-            window.location.href = '/signin'
+            window.location.href = '/logout'
         }
         return response
       }
     })
-    membershipSpaces({
-      queryParams: { page: 1, limit: 10, sort: 'identifier', order: 'asc' }
-    }).then(response => {
-      setSpaces(response)
-    })
   }, [])
+
+  useEffect(() => {
+    if (token) {
+      membershipSpaces({
+        queryParams: { page: 1, limit: 10, sort: 'identifier', order: 'asc' }
+      }).then(response => {
+        setSpaces(response)
+      })
+    }
+  }, [token])
 
   const addSpaces = (newSpaces: TypesSpace[]) => {
     setSpaces(prevSpaces => [...prevSpaces, ...newSpaces])

@@ -1,14 +1,15 @@
 import { useNavigate } from 'react-router-dom'
 import { useAppContext } from '../framework/context/AppContext'
+import { useEffect } from 'react'
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate()
   const { spaces } = useAppContext()
-  if (!spaces || !spaces.length) {
-    return null
-  }
-  const preSelectedProject = spaces[0]
-  if (preSelectedProject?.space?.path) {
-    navigate(`/${preSelectedProject.space.path}/repos`)
-  }
+  useEffect(() => {
+    if (!spaces || !spaces.length) return
+    if (spaces[0]?.space?.path) {
+      navigate(`${spaces[0].space.path}/repos`)
+    }
+  }, [spaces])
+  return null
 }
