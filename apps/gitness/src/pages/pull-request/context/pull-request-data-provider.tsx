@@ -26,6 +26,7 @@ import { usePRChecksDecision } from '../hooks/usePRChecksDecision'
 import { ExecutionState, SSEEvent } from '../../../types'
 import { PullRequestState } from '../types/types'
 import { extractSpecificViolations } from '../utils'
+import useGetPullRequestTab, { PullRequestTab } from '../../../hooks/useGetPullRequestTab'
 export const codeOwnersNotFoundMessage = 'CODEOWNERS file not found'
 export const codeOwnersNotFoundMessage2 = `path "CODEOWNERS" not found`
 export const codeOwnersNotFoundMessage3 = `failed to find node 'CODEOWNERS' in 'main': failed to get tree node: failed to ls file: path "CODEOWNERS" not found`
@@ -108,8 +109,8 @@ const PullRequestDataProvider: React.FC<PullRequestDataProviderProps> = ({ child
   const space = useGetSpaceURLParam() ?? ''
   const repoRef = useGetRepoRef()
   const { data: repoMetadata } = useFindRepositoryQuery({ repo_ref: repoRef })
-  const { pullRequestId } = useParams<PathParams>()
-
+  const { pullRequestId, spaceId, repoId } = useParams<PathParams>()
+  const pullRequestTab = useGetPullRequestTab({ spaceId, repoId, pullRequestId })
   //   const {
   //     // repoMetadata,
   //     // error: repoError,
@@ -241,7 +242,7 @@ const PullRequestDataProvider: React.FC<PullRequestDataProviderProps> = ({ child
 
   useEffect(() => {
     const intervalId = setInterval(async () => {
-      if (pullReqMetadata?.source_sha) {
+      if (pullReqMetadata?.source_sha && pullRequestTab === PullRequestTab.CONVERSATION) {
         dryMerge()
       }
     }, POLLING_INTERVAL) // Poll every 20 seconds
@@ -249,7 +250,7 @@ const PullRequestDataProvider: React.FC<PullRequestDataProviderProps> = ({ child
     return () => {
       clearInterval(intervalId)
     }
-  }, [pullReqMetadata, pullRequestId, refetchPullReq]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [pullReqMetadata, pullRequestId, refetchPullReq, pullRequestTab]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (ruleViolationArr) {

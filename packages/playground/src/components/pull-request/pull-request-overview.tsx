@@ -12,7 +12,7 @@ import {
   TypesPullReq,
   TypesPullReqActivity
 } from './interfaces'
-import { isCodeComment, isComment, isSystemComment } from './utils'
+import { isCodeComment, isComment, isSystemComment, parseStartingLineIfOne } from './utils'
 import PullRequestTimelineItem from './pull-request-timeline-item'
 import PullRequestSystemComments from './pull-request-system-comments'
 import { get, orderBy } from 'lodash-es'
@@ -151,6 +151,10 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
               ].join('\n')
 
               if (payload?.type === ('code-comment' as EnumPullReqActivityType)) {
+                const startingLine =
+                  parseStartingLineIfOne(codeDiffSnapshot ?? '') !== null
+                    ? parseStartingLineIfOne(codeDiffSnapshot ?? '')
+                    : null
                 return (
                   <PullRequestTimelineItem
                     key={index} // Consider using a unique ID if available
@@ -191,6 +195,12 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                             </Button>
                           </div>
                         </div>
+                        {startingLine ? (
+                          <div className="bg-[--diff-hunk-lineNumber--]">
+                            <div className="w-full px-8 ml-16 py-1 font-mono ">{startingLine}</div>
+                          </div>
+                        ) : null}
+
                         <PullRequestDiffViewer
                           data={codeDiffSnapshot}
                           fileName={payload?.code_comment?.path ?? ''}

@@ -39,7 +39,7 @@ function PullRequestListPage() {
   const { data: pullrequests, isFetching } = useListPullReqQuery(
     {
       repo_ref: repoRef,
-      queryParams: { page: 0, limit: 10, query: '', sort }
+      queryParams: { page: 0, limit: 20, query: '', sort }
     },
     /* To enable mock data */
     {

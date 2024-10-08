@@ -15,6 +15,7 @@ import {
 import PullRequestDiffViewer from './pull-request-diff-viewer'
 import { useDiffConfig } from './hooks/useDiffConfig'
 import { DiffModeEnum } from '@git-diff-view/react'
+import { parseStartingLineIfOne } from './utils'
 
 interface HeaderProps {
   text: string
@@ -68,6 +69,8 @@ const PullRequestAccordion: React.FC<{
 }> = ({ header }) => {
   const { highlight, wrap, fontsize } = useDiffConfig()
 
+  const startingLine =
+    parseStartingLineIfOne(header?.data ?? '') !== null ? parseStartingLineIfOne(header?.data ?? '') : null
   return (
     <StackedList.Root>
       <StackedList.Item disableHover isHeader className="p-0 hover:bg-transparent cursor-default">
@@ -87,6 +90,11 @@ const PullRequestAccordion: React.FC<{
             <AccordionContent>
               <div className="flex border-t w-full">
                 <div className="bg-transparent">
+                  {startingLine ? (
+                    <div className="bg-[--diff-hunk-lineNumber--]">
+                      <div className="w-full px-2 ml-16 py-1 font-mono ">{startingLine}</div>
+                    </div>
+                  ) : null}
                   <PullRequestDiffViewer
                     data={header?.data}
                     fontsize={fontsize}
@@ -111,7 +119,11 @@ export function PullRequestChanges({ data }: DataProps) {
   return (
     <div className="flex flex-col gap-4">
       {data.map((item, index) => (
-        <PullRequestAccordion key={index} header={item} data={item?.data} />
+        <PullRequestAccordion
+          key={`item?.title ? ${item?.title}-${index} : ${index}`}
+          header={item}
+          data={item?.data}
+        />
       ))}
     </div>
   )
