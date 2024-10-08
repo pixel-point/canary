@@ -102,7 +102,16 @@ function Root({
       )}
       <Input
         placeholder={placeholder}
-        className={cn('border-input-foreground pl-7', textSizeClass, { 'pr-10': hasShortcut })}
+        // TODO: Restore the line and remove temp fix below
+        // className={cn('border-input-foreground pl-7', textSizeClass, { 'pr-10': hasShortcut })}
+
+        // Start of temporary fix
+        className={cn('border-input-foreground', textSizeClass)}
+        style={{
+          paddingLeft: '1.75rem', // Equivalent to 'pl-7' in Tailwind (28px)
+          paddingRight: hasShortcut ? '2.5rem' : undefined // Equivalent to 'pr-10' in Tailwind (40px) if `hasShortcut` is true
+        }}
+        // End of temporary fix
         onKeyDown={handleKeyDown}
         onFocus={handleFocus}
       />
