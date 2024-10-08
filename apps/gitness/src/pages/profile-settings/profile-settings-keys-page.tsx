@@ -1,18 +1,25 @@
 import React from 'react'
 import { Spacer, Text } from '@harnessio/canary'
-import { FormFieldSet, SandboxLayout } from '..'
-import { ProfileKeysList } from '../components/profile-settings-keys-list'
-import { ProfileTokensList } from '../components/profile-settings-tokens-list'
-import { mockKeys } from './mocks/profile-settings/mockKeyList'
-import { mockTokens } from './mocks/profile-settings/mockTokensList'
+import {
+  FormFieldSet,
+  SandboxLayout,
+  ProfileKeysList,
+  KeysList,
+  ProfileTokensList,
+  TokensList
+} from '@harnessio/playground'
 
-function SandboxSettingsAccountKeysPage() {
+interface SandboxSettingsAccountKeysPageProps {
+  publicKeys: KeysList[]
+  tokens: TokensList[]
+}
+const SandboxSettingsAccountKeysPage: React.FC<SandboxSettingsAccountKeysPageProps> = ({ publicKeys, tokens }) => {
   return (
     <SandboxLayout.Main hasLeftPanel hasHeader hasSubHeader>
       <SandboxLayout.Content maxWidth="2xl">
         <Spacer size={10} />
         <Text size={5} weight={'medium'}>
-          Keys and tokens
+          Keys and Tokens
         </Text>
         <Spacer size={6} />
         <form>
@@ -20,7 +27,7 @@ function SandboxSettingsAccountKeysPage() {
             {/* PERSONAL ACCESS TOKEN */}
             <FormFieldSet.Legend>Personal access token</FormFieldSet.Legend>
             <FormFieldSet.ControlGroup>
-              <ProfileTokensList tokens={mockTokens} />
+              <ProfileTokensList tokens={tokens} />
             </FormFieldSet.ControlGroup>
           </FormFieldSet.Root>
           <FormFieldSet.Root>
@@ -33,7 +40,7 @@ function SandboxSettingsAccountKeysPage() {
               SSH keys allow you to establish a secure connection to your code repository.
             </FormFieldSet.SubLegend>
             <FormFieldSet.ControlGroup>
-              <ProfileKeysList publicKeys={mockKeys} />
+              <ProfileKeysList publicKeys={publicKeys} />
             </FormFieldSet.ControlGroup>
           </FormFieldSet.Root>
         </form>

@@ -11,7 +11,7 @@ import {
   UpdateUserErrorResponse
 } from '@harnessio/code-service-client'
 
-export const SettingsAccountGeneralPage: React.FC = () => {
+export const SettingsProfileGeneralPage: React.FC = () => {
   const [apiError, setApiError] = useState<{ type: 'profile' | 'password'; message: string } | null>(null)
 
   const [userData, setUserData] = useState<ProfileFields>({

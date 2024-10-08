@@ -5,8 +5,7 @@ import {
   RootLayout,
   SandboxRoot,
   SandboxSettings,
-  SandboxSettingsAccountPage,
-  SandboxSettingsAccountKeysPage
+  SandboxSettingsAccountPage
 } from '@harnessio/playground'
 import { TooltipProvider } from '@harnessio/canary'
 import { queryClient } from './framework/queryClient'
@@ -34,8 +33,9 @@ import PullRequestConversationPage from './pages/pull-request/pull-request-conve
 import { RepoFiles } from './pages/repo/repo-files'
 import { SandboxRepoHeader } from './pages/repo-sandbox/repo-sandbox-header'
 import ReposSandboxListPage from './pages/repo-sandbox/repo-sandbox-list'
+import { SettingsProfileGeneralPage } from './pages/profile-settings/profile-settings-general-container'
+import { SettingsProfileKeysPage } from './pages/profile-settings/profile-settings-keys-container'
 import { FileViewer } from './components/FileViewer'
-import { SettingsAccountGeneralPage } from './pages/profile-settings/profile-settings-general-container'
 import PullRequestChangesPage from './pages/pull-request/pull-request-changes-page'
 import { Logout } from './pages/logout'
 
@@ -252,11 +252,11 @@ export default function App() {
                 },
                 {
                   path: 'general',
-                  element: <SettingsAccountGeneralPage />
+                  element: <SettingsProfileGeneralPage />
                 },
                 {
                   path: 'keys',
-                  element: <SandboxSettingsAccountKeysPage />
+                  element: <SettingsProfileKeysPage />
                 }
               ]
             }
