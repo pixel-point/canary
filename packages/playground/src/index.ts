@@ -98,6 +98,10 @@ export * from './pages/sandbox-settings-account-general-page'
 
 export * from './pages/sandbox-repo-create-page'
 
+export * from './pages/sandbox-settings-project-page'
+export * from './pages/sandbox-settings-project-general-page'
+export * from './pages/sandbox-settings-project-members-page'
+
 export * from './layouts/SandboxRoot'
 export * from './layouts/SandboxSettings'
 export * from './configs/canary-outlets'
