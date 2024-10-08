@@ -33,7 +33,7 @@ type SchemaTreeNode = { [key: string]: SchemaTreeNode } & {
   _requiredOnly?: boolean
 }
 
-interface IGetValidationSchemaOptions<T = any> {
+export interface IGetValidationSchemaOptions<T = any> {
   /**
    * Metadata is passed down to validation callbacks
    */
@@ -125,7 +125,7 @@ function generateSchemaRec(schemaObj: SchemaTreeNode, values: AnyFormikValue, op
       //   ? addNestedSchema(nestedSchemaObj, requiredSchema, options)
       //   : requiredSchema
     } else {
-      objectSchemas[key] = zod.object(generateSchemaRec(schemaObj[key], options)).optional()
+      objectSchemas[key] = zod.object(generateSchemaRec(schemaObj[key], values, options)).optional()
     }
   })
 
@@ -345,13 +345,13 @@ function getRequiredSchema(input: IInputDefinition, options?: IGetValidationSche
     if (typeof value === 'object' && isEmpty(value)) {
       ctx.addIssue({
         code: zod.ZodIssueCode.custom,
-        message: `Required field`
+        message: requiredMessage
       })
     }
     if (isUndefined(value) || value === '') {
       ctx.addIssue({
         code: zod.ZodIssueCode.custom,
-        message: `Required field`
+        message: requiredMessage
       })
     }
   })

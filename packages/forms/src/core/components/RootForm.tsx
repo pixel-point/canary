@@ -18,15 +18,10 @@ interface RootFormProps<TFieldValues extends FieldValues = FieldValues, TContext
   onSubmit?: (values: FieldValues) => void
   shouldFocusError?: boolean
   mode: 'onBlur' | 'onChange' | 'onSubmit' | 'onTouched' | 'all' | undefined
-  //
   children:
     | JSX.Element
-    | ((props: UseFormReturn<TFieldValues, any, undefined> & { submitForm: () => void }) => JSX.Element) //
-  //
+    | ((props: UseFormReturn<TFieldValues, any, undefined> & { submitForm: () => void }) => JSX.Element)
   validateAfterFirstSubmit?: boolean
-  // validateDebounceInterval?: number
-  // onValuesChange: (values: FormikValues) => void
-  validationConfig?: IGlobalValidationConfig
   /**
    * This is passed to input handlers
    *

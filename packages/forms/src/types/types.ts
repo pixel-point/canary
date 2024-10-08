@@ -89,10 +89,18 @@ export interface IInputDefinition<T = unknown> {
 // hasMultiUsage?: boolean
 
 export interface IGlobalValidationConfig<T extends string = string> {
-  requiredSchema?: Schema<unknown>
+  /** Required message for all inputs */
   requiredMessage?: string
-  requiredSchemaPerInput?: Record<T, Schema<unknown>>
+  /** Required schema for all inputs */
+  requiredSchema?: Schema<unknown>
+  /** if defined it will have precedence over requiredMessage
+   * @T input type
+   */
   requiredMessagePerInput?: Record<T, string>
+  /** if defined it will have precedence over requiredSchema
+   * @T input type
+   */
+  requiredSchemaPerInput?: Record<T, Schema<unknown>>
   /**
    * Execute right after required validation and before input validation.
    *

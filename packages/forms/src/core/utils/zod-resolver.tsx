@@ -3,14 +3,17 @@ import { toNestErrors } from '@hookform/resolvers'
 import type { FieldValues, Resolver, ResolverOptions } from 'react-hook-form'
 
 import type { IFormDefinition } from '../../types/types'
-import { getValidationSchema } from '../validation/zod-validation'
+import { IGetValidationSchemaOptions, getValidationSchema } from '../validation/zod-validation'
 import { isZodError, parseErrorSchema } from './zod-resolver-utils'
 
-export function useZodValidationResolver(formDefinition: IFormDefinition): Resolver<any, any> | undefined {
+export function useZodValidationResolver(
+  formDefinition: IFormDefinition,
+  options?: IGetValidationSchemaOptions
+): Resolver<any, any> | undefined {
   return useCallback(
-    async (data: FieldValues, _: any, options: ResolverOptions<FieldValues>) => {
+    async (data: FieldValues, _: any, resolverOptions: ResolverOptions<FieldValues>) => {
       try {
-        const validationSchema = getValidationSchema(formDefinition, data)
+        const validationSchema = getValidationSchema(formDefinition, data, options)
 
         const values = await validationSchema.parseAsync(data)
 
@@ -22,7 +25,7 @@ export function useZodValidationResolver(formDefinition: IFormDefinition): Resol
         if (isZodError(error)) {
           return {
             values: {},
-            errors: toNestErrors(parseErrorSchema(error.errors, true), options)
+            errors: toNestErrors(parseErrorSchema(error.errors, true), resolverOptions)
           }
         }
 

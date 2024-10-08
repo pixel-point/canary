@@ -19,7 +19,7 @@ import {
   inputComponentFactory,
   TEMPLATE_STEP_IDENTIFIER,
   getHarnessStepDefinition,
-  getHarnessStepIdentifier
+  InputType
 } from '@harnessio/playground'
 import { usePipelineDataContext } from '../context/PipelineStudioDataProvider'
 import { ApiInputs, addNameInput, apiInput2IInputDefinition } from '../utils/step-form-utils'
@@ -125,10 +125,17 @@ export const PipelineStudioStepForm = (props: PipelineStudioStepFormProps): JSX.
     }
   }, [formRef, formDefinition])
 
+  const resolver = useZodValidationResolver(formDefinition, {
+    validationConfig: {
+      requiredMessage: 'Required input',
+      requiredMessagePerInput: { [InputType.select]: 'Selection is required' }
+    }
+  })
+
   return (
     <RootForm
       defaultValues={defaultStepValues}
-      resolver={useZodValidationResolver(formDefinition)}
+      resolver={resolver}
       mode="onSubmit"
       onSubmit={values => {
         const transformers = getTransformers(formDefinition)
