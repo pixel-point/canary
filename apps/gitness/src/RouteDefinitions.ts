@@ -18,7 +18,7 @@ export const PathProps = {
   resourcePath: ':resourcePath*'
 }
 
-export type PullRequestRoutePathParams = Omit<PathParams, 'pipelineId' | 'executionId'>
+export type PullRequestRoutePathParams = Omit<PathParams, 'pipelineId' | 'executionId' | 'gitRef'>
 
 export interface AppRoutes {
   toPullRequest: ({ spaceId, repoId, pullRequestId }: PullRequestRoutePathParams) => string
