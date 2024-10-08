@@ -3,7 +3,9 @@ import {
   CodeServiceAPIClient,
   TypesMembershipSpace,
   membershipSpaces,
-  TypesSpace
+  TypesSpace,
+  TypesUser,
+  getUser
 } from '@harnessio/code-service-client'
 import useToken from '../hooks/useToken'
 
@@ -11,6 +13,7 @@ interface AppContextType {
   spaces: TypesMembershipSpace[]
   setSpaces: (spaces: TypesMembershipSpace[]) => void
   addSpaces: (newSpaces: TypesSpace[]) => void
+  currentUser?: TypesUser
 }
 
 const BASE_URL_PREFIX = '/api/v1'
@@ -18,8 +21,9 @@ const BASE_URL_PREFIX = '/api/v1'
 const AppContext = createContext<AppContextType | undefined>(undefined)
 
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [spaces, setSpaces] = useState<TypesMembershipSpace[]>([])
   const { token } = useToken()
+  const [spaces, setSpaces] = useState<TypesMembershipSpace[]>([])
+  const [currentUser, setCurrentUser] = useState<TypesUser>()
 
   useLayoutEffect(() => {
     new CodeServiceAPIClient({
@@ -49,6 +53,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       }).then(response => {
         setSpaces(response)
       })
+
+      getUser({}).then(_currentUser => {
+        setCurrentUser(_currentUser)
+      })
     }
   }, [token])
 
@@ -56,7 +64,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     setSpaces(prevSpaces => [...prevSpaces, ...newSpaces])
   }
 
-  return <AppContext.Provider value={{ spaces, setSpaces, addSpaces }}>{children}</AppContext.Provider>
+  return <AppContext.Provider value={{ spaces, setSpaces, addSpaces, currentUser }}>{children}</AppContext.Provider>
 }
 
 export const useAppContext = (): AppContextType => {
