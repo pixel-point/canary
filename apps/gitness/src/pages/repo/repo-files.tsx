@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Outlet } from 'react-router-dom'
-import { Button, ButtonGroup, Icon, ListActions, SearchBox, Spacer, Text } from '@harnessio/canary'
-import { BranchSelector, SandboxLayout } from '@harnessio/playground'
+import { Button, ButtonGroup, Icon, ListActions, Spacer, Text } from '@harnessio/canary'
+import { BranchSelector, SandboxLayout, Filter } from '@harnessio/playground'
 import { useListBranchesQuery, useFindRepositoryQuery } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { PathParams } from '../../RouteDefinitions'
@@ -52,7 +52,9 @@ export const RepoFiles: React.FC = () => {
             </Button>
           </ButtonGroup.Root>
         </div>
-        <SearchBox.Root width="full" placeholder="Search" />
+
+        <Filter />
+
         <Explorer selectedBranch={selectedBranch} />
       </div>
     )

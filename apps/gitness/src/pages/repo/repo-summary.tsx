@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Button, ButtonGroup, Icon, ListActions, SearchBox, Spacer, StackedList, Text } from '@harnessio/canary'
+import { Button, ButtonGroup, Icon, ListActions, Spacer, StackedList, Text } from '@harnessio/canary'
 import {
   Floating1ColumnLayout,
   FullWidth2ColumnLayout,
@@ -10,7 +10,9 @@ import {
   FileProps,
   SummaryItemType,
   NoData,
-  MarkdownViewer
+  MarkdownViewer,
+  Filter,
+  useCommonFilter
 } from '@harnessio/playground'
 import {
   useListBranchesQuery,
@@ -41,13 +43,15 @@ export const RepoSummary: React.FC = () => {
 
   const [selectedBranch, setSelectedBranch] = useState<string>('')
 
+  const { query } = useCommonFilter()
+
   const branchList = branches?.map(item => ({
     name: item?.name
   }))
 
   const { data: repoSummary } = useSummaryQuery({
     repo_ref: repoRef,
-    queryParams: { include_commit: false, sort: 'date', order: 'asc', limit: 20, page: 1, query: '' }
+    queryParams: { include_commit: false, sort: 'date', order: 'asc', limit: 20, page: 1, query }
   })
 
   const { branch_count, default_branch_commit_count, pull_req_summary, tag_count } = repoSummary || {}
@@ -170,7 +174,8 @@ export const RepoSummary: React.FC = () => {
                     branchList={branchList}
                     selectBranch={branch => selectBranch(branch)}
                   />
-                  <SearchBox.Root placeholder="Search" />
+
+                  <Filter />
                 </ButtonGroup.Root>
               </ListActions.Left>
               <ListActions.Right>

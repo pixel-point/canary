@@ -7,19 +7,25 @@ import {
   PaginationPrevious,
   PaginationLink,
   PaginationNext,
-  Text
+  Text,
+  Button
 } from '@harnessio/canary'
 import { Link } from 'react-router-dom'
-import { PaddingListLayout, SkeletonList, PullRequestList, NoData, useCommonFilter } from '@harnessio/playground'
-import { TypesPullReq, useListPullReqQuery } from '@harnessio/code-service-client'
+import {
+  PaddingListLayout,
+  SkeletonList,
+  PullRequestList,
+  NoData,
+  useCommonFilter,
+  Filter
+} from '@harnessio/playground'
+import { ListPullReqQueryQueryParams, TypesPullReq, useListPullReqQuery } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 import { usePagination } from '../framework/hooks/usePagination'
 import { timeAgoFromEpochTime } from './pipeline-edit/utils/time-utils'
 import { DropdownItemProps } from '../../../../packages/canary/dist/components/list-actions'
 
-// const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
-
-const sortOptions = [
+const SortOptions = [
   { name: 'Created', value: 'created' },
   { name: 'Edited', value: 'edited' },
   { name: 'Merged', value: 'merged' },
@@ -34,12 +40,12 @@ function PullRequestListPage() {
   const repoRef = useGetRepoRef()
   const { currentPage, previousPage, nextPage, handleClick } = usePagination(1, totalPages)
 
-  const { Filter, sort } = useCommonFilter({ sortOptions })
+  const { sort, query } = useCommonFilter<ListPullReqQueryQueryParams['sort']>()
 
   const { data: pullrequests, isFetching } = useListPullReqQuery(
     {
       repo_ref: repoRef,
-      queryParams: { page: 0, limit: 20, query: '', sort }
+      queryParams: { page: 0, limit: 20, query: query?.trim(), sort }
     },
     /* To enable mock data */
     {
@@ -183,8 +189,14 @@ function PullRequestListPage() {
         </Text>
         <Spacer size={6} />
 
-        {/* ⭐️ Filter Component */}
-        <Filter />
+        <div className="flex justify-between gap-5 items-center">
+          <div className="flex-1">
+            <Filter sortOptions={SortOptions} />
+          </div>
+          <Button variant="default" asChild>
+            <Link to="#">New pull request</Link>
+          </Button>
+        </div>
 
         <Spacer size={5} />
         {renderListContent()}

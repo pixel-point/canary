@@ -3,6 +3,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Text } from './text'
 import { Icon } from './icon'
 import { CheckIcon } from '@radix-ui/react-icons'
+import { cn } from '@/lib/utils'
 
 interface DropdownItemProps {
   name: string
@@ -32,7 +33,12 @@ function Dropdown({ title, items, onChange, selectedValue }: DropdownProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center text-tertiary-background gap-1.5 hover:text-primary cursor-pointer ease-in-out duration-100">
-        <Text weight={selectedValue ? 'bold' : 'normal'} size={2} className="text-primary/80">
+        {selectedValue && <span className="h-[4px] w-[4px] bg-primary rounded-full"></span>}
+        <Text
+          size={2}
+          className={cn('text-primary/80', {
+            ['font-bold']: selectedValue
+          })}>
           {title}
         </Text>
         <Icon name="chevron-down" size={12} className="chevron-down" />

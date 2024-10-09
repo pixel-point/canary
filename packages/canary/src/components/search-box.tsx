@@ -3,6 +3,7 @@ import { Input } from './input'
 import { Icon } from './icon'
 import { Text } from './text'
 import { cn } from '@/lib/utils'
+import { noop } from 'lodash-es'
 
 enum TextSize {
   'text-[12px]' = 0,
@@ -28,10 +29,13 @@ interface SearchBoxProps {
   shortcutModifier?: string
   textSize?: TextSize
   onSearch?: () => void
+  handleChange?: React.ChangeEventHandler<HTMLInputElement>
   showOnFocus?: boolean // New prop to control dialog appearance on focus
+  defaultValue?: string
+  className?: string
 }
 
-function Root({
+const Root = ({
   textSize = TextSize['text-sm'],
   placeholder,
   width = 'fixed',
@@ -39,8 +43,11 @@ function Root({
   shortcutLetter,
   shortcutModifier,
   onSearch,
-  showOnFocus = false // Default to false
-}: SearchBoxProps) {
+  handleChange = noop,
+  defaultValue,
+  showOnFocus = false,
+  className
+}: SearchBoxProps) => {
   const textSizeClass = TextSize[textSize]
 
   const handleSearch = () => {
@@ -86,7 +93,7 @@ function Root({
   }, [hasShortcut, shortcutLetter, shortcutModifier, handleSearch])
 
   return (
-    <div className={cn('relative', width === 'full' ? 'w-full' : 'w-96')}>
+    <div className={cn('relative', width === 'full' ? 'w-full' : 'w-96', className)}>
       <Icon
         name="search"
         size={12}
@@ -106,6 +113,7 @@ function Root({
         // className={cn('border-input-foreground pl-7', textSizeClass, { 'pr-10': hasShortcut })}
 
         // Start of temporary fix
+        defaultValue={defaultValue}
         className={cn('border-input-foreground', textSizeClass)}
         style={{
           paddingLeft: '1.75rem', // Equivalent to 'pl-7' in Tailwind (28px)
@@ -114,6 +122,7 @@ function Root({
         // End of temporary fix
         onKeyDown={handleKeyDown}
         onFocus={handleFocus}
+        onInput={handleChange}
       />
     </div>
   )

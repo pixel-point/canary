@@ -1,52 +1,49 @@
 import React, { useCallback } from 'react'
-import { Button, ListActions, SearchBox } from '@harnessio/canary'
-import { Link, useSearchParams } from 'react-router-dom'
-import { DropdownItemProps } from '@harnessio/canary/dist/components/list-actions'
+import { useSearchParams } from 'react-router-dom'
+import { isEmpty } from 'lodash-es'
 
-interface CommmonFilterProps<T> {
-  sortOptions: T
-}
-
-function useCommonFilter<const T extends DropdownItemProps[]>({ sortOptions }: CommmonFilterProps<T>) {
+function useCommonFilter<S>() {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const sort = searchParams.get('sort')
+  const searchQuery = searchParams.get('query')
 
-  const handleChange = useCallback((property: string) => {
-    return (selectedValue: string | null) => {
+  const handleChange = useCallback(
+    (property: string) => {
+      return (selectedValue: string | null) => {
+        setSearchParams(params => {
+          const currentValue = params.get(property)
+
+          if (selectedValue && currentValue !== selectedValue) {
+            params.set(property, selectedValue)
+          } else params.delete(property)
+
+          return params
+        })
+      }
+    },
+    [setSearchParams]
+  )
+
+  const handleSearch = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchParams(params => {
-        const currentValue = params.get(property)
-
-        if (selectedValue && currentValue !== selectedValue) {
-          params.set(property, selectedValue)
-        } else params.delete(property)
+        const latstSearchQuery = event?.target?.value
+        if (!isEmpty(latstSearchQuery)) {
+          params.set('query', latstSearchQuery)
+        } else params.delete('query')
 
         return params
       })
-    }
-  }, [])
-
-  const Filter = () => (
-    <ListActions.Root>
-      <ListActions.Left>
-        <SearchBox.Root placeholder="Search" />
-      </ListActions.Left>
-      <ListActions.Right>
-        {/* Add other filters here */}
-        {/* <ListActions.Dropdown title="Filter" items={filterOptions} /> */}
-        {/* <ListActions.Dropdown title="View" items={viewOptions} /> */}
-        <ListActions.Dropdown selectedValue={sort} onChange={handleChange('sort')} title="Sort" items={sortOptions} />
-
-        <Button variant="default" asChild>
-          <Link to="create">Create Pipeline</Link>
-        </Button>
-      </ListActions.Right>
-    </ListActions.Root>
+    },
+    [setSearchParams]
   )
 
   return {
-    Filter,
-    sort: (sort as T[number]['value']) || undefined
+    sort: (sort as S) || undefined,
+    query: searchQuery || undefined,
+    handleSearch,
+    handleDropdownChange: handleChange
   }
 }
 

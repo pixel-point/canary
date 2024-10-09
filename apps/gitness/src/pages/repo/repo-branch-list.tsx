@@ -1,8 +1,7 @@
 import { useEffect } from 'react'
-import { SkeletonList, NoData, PaddingListLayout, BranchesList } from '@harnessio/playground'
+import { SkeletonList, NoData, PaddingListLayout, BranchesList, Filter, useCommonFilter } from '@harnessio/playground'
 import {
   Button,
-  ListActions,
   ListPagination,
   Pagination,
   PaginationContent,
@@ -10,7 +9,6 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-  SearchBox,
   Spacer,
   Text
 } from '@harnessio/canary'
@@ -21,13 +19,17 @@ import {
   TypesBranch,
   ListBranchesErrorResponse,
   useCalculateCommitDivergenceMutation,
-  useFindRepositoryQuery
+  useFindRepositoryQuery,
+  ListBranchesQueryQueryParams
 } from '@harnessio/code-service-client'
 import { orderSortDate } from '../../types'
 import { timeAgoFromISOTime } from '../pipeline-edit/utils/time-utils'
+import { Link } from 'react-router-dom'
 
-const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
-const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
+const sortOptions = [
+  { name: 'Date', value: 'date' },
+  { name: 'Name', value: 'name' }
+]
 
 export function ReposBranchesListPage() {
   // lack of data: total branches
@@ -39,13 +41,15 @@ export function ReposBranchesListPage() {
   const { currentPage, previousPage, nextPage, handleClick } = usePagination(1, totalPages)
   const { data: repoMetadata } = useFindRepositoryQuery({ repo_ref: repoRef })
 
+  const { sort, query } = useCommonFilter<ListBranchesQueryQueryParams['sort']>()
+
   const {
     isLoading,
     data: brancheslistData,
     isError
   } = useListBranchesQuery(
     {
-      queryParams: { page: currentPage, limit: 20, sort: 'date', order: orderSortDate.DESC, include_commit: true },
+      queryParams: { page: currentPage, limit: 20, sort, query, order: orderSortDate.DESC, include_commit: true },
       repo_ref: repoRef
     },
     {
@@ -133,24 +137,18 @@ export function ReposBranchesListPage() {
   return (
     <PaddingListLayout spaceTop={false}>
       <Spacer size={2} />
-      {(brancheslistData?.length ?? 0) > 0 && (
-        <>
-          <Text size={5} weight={'medium'}>
-            Branches
-          </Text>
-          <Spacer size={6} />
-          <ListActions.Root>
-            <ListActions.Left>
-              <SearchBox.Root placeholder="Search branches" />
-            </ListActions.Left>
-            <ListActions.Right>
-              <ListActions.Dropdown title="Filter" items={filterOptions} />
-              <ListActions.Dropdown title="Sort" items={sortOptions} />
-              <Button variant="default">Create Branch</Button>
-            </ListActions.Right>
-          </ListActions.Root>
-        </>
-      )}
+      <Text size={5} weight={'medium'}>
+        Branches
+      </Text>
+      <Spacer size={6} />
+      <div className="flex justify-between gap-5 items-center">
+        <div className="flex-1">
+          <Filter sortOptions={sortOptions} />
+        </div>
+        <Button variant="default" asChild>
+          <Link to="create">Create Branch</Link>
+        </Button>
+      </div>
       <Spacer size={5} />
       {renderContent()}
       <Spacer size={8} />

@@ -1,5 +1,4 @@
 import {
-  ListActions,
   Spacer,
   Text,
   ListPagination,
@@ -10,7 +9,14 @@ import {
   PaginationLink,
   PaginationNext
 } from '@harnessio/canary'
-import { BranchSelector, NoData, PaddingListLayout, PullRequestCommits, SkeletonList } from '@harnessio/playground'
+import {
+  BranchSelector,
+  Filter,
+  NoData,
+  PaddingListLayout,
+  PullRequestCommits,
+  SkeletonList
+} from '@harnessio/playground'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { usePagination } from '../../framework/hooks/usePagination'
 
@@ -23,7 +29,6 @@ import {
 import { useEffect, useState } from 'react'
 import { normalizeGitRef } from '../../utils/git-utils'
 
-const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
 const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
 
 export default function RepoCommitsPage() {
@@ -47,6 +52,9 @@ export default function RepoCommitsPage() {
 
     queryParams: { page: currentPage, limit: 10, git_ref: normalizeGitRef(selectedBranch), include_stats: true }
   })
+
+  // 🚨 API not supporting sort, so waiting for API changes
+  // const { sort } = useCommonFilter()
 
   // logic once we have dynamic pagination set up
 
@@ -95,23 +103,19 @@ export default function RepoCommitsPage() {
         Commits
       </Text>
       <Spacer size={6} />
-      <ListActions.Root>
-        <ListActions.Left>
-          {!isFetchingBranches && branches && (
-            <BranchSelector
-              name={selectedBranch}
-              branchList={branches.map(item => ({
-                name: item.name || ''
-              }))}
-              selectBranch={branch => selectBranch(branch)}
-            />
-          )}
-        </ListActions.Left>
-        <ListActions.Right>
-          <ListActions.Dropdown title="Filter" items={filterOptions} />
-          <ListActions.Dropdown title="Sort" items={sortOptions} />
-        </ListActions.Right>
-      </ListActions.Root>
+      <div className="flex justify-between gap-5">
+        {!isFetchingBranches && branches && (
+          <BranchSelector
+            name={selectedBranch}
+            branchList={branches.map(item => ({
+              name: item.name || ''
+            }))}
+            selectBranch={branch => selectBranch(branch)}
+          />
+        )}
+
+        <Filter showSearch={false} sortOptions={sortOptions} />
+      </div>
       <Spacer size={5} />
       {renderContent()}
       <Spacer size={8} />

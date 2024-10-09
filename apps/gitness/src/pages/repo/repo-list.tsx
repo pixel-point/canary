@@ -1,6 +1,5 @@
 import {
   Button,
-  ListActions,
   ListPagination,
   Pagination,
   PaginationContent,
@@ -8,12 +7,11 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-  SearchBox,
   Spacer,
   Text
 } from '@harnessio/canary'
-import { useListReposQuery, RepoRepositoryOutput } from '@harnessio/code-service-client'
-import { PaddingListLayout, SkeletonList, RepoList } from '@harnessio/playground'
+import { useListReposQuery, RepoRepositoryOutput, ListReposQueryQueryParams } from '@harnessio/code-service-client'
+import { PaddingListLayout, SkeletonList, RepoList, Filter, useCommonFilter } from '@harnessio/playground'
 import { Link, useNavigate } from 'react-router-dom'
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
 import { usePagination } from '../../framework/hooks/usePagination'
@@ -21,9 +19,11 @@ import { usePagination } from '../../framework/hooks/usePagination'
 import Header from '../../components/Header'
 import { timeAgoFromEpochTime } from '../pipeline-edit/utils/time-utils'
 
-const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
-const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
-const viewOptions = [{ name: 'View option 1' }, { name: 'View option 2' }]
+const sortOptions = [
+  { name: 'Created', value: 'created' },
+  { name: 'Identifier', value: 'identifier' },
+  { name: 'Updated', value: 'updated' }
+]
 
 const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => <Link to={to}>{children}</Link>
 
@@ -32,7 +32,10 @@ export default function ReposListPage() {
   const totalPages = 10
   const navigate = useNavigate()
   const space = useGetSpaceURLParam()
-  const { isFetching, data } = useListReposQuery({ queryParams: {}, space_ref: `${space}/+` })
+
+  const { query, sort } = useCommonFilter<ListReposQueryQueryParams['sort']>()
+
+  const { isFetching, data } = useListReposQuery({ queryParams: { sort, query }, space_ref: `${space}/+` })
   const { currentPage, previousPage, nextPage, handleClick } = usePagination(1, totalPages)
 
   const renderListContent = () => {
@@ -68,19 +71,14 @@ export default function ReposListPage() {
           Repositories
         </Text>
         <Spacer size={6} />
-        <ListActions.Root>
-          <ListActions.Left>
-            <SearchBox.Root placeholder="Search repositories" />
-          </ListActions.Left>
-          <ListActions.Right>
-            <ListActions.Dropdown title="Filter" items={filterOptions} />
-            <ListActions.Dropdown title="Sort" items={sortOptions} />
-            <ListActions.Dropdown title="View" items={viewOptions} />
-            <Button variant="default" onClick={() => navigate(`/sandbox/spaces/${space}/repos/create`)}>
-              Create Repo
-            </Button>
-          </ListActions.Right>
-        </ListActions.Root>
+        <div className="flex justify-between gap-5">
+          <div className="flex-1">
+            <Filter sortOptions={sortOptions} />
+          </div>
+          <Button variant="default" onClick={() => navigate(`/sandbox/spaces/${space}/repos/create`)}>
+            Create Repo
+          </Button>
+        </div>
         <Spacer size={5} />
         {renderListContent()}
         <Spacer size={8} />

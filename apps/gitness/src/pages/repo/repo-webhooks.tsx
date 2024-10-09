@@ -2,9 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import {
   Spacer,
-  ListActions,
   Button,
-  SearchBox,
   Text,
   ListPagination,
   Pagination,
@@ -15,7 +13,7 @@ import {
   PaginationNext
 } from '@harnessio/canary'
 // import { NoSearchResults } from '../components/no-search-results'
-import { NoData, PaddingListLayout, SkeletonList, WebhooksList } from '@harnessio/playground'
+import { Filter, NoData, PaddingListLayout, SkeletonList, useCommonFilter, WebhooksList } from '@harnessio/playground'
 import { useListWebhooksQuery } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { usePagination } from '../../framework/hooks/usePagination'
@@ -25,9 +23,12 @@ function RepoWebhooksListPage() {
   const totalPages = 10
   const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => <Link to={to}>{children}</Link>
   const repoRef = useGetRepoRef()
+
+  const { query } = useCommonFilter()
+
   const { data: webhooks, isFetching } = useListWebhooksQuery({
     repo_ref: repoRef,
-    queryParams: { order: 'asc', limit: 20, page: 1 }
+    queryParams: { order: 'asc', limit: 20, page: 1, query }
   })
   const { currentPage, previousPage, nextPage, handleClick } = usePagination(1, totalPages)
 
@@ -59,16 +60,16 @@ function RepoWebhooksListPage() {
           Webhooks
         </Text>
         <Spacer size={6} />
-        <ListActions.Root>
-          <ListActions.Left>
-            <SearchBox.Root placeholder="Search webhooks" />
-          </ListActions.Left>
-          <ListActions.Right>
-            <Button variant="default" asChild>
-              <Link to="#">Create webhook</Link>
-            </Button>
-          </ListActions.Right>
-        </ListActions.Root>
+
+        <div className="flex justify-between gap-5 items-center">
+          <div className="flex-1">
+            <Filter />
+          </div>
+          <Button variant="default" asChild>
+            <Link to="#">Create webhook</Link>
+          </Button>
+        </div>
+
         <Spacer size={5} />
         {renderListContent()}
         <Spacer size={8} />

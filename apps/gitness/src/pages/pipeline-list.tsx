@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import {
   Button,
-  ListActions,
   ListPagination,
   Pagination,
   PaginationContent,
@@ -9,28 +8,33 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-  SearchBox,
   Spacer,
   Text
 } from '@harnessio/canary'
 import { useListPipelinesQuery, TypesPipeline } from '@harnessio/code-service-client'
-import { PipelineList, MeterState, PaddingListLayout, SkeletonList } from '@harnessio/playground'
+import {
+  PipelineList,
+  MeterState,
+  PaddingListLayout,
+  SkeletonList,
+  Filter,
+  useCommonFilter
+} from '@harnessio/playground'
 import { ExecutionState } from '../types'
 import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 import { usePagination } from '../framework/hooks/usePagination'
-
-const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
-const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
-const viewOptions = [{ name: 'View option 1' }, { name: 'View option 2' }]
 
 export default function PipelinesPage() {
   // hardcoded
   const totalPages = 10
   const repoRef = useGetRepoRef()
+
+  const { query } = useCommonFilter()
+
   const { data: pipelines, isFetching } = useListPipelinesQuery(
     {
       repo_ref: repoRef,
-      queryParams: { page: 0, limit: 10, query: '', latest: true }
+      queryParams: { page: 0, limit: 10, query: query?.trim(), latest: true }
     },
     /* To enable mock data */
     {
@@ -74,20 +78,15 @@ export default function PipelinesPage() {
           Pipelines
         </Text>
         <Spacer size={6} />
-        <ListActions.Root>
-          <ListActions.Left>
-            <SearchBox.Root placeholder="Search pipelines" />
-          </ListActions.Left>
-          <ListActions.Right>
-            <ListActions.Dropdown title="Filter" items={filterOptions} />
-            <ListActions.Dropdown title="Sort" items={sortOptions} />
-            <ListActions.Dropdown title="View" items={viewOptions} />
+        <div className="flex justify-between gap-5">
+          <div className="flex-1">
+            <Filter />
+          </div>
+          <Button variant="default" asChild>
+            <Link to="create">Create Pipeline</Link>
+          </Button>
+        </div>
 
-            <Button variant="default" asChild>
-              <Link to="create">Create Pipeline</Link>
-            </Button>
-          </ListActions.Right>
-        </ListActions.Root>
         <Spacer size={5} />
         {renderListContent()}
         <Spacer size={8} />
