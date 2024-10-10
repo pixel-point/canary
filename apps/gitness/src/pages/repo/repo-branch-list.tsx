@@ -16,7 +16,7 @@ import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { usePagination } from '../../framework/hooks/usePagination'
 import {
   useListBranchesQuery,
-  TypesBranch,
+  RepoBranch,
   ListBranchesErrorResponse,
   useCalculateCommitDivergenceMutation,
   useFindRepositoryQuery,
@@ -113,7 +113,7 @@ export function ReposBranchesListPage() {
 
     return (
       <BranchesList
-        branches={brancheslistData?.map((branch: TypesBranch, index) => {
+        branches={brancheslistData?.map((branch: RepoBranch, index) => {
           const { ahead: branchAhead, behind: branchBehind } = behindAhead[index] || {}
           return {
             id: index,
