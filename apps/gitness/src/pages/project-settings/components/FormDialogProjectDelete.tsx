@@ -40,7 +40,7 @@ export const FormDialogProjectDelete = ({ handleDeleteProject, isDeleteSuccess, 
 
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-  const verificationValue = watch('verification')
+  const verificationCheck = watch('verification')
 
   const typeCheck = (value: string) => {
     return value === 'DELETE'
@@ -104,7 +104,7 @@ export const FormDialogProjectDelete = ({ handleDeleteProject, isDeleteSuccess, 
                   theme="error"
                   className="self-start"
                   onClick={handleDelete}
-                  disabled={!typeCheck(verificationValue) || isDeleting}>
+                  disabled={!typeCheck(verificationCheck) || isDeleting}>
                   {isDeleting ? 'Deleting project...' : 'Yes, delete project'}
                 </Button>
               )}
