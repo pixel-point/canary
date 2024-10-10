@@ -1,4 +1,11 @@
-import { TypesCheck, TypesPullReqActivity } from '@harnessio/code-service-client'
+import {
+  EnumPullReqReviewDecision,
+  ReviewerListPullReqOkResponse,
+  TypesCheck,
+  TypesPullReq,
+  TypesPullReqActivity,
+  TypesUser
+} from '@harnessio/code-service-client'
 
 export enum orderSortDate {
   ASC = 'asc',
@@ -17,7 +24,8 @@ export enum PullReqReviewDecision {
   approved = 'approved',
   changeReq = 'changereq',
   pending = 'pending',
-  outdated = 'outdated'
+  outdated = 'outdated',
+  approve = 'approve'
 }
 export interface TypeCheckData {
   bypassable: boolean
@@ -152,3 +160,28 @@ export interface CommentItem<T = unknown> {
   content: string
   payload?: T // optional payload for callers to handle on callback calls
 }
+
+export interface ApprovalItem {
+  id: number
+  state?: string
+  method: string
+  title: string
+  items?: ApprovalItems[]
+}
+
+export interface ApprovalItems {
+  items: ApprovalItem[]
+}
+
+export type ButtonEnum = 'success' | 'muted' | 'default' | 'error' | 'warning' | null | undefined
+export interface FilterViewProps {
+  active?: string
+  currentUser: TypesUser
+  pullRequestMetadata?: TypesPullReq | undefined
+  reviewers?: ReviewerListPullReqOkResponse
+  submitReview?: (decision: PullReqReviewDecision) => void
+  refetchReviewers?: () => void
+  loading?: boolean
+}
+
+export type EnumPullReqReviewDecisionExtended = EnumPullReqReviewDecision | 'outdated'

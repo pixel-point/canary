@@ -5,7 +5,7 @@ export enum PRCommentFilterType {
   RESOLVED_COMMENTS = 'resolvedComments',
   UNRESOLVED_COMMENTS = 'unresolvedComments'
 }
-export type EnumPullReqReviewDecision = 'approved' | 'changereq' | 'pending' | 'reviewed'
+export type EnumPullReqReviewDecision = 'approved' | 'changereq' | 'pending' | 'reviewed' | 'outdated'
 
 export enum orderSortDate {
   ASC = 'asc',

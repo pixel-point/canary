@@ -1,12 +1,12 @@
-import { EnumPullReqReviewDecision, TypesCodeOwnerEvaluationEntry } from '@harnessio/code-service-client'
-import { PullReqReviewDecision, TypeCheckData } from './types/types'
+import { TypesCodeOwnerEvaluationEntry } from '@harnessio/code-service-client'
+import { EnumPullReqReviewDecisionExtended, PullReqReviewDecision, TypeCheckData } from './types/types'
 import { ExecutionState, extractInfoForCodeOwnerContentProps } from '../../types'
 import { isEmpty } from 'lodash-es'
 import type * as Diff2Html from 'diff2html'
 import HoganJsUtils from 'diff2html/lib/hoganjs-utils'
 
 export const processReviewDecision = (
-  review_decision: EnumPullReqReviewDecision,
+  review_decision: EnumPullReqReviewDecisionExtended,
   reviewedSHA?: string,
   sourceSHA?: string
 ) =>

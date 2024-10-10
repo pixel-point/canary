@@ -1,128 +1,31 @@
-import React, { useEffect, useMemo, useState } from 'react'
-
-import {
-  ListActions,
-  Spacer,
-  Text,
-  Button,
-  DropdownMenu,
-  DropdownMenuTrigger,
-  Icon,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  RadioGroupItem,
-  RadioGroup
-} from '@harnessio/canary'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Spacer } from '@harnessio/canary'
 import * as Diff2Html from 'diff2html'
-import { useRawDiffQuery } from '@harnessio/code-service-client'
-import { FileViewGauge, PullRequestChanges, SkeletonList } from '@harnessio/playground'
+import {
+  EnumPullReqReviewDecision,
+  reviewSubmitPullReq,
+  useRawDiffQuery,
+  useReviewerListPullReqQuery
+} from '@harnessio/code-service-client'
+import { PullRequestChanges, SkeletonList } from '@harnessio/playground'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { compact, isEqual } from 'lodash-es'
 import { atom, useAtom } from 'jotai'
 import { normalizeGitRef } from '../../utils/git-utils'
 import { usePullRequestData } from './context/pull-request-data-provider'
 import { changedFileId, DIFF2HTML_CONFIG, normalizeGitFilePath } from './utils'
-import { DiffFileEntry, DiffViewerExchangeState } from './types/types'
+import { DiffFileEntry, DiffViewerExchangeState, PullReqReviewDecision } from './types/types'
 import { parseSpecificDiff } from './diff-utils'
-
-type ButtonEnum = 'success' | 'muted' | 'default' | 'error' | 'warning' | null | undefined
-interface FilterViewProps {
-  active?: string
-}
-
-const approvalItems = [
-  {
-    stateId: 0,
-    state: 'success',
-    title: 'Approve',
-    items: [
-      {
-        id: 0,
-        title: 'This is a title',
-        description: 'This is a description'
-      },
-      {
-        id: 1,
-        title: 'This is title 2',
-        description: 'This is description 2'
-      },
-      {
-        id: 2,
-        title: 'This is title 3',
-        description: 'This is description 3'
-      }
-    ]
-  }
-]
-
-const filesViewed = {
-  total: 3,
-  viewed: 1
-}
-
-// TODO: workon on filter and files viewed
-const FilterSortViewDropdowns: React.FC<FilterViewProps> = () => {
-  const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
-  const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
-  const viewOptions = [{ name: 'View option 1' }, { name: 'View option 2' }]
-
-  return (
-    <ListActions.Root>
-      <ListActions.Left>
-        <ListActions.Dropdown title="All commits" items={filterOptions} />
-        <ListActions.Dropdown title="File filter" items={sortOptions} />
-        <ListActions.Dropdown title="View" items={viewOptions} />
-      </ListActions.Left>
-      <ListActions.Right>
-        <FileViewGauge.Root>
-          <FileViewGauge.Content>
-            {filesViewed.viewed}/{filesViewed.total} file{filesViewed.total === 1 ? '' : 's'} viewed
-          </FileViewGauge.Content>
-          <FileViewGauge.Bar total={filesViewed.total} filled={filesViewed.viewed} />
-        </FileViewGauge.Root>
-        <Button
-          variant="split"
-          size="xs_split"
-          theme={approvalItems[0].state as ButtonEnum}
-          dropdown={
-            <DropdownMenu>
-              <DropdownMenuTrigger insideSplitButton>
-                <Icon name="chevron-down" size={11} className="chevron-down" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="mt-1">
-                <DropdownMenuGroup>
-                  {approvalItems &&
-                    approvalItems[0].items.map(itm => (
-                      <DropdownMenuItem key={itm.id}>
-                        <RadioGroup className="flex items-start gap-2">
-                          <RadioGroupItem value="false" className="w-3 h-3 text-tertiary-background mt-1" />
-                          <div className="flex flex-col">
-                            <Text truncate size={1} color="primary">
-                              {itm.title}
-                            </Text>
-                            <Text size={1} color="tertiaryBackground">
-                              {itm.description}
-                            </Text>
-                          </div>
-                        </RadioGroup>
-                      </DropdownMenuItem>
-                    ))}
-                </DropdownMenuGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          }>
-          {approvalItems[0].title}
-        </Button>
-      </ListActions.Right>
-    </ListActions.Root>
-  )
-}
+import { useAppContext } from '../../framework/context/AppContext'
+import { useParams } from 'react-router-dom'
+import { PathParams } from '../../RouteDefinitions'
+import { PullRequestChangesFilter } from './pull-request-changes-filter'
 
 export default function PullRequestChangesPage() {
-  const { pullReqMetadata } = usePullRequestData()
+  const { pullReqMetadata, refetchPullReq, refetchActivities } = usePullRequestData()
+  const { currentUser } = useAppContext()
   const repoRef = useGetRepoRef()
-  const commitSHA = ''
+  const commitSHA = '' // TODO: when you implement commit filter will need commitSHA
   const defaultCommitRange = compact(commitSHA?.split(/~1\.\.\.|\.\.\./g))
   const [
     commitRange
@@ -131,7 +34,36 @@ export default function PullRequestChangesPage() {
   const targetRef = useMemo(() => pullReqMetadata?.merge_base_sha, [pullReqMetadata?.merge_base_sha])
   const sourceRef = useMemo(() => pullReqMetadata?.source_sha, [pullReqMetadata?.source_sha])
   const [diffs, setDiffs] = useState<DiffFileEntry[]>()
-
+  const { pullRequestId } = useParams<PathParams>()
+  const prId = (pullRequestId && Number(pullRequestId)) || -1
+  const {
+    data: reviewers,
+    refetch: refetchReviewers,
+    isFetching: loadingReviewers
+  } = useReviewerListPullReqQuery({
+    repo_ref: repoRef,
+    pullreq_number: prId
+  })
+  const submitReview = useCallback(
+    (decision: PullReqReviewDecision) => {
+      reviewSubmitPullReq({
+        repo_ref: repoRef,
+        pullreq_number: prId,
+        body: { decision: decision as EnumPullReqReviewDecision, commit_sha: pullReqMetadata?.source_sha }
+      })
+        .then(() => {
+          // showSuccess(getString(decision === 'approved' ? 'pr.reviewSubmitted' : 'pr.requestSubmitted'))
+          refetchPullReq()
+          refetchReviewers()
+          refetchActivities()
+        })
+        .catch((exception: string) => {
+          console.warn(exception)
+          refetchReviewers()
+        })
+    },
+    [refetchActivities, refetchPullReq, pullReqMetadata?.source_sha, refetchReviewers, repoRef, prId]
+  )
   const diffApiPath = useMemo(
     () =>
       // show range of commits and user selected subrange
@@ -264,7 +196,15 @@ export default function PullRequestChangesPage() {
 
   return (
     <>
-      <FilterSortViewDropdowns active={''} />
+      <PullRequestChangesFilter
+        active={''}
+        loading={loadingReviewers}
+        currentUser={currentUser ?? {}}
+        pullRequestMetadata={pullReqMetadata}
+        reviewers={reviewers}
+        submitReview={submitReview}
+        refetchReviewers={refetchReviewers}
+      />
       <Spacer aria-setsize={5} />
 
       {renderContent()}
