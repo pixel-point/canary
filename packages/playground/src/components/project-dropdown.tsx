@@ -22,6 +22,7 @@ export interface ProjectDropdownProps {
   projects: Project[]
   onSelectProject: (selected: Project) => void
   isPrimary: boolean
+  selectedProject?: Project
   preselectedProject?: Project
 }
 
@@ -29,20 +30,21 @@ export const ProjectDropdown: React.FC<ProjectDropdownProps> = ({
   isPrimary,
   projects,
   onSelectProject,
+  selectedProject,
   preselectedProject
 }) => {
-  const [selectedProject, setSelectedProject] = useState<string>(projects[0].name || 'Select a project')
+  const [project, setProject] = useState<string>(projects[0].name || 'Select a project')
 
   useEffect(() => {
     if (preselectedProject?.name) {
-      setSelectedProject(preselectedProject.name)
+      setProject(preselectedProject.name)
     }
   }, [preselectedProject])
 
   const handleOptionChange = (project: Project) => {
     if (project.name) {
       onSelectProject(project)
-      setSelectedProject(project.name)
+      setProject(project.name)
     }
   }
 
@@ -50,11 +52,11 @@ export const ProjectDropdown: React.FC<ProjectDropdownProps> = ({
     <DropdownMenu>
       <DropdownMenuTrigger className="group flex items-center gap-2 outline-none">
         <Avatar className="w-7 h-7">
-          <AvatarFallback>{getInitials(selectedProject, 1)}</AvatarFallback>
+          <AvatarFallback>{getInitials(project, 1)}</AvatarFallback>
         </Avatar>
         <BreadcrumbLink
           className={cn('font-medium', { 'text-primary': isPrimary, 'text-navbar-text-secondary': !isPrimary })}>
-          {selectedProject}
+          {project}
         </BreadcrumbLink>
         <Icon
           name="chevron-down"
@@ -70,6 +72,7 @@ export const ProjectDropdown: React.FC<ProjectDropdownProps> = ({
           ? 'No Projects Found'
           : projects.map(project => (
               <DropdownMenuItem key={project.id} onClick={() => handleOptionChange(project)}>
+                <div className="w-4 mr-1">{project.id === selectedProject?.id && <Icon name="tick" size={12} />}</div>
                 {project.name}
               </DropdownMenuItem>
             ))}
