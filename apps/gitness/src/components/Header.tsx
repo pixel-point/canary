@@ -1,7 +1,7 @@
-import { Topbar, Text } from '@harnessio/canary'
+import { useEffect, useState } from 'react'
 import { TopBarWidget, Project } from '@harnessio/playground'
 import { useNavigate } from 'react-router-dom'
-import { TypesMembershipSpace } from '@harnessio/code-service-client'
+import { TypesSpace } from '@harnessio/code-service-client'
 import { useAppContext } from '../framework/context/AppContext'
 import { useGetSpaceURLParam } from '../framework/hooks/useGetSpaceParam'
 
@@ -9,34 +9,35 @@ export default function Header() {
   const navigate = useNavigate()
   const space = useGetSpaceURLParam()
   const { spaces } = useAppContext()
+  const [projects, setProjects] = useState<Project[]>([{ id: 'create-project', name: '+ Create a new project' }])
+  const [selectedProject, setSelectedProject] = useState<Project | undefined>(undefined)
 
-  const projectsItem =
-    spaces?.map((space: TypesMembershipSpace) => ({
-      id: space?.space?.id,
-      name: space?.space?.path
-    })) || []
+  useEffect(() => {
+    if (spaces.length > 0) {
+      setProjects((existingProjects: Project[]) => [
+        ...spaces.map((space: TypesSpace) => ({
+          id: space?.id,
+          name: space?.path
+        })),
+        ...existingProjects
+      ])
+    }
+  }, [spaces])
 
-  if (projectsItem.length === 0) {
-    return (
-      <Topbar.Root>
-        <Topbar.Left>
-          <Text size={2} weight="medium" className="text-primary">
-            Please create a new project
-          </Text>
-        </Topbar.Left>
-      </Topbar.Root>
-    )
-  }
+  useEffect(() => setSelectedProject(projects.find(item => item.name === space)), [space, projects])
 
   return (
     <TopBarWidget
-      projects={projectsItem}
-      onSelectProject={(selectedProject: Project) => {
-        if (selectedProject?.name) {
-          navigate(`/${selectedProject.name}/repos`)
+      projects={projects}
+      onSelectProject={(project: Project) => {
+        setSelectedProject(project)
+        if (project?.id === 'create-project') {
+          navigate('/create-project')
+        } else if (project?.name) {
+          navigate(`/${project.name}/repos`)
         }
       }}
-      preselectedProject={projectsItem.find(item => item.name === space)}
+      preselectedProject={selectedProject}
     />
   )
 }

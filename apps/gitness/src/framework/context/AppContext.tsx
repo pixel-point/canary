@@ -1,17 +1,17 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect, useLayoutEffect } from 'react'
 import {
   CodeServiceAPIClient,
-  TypesMembershipSpace,
   membershipSpaces,
   TypesSpace,
   TypesUser,
-  getUser
+  getUser,
+  MembershipSpacesOkResponse
 } from '@harnessio/code-service-client'
 import useToken from '../hooks/useToken'
 
 interface AppContextType {
-  spaces: TypesMembershipSpace[]
-  setSpaces: (spaces: TypesMembershipSpace[]) => void
+  spaces: TypesSpace[]
+  setSpaces: (spaces: TypesSpace[]) => void
   addSpaces: (newSpaces: TypesSpace[]) => void
   currentUser?: TypesUser
 }
@@ -22,7 +22,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined)
 
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { token } = useToken()
-  const [spaces, setSpaces] = useState<TypesMembershipSpace[]>([])
+  const [spaces, setSpaces] = useState<TypesSpace[]>([])
   const [currentUser, setCurrentUser] = useState<TypesUser>()
 
   useLayoutEffect(() => {
@@ -50,10 +50,12 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     if (token) {
       membershipSpaces({
         queryParams: { page: 1, limit: 10, sort: 'identifier', order: 'asc' }
-      }).then(response => {
-        setSpaces(response)
+      }).then((response: MembershipSpacesOkResponse) => {
+        if (response.length > 0) {
+          const spaceList = response.filter(item => item?.space).map(item => item.space as TypesSpace)
+          setSpaces(spaceList)
+        }
       })
-
       getUser({}).then(_currentUser => {
         setCurrentUser(_currentUser)
       })

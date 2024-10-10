@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   useCreateSpaceMutation,
   OpenapiCreateSpaceRequest,
@@ -6,12 +7,11 @@ import {
   CreateSpaceOkResponse
 } from '@harnessio/code-service-client'
 import { CreateProjectPage } from '@harnessio/playground'
-import { useNavigate } from 'react-router-dom'
 import { useAppContext } from '../framework/context/AppContext'
 
 export default function CreateProject() {
   const navigate = useNavigate()
-  const { addSpaces } = useAppContext() // Get the spaces and addSpace function from context
+  const { addSpaces } = useAppContext()
   const [apiError, setApiError] = useState<string | null>(null)
 
   // Set up the mutation hook with the form data
