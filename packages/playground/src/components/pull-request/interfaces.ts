@@ -17,6 +17,7 @@ export enum CommentType {
   TITLE_CHANGE = 'title-change',
   REVIEW_SUBMIT = 'review-submit',
   MERGE = 'merge',
+  REVIEW_DELETE = 'reviewer-delete',
   BRANCH_UPDATE = 'branch-update',
   BRANCH_DELETE = 'branch-delete',
   STATE_CHANGE = 'state-change'

@@ -269,6 +269,32 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
           isLast={isLast}
         />
       )
+    case CommentType.REVIEW_DELETE:
+      return (
+        <PullRequestTimelineItem
+          key={payload?.id} // Consider using a unique ID if available
+          header={[
+            {
+              avatar: (
+                <Avatar className="w-6 h-6 rounded-full p-0">
+                  <AvatarImage src={AvatarUrl} />
+
+                  <AvatarFallback>
+                    <Text size={1} color="tertiaryBackground">
+                      {/* TODO: fix fallback string */}
+                      {getInitials((payload?.author as PayloadAuthor)?.display_name || '')}
+                    </Text>
+                  </AvatarFallback>
+                </Avatar>
+              ),
+              name: (payload?.payload?.author as PayloadAuthor)?.display_name,
+              description: <Text color="tertiaryBackground">removed their request for review</Text>
+            }
+          ]}
+          icon={<Icon name="edit-pen" size={14} className="p-0.5" />}
+          isLast={isLast}
+        />
+      )
     default:
       console.warn('Unable to render system type activity', commentItems)
       return <Text color="tertiaryBackground">{type}</Text>
