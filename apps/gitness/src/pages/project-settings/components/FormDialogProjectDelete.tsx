@@ -18,7 +18,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 const projectDeleteSchema = z.object({
-  verification: z.string().min(1, { message: 'Please type the DELETE to verify' })
+  verification: z.string().min(1, { message: 'To double confirm, please type "DELETE".' })
 })
 
 type ProjectDeleteFields = z.infer<typeof projectDeleteSchema>
