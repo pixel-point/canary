@@ -82,7 +82,7 @@ function SandboxSettingsProjectGeneralPage({ onFormSubmit }: PageProps) {
   }
 
   // Watch the verification value
-  const verificationValue = watch('verification')
+  const verificationCheck = watch('verification')
 
   const typeCheck = (value: string) => {
     return value === 'DELETE'
@@ -250,7 +250,7 @@ function SandboxSettingsProjectGeneralPage({ onFormSubmit }: PageProps) {
                       theme="error"
                       className="self-start"
                       onClick={handleDelete}
-                      disabled={!typeCheck(verificationValue) || isDeleting}>
+                      disabled={!typeCheck(verificationCheck) || isDeleting}>
                       {isDeleting ? 'Deleting project...' : 'Yes, delete project'}
                     </Button>
                   )}
