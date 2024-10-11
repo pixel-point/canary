@@ -89,6 +89,7 @@ export const PullRequestChangesFilter: React.FC<FilterViewProps> = ({
     return items.map(itm => (
       <DropdownMenuItem
         key={itm.id}
+        disabled={isActiveUserPROwner}
         onClick={() => {
           submitReview?.(itm.method as PullReqReviewDecision)
         }}>

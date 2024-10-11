@@ -177,10 +177,9 @@ export enum ViewStyle {
 //
 export function parseStartingLineIfOne(diffString: string) {
   // Use a regular expression to find the hunk header in the diff string
-  const hunkHeaderMatch = diffString.match(/@@ -(\d+),\d+ \+\d+,\d+ @@/)
+  const hunkHeaderMatch = diffString.match(/@@ -(\d+),\d+ \+\d+(?:,\d+)? @@/)
   if (hunkHeaderMatch) {
     const startingLine = parseInt(hunkHeaderMatch[1]) // Convert the extracted string to an integer
-
     // Check if the starting line is 1
     if (startingLine === 1 || startingLine === 0) {
       return hunkHeaderMatch[0]
