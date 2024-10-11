@@ -30,7 +30,7 @@ const projectSettingsSchema = z.object({
 
 // Define form schema for delete confirmation
 const deleteConfirmationSchema = z.object({
-  verification: z.string().min(1, { message: 'Please type "DELETE" to verify' })
+  verification: z.string().min(1, { message: 'To double confirm, Please type "DELETE".' })
 })
 
 // TypeScript types for forms
@@ -99,11 +99,6 @@ function SandboxSettingsProjectGeneralPage() {
       }, 2000)
     }, 2000)
   }
-
-  // Debugging for save button state
-  console.log('Form isValid:', isValid)
-  console.log('Form isDirty:', isDirty)
-  console.log('Dirty fields:', dirtyFields)
 
   return (
     <SandboxLayout.Main hasLeftPanel hasHeader hasSubHeader>
