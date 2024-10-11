@@ -202,33 +202,35 @@ function SandboxSettingsProjectGeneralPage() {
                       This will permanently delete your project and remove all data. All repositories in this project
                       will also be deleted. This action cannot be undone.
                     </AlertDialogDescription>
-                    {/* DELETE VERIFICATION */}
-                    <FormFieldSet.Label htmlFor="verification" required>
-                      To confirm this, type “DELETE”
-                    </FormFieldSet.Label>
-                    <Input id="verification" {...registerDelete('verification')} placeholder="" />
-                    {deleteErrors.verification && (
-                      <FormFieldSet.Message theme={MessageTheme.ERROR}>
-                        {deleteErrors.verification.message?.toString()}
-                      </FormFieldSet.Message>
-                    )}
                   </AlertDialogHeader>
+
+                  <FormFieldSet.Label htmlFor="verification" required>
+                    To confirm this, type “DELETE”
+                  </FormFieldSet.Label>
+                  <Input id="verification" {...registerDelete('verification')} placeholder="" />
+                  {deleteErrors.verification && (
+                    <FormFieldSet.Message theme={MessageTheme.ERROR}>
+                      {deleteErrors.verification.message?.toString()}
+                    </FormFieldSet.Message>
+                  )}
+
                   <AlertDialogFooter>
-                    {!isDeleting && !deleteSuccess ? (
-                      <>
-                        <AlertDialogCancel onClick={() => setIsDialogOpen(false)}>Cancel</AlertDialogCancel>
-                        <Button
-                          size="default"
-                          theme="error"
-                          type="submit"
-                          disabled={verificationCheck !== 'DELETE' || isDeleting}>
-                          {isDeleting ? 'Deleting...' : 'Yes, delete project'}
-                        </Button>
-                      </>
-                    ) : (
+                    {!isDeleting && !deleteSuccess && (
+                      <AlertDialogCancel onClick={() => setIsDialogOpen(false)}>Cancel</AlertDialogCancel>
+                    )}
+                    {deleteSuccess ? (
                       <Button size="default" theme="success" className="self-start pointer-events-none">
                         Project deleted&nbsp;&nbsp;
                         <Icon name="tick" size={14} />
+                      </Button>
+                    ) : (
+                      <Button
+                        size="default"
+                        theme="error"
+                        className="self-start"
+                        onClick={handleDelete}
+                        disabled={verificationCheck !== 'DELETE' || isDeleting}>
+                        {isDeleting ? 'Deleting project...' : 'Yes, delete project'}
                       </Button>
                     )}
                   </AlertDialogFooter>
