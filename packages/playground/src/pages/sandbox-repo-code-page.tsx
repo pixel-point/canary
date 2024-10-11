@@ -89,33 +89,41 @@ function Sidebar() {
         {sidebarItems.map(itm =>
           itm.type === 'file' ? (
             <Link to="#">
-              <FileExplorer.FileItem key={itm.id.toString()}>{itm.name}</FileExplorer.FileItem>
+              <FileExplorer.FileItem key={itm.id.toString()} link="">
+                {itm.name}
+              </FileExplorer.FileItem>
             </Link>
           ) : (
             <FileExplorer.FolderItem
               key={itm.id.toString()}
               value={itm.id.toString()}
+              link=""
               // isActive={itm_idx === 3}
               content={
-                <FileExplorer.Root onValueChange={noop}>
+                <FileExplorer.Root onValueChange={noop} value={[]}>
                   {sidebarItems.map(itm =>
                     itm.type === 'file' ? (
                       <Link to="#">
-                        <FileExplorer.FileItem key={itm.id.toString()}>{itm.name}</FileExplorer.FileItem>
+                        <FileExplorer.FileItem key={itm.id.toString()} link="">
+                          {itm.name}
+                        </FileExplorer.FileItem>
                       </Link>
                     ) : (
                       <FileExplorer.FolderItem
                         key={itm.id.toString()}
                         value={itm.id.toString()}
+                        link=""
                         content={
-                          <FileExplorer.Root onValueChange={noop}>
+                          <FileExplorer.Root onValueChange={noop} value={[]}>
                             {sidebarItems.map(itm =>
                               itm.type === 'file' ? (
                                 <Link to="#">
-                                  <FileExplorer.FileItem key={itm.id.toString()}>{itm.name}</FileExplorer.FileItem>
+                                  <FileExplorer.FileItem key={itm.id.toString()} link="">
+                                    {itm.name}
+                                  </FileExplorer.FileItem>
                                 </Link>
                               ) : (
-                                <FileExplorer.FolderItem key={itm.id.toString()} value={itm.id.toString()}>
+                                <FileExplorer.FolderItem key={itm.id.toString()} value={itm.id.toString()} link="">
                                   {itm.name}
                                 </FileExplorer.FolderItem>
                               )
