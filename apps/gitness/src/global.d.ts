@@ -18,6 +18,10 @@ declare module 'monaco-editor/esm/vs/editor/standalone/browser/standaloneService
   }
 }
 
+declare interface Window {
+  apiUrl?: string
+}
+
 declare module 'lang-map' {
   const languages: { languages: (name: string) => string[] }
   export default languages
