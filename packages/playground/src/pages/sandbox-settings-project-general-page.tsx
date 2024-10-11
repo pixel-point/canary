@@ -9,9 +9,6 @@ import {
   Spacer,
   Text,
   Icon,
-  Avatar,
-  AvatarImage,
-  AvatarFallback,
   AlertDialog,
   AlertDialogTrigger,
   AlertDialogContent,
@@ -24,34 +21,29 @@ import {
 import { SandboxLayout, FormFieldSet } from '..'
 import { MessageTheme } from '../components/form-field-set'
 
-interface PageProps {
-  onFormSubmit: (data: InputProps) => void
-}
-interface InputProps {
-  projectName: string
-  identifier: string
-  projectURL: string
-}
-
 // Define form schema for Project Settings
 const projectSettingsSchema = z.object({
-  projectName: z.string().min(1, { message: 'Please provide a company name' }),
+  projectName: z.string().min(1, { message: 'Please provide a project name' }),
   identifier: z.string().min(1, { message: 'Please provide an identifier' }),
-  projectURL: z.string().url({ message: 'Please provide a valid URL' }),
-  verification: z.string().min(1, { message: 'Please type the DELETE to verify' })
+  projectURL: z.string().url({ message: 'Please provide a valid URL' })
 })
 
-// Define TypeScript type
-type ProjectSettingsFields = z.infer<typeof projectSettingsSchema>
+// Define form schema for delete confirmation
+const deleteConfirmationSchema = z.object({
+  verification: z.string().min(1, { message: 'Please type "DELETE" to verify' })
+})
 
-function SandboxSettingsProjectGeneralPage({ onFormSubmit }: PageProps) {
+// TypeScript types for forms
+type ProjectSettingsFields = z.infer<typeof projectSettingsSchema>
+type DeleteConfirmationFields = z.infer<typeof deleteConfirmationSchema>
+
+function SandboxSettingsProjectGeneralPage() {
   // Project Settings form handling
   const {
     register,
     handleSubmit,
     reset: resetProjectSettingsForm,
-    formState: { errors, isValid, dirtyFields },
-    watch
+    formState: { errors, isValid, dirtyFields, isDirty }
   } = useForm<ProjectSettingsFields>({
     resolver: zodResolver(projectSettingsSchema),
     mode: 'onChange',
@@ -64,11 +56,23 @@ function SandboxSettingsProjectGeneralPage({ onFormSubmit }: PageProps) {
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
-  const [isDeleting, setIsDeleting] = useState(false)
-  const [deleteSuccess, setDeleteSuccess] = useState(false) // State for successful deletion
-  const [isDialogOpen, setIsDialogOpen] = useState(false) // State to control alert dialog
 
-  // Form submit handler
+  // Delete confirmation form handling
+  const {
+    register: registerDelete,
+    handleSubmit: handleSubmitDelete,
+    watch: watchDelete,
+    formState: { errors: deleteErrors }
+  } = useForm<DeleteConfirmationFields>({
+    resolver: zodResolver(deleteConfirmationSchema),
+    mode: 'onChange'
+  })
+
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [deleteSuccess, setDeleteSuccess] = useState(false)
+  const [isDialogOpen, setIsDialogOpen] = useState(false) // Dialog state
+
+  // Form submit handler for project settings
   const onSubmit: SubmitHandler<ProjectSettingsFields> = data => {
     setIsSubmitting(true)
     setTimeout(() => {
@@ -78,15 +82,10 @@ function SandboxSettingsProjectGeneralPage({ onFormSubmit }: PageProps) {
       resetProjectSettingsForm(data) // Reset to the current values
       setTimeout(() => setSubmitted(false), 2000)
     }, 2000)
-    onFormSubmit(data)
   }
 
   // Watch the verification value
-  const verificationCheck = watch('verification')
-
-  const typeCheck = (value: string) => {
-    return value === 'DELETE'
-  }
+  const verificationCheck = watchDelete('verification')
 
   // Delete project handler
   const handleDelete = () => {
@@ -97,9 +96,14 @@ function SandboxSettingsProjectGeneralPage({ onFormSubmit }: PageProps) {
       setTimeout(() => {
         setIsDialogOpen(false) // Close the dialog
         window.location.href = '/' // Redirect to home page
-      }, 2000) // Redirect after 2 seconds
+      }, 2000)
     }, 2000)
   }
+
+  // Debugging for save button state
+  console.log('Form isValid:', isValid)
+  console.log('Form isDirty:', isDirty)
+  console.log('Dirty fields:', dirtyFields)
 
   return (
     <SandboxLayout.Main hasLeftPanel hasHeader hasSubHeader>
@@ -109,31 +113,9 @@ function SandboxSettingsProjectGeneralPage({ onFormSubmit }: PageProps) {
           Project Settings
         </Text>
         <Spacer size={6} />
+        {/* PROJECT SETTINGS FORM */}
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormFieldSet.Root>
-            {/* COMPANY LOGO */}
-            <FormFieldSet.ControlGroup className="w-auto flex flex-row gap-x-6 items-center justify-start">
-              <Avatar size="80" className="h-20 w-20 rounded-full bg-primary/[0.02] shadow-md">
-                <AvatarImage src="/images/company-logo.jpg" />
-                <AvatarFallback>
-                  <Text size={5} weight="medium" color="tertiaryBackground">
-                    A
-                  </Text>
-                </AvatarFallback>
-              </Avatar>
-              <FormFieldSet.ControlGroup>
-                <FormFieldSet.Label htmlFor="companyLogo">Company logo</FormFieldSet.Label>
-                <ButtonGroup.Root spacing="3">
-                  <Button variant="outline" size="sm">
-                    Upload
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    <Icon name="trash" size={14} />
-                  </Button>
-                </ButtonGroup.Root>
-              </FormFieldSet.ControlGroup>
-            </FormFieldSet.ControlGroup>
-
             {/* PROJECT NAME */}
             <FormFieldSet.ControlGroup>
               <FormFieldSet.Label htmlFor="projectName" required>
@@ -150,7 +132,7 @@ function SandboxSettingsProjectGeneralPage({ onFormSubmit }: PageProps) {
             {/* IDENTIFIER */}
             <FormFieldSet.ControlGroup>
               <FormFieldSet.Label htmlFor="identifier" required>
-                Description
+                Identifier
               </FormFieldSet.Label>
               <Input id="identifier" {...register('identifier')} placeholder="Enter unique identifier" />
               {errors.identifier && (
@@ -173,7 +155,7 @@ function SandboxSettingsProjectGeneralPage({ onFormSubmit }: PageProps) {
               )}
             </FormFieldSet.ControlGroup>
 
-            {/* SAVE CHANGES AND CANCEL BUTTONS */}
+            {/* SAVE BUTTON */}
             <FormFieldSet.ControlGroup type="button">
               <ButtonGroup.Root>
                 {!submitted ? (
@@ -181,7 +163,7 @@ function SandboxSettingsProjectGeneralPage({ onFormSubmit }: PageProps) {
                     <Button
                       size="sm"
                       type="submit"
-                      disabled={!isValid || isSubmitting || !Object.keys(dirtyFields).length}>
+                      disabled={!isValid || isSubmitting || !Object.keys(dirtyFields).length || !isDirty}>
                       {isSubmitting ? 'Saving...' : 'Save changes'}
                     </Button>
                     <Button size="sm" variant="outline" type="button" onClick={() => resetProjectSettingsForm()}>
@@ -203,62 +185,63 @@ function SandboxSettingsProjectGeneralPage({ onFormSubmit }: PageProps) {
           <FormFieldSet.Separator />
         </FormFieldSet.Root>
 
-        {/* DELETE PROJECT SETTINGS WITH ALERT DIALOG */}
-        <FormFieldSet.Root box shaded>
-          <FormFieldSet.Legend>Delete project</FormFieldSet.Legend>
-          <FormFieldSet.SubLegend>
-            This will permanently delete this project and all associated data. All repositories in it will also be
-            deleted. This action cannot be undone.
-          </FormFieldSet.SubLegend>
-          <FormFieldSet.ControlGroup>
-            <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-              <AlertDialogTrigger asChild>
-                <Button size="sm" theme="error" className="self-start" onClick={() => setIsDialogOpen(true)}>
-                  Delete project
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This will permanently delete your project and remove all data. All repositories in this project will
-                    also be deleted. This action cannot be undone.
-                  </AlertDialogDescription>
-                  {/* input delete verification */}
-                  <FormFieldSet.Label htmlFor="verification" required>
-                    To confirm this, type “DELETE”
-                  </FormFieldSet.Label>
-                  <Input id="verification" {...register('verification')} placeholder="" />
-                  {errors.projectName && (
-                    <FormFieldSet.Message theme={MessageTheme.ERROR}>
-                      {errors.projectName.message?.toString()}
-                    </FormFieldSet.Message>
-                  )}
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  {!isDeleting && !deleteSuccess && (
-                    <AlertDialogCancel onClick={() => setIsDialogOpen(false)}>Cancel</AlertDialogCancel>
-                  )}
-                  {deleteSuccess ? (
-                    <Button size="default" theme="success" className="self-start pointer-events-none">
-                      Project deleted&nbsp;&nbsp;
-                      <Icon name="tick" size={14} />
-                    </Button>
-                  ) : (
-                    <Button
-                      size="default"
-                      theme="error"
-                      className="self-start"
-                      onClick={handleDelete}
-                      disabled={!typeCheck(verificationCheck) || isDeleting}>
-                      {isDeleting ? 'Deleting project...' : 'Yes, delete project'}
-                    </Button>
-                  )}
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </FormFieldSet.ControlGroup>
-        </FormFieldSet.Root>
+        {/* DELETE PROJECT CONFIRMATION */}
+        <form onSubmit={handleSubmitDelete(handleDelete)}>
+          <FormFieldSet.Root box shaded>
+            <FormFieldSet.Legend>Delete project</FormFieldSet.Legend>
+            <FormFieldSet.SubLegend>
+              This will permanently delete this project and all associated data. All repositories in it will also be
+              deleted. This action cannot be undone.
+            </FormFieldSet.SubLegend>
+            <FormFieldSet.ControlGroup>
+              <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <AlertDialogTrigger asChild>
+                  <Button size="sm" theme="error" className="self-start" onClick={() => setIsDialogOpen(true)}>
+                    Delete project
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This will permanently delete your project and remove all data. All repositories in this project
+                      will also be deleted. This action cannot be undone.
+                    </AlertDialogDescription>
+                    {/* DELETE VERIFICATION */}
+                    <FormFieldSet.Label htmlFor="verification" required>
+                      To confirm this, type “DELETE”
+                    </FormFieldSet.Label>
+                    <Input id="verification" {...registerDelete('verification')} placeholder="" />
+                    {deleteErrors.verification && (
+                      <FormFieldSet.Message theme={MessageTheme.ERROR}>
+                        {deleteErrors.verification.message?.toString()}
+                      </FormFieldSet.Message>
+                    )}
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    {!isDeleting && !deleteSuccess ? (
+                      <>
+                        <AlertDialogCancel onClick={() => setIsDialogOpen(false)}>Cancel</AlertDialogCancel>
+                        <Button
+                          size="default"
+                          theme="error"
+                          type="submit"
+                          disabled={verificationCheck !== 'DELETE' || isDeleting}>
+                          {isDeleting ? 'Deleting...' : 'Yes, delete project'}
+                        </Button>
+                      </>
+                    ) : (
+                      <Button size="default" theme="success" className="self-start pointer-events-none">
+                        Project deleted&nbsp;&nbsp;
+                        <Icon name="tick" size={14} />
+                      </Button>
+                    )}
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </FormFieldSet.ControlGroup>
+          </FormFieldSet.Root>
+        </form>
       </SandboxLayout.Content>
     </SandboxLayout.Main>
   )
