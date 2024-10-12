@@ -84,7 +84,7 @@ function Sidebar() {
         </ButtonGroup.Root>
       </div>
       <SearchBox.Root width="full" placeholder="Search" />
-      <FileExplorer.Root onValueChange={noop}>
+      <FileExplorer.Root onValueChange={noop} value={[]}>
         {/* 2 nested levels of identical data for demo purposes */}
         {sidebarItems.map(itm =>
           itm.type === 'file' ? (
