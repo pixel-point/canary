@@ -3,7 +3,7 @@ import * as monaco from 'monaco-editor'
 import { PathSelector } from '../types/selectors'
 import { InlineAction } from '../types/inline-actions'
 import { getOutlineModel, processOutlineModel } from '../utils/outline-model-to-path'
-import { CommandArg, getCodeLens } from './utils'
+import { getCodeLens } from '../utils/codelens-utils'
 
 export function useCodeLenses<T>({
   editorRef,

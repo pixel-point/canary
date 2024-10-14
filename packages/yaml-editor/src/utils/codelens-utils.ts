@@ -13,6 +13,7 @@ export interface GetCodeLensProps<T> {
   inlineActions?: { selectors: PathSelector[]; actions: InlineAction<T>[] }[]
   commandId: string | any // TODO
 }
+
 export function getCodeLens<T>(props: GetCodeLensProps<T>) {
   const { pathSymbolMap, inlineActions = [], commandId } = props
 

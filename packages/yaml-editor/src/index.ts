@@ -29,3 +29,7 @@ export type { ContainsPathSelector, PathSelector }
 import { CodeEditor, CodeEditorProps } from './components/CodeEditor'
 export { CodeEditor }
 export type { CodeEditorProps }
+
+import { BlameEditor, BlameEditorProps } from './components/BlameEditor'
+export { BlameEditor }
+export type { BlameEditorProps }
