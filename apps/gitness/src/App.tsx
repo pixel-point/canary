@@ -12,8 +12,10 @@ import {
 import { TooltipProvider } from '@harnessio/canary'
 import { queryClient } from './framework/queryClient'
 import PipelineListPage from './pages/pipeline-list'
+import SandboxPipelinesPage from './pages/sandbox-pipeline-list'
 import { SignIn } from './pages/signin'
 import PullRequestListPage from './pages/pull-request-list-page'
+import PullRequestSandboxListPage from './pages/sandbox-pull-request-list-page'
 import ExecutionsListPage from './pages/execution-list'
 import ReposListPage from './pages/repo/repo-list'
 import PullRequestLayout from './layouts/PullRequestLayout'
@@ -23,21 +25,28 @@ import PipelineEditPage from './pages/pipeline-edit/pipeline-edit'
 import { LandingPage } from './pages/landing-page'
 import { AppProvider } from './framework/context/AppContext'
 import { RepoSummary } from './pages/repo/repo-summary'
+import { RepoSandboxSummaryList } from './pages/repo-sandbox/repo-sandbox-summary'
 import CreateProject from './pages/create-project'
 import { CreateRepo } from './pages/repo/repo-create-page'
 import { PipelineCreate } from './pages/pipeline-create/pipeline-create'
 import RepoCommitsPage from './pages/repo/repo-commits'
+import RepoSandboxCommitsPage from './pages/repo-sandbox/repo-sandbox-commits'
 import { Execution } from './pages/execution/execution-details'
 import RepoWebhooksListPage from './pages/repo/repo-webhooks'
+import RepoSandboxWebhooksListPage from './pages/repo-sandbox/repo-sandbox-webhooks'
 import { ReposBranchesListPage } from './pages/repo/repo-branch-list'
+import { RepoSandboxBranchesListPage } from './pages/repo-sandbox/repo-sandbox-branch-list'
 import PullRequestDataProvider from './pages/pull-request/context/pull-request-data-provider'
 import PullRequestConversationPage from './pages/pull-request/pull-request-conversation-page'
 import { RepoFiles } from './pages/repo/repo-files'
+import { RepoSandboxFiles } from './pages/repo-sandbox/repo-sandbox-files'
 import { SandboxRepoHeader } from './pages/repo-sandbox/repo-sandbox-header'
 import ReposSandboxListPage from './pages/repo-sandbox/repo-sandbox-list'
+import RepoSandboxLayout from './layouts/RepoSandboxLayout'
 import { SettingsProfileGeneralPage } from './pages/profile-settings/profile-settings-general-container'
 import { SettingsProfileKeysPage } from './pages/profile-settings/profile-settings-keys-container'
 import { FileViewer } from './components/FileViewer'
+import { SandboxFileViewer } from './components/SandboxFileViewer'
 import PullRequestChangesPage from './pages/pull-request/pull-request-changes-page'
 import { Logout } from './pages/logout'
 import { ProjectSettingsGeneralPage } from './pages/project-settings/project-settings-general-page'
@@ -54,10 +63,7 @@ export default function App() {
           path: ':spaceId/repos',
           element: <ReposListPage />
         },
-        {
-          path: ':spaceId/repos/create',
-          element: <CreateRepo />
-        },
+
         {
           path: ':spaceId/repos/:repoId',
           element: <RepoLayout />,
@@ -233,6 +239,69 @@ export default function App() {
             {
               path: ':spaceId/repos',
               element: <ReposSandboxListPage />
+            },
+            {
+              path: ':spaceId/repos/:repoId',
+              element: <RepoSandboxLayout />,
+              children: [
+                {
+                  index: true,
+                  element: <RepoSandboxSummaryList />
+                },
+                {
+                  path: 'summary',
+                  element: <RepoSandboxSummaryList />
+                },
+                {
+                  path: 'code',
+                  element: <RepoSandboxFiles />,
+                  children: [
+                    {
+                      index: true,
+                      element: <SandboxFileViewer />
+                    },
+                    {
+                      path: ':gitRef',
+                      element: <SandboxFileViewer />,
+                      children: [
+                        {
+                          index: true,
+                          element: <SandboxFileViewer />
+                        },
+                        {
+                          path: '~/:resourcePath*',
+                          element: <SandboxFileViewer />
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  path: 'pipelines',
+                  children: [
+                    {
+                      index: true,
+                      element: <SandboxPipelinesPage />
+                    }
+                  ]
+                },
+                {
+                  path: 'commits',
+                  element: <RepoSandboxCommitsPage />
+                },
+                {
+                  path: 'pull-requests',
+                  element: <PullRequestSandboxListPage />
+                },
+                {
+                  path: 'webhooks',
+                  element: <RepoSandboxWebhooksListPage />
+                },
+                {
+                  path: 'branches',
+                  element: <RepoSandboxBranchesListPage />
+                }
+              ]
             },
             {
               path: ':spaceId/repos/create',
