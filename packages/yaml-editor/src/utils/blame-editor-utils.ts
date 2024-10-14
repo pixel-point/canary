@@ -56,10 +56,13 @@ export function getMonacoEditorCommitCss({
   dateWidth: number
   avatarSize: number
 }) {
-  blameData
-
   let css = ''
   blameData.forEach(blameItem => {
+    const avatarUrl = blameItem.commitInfo.author.avatarUrl
+    const initials = blameItem.commitInfo.author.initials
+
+    const avatarBackgroundCss = avatarUrl ? `background: url('${blameItem.commitInfo.author.avatarUrl}');` : ''
+
     for (let lineNo = blameItem.fromLineNumber; lineNo <= blameItem.toLineNumber; lineNo++) {
       if (lineNo === blameItem.fromLineNumber) {
         css += `
@@ -72,14 +75,19 @@ export function getMonacoEditorCommitCss({
           }
 
           .monaco-editor-${instanceId} .view-line .blame-editor-commit-${lineNo}:after {
-            content: ' ';
+            content: '${initials ?? ' '}';
             position: absolute;
-            left: ${dateWidth + avatarSize}px;
-            top: 1px;
+            border-radius: 50%;
+            padding: 4px;
+            text-align: center;
+            background: #333333;
+            line-height: 17px;
+            left: ${dateWidth + 10}px;
+            top: -4px;
             color: gray;
             width: ${avatarSize}px;
             height: ${avatarSize}px;
-            background: url('${blameItem.commitInfo.author.avatarUrl}');
+            ${avatarBackgroundCss}
             background-size: 100% 100%;
           }`
       } else {

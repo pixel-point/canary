@@ -12,7 +12,7 @@ loader.config({ monaco })
 const BLAME_MESSAGE_WIDTH = 450
 const COMMIT_MESSAGE_LENGTH = 30
 const DATE_WIDTH = 140
-const AVATAR_SIZE = 16
+const AVATAR_SIZE = 24
 
 const LINE_NUMBERS_HOLDER_WIDTH = 46
 
@@ -63,11 +63,18 @@ export function BlameEditor<T>(props: BlameEditorProps<T>): JSX.Element {
     // separators
     if (showSeparators) {
       editor.changeViewZones(function (changeAccessor) {
+        // space before first line
+        changeAccessor.addZone({
+          afterLineNumber: 0,
+          heightInPx: 10,
+          domNode: document.createElement('div')
+        })
+
         blameData.forEach((blameItem, index) => {
           if (index !== blameData.length - 1) {
             const domNode = document.createElement('div')
             domNode.style.borderTop = '1px solid #333333'
-            domNode.style.marginTop = '10px'
+            domNode.style.marginTop = '9px'
             domNode.className = 'blame-editor-separator'
 
             changeAccessor.addZone({

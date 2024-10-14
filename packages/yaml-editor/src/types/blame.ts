@@ -16,5 +16,6 @@ export interface BlameItemCommitAuthor {
     email: string
   }
   when: string
-  avatarUrl: string
+  avatarUrl?: string
+  initials?: string
 }

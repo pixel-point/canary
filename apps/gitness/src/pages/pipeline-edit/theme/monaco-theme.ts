@@ -8,7 +8,7 @@ const harnessLightTheme = {
   colors: {}
 }
 
-const harnessDarkTheme = {
+const getHarnessDarkTheme = (options?: { isBlame?: boolean }) => ({
   base: 'vs-dark' as editor.BuiltinTheme,
   inherit: true,
   rules: [
@@ -36,14 +36,19 @@ const harnessDarkTheme = {
     //"editor.lineHighlightBackground": "", // current line highlight bg
     //"editorCursor.foreground": "", // cursor color
     'editorBracketHighlight.foreground1': '#E29B36', // square brackets
-    'editorLineNumber.foreground': '#303036', // line number color
+    'editorLineNumber.foreground': options?.isBlame ? '#787885' : '#303036', // line number color
     'editorLineNumber.activeForeground': '#CCCCCC' //active line number color
     // 'editorIndentGuide.background': '#439911', // WARN: this does not work
     // 'editorIndentGuide.activeBackground': '#129912' // WARN: this does not work
   }
-}
+})
 
 export const themes: ThemeDefinition[] = [
-  { themeName: 'dark', themeData: harnessDarkTheme },
+  { themeName: 'dark', themeData: getHarnessDarkTheme() },
+  { themeName: 'light', themeData: harnessLightTheme }
+]
+
+export const themesForBlame: ThemeDefinition[] = [
+  { themeName: 'dark', themeData: getHarnessDarkTheme({ isBlame: true }) },
   { themeName: 'light', themeData: harnessLightTheme }
 ]
