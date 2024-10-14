@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { SkeletonList, NoData, PaddingListLayout, BranchesList, Filter, useCommonFilter } from '@harnessio/playground'
 import {
   Button,
@@ -12,19 +13,18 @@ import {
   Spacer,
   Text
 } from '@harnessio/canary'
-import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
-import { usePagination } from '../../framework/hooks/usePagination'
 import {
   useListBranchesQuery,
   RepoBranch,
-  ListBranchesErrorResponse,
   useCalculateCommitDivergenceMutation,
   useFindRepositoryQuery,
   ListBranchesQueryQueryParams
 } from '@harnessio/code-service-client'
+import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
+import { usePagination } from '../../framework/hooks/usePagination'
 import { orderSortDate } from '../../types'
 import { timeAgoFromISOTime } from '../pipeline-edit/utils/time-utils'
-import { Link } from 'react-router-dom'
+import { NoSearchResults } from '../../../../../packages/playground/dist'
 
 const sortOptions = [
   { name: 'Date', value: 'date' },
@@ -43,62 +43,50 @@ export function ReposBranchesListPage() {
 
   const { sort, query } = useCommonFilter<ListBranchesQueryQueryParams['sort']>()
 
-  const {
-    isLoading,
-    data: brancheslistData,
-    isError
-  } = useListBranchesQuery(
-    {
-      queryParams: { page: currentPage, limit: 20, sort, query, order: orderSortDate.DESC, include_commit: true },
-      repo_ref: repoRef
-    },
-    {
-      onError: (error: ListBranchesErrorResponse) => {
-        console.error('Error BranchList', error)
-      }
-    }
-  )
+  const { isLoading, data: branches } = useListBranchesQuery({
+    queryParams: { page: currentPage, limit: 20, sort, query, order: orderSortDate.DESC, include_commit: true },
+    repo_ref: repoRef
+  })
 
   const { data: branchDivergence, mutate } = useCalculateCommitDivergenceMutation({
     repo_ref: repoRef
   })
 
   useEffect(() => {
-    if (brancheslistData?.length !== 0 && brancheslistData !== undefined) {
+    if (branches?.length !== 0 && branches !== undefined) {
       mutate({
         body: {
-          requests: brancheslistData?.map(branch => ({ from: branch.name, to: repoMetadata?.default_branch })) || []
+          requests: branches?.map(branch => ({ from: branch.name, to: repoMetadata?.default_branch })) || []
         }
       })
     }
-  }, [mutate, brancheslistData, repoMetadata?.default_branch])
+  }, [mutate, branches, repoMetadata?.default_branch])
 
-  const renderContent = (error?: ListBranchesErrorResponse) => {
-    if (isLoading) {
-      return <SkeletonList />
-    }
+  const renderListContent = () => {
+    if (isLoading) return <SkeletonList />
 
-    if (isError) {
-      return (
-        <div className="mt-40">
-          <NoData iconName="no-data-branches" title="Data not available" description={[`${error?.message}`]} />
-        </div>
-      )
-    }
-
-    if (brancheslistData?.length === 0 || brancheslistData === undefined) {
-      return (
-        <div className="mt-40">
-          <NoData
-            iconName="no-data-branches"
-            title="No branches yet"
-            description={[
-              "Your branches will appear here once they're created.",
-              'Start branching to see your work organized.'
-            ]}
-            primaryButton={{ label: 'Create new branch' }}
+    if (!branches?.length) {
+      if (query) {
+        return (
+          <NoSearchResults
+            iconName="no-search-magnifying-glass"
+            title="No search results"
+            description={['Check your spelling and filter options,', 'or search for a different keyword.']}
+            primaryButton={{ label: 'Clear search' }}
+            secondaryButton={{ label: 'Clear filters' }}
           />
-        </div>
+        )
+      }
+      return (
+        <NoData
+          iconName="no-data-branches"
+          title="No branches yet"
+          description={[
+            "Your branches will appear here once they're created.",
+            'Start branching to see your work organized.'
+          ]}
+          primaryButton={{ label: 'Create new branch' }}
+        />
       )
     }
 
@@ -113,7 +101,7 @@ export function ReposBranchesListPage() {
 
     return (
       <BranchesList
-        branches={brancheslistData?.map((branch: RepoBranch, index) => {
+        branches={branches?.map((branch: RepoBranch, index) => {
           const { ahead: branchAhead, behind: branchBehind } = behindAhead[index] || {}
           return {
             id: index,
@@ -134,25 +122,36 @@ export function ReposBranchesListPage() {
       />
     )
   }
+
+  const branchesExist = (branches?.length ?? 0) > 0
+
   return (
     <PaddingListLayout spaceTop={false}>
       <Spacer size={2} />
-      <Text size={5} weight={'medium'}>
-        Branches
-      </Text>
-      <Spacer size={6} />
-      <div className="flex justify-between gap-5 items-center">
-        <div className="flex-1">
-          <Filter sortOptions={sortOptions} />
-        </div>
-        <Button variant="default" asChild>
-          <Link to="create">Create Branch</Link>
-        </Button>
-      </div>
+      {/**
+       * Show if branches exist.
+       * Additionally, show if query(search) is applied.
+       */}
+      {(query || branchesExist) && (
+        <>
+          <Text size={5} weight={'medium'}>
+            Branches
+          </Text>
+          <Spacer size={6} />
+          <div className="flex justify-between gap-5 items-center">
+            <div className="flex-1">
+              <Filter sortOptions={sortOptions} />
+            </div>
+            <Button variant="default" asChild>
+              <Link to="create">Create Branch</Link>
+            </Button>
+          </div>
+        </>
+      )}
       <Spacer size={5} />
-      {renderContent()}
+      {renderListContent()}
       <Spacer size={8} />
-      {(brancheslistData?.length ?? 0) > 0 && (
+      {branchesExist && (
         <ListPagination.Root>
           <Pagination>
             <PaginationContent>

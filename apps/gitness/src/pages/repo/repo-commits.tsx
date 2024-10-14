@@ -72,28 +72,27 @@ export default function RepoCommitsPage() {
   const selectBranch = (branch: string) => {
     setSelectedBranch(branch)
   }
-  const renderContent = () => {
-    if (isFetchingCommits) {
-      return <SkeletonList />
-    }
+  const renderListContent = () => {
+    if (isFetchingCommits) return <SkeletonList />
+
     // @ts-expect-error remove "@ts-expect-error" once CodeServiceClient Response for useListCommitsQuery is fixed
-    if (commitData?.commits?.length) {
-      return (
-        <PullRequestCommits
-          // @ts-expect-error remove "@ts-expect-error" once CodeServiceClient Response for useListCommitsQuery is fixed
-          data={commitData?.commits.map((item: TypesCommit) => ({
-            sha: item.sha,
-            parent_shas: item.parent_shas,
-            title: item.title,
-            message: item.message,
-            author: item.author,
-            committer: item.committer
-          }))}
-        />
-      )
-    } else {
+    const commitsLists = commitData?.commits
+    if (!commitsLists?.length) {
       return <NoData iconName="no-data-folder" title="No commits yet" description={['There are no commits yet.']} />
     }
+
+    return (
+      <PullRequestCommits
+        data={commitsLists.map((item: TypesCommit) => ({
+          sha: item.sha,
+          parent_shas: item.parent_shas,
+          title: item.title,
+          message: item.message,
+          author: item.author,
+          committer: item.committer
+        }))}
+      />
+    )
   }
 
   return (
@@ -110,14 +109,14 @@ export default function RepoCommitsPage() {
             branchList={branches.map(item => ({
               name: item.name || ''
             }))}
-            selectBranch={branch => selectBranch(branch)}
+            selectBranch={(branch: string) => selectBranch(branch)}
           />
         )}
 
         <Filter showSearch={false} sortOptions={sortOptions} />
       </div>
       <Spacer size={5} />
-      {renderContent()}
+      {renderListContent()}
       <Spacer size={8} />
 
       <ListPagination.Root>

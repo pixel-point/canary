@@ -13,7 +13,15 @@ import {
   PaginationNext
 } from '@harnessio/canary'
 // import { NoSearchResults } from '../components/no-search-results'
-import { Filter, NoData, PaddingListLayout, SkeletonList, useCommonFilter, WebhooksList } from '@harnessio/playground'
+import {
+  Filter,
+  NoData,
+  PaddingListLayout,
+  SkeletonList,
+  useCommonFilter,
+  WebhooksList,
+  NoSearchResults
+} from '@harnessio/playground'
 import { useListWebhooksQuery } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { usePagination } from '../../framework/hooks/usePagination'
@@ -33,48 +41,64 @@ function RepoWebhooksListPage() {
   const { currentPage, previousPage, nextPage, handleClick } = usePagination(1, totalPages)
 
   const renderListContent = () => {
-    if (isFetching) {
-      return <SkeletonList />
-    }
-    if (webhooks?.length) {
-      return <WebhooksList webhooks={webhooks} LinkComponent={LinkComponent} />
-    } else {
+    if (isFetching) return <SkeletonList />
+
+    if (!webhooks?.length) {
+      if (query) {
+        return (
+          <NoSearchResults
+            iconName="no-search-magnifying-glass"
+            title="No search results"
+            description={['Check your spelling and filter options,', 'or search for a different keyword.']}
+            primaryButton={{ label: 'Clear search' }}
+            secondaryButton={{ label: 'Clear filters' }}
+          />
+        )
+      }
       return (
         <NoData
           insideTabView
           iconName="no-data-webhooks"
           title="No webhooks yet"
-          description={['There are no webhooks in this repository yet.', 'Create new or import an existing webhook.']}
+          description={['There are no webhooks in this repository yet.']}
           primaryButton={{ label: 'Create webhook' }}
-          secondaryButton={{ label: 'Import webhook' }}
         />
       )
     }
+
+    return <WebhooksList webhooks={webhooks} LinkComponent={LinkComponent} />
   }
+
+  const webhooksExist = (webhooks?.length ?? 0) > 0
 
   return (
     <>
       <PaddingListLayout spaceTop={false}>
         <Spacer size={2} />
-        <Text size={5} weight={'medium'}>
-          Webhooks
-        </Text>
-        <Spacer size={6} />
-
-        <div className="flex justify-between gap-5 items-center">
-          <div className="flex-1">
-            <Filter />
-          </div>
-          <Button variant="default" asChild>
-            <Link to="#">Create webhook</Link>
-          </Button>
-        </div>
-
+        {/**
+         * Show if webhooks exist.
+         * Additionally, show if query(search) is applied.
+         */}
+        {(query || webhooksExist) && (
+          <>
+            <Text size={5} weight={'medium'}>
+              Webhooks
+            </Text>
+            <Spacer size={6} />
+            <div className="flex justify-between gap-5 items-center">
+              <div className="flex-1">
+                <Filter />
+              </div>
+              <Button variant="default" asChild>
+                <Link to="#">Create webhook</Link>
+              </Button>
+            </div>
+          </>
+        )}
         <Spacer size={5} />
         {renderListContent()}
         <Spacer size={8} />
-
-        {(webhooks?.length ?? 0) > 0 && (
+        {webhooksExist && (
           <ListPagination.Root>
             <Pagination>
               <PaginationContent>

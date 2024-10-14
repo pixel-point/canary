@@ -17,7 +17,8 @@ import {
   PullRequestList,
   NoData,
   useCommonFilter,
-  Filter
+  Filter,
+  NoSearchResults
 } from '@harnessio/playground'
 import { ListPullReqQueryQueryParams, TypesPullReq, useListPullReqQuery } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
@@ -142,7 +143,18 @@ function PullRequestListPage() {
     if (isFetching) {
       return <SkeletonList />
     }
-    if (pullrequests?.length === 0) {
+    if (!pullrequests?.length) {
+      if (query) {
+        return (
+          <NoSearchResults
+            iconName="no-search-magnifying-glass"
+            title="No search results"
+            description={['Check your spelling and filter options,', 'or search for a different keyword.']}
+            primaryButton={{ label: 'Clear search' }}
+            secondaryButton={{ label: 'Clear filters' }}
+          />
+        )
+      }
       return (
         <NoData
           insideTabView
@@ -150,10 +162,7 @@ function PullRequestListPage() {
           title="No Pull Requests yet"
           description={['There are no pull requests in this repository yet.']}
           primaryButton={{
-            label: 'Create pull requests'
-          }}
-          secondaryButton={{
-            label: 'Import pull requests'
+            label: 'Open a pull request'
           }}
         />
       )
@@ -180,28 +189,36 @@ function PullRequestListPage() {
     )
   }
 
+  const pullRequestsExist = (pullrequests?.length ?? 0) > 0
+
   return (
     <>
       <PaddingListLayout spaceTop={false}>
         <Spacer size={2} />
-        <Text size={5} weight={'medium'}>
-          Pull Requests
-        </Text>
-        <Spacer size={6} />
-
-        <div className="flex justify-between gap-5 items-center">
-          <div className="flex-1">
-            <Filter sortOptions={SortOptions} />
-          </div>
-          <Button variant="default" asChild>
-            <Link to="#">New pull request</Link>
-          </Button>
-        </div>
-
+        {/**
+         * Show if pull requests exist.
+         * Additionally, show if query(search) is applied.
+         */}
+        {(query || pullRequestsExist) && (
+          <>
+            <Text size={5} weight={'medium'}>
+              Pull Requests
+            </Text>
+            <Spacer size={6} />
+            <div className="flex justify-between gap-5 items-center">
+              <div className="flex-1">
+                <Filter sortOptions={SortOptions} />
+              </div>
+              <Button variant="default" asChild>
+                <Link to="#">New pull request</Link>
+              </Button>
+            </div>
+          </>
+        )}
         <Spacer size={5} />
         {renderListContent()}
         <Spacer size={8} />
-        {(pullrequests?.length ?? 0) > 0 && (
+        {pullRequestsExist && (
           <ListPagination.Root>
             <Pagination>
               <PaginationContent>
