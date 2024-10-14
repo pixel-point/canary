@@ -1,23 +1,15 @@
 import React from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Text } from '@harnessio/canary'
 import { Icon } from '@harnessio/canary'
-import { timeAgo } from '../utils/utils'
-
-export interface TokensList {
-  principal_id?: number
-  type?: string
-  identifier?: string
-  expires_at?: number
-  issued_at?: number
-  created_by?: number
-  uid?: string
-}
+import { timeAgo } from '../../utils/utils'
+import { TokensList } from './types'
 
 interface PageProps {
   tokens: TokensList[]
+  openAlertDeleteDialog: (params: { identifier: string; type: string }) => void
 }
 
-export const ProfileTokensList: React.FC<PageProps> = ({ tokens }) => {
+export const ProfileTokensList: React.FC<PageProps> = ({ tokens, openAlertDeleteDialog }) => {
   return (
     <Table variant="asStackedList">
       <TableHeader>
@@ -45,8 +37,12 @@ export const ProfileTokensList: React.FC<PageProps> = ({ tokens }) => {
               <TableCell>{token.expires_at ? new Date(token.expires_at).toLocaleString() : 'No Expiration'}</TableCell>
               <TableCell>{timeAgo(new Date(token.issued_at!).getTime())}</TableCell>
               <TableCell className="content-center">
-                <div className="flex gap-1.5 items-center justify-end">
-                  <Icon name="vertical-ellipsis" size={14} className="text-tertiary-background" />
+                <div
+                  className="flex gap-1.5 items-center justify-end cursor-pointer"
+                  onClick={() => {
+                    openAlertDeleteDialog({ identifier: token.identifier!, type: 'token' })
+                  }}>
+                  <Icon name="trash" size={14} className="text-tertiary-background" />
                 </div>
               </TableCell>
             </TableRow>

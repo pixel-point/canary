@@ -14,7 +14,7 @@ import {
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { FormFieldSet } from '../index'
+import { FormFieldSet } from '../../index'
 
 const formSchema = z.object({
   identifier: z.string().min(1, { message: 'Please provide a name' }),
@@ -112,7 +112,11 @@ export function TokenCreateForm() {
               </SelectTrigger>
               <SelectContent>
                 {expirationOptions.map(expirationOption => {
-                  return <SelectItem value={expirationOption.value}>{expirationOption.label}</SelectItem>
+                  return (
+                    <SelectItem key={expirationOption.value} value={expirationOption.value}>
+                      {expirationOption.label}
+                    </SelectItem>
+                  )
                 })}
               </SelectContent>
             </Select>

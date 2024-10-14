@@ -8,12 +8,14 @@ import {
   ProfileTokensList,
   TokensList
 } from '@harnessio/playground'
+import { AlertDeleteParams } from './profile-settings-keys-container'
 
 interface SandboxSettingsAccountKeysPageProps {
   publicKeys: KeysList[]
   tokens: TokensList[]
   openTokenDialog: () => void
   openSshKeyDialog: () => void
+  openAlertDeleteDialog: (data: AlertDeleteParams) => void
   error: { type: string; message: string } | null
 }
 const SandboxSettingsAccountKeysPage: React.FC<SandboxSettingsAccountKeysPageProps> = ({
@@ -21,6 +23,7 @@ const SandboxSettingsAccountKeysPage: React.FC<SandboxSettingsAccountKeysPagePro
   tokens,
   openTokenDialog,
   openSshKeyDialog,
+  openAlertDeleteDialog,
   error
 }) => {
   return (
@@ -44,7 +47,9 @@ const SandboxSettingsAccountKeysPage: React.FC<SandboxSettingsAccountKeysPagePro
             </FormFieldSet.Legend>
             <FormFieldSet.ControlGroup>
               <>
-                {(!error || error.type !== 'tokenFetch') && <ProfileTokensList tokens={tokens} />}
+                {(!error || error.type !== 'tokenFetch') && (
+                  <ProfileTokensList tokens={tokens} openAlertDeleteDialog={openAlertDeleteDialog} />
+                )}
                 {error && error.type === 'tokenFetch' && (
                   <>
                     <Spacer size={2} />
@@ -72,7 +77,9 @@ const SandboxSettingsAccountKeysPage: React.FC<SandboxSettingsAccountKeysPagePro
             </FormFieldSet.SubLegend>
             <FormFieldSet.ControlGroup>
               <>
-                {(!error || error.type !== 'keyFetch') && <ProfileKeysList publicKeys={publicKeys} />}
+                {(!error || error.type !== 'keyFetch') && (
+                  <ProfileKeysList publicKeys={publicKeys} openAlertDeleteDialog={openAlertDeleteDialog} />
+                )}
                 {error && error.type === 'keyFetch' && (
                   <>
                     <Spacer size={2} />
