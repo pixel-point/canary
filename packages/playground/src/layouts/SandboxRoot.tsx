@@ -4,6 +4,7 @@ import { Link, NavLink, Outlet } from 'react-router-dom'
 import { Icon, IconProps, Navbar, NavbarProjectChooser, NavbarUser } from '@harnessio/canary'
 import { MoreSubmenu } from '../components/more-submenu'
 import { navbarSubmenuData } from '../data/mockNavbarSubmenuData'
+import { TypesUser } from './types'
 
 interface NavbarItem {
   id: number
@@ -13,7 +14,11 @@ interface NavbarItem {
   to?: string
 }
 
-export const SandboxRoot: React.FC = () => {
+interface SandboxRootProps {
+  currentUser: TypesUser | undefined
+}
+
+export const SandboxRoot: React.FC<SandboxRootProps> = ({ currentUser }) => {
   const [showMore, setShowMore] = useState<boolean>(false)
 
   const primaryMenuItems = [
@@ -171,7 +176,11 @@ export const SandboxRoot: React.FC = () => {
           </Navbar.Content>
           <Navbar.Footer>
             <NavLink to="/sandbox/settings/profile/general" className="p-2 hover:bg-tertiary">
-              <NavbarUser.Root />
+              <NavbarUser.Root
+                username={currentUser ? currentUser.display_name : 'Steven M.'}
+                isAdmin={currentUser ? currentUser.admin : false}
+                url={currentUser ? undefined : '../images/user-avatar.svg'}
+              />
             </NavLink>
           </Navbar.Footer>
         </Navbar.Root>
