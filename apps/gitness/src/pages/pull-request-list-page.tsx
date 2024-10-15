@@ -34,6 +34,8 @@ const SortOptions = [
   { name: 'Updated', value: 'updated' }
 ] as const satisfies DropdownItemProps[]
 
+const colorArr = ['mint', 'yellow', 'red', 'blue', 'purple']
+
 function PullRequestListPage() {
   // hardcoded
   const totalPages = 10
@@ -111,14 +113,12 @@ function PullRequestListPage() {
           merger: {},
           stats: { commits: 1, files_changed: 1, additions: 1, deletions: 0, conversations: 2 },
           labels: [
-            { id: 1, key: 'P0', color: 'red', scope: 1, value_count: 0 },
+            { id: 1, key: 'P0', color: 'red', value_count: 0 },
             {
               id: 2,
               key: 'P1',
               color: 'red',
-              scope: 0,
               value_count: 5,
-              value_id: 5,
               value: 'asdsa',
               value_color: 'red'
             },
@@ -126,9 +126,7 @@ function PullRequestListPage() {
               id: 3,
               key: 'teststringssdsjakteststringssdsjakteststringssdsj',
               color: 'blue',
-              scope: 0,
               value_count: 1,
-              value_id: 2,
               value: 'teststringssdsjakteststringssdsjak',
               value_color: 'blue'
             }
@@ -174,16 +172,21 @@ function PullRequestListPage() {
           author: item?.author?.display_name,
           name: item?.title,
           // TODO: fix review required when its actually there
-          reviewRequired: true,
+          reviewRequired: !item?.is_draft,
           merged: item.merged,
           comments: item.stats?.conversations,
           number: item?.number,
+          is_draft: item?.is_draft,
           // TODO: add label information to display associated labels for each pull request
           // labels: item?.labels?.map((key: string, color: string) => ({ text: key, color: color })),
           // TODO: fix 2 hours ago in timestamp
           timestamp: item?.created ? timeAgoFromEpochTime(item?.created) : '',
           source_branch: item?.source_branch,
-          state: item?.state
+          state: item?.state,
+          labels: item?.labels?.map((label, index) => ({
+            text: label?.key && label?.value ? `${label?.key}:${label?.value}` : (label.key ?? ''),
+            color: colorArr[index % colorArr.length]
+          }))
         }))}
       />
     )

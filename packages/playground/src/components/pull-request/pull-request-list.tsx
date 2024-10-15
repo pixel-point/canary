@@ -3,6 +3,7 @@ import React, { useMemo, useState } from 'react'
 import cx from 'classnames'
 
 interface PullRequestProps {
+  is_draft?: boolean
   merged: number | null | undefined // TODO: Should merged really be all these??
   name: string | undefined
   number?: number
@@ -85,33 +86,53 @@ const Title = ({
   success,
   title,
   labels,
-  state
+  state,
+  isDraft,
+  comments
 }: {
+  isDraft?: boolean
   state?: string
   success: boolean
   title: string
+  comments?: number
   labels: { text: string; color: string }[]
 }) => {
   return (
     <div className="flex gap-2 items-center">
-      <Icon
-        size={16}
-        className={cx({ 'text-success': state === 'open' })}
-        name={state === 'open' ? 'pr-open' : success ? 'pr-merge' : state === 'closed' ? 'pr-closed' : 'pr-draft'}
-      />
+      <div className="flex gap-2 flex-wrap justify-start">
+        <Icon
+          size={16}
+          className={cx({
+            'text-success': state === 'open' && !isDraft,
+            'text-tertiary-background': state === 'open' && isDraft,
+            'text-ai': success
+          })}
+          name={
+            state === 'open' && isDraft
+              ? 'pr-draft'
+              : success
+                ? 'pr-merge'
+                : state === 'closed'
+                  ? 'pr-closed'
+                  : 'pr-open'
+          }
+        />
 
-      <Text size={2} truncate>
-        {title}
-      </Text>
-      {labels &&
-        labels.map((l, l_idx) => {
-          const { border, text, bg } = colorMapping[l.color] || { border: '', text: '' }
-          return (
-            <Badge key={l_idx} variant="outline" size={'sm'} borderRadius="full" className={cn(border, text, bg)}>
-              <p className="truncate">{l.text}</p>
-            </Badge>
-          )
-        })}
+        <Text size={2} truncate>
+          {title}
+        </Text>
+
+        {labels &&
+          labels.map((l, l_idx) => {
+            const { border, text, bg } = colorMapping[l.color] || { border: '', text: '' }
+            return (
+              <Badge key={l_idx} variant="outline" size={'sm'} borderRadius="full" className={cn(border, text, bg)}>
+                <p className="truncate max-w-[376px]">{l.text}</p>
+              </Badge>
+            )
+          })}
+      </div>
+      {comments && <StackedList.Field title={<Comments comments={comments} />} right label secondary />}
     </div>
   )
 }
@@ -206,10 +227,12 @@ export function PullRequestList({ pullRequests, LinkComponent }: PageProps) {
                       title={
                         pullRequest.name && (
                           <Title
+                            isDraft={pullRequest.is_draft}
                             state={pullRequest.state}
                             success={pullRequest.merged ? true : false}
                             title={pullRequest.name}
                             labels={pullRequest.labels || []}
+                            comments={pullRequest.comments}
                           />
                         )
                       }
@@ -226,9 +249,6 @@ export function PullRequestList({ pullRequests, LinkComponent }: PageProps) {
                         )
                       }
                     />
-                    {pullRequest.comments && (
-                      <StackedList.Field title={<Comments comments={pullRequest.comments} />} right label secondary />
-                    )}
                   </>
                 )}
               </StackedList.Item>
