@@ -1,27 +1,33 @@
 import { useState } from 'react'
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
 import { useAppContext } from '../../framework/context/AppContext'
+import { NoData } from '@harnessio/playground'
 import {
-  OpenapiUpdateSpaceRequest,
   TypesSpace,
   useUpdateSpaceMutation,
   useDeleteSpaceMutation,
+  UpdateSpaceOkResponse,
+  DeleteSpaceOkResponse,
   UpdateSpaceErrorResponse,
-  DeleteSpaceErrorResponse
+  DeleteSpaceErrorResponse,
+  UpdateSpaceRequestBody
 } from '@harnessio/code-service-client'
 import { ProjectSettingsSandboxPage } from './project-settings-sandbox-page'
 import { redirect } from 'react-router-dom'
 
+type spaceData = {
+  identifier: string
+  description: string
+}
+
 export const ProjectSettingsGeneralPage = () => {
-  const [isDeleteSuccess, setIsDeleteSuccess] = useState(false)
-  const [isDeleting, setIsDeleting] = useState(false)
   const spaceId = useGetSpaceURLParam()
   const { spaces } = useAppContext()
   const space = spaces.find((space: TypesSpace) => space?.identifier === spaceId)
   const [updateError, setUpdateError] = useState<string | null>(null)
   const [deleteError, setDeleteError] = useState<string | null>(null)
 
-  const spaceData = {
+  const spaceData: spaceData = {
     identifier: space?.identifier ?? '',
     description: space?.description ?? ''
   }
@@ -31,8 +37,9 @@ export const ProjectSettingsGeneralPage = () => {
       space_ref: space?.path
     },
     {
-      onSuccess: data => {
+      onSuccess: (data: UpdateSpaceOkResponse) => {
         if (space) {
+          setUpdateError('')
           space.description = data?.description
         }
         redirect('/')
@@ -44,8 +51,8 @@ export const ProjectSettingsGeneralPage = () => {
     }
   )
 
-  const handleUpdateDescription = (descriptionData: OpenapiUpdateSpaceRequest) => {
-    const requestBody: OpenapiUpdateSpaceRequest = {
+  const handleUpdateDescription = (descriptionData: UpdateSpaceRequestBody) => {
+    const requestBody: UpdateSpaceRequestBody = {
       description: descriptionData?.description
     }
 
@@ -74,13 +81,11 @@ export const ProjectSettingsGeneralPage = () => {
       space_ref: space?.path
     },
     {
-      onSuccess: () => {
-        setIsDeleting(true)
-        setTimeout(() => {
-          setIsDeleting(false)
-          setIsDeleteSuccess(true) // Mark deletion as successful
+      onSuccess: (data: DeleteSpaceOkResponse) => {
+        if (data) {
+          setDeleteError(null)
           window.location.href = '/'
-        }, 2000)
+        }
       },
       onError: (error: DeleteSpaceErrorResponse) => {
         const deleteErrorMsg = error?.message || 'An unknown error occurred.'
@@ -93,21 +98,36 @@ export const ProjectSettingsGeneralPage = () => {
     deleteSpaceMutation.mutate(
       { space_ref: space?.path },
       {
-        onSettled: () => setIsDeleting(false) // Ensure isDeleting is reset after the mutation completes
+        onSuccess: () => {
+          setDeleteError(null)
+          window.location.href = '/'
+        }
       }
     )
   }
 
-  return (
-    <ProjectSettingsSandboxPage
-      spaceData={spaceData}
-      onFormSubmit={handleFormSubmit}
-      onHandleDescription={handleDescriptionChange}
-      handleDeleteProject={handleDeleteProject}
-      isDeleteSuccess={isDeleteSuccess}
-      isDeleting={isDeleting}
-      updateError={updateError}
-      deleteError={deleteError}
-    />
-  )
+  const renderContent = (space: spaceData) => {
+    if (space?.identifier === '') {
+      return (
+        <NoData iconName="no-data-folder" title="No project found" description={['There are no projects found.']} />
+      )
+    } else {
+      return (
+        <ProjectSettingsSandboxPage
+          spaceData={spaceData}
+          onFormSubmit={handleFormSubmit}
+          onHandleDescription={handleDescriptionChange}
+          handleDeleteProject={handleDeleteProject}
+          isUpdating={updateDescription.isLoading}
+          isDeleting={deleteSpaceMutation.isLoading}
+          isUpateSuccess={updateDescription.isSuccess}
+          isDeleteSuccess={deleteSpaceMutation.isSuccess}
+          updateError={updateError}
+          deleteError={deleteError}
+        />
+      )
+    }
+  }
+
+  return <>{renderContent(spaceData)}</>
 }

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Button, ButtonGroup, Input, Spacer, Text, Icon } from '@harnessio/canary'
-import { SandboxLayout, FormFieldSet, MessageTheme } from '@harnessio/playground'
+import { SandboxLayout, FormFieldSet } from '@harnessio/playground'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FormDialogProjectDelete } from './components/FormDialogProjectDelete'
+import { FormDialogProjectDelete } from './components/form-dialog-project-delete'
 
 interface PageProps {
   spaceData: InputProps
@@ -13,6 +13,8 @@ interface PageProps {
   handleDeleteProject: () => void
   isDeleteSuccess: boolean
   isDeleting: boolean
+  isUpdating: boolean
+  isUpateSuccess: boolean
   updateError: string | null
   deleteError: string | null
 }
@@ -31,11 +33,13 @@ const projectSettingsSchema = z.object({
 type ProjectSettingsFields = z.infer<typeof projectSettingsSchema>
 
 export const ProjectSettingsSandboxPage = ({
-  onFormSubmit,
   spaceData,
+  onFormSubmit,
   handleDeleteProject,
-  isDeleteSuccess,
   isDeleting,
+  isUpdating,
+  isDeleteSuccess,
+  isUpateSuccess,
   updateError,
   deleteError
 }: PageProps) => {
@@ -45,6 +49,7 @@ export const ProjectSettingsSandboxPage = ({
     handleSubmit,
     // TODO: will use this to reset the form after api call has projectName
     // reset: resetProjectSettingsForm,
+    reset,
     resetField,
     setValue,
     formState: { errors, isValid, isDirty }
@@ -57,27 +62,37 @@ export const ProjectSettingsSandboxPage = ({
     }
   })
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [prodescription, setProDescription] = useState(spaceData?.description)
   const [isCancelDisabled, setIsCancelDisabled] = useState(true)
 
-  const isSaveButtonDisabled = !isValid || isSubmitting || !isDirty
+  const isSaveButtonDisabled = submitted || !isValid || !isDirty || isUpdating
 
   // Form submit handler
   const onSubmit: SubmitHandler<ProjectSettingsFields> = formData => {
-    setIsSubmitting(true)
-
-    setTimeout(() => {
-      setIsSubmitting(false)
-      setSubmitted(true)
-      // TODO:will use this to reset the form after api call has projectName
-      // resetProjectSettingsForm(formData)
-      setTimeout(() => setSubmitted(false), 2000)
-    }, 2000)
-
     onFormSubmit(formData)
   }
+
+  useEffect(() => {
+    if (isUpateSuccess) {
+      setSubmitted(true)
+      setIsCancelDisabled(true)
+
+      // After 1 second, reset the submitted state and make the button clickable again
+      const timer = setTimeout(() => {
+        setSubmitted(false)
+      }, 1000) // Reset after 1 seconds
+
+      reset({
+        // Reset form to current values, so the button stays clickable if user makes changes
+        identifier: spaceData.identifier,
+        description: prodescription
+      })
+
+      return () => clearTimeout(timer)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isUpateSuccess])
 
   useEffect(() => {
     setValue('description', spaceData?.description ?? '')
@@ -93,6 +108,7 @@ export const ProjectSettingsSandboxPage = ({
     const newDescription = e.target.value
     setProDescription(newDescription)
     setValue('description', newDescription, { shouldValidate: true, shouldDirty: true })
+    setSubmitted(false)
     setIsCancelDisabled(false)
   }
 
@@ -128,7 +144,7 @@ export const ProjectSettingsSandboxPage = ({
                 //wait for the api call to update the project name
               />
               {errors.identifier && (
-                <FormFieldSet.Message theme={MessageTheme.ERROR}>
+                <FormFieldSet.Message theme={FormFieldSet.MessageTheme.ERROR}>
                   {errors.identifier.message?.toString()}
                 </FormFieldSet.Message>
               )}
@@ -147,12 +163,16 @@ export const ProjectSettingsSandboxPage = ({
                 onChange={handleDescriptionInputChange}
               />
               {errors.description && (
-                <FormFieldSet.Message theme={MessageTheme.ERROR}>
+                <FormFieldSet.Message theme={FormFieldSet.MessageTheme.ERROR}>
                   {errors.description.message?.toString()}
                 </FormFieldSet.Message>
               )}
-              {updateError && <FormFieldSet.Message theme={MessageTheme.ERROR}>{updateError}</FormFieldSet.Message>}
-              {deleteError && <FormFieldSet.Message theme={MessageTheme.ERROR}>{deleteError}</FormFieldSet.Message>}
+              {updateError && (
+                <FormFieldSet.Message theme={FormFieldSet.MessageTheme.ERROR}>{updateError}</FormFieldSet.Message>
+              )}
+              {deleteError && (
+                <FormFieldSet.Message theme={FormFieldSet.MessageTheme.ERROR}>{deleteError}</FormFieldSet.Message>
+              )}
             </FormFieldSet.ControlGroup>
 
             {/*BUTTON CONTROL: SAVE & CANCEL*/}
@@ -165,22 +185,19 @@ export const ProjectSettingsSandboxPage = ({
                       type="submit"
                       disabled={isSaveButtonDisabled}
                       className={`${
-                        isSubmitting
+                        isUpdating
                           ? 'cursor-wait'
                           : isSaveButtonDisabled
                             ? 'cursor-not-allowed opacity-50'
                             : 'cursor-pointer'
-                      }`}
-                      style={{ pointerEvents: isSaveButtonDisabled || isSubmitting ? 'initial' : 'auto' }}>
-                      {isSubmitting ? 'Saving...' : 'Save changes'}
+                      }`}>
+                      {isUpdating ? 'Saving...' : 'Save changes'}
                     </Button>
                     <Button
                       size="sm"
                       variant="outline"
                       type="button"
                       onClick={handleCancel}
-                      className={`${isCancelDisabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
-                      style={{ pointerEvents: isCancelDisabled ? 'initial' : 'auto' }}
                       disabled={isCancelDisabled}>
                       Cancel
                     </Button>
@@ -205,6 +222,7 @@ export const ProjectSettingsSandboxPage = ({
           handleDeleteProject={handleDeleteProject}
           isDeleteSuccess={isDeleteSuccess}
           isDeleting={isDeleting}
+          deleteError={deleteError}
         />
       </SandboxLayout.Content>
     </SandboxLayout.Main>

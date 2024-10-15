@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Button,
   Input,
@@ -12,7 +12,7 @@ import {
   AlertDialogFooter,
   AlertDialogCancel
 } from '@harnessio/canary'
-import { FormFieldSet, MessageTheme } from '@harnessio/playground'
+import { FormFieldSet } from '@harnessio/playground'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -27,9 +27,15 @@ interface FormProjDeleteProps {
   handleDeleteProject: () => void
   isDeleteSuccess: boolean
   isDeleting: boolean
+  deleteError: string | null
 }
 //delete project form with dialog
-export const FormDialogProjectDelete = ({ handleDeleteProject, isDeleteSuccess, isDeleting }: FormProjDeleteProps) => {
+export const FormDialogProjectDelete = ({
+  handleDeleteProject,
+  isDeleteSuccess,
+  isDeleting,
+  deleteError
+}: FormProjDeleteProps) => {
   const {
     register,
     formState: { errors },
@@ -48,12 +54,13 @@ export const FormDialogProjectDelete = ({ handleDeleteProject, isDeleteSuccess, 
 
   const handleDelete = () => {
     handleDeleteProject()
-    if (isDeleteSuccess) {
-      setTimeout(() => {
-        setIsDialogOpen(false) // Close the dialog
-      }, 2000) // Redirect after 2 seconds
-    }
   }
+
+  useEffect(() => {
+    if (isDeleteSuccess) {
+      setIsDialogOpen(false) // Close the dialog
+    }
+  }, [isDeleteSuccess])
 
   return (
     <FormFieldSet.Root box shaded>
@@ -82,9 +89,12 @@ export const FormDialogProjectDelete = ({ handleDeleteProject, isDeleteSuccess, 
               </FormFieldSet.Label>
               <Input id="verification" {...register('verification')} placeholder="" />
               {errors.verification && (
-                <FormFieldSet.Message theme={MessageTheme.ERROR}>
+                <FormFieldSet.Message theme={FormFieldSet.MessageTheme.ERROR}>
                   {errors.verification.message?.toString()}
                 </FormFieldSet.Message>
+              )}
+              {deleteError && (
+                <FormFieldSet.Message theme={FormFieldSet.MessageTheme.ERROR}>{deleteError}</FormFieldSet.Message>
               )}
             </AlertDialogHeader>
             <AlertDialogFooter>
