@@ -5,13 +5,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Floating1ColumnLayout } from '../layouts/Floating1ColumnLayout'
 import { noop } from 'lodash-es'
+import { Link } from 'react-router-dom'
 
 interface PageProps {
-  handleSignUp?: () => void
   isLoading?: boolean
 }
 
-export interface DataProps {
+export interface ForgotPasswordDataProps {
   email?: string
 }
 
@@ -19,7 +19,7 @@ const forgotPasswordSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' })
 })
 
-export function ForgotPasswordPage({ handleSignUp, isLoading }: PageProps) {
+export function ForgotPasswordPage({ isLoading }: PageProps) {
   const {
     register,
     handleSubmit,
@@ -69,9 +69,9 @@ export function ForgotPasswordPage({ handleSignUp, isLoading }: PageProps) {
           <Spacer size={4} />
           <Text size={1} color="tertiaryBackground" weight="normal" align="center" className="block">
             Don't have an account?{' '}
-            <a className="text-primary" onClick={handleSignUp}>
+            <Link className="text-primary" to="/signup">
               Sign up
-            </a>
+            </Link>
           </Text>
         </CardContent>
       </Card>

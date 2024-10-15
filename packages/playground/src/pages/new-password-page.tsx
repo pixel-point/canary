@@ -5,13 +5,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Floating1ColumnLayout } from '../layouts/Floating1ColumnLayout'
 import { noop } from 'lodash-es'
+import { Link } from 'react-router-dom'
 
 interface PageProps {
-  handleSignIn?: () => void
   isLoading?: boolean
 }
 
-export interface DataProps {
+export interface NewPasswordDataProps {
   password?: string
   confirmPassword?: string
 }
@@ -21,7 +21,7 @@ const newPasswordSchema = z.object({
   confirmPassword: z.string()
 })
 
-export function NewPasswordPage({ handleSignIn, isLoading }: PageProps) {
+export function NewPasswordPage({ isLoading }: PageProps) {
   const {
     register,
     handleSubmit,
@@ -77,7 +77,6 @@ export function NewPasswordPage({ handleSignIn, isLoading }: PageProps) {
               type="password"
               {...register('confirmPassword')}
               placeholder="Confirm password"
-              className="form-input"
             />
             {errors.confirmPassword && (
               <>
@@ -100,9 +99,9 @@ export function NewPasswordPage({ handleSignIn, isLoading }: PageProps) {
           <Spacer size={4} />
           <Text size={1} color="tertiaryBackground" weight="normal" align="center" className="block">
             Already have an account?{' '}
-            <a className="text-primary" onClick={handleSignIn}>
+            <Link className="text-primary" to="/signin">
               Sign in
-            </a>
+            </Link>
           </Text>
         </CardContent>
       </Card>
