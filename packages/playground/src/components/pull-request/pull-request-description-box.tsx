@@ -1,10 +1,9 @@
 import React from 'react'
 import PullRequestTimelineItem from './pull-request-timeline-item'
 import { Avatar, AvatarFallback, AvatarImage, Icon, Text } from '@harnessio/canary'
-import moment from 'moment'
 import { MarkdownViewer } from '../markdown-viewer'
 import AvatarUrl from '../../../public/images/user-avatar.svg'
-import { getInitials } from '../../utils/utils'
+import { getInitials, timeAgo } from '../../utils/utils'
 
 interface PullRequestDescBoxProps {
   isLast: boolean
@@ -15,10 +14,8 @@ interface PullRequestDescBoxProps {
 }
 
 const PullRequestDescBox: React.FC<PullRequestDescBoxProps> = ({ isLast, author, prNum, createdAt, description }) => {
-  const parsedDate = moment(createdAt)
-
   // Format the parsed date as relative time from now
-  const formattedTime = parsedDate.fromNow()
+  const formattedTime = timeAgo(createdAt || 0)
   return (
     <PullRequestTimelineItem
       icon={<Icon name="pr-open" size={12} />}

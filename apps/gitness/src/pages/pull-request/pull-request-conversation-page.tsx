@@ -186,6 +186,8 @@ export default function PullRequestConversationPage() {
       changesInfo?.statusIcon !== ''
     ) {
       setChangesLoading(false)
+    } else if (pullReqMetadata?.merged) {
+      setChangesLoading(false)
     }
   }, [changesInfo, prPanelData])
 
@@ -228,7 +230,6 @@ export default function PullRequestConversationPage() {
       description: 'All commits from this branch will be rebased and added to the base branch.'
     }
   ]
-
   if (prLoading || prPanelData?.PRStateLoading || changesLoading) {
     return <SkeletonList />
   }

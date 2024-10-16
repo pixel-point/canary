@@ -16,10 +16,10 @@
 
 import React, { useMemo } from 'react'
 import { Badge, Button, Icon, Text } from '@harnessio/canary'
-import moment from 'moment'
 import { Layout } from '../layout/layout'
 import { getPrState } from './utils'
 import { IconType } from './interfaces'
+import { timeAgo } from '../../utils/utils'
 
 interface PullRequestTitleProps {
   data: {
@@ -40,10 +40,9 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
   data: { title, number, merged, author, stats, target_branch, source_branch, created, is_draft, state }
 }) => {
   const [original] = useMemo(() => [title], [title])
-  const parsedDate = moment(created)
 
   // Format the parsed date as relative time from now
-  const formattedTime = parsedDate.fromNow()
+  const formattedTime = timeAgo(created || 0)
 
   const stateObject = getPrState(is_draft, merged, state)
   return (

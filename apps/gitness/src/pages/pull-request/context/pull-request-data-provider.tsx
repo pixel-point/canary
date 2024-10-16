@@ -389,6 +389,8 @@ const PullRequestDataProvider: React.FC<PullRequestDataProviderProps> = ({ child
           // internalFlags.current.dryRun = false
           setPRStateLoading?.(false)
         })
+    } else if (pullReqMetadata?.state === PullRequestState.MERGED) {
+      setPRStateLoading?.(false)
     }
   }
   const retryOnErrorFunc = useMemo(() => {

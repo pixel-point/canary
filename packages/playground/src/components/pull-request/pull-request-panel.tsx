@@ -25,8 +25,8 @@ import PullRequestCheckSection from './sections/pull-request-check-section'
 import PullRequestCommentSection from './sections/pull-request-comment-section'
 import PullRequestChangesSection from './sections/pull-request-changes-section'
 import PullRequestMergeSection from './sections/pull-request-merge-section'
-import moment from 'moment'
 import cx from 'classnames'
+import { timeAgo } from '../../utils/utils'
 
 interface PullRequestPanelProps extends PullRequestChangesSectionProps {
   pullReqMetadata: TypesPullReq | undefined
@@ -54,10 +54,8 @@ interface HeaderProps {
 
 const HeaderTitle = ({ ...props }: HeaderProps) => {
   if (props?.pullReqMetadata?.state === PullRequestFilterOption.MERGED) {
-    const parsedDate = moment(props?.pullReqMetadata?.merged)
-
     // Format the parsed date as relative time from now
-    const formattedTime = parsedDate.fromNow()
+    const formattedTime = timeAgo(props?.pullReqMetadata?.merged || 0)
 
     return (
       <div className="inline-flex gap-2 items-center w-full">
