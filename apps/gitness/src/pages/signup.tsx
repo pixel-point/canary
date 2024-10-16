@@ -1,28 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { SignUpPage, SignUpDataProps } from '@harnessio/playground'
 import { useOnRegisterMutation } from '@harnessio/code-service-client'
-import useToken from '../framework/hooks/useToken'
 import { useNavigate } from 'react-router-dom'
+import { useAppContext } from '../framework/context/AppContext'
 
 export const SignUp: React.FC = () => {
+  const { setIsUserAuthorized } = useAppContext()
   const navigate = useNavigate()
-  const { setToken } = useToken()
 
   const {
     mutate: register,
     isLoading,
+    isSuccess,
     error
-  } = useOnRegisterMutation(
-    { queryParams: { include_cookie: true } },
-    {
-      onSuccess: data => {
-        if (data?.access_token) {
-          setToken(data.access_token)
-          navigate('/')
-        }
-      }
+  } = useOnRegisterMutation({ queryParams: { include_cookie: true } })
+
+  useEffect(() => {
+    if (isSuccess) {
+      setIsUserAuthorized(true)
+      navigate('/') // Redirect to Home page
     }
-  )
+  }, [isSuccess])
 
   const handleSignUp = (data: SignUpDataProps) => {
     register({

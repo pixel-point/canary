@@ -37,17 +37,21 @@ export const createStreamedLogLineElement = (log: LivelogLine) => {
 
 const ConsoleLogs: FC<ConsoleLogsProps> = ({ logs }) => (
   <>
-    {logs.map(({ pos, time, out }, index) => (
-      <div className="flex items-baseline justify-between leading-[21px] mb-2" key={index}>
-        <div className="flex items-baseline">
-          {pos !== undefined && !isNaN(pos) && pos >= 0 && (
-            <Text className="text-log flex justify-end min-w-5">{pos + 1}</Text>
-          )}
-          {out && <Text className="text-ring font-mono text-sm font-normal ml-2 flex gap-1">{out}</Text>}
+    {logs
+      .filter(item => item !== null)
+      .map(({ pos, time, out }, index) => (
+        <div className="flex items-baseline justify-between leading-[21px] mb-2" key={index}>
+          <div className="flex items-baseline">
+            {pos !== undefined && !isNaN(pos) && pos >= 0 && (
+              <Text className="text-log flex justify-end min-w-5">{pos + 1}</Text>
+            )}
+            {out && <Text className="text-ring font-mono text-sm font-normal ml-2 flex gap-1">{out}</Text>}
+          </div>
+          <Text className="text-log text-sm font-normal mr-2 flex gap-1">
+            {formatDuration(time ? time * 1_000 : 0)}
+          </Text>
         </div>
-        <Text className="text-log text-sm font-normal mr-2 flex gap-1">{formatDuration(time ? time * 1_000 : 0)}</Text>
-      </div>
-    ))}
+      ))}
   </>
 )
 

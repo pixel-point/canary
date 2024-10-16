@@ -3,20 +3,17 @@ import { SignInPage } from '@harnessio/playground'
 import { useOnLoginMutation } from '@harnessio/code-service-client'
 import { useNavigate } from 'react-router-dom'
 import { DataProps } from '@harnessio/playground'
-import useToken from '../framework/hooks/useToken'
+import { useAppContext } from '../framework/context/AppContext'
 
 export const SignIn: React.FC = () => {
+  const { setIsUserAuthorized } = useAppContext()
   const navigate = useNavigate()
-  const { mutate: login, isLoading, isSuccess, data } = useOnLoginMutation({ queryParams: { include_cookie: true } })
-  const { setToken } = useToken()
+  const { mutate: login, isLoading, isSuccess } = useOnLoginMutation({ queryParams: { include_cookie: true } })
 
   useEffect(() => {
     if (isSuccess) {
-      // Redirect to the home page
-      if (data?.access_token) {
-        setToken(data.access_token)
-      }
-      navigate('/')
+      setIsUserAuthorized(true)
+      navigate('/') // Redirect to Home page
     }
   }, [isSuccess])
 
