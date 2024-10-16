@@ -5,6 +5,8 @@ import {
   PRCommentFilterType,
   PullReqReviewDecision,
   TypesPullReqActivity,
+  TypesRuleViolations,
+  TypesViolation,
   orderSortDate
 } from './interfaces'
 import type * as Diff2Html from 'diff2html'
@@ -199,5 +201,21 @@ export const getPrState = (is_draft?: boolean, merged?: number | null, state?: s
     return { icon: 'pr-closed', text: 'Closed', theme: 'muted' }
   } else {
     return { icon: 'pr-open', text: 'Open', theme: 'success' }
+  }
+}
+
+export const extractInfoFromRuleViolationArr = (ruleViolationArr: TypesRuleViolations[]) => {
+  const tempArray: unknown[] = ruleViolationArr?.flatMap(
+    (item: { violations?: TypesViolation[] | null }) => item?.violations?.map(violation => violation.message) ?? []
+  )
+  const uniqueViolations = new Set(tempArray)
+  const violationArr = [...uniqueViolations].map(violation => ({ violation: violation }))
+
+  const checkIfBypassAllowed = ruleViolationArr.some(ruleViolation => ruleViolation.bypassed === false)
+
+  return {
+    uniqueViolations,
+    checkIfBypassAllowed,
+    violationArr
   }
 }

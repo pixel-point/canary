@@ -416,3 +416,24 @@ export const PullRequestFilterOption = {
 }
 
 export type IconType = 'pr-open' | 'pr-closed' | 'pr-draft' | 'pr-merge'
+
+export interface TypesViolation {
+  code?: string
+  message?: string
+  params?: unknown
+}
+
+export interface TypesRuleViolations {
+  bypassable?: boolean
+  bypassed?: boolean
+  rule?: TypesRuleInfo
+  violations?: TypesViolation[] | null
+}
+export interface TypesRuleInfo {
+  identifier?: string
+  repo_path?: string
+  space_path?: string
+  state?: EnumRuleState
+  type?: string
+}
+export type EnumRuleState = 'active' | 'disabled' | 'monitor' | null

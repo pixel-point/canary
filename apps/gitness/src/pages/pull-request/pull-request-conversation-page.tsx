@@ -51,6 +51,7 @@ export default function PullRequestConversationPage() {
     loading: prLoading
   } = usePullRequestData()
   const { currentUser: currentUserData } = useAppContext()
+  const [checkboxBypass, setCheckboxBypass] = useState(false)
 
   const repoRef = useGetRepoRef()
   const { pullRequestId } = useParams<PathParams>()
@@ -189,7 +190,7 @@ export default function PullRequestConversationPage() {
     } else if (pullReqMetadata?.merged) {
       setChangesLoading(false)
     }
-  }, [changesInfo, prPanelData])
+  }, [changesInfo, prPanelData, pullReqMetadata?.merged])
 
   const onPRStateChanged = useCallback(() => {
     refetchCodeOwners()
@@ -197,11 +198,11 @@ export default function PullRequestConversationPage() {
     refetchActivities()
   }, [refetchCodeOwners, repoRef]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleMerge = () => {
+  const handleMerge = (method: string) => {
     const payload: OpenapiMergePullReq = {
-      method: 'squash' as EnumMergeMethod,
+      method: method as EnumMergeMethod,
       source_sha: pullReqMetadata?.source_sha,
-      // bypass_rules: bypass,
+      bypass_rules: checkboxBypass,
       dry_run: false
       // message: data.commitMessage
     }
@@ -217,17 +218,25 @@ export default function PullRequestConversationPage() {
       id: '0',
       title: 'Squash and merge',
       description: 'All commits from this branch will be combined into one commit in the base branch.',
-      action: handleMerge
+      action: () => {
+        handleMerge('squash')
+      }
     },
     {
       id: '1',
       title: 'Merge pull request',
-      description: 'All commits from this branch will be added to the base branch via a merge commit.'
+      description: 'All commits from this branch will be added to the base branch via a merge commit.',
+      action: () => {
+        handleMerge('merge')
+      }
     },
     {
       id: '2',
       title: 'Rebase and merge',
-      description: 'All commits from this branch will be rebased and added to the base branch.'
+      description: 'All commits from this branch will be rebased and added to the base branch.',
+      action: () => {
+        handleMerge('rebase')
+      }
     }
   ]
   if (prLoading || prPanelData?.PRStateLoading || changesLoading) {
@@ -275,6 +284,9 @@ export default function PullRequestConversationPage() {
               actions={mockPullRequestActions}
               resolvedCommentArr={prPanelData?.resolvedCommentArr}
               requiresCommentApproval={prPanelData?.requiresCommentApproval}
+              ruleViolationArr={prPanelData?.ruleViolationArr}
+              checkboxBypass={checkboxBypass}
+              setCheckboxBypass={setCheckboxBypass}
             />
             <Spacer size={9} />
             <PullRequestFilters

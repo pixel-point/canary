@@ -67,6 +67,7 @@ export default function PullRequestConversationPage() {
   const checksInfo = loadState === 'data-loaded-checksFailed' ? mockChecksFailedInfo : mockChecksSucceededInfo
   const commentsInfo = loadState === 'data-loaded-checksFailed' ? mockCommentUnresolvedInfo : mockCommentResolvedInfo
   const checksData = loadState === 'data-loaded-checksFailed' ? mockChecksFailedData : mockChecksSuccessData
+  const [checkboxBypass, setCheckboxBypass] = useState(true)
   const pullReqMetadata =
     loadState === 'data-loaded-unchecked'
       ? mockPullReqMetadataUnchecked
@@ -194,6 +195,9 @@ export default function PullRequestConversationPage() {
               minApproval={mockMinApproval}
               minReqLatestApproval={mockMinReqLatestApproval}
               actions={mockPullRequestActions}
+              ruleViolationArr={undefined}
+              checkboxBypass={checkboxBypass}
+              setCheckboxBypass={setCheckboxBypass}
             />
             <Spacer size={9} />
             <PullRequestFilters

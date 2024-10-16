@@ -1,7 +1,8 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
   Accordion,
   Button,
+  Checkbox,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -19,7 +20,8 @@ import {
   EnumCheckStatus,
   PullRequestChangesSectionProps,
   PullRequestAction,
-  PullRequestFilterOption
+  PullRequestFilterOption,
+  TypesRuleViolations
 } from './interfaces'
 import PullRequestCheckSection from './sections/pull-request-check-section'
 import PullRequestCommentSection from './sections/pull-request-comment-section'
@@ -27,6 +29,8 @@ import PullRequestChangesSection from './sections/pull-request-changes-section'
 import PullRequestMergeSection from './sections/pull-request-merge-section'
 import cx from 'classnames'
 import { timeAgo } from '../../utils/utils'
+import { Layout } from '../layout/layout'
+import { extractInfoFromRuleViolationArr } from './utils'
 
 interface PullRequestPanelProps extends PullRequestChangesSectionProps {
   pullReqMetadata: TypesPullReq | undefined
@@ -40,6 +44,15 @@ interface PullRequestPanelProps extends PullRequestChangesSectionProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   resolvedCommentArr?: { params: number[] }
   requiresCommentApproval?: boolean
+  checkboxBypass?: boolean
+  setCheckboxBypass?: (value: boolean) => void
+  ruleViolationArr:
+    | {
+        data: {
+          rule_violations: TypesRuleViolations[]
+        }
+      }
+    | undefined
 }
 
 interface HeaderProps {
@@ -119,7 +132,10 @@ const PullRequestPanel = ({
   conflictingFiles,
   actions,
   requiresCommentApproval,
-  resolvedCommentArr
+  resolvedCommentArr,
+  ruleViolationArr,
+  checkboxBypass,
+  setCheckboxBypass
 }: PullRequestPanelProps) => {
   const mergeable = useMemo(() => pullReqMetadata?.merge_check_status === MergeCheckStatus.MERGEABLE, [pullReqMetadata])
   const isClosed = pullReqMetadata?.state === PullRequestState.CLOSED
@@ -131,10 +147,17 @@ const PullRequestPanel = ({
     [pullReqMetadata, isClosed]
   )
   const checkData = checks || []
+  const [notBypassable, setNotBypassable] = useState(false)
 
+  useEffect(() => {
+    if (ruleViolationArr && !isDraft && ruleViolationArr.data.rule_violations) {
+      const { checkIfBypassAllowed } = extractInfoFromRuleViolationArr(ruleViolationArr.data.rule_violations)
+      setNotBypassable(checkIfBypassAllowed)
+    }
+  }, [ruleViolationArr])
   return (
     <StackedList.Root>
-      <StackedList.Item isHeader disableHover>
+      <StackedList.Item className="items-center" isHeader disableHover>
         <StackedList.Field
           className={cx({ 'w-full': !pullReqMetadata?.merged })}
           title={
@@ -149,46 +172,65 @@ const PullRequestPanel = ({
             />
           }
         />
+
         {!pullReqMetadata?.merged && (
           <StackedList.Field
             right
             title={
               !pullReqMetadata?.merged && (
-                <Button
-                  variant="split"
-                  size="xs_split"
-                  theme={
-                    mergeable
-                      ? 'success'
-                      : checksInfo.status === 'pending' || checksInfo.status === 'running'
-                        ? 'warning'
-                        : 'error'
-                  }
-                  onClick={actions[0]?.action}
-                  dropdown={
-                    <DropdownMenu>
-                      <DropdownMenuTrigger insideSplitButton>
-                        <Icon name="chevron-down" size={11} className="chevron-down" />
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="mt-1">
-                        <DropdownMenuGroup>
-                          {actions &&
-                            actions.map((action, action_idx) => {
-                              return (
-                                <DropdownMenuItem onClick={action.action} key={action_idx}>
-                                  <div className="flex flex-col">
-                                    <Text color="primary">{action.title}</Text>
-                                    <Text color="tertiaryBackground">{action.description}</Text>
-                                  </div>
-                                </DropdownMenuItem>
-                              )
-                            })}
-                        </DropdownMenuGroup>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  }>
-                  Squash and merge
-                </Button>
+                <Layout.Horizontal className="items-center justify-center">
+                  {!notBypassable && mergeable && !isDraft && ruleViolation && (
+                    <Layout.Horizontal className="items-center justify-center">
+                      <Checkbox
+                        checked={checkboxBypass}
+                        onCheckedChange={() => {
+                          if (typeof checkboxBypass === 'boolean') {
+                            setCheckboxBypass?.(!checkboxBypass)
+                          }
+                        }}
+                      />
+                      <Text size={1} className="text-primary">
+                        Bypass and merge anyway
+                      </Text>
+                    </Layout.Horizontal>
+                  )}
+                  <Button
+                    variant="split"
+                    size="xs_split"
+                    theme={
+                      mergeable && !ruleViolation
+                        ? 'success'
+                        : checksInfo.status === 'pending' || checksInfo.status === 'running'
+                          ? 'warning'
+                          : 'error'
+                    }
+                    disabled={!checkboxBypass}
+                    onClick={actions[0]?.action}
+                    dropdown={
+                      <DropdownMenu>
+                        <DropdownMenuTrigger insideSplitButton>
+                          <Icon name="chevron-down" size={11} className="chevron-down" />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="mt-1">
+                          <DropdownMenuGroup>
+                            {actions &&
+                              actions.map((action, action_idx) => {
+                                return (
+                                  <DropdownMenuItem onClick={action.action} key={action_idx}>
+                                    <div className="flex flex-col">
+                                      <Text color="primary">{action.title}</Text>
+                                      <Text color="tertiaryBackground">{action.description}</Text>
+                                    </div>
+                                  </DropdownMenuItem>
+                                )
+                              })}
+                          </DropdownMenuGroup>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    }>
+                    Squash and merge
+                  </Button>
+                </Layout.Horizontal>
               )
             }
           />
