@@ -17,22 +17,27 @@
 import React, { useMemo } from 'react'
 import { Badge, Button, Icon, Text } from '@harnessio/canary'
 import moment from 'moment'
+import { Layout } from '../layout/layout'
+import { getPrState } from './utils'
+import { IconType } from './interfaces'
 
 interface PullRequestTitleProps {
   data: {
-    title: string
-    number: number
-    merged: number | null | undefined
-    author: { display_name: string; email: string }
-    stats: { commits: number }
-    target_branch: string
-    source_branch: string
-    created: number
+    title?: string
+    number?: number
+    merged?: number | null | undefined
+    author?: { display_name?: string; email?: string }
+    stats?: { commits?: number | null }
+    target_branch?: string
+    source_branch?: string
+    created?: number
+    is_draft?: boolean
+    state?: string
   }
 }
 
 export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
-  data: { title, number, merged, author, stats, target_branch, source_branch, created }
+  data: { title, number, merged, author, stats, target_branch, source_branch, created, is_draft, state }
 }) => {
   const [original] = useMemo(() => [title], [title])
   const parsedDate = moment(created)
@@ -40,6 +45,7 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
   // Format the parsed date as relative time from now
   const formattedTime = parsedDate.fromNow()
 
+  const stateObject = getPrState(is_draft, merged, state)
   return (
     <div className="flex flex-col gap-2 pb-8">
       <div className="flex pt-1 pb-1 items-center">
@@ -52,9 +58,11 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
       <div className="">
         <div className="flex space-x-2 text-tertiary-background ">
           <div className="flex gap-2.5 items-center align-middle text-center">
-            <Badge disableHover borderRadius="full" theme={merged ? 'emphasis' : 'success'} className={`select-none`}>
-              <Icon name={merged ? 'pr-merged' : 'pr-open'} size={12} />
-              &nbsp;{merged ? 'Merged' : 'Open'}
+            <Badge disableHover borderRadius="full" theme={stateObject.theme} className={`select-none justify-center`}>
+              <Layout.Horizontal gap="space-x-1" className="flex items-center align-middle">
+                <Icon name={stateObject.icon as IconType} size={13} />
+                &nbsp;{stateObject.text}
+              </Layout.Horizontal>
             </Badge>
             <div className="flex gap-2">
               <Text

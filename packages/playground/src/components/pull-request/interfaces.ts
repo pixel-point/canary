@@ -414,3 +414,5 @@ export const PullRequestFilterOption = {
   YOURS: 'yours',
   ALL: 'all'
 }
+
+export type IconType = 'pr-open' | 'pr-closed' | 'pr-draft' | 'pr-merge'

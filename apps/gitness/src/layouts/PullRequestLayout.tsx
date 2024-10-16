@@ -27,7 +27,22 @@ const PullRequestLayout: React.FC = () => {
     <>
       <Floating1ColumnLayout>
         <Spacer size={8} />
-        {pullRequest && <PullRequestHeader data={pullRequest} />}
+        {pullRequest && (
+          <PullRequestHeader
+            data={{
+              title: pullRequest?.title,
+              number: pullRequest?.number,
+              merged: pullRequest?.merged,
+              author: pullRequest?.author,
+              stats: { commits: pullRequest?.stats?.commits },
+              target_branch: pullRequest?.target_branch,
+              source_branch: pullRequest?.source_branch,
+              created: pullRequest?.created,
+              is_draft: pullRequest?.is_draft,
+              state: pullRequest?.state
+            }}
+          />
+        )}
         <Tabs variant="tabnav" value={pullRequestTab?.valueOf()}>
           <TabsList>
             <NavLink to={`conversation`}>

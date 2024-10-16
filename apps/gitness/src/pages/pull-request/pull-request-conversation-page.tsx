@@ -30,6 +30,7 @@ import {
   extractInfoForCodeOwnerContent,
   findChangeReqDecisions,
   findWaitingDecisions,
+  generateAlphaNumericHash,
   processReviewDecision
 } from './utils'
 import { useParams } from 'react-router-dom'
@@ -37,6 +38,7 @@ import { PathParams } from '../../RouteDefinitions'
 import { usePullRequestData } from './context/pull-request-data-provider'
 import { isEmpty } from 'lodash-es'
 import { CodeOwnerReqDecision } from '../../types'
+import { useAppContext } from '../../framework/context/AppContext'
 
 export default function PullRequestConversationPage() {
   const {
@@ -48,6 +50,8 @@ export default function PullRequestConversationPage() {
     setRuleViolationArr,
     loading: prLoading
   } = usePullRequestData()
+  const { currentUser: currentUserData } = useAppContext()
+
   const repoRef = useGetRepoRef()
   const { pullRequestId } = useParams<PathParams>()
   const prId = (pullRequestId && Number(pullRequestId)) || -1
@@ -69,6 +73,7 @@ export default function PullRequestConversationPage() {
     pullreq_number: prId,
     queryParams: {}
   })
+  const [changesLoading, setChangesLoading] = useState(true)
 
   const [activities, setActivities] = useState(activityData)
   const approvedEvaluations = reviewers?.filter(evaluation => evaluation.review_decision === 'approved')
@@ -110,9 +115,9 @@ export default function PullRequestConversationPage() {
   useEffect(() => {
     setActivities(activityData)
   }, [activityData])
-  const currentUser = 'Default'
+  const currentUser = currentUserData?.display_name || ''
 
-  let count = 5
+  let count = generateAlphaNumericHash(5)
   const handleSaveComment = (comment: string, parentId?: number) => {
     // Create a temporary comment object
 
@@ -173,12 +178,22 @@ export default function PullRequestConversationPage() {
     changeReqReviewer,
     changeReqEvaluations
   })
+  useEffect(() => {
+    if (
+      !prPanelData?.PRStateLoading &&
+      changesInfo?.title !== '' &&
+      changesInfo?.statusMessage !== '' &&
+      changesInfo?.statusIcon !== ''
+    ) {
+      setChangesLoading(false)
+    }
+  }, [changesInfo, prPanelData])
 
   const onPRStateChanged = useCallback(() => {
     refetchCodeOwners()
     refetchPullReq()
     refetchActivities()
-  }, [refetchCodeOwners]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [refetchCodeOwners, repoRef]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleMerge = () => {
     const payload: OpenapiMergePullReq = {
@@ -213,7 +228,8 @@ export default function PullRequestConversationPage() {
       description: 'All commits from this branch will be rebased and added to the base branch.'
     }
   ]
-  if (prLoading) {
+
+  if (prLoading || prPanelData?.PRStateLoading || changesLoading) {
     return <SkeletonList />
   }
   return (
@@ -238,7 +254,7 @@ export default function PullRequestConversationPage() {
               // @ts-expect-error remove "@ts-expect-error" once CodeServiceClient Response for useChecksPullReqQuery is fixed
               checks={pullReqChecksDecision?.data?.checks}
               pullReqMetadata={pullReqMetadata}
-              PRStateLoading={prPanelData?.PRStateLoading}
+              PRStateLoading={prPanelData?.PRStateLoading || prLoading}
               // TODO: add dry merge check into pr context
               conflictingFiles={prPanelData?.conflictingFiles}
               approvedEvaluations={approvedEvaluations}
@@ -269,6 +285,7 @@ export default function PullRequestConversationPage() {
               setDateOrderSort={setDateOrderSort}
             />
             <Spacer size={6} />
+
             <PullRequestOverview
               data={activities?.map((item: TypesPullReqActivity) => {
                 return {

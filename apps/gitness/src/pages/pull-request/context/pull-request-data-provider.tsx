@@ -80,6 +80,7 @@ interface PullRequestDataContextProps {
     resolvedCommentArr?: { params: number[] }
     PRStateLoading: boolean
     ruleViolation: boolean
+    commentsLoading: boolean
     commentsInfoData: { header: string; content?: string | undefined; status: string }
     ruleViolationArr:
       | {
@@ -161,6 +162,7 @@ const PullRequestDataProvider: React.FC<PullRequestDataProviderProps> = ({ child
 
   const [resolvedCommentArr, setResolvedCommentArr] = useState<{ params: number[] }>()
   const [PRStateLoading, setPRStateLoading] = useState(isClosed ? false : true)
+  const [commentsLoading, setCommentsLoading] = useState(true)
   const [commentsInfoData, setCommentsInfoData] = useState<{ header: string; content?: string; status: string }>({
     header: '',
     content: '',
@@ -188,9 +190,10 @@ const PullRequestDataProvider: React.FC<PullRequestDataProviderProps> = ({ child
   const loading = useMemo(
     () =>
       // repoLoading ||
-      (pullReqLoading && !pullReqMetadata) || (activitiesLoading && !pullReqActivities),
+      (pullReqLoading && !pullReqMetadata) || (activitiesLoading && !pullReqActivities) || commentsLoading,
     [
       // repoLoading,
+      commentsLoading,
       pullReqLoading,
       pullReqMetadata,
       activitiesLoading,
@@ -209,10 +212,11 @@ const PullRequestDataProvider: React.FC<PullRequestDataProviderProps> = ({ child
         status: 'failed'
       })
     }
-  }, [requiresCommentApproval, resolvedCommentArr?.params, setCommentsInfoData])
+    setCommentsLoading(false)
+  }, [requiresCommentApproval, resolvedCommentArr?.params, setCommentsInfoData, setCommentsLoading])
 
   useEffect(() => {
-    if (activities) {
+    if (activities && repoRef && pullReqMetadata?.source_sha) {
       setPullReqActivities(oldActivities => (isEqual(oldActivities, activities) ? oldActivities : activities))
       dryMerge()
     }
@@ -242,7 +246,7 @@ const PullRequestDataProvider: React.FC<PullRequestDataProviderProps> = ({ child
 
   useEffect(() => {
     const intervalId = setInterval(async () => {
-      if (pullReqMetadata?.source_sha && pullRequestTab === PullRequestTab.CONVERSATION) {
+      if (pullReqMetadata?.source_sha && pullRequestTab === PullRequestTab.CONVERSATION && repoRef) {
         dryMerge()
       }
     }, POLLING_INTERVAL) // Poll every 20 seconds
@@ -250,8 +254,13 @@ const PullRequestDataProvider: React.FC<PullRequestDataProviderProps> = ({ child
     return () => {
       clearInterval(intervalId)
     }
-  }, [pullReqMetadata, pullRequestId, refetchPullReq, pullRequestTab]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [pullReqMetadata, pullRequestId, refetchPullReq, pullRequestTab, repoRef]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    if (repoRef && pullReqMetadata?.source_sha) {
+      dryMerge()
+    }
+  }, [repoRef, pullReqMetadata?.source_sha, pullRequestTab])
   useEffect(() => {
     if (ruleViolationArr) {
       const requireResCommentRule = extractSpecificViolations(ruleViolationArr, 'pullreq.comments.require_resolve_all')
@@ -299,6 +308,7 @@ const PullRequestDataProvider: React.FC<PullRequestDataProviderProps> = ({ child
     if (
       // isMounted.current &&
       !isClosed &&
+      repoMetadata?.path !== undefined &&
       pullReqMetadata?.state !== PullRequestState.MERGED
     ) {
       // Use an internal flag to prevent flickering during the loading state of buttons
@@ -429,10 +439,10 @@ const PullRequestDataProvider: React.FC<PullRequestDataProviderProps> = ({ child
       PRStateLoading,
       ruleViolation,
       ruleViolationArr,
-      commentsInfoData
+      commentsInfoData,
+      commentsLoading
     }
   }
-
   return <PullRequestDataContext.Provider value={contextValue}>{children}</PullRequestDataContext.Provider>
 }
 

@@ -1,6 +1,8 @@
 import { Badge, cn, Icon, StackedList, Text } from '@harnessio/canary'
 import React, { useMemo, useState } from 'react'
 import cx from 'classnames'
+import { getPrState } from './utils'
+import { IconType } from './interfaces'
 
 interface PullRequestProps {
   is_draft?: boolean
@@ -88,8 +90,10 @@ const Title = ({
   labels,
   state,
   isDraft,
-  comments
+  comments,
+  merged
 }: {
+  merged?: number | null
   isDraft?: boolean
   state?: string
   success: boolean
@@ -107,15 +111,7 @@ const Title = ({
             'text-tertiary-background': state === 'open' && isDraft,
             'text-ai': success
           })}
-          name={
-            state === 'open' && isDraft
-              ? 'pr-draft'
-              : success
-                ? 'pr-merge'
-                : state === 'closed'
-                  ? 'pr-closed'
-                  : 'pr-open'
-          }
+          name={getPrState(isDraft, merged, state).icon as IconType}
         />
 
         <Text size={2} truncate>
@@ -233,6 +229,7 @@ export function PullRequestList({ pullRequests, LinkComponent }: PageProps) {
                             title={pullRequest.name}
                             labels={pullRequest.labels || []}
                             comments={pullRequest.comments}
+                            merged={pullRequest.merged}
                           />
                         )
                       }
