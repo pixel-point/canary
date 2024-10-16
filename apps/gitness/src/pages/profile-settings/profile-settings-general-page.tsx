@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, ButtonGroup, Input, Spacer, Text, Icon, Avatar, AvatarImage, AvatarFallback } from '@harnessio/canary'
 import { SandboxLayout, FormFieldSet, SkeletonList, getInitials } from '@harnessio/playground'
-
+import { Logout } from '../logout'
 const profileSchema = z.object({
   name: z.string().min(1, { message: 'Please provide your name' }),
   username: z.string().min(1, { message: 'Please provide a username' }),
@@ -315,7 +315,7 @@ const SandboxSettingsAccountGeneralPage: React.FC<SandboxSettingsAccountGeneralP
 
             {/* UPDATE PASSWORD BUTTON */}
             <FormFieldSet.ControlGroup type="button">
-              <ButtonGroup.Root>
+              <ButtonGroup.Root className="flex justify-between">
                 {!passwordSubmitted ? (
                   <Button size="sm" type="submit" disabled={!isPasswordValid || isUpdatingPassword}>
                     {isUpdatingPassword ? 'Updating...' : 'Update password'}
@@ -326,6 +326,7 @@ const SandboxSettingsAccountGeneralPage: React.FC<SandboxSettingsAccountGeneralP
                     <Icon name="tick" size={14} />
                   </Button>
                 )}
+                <Logout />
               </ButtonGroup.Root>
             </FormFieldSet.ControlGroup>
           </FormFieldSet.Root>

@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { SandboxSettingsAccountGeneralPage, ProfileFields, PasswordFields } from './profile-settings-general-page'
+import { useNavigate } from 'react-router-dom'
 import React from 'react'
 import {
   useGetUserQuery,
@@ -10,6 +11,7 @@ import {
   UpdateUserOkResponse,
   UpdateUserErrorResponse
 } from '@harnessio/code-service-client'
+import useToken from '../../framework/hooks/useToken'
 
 export const SettingsProfileGeneralPage: React.FC = () => {
   const [apiError, setApiError] = useState<{ type: 'profile' | 'password'; message: string } | null>(null)
@@ -19,6 +21,15 @@ export const SettingsProfileGeneralPage: React.FC = () => {
     username: '',
     email: ''
   })
+
+  const { token } = useToken()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!token) {
+      navigate('/signin')
+    }
+  }, [token])
 
   const { isLoading: isLoadingUser } = useGetUserQuery(
     {},

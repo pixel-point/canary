@@ -83,7 +83,7 @@ export function SignInPage({ handleSignIn, isLoading }: PageProps) {
                 Password
               </Label>
               <Link to="/forgot">
-                <Button variant="link" size="xs" className="text-secondary-muted">
+                <Button variant="link" size="xs" className="text-secondary-muted" type="button">
                   Forgot password?
                 </Button>
               </Link>

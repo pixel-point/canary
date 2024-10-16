@@ -39,7 +39,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       responseInterceptor: (response: Response) => {
         switch (response.status) {
           case 401:
-            window.location.href = '/logout'
+            window.location.href = '/signin'
         }
         return response
       }

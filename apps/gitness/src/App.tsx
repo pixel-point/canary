@@ -52,7 +52,6 @@ import { SettingsProfileKeysPage } from './pages/profile-settings/profile-settin
 import { FileViewer } from './components/FileViewer'
 import { SandboxFileViewer } from './components/SandboxFileViewer'
 import PullRequestChangesPage from './pages/pull-request/pull-request-changes-page'
-import { Logout } from './pages/logout'
 import { ProjectSettingsGeneralPage } from './pages/project-settings/project-settings-general-page'
 
 export default function App() {
@@ -244,10 +243,7 @@ export default function App() {
       path: '/new-password',
       element: <NewPasswordPage />
     },
-    {
-      path: '/logout',
-      element: <Logout />
-    },
+
     {
       path: '/sandbox',
       element: <SnadboxRootWraper />,
