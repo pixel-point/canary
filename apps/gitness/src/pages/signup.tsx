@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { SignUpPage, SignUpDataProps } from '@harnessio/playground'
 import { useOnRegisterMutation } from '@harnessio/code-service-client'
-import { useNavigate } from 'react-router-dom'
-import { useAppContext } from '../framework/context/AppContext'
 
 export const SignUp: React.FC = () => {
-  const { setIsUserAuthorized } = useAppContext()
   const navigate = useNavigate()
 
   const {
@@ -17,7 +15,6 @@ export const SignUp: React.FC = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      setIsUserAuthorized(true)
       navigate('/') // Redirect to Home page
     }
   }, [isSuccess])

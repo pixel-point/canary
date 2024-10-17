@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
+import { CodeServiceAPIClient } from '@harnessio/code-service-client'
 import { QueryClientProvider } from '@tanstack/react-query'
 import {
   ThemeProvider,
@@ -54,7 +55,21 @@ import { SandboxFileViewer } from './components/SandboxFileViewer'
 import PullRequestChangesPage from './pages/pull-request/pull-request-changes-page'
 import { ProjectSettingsGeneralPage } from './pages/project-settings/project-settings-general-page'
 
+const BASE_URL_PREFIX = `${window.apiUrl || ''}/api/v1`
+
 export default function App() {
+  new CodeServiceAPIClient({
+    urlInterceptor: (url: string) => `${BASE_URL_PREFIX}${url}`,
+    responseInterceptor: (response: Response) => {
+      switch (response.status) {
+        case 401:
+          window.location.href = '/signin'
+          break
+      }
+      return response
+    }
+  })
+
   const router = createBrowserRouter([
     {
       path: '/',
