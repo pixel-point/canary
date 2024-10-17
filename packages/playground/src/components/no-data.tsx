@@ -12,6 +12,7 @@ export interface NoDataProps {
     | 'no-data-cog'
     | 'no-data-webhooks'
     | 'no-data-branches'
+    | 'no-data-members'
   iconSize?: number
   description: string[]
   primaryButton?: {
