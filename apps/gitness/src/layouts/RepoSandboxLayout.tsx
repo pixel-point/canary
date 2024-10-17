@@ -30,6 +30,9 @@ const RepoSandboxLayout: React.FC = () => {
             <NavLink to={`branches`}>
               <TabsTrigger value="branches">Branches</TabsTrigger>
             </NavLink>
+            <NavLink to={`settings`}>
+              <TabsTrigger value="settings">Settings</TabsTrigger>
+            </NavLink>
           </TabsList>
         </Tabs>
         {/* <main className="min-h-[calc(100vh-100px)] box-border overflow-hidden"> */}
