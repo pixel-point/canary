@@ -1,4 +1,10 @@
 import langMap from 'lang-map'
+export enum GitCommitAction {
+  DELETE = 'DELETE',
+  CREATE = 'CREATE',
+  UPDATE = 'UPDATE',
+  MOVE = 'MOVE'
+}
 
 export const REFS_TAGS_PREFIX = 'refs/tags/'
 export const REFS_BRANCH_PREFIX = 'refs/heads/'
@@ -84,6 +90,8 @@ const MONACO_SUPPORTED_LANGUAGES = [
   'xml',
   'yaml'
 ]
+
+export const FILE_SEPERATOR = '/'
 
 export const PLAIN_TEXT = 'plaintext'
 

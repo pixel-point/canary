@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { CodeEditor } from '@harnessio/yaml-editor'
 import { themes } from '../pages/pipeline-edit/theme/monaco-theme'
 import copy from 'clipboard-copy'
-import { decodeGitContent, filenameToLanguage, formatBytes, getTrimmedSha } from '../utils/git-utils'
+import { decodeGitContent, filenameToLanguage, formatBytes, getTrimmedSha, GitCommitAction } from '../utils/git-utils'
 import {
   Button,
   ButtonGroup,
@@ -20,6 +20,12 @@ import {
 import { timeAgoFromISOTime } from '../pages/pipeline-edit/utils/time-utils'
 import { MarkdownViewer, PipelineStudioToolbarActions, TopDetails, TopTitle } from '@harnessio/playground'
 import { OpenapiGetContentOutput } from '@harnessio/code-service-client'
+import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
+import { useNavigate, useParams } from 'react-router-dom'
+import { PathParams } from '../RouteDefinitions'
+import { useDownloadRawFile } from '../framework/hooks/useDownloadRawFile'
+import GitCommitDialog from './GitCommitDialog'
+import GitBlame from './GitBlame'
 
 interface FileContentViewerProps {
   repoContent: OpenapiGetContentOutput
@@ -36,7 +42,14 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
   const language = filenameToLanguage(fileName) || ''
   const fileContent = decodeGitContent(repoContent?.content?.data)
   const [view, setView] = useState<ViewTypeValue>(getDefaultView(language))
-  const [isEditMode, setIsEditMode] = useState<boolean>(false)
+  const [isDeleteFileDialogOpen, setIsDeleteFileDialogOpen] = useState(false)
+  const repoRef = useGetRepoRef()
+  const { spaceId, repoId, gitRef, resourcePath } = useParams<PathParams>()
+  const subResourcePath = useParams()['*'] || ''
+  const fullResourcePath = subResourcePath ? resourcePath + '/' + subResourcePath : resourcePath
+  const downloadFile = useDownloadRawFile()
+  const navigate = useNavigate()
+  const rawURL = `/api/v1/repos/${repoRef}/raw/${fullResourcePath}?git_ref=${gitRef}`
   const latestFile = {
     user: {
       name: repoContent?.latest_commit?.author?.identity?.name || ''
@@ -56,6 +69,10 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
     []
   )
 
+  const closeDialog = () => {
+    setIsDeleteFileDialogOpen(false)
+  }
+
   useEffect(() => {
     setView(getDefaultView(language))
   }, [language])
@@ -74,8 +91,8 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
         </Text>
         <PipelineStudioToolbarActions
           onCopyClick={() => copy(fileContent)}
-          onDownloadClick={() => undefined}
-          onEditClick={() => setIsEditMode(true)}
+          onDownloadClick={() => downloadFile({ repoRef, resourcePath: fullResourcePath || '', gitRef: gitRef || '' })}
+          onEditClick={() => navigate(`/${spaceId}/repos/${repoId}/code/edit/${gitRef}/~/${fullResourcePath}`)}
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -84,12 +101,21 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem className="flex gap-1.5 items-center">
+            <DropdownMenuItem
+              className="flex gap-1.5 items-center"
+              onSelect={() => {
+                const url = rawURL.replace('//', '/')
+                window.open(url, '_blank')
+              }}>
               <Icon name="arrow-long" size={12} className="text-tertiary-background" />
               <Text>View Raw</Text>
             </DropdownMenuItem>
-            <DropdownMenuItem className="flex gap-1.5 items-center">
-              <Icon name="trash" size={12} className="text-tertiary-background" />
+            <DropdownMenuItem
+              className="flex gap-1.5 items-center"
+              onSelect={() => {
+                setIsDeleteFileDialogOpen(true)
+              }}>
+              <Icon name="trash" size={12} className="text-primary" />
               <Text>Delete</Text>
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -100,6 +126,16 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
 
   return (
     <>
+      <GitCommitDialog
+        open={isDeleteFileDialogOpen}
+        onClose={closeDialog}
+        commitAction={GitCommitAction.DELETE}
+        gitRef={gitRef || ''}
+        resourcePath={fullResourcePath || ''}
+        onSuccess={(_commitInfo, isNewBranch) => {
+          if (!isNewBranch) navigate(`/${spaceId}/repos/${repoId}/code`)
+        }}
+      />
       <StackedList.Root>
         <StackedList.Item disableHover isHeader className="py-2.5 px-3">
           {latestFile ? (
@@ -149,18 +185,23 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
       <Spacer size={1} />
       {language === 'markdown' && view === 'preview' ? (
         <MarkdownViewer source={fileContent} />
+      ) : view === 'code' ? (
+        <CodeEditor
+          language={language}
+          codeRevision={{ code: fileContent }}
+          onCodeRevisionChange={() => {}}
+          themeConfig={themeConfig}
+          options={{
+            readOnly: true
+          }}
+        />
       ) : (
-        view === 'code' && (
-          <CodeEditor
-            language={language}
-            codeRevision={{ code: fileContent }}
-            onCodeRevisionChange={() => {}}
-            themeConfig={themeConfig}
-            options={{
-              readOnly: !isEditMode
-            }}
-          />
-        )
+        <GitBlame
+          selectedBranch={gitRef || ''}
+          themeConfig={themeConfig}
+          codeContent={fileContent}
+          language={language}
+        />
       )}
     </>
   )

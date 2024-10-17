@@ -95,7 +95,7 @@ export function BlameEditor<T>(props: BlameEditorProps<T>): JSX.Element {
           options: {
             before: {
               content: createCommitMessage(
-                lineNo === blameItem.fromLineNumber ? blameItem.commitInfo.title : '',
+                lineNo === blameItem.fromLineNumber ? blameItem?.commitInfo?.title || '' : '',
                 COMMIT_MESSAGE_LENGTH
               ),
               cursorStops: monaco.editor.InjectedTextCursorStops.None,
@@ -177,6 +177,7 @@ export function BlameEditor<T>(props: BlameEditorProps<T>): JSX.Element {
         }}
       />
       <Editor
+        height={'75vh'}
         className={`monaco-editor-${instanceId.current}`}
         language={language}
         theme={theme}

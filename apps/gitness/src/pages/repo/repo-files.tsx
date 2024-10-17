@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Outlet } from 'react-router-dom'
-import { Button, ButtonGroup, Icon } from '@harnessio/canary'
 import { BranchSelector, SandboxLayout } from '@harnessio/playground'
 import { useListBranchesQuery, useFindRepositoryQuery, useGetContentQuery } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
@@ -35,8 +34,10 @@ export const RepoFiles: React.FC = () => {
   useEffect(() => {
     if (repository && !gitRef) {
       setSelectedBranch(repository?.default_branch || '')
+    } else if (gitRef) {
+      setSelectedBranch(gitRef)
     }
-  }, [repository])
+  }, [repository, gitRef])
 
   const selectBranch = (branch: string) => {
     setSelectedBranch(branch)
@@ -48,6 +49,7 @@ export const RepoFiles: React.FC = () => {
       <div className="flex flex-col gap-5">
         <div className="w-full grid grid-cols-[1fr] auto-cols-auto grid-flow-col gap-3 items-center">
           <BranchSelector size="sm" name={selectedBranch} branchList={branchList} selectBranch={selectBranch} />
+          {/* add if required in milestone 1
           <ButtonGroup.Root
             spacing="0"
             className="shadow-border shadow-[inset_0_0_0_1px] rounded-md h-full overflow-hidden">
@@ -57,7 +59,7 @@ export const RepoFiles: React.FC = () => {
             <Button size="sm" variant="ghost" borderRadius="0" className="border-l rounded-none p-0 w-8">
               <Icon size={15} name="add-file" className="text-primary/80" />
             </Button>
-          </ButtonGroup.Root>
+          </ButtonGroup.Root> */}
         </div>
         {/* <Filter /> */}
         {/*  Add back when search api is available  

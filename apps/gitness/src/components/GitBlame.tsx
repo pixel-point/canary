@@ -1,0 +1,76 @@
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { getInitials } from '@harnessio/playground'
+import { useGetBlameQuery } from '@harnessio/code-service-client'
+import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
+import { normalizeGitRef } from '../utils/git-utils'
+import { PathParams } from '../RouteDefinitions'
+import { BlameEditor, ThemeDefinition } from '@harnessio/yaml-editor'
+import { BlameItem } from '@harnessio/yaml-editor/dist/types/blame'
+import { timeAgoFromISOTime } from '../pages/pipeline-edit/utils/time-utils'
+
+interface GitBlameProps {
+  selectedBranch: string
+  themeConfig: { rootElementSelector?: string; defaultTheme?: string; themes?: ThemeDefinition[] }
+  codeContent: string
+  language: string
+}
+
+export default function GitBlame({ selectedBranch, themeConfig, codeContent, language }: GitBlameProps) {
+  const repoRef = useGetRepoRef()
+  const { resourcePath } = useParams<PathParams>()
+  const subResourcePath = useParams()['*'] || ''
+  const fullResourcePath = subResourcePath ? resourcePath + '/' + subResourcePath : resourcePath
+  const [blameBlocks, setBlameBlocks] = useState<BlameItem[]>([])
+
+  const { data, isFetching } = useGetBlameQuery({
+    path: fullResourcePath || '',
+    repo_ref: repoRef,
+    queryParams: { git_ref: normalizeGitRef(selectedBranch) }
+  })
+
+  useEffect(() => {
+    if (data) {
+      let fromLineNumber = 1
+      const blameData: BlameItem[] = []
+
+      data.forEach(({ commit, lines }) => {
+        const toLineNumber = fromLineNumber + (lines?.length || 0) - 1
+
+        const authorInfo = {
+          identity: { ...commit?.author?.identity },
+          when: timeAgoFromISOTime(commit?.author?.when || ''),
+          initials: getInitials(commit?.author?.identity?.name || commit?.author?.identity?.email || '')
+        }
+
+        const commitInfo = {
+          sha: commit?.sha || '',
+          title: commit?.title || '',
+          author: authorInfo || {}
+        }
+
+        blameData.push({
+          fromLineNumber,
+          toLineNumber,
+          commitInfo: commitInfo
+        })
+
+        fromLineNumber = toLineNumber + 1
+      })
+
+      setBlameBlocks(blameData)
+    }
+  }, [data])
+
+  return !isFetching && blameBlocks.length ? (
+    <BlameEditor
+      code={codeContent}
+      language={language}
+      themeConfig={themeConfig}
+      lineNumbersPosition="center"
+      blameData={blameBlocks}
+    />
+  ) : (
+    <></>
+  )
+}

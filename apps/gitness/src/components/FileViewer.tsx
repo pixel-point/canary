@@ -1,16 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import {
-  BreadcrumbItem,
-  BreadcrumbLink,
-  Button,
-  ButtonGroup,
-  cn,
-  Icon,
-  ListActions,
-  Spacer,
-  Text
-} from '@harnessio/canary'
+import { BreadcrumbItem, BreadcrumbLink, ButtonGroup, cn, ListActions, Spacer, Text } from '@harnessio/canary'
 import { SkeletonList, Summary, FileProps, SummaryItemType, NoData, SandboxLayout } from '@harnessio/playground'
 import {
   useGetContentQuery,
@@ -176,12 +166,13 @@ export const FileViewer: React.FC = () => {
               })}
             </ButtonGroup.Root>
           </ListActions.Left>
+          {/* add if required in milestone 1
           <ListActions.Right>
             <Button variant="outline" size="sm">
               Add file&nbsp;&nbsp;
               <Icon name="chevron-down" size={11} className="chevron-down" />
             </Button>
-          </ListActions.Right>
+          </ListActions.Right> */}
         </ListActions.Root>
         <Spacer size={5} />
         {repoDetails?.type === 'dir' ? (

@@ -58,16 +58,16 @@ export function getMonacoEditorCommitCss({
 }) {
   let css = ''
   blameData.forEach(blameItem => {
-    const avatarUrl = blameItem.commitInfo.author.avatarUrl
-    const initials = blameItem.commitInfo.author.initials
+    const avatarUrl = blameItem?.commitInfo?.author?.avatarUrl
+    const initials = blameItem?.commitInfo?.author?.initials
 
-    const avatarBackgroundCss = avatarUrl ? `background: url('${blameItem.commitInfo.author.avatarUrl}');` : ''
+    const avatarBackgroundCss = avatarUrl ? `background: url('${blameItem?.commitInfo?.author?.avatarUrl}');` : ''
 
     for (let lineNo = blameItem.fromLineNumber; lineNo <= blameItem.toLineNumber; lineNo++) {
       if (lineNo === blameItem.fromLineNumber) {
         css += `
           .monaco-editor-${instanceId} .view-line .blame-editor-commit-${lineNo}:before {
-            content: '${escapeSingleQuote(blameItem.commitInfo.author.when)}';
+            content: '${escapeSingleQuote(blameItem?.commitInfo?.author?.when || '')}';
             position: absolute;
             left: 10px;
             top: 0px;
