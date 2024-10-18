@@ -327,7 +327,13 @@ export default function App() {
                 },
                 {
                   path: 'pull-requests',
-                  element: <PullRequestSandboxListPage />
+                  children: [
+                    { index: true, element: <PullRequestSandboxListPage /> },
+                    {
+                      path: 'create',
+                      element: <>tttttestestestset</>
+                    }
+                  ]
                 },
                 {
                   path: 'webhooks',

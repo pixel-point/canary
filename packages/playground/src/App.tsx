@@ -56,6 +56,7 @@ import { RepoSettingsModerationPage } from './pages/repo-settings-moderation-pag
 import { RepoSettingsPlaceholderPage } from './pages/repo-settings-placeholder-page'
 import { SandboxSettingsAccountGeneralPage } from './pages/sandbox-settings-account-general-page'
 import { SignInPage } from './pages/signin-page'
+import { SandboxPullRequestCompare } from './layouts/SandboxPullRequestCompareLayout'
 
 const router = createBrowserRouter([
   // TEMPORARY LAYOUT SANDBOX
@@ -87,6 +88,19 @@ const router = createBrowserRouter([
               {
                 path: 'code',
                 element: <SandboxRepoCodePage />
+              },
+              {
+                path: 'pull-requests/create',
+                element: (
+                  <SandboxPullRequestCompare
+                    apiError=""
+                    isLoading={false}
+                    isSuccess={false}
+                    onFormCancel={noop}
+                    onFormSubmit={noop}
+                    onFormDraftSubmit={noop}
+                  />
+                )
               },
               {
                 path: 'settings',

@@ -10,7 +10,7 @@ import {
   Text,
   Button
 } from '@harnessio/canary'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import {
   PaddingListLayout,
   SkeletonList,
@@ -21,10 +21,11 @@ import {
   NoSearchResults
 } from '@harnessio/playground'
 import { ListPullReqQueryQueryParams, TypesPullReq, useListPullReqQuery } from '@harnessio/code-service-client'
-import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 import { usePagination } from '../framework/hooks/usePagination'
 import { timeAgoFromEpochTime } from './pipeline-edit/utils/time-utils'
 import { DropdownItemProps } from '../../../../packages/canary/dist/components/list-actions'
+import { PathParams } from '../RouteDefinitions'
+import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 
 const SortOptions = [
   { name: 'Created', value: 'created' },
@@ -42,6 +43,7 @@ function PullRequestListPage() {
   const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => <Link to={to}>{children}</Link>
   const repoRef = useGetRepoRef()
   const { currentPage, previousPage, nextPage, handleClick } = usePagination(1, totalPages)
+  const { repoId, spaceId } = useParams<PathParams>()
 
   const { sort, query } = useCommonFilter<ListPullReqQueryQueryParams['sort']>()
 
@@ -213,7 +215,7 @@ function PullRequestListPage() {
                 <Filter sortOptions={SortOptions} />
               </div>
               <Button variant="default" asChild>
-                <Link to="#">New pull request</Link>
+                <Link to={`/sandbox/spaces/${spaceId}/repos/${repoId}/pull-requests/create`}>New pull request</Link>
               </Button>
             </div>
           </>

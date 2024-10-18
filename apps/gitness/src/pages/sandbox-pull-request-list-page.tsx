@@ -104,14 +104,13 @@ function PullRequestSandboxListPage() {
           merger: {},
           stats: { commits: 1, files_changed: 1, additions: 1, deletions: 0, conversations: 2 },
           labels: [
-            { id: 1, key: 'P0', color: 'red', scope: 1, value_count: 0 },
+            { id: 1, key: 'P0', color: 'red', value_count: 0 },
             {
               id: 2,
               key: 'P1',
               color: 'red',
-              scope: 0,
+
               value_count: 5,
-              value_id: 5,
               value: 'asdsa',
               value_color: 'red'
             },
@@ -119,9 +118,7 @@ function PullRequestSandboxListPage() {
               id: 3,
               key: 'teststringssdsjakteststringssdsjakteststringssdsj',
               color: 'blue',
-              scope: 0,
               value_count: 1,
-              value_id: 2,
               value: 'teststringssdsjakteststringssdsjak',
               value_color: 'blue'
             }
