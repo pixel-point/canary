@@ -1,0 +1,93 @@
+import React from 'react'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@harnessio/canary'
+import { Icon, Text, Button, ButtonGroup } from '@harnessio/canary'
+import { FormFields } from '../../layouts/SandboxPullRequestCompareLayout'
+
+interface PullRequestCompareButtonProps {
+  isSubmitted: boolean
+  isValid: boolean
+  isLoading: boolean
+  formRef: React.RefObject<HTMLFormElement>
+  onFormSubmit: (data: FormFields) => void
+  onFormDraftSubmit: (data: FormFields) => void
+}
+
+const PullRequestCompareButton: React.FC<PullRequestCompareButtonProps> = ({
+  isSubmitted,
+  isValid,
+  isLoading,
+  formRef,
+  onFormDraftSubmit,
+  onFormSubmit
+}) => {
+  const handleDraftClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    if (formRef.current) {
+      const formData = new FormData(formRef.current)
+      const data = {
+        title: formData.get('title'),
+        description: formData.get('description')
+      }
+      onFormDraftSubmit(data as FormFields) // Call the draft submit function
+    }
+  }
+  const handleCreateClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    if (formRef.current) {
+      const formData = new FormData(formRef.current)
+      const data = {
+        title: formData.get('title'),
+        description: formData.get('description')
+      }
+      onFormSubmit(data as FormFields) // Call the draft submit function
+    }
+  }
+  return (
+    <>
+      {!isSubmitted ? (
+        <>
+          <ButtonGroup.Root>
+            <Button
+              variant="split"
+              size="xs_split"
+              onClick={handleCreateClick}
+              dropdown={
+                <DropdownMenu>
+                  <DropdownMenuTrigger insideSplitButton>
+                    <Icon name="chevron-down" size={11} className="chevron-down" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="mt-1">
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem onClick={handleDraftClick} disabled={!isValid || isLoading}>
+                        <div className="flex flex-col">
+                          <Text color="primary">Create draft pull request</Text>
+                          <Text color="tertiaryBackground">Does not request code reviews and cannot be merged</Text>
+                        </div>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              }
+              type="button" // Change to button type
+              disabled={!isValid || isLoading}>
+              {!isLoading ? 'Create pull request' : 'Creating pull request...'}
+            </Button>
+          </ButtonGroup.Root>
+        </>
+      ) : (
+        <Button variant="ghost" type="button" size="sm" theme="success" className="pointer-events-none">
+          Pull request created&nbsp;&nbsp;
+          <Icon name="tick" size={14} />
+        </Button>
+      )}
+    </>
+  )
+}
+
+export default PullRequestCompareButton
