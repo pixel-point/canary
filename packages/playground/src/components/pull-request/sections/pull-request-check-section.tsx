@@ -16,13 +16,19 @@ import { EnumCheckStatus, TypeCheckData } from '../interfaces'
 import { ExecutionState } from '../../execution/types'
 import { timeDistance } from '../../../utils/utils'
 import { LineDescription, LineTitle } from '../pull-request-line-title'
+import { Link } from 'react-router-dom'
 
+interface ExecutionPayloadType {
+  execution_number: number
+}
 interface PullRequestMergeSectionProps {
   checkData: TypeCheckData[]
   checksInfo: { header: string; content: string; status: EnumCheckStatus }
+  spaceId?: string
+  repoId?: string
 }
 
-const PullRequestCheckSection = ({ checkData, checksInfo }: PullRequestMergeSectionProps) => {
+const PullRequestCheckSection = ({ checkData, checksInfo, spaceId, repoId }: PullRequestMergeSectionProps) => {
   const getStatusIcon = (status: EnumCheckStatus) => {
     switch (status) {
       // TODO: fix icons to use from nucleo
@@ -50,7 +56,7 @@ const PullRequestCheckSection = ({ checkData, checksInfo }: PullRequestMergeSect
             Show more
           </Text>
         </AccordionTrigger>
-        <AccordionContent className="pl-6 flex flex-col">
+        <AccordionContent className={cn('pl-6 flex flex-col', { 'pb-0': checkData.length === 1 })}>
           {checkData.map(check => {
             const time = timeDistance(check.check.created, check.check.updated)
 
@@ -87,9 +93,13 @@ const PullRequestCheckSection = ({ checkData, checksInfo }: PullRequestMergeSect
               }
             ></Link> */}
                     {check.check.status !== ExecutionState.PENDING && (
-                      <Text size={1} color="tertiaryBackground">
-                        Details
-                      </Text>
+                      <Link
+                        to={`/${spaceId}/repos/${repoId}/pipelines/${check.check.identifier}/executions/${(check.check.payload?.data as ExecutionPayloadType).execution_number}`}
+                        replace>
+                        <Text size={1} color="tertiaryBackground">
+                          Details
+                        </Text>
+                      </Link>
                     )}
                   </div>
                   <div className="col-span-1 flex justify-end">

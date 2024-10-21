@@ -1,7 +1,7 @@
 import { TypesCodeOwnerEvaluationEntry } from '@harnessio/code-service-client'
 import { EnumPullReqReviewDecisionExtended, PullReqReviewDecision, TypeCheckData } from './types/types'
 import { ExecutionState, extractInfoForCodeOwnerContentProps } from '../../types'
-import { isEmpty } from 'lodash-es'
+import { get, isEmpty } from 'lodash-es'
 import type * as Diff2Html from 'diff2html'
 import HoganJsUtils from 'diff2html/lib/hoganjs-utils'
 
@@ -481,3 +481,6 @@ export function generateAlphaNumericHash(length: number) {
 
   return result
 }
+
+export const getErrorMessage = (error: unknown): string | undefined =>
+  error ? (get(error, 'data.error', get(error, 'data.message', get(error, 'message', error))) as string) : undefined

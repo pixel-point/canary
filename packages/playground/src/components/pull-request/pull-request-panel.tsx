@@ -45,6 +45,8 @@ interface PullRequestPanelProps extends PullRequestChangesSectionProps {
   resolvedCommentArr?: { params: number[] }
   requiresCommentApproval?: boolean
   checkboxBypass?: boolean
+  spaceId?: string
+  repoId?: string
   setCheckboxBypass?: (value: boolean) => void
   ruleViolationArr:
     | {
@@ -135,7 +137,9 @@ const PullRequestPanel = ({
   resolvedCommentArr,
   ruleViolationArr,
   checkboxBypass,
-  setCheckboxBypass
+  setCheckboxBypass,
+  spaceId,
+  repoId
 }: PullRequestPanelProps) => {
   const mergeable = useMemo(() => pullReqMetadata?.merge_check_status === MergeCheckStatus.MERGEABLE, [pullReqMetadata])
   const isClosed = pullReqMetadata?.state === PullRequestState.CLOSED
@@ -204,7 +208,7 @@ const PullRequestPanel = ({
                           ? 'warning'
                           : 'error'
                     }
-                    disabled={!checkboxBypass}
+                    disabled={!checkboxBypass && ruleViolation}
                     onClick={actions[0]?.action}
                     dropdown={
                       <DropdownMenu>
@@ -260,7 +264,7 @@ const PullRequestPanel = ({
           {(!!resolvedCommentArr || requiresCommentApproval) && !pullReqMetadata?.merged && (
             <PullRequestCommentSection commentsInfo={commentsInfo} />
           )}
-          <PullRequestCheckSection checkData={checkData} checksInfo={checksInfo} />
+          <PullRequestCheckSection checkData={checkData} checksInfo={checksInfo} spaceId={spaceId} repoId={repoId} />
 
           {!pullReqMetadata?.merged && (
             <PullRequestMergeSection

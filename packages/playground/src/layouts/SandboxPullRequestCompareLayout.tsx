@@ -134,7 +134,7 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
               <TabTriggerItem value="changes" icon="changes" label="Changes" badgeCount={1} />
             </TabsList>
             <TabsContent value="overview">
-              <Spacer size={1} />
+              <Spacer size={4} />
               <PullRequestCompareForm
                 register={register}
                 ref={formRef} // Pass the ref to the form

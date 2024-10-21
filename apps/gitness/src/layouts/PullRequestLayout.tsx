@@ -72,7 +72,8 @@ const PullRequestLayout: React.FC = () => {
                 </Badge>
               </TabsTrigger>
             </NavLink>
-            <NavLink to={`checks`}>
+            {/* TODO: checks page will direct to execution details page for now */}
+            {/* <NavLink to={`checks`}>
               <TabsTrigger value={PullRequestTab.CHECKS}>
                 <Icon size={14} name="checks" />
                 Checks
@@ -80,7 +81,7 @@ const PullRequestLayout: React.FC = () => {
                   9
                 </Badge>
               </TabsTrigger>
-            </NavLink>
+            </NavLink> */}
           </TabsList>
         </Tabs>
         <Spacer size={8} />

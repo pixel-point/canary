@@ -172,6 +172,8 @@ export default function PullRequestConversationPage() {
         leftColumn={
           <>
             <PullRequestPanel
+              spaceId={undefined}
+              repoId={undefined}
               changesInfo={mockChangesData}
               checksInfo={checksInfo}
               commentsInfo={commentsInfo}

@@ -52,6 +52,7 @@ export default function PullRequestConversationPage() {
   } = usePullRequestData()
   const { currentUser: currentUserData } = useAppContext()
   const [checkboxBypass, setCheckboxBypass] = useState(false)
+  const { spaceId, repoId } = useParams<PathParams>()
 
   const repoRef = useGetRepoRef()
   const { pullRequestId } = useParams<PathParams>()
@@ -249,6 +250,8 @@ export default function PullRequestConversationPage() {
           <>
             {/* TODO: fix handleaction for comment section in panel */}
             <PullRequestPanel
+              spaceId={spaceId}
+              repoId={repoId}
               changesInfo={{
                 header: changesInfo?.title,
                 content: changesInfo?.statusMessage,
