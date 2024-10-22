@@ -169,7 +169,7 @@ export const RootLayout: React.FC<RootLayoutProps> = ({ currentUser }) => {
                 <NavLink to="/sandbox/repos/create">
                   <Navbar.Item text="Create repository" icon={<Icon name="repositories" size={12} />} />
                 </NavLink>
-                <NavLink to="/sandbox/repos/drone/pull-requests/create">
+                <NavLink to="/sandbox/repos/drone/pull-requests/compare">
                   <Navbar.Item text="Create pull request" icon={<Icon name="pr-open" size={12} />} />
                 </NavLink>
                 <NavLink to="/sandbox/settings/account">

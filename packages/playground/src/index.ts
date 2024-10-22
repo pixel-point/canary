@@ -107,6 +107,8 @@ export * from './pages/sandbox-repo-settings-page'
 
 export * from './pages/sandbox-repo-create-page'
 
+export * from './layouts/SandboxPullRequestCompareLayout'
+
 export * from './pages/sandbox-settings-project-page'
 export * from './pages/sandbox-settings-project-general-page'
 export * from './pages/sandbox-settings-project-members-page'
