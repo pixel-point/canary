@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Root as SearchBox } from './search-box'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './dialog'
 import { Spacer } from './spacer'
+import { Text } from '..'
 
 interface ProjectProps {
   avatarLink: React.ReactNode
@@ -19,8 +20,13 @@ function Root({ avatarLink }: ProjectProps) {
   }
 
   return (
-    <div className="grid grid-cols-[auto_1fr] w-full items-center gap-2.5 justify-items-start">
-      <div className="flex items-center">{avatarLink}</div>
+    <div className="flex flex-col w-full items-start justify-items-start">
+      <div className="h-[55px] flex items-center gap-2.5">
+        {avatarLink}
+        <Text size={4} color="primary" weight="bold">
+          harness
+        </Text>
+      </div>
       <SearchBox
         textSize={1}
         width="full"

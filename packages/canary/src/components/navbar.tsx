@@ -21,7 +21,7 @@ function Root({ className, children }: NavbarRootProps) {
 }
 
 function Header({ children }: { children: React.ReactNode }) {
-  return <div className="sticky top-0 bg-primary-background z-20 px-5 h-[57px] items-center grid">{children}</div>
+  return <div className="sticky top-0 bg-primary-background z-20 px-5 items-center grid">{children}</div>
 }
 
 function Content({ children }: { children: React.ReactNode }) {

@@ -100,7 +100,7 @@ const Root = ({
         className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-tertiary-background"
       />
       {hasShortcut && (
-        <div className="absolute right-2.5 top-1/2 transform -translate-y-1/2 text-tertiary-background flex gap-0.5 items-center shadow-border shadow-[0_0_0_1px] rounded-md px-1 opacity-80 hover:opacity-100 ease-in-out duration-100 cursor-pointer">
+        <div className="absolute right-2.5 top-1/2 transform -translate-y-1/2 text-tertiary-background flex gap-0.5 items-center shadow-border shadow-[0_0_0_1px] rounded-sm px-1.5 opacity-80 hover:opacity-100 ease-in-out duration-100 cursor-pointer">
           <Icon name="apple-shortcut" size={12} />
           <Text size={0} color="tertiaryBackground">
             {shortcutLetter}
