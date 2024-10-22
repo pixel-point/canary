@@ -1,6 +1,5 @@
 import React, { createContext, useCallback, useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
-import { Skeleton } from '@harnessio/canary'
 import { useYamlEditorContext } from '@harnessio/yaml-editor'
 import { countProblems, monacoMarkers2Problems } from '../utils/problems-utils'
 import type { InlineActionArgsType } from '../utils/inline-actions'
@@ -138,16 +137,6 @@ const PipelineStudioDataProvider = ({ children }: React.PropsWithChildren) => {
     }),
     [injectInArray, deleteInArray, updateInArray]
   )
-
-  if (state.fetchingPipelineData || state.fetchingPipelineFileContent) {
-    // TODO: improve loading indicator
-    return (
-      <div className="flex flex-col flex-1 gap-2 px-4 py-3 h-full items-center justify-center">
-        <Skeleton className="h-4 w-28" />
-        <Skeleton className="h-4 w-28" />
-      </div>
-    )
-  }
 
   return (
     <PipelineStudioDataContext.Provider

@@ -4,7 +4,6 @@ import {
   TypesExecution,
   TypesStage,
   useCancelExecutionMutation,
-  useCreateExecutionMutation,
   useFindExecutionQuery,
   useViewLogsQuery
 } from '@harnessio/code-service-client'
@@ -26,15 +25,15 @@ import { SSEEvent, ExecutionState } from '../../types'
 import { getDuration, timeAgoFromEpochTime, formatDuration } from '../pipeline-edit/utils/time-utils'
 import useSpaceSSE from '../../framework/hooks/useSpaceSSE'
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
-import { usePipelineDataContext } from '../pipeline-edit/context/PipelineStudioDataProvider'
 import { useLogs } from '../../framework/hooks/useLogs'
+import RunPipelineDialog from '../run-pipeline-dialog/run-pipeline-dialog'
 
 const ExecutionLogs: React.FC = () => {
-  const { gitInfo } = usePipelineDataContext()
   const navigate = useNavigate()
   const space = useGetSpaceURLParam() ?? ''
   const { pipelineId, executionId } = useParams<PathParams>()
   const repoRef = useGetRepoRef()
+  const [openRunPipeline, setOpenRunPipeline] = useState(false)
   const [stage, setStage] = useState<TypesStage>()
   const [stageNum, setStageNum] = useState<number>(1)
   const [stepNum, setStepNum] = useState<number>(1)
@@ -78,12 +77,6 @@ const ExecutionLogs: React.FC = () => {
     pipeline_identifier: pipelineIdentifier,
     execution_number: executionNum,
     repo_ref: repoRef
-  })
-
-  const { mutateAsync: rerunExecution } = useCreateExecutionMutation({
-    pipeline_identifier: pipelineIdentifier,
-    repo_ref: repoRef,
-    queryParams: { branch: gitInfo?.default_branch }
   })
 
   useEffect(() => {
@@ -134,15 +127,6 @@ const ExecutionLogs: React.FC = () => {
     }
   }, [execution?.stages, stageNum])
 
-  const handleRerun = (): void => {
-    rerunExecution({})
-      .then(response => {
-        const executionId = response.number
-        navigate(`../executions/${executionId}`)
-      })
-      .catch()
-  }
-
   const handleCancel = (): void => {
     cancelExecution({})
       .then(() => {})
@@ -155,7 +139,7 @@ const ExecutionLogs: React.FC = () => {
         <div className="flex items-center gap-x-3 h-14 px-4">
           <SplitButton
             size="sm"
-            onClick={handleRerun}
+            onClick={() => setOpenRunPipeline(true)}
             dropdown={<Icon name="chevron-down" size={12} />}
             menu={
               <>
@@ -165,7 +149,7 @@ const ExecutionLogs: React.FC = () => {
               </>
             }>
             <Icon name="lightning" className="mr-2" />
-            Rerun
+            Run
           </SplitButton>
         </div>
       </div>
@@ -242,6 +226,15 @@ const ExecutionLogs: React.FC = () => {
           )}
         </ScrollArea>
       </Layout.Horizontal>
+      <RunPipelineDialog
+        open={openRunPipeline}
+        onClose={() => {
+          setOpenRunPipeline(false)
+        }}
+        pipelineId={pipelineIdentifier}
+        branch={initialExecutionData?.source} // TODO: check this
+        toExecutions={'../executions'}
+      />
     </>
   )
 }

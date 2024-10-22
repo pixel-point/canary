@@ -15,7 +15,8 @@ export enum InputType {
   list = 'list',
   group = 'group',
   textarea = 'textarea',
-  select = 'select'
+  select = 'select',
+  separator = 'separator'
 }
 
 export type InputConfigType =
