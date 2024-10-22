@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Button,
   ButtonGroup,
@@ -12,40 +12,33 @@ import {
   SelectTrigger,
   SelectValue,
   Text,
-  Textarea
+  Textarea,
+  Spacer
 } from '@harnessio/canary'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
-import { FormFieldSet } from '../../../index'
+import { FormFieldSet, SkeletonList } from '../../../index'
 import { MessageTheme } from '../../../components/form-field-set'
+import { RepoData, AccessLevel, RepoUpdateData, ErrorTypes } from './types'
 
-// Define the form schema with optional fields for gitignore and license
 const formSchema = z.object({
   name: z.string().min(1, 'Name is required'),
-  description: z.string().min(1, 'Description is required'),
-  branch: z.enum(['1', '2', '3']),
-  access: z.enum(['1', '2'], {})
+  description: z.string(),
+  branch: z.string(),
+  access: z.enum([AccessLevel.PUBLIC, AccessLevel.PRIVATE], {})
 })
-export type FormFields = z.infer<typeof formSchema> // Automatically generate a type from the schema
+export type RepoUpdateFormFields = z.infer<typeof formSchema>
 
-interface RepoSettingsGeneralFormProps {
-  /* onFormSubmit?: (data: FormFields) => void
-  onFormCancel?: () => void
-  apiError?: string | null
-  isLoading?: boolean
-  isSuccess?: boolean*/
-  isLoading?: boolean
-}
-export const RepoSettingsGeneralForm: React.FC<RepoSettingsGeneralFormProps> = ({
-  /*onFormSubmit,
-  apiError = null,
-  onFormCancel,
-  isLoading,
-  isSuccess*/
-  isLoading = false
-}) => {
+export const RepoSettingsGeneralForm: React.FC<{
+  repoData: RepoData
+  handleRepoUpdate: (data: RepoUpdateData) => void
+  apiError: { type: ErrorTypes; message: string } | null
+  isLoadingRepoData: boolean
+  isUpdatingRepoData: boolean
+  isRepoUpdateSuccess: boolean
+}> = ({ repoData, handleRepoUpdate, apiError, isLoadingRepoData, isUpdatingRepoData, isRepoUpdateSuccess }) => {
   const {
     register,
     handleSubmit,
@@ -53,36 +46,62 @@ export const RepoSettingsGeneralForm: React.FC<RepoSettingsGeneralFormProps> = (
     watch,
     reset,
     formState: { errors, isValid }
-  } = useForm<FormFields>({
+  } = useForm<RepoUpdateFormFields>({
     resolver: zodResolver(formSchema),
     mode: 'onChange',
     defaultValues: {
-      name: '',
-      description: '',
-      branch: '1',
-      access: '1'
+      name: repoData.name || '',
+      description: repoData.description || '',
+      branch: repoData.defaultBranch || '',
+      access: repoData.isPublic ? AccessLevel.PUBLIC : AccessLevel.PRIVATE
     }
   })
+
+  useEffect(() => {
+    reset({
+      name: repoData.name || '',
+      description: repoData.description || '',
+      branch: repoData.defaultBranch || '',
+      access: repoData.isPublic ? AccessLevel.PUBLIC : AccessLevel.PRIVATE
+    })
+  }, [repoData, isLoadingRepoData])
 
   const accessValue = watch('access')
   const branchValue = watch('branch')
 
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
 
-  const handleSelectChange = (fieldName: keyof FormFields, value: string) => {
+  useEffect(() => {
+    if (isSubmitted && isRepoUpdateSuccess) {
+      setTimeout(() => {
+        setIsSubmitted(false)
+      }, 1000)
+    }
+  }, [isSubmitted, isRepoUpdateSuccess])
+
+  const handleSelectChange = (fieldName: keyof RepoUpdateFormFields, value: string) => {
     setValue(fieldName, value, { shouldValidate: true })
   }
 
-  const handleAccessChange = (value: '1' | '2') => {
+  const handleAccessChange = (value: AccessLevel) => {
     setValue('access', value, { shouldValidate: true })
   }
-  const onSubmit: SubmitHandler<FormFields> = data => {
+  const onSubmit: SubmitHandler<RepoUpdateFormFields> = data => {
     setIsSubmitted(true)
-    console.log(data)
+    handleRepoUpdate(data)
     reset()
-    setTimeout(() => {
-      setIsSubmitted(false)
-    }, 2000)
+  }
+  const isDefaultInBranches = repoData.branches.some(branch => branch.name === repoData.defaultBranch)
+  const errorTypes = new Set([
+    ErrorTypes.FETCH_REPO,
+    ErrorTypes.FETCH_BRANCH,
+    ErrorTypes.DESCRIPTION_UPDATE,
+    ErrorTypes.BRANCH_UPDATE,
+    ErrorTypes.UPDATE_ACCESS
+  ])
+
+  if (isLoadingRepoData) {
+    return <SkeletonList />
   }
 
   return (
@@ -90,7 +109,6 @@ export const RepoSettingsGeneralForm: React.FC<RepoSettingsGeneralFormProps> = (
       <Text size={4} weight="medium">
         General settings
       </Text>
-      {/* <Spacer size={3} /> */}
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* NAME */}
         <FormFieldSet.Root>
@@ -98,16 +116,14 @@ export const RepoSettingsGeneralForm: React.FC<RepoSettingsGeneralFormProps> = (
             <FormFieldSet.Label htmlFor="name" required>
               Name
             </FormFieldSet.Label>
-            <Input id="name" {...register('name')} placeholder="Enter repository name" autoFocus />
+            <Input id="name" {...register('name')} placeholder="Enter repository name" disabled />
             {errors.name && (
               <FormFieldSet.Message theme={MessageTheme.ERROR}>{errors.name.message?.toString()}</FormFieldSet.Message>
             )}
           </FormFieldSet.ControlGroup>
           {/* DESCRIPTION */}
           <FormFieldSet.ControlGroup>
-            <FormFieldSet.Label htmlFor="description" required>
-              Description
-            </FormFieldSet.Label>
+            <FormFieldSet.Label htmlFor="description">Description</FormFieldSet.Label>
             <Textarea
               id="description"
               {...register('description')}
@@ -121,7 +137,6 @@ export const RepoSettingsGeneralForm: React.FC<RepoSettingsGeneralFormProps> = (
           </FormFieldSet.ControlGroup>
         </FormFieldSet.Root>
 
-        {/* GITIGNORE */}
         <FormFieldSet.Root className="max-w-[150px]">
           <FormFieldSet.ControlGroup>
             <FormFieldSet.Label htmlFor="branch">Default Branch</FormFieldSet.Label>
@@ -130,9 +145,18 @@ export const RepoSettingsGeneralForm: React.FC<RepoSettingsGeneralFormProps> = (
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="1">Main</SelectItem>
-                <SelectItem value="2">Branch 2</SelectItem>
-                <SelectItem value="3">Branch 3</SelectItem>
+                {!isDefaultInBranches && repoData.defaultBranch && (
+                  <SelectItem key={repoData.defaultBranch} value={repoData.defaultBranch}>
+                    {repoData.defaultBranch}
+                  </SelectItem>
+                )}
+                {repoData.branches.map(branch => {
+                  return (
+                    <SelectItem key={branch.name} value={branch.name || ''}>
+                      {branch.name}
+                    </SelectItem>
+                  )
+                })}
               </SelectContent>
             </Select>
             {errors.branch && (
@@ -170,23 +194,23 @@ export const RepoSettingsGeneralForm: React.FC<RepoSettingsGeneralFormProps> = (
           </FormFieldSet.ControlGroup>
         </FormFieldSet.Root>
 
-        {/*{apiError && (
+        {apiError && errorTypes.has(apiError.type) && (
           <>
             <Spacer size={2} />
             <Text size={1} className="text-destructive">
-              {apiError?.toString()}
+              {apiError.message}
             </Text>
           </>
-        )}*/}
+        )}
 
         {/* SUBMIT BUTTONS */}
         <FormFieldSet.Root className="mb-0">
           <FormFieldSet.ControlGroup>
             <ButtonGroup.Root>
-              {!isSubmitted ? (
+              {!isSubmitted || !isRepoUpdateSuccess ? (
                 <>
-                  <Button type="submit" size="sm" disabled={!isValid || isLoading}>
-                    {!isLoading ? 'Save' : 'Saving...'}
+                  <Button type="submit" size="sm" disabled={!isValid || isUpdatingRepoData}>
+                    {!isUpdatingRepoData ? 'Save' : 'Saving...'}
                   </Button>
                 </>
               ) : (
