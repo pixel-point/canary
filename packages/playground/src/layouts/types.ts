@@ -8,6 +8,7 @@ export interface TypesUser {
   email?: string
   uid?: string
   updated?: number
+  url?: string
 }
 
 export const formSchema = z.object({

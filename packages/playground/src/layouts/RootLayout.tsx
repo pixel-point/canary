@@ -181,13 +181,21 @@ export const RootLayout: React.FC<RootLayoutProps> = ({ currentUser }) => {
               </Navbar.AccordionGroup>
             </Navbar.Content>
             <Navbar.Footer>
-              <NavLink to="/sandbox/settings/profile/general" className="p-2 hover:bg-tertiary">
-                <NavbarUser.Root
-                  username={currentUser ? currentUser.display_name : 'Steven M.'}
-                  isAdmin={currentUser ? currentUser.admin : false}
-                  url={currentUser ? undefined : '../images/user-avatar.svg'}
-                />{' '}
-              </NavLink>
+              <NavbarUser.Root
+                username={currentUser?.display_name || currentUser?.uid}
+                isAdmin={currentUser?.admin || false}
+                url={currentUser?.url || ''}
+                menuItems={[
+                  {
+                    key: 0,
+                    element: <Link to="/sandbox/settings/profile/general">Settings</Link>
+                  },
+                  {
+                    key: 1,
+                    element: <Link to="/logout">Log out</Link>
+                  }
+                ]}
+              />
             </Navbar.Footer>
           </Navbar.Root>
         )}
