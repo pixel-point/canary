@@ -11,13 +11,14 @@ import {
   Text,
   Button
 } from '@harnessio/canary'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { SkeletonList, PullRequestList, NoData, useCommonFilter, Filter, SandboxLayout } from '@harnessio/playground'
 import { ListPullReqQueryQueryParams, TypesPullReq, useListPullReqQuery } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 import { usePagination } from '../framework/hooks/usePagination'
 import { timeAgoFromEpochTime } from './pipeline-edit/utils/time-utils'
 import { DropdownItemProps } from '../../../../packages/canary/dist/components/list-actions'
+import { PathParams } from '../RouteDefinitions'
 
 const SortOptions = [
   { name: 'Created', value: 'created' },
@@ -28,6 +29,7 @@ const SortOptions = [
 ] as const satisfies DropdownItemProps[]
 
 function PullRequestSandboxListPage() {
+  const { repoId, spaceId } = useParams<PathParams>()
   // hardcoded
   const totalPages = 10
   const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => <Link to={to}>{children}</Link>
@@ -186,7 +188,7 @@ function PullRequestSandboxListPage() {
               <Filter sortOptions={SortOptions} />
             </div>
             <Button variant="default" asChild>
-              <Link to="#">New pull request</Link>
+              <Link to={`/sandbox/spaces/${spaceId}/repos/${repoId}/pull-requests/compare`}>New pull request</Link>
             </Button>
           </div>
 

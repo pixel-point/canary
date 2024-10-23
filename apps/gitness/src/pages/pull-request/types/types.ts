@@ -6,6 +6,8 @@ import {
   TypesPullReqActivity,
   TypesUser
 } from '@harnessio/code-service-client'
+import { atom } from 'jotai'
+import { z } from 'zod'
 
 export enum orderSortDate {
   ASC = 'asc',
@@ -185,3 +187,17 @@ export interface FilterViewProps {
 }
 
 export type EnumPullReqReviewDecisionExtended = EnumPullReqReviewDecision | 'outdated'
+
+export const formSchema = z.object({
+  title: z.string().min(1, { message: 'Please provide a pull request title' }),
+  description: z.string().min(1, { message: 'Please provide a description' })
+})
+export type FormFields = z.infer<typeof formSchema> // Automatically generate a type from the schema
+export const changesInfoAtom = atom<{ path?: string; raw?: string; fileViews?: Map<string, string> }>({})
+
+export interface TypesDiffStats {
+  additions?: number | null
+  commits?: number | null
+  deletions?: number | null
+  files_changed?: number | null
+}

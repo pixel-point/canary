@@ -10,11 +10,11 @@ import {
 import { PullRequestChanges, SkeletonList } from '@harnessio/playground'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { compact, isEqual } from 'lodash-es'
-import { atom, useAtom } from 'jotai'
+import { useAtom } from 'jotai'
 import { normalizeGitRef } from '../../utils/git-utils'
 import { usePullRequestData } from './context/pull-request-data-provider'
 import { changedFileId, DIFF2HTML_CONFIG, normalizeGitFilePath } from './utils'
-import { DiffFileEntry, DiffViewerExchangeState, PullReqReviewDecision } from './types/types'
+import { changesInfoAtom, DiffFileEntry, DiffViewerExchangeState, PullReqReviewDecision } from './types/types'
 import { parseSpecificDiff } from './diff-utils'
 import { useAppContext } from '../../framework/context/AppContext'
 import { useParams } from 'react-router-dom'
@@ -211,5 +211,3 @@ export default function PullRequestChangesPage() {
     </>
   )
 }
-
-const changesInfoAtom = atom<{ path?: string; raw?: string; fileViews?: Map<string, string> }>({})

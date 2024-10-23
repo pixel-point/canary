@@ -56,6 +56,7 @@ import { SandboxFileViewer } from './components/SandboxFileViewer'
 import PullRequestChangesPage from './pages/pull-request/pull-request-changes-page'
 import { ProjectSettingsGeneralPage } from './pages/project-settings/project-settings-general-page'
 import { RepoSettingsGeneralPageContainer } from './pages/repo-sandbox/repo-settings-general-container'
+import { CreatePullRequest } from './pages/pull-request/pull-request-compare-page'
 
 const BASE_URL_PREFIX = `${window.apiUrl || ''}/api/v1`
 
@@ -341,8 +342,8 @@ export default function App() {
                   children: [
                     { index: true, element: <PullRequestSandboxListPage /> },
                     {
-                      path: 'create',
-                      element: <>tttttestestestset</>
+                      path: 'compare',
+                      element: <CreatePullRequest />
                     }
                   ]
                 },

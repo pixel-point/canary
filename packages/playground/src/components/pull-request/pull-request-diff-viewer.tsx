@@ -187,7 +187,7 @@ const PullRequestDiffViewer = ({
     diffFileInstance && (
       <DiffView<string>
         ref={ref}
-        className="text-tertiary-background bg-tr"
+        className="text-tertiary-background bg-tr w-full"
         //   renderWidgetLine={({ onClose }) => {
         //     console.log('render widget')
         //     return <></>
