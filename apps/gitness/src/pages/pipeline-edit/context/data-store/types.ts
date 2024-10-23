@@ -6,6 +6,8 @@ import { InlineActionArgsType } from '../../utils/inline-actions'
 import { YamlProblemSeverity } from '../../types/types'
 
 export interface DataReducerState {
+  /** is all data loaded - UI ready for use */
+  isInitialized: boolean
   /** isDirty is true if current pipeline in the editor is different from source pipeline loaded from api */
   isDirty: boolean
   /** isExistingPipeline is true if pipeline exist in the repo  */

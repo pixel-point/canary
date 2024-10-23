@@ -11,6 +11,7 @@ const PipelineStudioHeaderActions = (): JSX.Element => {
       pipelineData,
       pipelineFileContent,
       fetchingPipelineFileContent,
+      isInitialized,
       yamlRevision,
       isExistingPipeline,
       isDirty
@@ -72,7 +73,9 @@ const PipelineStudioHeaderActions = (): JSX.Element => {
         dropdown={<>&gt;</>}
         menu={
           <>
-            <DropdownMenuItem onClick={() => handleSave(false)}>Save</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleSave(false)} disabled={disabled}>
+              Save
+            </DropdownMenuItem>
           </>
         }>
         <Icon name="lightning" className="mr-2" /> Save and run
@@ -85,10 +88,10 @@ const PipelineStudioHeaderActions = (): JSX.Element => {
     <>
       <div className="absolute right-0 top-0 w-fit">
         <div className="flex items-center gap-x-3 h-14 px-4">
-          <Button variant="ghost" size="sm" disabled={!pipelineFileContent || fetchingPipelineFileContent}>
+          <Button variant="ghost" size="sm" disabled={!isInitialized || fetchingPipelineFileContent}>
             Settings
           </Button>
-          {renderActionButton({ disabled: !pipelineFileContent || fetchingPipelineFileContent })}
+          {renderActionButton({ disabled: !isInitialized || fetchingPipelineFileContent })}
         </div>
       </div>
       <RunPipelineDialog

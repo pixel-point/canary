@@ -1,6 +1,8 @@
 import { DataActionName, DataActions, DataReducerState } from './types'
 
 export const initialState: DataReducerState = {
+  isInitialized: false,
+  //
   isDirty: false,
   isExistingPipeline: false,
   //

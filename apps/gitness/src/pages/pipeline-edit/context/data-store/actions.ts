@@ -97,7 +97,7 @@ export const loadPipelineAction = ({
       } catch (_ex) {
         // NOTE: if there is no file we threat as new pipeline
         dispatch(setYamlRevisionAction({ yamlRevision: { yaml: stringify(starterPipelineV1) } }))
-        dispatch(updateState({ isExistingPipeline: false }))
+        dispatch(updateState({ isExistingPipeline: false, isInitialized: true }))
 
         return
       } finally {
@@ -113,7 +113,8 @@ export const loadPipelineAction = ({
         decodedPipeline: decodedPipelineYaml,
         pipelineFileContent,
         isDirty: false,
-        isExistingPipeline: true
+        isExistingPipeline: true,
+        isInitialized: true
       })
     )
   }
