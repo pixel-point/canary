@@ -1,5 +1,5 @@
-import React, { useState, useReducer } from 'react'
-import { Button, ButtonGroup, Icon, useZodForm } from '@harnessio/canary'
+import React, { useState, useReducer, useEffect } from 'react'
+import { Button, ButtonGroup, Icon, useZodForm, Spacer, Text } from '@harnessio/canary'
 import { SubmitHandler } from 'react-hook-form'
 import {
   BranchSettingsRuleToggleField,
@@ -14,12 +14,35 @@ import {
 import { branchSettingsReducer } from '../components/repo-settings/repo-branch-settings-rules/reducers/repo-branch-settings-reducer'
 import { FormFieldSet } from '../index'
 import { branchRules } from '../components/repo-settings/repo-branch-settings-rules/repo-branch-settings-rules-data'
+import { repoBranchSettingsFormSchema } from '../components/repo-settings/repo-branch-settings-rules/repo-branch-settings-rules-schema'
 import {
   RepoBranchSettingsFormFields,
-  repoBranchSettingsFormSchema
-} from '../components/repo-settings/repo-branch-settings-rules/repo-branch-settings-rules-schema'
-import { mockBypassUserData } from './mocks/repo-branch-settings/mockBypassUserData'
-export const RepoBranchSettingsRulesPage: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) => {
+  BypassUsersList
+} from '../components/repo-settings/repo-branch-settings-rules/types'
+
+type BranchSettingsErrors = {
+  principals: string | null
+  statusChecks: string | null
+  addRule: string | null
+}
+
+interface RepoBranchSettingsRulesPageProps {
+  isLoading?: boolean
+  handleRuleUpdate: (data: RepoBranchSettingsFormFields) => void
+  principals?: BypassUsersList[]
+  recentStatusChecks?: string[]
+  apiErrors?: BranchSettingsErrors
+  addRuleSuccess: boolean
+}
+
+export const RepoBranchSettingsRulesPage: React.FC<RepoBranchSettingsRulesPageProps> = ({
+  isLoading,
+  handleRuleUpdate,
+  principals,
+  recentStatusChecks,
+  apiErrors,
+  addRuleSuccess
+}) => {
   const {
     register,
     handleSubmit,
@@ -31,13 +54,14 @@ export const RepoBranchSettingsRulesPage: React.FC<{ isLoading?: boolean }> = ({
     schema: repoBranchSettingsFormSchema,
     mode: 'onChange',
     defaultValues: {
-      name: '',
+      identifier: '',
       description: '',
-      targetPatterns: '',
-      toggleValue: true,
-      defaultBranchValue: true,
-      editPermissionsValue: false,
-      bypassValue: '',
+      pattern: '',
+      patterns: [],
+      state: true,
+      default: false,
+      repo_owners: false,
+      bypass: [],
       access: '1',
       rules: []
     }
@@ -48,7 +72,7 @@ export const RepoBranchSettingsRulesPage: React.FC<{ isLoading?: boolean }> = ({
       id: rule.id,
       checked: false,
       submenu: [],
-      selectOptions: ''
+      selectOptions: []
     }))
   )
 
@@ -57,10 +81,16 @@ export const RepoBranchSettingsRulesPage: React.FC<{ isLoading?: boolean }> = ({
   const onSubmit: SubmitHandler<RepoBranchSettingsFormFields> = data => {
     setIsSubmitted(true)
     const formData = { ...data, rules }
-
-    console.log(formData)
+    handleRuleUpdate(formData)
     reset()
   }
+  useEffect(() => {
+    if (isSubmitted && addRuleSuccess) {
+      setTimeout(() => {
+        setIsSubmitted(false)
+      }, 1000)
+    }
+  }, [isSubmitted, addRuleSuccess])
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -68,21 +98,39 @@ export const RepoBranchSettingsRulesPage: React.FC<{ isLoading?: boolean }> = ({
           <BranchSettingsRuleToggleField register={register} setValue={setValue} watch={watch} />
           <BranchSettingsRuleNameField register={register} errors={errors} />
           <BranchSettingsRuleDescriptionField register={register} errors={errors} />
-          <BranchSettingsRuleTargetPatternsField register={register} errors={errors} />
+          <BranchSettingsRuleTargetPatternsField
+            watch={watch}
+            setValue={setValue}
+            register={register}
+            errors={errors}
+          />
           <BranchSettingsRuleDefaultBranchField register={register} errors={errors} setValue={setValue} watch={watch} />
-          <BranchSettingsRuleBypassListField setValue={setValue} watch={watch} bypassOptions={mockBypassUserData} />
+          <BranchSettingsRuleBypassListField
+            setValue={setValue}
+            watch={watch}
+            bypassOptions={principals as BypassUsersList[]}
+          />
           <BranchSettingsRuleEditPermissionsField
             register={register}
             errors={errors}
             setValue={setValue}
             watch={watch}
           />
-          <BranchSettingsRuleListField rules={rules} dispatch={dispatch} />
+          <BranchSettingsRuleListField rules={rules} dispatch={dispatch} recentStatusChecks={recentStatusChecks} />
 
-          <FormFieldSet.Root>
+          {apiErrors && (apiErrors.principals || apiErrors.statusChecks || apiErrors.addRule) && (
+            <>
+              <Spacer size={2} />
+              <Text size={1} className="text-destructive">
+                {apiErrors.principals || apiErrors.statusChecks || apiErrors.addRule}
+              </Text>
+            </>
+          )}
+
+          <FormFieldSet.Root className="mt-0">
             <FormFieldSet.ControlGroup>
               <ButtonGroup.Root>
-                {!isSubmitted ? (
+                {!isSubmitted || !addRuleSuccess ? (
                   <>
                     <Button type="submit" size="sm" disabled={!isValid || isLoading}>
                       {!isLoading ? 'Create rule' : 'Creating rule...'}

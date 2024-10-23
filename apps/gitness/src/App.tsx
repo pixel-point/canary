@@ -58,6 +58,7 @@ import { ProjectSettingsGeneralPage } from './pages/project-settings/project-set
 import { RepoSettingsGeneralPageContainer } from './pages/repo-sandbox/repo-settings-general-container'
 import { CreatePullRequest } from './pages/pull-request/pull-request-compare-page'
 
+import { RepoBranchSettingsRulesPageContainer } from './pages/repo-sandbox/repo-sandbox-branch-rules-container'
 const BASE_URL_PREFIX = `${window.apiUrl || ''}/api/v1`
 
 export default function App() {
@@ -366,6 +367,10 @@ export default function App() {
                     {
                       path: 'general',
                       element: <RepoSettingsGeneralPageContainer />
+                    },
+                    {
+                      path: 'rules',
+                      element: <RepoBranchSettingsRulesPageContainer />
                     }
                   ]
                 }

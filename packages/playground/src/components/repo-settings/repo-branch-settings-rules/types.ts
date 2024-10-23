@@ -1,11 +1,20 @@
 import { UseFormRegister, FieldErrors, UseFormWatch, UseFormSetValue } from 'react-hook-form'
-import { RepoBranchSettingsFormFields } from './repo-branch-settings-rules-schema'
+import { repoBranchSettingsFormSchema } from './repo-branch-settings-rules-schema'
+import { z } from 'zod'
+
+export type RepoBranchSettingsFormFields = z.infer<typeof repoBranchSettingsFormSchema>
+
+export enum MergeStrategy {
+  Merge = 'merge',
+  Rebase = 'rebase',
+  Squash = 'squash'
+}
 
 export type Rule = {
   id: string
   checked: boolean
-  submenu: string[]
-  selectOptions: string
+  submenu: MergeStrategy[]
+  selectOptions: string[]
 }
 
 export enum ActionType {
@@ -17,7 +26,7 @@ export enum ActionType {
 export type Action =
   | { type: ActionType.TOGGLE_RULE; ruleId: string; checked: boolean }
   | { type: ActionType.TOGGLE_SUBMENU; ruleId: string; submenuId: string; checked: boolean }
-  | { type: ActionType.SET_SELECT_OPTION; ruleId: string; selectedOptions: string }
+  | { type: ActionType.SET_SELECT_OPTION; ruleId: string; checkName: string }
 
 export type Dispatch = (action: Action) => void
 
@@ -29,6 +38,11 @@ export interface FieldProps {
 }
 
 export interface BypassUsersList {
-  value: string
-  label: string
+  id: number
+  uid: string
+  display_name: string
+  email: string
+  type: 'user' | 'service' | 'serviceaccount'
+  created: number
+  updated: number
 }
