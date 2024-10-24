@@ -12,12 +12,19 @@ import {
   Avatar,
   AvatarImage,
   AvatarFallback,
-  Badge
+  Badge,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger
 } from '@harnessio/canary'
 import { getInitials } from '../utils/utils'
 import { CopyButton } from './copy-button'
 import { DivergenceGauge } from './divergence-gauge'
 import { CommitCopyActions } from './commit-copy-actions'
+import { Link } from 'react-router-dom'
 
 interface BranchProps {
   id: number
@@ -42,9 +49,55 @@ interface BranchProps {
 
 interface PageProps {
   branches: BranchProps[]
+  spaceId: string
+  repoId: string
+  defaultBranch: string
 }
 
-export const BranchesList = ({ branches }: PageProps) => {
+export const BranchesList = ({ branches, spaceId, repoId, defaultBranch }: PageProps) => {
+  const moreActionsTooltip = (branchInfo: BranchProps) => {
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" size="xs">
+            <Icon name="vertical-ellipsis" size={14} className="text-tertiary-background" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="shadow-sm py-2 bg-primary-background border border-gray-800 rounded-[10px] w-[180px]">
+          <DropdownMenuGroup>
+            <Link
+              replace
+              to={`/sandbox/spaces/${spaceId}/repos/${repoId}/pull-requests/compare/${defaultBranch}...${branchInfo.name}`}>
+              <DropdownMenuItem className="cursor-pointer">
+                <DropdownMenuShortcut className="ml-0">
+                  <Icon name="pr-open" className="mr-2" />
+                </DropdownMenuShortcut>
+                New pull request
+              </DropdownMenuItem>
+            </Link>
+            <DropdownMenuItem className="cursor-pointer">
+              <DropdownMenuShortcut className="ml-0">
+                <Icon name="add-file" className="mr-2" />
+              </DropdownMenuShortcut>
+              Activity
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
+              <DropdownMenuShortcut className="ml-0">
+                <Icon name="cog-6" className="mr-2" />
+              </DropdownMenuShortcut>
+              View Rules
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
+              <DropdownMenuShortcut className="ml-0">
+                <Icon name="edit-pen" className="mr-2" />
+              </DropdownMenuShortcut>
+              Rename Branch
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    )
+  }
   return (
     <Table variant="asStackedList">
       <TableHeader>
@@ -133,11 +186,7 @@ export const BranchesList = ({ branches }: PageProps) => {
                     </div>
                   </TableCell>
                 )}
-                <TableCell className="content-center">
-                  <div className="flex gap-1.5 items-center justify-end">
-                    <Icon name="vertical-ellipsis" size={14} className="text-tertiary-background" />
-                  </div>
-                </TableCell>
+                <TableCell className="content-center">{moreActionsTooltip(branch)}</TableCell>
               </TableRow>
             )
           })}

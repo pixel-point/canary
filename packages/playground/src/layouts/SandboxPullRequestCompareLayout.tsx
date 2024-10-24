@@ -47,6 +47,8 @@ interface SandboxPullRequestCompareProps {
   sourceBranch: string
   diffData: HeaderProps[]
   diffStats: TypesDiffStats
+  isBranchSelected: boolean
+  setIsBranchSelected: (val: boolean) => void
 }
 
 const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
@@ -63,11 +65,12 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
   targetBranch,
   sourceBranch,
   diffData,
-  diffStats
+  diffStats,
+  setIsBranchSelected,
+  isBranchSelected
 }) => {
   const formRef = useRef<HTMLFormElement>(null) // Create a ref for the form
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
-  const [isBranchSelected, setIsBranchSelected] = useState<boolean>(false) // State to track branch selection
   const {
     register,
     handleSubmit,

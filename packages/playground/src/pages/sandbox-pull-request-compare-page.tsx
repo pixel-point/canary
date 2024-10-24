@@ -24,6 +24,8 @@ const SandboxPullRequestComparePage = () => {
         selectSourceBranch={noop}
         selectTargetBranch={noop}
         commitData={mockCommitData}
+        isBranchSelected={true}
+        setIsBranchSelected={noop}
       />
     </>
   )

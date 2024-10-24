@@ -34,11 +34,20 @@ type BranchProps = {
 
 export default function BranchesListPage() {
   const [loadState, setLoadState] = useState('data-loaded')
-
+  const spaceId = 'spaceid'
+  const repoId = 'repoId'
+  const branch = 'main'
   const renderContent = () => {
     switch (loadState) {
       case 'data-loaded':
-        return <BranchesList branches={mockBranchData as BranchProps[]} />
+        return (
+          <BranchesList
+            defaultBranch={branch}
+            branches={mockBranchData as BranchProps[]}
+            spaceId={spaceId}
+            repoId={repoId}
+          />
+        )
       case 'loading':
         return <SkeletonList />
 

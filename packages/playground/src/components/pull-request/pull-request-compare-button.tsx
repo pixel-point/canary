@@ -54,6 +54,7 @@ const PullRequestCompareButton: React.FC<PullRequestCompareButtonProps> = ({
         <>
           <ButtonGroup.Root>
             <Button
+              theme={'primary'}
               variant="split"
               size="xs_split"
               onClick={handleCreateClick}

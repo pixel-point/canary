@@ -1,7 +1,19 @@
 import React from 'react'
 import cx from 'classnames'
 import { CheckCircleSolid, WarningTriangleSolid, Clock, ChatBubbleQuestionSolid } from '@harnessio/icons-noir'
-import { Button, Avatar, AvatarFallback, Icon, Text } from '@harnessio/canary'
+import {
+  Button,
+  Avatar,
+  AvatarFallback,
+  Icon,
+  Text,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger
+} from '@harnessio/canary'
 import { EnumPullReqReviewDecision, PullReqReviewDecision } from './interfaces'
 import { getInitials } from '../../utils/utils'
 
@@ -18,10 +30,11 @@ interface PullRequestSideBarProps {
   ) => EnumPullReqReviewDecision | PullReqReviewDecision.outdated
   pullRequestMetadata?: { source_sha: string }
   refetchReviewers: () => void
+  handleDelete: (id: number) => void
 }
 
 const PullRequestSideBar = (props: PullRequestSideBarProps) => {
-  const { reviewers = [], pullRequestMetadata, processReviewDecision, refetchReviewers } = props
+  const { reviewers = [], pullRequestMetadata, processReviewDecision, refetchReviewers, handleDelete } = props
 
   const ReviewerItem = ({
     reviewer,
@@ -35,7 +48,38 @@ const PullRequestSideBar = (props: PullRequestSideBarProps) => {
     sourceSHA?: string
   }) => {
     const updatedReviewDecision = reviewDecision && processReviewDecision(reviewDecision, sha, sourceSHA)
-
+    const moreActionsTooltip = (
+      reviewer:
+        | {
+            display_name?: string
+            id?: number
+          }
+        | undefined
+    ) => {
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="xs">
+              <Icon name="vertical-ellipsis" size={14} className="text-tertiary-background" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="shadow-sm py-2 bg-primary-background border border-gray-800 rounded-[10px] w-[180px]">
+            <DropdownMenuGroup>
+              <DropdownMenuItem
+                className="cursor-pointer text-red-400 hover:text-red-400 focus:text-red-400"
+                onSelect={() => {
+                  handleDelete?.(reviewer?.id ?? 0)
+                }}>
+                <DropdownMenuShortcut className="ml-0">
+                  <Icon name="trash" className="mr-2 text-red-400" />
+                </DropdownMenuShortcut>
+                Delete Reviewer
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )
+    }
     return (
       <div key={reviewer?.id} className="flex items-center space-x-2 mr-1">
         <Avatar
@@ -60,6 +104,7 @@ const PullRequestSideBar = (props: PullRequestSideBarProps) => {
         ) : updatedReviewDecision === PullReqReviewDecision.pending ? (
           <Clock />
         ) : null}
+        {moreActionsTooltip(reviewer)}
       </div>
     )
   }
