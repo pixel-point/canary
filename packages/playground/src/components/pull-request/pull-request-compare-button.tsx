@@ -7,15 +7,15 @@ import {
   DropdownMenuTrigger
 } from '@harnessio/canary'
 import { Icon, Text, Button, ButtonGroup } from '@harnessio/canary'
-import { FormFields } from '../../layouts/SandboxPullRequestCompareLayout'
+import { CompareFormFields } from '../../layouts/SandboxPullRequestCompareLayout'
 
 interface PullRequestCompareButtonProps {
   isSubmitted: boolean
   isValid: boolean
   isLoading: boolean
   formRef: React.RefObject<HTMLFormElement>
-  onFormSubmit: (data: FormFields) => void
-  onFormDraftSubmit: (data: FormFields) => void
+  onFormSubmit: (data: CompareFormFields) => void
+  onFormDraftSubmit: (data: CompareFormFields) => void
 }
 
 const PullRequestCompareButton: React.FC<PullRequestCompareButtonProps> = ({
@@ -34,7 +34,7 @@ const PullRequestCompareButton: React.FC<PullRequestCompareButtonProps> = ({
         title: formData.get('title'),
         description: formData.get('description')
       }
-      onFormDraftSubmit(data as FormFields) // Call the draft submit function
+      onFormDraftSubmit(data as CompareFormFields) // Call the draft submit function
     }
   }
   const handleCreateClick = (e: React.MouseEvent) => {
@@ -45,7 +45,7 @@ const PullRequestCompareButton: React.FC<PullRequestCompareButtonProps> = ({
         title: formData.get('title'),
         description: formData.get('description')
       }
-      onFormSubmit(data as FormFields) // Call the draft submit function
+      onFormSubmit(data as CompareFormFields) // Call the draft submit function
     }
   }
   return (

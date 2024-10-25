@@ -27,12 +27,16 @@ import * as Diff2Html from 'diff2html'
 
 export const CreatePullRequest = () => {
   const createPullRequestMutation = useCreatePullReqMutation({})
-  const { repoId, spaceId } = useParams<PathParams>()
+  const { repoId, spaceId, diffRefs } = useParams<PathParams>()
+  const [isBranchSelected, setIsBranchSelected] = useState<boolean>(diffRefs ? true : false) // State to track branch selection
+
+  const [diffTargetBranch, diffSourceBranch] = diffRefs ? diffRefs.split('...') : [undefined, undefined]
+
   const navigate = useNavigate()
   const [apiError, setApiError] = useState<string | null>(null)
   const repoRef = useGetRepoRef()
-  const [selectedTargetBranch, setSelectedTargetBranch] = useState<string>('main')
-  const [selectedSourceBranch, setSelectedSourceBranch] = useState<string>('main')
+  const [selectedTargetBranch, setSelectedTargetBranch] = useState<string>(diffTargetBranch ? diffTargetBranch : 'main')
+  const [selectedSourceBranch, setSelectedSourceBranch] = useState<string>(diffSourceBranch ? diffSourceBranch : 'main')
   const commitSHA = '' // TODO: when you implement commit filter will need commitSHA
   const defaultCommitRange = compact(commitSHA?.split(/~1\.\.\.|\.\.\./g))
   const [
@@ -185,9 +189,18 @@ export const CreatePullRequest = () => {
   }
   useEffect(() => {
     // useMergeCheckMutation
-    mergeCheck({ queryParams: {}, repo_ref: repoRef, range: diffApiPath }).then(value => {
-      setMergeabilty(value?.mergeable)
-    })
+    mergeCheck({ queryParams: {}, repo_ref: repoRef, range: diffApiPath })
+      .then(value => {
+        setMergeabilty(value?.mergeable)
+      })
+      .catch(err => {
+        if (err.message !== "head branch doesn't contain any new commits.") {
+          setApiError('Error in merge check')
+        } else {
+          setApiError("head branch doesn't contain any new commits.")
+        }
+        setMergeabilty(false)
+      })
   }, [repoRef, diffApiPath])
 
   const { data: diffStats } = useDiffStatsQuery(
@@ -211,6 +224,8 @@ export const CreatePullRequest = () => {
 
     return (
       <SandboxPullRequestCompare
+        isBranchSelected={isBranchSelected}
+        setIsBranchSelected={setIsBranchSelected}
         onFormSubmit={onSubmit}
         onFormCancel={onCancel}
         apiError={apiError}

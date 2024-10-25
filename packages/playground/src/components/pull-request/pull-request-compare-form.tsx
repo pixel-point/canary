@@ -6,12 +6,12 @@ import { MessageTheme } from '../form-field-set'
 import { FormFieldSet } from '../..'
 // Define the form schema
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const formSchema = z.object({
+const formSchemaCompare = z.object({
   title: z.string().min(1, { message: 'Please provide a pull request title' }),
   description: z.string().min(1, { message: 'Please provide a description' })
 })
 
-export type FormFields = z.infer<typeof formSchema> // Automatically generate a type from the schema
+export type FormFields = z.infer<typeof formSchemaCompare> // Automatically generate a type from the schema
 
 interface PullRequestFormProps {
   apiError: string | null
@@ -58,7 +58,7 @@ const PullRequestCompareForm = forwardRef<HTMLFormElement, PullRequestFormProps>
           </FormFieldSet.ControlGroup>
         </FormFieldSet.Root>
 
-        {apiError && (
+        {apiError && apiError !== "head branch doesn't contain any new commits." && (
           <Text size={1} className="text-destructive">
             {apiError?.toString()}
           </Text>
