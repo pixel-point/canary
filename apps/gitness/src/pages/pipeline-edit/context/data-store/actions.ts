@@ -75,24 +75,44 @@ export const loadPipelineAction = ({
     let pipelineData: TypesPipeline | null = null
     try {
       pipelineData = await findPipeline({ pipeline_identifier: pipelineId, repo_ref: repoRef })
-      dispatch(updateState({ pipelineData }))
+      dispatch(updateState({ pipelineData, currentBranch: pipelineData.default_branch }))
     } catch (_ex) {
       // TODO: process error
-
       return
     } finally {
       dispatch(updateState({ fetchingPipelineData: false }))
     }
 
+    if (pipelineData.config_path && pipelineData.default_branch) {
+      await dispatch(
+        loadPipelineContentAction({
+          branch: pipelineData.default_branch,
+          repoRef
+        })
+      )
+    }
+  }
+}
+
+export const loadPipelineContentAction = ({
+  repoRef,
+  branch
+}: {
+  repoRef: string
+  branch: string
+}): ((dispatch: DispatchFunc<DataReducerState, DataActions>, getState: () => DataReducerState) => Promise<void>) => {
+  return async (dispatch, getState) => {
     dispatch(updateState({ fetchingPipelineFileContent: true }))
 
+    const path = getState().pipelineData?.config_path
+
     let pipelineFileContent: OpenapiGetContentOutput | null = null
-    if (pipelineData.default_branch) {
+    if (branch && path) {
       try {
         pipelineFileContent = await getContent({
-          path: pipelineData.config_path ?? '',
+          path,
           repo_ref: repoRef,
-          queryParams: { git_ref: normalizeGitRef(pipelineData.default_branch) ?? '', include_commit: true }
+          queryParams: { git_ref: normalizeGitRef(branch), include_commit: true }
         })
       } catch (_ex) {
         // NOTE: if there is no file we threat as new pipeline

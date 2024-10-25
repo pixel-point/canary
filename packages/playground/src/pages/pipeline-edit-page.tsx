@@ -145,7 +145,7 @@ const PipelineStudioPanel = (): JSX.Element => {
             Problems
             <Badge className="rounded-full font-normal text-xs p-2 h-5 ml-2 bg-red-950 text-red-400">8</Badge>
           </TabsTrigger>
-          <TabsTrigger value="suggestions">Suggestions</TabsTrigger>
+          {/* <TabsTrigger value="suggestions">Suggestions</TabsTrigger> */}
         </TabsList>
         <div>
           <Button onClick={() => {}} variant="ghost" size="sm" className="m-1 px-2">
@@ -156,7 +156,7 @@ const PipelineStudioPanel = (): JSX.Element => {
       <TabsContent value="problems" className="overflow-scroll h-full py-2">
         <Problems onClick={() => {}} problems={problemsMock} />
       </TabsContent>
-      <TabsContent value="suggestions">Suggestions placeholder</TabsContent>
+      {/* <TabsContent value="suggestions">Suggestions placeholder</TabsContent> */}
     </Tabs>
   )
 }
@@ -317,7 +317,15 @@ export default function PipelineEditPage() {
         {drawer}
         {main}
         <PipelineStudioFooterBar
-          commitHistory={{ lastCommittedAt: '1s', lastCommittedBy: 'harness.io' }}
+          lastCommitInfo={{
+            authorName: 'olivsmith',
+            committedTimeAgo: '1s',
+            authorInitials: 'OS',
+            commitMessage: 'fix: resolve url normalization issues',
+            commitSha: '232323'
+          }}
+          branchesLoading={false}
+          onBranchChange={() => undefined}
           problems={{ error: 2, info: 5, warning: 12 }}
           togglePane={() => setPanelOpen(!panelOpen)}
         />

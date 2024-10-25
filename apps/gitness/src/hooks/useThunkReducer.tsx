@@ -4,7 +4,7 @@ import { Reducer, useCallback, useRef, useState } from 'react'
 export type NotFunction<A> = Exclude<A, Function>
 export type ThunkAction<S, A> = (dispatch: DispatchFunc<S, A>, getState: () => S) => void
 export type VariantAction<S, A> = NotFunction<A> | ThunkAction<S, A>
-export type DispatchFunc<S, A> = (action: VariantAction<S, A>) => void
+export type DispatchFunc<S, A> = (action: VariantAction<S, A>) => void | Promise<void>
 
 export function useThunkReducer<S extends object, A>(
   reducer: Reducer<S, A>,

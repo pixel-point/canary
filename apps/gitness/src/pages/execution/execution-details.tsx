@@ -148,7 +148,6 @@ const ExecutionLogs: React.FC = () => {
                 </DropdownMenuItem>
               </>
             }>
-            <Icon name="lightning" className="mr-2" />
             Run
           </SplitButton>
         </div>

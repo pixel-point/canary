@@ -21,7 +21,7 @@ export const PipelineStudioPanel = (): JSX.Element => {
               </Badge>
             )}
           </TabsTrigger>
-          <TabsTrigger value="suggestions">Suggestions</TabsTrigger>
+          {/* <TabsTrigger value="suggestions">Suggestions</TabsTrigger> */}
         </TabsList>
         <div className="flex items-center">
           <Button
@@ -38,7 +38,7 @@ export const PipelineStudioPanel = (): JSX.Element => {
       <TabsContent value="problems" className="overflow-scroll h-full py-2">
         <PipelineStudioProblemsPanel />
       </TabsContent>
-      <TabsContent value="suggestions">Suggestions placeholder</TabsContent>
+      {/* <TabsContent value="suggestions">Suggestions placeholder</TabsContent> */}
     </Tabs>
   )
 }

@@ -1,22 +1,42 @@
 import React from 'react'
 import { XmarkCircle, WarningTriangle, InfoCircle } from '@harnessio/icons-noir'
 
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@harnessio/canary'
+import { PopoverCommitInfo } from '../popover-commit-info'
+
 interface PipelineStudioFooterBarProps {
   problems: {
     error: number
     warning: number
     info: number
   }
-  commitHistory: {
-    lastCommittedAt: string
-    lastCommittedBy: string
+  lastCommitInfo: {
+    committedTimeAgo: string
+    authorName: string
+    authorInitials?: string
+    commitSha?: string
+    commitMessage?: string
   }
+  currentBranch?: string
+  branches?: string[]
+  branchesLoading: boolean
+  onBranchChange: (branch: string) => void
   togglePane?: () => void
 }
 
 const PipelineStudioFooterBar: React.FC<PipelineStudioFooterBarProps> = (props: PipelineStudioFooterBarProps) => {
-  const lastCommittedAt = props.commitHistory.lastCommittedAt
-  const lastCommittedBy = props.commitHistory.lastCommittedBy
+  const { currentBranch, branchesLoading, branches, lastCommitInfo, onBranchChange } = props
+  const { committedTimeAgo, authorName, authorInitials, commitSha, commitMessage } = lastCommitInfo
+
   return (
     <footer
       className={
@@ -41,8 +61,8 @@ const PipelineStudioFooterBar: React.FC<PipelineStudioFooterBarProps> = (props: 
             <span className="text-[12px] text-primary">{props.problems.info}</span>
           </div>
         </div>
-        {/* <div className={'flex gap-2'}>
-          <div className="flex gap-1 items-center">
+        <div className={'flex gap-2'}>
+          {/* <div className="flex gap-1 items-center">
             <span className="text-tertiary-background text-[12px]">Repository:</span>
             <Select defaultValue="harness-next">
               <SelectTrigger className="w-fit border-none px-1 text-primary text-[12px] focus:ring-[0px]">
@@ -55,29 +75,34 @@ const PipelineStudioFooterBar: React.FC<PipelineStudioFooterBarProps> = (props: 
                 <SelectItem value="unscripted">unscripted</SelectItem>
               </SelectContent>
             </Select>
-          </div>
+          </div> */}
           <div className={'flex items-baseline'}>
             <span className="text-tertiary-background text-[12px]">Branch:</span>
-            <Select defaultValue="main">
+            <Select value={currentBranch} disabled={branchesLoading} onValueChange={onBranchChange}>
               <SelectTrigger className="w-fit border-none px-1 text-primary text-[12px] focus:ring-[0px]">
-                <SelectValue placeholder="Select..." />
+                <SelectValue placeholder={branchesLoading ? 'Loading...' : 'Select branch'} />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="main">main</SelectItem>
-                <SelectItem value="develop">develop</SelectItem>
-                <SelectItem value="release">release</SelectItem>
-                <SelectItem value="feature">feature</SelectItem>
-              </SelectContent>
+              <SelectContent>{branches?.map(branch => <SelectItem value={branch}>{branch}</SelectItem>)}</SelectContent>
             </Select>
           </div>
-        </div> */}
-      </div>
-      {lastCommittedAt && lastCommittedBy && (
-        <div className="flex text-[12px] text-tertiary-background">
-          Last edited
-          <span className="text-primary">&nbsp;{lastCommittedAt}&nbsp;</span> by
-          <span className="text-primary">&nbsp;{lastCommittedBy}&nbsp;</span>
         </div>
+      </div>
+      {committedTimeAgo && authorName && (
+        <Popover>
+          <PopoverTrigger>
+            <div className="flex text-[12px] text-tertiary-background">
+              Last edited
+              <span className="text-primary">&nbsp;{committedTimeAgo}&nbsp;</span> by
+              <span className="text-primary">&nbsp;{authorName}&nbsp;</span>
+            </div>
+          </PopoverTrigger>
+          <PopoverContent side={'top'} className="w-80 mb-4 mr-4 p-0">
+            <PopoverCommitInfo.Root>
+              <PopoverCommitInfo.CommitInfo authorName={authorName} initials={authorInitials} commit={commitSha} />
+              <PopoverCommitInfo.CommitMessage>{commitMessage}</PopoverCommitInfo.CommitMessage>
+            </PopoverCommitInfo.Root>
+          </PopoverContent>
+        </Popover>
       )}
     </footer>
   )

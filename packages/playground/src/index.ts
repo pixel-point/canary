@@ -48,6 +48,7 @@ export * from './components/steps/types'
 export * from './components/repo-settings/repo-settings-general/types'
 
 export * from './components/pipeline-studio/pipeline-studio-footer-bar/pipeline-studio-footer-bar'
+export * from './components/pipeline-studio/popover-commit-info'
 export * from './components/branches-list'
 export * from './components/divergence-gauge'
 

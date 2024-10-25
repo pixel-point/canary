@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo } from 'react'
-import { Container, PipelineStudioFooterBar } from '@harnessio/playground'
+import { Container, PipelineStudioFooterBar, getInitials } from '@harnessio/playground'
+import { useListBranchesQuery } from '@harnessio/code-service-client'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup, Sheet, SheetContent } from '@harnessio/canary'
 import { PipelineStudioPanel } from './pipeline-studio-panel'
 import { PipelineStudioToolbar } from './pipeline-studio-toolbar'
@@ -12,30 +13,39 @@ import { usePipelineDataContext } from '../context/PipelineStudioDataProvider'
 import { PipelineStudioStepPalette } from './pipeline-studio-step-palette'
 import PipelineStudioHeaderActions from './pipeline-studio-header-actions'
 import { timeAgoFromISOTime } from '../utils/time-utils'
+import { getTrimmedSha } from '../../../utils/git-utils'
+import { useGetRepoRef } from '../../../framework/hooks/useGetRepoPath'
 
 export default function PipelineEdit() {
   const { view, setView, panelOpen, stepDrawerOpen, setStepDrawerOpen, setPanelOpen } = usePipelineViewContext()
   const {
-    state: { latestCommitAuthor, problemsCount },
+    state: { problemsCount, pipelineFileContent, fetchingPipelineFileContent, currentBranch },
     clearAddStepIntention,
     clearEditStepIntention,
-    setCurrentStepFormDefinition
+    setCurrentStepFormDefinition,
+    setCurrentBranch
   } = usePipelineDataContext()
+
+  const latestCommitAuthor = pipelineFileContent?.latest_commit?.author
 
   useEffect(() => {
     setPanelOpen(view === 'yaml')
   }, [view])
+
+  // TODO: should we move this in data provider?
+  const repoRef = useGetRepoRef()
+  const { data: listBranchesData, isLoading: listBranchesLoading } = useListBranchesQuery({
+    repo_ref: repoRef,
+    queryParams: {}
+  })
+  const branchesNames = useMemo(() => listBranchesData?.map(branch => branch.name ?? ''), [listBranchesData]) ?? []
 
   const main = useMemo(() => {
     return (
       <>
         <ResizablePanelGroup direction="vertical" className="border-5">
           <ResizablePanel order={1}>
-            {view === 'visual' ? (
-              <PipelineStudioGraphView />
-            ) : (
-              <PipelineStudioYamlView /> // TODO check this prop: setDrawerOpen={setStepDrawerOpen}
-            )}
+            {view === 'visual' ? <PipelineStudioGraphView /> : <PipelineStudioYamlView />}
           </ResizablePanel>
           {panelOpen && (
             <>
@@ -108,16 +118,21 @@ export default function PipelineEdit() {
         </div>
         {drawer}
         {main}
-        {latestCommitAuthor ? (
-          <PipelineStudioFooterBar
-            commitHistory={{
-              lastCommittedAt: latestCommitAuthor.when ? timeAgoFromISOTime(latestCommitAuthor.when) : '',
-              lastCommittedBy: latestCommitAuthor.identity?.name ?? ''
-            }}
-            problems={problemsCount}
-            togglePane={() => setPanelOpen(!panelOpen)}
-          />
-        ) : null}
+        <PipelineStudioFooterBar
+          lastCommitInfo={{
+            authorName: latestCommitAuthor?.identity?.name ?? '',
+            committedTimeAgo: latestCommitAuthor?.when ? timeAgoFromISOTime(latestCommitAuthor.when) : '',
+            authorInitials: getInitials(latestCommitAuthor?.identity?.name ?? ''),
+            commitMessage: pipelineFileContent?.latest_commit?.message,
+            commitSha: getTrimmedSha(pipelineFileContent?.latest_commit?.sha ?? '')
+          }}
+          currentBranch={currentBranch}
+          branches={branchesNames}
+          branchesLoading={listBranchesLoading || fetchingPipelineFileContent}
+          onBranchChange={branch => setCurrentBranch(branch)}
+          problems={problemsCount}
+          togglePane={() => setPanelOpen(!panelOpen)}
+        />
       </Container.Main>
     </Container.Root>
   )

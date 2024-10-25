@@ -28,7 +28,7 @@ const ExtendedInput = React.forwardRef<HTMLInputElement, ExtendedInputProps>(
     const containerClassName =
       'flex h-9 w-full rounded-md border border-input text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-within:outline-none focus-within:ring-1 focus-within:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
 
-    const leftRightCommonClassName = 'flex items-center px-3 text-muted-foreground'
+    const leftRightCommonClassName = 'flex items-center text-muted-foreground'
 
     return (
       <div className={cn(containerClassName, className)}>

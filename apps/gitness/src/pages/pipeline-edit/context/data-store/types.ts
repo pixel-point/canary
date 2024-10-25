@@ -1,5 +1,5 @@
 import { editor } from 'monaco-editor'
-import { OpenapiGetContentOutput, TypesPipeline, TypesPlugin, TypesSignature } from '@harnessio/code-service-client'
+import { OpenapiGetContentOutput, TypesPipeline, TypesPlugin } from '@harnessio/code-service-client'
 import { Problem } from '@harnessio/playground'
 import { YamlRevision } from '../PipelineStudioDataProvider'
 import { InlineActionArgsType } from '../../utils/inline-actions'
@@ -20,6 +20,8 @@ export interface DataReducerState {
   decodedPipeline?: string
   /** pipeline metadata API response */
   pipelineData?: TypesPipeline | null
+  /** current branch */
+  currentBranch: string
   /** pipeline metadata API fetching state*/
   fetchingPipelineData: boolean
   /** isYamlValid is tru if there is no syntax or schema errors in the yaml */
@@ -32,8 +34,6 @@ export interface DataReducerState {
   editStepIntention: { path: string } | null
   /** Current definition from API (or created in ui for built in steps) */
   currentStepFormDefinition: TypesPlugin | null
-  //
-  latestCommitAuthor: TypesSignature | null
   //
   problems: Problem<editor.IMarker>[]
   problemsCount: Record<YamlProblemSeverity | 'all', number>

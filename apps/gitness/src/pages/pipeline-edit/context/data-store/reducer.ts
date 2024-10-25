@@ -12,6 +12,7 @@ export const initialState: DataReducerState = {
   /** pipeline content from API */
   pipelineData: null,
   fetchingPipelineData: false,
+  currentBranch: '',
   //
   isYamlValid: true,
   yamlRevision: { yaml: '' },
@@ -21,10 +22,8 @@ export const initialState: DataReducerState = {
   //
   currentStepFormDefinition: null,
   //
-  latestCommitAuthor: null,
-  //
   problems: [],
-  problemsCount: 0
+  problemsCount: { all: 0, error: 0, info: 0, warning: 0 }
 }
 
 export const DataReducer = (state = initialState, data: DataActions): DataReducerState => {

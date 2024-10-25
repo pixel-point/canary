@@ -110,7 +110,6 @@ const PipelineStudioStepPalette = (props: PipelineStudioStepFormProps): JSX.Elem
                 <StepsPaletteItem.Right>
                   <StepsPaletteItem.Header>
                     <StepsPaletteItem.Title>{harnessStep.identifier}</StepsPaletteItem.Title>
-                    <StepsPaletteItem.BadgeWrapper>verified</StepsPaletteItem.BadgeWrapper>
                   </StepsPaletteItem.Header>
                   <StepsPaletteItem.Description>{harnessStep.description}</StepsPaletteItem.Description>
                 </StepsPaletteItem.Right>

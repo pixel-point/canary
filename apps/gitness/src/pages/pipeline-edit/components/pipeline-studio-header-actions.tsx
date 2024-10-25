@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Button, DropdownMenuItem, SplitButton, Icon } from '@harnessio/canary'
+import { Button, DropdownMenuItem, SplitButton } from '@harnessio/canary'
 import { OpenapiCommitFilesRequest, useCommitFilesMutation } from '@harnessio/code-service-client'
 import { PipelineParams, usePipelineDataContext } from '../context/PipelineStudioDataProvider'
 import RunPipelineDialog from '../../run-pipeline-dialog/run-pipeline-dialog'
@@ -14,7 +14,8 @@ const PipelineStudioHeaderActions = (): JSX.Element => {
       isInitialized,
       yamlRevision,
       isExistingPipeline,
-      isDirty
+      isDirty,
+      currentBranch
     },
     fetchPipelineFileContent
   } = usePipelineDataContext()
@@ -36,14 +37,14 @@ const PipelineStudioHeaderActions = (): JSX.Element => {
           sha: isExistingPipeline ? pipelineFileContent?.sha : ''
         }
       ],
-      branch: pipelineData?.default_branch || '',
+      branch: currentBranch,
       title: `${isExistingPipeline ? 'Updated' : 'Created'} pipeline ${pipelineData?.identifier}`, // TODO: check if pl is saved before edit
       message: ''
     }
 
     commitAsync({ repo_ref: repoRef, body: data })
       .then(() => {
-        fetchPipelineFileContent?.()
+        fetchPipelineFileContent(currentBranch)
 
         if (execute) {
           setOpenRunPipeline(true)
@@ -78,7 +79,7 @@ const PipelineStudioHeaderActions = (): JSX.Element => {
             </DropdownMenuItem>
           </>
         }>
-        <Icon name="lightning" className="mr-2" /> Save and run
+        Save and Run
       </SplitButton>
     )
   }
@@ -100,7 +101,7 @@ const PipelineStudioHeaderActions = (): JSX.Element => {
           setOpenRunPipeline(false)
         }}
         pipelineId={pipelineData?.identifier}
-        branch={pipelineData?.default_branch}
+        branch={currentBranch}
         toExecutions={'../executions'}
       />
     </>
