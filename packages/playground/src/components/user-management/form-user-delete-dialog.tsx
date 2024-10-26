@@ -11,24 +11,14 @@ import {
   AlertDialogFooter,
   AlertDialogCancel,
   Button,
-  Icon
+  Icon,
+  Text,
+  Badge
 } from '@harnessio/canary'
-
-interface UsersProps {
-  uid: string
-  display_name?: string // Add a default value of undefined
-}
-
-interface FormResetPasswordrDialogProps {
-  user: UsersProps
-  onClose: () => void
-  onDelete: () => void
-  isDeleting: boolean
-  deleteSuccess: boolean
-}
+import { FormDeleterDialogProps } from './interfaces'
 
 //Form Delete Member Dialog
-export const FormDeleteUserDialog: React.FC<FormResetPasswordrDialogProps> = ({
+export const FormDeleteUserDialog: React.FC<FormDeleterDialogProps> = ({
   user,
   onClose,
   onDelete,
@@ -40,9 +30,15 @@ export const FormDeleteUserDialog: React.FC<FormResetPasswordrDialogProps> = ({
       <AlertDialogTrigger asChild></AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure to remove {user.display_name}?</AlertDialogTitle>
+          <AlertDialogTitle>
+            Are you absolutely sure you want to delete
+            <Badge type="admin" className="mx-2" variant="muted" disableHover={true}>
+              <Text>{user?.display_name}</Text>
+            </Badge>
+            ?
+          </AlertDialogTitle>
           <AlertDialogDescription>
-            This will permanently remove {user.display_name} in the system.
+            This will permanently delete the user "{user?.display_name}" from the system.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <Spacer size={3} />
@@ -50,12 +46,12 @@ export const FormDeleteUserDialog: React.FC<FormResetPasswordrDialogProps> = ({
           {!isDeleting && !deleteSuccess && <AlertDialogCancel onClick={onClose}>Cancel</AlertDialogCancel>}
           {deleteSuccess ? (
             <Button size="default" theme="success" className="self-start pointer-events-none">
-              Users removed&nbsp;&nbsp;
+              Users deleted&nbsp;&nbsp;
               <Icon name="tick" size={14} />
             </Button>
           ) : (
             <Button size="default" theme="error" className="self-start" onClick={onDelete} disabled={isDeleting}>
-              {isDeleting ? 'Removing User...' : 'Yes, remove User'}
+              {isDeleting ? 'Deleting user...' : 'Yes, delete user'}
             </Button>
           )}
         </AlertDialogFooter>

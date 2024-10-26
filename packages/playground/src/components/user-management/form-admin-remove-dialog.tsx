@@ -10,22 +10,11 @@ import {
   AlertDialogFooter,
   AlertDialogCancel,
   Button,
-  Icon
+  Icon,
+  Badge,
+  Text
 } from '@harnessio/canary'
-
-interface UsersProps {
-  admin: boolean
-  uid: string
-  display_name?: string // Add a default value of undefined
-}
-
-interface FormRemoveUserDialogProps {
-  user: UsersProps | null
-  onClose: () => void
-  onRemove: () => void
-  isRemoving: boolean
-  removeSuccess: boolean
-}
+import { FormRemoveUserDialogProps } from './interfaces'
 
 //Form Remove Admin Dialog
 export const FormRemoveAdminDialog: React.FC<FormRemoveUserDialogProps> = ({
@@ -40,9 +29,15 @@ export const FormRemoveAdminDialog: React.FC<FormRemoveUserDialogProps> = ({
       <AlertDialogTrigger asChild></AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you sure you want to remove {user?.display_name} as an admin?</AlertDialogTitle>
+          <AlertDialogTitle>
+            Are you sure you want to remove
+            <Badge type="admin" className="mx-2" variant="muted" disableHover={true}>
+              <Text>{user?.display_name}</Text>
+            </Badge>
+            as an admin?
+          </AlertDialogTitle>
           <AlertDialogDescription>
-            This will permanently remove a admin tag for {user?.display_name} ({user?.uid}).
+            This will permanently remove a admin tag for "{user?.display_name}" ({user?.uid}).
           </AlertDialogDescription>
         </AlertDialogHeader>
         <Spacer size={3} />

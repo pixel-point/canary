@@ -1,21 +1,5 @@
-interface MembersProps {
-  display_name: string
-  role: string
-  email: string
-  timestamp?: string
-  avatarUrl?: string
-}
-
-export interface DialogState {
-  isDialogEditOpen: boolean
-  isDialogDeleteOpen: boolean
-  editMember: MembersProps | null
-  deleteMember: MembersProps | null
-  isSubmitting: boolean
-  submitted: boolean
-  isDeleting: boolean
-  deleteSuccess: boolean
-}
+import { Action, DialogState } from '../interfaces'
+import { upperFirst } from 'lodash-es'
 
 export const initialDialogState: DialogState = {
   isDialogEditOpen: false,
@@ -28,27 +12,17 @@ export const initialDialogState: DialogState = {
   deleteSuccess: false
 }
 
-type Action =
-  | { type: 'OPEN_DIALOG'; dialogType: 'edit' | 'delete'; member: MembersProps }
-  | { type: 'CLOSE_DIALOG'; dialogType: 'edit' | 'delete' }
-  | { type: 'START_SUBMITTING' }
-  | { type: 'SUBMIT_SUCCESS' }
-  | { type: 'RESET_SUBMIT' }
-  | { type: 'START_DELETING' }
-  | { type: 'DELETE_SUCCESS' }
-  | { type: 'RESET_DELETE' }
-
 export function dialogStateReducer(state: DialogState, action: Action): DialogState {
   switch (action.type) {
     case 'OPEN_DIALOG':
       return {
         ...state,
-        [`isDialog${capitalize(action.dialogType)}Open`]: true,
+        [`isDialog${upperFirst(action.dialogType)}Open`]: true,
         editMember: action.member,
         deleteMember: action.member
       }
     case 'CLOSE_DIALOG':
-      return { ...state, [`isDialog${capitalize(action.dialogType)}Open`]: false, submitted: false }
+      return { ...state, [`isDialog${upperFirst(action.dialogType)}Open`]: false, submitted: false }
     case 'START_SUBMITTING':
       return { ...state, isSubmitting: true }
     case 'SUBMIT_SUCCESS':
@@ -65,5 +39,3 @@ export function dialogStateReducer(state: DialogState, action: Action): DialogSt
       return state
   }
 }
-// Helper function to capitalize the first letter of the dialogType
-const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)

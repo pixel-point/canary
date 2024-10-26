@@ -21,19 +21,8 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger
 } from '@harnessio/canary'
-import { getInitials } from '../../utils/utils'
-import { timeAgo } from '../../utils/utils'
-
-interface UsersProps {
-  admin: boolean
-  uid: string
-  display_name?: string
-  email: string
-  created: number
-  updated?: number
-  avatarUrl?: string
-  blocked?: boolean
-}
+import { getInitials, timeAgo } from '../../utils/utils'
+import { UsersProps } from './interfaces'
 
 interface PageProps {
   users: UsersProps[]
@@ -45,6 +34,7 @@ interface PageProps {
 
 // fix the edit form dialog and mock data and coressponding props
 export const UsersList = ({ users, onDelete, onEdit, onRemoveAdmin, onResetPassword }: PageProps) => {
+  //TODO: migrate actions component
   const moreActionsTooltip = ({ user }: { user: UsersProps }) => {
     return (
       <DropdownMenu>
@@ -53,7 +43,9 @@ export const UsersList = ({ users, onDelete, onEdit, onRemoveAdmin, onResetPassw
             <Icon name="vertical-ellipsis" size={14} className="text-tertiary-background" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="shadow-sm py-2 bg-primary-background border border-gray-800 rounded-[10px] w-[180px]">
+        <DropdownMenuContent
+          className="shadow-sm py-2 bg-primary-background border border-gray-800 rounded-[10px] w-[180px]"
+          onCloseAutoFocus={event => event.preventDefault()}>
           <DropdownMenuGroup>
             <DropdownMenuItem
               className="cursor-pointer"

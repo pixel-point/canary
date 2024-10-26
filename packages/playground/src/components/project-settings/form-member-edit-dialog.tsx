@@ -22,14 +22,7 @@ import { z } from 'zod'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormFieldSet, MessageTheme } from '../..'
-
-interface FormEditDialogProps {
-  member: { display_name: string; role: string }
-  onSave: (newRole: string) => void
-  onClose: () => void
-  isSubmitting: boolean
-  submitted: boolean
-}
+import { FormEditDialogProps } from './interfaces'
 
 export const FormEditMemberDialog: React.FC<FormEditDialogProps> = ({
   member,

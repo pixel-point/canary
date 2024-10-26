@@ -12,49 +12,42 @@ import {
 } from '../components/project-settings/members-reducers/dialog-state-reducers'
 import { FormEditMemberDialog } from '../components/project-settings/form-member-edit-dialog'
 import { FormDeleteMemberDialog } from '../components/project-settings/form-member-delete-dialog'
-
+import { DialogType, ActionType } from '../components/project-settings/interfaces'
 const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
 const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
-
-type MembersProps = {
-  display_name: string
-  role: string
-  email: string
-  avatarUrl?: string
-  timestamp?: string
-}
+import { MembersProps } from '../components/project-settings/interfaces'
 
 function SandboxSettingsProjectMembersPage() {
   const navigate = useNavigate()
   const [loadState, setLoadState] = useState('data-loaded')
   const [dialogState, dispatch] = useReducer(dialogStateReducer, initialDialogState)
 
-  const openDialog = (dialogType: 'edit' | 'delete', member: MembersProps) => {
-    dispatch({ type: 'OPEN_DIALOG', dialogType, member })
+  const openDialog = (dialogType: DialogType, member: MembersProps) => {
+    dispatch({ type: ActionType.OPEN_DIALOG, dialogType, member })
   }
 
-  const closeDialog = (dialogType: 'edit' | 'delete') => {
-    dispatch({ type: 'CLOSE_DIALOG', dialogType })
+  const closeDialog = (dialogType: DialogType) => {
+    dispatch({ type: ActionType.CLOSE_DIALOG, dialogType })
   }
 
   // Delete project handler
   const handleDelete = () => {
-    dispatch({ type: 'START_DELETING' })
+    dispatch({ type: ActionType.START_DELETING })
 
     setTimeout(() => {
-      dispatch({ type: 'DELETE_SUCCESS' })
-      closeDialog('delete')
-      dispatch({ type: 'RESET_DELETE' })
+      dispatch({ type: ActionType.DELETE_SUCCESS })
+      closeDialog(DialogType.DELETE)
+      dispatch({ type: ActionType.RESET_DELETE })
     }, 2000)
   }
 
   const handleRoleSave = () => {
-    dispatch({ type: 'START_SUBMITTING' })
+    dispatch({ type: ActionType.START_SUBMITTING })
 
     setTimeout(() => {
-      dispatch({ type: 'SUBMIT_SUCCESS' })
-      closeDialog('edit')
-      dispatch({ type: 'RESET_SUBMIT' })
+      dispatch({ type: ActionType.SUBMIT_SUCCESS })
+      closeDialog(DialogType.EDIT)
+      dispatch({ type: ActionType.RESET_SUBMIT })
     }, 2000)
   }
 
@@ -66,8 +59,8 @@ function SandboxSettingsProjectMembersPage() {
         return (
           <>
             <MembersList
-              onEdit={member => openDialog('edit', member)}
-              onDelete={member => openDialog('delete', member)}
+              onEdit={member => openDialog(DialogType.EDIT, member)}
+              onDelete={member => openDialog(DialogType.DELETE, member)}
               members={mockMemberData as MembersProps[]}
             />
             {/* Delete Dialog */}
@@ -78,8 +71,8 @@ function SandboxSettingsProjectMembersPage() {
                 onDelete={handleDelete}
                 member={dialogState.deleteMember!}
                 onClose={() => {
-                  closeDialog('delete')
-                  dispatch({ type: 'RESET_DELETE' })
+                  closeDialog(DialogType.DELETE)
+                  dispatch({ type: ActionType.RESET_DELETE })
                 }}
               />
             )}
@@ -89,8 +82,8 @@ function SandboxSettingsProjectMembersPage() {
                 member={dialogState.editMember}
                 onSave={handleRoleSave}
                 onClose={() => {
-                  closeDialog('edit')
-                  dispatch({ type: 'RESET_SUBMIT' })
+                  closeDialog(DialogType.EDIT)
+                  dispatch({ type: ActionType.RESET_SUBMIT })
                 }}
                 isSubmitting={dialogState.isSubmitting}
                 submitted={dialogState.submitted}

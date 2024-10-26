@@ -1,46 +1,5 @@
-interface UsersProps {
-  uid: string
-  display_name?: string
-  email: string
-  created: number
-  updated?: number
-  avatarUrl?: string
-  blocked?: boolean
-  admin: boolean
-}
-
-interface DialogState {
-  isDialogDeleteOpen: boolean
-  isDialogEditOpen: boolean
-  isDialogRemoveAdminOpen: boolean
-  isDialogResetPasswordOpen: boolean
-  isDeleting: boolean
-  isSubmitting: boolean
-  submitted: boolean
-  isRemoving: boolean
-  isResetting: boolean
-  deleteSuccess: boolean
-  submitSuccess: boolean
-  removeSuccess: boolean
-  resetSuccess: boolean
-  selectedUser: UsersProps | null // Holds the currently selected user for edit/delete actions
-}
-
-type DialogAction =
-  | { type: 'OPEN_DIALOG'; dialogType: 'delete' | 'edit' | 'removeAdmin' | 'resetPassword'; user: UsersProps }
-  | { type: 'CLOSE_DIALOG'; dialogType: 'delete' | 'edit' | 'removeAdmin' | 'resetPassword' }
-  | { type: 'START_DELETING' }
-  | { type: 'DELETE_SUCCESS' }
-  | { type: 'START_SUBMITTING' }
-  | { type: 'SUBMIT_SUCCESS' }
-  | { type: 'START_REMOVING' }
-  | { type: 'REMOVE_SUCCESS' }
-  | { type: 'START_RESETTING' }
-  | { type: 'RESET_PASSWORD_SUCCESS' }
-  | { type: 'RESET_DELETE' }
-  | { type: 'RESET_SUBMIT' }
-  | { type: 'RESET_REMOVE' }
-  | { type: 'RESET_PASSWORD_RESET' }
+import { upperFirst } from 'lodash-es'
+import { DialogState, DialogAction } from '../interfaces'
 
 export const initialDialogState: DialogState = {
   isDialogDeleteOpen: false,
@@ -64,13 +23,13 @@ export function dialogStateReducer(state: DialogState, action: DialogAction): Di
     case 'OPEN_DIALOG':
       return {
         ...state,
-        [`isDialog${capitalize(action.dialogType)}Open`]: true,
+        [`isDialog${upperFirst(action.dialogType)}Open`]: true,
         selectedUser: action.user
       }
     case 'CLOSE_DIALOG':
       return {
         ...state,
-        [`isDialog${capitalize(action.dialogType)}Open`]: false
+        [`isDialog${upperFirst(action.dialogType)}Open`]: false
       }
     case 'START_DELETING':
       return { ...state, isDeleting: true }
@@ -103,6 +62,3 @@ export function dialogStateReducer(state: DialogState, action: DialogAction): Di
       return state
   }
 }
-
-// Helper function to capitalize the first letter of the dialogType
-const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)

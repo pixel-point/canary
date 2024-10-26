@@ -10,19 +10,11 @@ import {
   AlertDialogCancel,
   Button,
   Icon,
-  Spacer
+  Spacer,
+  Text,
+  Badge
 } from '@harnessio/canary'
-
-interface MemberProps {
-  display_name?: string
-}
-interface FormDeleteMemberDialogProps {
-  member: MemberProps
-  onClose: () => void
-  onDelete: () => void
-  isDeleting: boolean
-  deleteSuccess: boolean
-}
+import { FormDeleteMemberDialogProps } from './interfaces'
 
 export const FormDeleteMemberDialog: React.FC<FormDeleteMemberDialogProps> = ({
   member,
@@ -36,9 +28,15 @@ export const FormDeleteMemberDialog: React.FC<FormDeleteMemberDialogProps> = ({
       <AlertDialogTrigger asChild></AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure to remove {member.display_name}?</AlertDialogTitle>
+          <AlertDialogTitle>
+            Are you absolutely sure you want to delete
+            <Badge type="admin" className="mx-2" variant="muted" disableHover={true}>
+              <Text>{member.display_name}</Text>
+            </Badge>
+            ?
+          </AlertDialogTitle>
           <AlertDialogDescription>
-            This will permanently remove {member.display_name} in the project.
+            This will permanently delete "{member.display_name}" in the project.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <Spacer size={3} />
