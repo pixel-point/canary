@@ -1,17 +1,5 @@
 import React from 'react'
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Button,
-  Input,
-  Label,
-  Icon,
-  Text,
-  Spacer,
-  Dock
-} from '@harnessio/canary'
+import { Card, CardContent, CardHeader, CardTitle, Button, Input, Label, Icon, Text, Spacer } from '@harnessio/canary'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -47,7 +35,7 @@ export function SignInPage({ handleSignIn, isLoading }: PageProps) {
   }
 
   return (
-    <Floating1ColumnLayout maxWidth="md" verticalCenter>
+    <Floating1ColumnLayout maxWidth="md" verticalCenter className="flex-col">
       <Card variant="plain" width="full">
         <CardHeader>
           <CardTitle className="flex flex-col place-items-center">
@@ -82,11 +70,6 @@ export function SignInPage({ handleSignIn, isLoading }: PageProps) {
               <Label htmlFor="password" variant="sm">
                 Password
               </Label>
-              <Link to="/forgot">
-                <Button variant="link" size="xs" className="text-secondary-muted" type="button">
-                  Forgot password?
-                </Button>
-              </Link>
             </div>
             <Spacer size={1} />
             <Input
@@ -117,12 +100,11 @@ export function SignInPage({ handleSignIn, isLoading }: PageProps) {
           </Text>
         </CardContent>
       </Card>
-      <Dock.Root>
-        <Text size={1} color="tertiaryBackground">
-          By joining, you agree to <a className="text-primary">Terms of Service</a> and{' '}
-          <a className="text-primary">Privacy Policy</a>
-        </Text>
-      </Dock.Root>
+
+      <Text size={1} color="tertiaryBackground">
+        By joining, you agree to <a className="text-primary">Terms of Service</a> and{' '}
+        <a className="text-primary">Privacy Policy</a>
+      </Text>
     </Floating1ColumnLayout>
   )
 }
