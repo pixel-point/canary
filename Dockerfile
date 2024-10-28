@@ -13,12 +13,6 @@ FROM base AS build
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run build
 
-FROM nginx:alpine
-# ARG API_URL=http://localhost:3000
-# ENV API_URL=$API_URL
+FROM harness/harness:unscripted2024 AS server
 COPY --from=build /canary/apps/gitness/dist /canary
-COPY --from=build /canary/nginx.conf /etc/nginx/nginx.conf
-COPY --from=build /canary/entrypoint.sh /canary/entrypoint.sh
-WORKDIR /canary
-EXPOSE 8080
-ENTRYPOINT ["sh", "/canary/entrypoint.sh"]
+ENV GITNESS_DEVELOPMENT_UI_SOURCE_OVERRIDE=/canary
