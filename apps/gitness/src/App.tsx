@@ -55,6 +55,8 @@ import { FileViewer } from './components/FileViewer'
 import { SandboxFileViewer } from './components/SandboxFileViewer'
 import PullRequestChangesPage from './pages/pull-request/pull-request-changes-page'
 import { ProjectSettingsGeneralPage } from './pages/project-settings/project-settings-general-page'
+import { FileEditor } from './components/FileEditor'
+import { ExplorerPathsProvider } from './framework/context/ExplorerPathsContext'
 import { RepoSettingsGeneralPageContainer } from './pages/repo-sandbox/repo-settings-general-container'
 import { CreatePullRequest } from './pages/pull-request/pull-request-compare-page'
 
@@ -100,11 +102,29 @@ export default function App() {
             },
             {
               path: 'code',
-              element: <RepoFiles />,
+              element: (
+                <ExplorerPathsProvider>
+                  <RepoFiles />
+                </ExplorerPathsProvider>
+              ),
               children: [
                 {
                   index: true,
                   element: <FileViewer />
+                },
+                {
+                  path: 'edit/:gitRef/~/:resourcePath*',
+                  element: <FileEditor />
+                },
+                {
+                  path: 'new/:gitRef/~/*',
+                  element: <FileEditor />,
+                  children: [
+                    {
+                      path: ':resourcePath*',
+                      element: <FileViewer />
+                    }
+                  ]
                 },
                 {
                   path: ':gitRef',
