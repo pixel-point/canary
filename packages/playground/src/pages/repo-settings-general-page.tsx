@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { FormFieldSet } from '..'
 import { RepoSettingsGeneralForm } from '../components/repo-settings/repo-settings-general/repo-settings-general-form'
 import { RepoSettingsGeneralRules } from '../components/repo-settings/repo-settings-general/repo-settings-general-rules'
@@ -16,7 +16,6 @@ interface ILoadingStates {
   isLoadingRepoData: boolean
   isUpdatingRepoData: boolean
   isLoadingSecuritySettings: boolean
-  isDeletingRepo: boolean
   isUpdatingSecuritySettings: boolean
 }
 interface RepoSettingsGeneralPageProps {
@@ -24,25 +23,31 @@ interface RepoSettingsGeneralPageProps {
   securityScanning: boolean
   handleUpdateSecuritySettings: (data: RepoSettingsSecurityFormFields) => void
   handleRepoUpdate: (data: RepoUpdateData) => void
-  handleDeleteRepository: () => void
   apiError: { type: ErrorTypes; message: string } | null
   loadingStates: ILoadingStates
   isRepoUpdateSuccess: boolean
   rules: RuleDataType[] | null
   handleRuleClick: (identifier: string) => void
+  openRulesAlertDeleteDialog: (identifier: string) => void
+  openRepoAlertDeleteDialog: () => void
 }
 const RepoSettingsGeneralPage: React.FC<RepoSettingsGeneralPageProps> = ({
   repoData,
   handleRepoUpdate,
   securityScanning,
   handleUpdateSecuritySettings,
-  handleDeleteRepository,
   apiError,
   loadingStates,
   isRepoUpdateSuccess,
   rules,
-  handleRuleClick
+  handleRuleClick,
+  openRulesAlertDeleteDialog,
+  openRepoAlertDeleteDialog
 }) => {
+  const rulesRef = useRef<HTMLDivElement | null>(null)
+  if (window.location.pathname.endsWith('/rules')) {
+    rulesRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
   return (
     <>
       <FormFieldSet.Root>
@@ -55,21 +60,25 @@ const RepoSettingsGeneralPage: React.FC<RepoSettingsGeneralPageProps> = ({
           isRepoUpdateSuccess={isRepoUpdateSuccess}
         />
         <FormFieldSet.Separator />
-        <RepoSettingsGeneralRules rules={rules} apiError={apiError} handleRuleClick={handleRuleClick} />
+        <div ref={rulesRef}>
+          <RepoSettingsGeneralRules
+            rules={rules}
+            apiError={apiError}
+            handleRuleClick={handleRuleClick}
+            openRulesAlertDeleteDialog={openRulesAlertDeleteDialog}
+          />
+        </div>
+
         <FormFieldSet.Separator />
         <RepoSettingsSecurityForm
           securityScanning={securityScanning}
           handleUpdateSecuritySettings={handleUpdateSecuritySettings}
           apiError={apiError}
           isUpdatingSecuritySettings={loadingStates.isUpdatingSecuritySettings}
-          isLoadingSecuritySettings={loadingStates?.isLoadingSecuritySettings}
+          isLoadingSecuritySettings={loadingStates.isLoadingSecuritySettings}
         />
         <FormFieldSet.Separator />
-        <RepoSettingsGeneralDelete
-          handleDeleteRepository={handleDeleteRepository}
-          apiError={apiError}
-          isDeletingRepo={loadingStates.isDeletingRepo}
-        />
+        <RepoSettingsGeneralDelete apiError={apiError} openRepoAlertDeleteDialog={openRepoAlertDeleteDialog} />
       </FormFieldSet.Root>
     </>
   )

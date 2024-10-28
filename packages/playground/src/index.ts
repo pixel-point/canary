@@ -73,6 +73,7 @@ export * from './components/project-settings/members-list'
 export * from './components/filter'
 export * from './components/copy-button'
 export * from './components/profile-settings/delete-alert-dialog'
+export * from './components/alert-delete-dialog'
 
 export * from './pages/signin-page'
 export * from './pages/forgot-password-page'
@@ -112,6 +113,7 @@ export * from './pages/repo-branch-settings-rules-page'
 export * from './components/repo-settings/repo-branch-settings-rules/types'
 
 export * from './pages/sandbox-repo-create-page'
+export * from './pages/repo-settings-placeholder-page'
 
 export * from './layouts/SandboxPullRequestCompareLayout'
 
