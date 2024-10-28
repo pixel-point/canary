@@ -81,6 +81,8 @@ export interface IInputDefinition<T = unknown> {
 
   inputTransform?: (value: any, values: any) => { value: any; path?: string } | undefined
   outputTransform?: (value: any, values: any) => { value: any; path?: string } | undefined
+
+  autofocus?: boolean
 }
 // TODO:
 // dependencies?: UIInputDependency[]

@@ -8,7 +8,8 @@ import {
   FieldValues,
   DefaultValues,
   DeepPartial,
-  UseFormReturn
+  UseFormReturn,
+  Path
 } from 'react-hook-form'
 
 interface RootFormProps<TFieldValues extends FieldValues = FieldValues, TContext = any> {
@@ -40,6 +41,10 @@ interface RootFormProps<TFieldValues extends FieldValues = FieldValues, TContext
    */
   prefix?: string
   key?: Attributes['key']
+  /**
+   * auto focus input
+   */
+  autoFocusPath?: Path<TFieldValues>
 }
 
 export function RootForm<TFieldValues extends FieldValues = FieldValues, TContext = any>(
@@ -57,8 +62,9 @@ export function RootForm<TFieldValues extends FieldValues = FieldValues, TContex
     // validateDebounceInterval,
     // validationConfig,
     // metadata,
-    children
+    children,
     // fixedValues
+    autoFocusPath
   } = props
 
   const methods = useForm<TFieldValues>({
@@ -78,6 +84,7 @@ export function RootForm<TFieldValues extends FieldValues = FieldValues, TContex
   const { getValues, handleSubmit } = methods
   const values = getValues()
 
+  // trigger validation on value change
   useEffect(() => {
     onValuesChange?.({ ...(values as any) }, { isValid: methods.formState.isValid })
 
@@ -85,6 +92,25 @@ export function RootForm<TFieldValues extends FieldValues = FieldValues, TContex
       methods.trigger()
     }
   }, [JSON.stringify(values)])
+
+  // auto focus
+  useEffect(() => {
+    if (autoFocusPath) {
+      if ('requestIdleCallback' in window) {
+        const handle = requestIdleCallback(() => {
+          methods.setFocus(autoFocusPath)
+        })
+        return () => cancelIdleCallback(handle)
+      }
+      // fallback for safari
+      else {
+        const handle = setTimeout(() => {
+          methods.setFocus(autoFocusPath)
+        }, 100)
+        return () => clearTimeout(handle)
+      }
+    }
+  }, [methods])
 
   return (
     <FormProvider {...methods}>

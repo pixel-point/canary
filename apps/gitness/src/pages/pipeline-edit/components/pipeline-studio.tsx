@@ -15,16 +15,21 @@ import PipelineStudioHeaderActions from './pipeline-studio-header-actions'
 import { timeAgoFromISOTime } from '../utils/time-utils'
 import { getTrimmedSha } from '../../../utils/git-utils'
 import { useGetRepoRef } from '../../../framework/hooks/useGetRepoPath'
+import { useExitPrompt } from '../../../framework/hooks/useExitPrompt'
 
 export default function PipelineEdit() {
   const { view, setView, panelOpen, stepDrawerOpen, setStepDrawerOpen, setPanelOpen } = usePipelineViewContext()
   const {
-    state: { problemsCount, pipelineFileContent, fetchingPipelineFileContent, currentBranch },
+    state: { problemsCount, pipelineFileContent, fetchingPipelineFileContent, currentBranch, isDirty },
     clearAddStepIntention,
     clearEditStepIntention,
     setCurrentStepFormDefinition,
     setCurrentBranch
   } = usePipelineDataContext()
+
+  const { confirmExit } = useExitPrompt({
+    isDirty
+  })
 
   const latestCommitAuthor = pipelineFileContent?.latest_commit?.author
 
@@ -129,7 +134,7 @@ export default function PipelineEdit() {
           currentBranch={currentBranch}
           branches={branchesNames}
           branchesLoading={listBranchesLoading || fetchingPipelineFileContent}
-          onBranchChange={branch => setCurrentBranch(branch)}
+          onBranchChange={branch => confirmExit().then(confirmed => confirmed && setCurrentBranch(branch))}
           problems={problemsCount}
           togglePane={() => setPanelOpen(!panelOpen)}
         />

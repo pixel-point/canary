@@ -76,6 +76,8 @@ export default function RunPipelineForm({
   }, [pipelineId, repoRef])
 
   const formDefinition = createFormFromPipelineInputs(pipeline)
+  const autoFocusPath = formDefinition.inputs?.[0]?.path
+
   const additionalInput: IInputDefinition[] = [
     {
       label: 'Branch',
@@ -112,6 +114,7 @@ export default function RunPipelineForm({
         // TODO: error toast here ?
       })
   }
+
   if (loading || listBranchesLoading) {
     // TODO
     return <>'Loading...'</>
@@ -122,6 +125,7 @@ export default function RunPipelineForm({
       defaultValues={{ _: { branch } }}
       resolver={resolver}
       mode="onSubmit"
+      autoFocusPath={autoFocusPath}
       onSubmit={values => {
         const transformers = getTransformers(formDefinition)
         const transformedValues = outputTransformValues(values, transformers)

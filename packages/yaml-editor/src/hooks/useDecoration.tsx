@@ -39,11 +39,19 @@ export const useDecoration: UseDecoration = ({ editorRef, selection }) => {
   )
 
   useEffect(() => {
-    const handle = requestIdleCallback(() => {
-      computeRange(editorRef, selection?.path, selection?.revealInCenter)
-    })
-
-    return () => cancelIdleCallback(handle)
+    if ('requestIdleCallback' in window) {
+      const handle = requestIdleCallback(() => {
+        computeRange(editorRef, selection?.path, selection?.revealInCenter)
+      })
+      return () => cancelIdleCallback(handle)
+    }
+    // fallback for safari
+    else {
+      const handle = setTimeout(() => {
+        computeRange(editorRef, selection?.path, selection?.revealInCenter)
+      }, 100)
+      return () => clearTimeout(handle)
+    }
   }, [selection?.path, selection?.revealInCenter, editorRef, computeRange])
 
   useEffect(() => {
