@@ -4,7 +4,6 @@ import {
   CommentItem,
   CommentType,
   GeneralPayload,
-  MergeStrategy,
   PayloadAuthor,
   TypesPullReq,
   TypesPullReqActivity
@@ -12,6 +11,11 @@ import {
 import PullRequestTimelineItem from './pull-request-timeline-item'
 import { getInitials } from '../../utils/utils'
 import AvatarUrl from '../../../public/images/user-avatar.svg'
+import PullRequestSystemReviewerAddItem from './pull-request-system-reviewer-add'
+import PullRequestSystemReviewerDeleteItem from './pull-request-system-reviewer-delete'
+import PullRequestSystemMergeItem from './pull-request-system-merge'
+import PullRequestSystemTitleItem from './pull-request-system-title'
+import PullRequestSystemLabelItem from './pull-request-system-label-item'
 
 interface SystemCommentProps extends TypesPullReq {
   commentItems: CommentItem<TypesPullReqActivity>[]
@@ -46,60 +50,11 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
   switch (type) {
     case CommentType.MERGE:
       return (
-        <PullRequestTimelineItem
-          key={payload?.id} // Consider using a unique ID if available
-          header={[
-            {
-              avatar: (
-                <Avatar className="w-6 h-6 rounded-full p-0">
-                  <AvatarImage src={AvatarUrl} />
-
-                  <AvatarFallback>
-                    <Text size={1} color="tertiaryBackground">
-                      {/* TODO: fix fallback string */}
-                      {getInitials((payload?.author as PayloadAuthor)?.display_name || '')}
-                    </Text>
-                  </AvatarFallback>
-                </Avatar>
-              ),
-              name: (payload?.payload?.author as PayloadAuthor)?.display_name,
-              description: (
-                <>
-                  {(payload?.payload?.payload as GeneralPayload)?.merge_method === MergeStrategy.REBASE ? (
-                    <Text color="tertiaryBackground">
-                      rebased changes from branch
-                      <Button className="ml-1 mr-1" variant="secondary" size="xs">
-                        {pullReqMetadata?.source_branch}
-                      </Button>
-                      onto
-                      <Button className="ml-1 mr-1" variant="secondary" size="xs">
-                        {pullReqMetadata?.target_branch}
-                      </Button>
-                      , now at {(payload?.payload?.payload as GeneralPayload)?.merge_sha as string}
-                    </Text>
-                  ) : (
-                    <Text color="tertiaryBackground">
-                      merged changes from
-                      <Button className="ml-1 mr-1" variant="secondary" size="xs">
-                        {pullReqMetadata?.source_branch}
-                      </Button>
-                      into
-                      <Button className="ml-1 mr-1" variant="secondary" size="xs">
-                        {pullReqMetadata?.target_branch}
-                      </Button>
-                      by commit
-                      <Button className="ml-1 mr-1" variant="secondary" size="xs">
-                        {((payload?.payload?.payload as GeneralPayload)?.merge_sha as string)?.substring(0, 6)}
-                      </Button>
-                    </Text>
-                  )}
-                </>
-              )
-            }
-          ]}
-          //Fix icon for this state
-          icon={<Icon name="pr-merge" size={12} />}
+        <PullRequestSystemMergeItem
+          payload={payload}
           isLast={isLast}
+          avatarUrl={AvatarUrl}
+          pullReqMetadata={pullReqMetadata}
         />
       )
     case CommentType.REVIEW_SUBMIT:
@@ -238,63 +193,13 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
         />
       )
     case CommentType.TITLE_CHANGE:
-      return (
-        <PullRequestTimelineItem
-          key={payload?.id} // Consider using a unique ID if available
-          header={[
-            {
-              avatar: (
-                <Avatar className="w-6 h-6 rounded-full p-0">
-                  <AvatarImage src={AvatarUrl} />
-
-                  <AvatarFallback>
-                    <Text size={1} color="tertiaryBackground">
-                      {/* TODO: fix fallback string */}
-                      {getInitials((payload?.author as PayloadAuthor)?.display_name || '')}
-                    </Text>
-                  </AvatarFallback>
-                </Avatar>
-              ),
-              name: (payload?.payload?.author as PayloadAuthor)?.display_name,
-              description: (
-                <Text color="tertiaryBackground">
-                  changed title from{' '}
-                  <span className="line-through">{(payload?.payload?.payload as GeneralPayload)?.old as string}</span>{' '}
-                  to {(payload?.payload?.payload as GeneralPayload)?.new as string}
-                </Text>
-              )
-            }
-          ]}
-          icon={<Icon name="edit-pen" size={14} className="p-0.5" />}
-          isLast={isLast}
-        />
-      )
+      return <PullRequestSystemTitleItem payload={payload} isLast={isLast} avatarUrl={AvatarUrl} />
     case CommentType.REVIEW_DELETE:
-      return (
-        <PullRequestTimelineItem
-          key={payload?.id} // Consider using a unique ID if available
-          header={[
-            {
-              avatar: (
-                <Avatar className="w-6 h-6 rounded-full p-0">
-                  <AvatarImage src={AvatarUrl} />
-
-                  <AvatarFallback>
-                    <Text size={1} color="tertiaryBackground">
-                      {/* TODO: fix fallback string */}
-                      {getInitials((payload?.author as PayloadAuthor)?.display_name || '')}
-                    </Text>
-                  </AvatarFallback>
-                </Avatar>
-              ),
-              name: (payload?.payload?.author as PayloadAuthor)?.display_name,
-              description: <Text color="tertiaryBackground">removed their request for review</Text>
-            }
-          ]}
-          icon={<Icon name="edit-pen" size={14} className="p-0.5" />}
-          isLast={isLast}
-        />
-      )
+      return <PullRequestSystemReviewerDeleteItem payload={payload} isLast={isLast} avatarUrl={AvatarUrl} />
+    case CommentType.REVIEW_ADD:
+      return <PullRequestSystemReviewerAddItem payload={payload} isLast={isLast} avatarUrl={AvatarUrl} />
+    case CommentType.LABEL_MODIFY:
+      return <PullRequestSystemLabelItem payload={payload} isLast={isLast} avatarUrl={AvatarUrl} />
     default:
       console.warn('Unable to render system type activity', commentItems)
       return <Text color="tertiaryBackground">{type}</Text>

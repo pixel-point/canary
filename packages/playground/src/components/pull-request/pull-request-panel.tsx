@@ -75,7 +75,7 @@ const HeaderTitle = ({ ...props }: HeaderProps) => {
     return (
       <div className="inline-flex gap-2 items-center w-full">
         <Text className="items-center space-x-2 gap-2" weight="medium">
-          {`${props?.pullReqMetadata?.merger?.display_name} merged branch`}{' '}
+          {`${props?.pullReqMetadata?.merger?.display_name} merged branch`}
           <Button variant="secondary" size="xs">
             <Icon name="branch" size={12} className="text-tertiary-background mr-1" />
             {props?.pullReqMetadata?.source_branch}

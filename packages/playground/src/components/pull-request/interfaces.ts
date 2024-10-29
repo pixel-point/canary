@@ -20,7 +20,15 @@ export enum CommentType {
   REVIEW_DELETE = 'reviewer-delete',
   BRANCH_UPDATE = 'branch-update',
   BRANCH_DELETE = 'branch-delete',
-  STATE_CHANGE = 'state-change'
+  STATE_CHANGE = 'state-change',
+  REVIEW_ADD = 'reviewer-add',
+  LABEL_MODIFY = 'label-modify'
+}
+
+export enum LabelActivity {
+  ASSIGN = 'assign',
+  UN_ASSIGN = 'unassign',
+  RE_ASSIGN = 'reassign'
 }
 
 export enum PullReqReviewDecision {
@@ -319,6 +327,36 @@ export interface TypesPullReqActivity {
   type?: EnumPullReqActivityType
   updated?: number
 }
+
+export interface RepoRepositoryOutput {
+  created?: number
+  created_by?: number
+  default_branch?: string
+  deleted?: number | null
+  description?: string
+  fork_id?: number
+  git_ssh_url?: string
+  git_url?: string
+  id?: number
+  identifier?: string
+  importing?: boolean
+  is_empty?: boolean
+  is_public?: boolean
+  num_closed_pulls?: number
+  num_forks?: number
+  num_merged_pulls?: number
+  num_open_pulls?: number
+  num_pulls?: number
+  parent_id?: number
+  path?: string
+  size?: number
+  size_updated?: number
+  state?: EnumRepoState
+  updated?: number
+}
+
+export type EnumRepoState = number
+
 export type EnumPullReqActivityType =
   | 'branch-delete'
   | 'branch-update'
@@ -330,6 +368,8 @@ export type EnumPullReqActivityType =
   | 'reviewer-delete'
   | 'state-change'
   | 'title-change'
+  | 'reviewer-add'
+  | 'label-modify'
 
 export type EnumPullReqActivityKind = 'change-comment' | 'comment' | 'system'
 export interface TypesPullReqActivityMetadata {
@@ -356,6 +396,17 @@ export interface TypesCodeCommentFields {
   span_old?: number
 }
 
+export enum ReviewerAddActivity {
+  REQUESTED = 'requested',
+  ASSIGNED = 'assigned',
+  SELF_ASSIGNED = 'self_assigned'
+}
+
+export enum CodeCommentState {
+  ACTIVE = 'active',
+  RESOLVED = 'resolved'
+}
+
 export interface GeneralPayload extends TypesPullReqActivity {
   text?: string
   [key: string]: unknown
@@ -363,6 +414,7 @@ export interface GeneralPayload extends TypesPullReqActivity {
   type?: EnumPullReqActivityType
   kind?: EnumPullReqActivityKind
   message?: string
+  reviewer_type?: ReviewerAddActivity
 }
 
 export interface PayloadAuthor {
