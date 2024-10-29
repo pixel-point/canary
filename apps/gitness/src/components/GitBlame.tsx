@@ -23,18 +23,18 @@ export default function GitBlame({ selectedBranch, themeConfig, codeContent, lan
   const fullResourcePath = subResourcePath ? resourcePath + '/' + subResourcePath : resourcePath
   const [blameBlocks, setBlameBlocks] = useState<BlameItem[]>([])
 
-  const { data, isFetching } = useGetBlameQuery({
+  const { data: { body: gitBlame } = {}, isFetching } = useGetBlameQuery({
     path: fullResourcePath || '',
     repo_ref: repoRef,
     queryParams: { git_ref: normalizeGitRef(selectedBranch) }
   })
 
   useEffect(() => {
-    if (data) {
+    if (gitBlame) {
       let fromLineNumber = 1
       const blameData: BlameItem[] = []
 
-      data.forEach(({ commit, lines }) => {
+      gitBlame?.forEach(({ commit, lines }) => {
         const toLineNumber = fromLineNumber + (lines?.length || 0) - 1
 
         const authorInfo = {
@@ -60,7 +60,7 @@ export default function GitBlame({ selectedBranch, themeConfig, codeContent, lan
 
       setBlameBlocks(blameData)
     }
-  }, [data])
+  }, [gitBlame])
 
   return !isFetching && blameBlocks.length ? (
     <BlameEditor

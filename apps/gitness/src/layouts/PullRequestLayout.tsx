@@ -12,7 +12,7 @@ const PullRequestLayout: React.FC = () => {
   const { spaceId, repoId, pullRequestId } = useParams<PathParams>()
   const repoRef = useGetRepoRef()
   const prId = (pullRequestId && Number(pullRequestId)) || -1
-  const { data: pullRequestData, isFetching } = useGetPullReqQuery({
+  const { data: { body: pullRequestData } = {}, isFetching } = useGetPullReqQuery({
     repo_ref: repoRef,
     pullreq_number: prId
   })

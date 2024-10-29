@@ -20,7 +20,11 @@ export function usePRChecksDecision({
   repoMetadata: TypesRepository | undefined
   pullReqMetadata: TypesPullReq | undefined
 }) {
-  const { data, error, refetch } = useChecksPullReqQuery({
+  const {
+    data: { body: data } = {},
+    error,
+    refetch
+  } = useChecksPullReqQuery({
     repo_ref: `${repoMetadata?.path}/+`,
     pullreq_number: pullReqMetadata?.number ?? 0,
     queryParams: { debounce: 500 }

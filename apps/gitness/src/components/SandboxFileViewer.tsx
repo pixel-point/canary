@@ -15,7 +15,6 @@ import { SkeletonList, Summary, FileProps, SummaryItemType, NoData, SandboxLayou
 import {
   useGetContentQuery,
   pathDetails,
-  RepoPathsDetailsOutput,
   GitPathDetails,
   OpenapiGetContentOutput,
   OpenapiContentInfo
@@ -38,7 +37,7 @@ export const SandboxFileViewer: React.FC = () => {
   const [loading, setLoading] = useState(false)
   console.log(subResourcePath)
 
-  const { data: repoDetails } = useGetContentQuery({
+  const { data: { body: repoDetails } = {} } = useGetContentQuery({
     path: fullResourcePath || '',
     repo_ref: repoRef,
     queryParams: { include_commit: true, git_ref: normalizeGitRef(gitRef || '') }
@@ -74,7 +73,7 @@ export const SandboxFileViewer: React.FC = () => {
         body: { paths: Array.from(repoEntryPathToFileTypeMap.keys()) },
         repo_ref: repoRef
       })
-        .then((response: RepoPathsDetailsOutput) => {
+        .then(({ body: response }) => {
           if (response?.details && response.details.length > 0) {
             setFiles(
               response.details.map(

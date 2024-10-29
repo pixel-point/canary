@@ -187,7 +187,7 @@ export interface TypesCheckPayload {
   version?: string
 }
 export type EnumCheckPayloadKind = '' | 'markdown' | 'pipeline' | 'raw'
-export type EnumCheckStatus = 'error' | 'failure' | 'pending' | 'running' | 'success'
+export type EnumCheckStatus = 'error' | 'failure' | 'pending' | 'running' | 'success' | 'blocked'
 
 export interface TypesCommit {
   author?: TypesSignature

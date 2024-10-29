@@ -40,7 +40,7 @@ export const PipelineStudioStepForm = (props: PipelineStudioStepFormProps): JSX.
   const [defaultStepValues, setDefaultStepValues] = useState({})
 
   // TODO: only 100 items
-  const { data: pluginsResponse } = useListPluginsQuery(
+  const { data: { body: pluginsResponse } = {} } = useListPluginsQuery(
     { queryParams: { limit: 100, page: 1 } },
     { enabled: !!editStepIntention }
   )

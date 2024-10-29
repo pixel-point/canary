@@ -1,16 +1,6 @@
 import { Link } from 'react-router-dom'
-import {
-  Button,
-  ListPagination,
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-  Spacer,
-  Text
-} from '@harnessio/canary'
+import { parseAsInteger, useQueryState } from 'nuqs'
+import { Button, Spacer, Text } from '@harnessio/canary'
 import { useListReposQuery, RepoRepositoryOutput, ListReposQueryQueryParams } from '@harnessio/code-service-client'
 import {
   PaddingListLayout,
@@ -19,12 +9,13 @@ import {
   Filter,
   useCommonFilter,
   NoData,
-  NoSearchResults
+  NoSearchResults,
+  PaginationComponent
 } from '@harnessio/playground'
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
-import { usePagination } from '../../framework/hooks/usePagination'
 import Header from '../../components/Header'
 import { timeAgoFromEpochTime } from '../pipeline-edit/utils/time-utils'
+import { PageResponseHeader } from '../../types'
 
 const sortOptions = [
   { name: 'Created', value: 'created' },
@@ -35,17 +26,19 @@ const sortOptions = [
 const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => <Link to={to}>{children}</Link>
 
 export default function ReposListPage() {
-  // hardcoded
-  const totalPages = 10
   const space = useGetSpaceURLParam()
 
-  const { query, sort } = useCommonFilter<ListReposQueryQueryParams['sort']>()
+  /* Query and Pagination */
+  const { query: currentQuery = '', sort } = useCommonFilter<ListReposQueryQueryParams['sort']>()
+  const [query, _] = useQueryState('query', { defaultValue: currentQuery })
+  const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
 
-  const { isFetching, data: repositories } = useListReposQuery({
-    queryParams: { sort, query },
+  const { isFetching, data: { body: repositories, headers } = {} } = useListReposQuery({
+    queryParams: { sort, query, page },
     space_ref: `${space}/+`
   })
-  const { currentPage, previousPage, nextPage, handleClick } = usePagination(1, totalPages)
+
+  const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '')
 
   const renderListContent = () => {
     if (isFetching) return <SkeletonList />
@@ -125,40 +118,12 @@ export default function ReposListPage() {
         <Spacer size={5} />
         {renderListContent()}
         <Spacer size={8} />
-        {repositories?.length && (
-          <ListPagination.Root>
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    size="sm"
-                    href="#"
-                    onClick={() => currentPage > 1 && previousPage()}
-                    disabled={currentPage === 1}
-                  />
-                </PaginationItem>
-                {Array.from({ length: totalPages }, (_, index) => (
-                  <PaginationItem key={index}>
-                    <PaginationLink
-                      isActive={currentPage === index + 1}
-                      size="sm_icon"
-                      href="#"
-                      onClick={() => handleClick(index + 1)}>
-                      {index + 1}
-                    </PaginationLink>
-                  </PaginationItem>
-                ))}
-                <PaginationItem>
-                  <PaginationNext
-                    size="sm"
-                    href="#"
-                    onClick={() => currentPage < totalPages && nextPage()}
-                    disabled={currentPage === totalPages}
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </ListPagination.Root>
+        {totalPages > 1 && (
+          <PaginationComponent
+            totalPages={totalPages}
+            currentPage={page}
+            goToPage={(pageNum: number) => setPage(pageNum)}
+          />
         )}
       </PaddingListLayout>
     </>

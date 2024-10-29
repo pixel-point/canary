@@ -1,41 +1,25 @@
 import { Link } from 'react-router-dom'
-import {
-  Button,
-  ListPagination,
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-  Spacer,
-  Text
-} from '@harnessio/canary'
+import { parseAsInteger, useQueryState } from 'nuqs'
+import { Button, Spacer, Text } from '@harnessio/canary'
 import { useListPipelinesQuery, TypesPipeline } from '@harnessio/code-service-client'
 import { PipelineList, MeterState, SandboxLayout, SkeletonList, Filter, useCommonFilter } from '@harnessio/playground'
-import { ExecutionState } from '../types'
+import { ExecutionState, PageResponseHeader } from '../types'
 import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
-import { usePagination } from '../framework/hooks/usePagination'
+import { PaginationComponent } from '../../../../packages/playground/dist'
 
 export default function SandboxPipelinesPage() {
-  // hardcoded
-  const totalPages = 10
   const repoRef = useGetRepoRef()
 
-  const { query } = useCommonFilter()
+  const { query: currentQuery } = useCommonFilter()
+  const [query, _] = useQueryState('query', { defaultValue: currentQuery || '' })
+  const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
 
-  const { data: pipelines, isFetching } = useListPipelinesQuery(
-    {
-      repo_ref: repoRef,
-      queryParams: { page: 0, limit: 10, query: query?.trim(), latest: true }
-    },
-    /* To enable mock data */
-    {
-      placeholderData: [{ identifier: 'pipeline1' }, { identifier: 'pipeline2' }],
-      enabled: true
-    }
-  )
-  const { currentPage, previousPage, nextPage, handleClick } = usePagination(1, totalPages)
+  const { data: { body: pipelines, headers } = {}, isFetching } = useListPipelinesQuery({
+    repo_ref: repoRef,
+    queryParams: { page, query, latest: true }
+  })
+
+  const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '')
 
   const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => <Link to={to}>{children}</Link>
 
@@ -85,40 +69,12 @@ export default function SandboxPipelinesPage() {
           <Spacer size={5} />
           {renderListContent()}
           <Spacer size={8} />
-          {(pipelines?.length ?? 0) > 0 && (
-            <ListPagination.Root>
-              <Pagination>
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious
-                      size="sm"
-                      href="#"
-                      onClick={() => currentPage > 1 && previousPage()}
-                      disabled={currentPage === 1}
-                    />
-                  </PaginationItem>
-                  {Array.from({ length: totalPages }, (_, index) => (
-                    <PaginationItem key={index}>
-                      <PaginationLink
-                        isActive={currentPage === index + 1}
-                        size="sm_icon"
-                        href="#"
-                        onClick={() => handleClick(index + 1)}>
-                        {index + 1}
-                      </PaginationLink>
-                    </PaginationItem>
-                  ))}
-                  <PaginationItem>
-                    <PaginationNext
-                      size="sm"
-                      href="#"
-                      onClick={() => currentPage < totalPages && nextPage()}
-                      disabled={currentPage === totalPages}
-                    />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
-            </ListPagination.Root>
+          {totalPages > 1 && (
+            <PaginationComponent
+              totalPages={totalPages}
+              currentPage={page}
+              goToPage={(pageNum: number) => setPage(pageNum)}
+            />
           )}
         </SandboxLayout.Content>
       </SandboxLayout.Main>

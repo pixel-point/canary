@@ -33,6 +33,7 @@ const PullRequestCheckSection = ({ checkData, checksInfo, spaceId, repoId }: Pul
     switch (status) {
       // TODO: fix icons to use from nucleo
       case ExecutionState.PENDING:
+      case ExecutionState.BLOCKED:
         return <Clock />
       case ExecutionState.RUNNING:
         return <ChatBubble className="text-warning" />

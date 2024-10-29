@@ -1,8 +1,16 @@
 import { useState } from 'react'
+import { parseAsInteger, useQueryState } from 'nuqs'
 import { TypesExecution, useListExecutionsQuery } from '@harnessio/code-service-client'
 import { ListActions, SearchBox, Spacer, Text, Button } from '@harnessio/canary'
-import { PaddingListLayout, ExecutionList, SkeletonList, timeDistance, NoData } from '@harnessio/playground'
-import { ExecutionState } from '../types'
+import {
+  PaddingListLayout,
+  ExecutionList,
+  SkeletonList,
+  timeDistance,
+  NoData,
+  PaginationComponent
+} from '@harnessio/playground'
+import { ExecutionState, PageResponseHeader } from '../types'
 import { Link, useParams } from 'react-router-dom'
 import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 import { PathParams } from '../RouteDefinitions'
@@ -17,23 +25,20 @@ export default function ExecutionsListPage() {
   const repoRef = useGetRepoRef()
   const { pipelineId } = useParams<PathParams>()
   const [openRunPipeline, setOpenRunPipeline] = useState(false)
+
+  const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
   const {
-    data: executions,
+    data: { body: executions, headers } = {},
     isFetching,
     error,
     isSuccess
-  } = useListExecutionsQuery(
-    {
-      repo_ref: repoRef,
-      pipeline_identifier: pipelineId || '',
-      queryParams: { page: 0, limit: 10 }
-    },
-    /* To enable mock data */
-    {
-      placeholderData: [{ message: 'Pipeline execution failed' }, { message: 'Execution successful' }],
-      enabled: true
-    }
-  )
+  } = useListExecutionsQuery({
+    repo_ref: repoRef,
+    pipeline_identifier: pipelineId || '',
+    queryParams: { page }
+  })
+
+  const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '')
 
   const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => <Link to={to}>{children}</Link>
 
@@ -116,6 +121,13 @@ export default function ExecutionsListPage() {
         <Spacer size={5} />
         {renderListContent()}
         <Spacer size={8} />
+        {totalPages > 1 && (
+          <PaginationComponent
+            totalPages={totalPages}
+            currentPage={page}
+            goToPage={(pageNum: number) => setPage(pageNum)}
+          />
+        )}
       </PaddingListLayout>
       <RunPipelineDialog
         open={openRunPipeline}
@@ -123,7 +135,7 @@ export default function ExecutionsListPage() {
           setOpenRunPipeline(false)
         }}
         pipelineId={pipelineId}
-        branch={executions?.[0].source} // TODO: check this
+        branch={executions && executions.length > 0 ? executions[0].source : undefined} // TODO: check this
         toExecutions={'./executions'}
       />
     </>

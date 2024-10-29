@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Input, Icon, Button } from '@harnessio/canary'
 import { useListPluginsQuery } from '@harnessio/code-service-client'
 import {
@@ -30,7 +30,7 @@ const PipelineStudioStepPalette = (props: PipelineStudioStepFormProps): JSX.Elem
   const [pluginsData, setPluginsData] = useState<TypesPlugin[]>([])
 
   // TODO: only 100 items
-  const { data: pluginsResponse } = useListPluginsQuery({ queryParams: { limit: 100, page: 1 } })
+  const { data: { body: pluginsResponse } = {} } = useListPluginsQuery({ queryParams: { limit: 100, page: 1 } })
 
   useEffect(() => {
     // TODO: Do not parse all plugins in advance  - check if its not needed (wrap inside try...catch)

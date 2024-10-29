@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import {
   useCreateSpaceMutation,
   OpenapiCreateSpaceRequest,
-  CreateSpaceErrorResponse,
-  CreateSpaceOkResponse
+  CreateSpaceErrorResponse
 } from '@harnessio/code-service-client'
 import { CreateProjectPage } from '@harnessio/playground'
 import { useAppContext } from '../framework/context/AppContext'
@@ -18,11 +17,12 @@ export default function CreateProject() {
   const { mutate, isLoading } = useCreateSpaceMutation(
     {},
     {
-      onSuccess: (data: CreateSpaceOkResponse) => {
+      onSuccess: response => {
+        const { body: project } = response
         setApiError(null)
-        addSpaces([data])
+        addSpaces([project])
         //onSuccess in react-query has allowed 200-299
-        navigate(`/${data?.identifier}/repos`)
+        navigate(`/${project?.identifier}/repos`)
       },
       onError: (error: CreateSpaceErrorResponse) => {
         const message = error.message || 'An unknown error occurred.'

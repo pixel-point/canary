@@ -74,15 +74,7 @@ function SandboxExecutionSummaryPage() {
         <Spacer size={5} />
         {renderListContent()}
         <Spacer size={8} />
-        {loadState == 'data-loaded' && (
-          <PaginationComponent
-            totalPages={10}
-            currentPage={5}
-            nextPage={() => {}}
-            previousPage={() => {}}
-            handleClick={() => {}}
-          />
-        )}
+        {loadState == 'data-loaded' && <PaginationComponent totalPages={10} currentPage={5} goToPage={() => {}} />}
       </SandboxLayout.Content>
       <PlaygroundListSettings loadState={loadState} setLoadState={setLoadState} />
     </SandboxLayout.Main>

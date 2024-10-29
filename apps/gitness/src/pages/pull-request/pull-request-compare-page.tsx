@@ -5,7 +5,6 @@ import {
   CreateRepositoryErrorResponse,
   useCreatePullReqMutation,
   OpenapiCreatePullReqRequest,
-  CreatePullReqOkResponse,
   RepoBranch,
   useListBranchesQuery,
   useFindRepositoryQuery,
@@ -59,7 +58,7 @@ export const CreatePullRequest = () => {
   const path = useMemo(() => `/api/v1/repos/${repoRef}/+/${diffApiPath}`, [repoRef, diffApiPath])
 
   const [diffs, setDiffs] = useState<DiffFileEntry[]>()
-  const { data: rawDiff, isFetching: loadingRawDiff } = useRawDiffQuery(
+  const { data: { body: rawDiff } = {}, isFetching: loadingRawDiff } = useRawDiffQuery(
     {
       repo_ref: repoRef,
       range: diffApiPath.replace('/diff', ''),
@@ -136,7 +135,7 @@ export const CreatePullRequest = () => {
     loadingRawDiff,
     memorizedState
   ])
-  const { data: repoMetadata } = useFindRepositoryQuery({ repo_ref: repoRef })
+  const { data: { body: repoMetadata } = {} } = useFindRepositoryQuery({ repo_ref: repoRef })
   const handleSubmit = (data: FormFields, isDraft: boolean) => {
     const pullRequestBody: OpenapiCreatePullReqRequest = {
       description: data.description,
@@ -153,7 +152,7 @@ export const CreatePullRequest = () => {
         repo_ref: repoRef
       },
       {
-        onSuccess: (data: CreatePullReqOkResponse) => {
+        onSuccess: ({ body: data }) => {
           setApiError(null)
           navigate(`/${spaceId}/repos/${repoId}/pull-requests/${data?.number}`)
         },
@@ -176,7 +175,7 @@ export const CreatePullRequest = () => {
   const onCancel = () => {
     navigate(`/${spaceId}/repos`)
   }
-  const { data: branches, isFetching: isFetchingBranches } = useListBranchesQuery({
+  const { data: { body: branches } = {}, isFetching: isFetchingBranches } = useListBranchesQuery({
     repo_ref: repoRef,
     queryParams: { page: 0, limit: 10 }
   })
@@ -190,7 +189,7 @@ export const CreatePullRequest = () => {
   useEffect(() => {
     // useMergeCheckMutation
     mergeCheck({ queryParams: {}, repo_ref: repoRef, range: diffApiPath })
-      .then(value => {
+      .then(({ body: value }) => {
         setMergeabilty(value?.mergeable)
       })
       .catch(err => {
@@ -203,12 +202,12 @@ export const CreatePullRequest = () => {
       })
   }, [repoRef, diffApiPath])
 
-  const { data: diffStats } = useDiffStatsQuery(
+  const { data: { body: diffStats } = {} } = useDiffStatsQuery(
     { queryParams: {}, repo_ref: repoRef, range: diffApiPath },
     { enabled: !!repoRef && !!diffApiPath }
   )
 
-  const { data: commitData } = useListCommitsQuery({
+  const { data: { body: commitData } = {} } = useListCommitsQuery({
     repo_ref: repoRef,
 
     queryParams: {

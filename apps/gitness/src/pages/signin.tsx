@@ -12,7 +12,7 @@ export const SignIn: React.FC = () => {
     {
       onSuccess: () => {
         getUser({})
-          .then(user => setCurrentUser(user))
+          .then(response => setCurrentUser(response.body))
           .catch(_e => {
             // Ignore/toast error
           })

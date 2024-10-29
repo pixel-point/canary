@@ -45,19 +45,22 @@ export default function RunPipelineForm({
   const [pipeline, setPipeline] = useState<Record<string, unknown>>({})
 
   const repoRef = useGetRepoRef()
-  const { data: listBranchesData, isLoading: listBranchesLoading } = useListBranchesQuery({
+  const { data: branches, isLoading: listBranchesLoading } = useListBranchesQuery({
     repo_ref: repoRef,
     queryParams: {}
   })
 
   useEffect(() => {
     findPipeline({ pipeline_identifier: pipelineId ?? pipelineIdFromParams, repo_ref: repoRef })
-      .then(pipelineData => {
+      .then(({ body: pipelineData }) => {
         getContent({
-          path: pipelineData.config_path ?? '',
+          path: pipelineData?.config_path ?? '',
           repo_ref: repoRef,
-          queryParams: { git_ref: normalizeGitRef(branch ?? pipelineData.default_branch) ?? '', include_commit: true }
-        }).then(pipelineFileContent => {
+          queryParams: {
+            git_ref: normalizeGitRef(branch ?? pipelineData?.default_branch) ?? '',
+            include_commit: true
+          }
+        }).then(({ body: pipelineFileContent }) => {
           try {
             const pipelineObj = parse(decodeGitContent(pipelineFileContent?.content?.data))
             setPipeline(pipelineObj)
@@ -84,7 +87,7 @@ export default function RunPipelineForm({
       inputType: InputType.select,
       path: `${ADDITIONAL_INPUTS_PREFIX}.branch`,
       inputConfig: {
-        options: listBranchesData?.map(branchItem => ({ label: branchItem?.name, value: branchItem?.name }))
+        options: branches?.body?.map(branchItem => ({ label: branchItem?.name, value: branchItem?.name }))
       }
     },
     { inputType: InputType.separator, path: '' }
@@ -104,8 +107,7 @@ export default function RunPipelineForm({
     })
       .then(response => {
         requestClose()
-
-        const executionId = response.number
+        const executionId = response.body.number
         navigate(`${toExecutions}/${executionId}`)
         // TODO: toast here ?
       })

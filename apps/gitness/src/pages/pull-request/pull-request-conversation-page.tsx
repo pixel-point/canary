@@ -63,15 +63,15 @@ export default function PullRequestConversationPage() {
   const [dateOrderSort, setDateOrderSort] = useState<{ label: string; value: string }>(dateFilters[0])
   const activityFilters = useActivityFilters()
   const [activityFilter, setActivityFilter] = useState<{ label: string; value: string }>(activityFilters[0])
-  const { data: reviewers, refetch: refetchReviewers } = useReviewerListPullReqQuery({
+  const { data: { body: reviewers } = {}, refetch: refetchReviewers } = useReviewerListPullReqQuery({
     repo_ref: repoRef,
     pullreq_number: prId
   })
-  const { data: codeOwners, refetch: refetchCodeOwners } = useCodeownersPullReqQuery({
+  const { data: { body: codeOwners } = {}, refetch: refetchCodeOwners } = useCodeownersPullReqQuery({
     repo_ref: repoRef,
     pullreq_number: prId
   })
-  const { data: activityData } = useListPullReqActivitiesQuery({
+  const { data: { body: activityData } = {} } = useListPullReqActivitiesQuery({
     repo_ref: repoRef,
     pullreq_number: prId,
     queryParams: {}

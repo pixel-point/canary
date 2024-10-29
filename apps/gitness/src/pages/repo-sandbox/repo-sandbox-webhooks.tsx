@@ -26,7 +26,7 @@ function RepoSandboxWebhooksListPage() {
 
   const { query } = useCommonFilter()
 
-  const { data: webhooks, isFetching } = useListWebhooksQuery({
+  const { data: { body: webhooks } = {}, isFetching } = useListWebhooksQuery({
     repo_ref: repoRef,
     queryParams: { order: 'asc', limit: 20, page: 1, query }
   })

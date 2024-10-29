@@ -1,17 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import {
-  Spacer,
-  Button,
-  Text,
-  ListPagination,
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationLink,
-  PaginationNext
-} from '@harnessio/canary'
+import { parseAsInteger, useQueryState } from 'nuqs'
+import { Spacer, Button, Text } from '@harnessio/canary'
 // import { NoSearchResults } from '../components/no-search-results'
 import {
   Filter,
@@ -24,21 +14,22 @@ import {
 } from '@harnessio/playground'
 import { useListWebhooksQuery } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
-import { usePagination } from '../../framework/hooks/usePagination'
+import { PaginationComponent } from '../../../../../packages/playground/dist'
+import { PageResponseHeader } from '../../types'
 function RepoWebhooksListPage() {
-  // lack of data: total commits
-  // hardcoded
-  const totalPages = 10
   const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => <Link to={to}>{children}</Link>
   const repoRef = useGetRepoRef()
 
-  const { query } = useCommonFilter()
+  const { query: currentQuery } = useCommonFilter()
+  const [query, _] = useQueryState('query', { defaultValue: currentQuery || '' })
+  const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
 
-  const { data: webhooks, isFetching } = useListWebhooksQuery({
+  const { data: { body: webhooks, headers } = {}, isFetching } = useListWebhooksQuery({
     repo_ref: repoRef,
-    queryParams: { order: 'asc', limit: 20, page: 1, query }
+    queryParams: { order: 'asc', page, query }
   })
-  const { currentPage, previousPage, nextPage, handleClick } = usePagination(1, totalPages)
+
+  const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '')
 
   const renderListContent = () => {
     if (isFetching) return <SkeletonList />
@@ -98,45 +89,12 @@ function RepoWebhooksListPage() {
         <Spacer size={5} />
         {renderListContent()}
         <Spacer size={8} />
-        {webhooksExist && (
-          <ListPagination.Root>
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    size="sm"
-                    href="#"
-                    onClick={() => currentPage > 1 && previousPage()}
-                    disabled={currentPage === 1}
-                  />
-                </PaginationItem>
-                {/* <PaginationItem>
-              <PaginationLink size="sm_icon" href="#">
-                <PaginationEllipsis />
-              </PaginationLink>
-            </PaginationItem> */}
-                {Array.from({ length: totalPages }, (_, index) => (
-                  <PaginationItem key={index}>
-                    <PaginationLink
-                      isActive={currentPage === index + 1}
-                      size="sm_icon"
-                      href="#"
-                      onClick={() => handleClick(index + 1)}>
-                      {index + 1}
-                    </PaginationLink>
-                  </PaginationItem>
-                ))}
-                <PaginationItem>
-                  <PaginationNext
-                    size="sm"
-                    href="#"
-                    onClick={() => currentPage < totalPages && nextPage()}
-                    disabled={currentPage === totalPages}
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </ListPagination.Root>
+        {totalPages > 1 && (
+          <PaginationComponent
+            totalPages={totalPages}
+            currentPage={page}
+            goToPage={(pageNum: number) => setPage(pageNum)}
+          />
         )}
       </PaddingListLayout>
     </>

@@ -1,18 +1,8 @@
 import { useEffect } from 'react'
+import { parseAsInteger, useQueryState } from 'nuqs'
 import { Link, useParams } from 'react-router-dom'
 import { SkeletonList, NoData, PaddingListLayout, BranchesList, Filter, useCommonFilter } from '@harnessio/playground'
-import {
-  Button,
-  ListPagination,
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-  Spacer,
-  Text
-} from '@harnessio/canary'
+import { Button, Spacer, Text } from '@harnessio/canary'
 import {
   useListBranchesQuery,
   RepoBranch,
@@ -21,10 +11,9 @@ import {
   ListBranchesQueryQueryParams
 } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
-import { usePagination } from '../../framework/hooks/usePagination'
-import { orderSortDate } from '../../types'
+import { PageResponseHeader, orderSortDate } from '../../types'
 import { timeAgoFromISOTime } from '../pipeline-edit/utils/time-utils'
-import { NoSearchResults } from '../../../../../packages/playground/dist'
+import { NoSearchResults, PaginationComponent } from '../../../../../packages/playground/dist'
 import { PathParams } from '../../RouteDefinitions'
 
 const sortOptions = [
@@ -33,22 +22,23 @@ const sortOptions = [
 ]
 
 export function ReposBranchesListPage() {
-  // lack of data: total branches
-  // hardcoded
-  const totalPages = 10
-
   const repoRef = useGetRepoRef()
   const { spaceId, repoId } = useParams<PathParams>()
 
-  const { currentPage, previousPage, nextPage, handleClick } = usePagination(1, totalPages)
-  const { data: repoMetadata } = useFindRepositoryQuery({ repo_ref: repoRef })
+  const { data: { body: repoMetadata } = {} } = useFindRepositoryQuery({ repo_ref: repoRef })
 
-  const { sort, query } = useCommonFilter<ListBranchesQueryQueryParams['sort']>()
+  const { query: currentQuery, sort } = useCommonFilter<ListBranchesQueryQueryParams['sort']>()
 
-  const { isLoading, data: branches } = useListBranchesQuery({
-    queryParams: { page: currentPage, limit: 20, sort, query, order: orderSortDate.DESC, include_commit: true },
+  const [query, _] = useQueryState('query', { defaultValue: currentQuery || '' })
+  const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
+
+  const { isLoading, data: { body: branches, headers } = {} } = useListBranchesQuery({
+    queryParams: { page, sort, query, order: orderSortDate.DESC, include_commit: true },
     repo_ref: repoRef
   })
+
+  const xNextPage = parseInt(headers?.get(PageResponseHeader.xNextPage) || '')
+  const xPrevPage = parseInt(headers?.get(PageResponseHeader.xPrevPage) || '')
 
   const { data: branchDivergence, mutate } = useCalculateCommitDivergenceMutation({
     repo_ref: repoRef
@@ -94,7 +84,7 @@ export function ReposBranchesListPage() {
 
     //get the data arr from behindAhead
     const behindAhead =
-      branchDivergence?.map(divergence => {
+      branchDivergence?.body?.map(divergence => {
         return {
           behind: divergence.behind,
           ahead: divergence.ahead
@@ -156,40 +146,13 @@ export function ReposBranchesListPage() {
       <Spacer size={5} />
       {renderListContent()}
       <Spacer size={8} />
-      {branchesExist && (
-        <ListPagination.Root>
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  size="sm"
-                  href="#"
-                  onClick={() => currentPage > 1 && previousPage()}
-                  disabled={currentPage === 1}
-                />
-              </PaginationItem>
-              {Array.from({ length: totalPages }, (_, index) => (
-                <PaginationItem key={index}>
-                  <PaginationLink
-                    isActive={currentPage === index + 1}
-                    size="sm_icon"
-                    href="#"
-                    onClick={() => handleClick(index + 1)}>
-                    {index + 1}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
-              <PaginationItem>
-                <PaginationNext
-                  size="sm"
-                  href="#"
-                  onClick={() => currentPage < totalPages && nextPage()}
-                  disabled={currentPage === totalPages}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </ListPagination.Root>
+      {(!isNaN(xNextPage) || !isNaN(xPrevPage)) && (
+        <PaginationComponent
+          nextPage={xNextPage}
+          previousPage={xPrevPage}
+          currentPage={page}
+          goToPage={(pageNum: number) => setPage(pageNum)}
+        />
       )}
     </PaddingListLayout>
   )

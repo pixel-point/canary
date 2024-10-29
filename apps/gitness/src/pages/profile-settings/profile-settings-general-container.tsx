@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
 import {
   useGetUserQuery,
-  GetUserOkResponse,
   GetUserErrorResponse,
   useUpdateUserMutation,
   UpdateUserRequestBody,
-  UpdateUserOkResponse,
   UpdateUserErrorResponse
 } from '@harnessio/code-service-client'
 import { SandboxSettingsAccountGeneralPage, ProfileFields, PasswordFields } from './profile-settings-general-page'
@@ -22,7 +20,7 @@ export const SettingsProfileGeneralPage: React.FC = () => {
   const { isLoading: isLoadingUser } = useGetUserQuery(
     {},
     {
-      onSuccess: (data: GetUserOkResponse) => {
+      onSuccess: ({ body: data }) => {
         setUserData({
           name: data.display_name || '',
           username: data.uid || '',
@@ -38,7 +36,7 @@ export const SettingsProfileGeneralPage: React.FC = () => {
   const updateUserMutation = useUpdateUserMutation(
     {},
     {
-      onSuccess: (data: UpdateUserOkResponse) => {
+      onSuccess: ({ body: data }) => {
         setUserData({
           name: data.display_name || '',
           username: data.uid || '',
@@ -55,7 +53,7 @@ export const SettingsProfileGeneralPage: React.FC = () => {
   const updatePasswordMutation = useUpdateUserMutation(
     {},
     {
-      onSuccess: (data: UpdateUserOkResponse) => {
+      onSuccess: ({ body: data }) => {
         setUserData({
           name: data.display_name || '',
           username: data.uid || '',

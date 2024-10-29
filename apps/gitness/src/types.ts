@@ -106,3 +106,11 @@ export enum orderSortDate {
   ASC = 'asc',
   DESC = 'desc'
 }
+
+export enum PageResponseHeader {
+  xTotal = 'x-total',
+  xTotalPages = 'x-total-pages',
+  xPerPage = 'x-per-page',
+  xNextPage = 'x-next-page',
+  xPrevPage = 'x-prev-page'
+}

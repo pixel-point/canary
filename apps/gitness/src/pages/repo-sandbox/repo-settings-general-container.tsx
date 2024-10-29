@@ -13,10 +13,10 @@ import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
 import {
   useFindRepositoryQuery,
-  FindRepositoryOkResponse,
+  // FindRepositoryOkResponse,
   FindRepositoryErrorResponse,
   useListBranchesQuery,
-  ListBranchesOkResponse,
+  // ListBranchesOkResponse,
   ListBranchesErrorResponse,
   useUpdateRepositoryMutation,
   UpdateRepositoryErrorResponse,
@@ -25,16 +25,16 @@ import {
   useUpdatePublicAccessMutation,
   UpdatePublicAccessErrorResponse,
   useFindSecuritySettingsQuery,
-  FindSecuritySettingsOkResponse,
+  // FindSecuritySettingsOkResponse,
   FindSecuritySettingsErrorResponse,
   useUpdateSecuritySettingsMutation,
-  UpdateSecuritySettingsOkResponse,
+  // UpdateSecuritySettingsOkResponse,
   UpdateSecuritySettingsErrorResponse,
   useDeleteRepositoryMutation,
-  DeleteRepositoryOkResponse,
+  // DeleteRepositoryOkResponse,
   DeleteRepositoryErrorResponse,
   useRuleListQuery,
-  RuleListOkResponse,
+  // RuleListOkResponse,
   RuleListErrorResponse,
   useRuleDeleteMutation,
   RuleDeleteOkResponse,
@@ -79,7 +79,7 @@ export const RepoSettingsGeneralPageContainer = () => {
   const { isLoading: isLoadingRepoData } = useFindRepositoryQuery(
     { repo_ref: repoRef },
     {
-      onSuccess: (data: FindRepositoryOkResponse) => {
+      onSuccess: ({ body: data }) => {
         setRepoData({
           name: data.identifier || '',
           description: data.description || '',
@@ -106,7 +106,7 @@ export const RepoSettingsGeneralPageContainer = () => {
       }
     },
     {
-      onSuccess: (data: ListBranchesOkResponse) => {
+      onSuccess: ({ body: data }) => {
         setRepoData(prevState => ({
           ...prevState,
           branches: data
@@ -126,7 +126,7 @@ export const RepoSettingsGeneralPageContainer = () => {
       queryParams: {}
     },
     {
-      onSuccess: (data: RuleListOkResponse) => {
+      onSuccess: ({ body: data }) => {
         const rulesData = data.map(rule => {
           return {
             targetPatternsCount: (rule.pattern?.include?.length ?? 0) + (rule.pattern?.exclude?.length ?? 0),
@@ -292,7 +292,7 @@ export const RepoSettingsGeneralPageContainer = () => {
   const { isLoading: isLoadingSecuritySettings } = useFindSecuritySettingsQuery(
     { repo_ref: repoRef },
     {
-      onSuccess: (data: FindSecuritySettingsOkResponse) => {
+      onSuccess: ({ body: data }) => {
         setSecurityScanning(data.secret_scanning_enabled || false)
         setApiError(null)
       },
@@ -306,7 +306,7 @@ export const RepoSettingsGeneralPageContainer = () => {
   const { mutate: updateSecuritySettings, isLoading: UpdatingSecuritySettings } = useUpdateSecuritySettingsMutation(
     { repo_ref: repoRef },
     {
-      onSuccess: (data: UpdateSecuritySettingsOkResponse) => {
+      onSuccess: ({ body: data }) => {
         setRepoData(prevState => ({
           ...prevState,
           securitySettings: data
@@ -323,7 +323,7 @@ export const RepoSettingsGeneralPageContainer = () => {
   const { mutate: deleteRepository, isLoading: isDeletingRepo } = useDeleteRepositoryMutation(
     { repo_ref: repoRef },
     {
-      onSuccess: (_data: DeleteRepositoryOkResponse) => {
+      onSuccess: ({ body: _data }) => {
         navigate(`/sandbox/spaces/${spaceId}/repos`)
         setApiError(null)
       },

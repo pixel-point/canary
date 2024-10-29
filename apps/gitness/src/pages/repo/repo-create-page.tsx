@@ -7,7 +7,6 @@ import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
 import {
   useCreateRepositoryMutation,
   OpenapiCreateRepositoryRequest,
-  CreateRepositoryOkResponse,
   CreateRepositoryErrorResponse
 } from '@harnessio/code-service-client'
 
@@ -35,7 +34,7 @@ export const CreateRepo = () => {
         body: repositoryRequest
       },
       {
-        onSuccess: (data: CreateRepositoryOkResponse) => {
+        onSuccess: ({ body: data }) => {
           setApiError(null)
           navigate(`/${spaceId}/repos/${data?.identifier}`)
         },

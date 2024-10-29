@@ -1,24 +1,15 @@
-import {
-  Spacer,
-  Text,
-  ListPagination,
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationLink,
-  PaginationNext
-} from '@harnessio/canary'
+import { parseAsInteger, useQueryState } from 'nuqs'
+import { Spacer, Text } from '@harnessio/canary'
 import {
   BranchSelector,
   Filter,
   NoData,
   PaddingListLayout,
+  PaginationComponent,
   PullRequestCommits,
   SkeletonList
 } from '@harnessio/playground'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
-import { usePagination } from '../../framework/hooks/usePagination'
 
 import {
   TypesCommit,
@@ -28,30 +19,29 @@ import {
 } from '@harnessio/code-service-client'
 import { useEffect, useState } from 'react'
 import { normalizeGitRef } from '../../utils/git-utils'
+import { PageResponseHeader } from '../../types'
 
 const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
 
 export default function RepoCommitsPage() {
-  // lack of data: total commits
-  // hardcoded
-  const totalPages = 10
   const repoRef = useGetRepoRef()
-
+  const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
   const { data: repository } = useFindRepositoryQuery({ repo_ref: repoRef })
-
-  const { data: branches, isFetching: isFetchingBranches } = useListBranchesQuery({
+  const { data: { body: branches } = {}, isFetching: isFetchingBranches } = useListBranchesQuery({
     repo_ref: repoRef,
-    queryParams: { page: 0, limit: 10 }
+    queryParams: { page }
   })
-  const { currentPage, previousPage, nextPage, handleClick } = usePagination(1, totalPages)
 
   const [selectedBranch, setSelectedBranch] = useState<string>('')
 
-  const { data: commitData, isFetching: isFetchingCommits } = useListCommitsQuery({
+  const { data: { body: commitData, headers } = {}, isFetching: isFetchingCommits } = useListCommitsQuery({
     repo_ref: repoRef,
 
-    queryParams: { page: currentPage, limit: 10, git_ref: normalizeGitRef(selectedBranch), include_stats: true }
+    queryParams: { page, git_ref: normalizeGitRef(selectedBranch), include_stats: true }
   })
+
+  const xNextPage = parseInt(headers?.get(PageResponseHeader.xNextPage) || '')
+  const xPrevPage = parseInt(headers?.get(PageResponseHeader.xPrevPage) || '')
 
   // 🚨 API not supporting sort, so waiting for API changes
   // const { sort } = useCommonFilter()
@@ -64,10 +54,10 @@ export default function RepoCommitsPage() {
   // }, [commitData])
 
   useEffect(() => {
-    if (repository) {
-      setSelectedBranch(repository?.default_branch || '')
+    if (repository?.body?.default_branch) {
+      setSelectedBranch(repository.body.default_branch)
     }
-  }, [repository])
+  }, [repository?.body?.default_branch])
 
   const selectBranch = (branch: string) => {
     setSelectedBranch(branch)
@@ -118,40 +108,14 @@ export default function RepoCommitsPage() {
       <Spacer size={5} />
       {renderListContent()}
       <Spacer size={8} />
-
-      <ListPagination.Root>
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                size="sm"
-                href="#"
-                onClick={() => currentPage > 1 && previousPage()}
-                disabled={currentPage === 1}
-              />
-            </PaginationItem>
-            {Array.from({ length: totalPages }, (_, index) => (
-              <PaginationItem key={index}>
-                <PaginationLink
-                  isActive={currentPage === index + 1}
-                  size="sm_icon"
-                  href="#"
-                  onClick={() => handleClick(index + 1)}>
-                  {index + 1}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
-            <PaginationItem>
-              <PaginationNext
-                size="sm"
-                href="#"
-                onClick={() => currentPage < totalPages && nextPage()}
-                disabled={currentPage === totalPages}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </ListPagination.Root>
+      {(!isNaN(xNextPage) || !isNaN(xPrevPage)) && (
+        <PaginationComponent
+          nextPage={xNextPage}
+          previousPage={xPrevPage}
+          currentPage={page}
+          goToPage={(pageNum: number) => setPage(pageNum)}
+        />
+      )}
     </PaddingListLayout>
   )
 }

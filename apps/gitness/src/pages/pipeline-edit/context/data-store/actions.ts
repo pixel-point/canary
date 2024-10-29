@@ -74,7 +74,8 @@ export const loadPipelineAction = ({
     dispatch(updateState({ fetchingPipelineData: true }))
     let pipelineData: TypesPipeline | null = null
     try {
-      pipelineData = await findPipeline({ pipeline_identifier: pipelineId, repo_ref: repoRef })
+      const { body } = await findPipeline({ pipeline_identifier: pipelineId, repo_ref: repoRef })
+      pipelineData = body
       dispatch(updateState({ pipelineData, currentBranch: pipelineData.default_branch }))
     } catch (_ex) {
       // TODO: process error
@@ -109,11 +110,12 @@ export const loadPipelineContentAction = ({
     let pipelineFileContent: OpenapiGetContentOutput | null = null
     if (branch && path) {
       try {
-        pipelineFileContent = await getContent({
+        const { body } = await getContent({
           path,
           repo_ref: repoRef,
           queryParams: { git_ref: normalizeGitRef(branch), include_commit: true }
         })
+        pipelineFileContent = body
       } catch (_ex) {
         // NOTE: if there is no file we threat as new pipeline
         dispatch(setYamlRevisionAction({ yamlRevision: { yaml: stringify(starterPipelineV1) } }))

@@ -16,6 +16,7 @@ const Badge: React.FC<ExecutionStatusProps & BadgeProps> = props => {
   const { status, duration, minimal } = props
   switch (status) {
     case ExecutionState.WAITING_ON_DEPENDENCIES:
+    case ExecutionState.BLOCKED:
     case ExecutionState.PENDING:
       return minimal ? (
         <div className="flex items-center gap-1">

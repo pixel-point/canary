@@ -84,7 +84,7 @@ export default function GitCommitDialog({
         if ([GitCommitAction.MOVE, GitCommitAction.CREATE].includes(commitAction)) {
           queryClient.invalidateQueries(['folderContents', repoRef, gitRef])
         }
-        onSuccess(response, commitToGitRef === CommitToGitRefOption.NEW_BRANCH)
+        onSuccess(response.body, commitToGitRef === CommitToGitRefOption.NEW_BRANCH)
       })
       .catch(_error => {
         if (_error?.status === 422) {
@@ -122,7 +122,7 @@ export default function GitCommitDialog({
           dry_run_rules: true
         }
 
-        const response = await commitChages({
+        const { body: response } = await commitChages({
           repo_ref: repoRef,
           body: { ...data }
         })

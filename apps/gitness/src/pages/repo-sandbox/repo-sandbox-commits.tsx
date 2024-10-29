@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Spacer,
   Text,
@@ -31,9 +30,9 @@ export default function RepoSandboxCommitsPage() {
   const totalPages = 10
   const repoRef = useGetRepoRef()
 
-  const { data: repository } = useFindRepositoryQuery({ repo_ref: repoRef })
+  const { data: { body: repository } = {} } = useFindRepositoryQuery({ repo_ref: repoRef })
 
-  const { data: branches, isFetching: isFetchingBranches } = useListBranchesQuery({
+  const { data: { body: branches } = {}, isFetching: isFetchingBranches } = useListBranchesQuery({
     repo_ref: repoRef,
     queryParams: { page: 0, limit: 10 }
   })
@@ -41,7 +40,7 @@ export default function RepoSandboxCommitsPage() {
 
   const [selectedBranch, setSelectedBranch] = useState<string>('')
 
-  const { data: commitData, isFetching: isFetchingCommits } = useListCommitsQuery({
+  const { data: { body: commitData } = {}, isFetching: isFetchingCommits } = useListCommitsQuery({
     repo_ref: repoRef,
 
     queryParams: { page: currentPage, limit: 10, git_ref: normalizeGitRef(selectedBranch), include_stats: true }

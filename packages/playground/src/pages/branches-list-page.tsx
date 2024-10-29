@@ -92,15 +92,7 @@ export default function BranchesListPage() {
       <Spacer size={5} />
       {renderContent()}
       <Spacer size={8} />
-      {loadState === 'data-loaded' && (
-        <PaginationComponent
-          totalPages={10}
-          currentPage={5}
-          nextPage={() => {}}
-          previousPage={() => {}}
-          handleClick={() => {}}
-        />
-      )}
+      {loadState === 'data-loaded' && <PaginationComponent totalPages={10} currentPage={5} goToPage={() => {}} />}
 
       <PlaygroundBranchesSettings loadState={loadState} setLoadState={setLoadState} />
     </PaddingListLayout>

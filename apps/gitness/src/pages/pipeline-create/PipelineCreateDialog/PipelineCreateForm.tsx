@@ -43,7 +43,7 @@ export function PipelineCreateForm({ onCancel, onSubmit }: PipelineCreateFormPro
 
   const repoRef = useGetRepoRef()
 
-  const { data, isLoading } = useListBranchesQuery({ repo_ref: repoRef, queryParams: {} })
+  const { data: { body: branches } = {}, isLoading } = useListBranchesQuery({ repo_ref: repoRef, queryParams: {} })
 
   const { watch, setValue, clearErrors, trigger } = form
 
@@ -99,16 +99,14 @@ export function PipelineCreateForm({ onCancel, onSubmit }: PipelineCreateFormPro
         render={({ field }) => (
           <FormItem>
             <FormLabel className="text-primary">Branch*</FormLabel>
-            <Select disabled={isLoading || !data?.length} onValueChange={field.onChange} defaultValue={field.value}>
+            <Select disabled={isLoading || !branches?.length} onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl className="text-primary">
                 <SelectTrigger>
                   <SelectValue placeholder="Select a branch" />
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
-                {data?.map(branchItem => (
-                  <SelectItem value={branchItem?.name as string}>{branchItem?.name}</SelectItem>
-                ))}
+                {branches?.map(branch => <SelectItem value={branch?.name as string}>{branch?.name}</SelectItem>)}
               </SelectContent>
             </Select>
             <FormMessage />

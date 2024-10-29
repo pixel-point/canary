@@ -39,7 +39,7 @@ export default function PipelineEdit() {
 
   // TODO: should we move this in data provider?
   const repoRef = useGetRepoRef()
-  const { data: listBranchesData, isLoading: listBranchesLoading } = useListBranchesQuery({
+  const { data: { body: listBranchesData } = {}, isLoading: listBranchesLoading } = useListBranchesQuery({
     repo_ref: repoRef,
     queryParams: {}
   })

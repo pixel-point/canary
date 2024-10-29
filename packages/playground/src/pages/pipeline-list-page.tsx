@@ -79,15 +79,7 @@ function PipelineListPage() {
         <Spacer size={5} />
         {renderListContent()}
         <Spacer size={8} />
-        {loadState == 'data-loaded' && (
-          <PaginationComponent
-            totalPages={10}
-            currentPage={5}
-            nextPage={() => {}}
-            previousPage={() => {}}
-            handleClick={() => {}}
-          />
-        )}
+        {loadState == 'data-loaded' && <PaginationComponent totalPages={10} currentPage={5} goToPage={() => {}} />}
       </PaddingListLayout>
       <PlaygroundListSettings loadState={loadState} setLoadState={setLoadState} />
     </>

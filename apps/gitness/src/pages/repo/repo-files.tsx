@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Outlet } from 'react-router-dom'
 import { BranchSelector, SandboxLayout } from '@harnessio/playground'
+import { Button, ButtonGroup, Icon } from '@harnessio/canary'
 import {
   useListBranchesQuery,
   useFindRepositoryQuery,
@@ -11,7 +12,6 @@ import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { PathParams } from '../../RouteDefinitions'
 import Explorer from '../../components/FileExplorer'
 import { FILE_SEPERATOR, normalizeGitRef } from '../../utils/git-utils'
-import { Button, ButtonGroup, Icon } from '@harnessio/canary'
 
 export const RepoFiles: React.FC = () => {
   const repoRef = useGetRepoRef()
@@ -35,17 +35,17 @@ export const RepoFiles: React.FC = () => {
     queryParams: { include_commit: true, git_ref: normalizeGitRef(selectedBranch) }
   })
 
-  const branchList = branches?.map(item => ({
+  const branchList = branches?.body?.map(item => ({
     name: item?.name
   }))
 
   useEffect(() => {
-    if (repository && !gitRef) {
-      setSelectedBranch(repository?.default_branch || '')
+    if (repository?.body?.default_branch && !gitRef) {
+      setSelectedBranch(repository.body.default_branch)
     } else if (gitRef) {
       setSelectedBranch(gitRef)
     }
-  }, [repository, gitRef])
+  }, [repository?.body?.default_branch, gitRef])
 
   const selectBranch = (branch: string) => {
     setSelectedBranch(branch)
@@ -59,7 +59,7 @@ export const RepoFiles: React.FC = () => {
         repo_ref: repoRef,
         queryParams: { include_commit: true, git_ref: normalizeGitRef(selectedBranch) }
       }).then(response => {
-        if (response.type === 'dir') {
+        if (response.body.type === 'dir') {
           navigate(`/${spaceId}/repos/${repoId}/code/new/${gitRef}/~/${fullResourcePath}`)
         } else {
           const parentDirPath = fullResourcePath?.split(FILE_SEPERATOR).slice(0, -1).join(FILE_SEPERATOR)
@@ -96,8 +96,8 @@ export const RepoFiles: React.FC = () => {
         {/*  Add back when search api is available  
           <SearchBox.Root width="full" placeholder="Search" /> 
         */}
-        {repoDetails?.content?.entries?.length && (
-          <Explorer repoDetails={repoDetails} selectedBranch={selectedBranch} />
+        {repoDetails?.body?.content?.entries?.length && (
+          <Explorer repoDetails={repoDetails.body} selectedBranch={selectedBranch} />
         )}
       </div>
     )

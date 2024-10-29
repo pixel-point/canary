@@ -56,13 +56,13 @@ const ExecutionLogs: React.FC = () => {
     return execution?.stages?.[stageIndex]?.steps?.[stepIndex]?.status as ExecutionState | undefined
   }, [execution, stageNum, stepNum])
 
-  const { data: initialExecutionData } = useFindExecutionQuery({
+  const { data: { body: initialExecutionData } = {} } = useFindExecutionQuery({
     pipeline_identifier: pipelineIdentifier,
     execution_number: executionNum,
     repo_ref: repoRef
   })
 
-  const { data: logs } = useViewLogsQuery(
+  const { data: { body: logs } = {} } = useViewLogsQuery(
     {
       pipeline_identifier: pipelineIdentifier,
       execution_number: executionNum,

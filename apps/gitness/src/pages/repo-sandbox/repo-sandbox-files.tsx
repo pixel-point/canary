@@ -28,15 +28,15 @@ export const RepoSandboxFiles: React.FC = () => {
     queryParams: { include_commit: true, git_ref: normalizeGitRef(selectedBranch) }
   })
 
-  const branchList = branches?.map(item => ({
+  const branchList = branches?.body?.map(item => ({
     name: item?.name
   }))
 
   useEffect(() => {
-    if (repository && !gitRef) {
-      setSelectedBranch(repository?.default_branch || '')
+    if (repository?.body?.default_branch && !gitRef) {
+      setSelectedBranch(repository.body.default_branch)
     }
-  }, [repository])
+  }, [repository?.body?.default_branch])
 
   const selectBranch = (branch: string) => {
     setSelectedBranch(branch)
@@ -63,8 +63,8 @@ export const RepoSandboxFiles: React.FC = () => {
         {/*  Add back when search api is available  
           <SearchBox.Root width="full" placeholder="Search" /> 
         */}
-        {repoDetails?.content?.entries?.length && (
-          <Explorer repoDetails={repoDetails} selectedBranch={selectedBranch} />
+        {repoDetails?.body?.content?.entries?.length && (
+          <Explorer repoDetails={repoDetails.body} selectedBranch={selectedBranch} />
         )}
       </div>
     )

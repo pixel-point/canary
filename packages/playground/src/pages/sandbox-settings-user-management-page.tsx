@@ -213,15 +213,7 @@ function SandboxSettingsUserManagementPage() {
         <Spacer size={5} />
         {renderUserListContent()}
         <Spacer size={8} />
-        {loadState === 'data-loaded' && (
-          <PaginationComponent
-            totalPages={10}
-            currentPage={5}
-            nextPage={() => {}}
-            previousPage={() => {}}
-            handleClick={() => {}}
-          />
-        )}
+        {loadState === 'data-loaded' && <PaginationComponent totalPages={10} currentPage={5} goToPage={() => {}} />}
         <PlaygroundListSettings loadState={loadState} setLoadState={setLoadState} />
       </SandboxLayout.Content>
     </SandboxLayout.Main>

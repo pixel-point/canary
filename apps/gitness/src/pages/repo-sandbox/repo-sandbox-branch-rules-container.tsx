@@ -8,7 +8,6 @@ import {
   useListPrincipalsQuery,
   useListStatusCheckRecentQuery,
   useRuleGetQuery,
-  RuleGetOkResponse,
   useRuleUpdateMutation
 } from '@harnessio/code-service-client'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -27,7 +26,7 @@ export const RepoBranchSettingsRulesPageContainer = () => {
   useRuleGetQuery(
     { repo_ref: repoRef, rule_identifier: identifier ?? '' },
     {
-      onSuccess: (data: RuleGetOkResponse) => {
+      onSuccess: ({ body: data }) => {
         const transformedData = transformDataFromApi(data)
         setPreSetRuleData(transformedData)
       },
@@ -50,12 +49,13 @@ export const RepoBranchSettingsRulesPageContainer = () => {
     }
   )
 
-  const { data: principals, error: principalsError } = useListPrincipalsQuery({
+  // const { data: principals, error: principalsError } = useListPrincipalsQuery({
+  const { data: { body: principals } = {}, error: principalsError } = useListPrincipalsQuery({
     // @ts-expect-error : BE issue - not implemnted
     queryParams: { page: 1, limit: 100, type: 'user' }
   })
 
-  const { data: recentStatusChecks, error: statusChecksError } = useListStatusCheckRecentQuery({
+  const { data: { body: recentStatusChecks } = {}, error: statusChecksError } = useListStatusCheckRecentQuery({
     repo_ref: repoRef,
     queryParams: {}
   })

@@ -34,6 +34,7 @@ const mapStatus = (status: ExecutionState): Status => {
     case ExecutionState.KILLED:
       return Status.FAILED
     case ExecutionState.PENDING:
+    case ExecutionState.BLOCKED:
       return Status.QUEUED
     case ExecutionState.SKIPPED:
       return Status.SKIPPED

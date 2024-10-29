@@ -37,7 +37,7 @@ export default function PullRequestChangesPage() {
   const { pullRequestId } = useParams<PathParams>()
   const prId = (pullRequestId && Number(pullRequestId)) || -1
   const {
-    data: reviewers,
+    data: { body: reviewers } = {},
     refetch: refetchReviewers,
     isFetching: loadingReviewers
   } = useReviewerListPullReqQuery({
@@ -76,7 +76,7 @@ export default function PullRequestChangesPage() {
   const [cachedDiff, setCachedDiff] = useAtom(changesInfoAtom)
   const path = useMemo(() => `/api/v1/repos/${repoRef}/+/${diffApiPath}`, [repoRef, diffApiPath])
 
-  const { data: rawDiff, isFetching: loadingRawDiff } = useRawDiffQuery(
+  const { data: { body: rawDiff } = {}, isFetching: loadingRawDiff } = useRawDiffQuery(
     {
       repo_ref: repoRef,
       range: diffApiPath.replace('/diff', ''),

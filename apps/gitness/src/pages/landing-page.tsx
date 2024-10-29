@@ -11,7 +11,7 @@ export const LandingPage: React.FC = () => {
     membershipSpaces({
       queryParams: { page: 1, limit: 10, sort: 'identifier', order: 'asc' }
     })
-      .then(memberships => {
+      .then(({ body: memberships }) => {
         const spaceList = memberships.filter(item => item?.space).map(item => item.space as TypesSpace)
         setSpaces(spaceList)
         if (spaceList.length === 0) navigate('/create-project')

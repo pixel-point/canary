@@ -3,14 +3,11 @@ import { useState } from 'react'
 import {
   useListPublicKeyQuery,
   ListPublicKeyQueryQueryParams,
-  ListPublicKeyOkResponse,
   useCreateTokenMutation,
-  CreateTokenOkResponse,
   CreateTokenErrorResponse,
   CreateTokenRequestBody,
   useCreatePublicKeyMutation,
   CreatePublicKeyRequestBody,
-  CreatePublicKeyOkResponse,
   CreatePublicKeyErrorResponse,
   ListPublicKeyErrorResponse,
   useDeletePublicKeyMutation,
@@ -18,7 +15,6 @@ import {
   DeleteTokenErrorResponse,
   DeleteTokenOkResponse,
   useListTokensQuery,
-  ListTokensOkResponse,
   ListTokensErrorResponse
 } from '@harnessio/code-service-client'
 import { TokenCreateDialog } from './token-create/token-create-dialog'
@@ -76,7 +72,7 @@ export const SettingsProfileKeysPage = () => {
   useListTokensQuery(
     {},
     {
-      onSuccess: (data: ListTokensOkResponse) => {
+      onSuccess: ({ body: data }) => {
         setTokens(data)
         setApiError(null)
       },
@@ -91,7 +87,7 @@ export const SettingsProfileKeysPage = () => {
   useListPublicKeyQuery(
     { queryParams },
     {
-      onSuccess: (data: ListPublicKeyOkResponse) => {
+      onSuccess: ({ body: data }) => {
         setPublicKeys(data)
         setApiError(null)
       },
@@ -120,7 +116,7 @@ export const SettingsProfileKeysPage = () => {
   const createTokenMutation = useCreateTokenMutation(
     { body: {} },
     {
-      onSuccess: (newToken: CreateTokenOkResponse) => {
+      onSuccess: ({ body: newToken }) => {
         const tokenData = {
           identifier: newToken.token?.identifier ?? 'Unknown',
           lifetime: newToken.token?.expires_at
@@ -144,7 +140,7 @@ export const SettingsProfileKeysPage = () => {
   const createSshKeyMutation = useCreatePublicKeyMutation(
     { body: {} },
     {
-      onSuccess: (newSshKey: CreatePublicKeyOkResponse) => {
+      onSuccess: ({ body: newSshKey }) => {
         closeSshKeyDialog()
         setPublicKeys(prevKeys => [...prevKeys, newSshKey])
       },

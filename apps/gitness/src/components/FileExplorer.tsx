@@ -54,7 +54,7 @@ export default function Explorer({ selectedBranch, repoDetails }: ExplorerProps)
 
   const fetchFolderContents = async (folderPath: string): Promise<OpenapiContentInfo[]> => {
     try {
-      const response = await getContent({
+      const { body: response } = await getContent({
         path: folderPath,
         repo_ref: repoRef,
         queryParams: { include_commit: false, git_ref: normalizeGitRef(selectedBranch) }

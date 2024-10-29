@@ -31,7 +31,10 @@ export default function ReposSandboxListPage() {
   const navigate = useNavigate()
   const space = useGetSpaceURLParam()
 
-  const { isFetching, data } = useListReposQuery({ queryParams: {}, space_ref: `${space}/+` })
+  const { isFetching, data: { body: repositories } = {} } = useListReposQuery({
+    queryParams: {},
+    space_ref: `${space}/+`
+  })
   const { currentPage, previousPage, nextPage, handleClick } = usePagination(1, totalPages)
 
   const renderListContent = () => {
@@ -39,10 +42,10 @@ export default function ReposSandboxListPage() {
       return <SkeletonList />
     }
     return (
-      data && (
+      repositories && (
         <RepoList
           LinkComponent={LinkComponent}
-          repos={data?.map((repo: RepoRepositoryOutput) => {
+          repos={repositories?.map((repo: RepoRepositoryOutput) => {
             return {
               id: repo.id,
               name: repo.identifier,
@@ -84,7 +87,7 @@ export default function ReposSandboxListPage() {
           <Spacer size={5} />
           {renderListContent()}
           <Spacer size={8} />
-          {(data?.length ?? 0) > 0 && (
+          {(repositories?.length ?? 0) > 0 && (
             <ListPagination.Root>
               <Pagination>
                 <PaginationContent>
