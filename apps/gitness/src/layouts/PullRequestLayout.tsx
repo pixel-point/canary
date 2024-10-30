@@ -1,28 +1,32 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink, Outlet, useParams } from 'react-router-dom'
-import { Badge, Icon, Spacer, Tabs, TabsList, TabsTrigger } from '@harnessio/canary'
+import { Badge, Icon, Spacer } from '@harnessio/canary'
 import { Floating1ColumnLayout, PullRequestHeader } from '@harnessio/playground'
 import { TypesPullReq, useGetPullReqQuery } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 import { PathParams } from '../RouteDefinitions'
-import useGetPullRequestTab, { PullRequestTab } from '../hooks/useGetPullRequestTab'
 
 const PullRequestLayout: React.FC = () => {
   const [pullRequest, setPullRequest] = useState<TypesPullReq>()
-  const { spaceId, repoId, pullRequestId } = useParams<PathParams>()
+  const { pullRequestId } = useParams<PathParams>()
   const repoRef = useGetRepoRef()
   const prId = (pullRequestId && Number(pullRequestId)) || -1
   const { data: { body: pullRequestData } = {}, isFetching } = useGetPullReqQuery({
     repo_ref: repoRef,
     pullreq_number: prId
   })
-  const pullRequestTab = useGetPullRequestTab({ spaceId, repoId, pullRequestId })
 
   useEffect(() => {
     if (!isFetching && pullRequestData) {
       setPullRequest(pullRequestData)
     }
   }, [pullRequestData, isFetching])
+
+  const baseClasses =
+    'inline-flex items-center justify-center px-3 py-1 px-4 items-center gap-2 bg-background hover:text-primary h-[36px] rounded-tl-md rounded-tr-md m-0'
+  const getLinkClasses = (isActive: boolean) => {
+    return `${baseClasses} ${isActive ? 'text-primary [&svg]:text-primary tabnav-active' : 'tabnav-inactive'}`
+  }
   return (
     <>
       <Floating1ColumnLayout>
@@ -43,47 +47,34 @@ const PullRequestLayout: React.FC = () => {
             }}
           />
         )}
-        <Tabs variant="tabnav" value={pullRequestTab?.valueOf()}>
-          <TabsList>
-            <NavLink to={`conversation`}>
-              <TabsTrigger value={PullRequestTab.CONVERSATION}>
-                <Icon size={16} name="comments" />
-                Conversation
-                <Badge variant="outline" size="xs">
-                  1
-                </Badge>
-              </TabsTrigger>
+        <div className="relative w-full grid grid-flow-col grid-cols-[auto_1fr] items-end">
+          <div className="inline-flex items-center text-muted-foreground h-[36px] gap-0 justify-start w-full">
+            <NavLink to={`conversation`} className={({ isActive }) => getLinkClasses(isActive)}>
+              <Icon size={16} name="comments" />
+              Conversation
+              <Badge variant="outline" size="xs">
+                1
+              </Badge>
             </NavLink>
-            <NavLink to={`commits`}>
-              <TabsTrigger value={PullRequestTab.COMMITS}>
-                <Icon size={16} name="tube-sign" />
-                Commits
-                <Badge variant="outline" size="xs">
-                  {pullRequest?.stats?.commits}
-                </Badge>
-              </TabsTrigger>
+            <NavLink to={`commits`} className={({ isActive }) => getLinkClasses(isActive)}>
+              <Icon size={16} name="tube-sign" />
+              Commits
+              <Badge variant="outline" size="xs">
+                {pullRequest?.stats?.commits}
+              </Badge>
             </NavLink>
-            <NavLink to={`changes`}>
-              <TabsTrigger value={PullRequestTab.CHANGES}>
-                <Icon size={14} name="changes" />
-                Changes
-                <Badge variant="outline" size="xs">
-                  {pullRequest?.stats?.files_changed}
-                </Badge>
-              </TabsTrigger>
+            <NavLink to={`changes`} className={({ isActive }) => getLinkClasses(isActive)}>
+              <Icon size={14} name="changes" />
+              Changes
+              <Badge variant="outline" size="xs">
+                {pullRequest?.stats?.files_changed}
+              </Badge>
             </NavLink>
-            {/* TODO: checks page will direct to execution details page for now */}
-            {/* <NavLink to={`checks`}>
-              <TabsTrigger value={PullRequestTab.CHECKS}>
-                <Icon size={14} name="checks" />
-                Checks
-                <Badge variant="outline" size="xs">
-                  9
-                </Badge>
-              </TabsTrigger>
-            </NavLink> */}
-          </TabsList>
-        </Tabs>
+          </div>
+          <div className="h-[36px] border-b border-border-background" />
+          <div className="absolute right-full w-[9999px] h-[36px] border-b border-border-background" />
+          <div className="absolute left-full w-[9999px] h-[36px] border-b border-border-background" />
+        </div>
         <Spacer size={8} />
         <Outlet />
       </Floating1ColumnLayout>
