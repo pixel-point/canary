@@ -141,9 +141,9 @@ export const FormUserEditDialog: React.FC<FormEditDialogProps> = ({
                       type="button"
                       size="sm"
                       theme="success"
-                      className="pointer-events-none"
+                      className="pointer-events-none flex gap-2"
                       disabled={submitted}>
-                      Saved&nbsp;&nbsp;
+                      Saved
                       <Icon name="tick" size={14} />
                     </Button>
                   )}

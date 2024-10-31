@@ -44,8 +44,8 @@ export const FormRemoveAdminDialog: React.FC<FormRemoveUserDialogProps> = ({
         <AlertDialogFooter>
           {!isRemoving && !removeSuccess && <AlertDialogCancel onClick={onClose}>Cancel</AlertDialogCancel>}
           {removeSuccess ? (
-            <Button size="default" theme="success" className="self-start pointer-events-none">
-              Admin removed&nbsp;&nbsp;
+            <Button size="default" theme="success" className="self-start pointer-events-none flex gap-2">
+              Admin removed
               <Icon name="tick" size={14} />
             </Button>
           ) : (

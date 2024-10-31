@@ -125,8 +125,13 @@ export const FormEditMemberDialog: React.FC<FormEditDialogProps> = ({
                       </Button>
                     </>
                   ) : (
-                    <Button variant="ghost" type="button" size="sm" theme="success" className="pointer-events-none">
-                      Saved&nbsp;&nbsp;
+                    <Button
+                      variant="ghost"
+                      type="button"
+                      size="sm"
+                      theme="success"
+                      className="flex gap-2 pointer-events-none h-9">
+                      Saved
                       <Icon name="tick" size={14} />
                     </Button>
                   )}

@@ -2,7 +2,7 @@ import { Button, Icon } from '@harnessio/canary'
 import React, { useState, useEffect } from 'react'
 import copy from 'clipboard-copy'
 
-export const CopyButton = ({ name }: { name: string }) => {
+export const CopyButton = ({ name, className }: { name: string; className?: string }) => {
   const [copied, setCopied] = useState(false)
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export const CopyButton = ({ name }: { name: string }) => {
   const changeIcon = copied ? 'tick' : 'clone'
 
   return (
-    <Button variant="ghost" size="xs" type="button" onClick={() => setCopied(true)}>
+    <Button variant="ghost" size="xs" type="button" onClick={() => setCopied(true)} className={className}>
       <Icon name={changeIcon} size={16} className={iconCopyStyle} />
     </Button>
   )

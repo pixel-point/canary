@@ -43,8 +43,8 @@ export const FormDeleteMemberDialog: React.FC<FormDeleteMemberDialogProps> = ({
         <AlertDialogFooter>
           {!isDeleting && !deleteSuccess && <AlertDialogCancel onClick={onClose}>Cancel</AlertDialogCancel>}
           {deleteSuccess ? (
-            <Button size="default" theme="success" className="self-start pointer-events-none">
-              Member removed&nbsp;&nbsp;
+            <Button size="default" theme="success" className="self-start pointer-events-none flex gap-2">
+              Member removed
               <Icon name="tick" size={14} />
             </Button>
           ) : (

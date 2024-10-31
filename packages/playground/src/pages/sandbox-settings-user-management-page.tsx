@@ -72,18 +72,6 @@ function SandboxSettingsUserManagementPage() {
     }, 2000)
   }
 
-  // Handler for password reset
-  const handleReset = () => {
-    dispatch({ type: DialogActionType.START_RESETTING })
-    setTimeout(() => {
-      dispatch({ type: DialogActionType.RESET_PASSWORD_SUCCESS })
-      setTimeout(() => {
-        closeDialog(DialogType.RESET_PASSWORD)
-        dispatch({ type: DialogActionType.RESET_PASSWORD_RESET })
-      }, 2000)
-    }, 2000)
-  }
-
   const renderUserListContent = () => {
     switch (loadState) {
       case 'loading':
@@ -138,10 +126,7 @@ function SandboxSettingsUserManagementPage() {
             )}
             {dialogState.isDialogResetPasswordOpen && (
               <FormResetPasswordDialog
-                isResetting={dialogState.isResetting}
-                resetSuccess={dialogState.resetSuccess}
                 user={dialogState.selectedUser!}
-                onReset={handleReset}
                 onClose={() => {
                   closeDialog(DialogType.RESET_PASSWORD)
                   dispatch({ type: DialogActionType.RESET_PASSWORD_RESET })
