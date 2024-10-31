@@ -67,7 +67,8 @@ function PullRequestListPage() {
           title="No Pull Requests yet"
           description={['There are no pull requests in this repository yet.']}
           primaryButton={{
-            label: 'Open a pull request'
+            label: 'Open a pull request',
+            to: `/sandbox/spaces/${spaceId}/repos/${repoId}/pull-requests/compare`
           }}
         />
       )

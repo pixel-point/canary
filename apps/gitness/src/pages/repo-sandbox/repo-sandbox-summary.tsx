@@ -1,5 +1,17 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Button, ButtonGroup, Icon, ListActions, Spacer, StackedList, Text } from '@harnessio/canary'
+import {
+  Button,
+  ButtonGroup,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  Icon,
+  ListActions,
+  Spacer,
+  StackedList,
+  Text
+} from '@harnessio/canary'
 import {
   RepoSummaryPanel,
   BranchSelector,
@@ -27,11 +39,15 @@ import {
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { decodeGitContent, getTrimmedSha, normalizeGitRef } from '../../utils/git-utils'
 import { timeAgoFromISOTime } from '../pipeline-edit/utils/time-utils'
+import { useNavigate, useParams } from 'react-router-dom'
+import { PathParams } from '../../RouteDefinitions'
 
 export const RepoSandboxSummaryList: React.FC = () => {
   const [loading, setLoading] = useState(false)
   const [files, setFiles] = useState<FileProps[]>([])
   const repoRef = useGetRepoRef()
+  const navigate = useNavigate()
+  const { spaceId, repoId, gitRef } = useParams<PathParams>()
 
   const { data: { body: repository } = {} } = useFindRepositoryQuery({ repo_ref: repoRef })
 
@@ -179,10 +195,23 @@ export const RepoSandboxSummaryList: React.FC = () => {
               </ListActions.Left>
               <ListActions.Right>
                 <ButtonGroup.Root>
-                  <Button variant="outline">
-                    Add file&nbsp;&nbsp;
-                    <Icon name="chevron-down" size={11} className="chevron-down" />
-                  </Button>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline">
+                        Add file&nbsp;&nbsp;
+                        <Icon name="chevron-down" size={11} className="chevron-down" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start">
+                      <DropdownMenuItem
+                        key={'create-file'}
+                        onClick={() => {
+                          navigate(`/${spaceId}/repos/${repoId}/code/new/${gitRef || selectedBranch}/~/`)
+                        }}>
+                        + Create New File
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                   <Button variant="default">Clone repository</Button>
                 </ButtonGroup.Root>
               </ListActions.Right>

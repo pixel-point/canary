@@ -15,7 +15,7 @@ import {
   ToggleGroupItem
 } from '@harnessio/canary'
 import { SandboxLayout } from '@harnessio/playground'
-import { useGetContentQuery } from '@harnessio/code-service-client'
+import { useFindRepositoryQuery, useGetContentQuery } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 import {
   decodeGitContent,
@@ -47,6 +47,7 @@ export const FileEditor: React.FC = () => {
   const [dirty, setDirty] = useState(false)
   const [isCommitDialogOpen, setIsCommitDialogOpen] = useState(false)
   const navigate = useNavigate()
+  const { data: { body: repoMetadata } = {} } = useFindRepositoryQuery({ repo_ref: repoRef })
 
   const { data: { body: repoDetails } = {} } = useGetContentQuery({
     path: fullResourcePath || '',
@@ -138,8 +139,13 @@ export const FileEditor: React.FC = () => {
         resourcePath={fileResourcePath || ''}
         payload={content}
         sha={repoDetails?.sha}
-        onSuccess={(_commitInfo, isNewBranch) => {
+        onSuccess={(_commitInfo, isNewBranch, newBranchName) => {
           if (!isNewBranch) navigate(`/${spaceId}/repos/${repoId}/code/${gitRef}/~/${fileResourcePath}`)
+          else {
+            navigate(
+              `/sandbox/spaces/${spaceId}/repos/${repoId}/pull-requests/compare/${repoMetadata?.default_branch}...${newBranchName}`
+            )
+          }
         }}
       />
       <SandboxLayout.Main fullWidth hasLeftSubPanel>

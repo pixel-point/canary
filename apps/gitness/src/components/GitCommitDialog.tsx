@@ -22,7 +22,7 @@ interface CommitDialogProps {
   oldResourcePath?: string
   resourcePath: string
   payload?: string
-  onSuccess: (response: TypesCommitFilesResponse, isNewBranch: boolean) => void
+  onSuccess: (response: TypesCommitFilesResponse, isNewBranch: boolean, newBranchName: string) => void
 }
 
 export default function GitCommitDialog({
@@ -84,7 +84,7 @@ export default function GitCommitDialog({
         if ([GitCommitAction.MOVE, GitCommitAction.CREATE].includes(commitAction)) {
           queryClient.invalidateQueries(['folderContents', repoRef, gitRef])
         }
-        onSuccess(response.body, commitToGitRef === CommitToGitRefOption.NEW_BRANCH)
+        onSuccess(response.body, commitToGitRef === CommitToGitRefOption.NEW_BRANCH, newBranchName || '')
       })
       .catch(_error => {
         if (_error?.status === 422) {

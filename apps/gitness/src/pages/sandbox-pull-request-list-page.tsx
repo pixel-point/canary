@@ -55,7 +55,8 @@ function PullRequestSandboxListPage() {
           title="No Pull Requests yet"
           description={['There are no pull requests in this repository yet.']}
           primaryButton={{
-            label: 'Create pull requests'
+            label: 'Create pull requests',
+            to: `/sandbox/spaces/${spaceId}/repos/${repoId}/pull-requests/compare`
           }}
           secondaryButton={{
             label: 'Import pull requests'

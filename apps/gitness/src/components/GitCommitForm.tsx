@@ -166,7 +166,9 @@ export function GitCommitForm({
                       {...field}
                       placeholder="New Branch Name"
                       left={<Icon name="branch" size={24} className="min-w-[12px] text-tertiary-background pr-2" />}
-                      onChange={() => {
+                      onChange={value => {
+                        field.onChange(value)
+
                         setAllStates({ violation: false, bypassable: false, bypassed: false })
                       }}
                     />
