@@ -1,5 +1,5 @@
-import { Skeleton, StackedList } from '@harnessio/canary'
-import React from 'react'
+import { cn, Skeleton, StackedList } from '@harnessio/canary'
+import React, { useEffect, useState } from 'react'
 
 // Helper function to generate random percentage width within a range
 const getRandomPercentageWidth = (min: number, max: number) => `${Math.floor(Math.random() * (max - min + 1)) + min}%`
@@ -7,11 +7,29 @@ const getRandomPercentageWidth = (min: number, max: number) => `${Math.floor(Mat
 // Helper function to generate random pixel width within a range
 const getRandomPixelWidth = (min: number, max: number) => `${Math.floor(Math.random() * (max - min + 1)) + min}px`
 
-export const SkeletonList = () => {
+interface SkeletonListProps {
+  className?: string
+}
+
+export const SkeletonList = ({ className }: SkeletonListProps) => {
   const listItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
+  // do a first render with visible=false
+  const [visible, setVisible] = useState(false)
+  // immediately re-render with visible=true to trigger the transition delay
+  useEffect(() => {
+    setVisible(true)
+  }, [])
+
   return (
-    <div className="relative w-full h-full">
+    <div
+      className={cn(
+        'relative w-full h-full transition-opacity duration-500 ease-in-out delay-500',
+        {
+          'opacity-0': !visible
+        },
+        className
+      )}>
       {listItems && listItems.length > 0 && (
         <StackedList.Root>
           {listItems.map((itm, itm_idx) => (
