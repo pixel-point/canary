@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { PlaygroundListSettings } from '../settings/list-settings'
 import { SandboxLayout } from '../index'
-import { Navbar, Spacer } from '@harnessio/canary'
+import { Navbar } from '@harnessio/canary'
 import { NavLink, Outlet } from 'react-router-dom'
 
 const navItems = [
@@ -74,8 +74,6 @@ function Sidebar() {
 function SettingsContent() {
   return (
     <SandboxLayout.Content maxWidth="2xl">
-      <Spacer size={4} />
-
       <Outlet />
     </SandboxLayout.Content>
   )
