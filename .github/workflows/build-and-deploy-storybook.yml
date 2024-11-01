@@ -1,59 +1,29 @@
-name: Build, Lint, Test
+name: PR Checks
 on:
   push:
 
 jobs:
-  build:
+  Lint:
     runs-on: ubuntu-22.04
-    strategy:
-      matrix:
-        node-version: [18]
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - run: pnpm deps
+      - run: pnpm lint
 
-      - name: Use pnpm
-        uses: pnpm/action-setup@v4
+  Prettier:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - run: pnpm deps
+      - run: pnpm pretty
 
-      - name: Install dependencies
-        run: |
-          pnpm install
-          pnpm deps
-
-      - name: Build all packages
-        run: |
-          pnpm run build
-
-      - name: Lint
-        run: pnpm lint
-
-      - name: prettier
-        run: pnpm pretty
-
-      # - name: Build storybook
-      #   run: |
-      #     cd apps/storybook
-
-      #     # Note: `build-storybook` fails under CI due to some unknown synlink issue
-      #     # Workaround by copying the Canary's package files into the storybook/node_modules folder
-
-      #     pnpm remove @harnessio/canary @harnessio/icons-noir @harnessio/svg-icon @harnessio/svg-icon-react @harnessio/unified-pipeline
-      #     pnpm add @harnessio/canary @harnessio/icons-noir @harnessio/svg-icon @harnessio/svg-icon-react @harnessio/unified-pipeline
-
-      #     pnpm install
-
-      #     # ls -la node_modules/@harnessio
-
-      #     cp -rf ../../packages/svg-icon/dist ./node_modules/@harnessio/svg-icon/dist
-      #     cp -rf ../../packages/svg-icon-react/dist ./node_modules/@harnessio/svg-icon-react/dist
-      #     cp -rf ../../packages/icons-noir/dist ./node_modules/@harnessio/icons-noir/dist
-      #     cp -rf ../../packages/canary/src ./node_modules/@harnessio/canary/
-      #     cp -rf ../../packages/canary/dist ./node_modules/@harnessio/canary/dist
-      #     cp -rf ../../packages/unified-pipeline/dist ./node_modules/@harnessio/unified-pipeline/dist
-
-      #     # ls -la node_modules/@harnessio
-
-      #     pnpm run build-storybook
-
-      # NETLIFY_AUTH_TOKEN and NETLIFY_SITE_ID environment variables are needed
-      # - name: Deploy StoryBook to Netlify
-      #   run: netlify deploy --prod --debug --dir=/harness/apps/storybook/storybook-static
+  Typecheck:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - run: pnpm deps
+      - run: pnpm build
+      - run: pnpm typecheck
