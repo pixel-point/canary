@@ -41,7 +41,6 @@ interface PullRequestPanelProps extends PullRequestChangesSectionProps {
   checksInfo: { header: string; content: string; status: EnumCheckStatus }
   commentsInfo: { header: string; content?: string | undefined; status: string }
   actions: PullRequestAction[]
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   resolvedCommentArr?: { params: number[] }
   requiresCommentApproval?: boolean
   checkboxBypass?: boolean
@@ -75,7 +74,7 @@ const HeaderTitle = ({ ...props }: HeaderProps) => {
     return (
       <div className="inline-flex gap-2 items-center w-full">
         <Text className="items-center space-x-2 gap-2" weight="medium">
-          {`${props?.pullReqMetadata?.merger?.display_name} merged branch`}
+          <Text>{`${props?.pullReqMetadata?.merger?.display_name} merged branch`}</Text>
           <Button variant="secondary" size="xs">
             <Icon name="branch" size={12} className="text-tertiary-background mr-1" />
             {props?.pullReqMetadata?.source_branch}

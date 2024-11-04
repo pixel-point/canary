@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Spacer } from '@harnessio/canary'
 import {
   commentCreatePullReq,
+  commentStatusPullReq,
   EnumCheckStatus,
   EnumMergeMethod,
   mergePullReqOp,
@@ -147,7 +148,6 @@ export default function PullRequestConversationPage() {
       }
     }
     count = count + 1
-
     // Update the state locally
     // setActivities(prevData => [...(prevData || []), newComment])
 
@@ -194,11 +194,19 @@ export default function PullRequestConversationPage() {
     }
   }, [changesInfo, prPanelData, pullReqMetadata?.merged])
 
+  const handleDeleteReviewer = (id: number) => {
+    reviewerDeletePullReq({ repo_ref: repoRef, pullreq_number: prId, pullreq_reviewer_id: id })
+      .then(() => {
+        refetchReviewers()
+      })
+      .catch(exception => console.warn(exception))
+  }
+
   const onPRStateChanged = useCallback(() => {
     refetchCodeOwners()
     refetchPullReq()
     refetchActivities()
-  }, [refetchCodeOwners, repoRef]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [refetchCodeOwners, repoRef, handleDeleteReviewer]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleMerge = (method: string) => {
     const payload: OpenapiMergePullReq = {
@@ -244,13 +252,7 @@ export default function PullRequestConversationPage() {
   if (prLoading || prPanelData?.PRStateLoading || changesLoading) {
     return <SkeletonList />
   }
-  const handleDeleteReviewer = (id: number) => {
-    reviewerDeletePullReq({ repo_ref: repoRef, pullreq_number: prId, pullreq_reviewer_id: id })
-      .then(() => {
-        refetchReviewers()
-      })
-      .catch(exception => console.warn(exception))
-  }
+
   return (
     <>
       <FullWidth2ColumnLayout
@@ -311,6 +313,8 @@ export default function PullRequestConversationPage() {
             <Spacer size={6} />
 
             <PullRequestOverview
+              repoId={repoRef}
+              refetchActivities={refetchActivities}
               data={activities?.map((item: TypesPullReqActivity) => {
                 return {
                   author: item?.author,
@@ -334,6 +338,7 @@ export default function PullRequestConversationPage() {
                   updated: item?.updated
                 }
               })}
+              commentStatusPullReq={commentStatusPullReq}
               pullReqMetadata={pullReqMetadata}
               activityFilter={activityFilter}
               dateOrderSort={dateOrderSort}

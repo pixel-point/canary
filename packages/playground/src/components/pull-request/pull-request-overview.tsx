@@ -22,14 +22,18 @@ import { DiffModeEnum } from '@git-diff-view/react'
 import PullRequestDescBox from './pull-request-description-box'
 import { getInitials, timeAgo } from '../../utils/utils'
 import AvatarUrl from '../../../public/images/user-avatar.svg'
+import { PullRequestStatusSelect } from './pull-request-status-select-button'
 interface PullRequestOverviewProps {
   data?: TypesPullReqActivity[]
   currentUser?: string
   handleSaveComment: (comment: string, parentId?: number) => void
+  refetchActivities: () => void
   // data: CommentItem<TypesPullReqActivity>[][]
   pullReqMetadata: TypesPullReq | undefined
   activityFilter: { label: string; value: string }
-  dateOrderSort: { label: string; value: string }
+  dateOrderSort: { label: string; value: string } // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+  commentStatusPullReq: any
+  repoId: string
   diffData?: { text: string; numAdditions?: number; numDeletions?: number; data?: string; title: string; lang: string }
 }
 export const activityToCommentItem = (activity: TypesPullReqActivity): CommentItem<TypesPullReqActivity> => ({
@@ -49,7 +53,10 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
   pullReqMetadata,
   activityFilter,
   dateOrderSort,
-  handleSaveComment
+  handleSaveComment,
+  commentStatusPullReq,
+  repoId,
+  refetchActivities
 }) => {
   const {
     // mode,
@@ -118,6 +125,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
     // activityFilter
     // currentUser?.uid
   ])
+
   const renderedActivityBlocks = useMemo(() => {
     return (
       <div className="flex flex-col">
@@ -185,10 +193,13 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                           </Text>
                           <div className="flex">
                             {/* TODO: fix states on this on a comment like resolved and active */}
-                            <Text size={1} className="flex items-center gap-1 pr-2" color={'tertiaryBackground'}>
-                              Resolved
-                              <Icon size={14} name="chevron-down" />
-                            </Text>
+                            <PullRequestStatusSelect
+                              refetchActivities={refetchActivities}
+                              commentStatusPullReq={commentStatusPullReq}
+                              comment={{ commentItems: commentItems }}
+                              pullReqMetadata={pullReqMetadata}
+                              repoId={repoId}
+                            />
                             {/* TODO: add on click or other menu options */}
                             <Button size="sm" variant="ghost" className="rotate-90 px-2 py-1 ">
                               <Icon name="vertical-ellipsis" size={12} />
@@ -267,6 +278,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
               return (
                 <PullRequestTimelineItem
                   key={index} // Consider using a unique ID if available
+                  titleClassName="!flex max-w-full"
                   header={[
                     {
                       avatar: (
@@ -283,7 +295,22 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                       ),
                       name: (payload?.author as PayloadAuthor)?.display_name,
                       // TODO: fix comment to tell between comment or code comment?
-                      description: payload?.created && `commented ${timeAgo(payload?.created)}`
+                      description: (
+                        <div className="flex space-x-4">
+                          <div className="pr-2">{payload?.created && `commented ${timeAgo(payload?.created)}`} </div>
+                        </div>
+                      ),
+                      selectStatus: (
+                        <PullRequestStatusSelect
+                          refetchActivities={refetchActivities}
+                          commentStatusPullReq={commentStatusPullReq}
+                          comment={{
+                            commentItems: commentItems
+                          }}
+                          pullReqMetadata={pullReqMetadata}
+                          repoId={repoId}
+                        />
+                      )
                     }
                   ]}
                   content={

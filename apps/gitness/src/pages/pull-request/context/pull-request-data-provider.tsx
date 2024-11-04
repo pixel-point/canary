@@ -370,9 +370,9 @@ const PullRequestDataProvider: React.FC<PullRequestDataProviderProps> = ({ child
           ) {
             refetchPullReq()
           } else if (
-            // getErrorMessage(err) === codeOwnersNotFoundMessage ||
-            // getErrorMessage(err) === codeOwnersNotFoundMessage2 ||
-            // getErrorMessage(err) === codeOwnersNotFoundMessage3 ||
+            err.message === codeOwnersNotFoundMessage ||
+            err.message === codeOwnersNotFoundMessage2 ||
+            err.message === codeOwnersNotFoundMessage3 ||
             err.status === 423 // resource locked (merge / dry-run already ongoing)
           ) {
             return

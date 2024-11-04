@@ -26,6 +26,7 @@ import { FullWidth2ColumnLayout } from '../layouts/FullWidth2ColumnLayout'
 import { mockCodeOwnerData } from '../data/mockCodeOwner'
 import { mockPullRequestActions } from '../data/mockPullRequestActions'
 import { TypesPullReqActivity } from '../components/pull-request/interfaces'
+import { noop } from 'lodash-es'
 // Mock useMutate hook
 // Define the type for the useFakeMutate parameters
 interface UseFakeMutateParams {
@@ -212,6 +213,9 @@ export default function PullRequestConversationPage() {
             />
             <Spacer size={6} />
             <PullRequestOverview
+              repoId={'repoId'}
+              commentStatusPullReq={noop}
+              refetchActivities={noop}
               data={mockActivties}
               pullReqMetadata={pullReqMetadata}
               activityFilter={activityFilter}
@@ -226,6 +230,7 @@ export default function PullRequestConversationPage() {
         }
         rightColumn={
           <PullRequestSideBar
+            handleDelete={noop}
             // repoMetadata={undefined}
             pullRequestMetadata={undefined}
             processReviewDecision={processReviewDecision}

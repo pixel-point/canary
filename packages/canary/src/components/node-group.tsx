@@ -45,10 +45,10 @@ function Icon({
   )
 }
 
-function Title({ children }: { children: React.ReactNode }) {
+function Title({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
     <div className="col-start-2 row-start-1">
-      <div className="inline-flex gap-1.5 items-center">{children}</div>
+      <div className={cn('inline-flex gap-1.5 items-center', className)}>{children}</div>
     </div>
   )
 }

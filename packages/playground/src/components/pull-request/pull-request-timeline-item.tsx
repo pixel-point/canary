@@ -6,6 +6,7 @@ interface TimelineItemProps {
     avatar?: React.ReactNode
     name?: string
     description?: React.ReactNode
+    selectStatus?: React.ReactNode
   }[]
   parentCommentId?: number
   currentUser?: string
@@ -15,6 +16,7 @@ interface TimelineItemProps {
   hideIconBorder?: boolean
   hideReply?: boolean
   contentClassName?: string
+  titleClassName?: string
   handleSaveComment?: (comment: string, parentId?: number) => void
 }
 
@@ -22,21 +24,31 @@ interface ItemHeaderProps {
   avatar?: React.ReactNode
   name?: string
   description?: React.ReactNode
+  selectStatus?: React.ReactNode
 }
 
 // Use React.memo for performance optimization if appropriate
-const ItemHeader: React.FC<ItemHeaderProps> = React.memo(({ avatar, name, description }) => (
-  <div className="inline-flex  gap-1.5 items-center">
-    {avatar && <div>{avatar}</div>}
-    {name && (
-      <Text size={2} color="primary" weight="medium">
-        {name}
-      </Text>
-    )}
-    {description && (
-      <Text size={2} color="tertiaryBackground">
-        {description}
-      </Text>
+const ItemHeader: React.FC<ItemHeaderProps> = React.memo(({ avatar, name, description, selectStatus }) => (
+  <div className="inline-flex gap-1.5 items-center w-full justify-between">
+    <div className="inline-flex gap-1.5 items-center">
+      {avatar && <div>{avatar}</div>}
+      {name && (
+        <Text size={2} color="primary" weight="medium">
+          {name}
+        </Text>
+      )}
+      {description && (
+        <Text size={2} color="tertiaryBackground">
+          {description}
+        </Text>
+      )}
+    </div>
+    {selectStatus && (
+      <div className="justify-end">
+        <Text size={2} color="tertiaryBackground">
+          {selectStatus}
+        </Text>
+      </div>
     )}
   </div>
 ))
@@ -50,7 +62,8 @@ const PullRequestTimelineItem: React.FC<TimelineItemProps> = ({
   hideReply = false,
   contentClassName,
   handleSaveComment,
-  parentCommentId
+  parentCommentId,
+  titleClassName
   // currentUser
 }) => {
   const [comment, setComment] = React.useState<string>('')
@@ -60,7 +73,7 @@ const PullRequestTimelineItem: React.FC<TimelineItemProps> = ({
   return (
     <NodeGroup.Root>
       <NodeGroup.Icon className={cx({ 'border-transparent': hideIconBorder })}>{icon}</NodeGroup.Icon>
-      <NodeGroup.Title>
+      <NodeGroup.Title className={titleClassName}>
         {/* Ensure that header has at least one item */}
         {header.length > 0 && <ItemHeader {...header[0]} />}
       </NodeGroup.Title>
