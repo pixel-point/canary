@@ -1,5 +1,5 @@
-import { SandboxSettingsAccountKeysPage } from './profile-settings-keys-page'
 import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import {
   useListPublicKeyQuery,
   ListPublicKeyQueryQueryParams,
@@ -17,11 +17,12 @@ import {
   useListTokensQuery,
   ListTokensErrorResponse
 } from '@harnessio/code-service-client'
+import { TokensList, KeysList, DeleteTokenAlertDialog } from '@harnessio/playground'
+import { SandboxSettingsAccountKeysPage } from './profile-settings-keys-page'
 import { TokenCreateDialog } from './token-create/token-create-dialog'
 import { TokenFormType } from './token-create/token-create-form'
 import { SshKeyCreateDialog } from './ssh-key-create/ssh-key-create-dialog'
 import { TokenSuccessDialog } from './token-create/token-success-dialog'
-import { TokensList, KeysList, DeleteTokenAlertDialog } from '@harnessio/playground'
 import { ApiErrorType, AlertDeleteParams } from './types'
 
 export const SettingsProfileKeysPage = () => {
@@ -34,6 +35,7 @@ export const SettingsProfileKeysPage = () => {
   const [saveSshKeyDialog, setSshKeyDialog] = useState(false)
   const [isAlertDeleteDialogOpen, setIsAlertDeleteDialogOpen] = useState(false)
   const [alertParams, setAlertParams] = useState<AlertDeleteParams | null>(null)
+  const [searchParams] = useSearchParams()
 
   const [apiError, setApiError] = useState<{
     type: ApiErrorType
@@ -63,13 +65,12 @@ export const SettingsProfileKeysPage = () => {
   }
 
   const queryParams: ListPublicKeyQueryQueryParams = {
-    page: 1,
-    limit: 30,
+    page: parseInt(searchParams.get('page') || ''),
     sort: 'created',
     order: 'asc'
   }
 
-  useListTokensQuery(
+  const { data: { headers } = {} } = useListTokensQuery(
     {},
     {
       onSuccess: ({ body: data }) => {
@@ -206,6 +207,7 @@ export const SettingsProfileKeysPage = () => {
         openSshKeyDialog={openSshKeyDialog}
         openAlertDeleteDialog={openAlertDeleteDialog}
         error={apiError}
+        headers={headers}
       />
       <TokenCreateDialog
         open={openCreateTokenDialog}

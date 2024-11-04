@@ -123,13 +123,11 @@ export default function SandboxExecutionsListPage() {
           <Spacer size={5} />
           {renderListContent()}
           <Spacer size={8} />
-          {totalPages > 1 && (
-            <PaginationComponent
-              totalPages={totalPages}
-              currentPage={page}
-              goToPage={(pageNum: number) => setPage(pageNum)}
-            />
-          )}
+          <PaginationComponent
+            totalPages={totalPages}
+            currentPage={page}
+            goToPage={(pageNum: number) => setPage(pageNum)}
+          />
         </SandboxLayout.Content>
       </SandboxLayout.Main>
       <RunPipelineDialog

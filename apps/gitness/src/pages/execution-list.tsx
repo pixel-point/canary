@@ -30,7 +30,6 @@ export default function ExecutionsListPage() {
   const {
     data: { body: executions, headers } = {},
     isFetching,
-    error,
     isSuccess
   } = useListExecutionsQuery({
     repo_ref: repoRef,
@@ -83,9 +82,6 @@ export default function ExecutionsListPage() {
           />
         </>
       )
-    } else {
-      console.log({ error })
-      return <></>
     }
   }
 
@@ -121,13 +117,11 @@ export default function ExecutionsListPage() {
         <Spacer size={5} />
         {renderListContent()}
         <Spacer size={8} />
-        {totalPages > 1 && (
-          <PaginationComponent
-            totalPages={totalPages}
-            currentPage={page}
-            goToPage={(pageNum: number) => setPage(pageNum)}
-          />
-        )}
+        <PaginationComponent
+          totalPages={totalPages}
+          currentPage={page}
+          goToPage={(pageNum: number) => setPage(pageNum)}
+        />
       </PaddingListLayout>
       <RunPipelineDialog
         open={openRunPipeline}

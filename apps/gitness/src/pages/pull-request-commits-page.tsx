@@ -1,20 +1,28 @@
+import { useParams } from 'react-router-dom'
+import { parseAsInteger, useQueryState } from 'nuqs'
 import { Spacer } from '@harnessio/canary'
-import { NoData, PullRequestCommits, SkeletonList } from '@harnessio/playground'
+import { NoData, PaginationComponent, PullRequestCommits, SkeletonList } from '@harnessio/playground'
 import { useListPullReqCommitsQuery, TypesCommit } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
-import { useParams } from 'react-router-dom'
 import { PathParams } from '../RouteDefinitions'
+import { PageResponseHeader } from '../types'
 
 export default function PullRequestCommitsPage() {
   const repoRef = useGetRepoRef()
   const { pullRequestId } = useParams<PathParams>()
   const prId = (pullRequestId && Number(pullRequestId)) || -1
 
-  const { data: { body: commitData } = {}, isFetching } = useListPullReqCommitsQuery({
+  const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
+
+  const { data: { body: commitData, headers } = {}, isFetching } = useListPullReqCommitsQuery({
     repo_ref: repoRef,
     pullreq_number: prId,
-    queryParams: { page: 0, limit: 10 }
+    queryParams: { page }
   })
+
+  const xNextPage = parseInt(headers?.get(PageResponseHeader.xNextPage) || '')
+  const xPrevPage = parseInt(headers?.get(PageResponseHeader.xPrevPage) || '')
+
   const renderContent = () => {
     if (isFetching) {
       return <SkeletonList />
@@ -47,7 +55,12 @@ export default function PullRequestCommitsPage() {
     <>
       {renderContent()}
       <Spacer size={8} />
-      {/* TODO: actually add pagination when apis are implemented */}
+      <PaginationComponent
+        nextPage={xNextPage}
+        previousPage={xPrevPage}
+        currentPage={page}
+        goToPage={(pageNum: number) => setPage(pageNum)}
+      />
     </>
   )
 }

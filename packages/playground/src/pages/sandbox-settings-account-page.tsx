@@ -16,7 +16,7 @@ function SandboxSettingsAccountPage() {
               <TabsTrigger value="general">General</TabsTrigger>
             </NavLink>
             <NavLink to={`keys`}>
-              <TabsTrigger value="keys">Keys and tokens</TabsTrigger>
+              <TabsTrigger value="keys">Keys and Tokens</TabsTrigger>
             </NavLink>
           </TabsList>
         </Tabs>

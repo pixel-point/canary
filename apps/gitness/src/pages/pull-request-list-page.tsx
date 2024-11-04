@@ -39,7 +39,7 @@ function PullRequestListPage() {
 
   const { data: { body: pullrequests, headers } = {}, isFetching } = useListPullReqQuery({
     repo_ref: repoRef,
-    queryParams: { page, query, sort, limit: 20 }
+    queryParams: { page, query, sort }
   })
 
   const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '')
@@ -129,13 +129,11 @@ function PullRequestListPage() {
         <Spacer size={5} />
         {renderListContent()}
         <Spacer size={8} />
-        {totalPages > 1 && (
-          <PaginationComponent
-            totalPages={totalPages}
-            currentPage={page}
-            goToPage={(pageNum: number) => setPage(pageNum)}
-          />
-        )}
+        <PaginationComponent
+          totalPages={totalPages}
+          currentPage={page}
+          goToPage={(pageNum: number) => setPage(pageNum)}
+        />
       </PaddingListLayout>
     </>
   )

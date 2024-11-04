@@ -48,11 +48,6 @@ export default function RepoCommitsPage() {
 
   // logic once we have dynamic pagination set up
 
-  // const totalPages = useMemo(() => {
-  //   if (!commitData || !commitData.total_commits) return 0
-  //   return Math.ceil(commitData.total_commits / 10)
-  // }, [commitData])
-
   useEffect(() => {
     if (repository?.body?.default_branch) {
       setSelectedBranch(repository.body.default_branch)
@@ -108,14 +103,12 @@ export default function RepoCommitsPage() {
       <Spacer size={5} />
       {renderListContent()}
       <Spacer size={8} />
-      {(!isNaN(xNextPage) || !isNaN(xPrevPage)) && (
-        <PaginationComponent
-          nextPage={xNextPage}
-          previousPage={xPrevPage}
-          currentPage={page}
-          goToPage={(pageNum: number) => setPage(pageNum)}
-        />
-      )}
+      <PaginationComponent
+        nextPage={xNextPage}
+        previousPage={xPrevPage}
+        currentPage={page}
+        goToPage={(pageNum: number) => setPage(pageNum)}
+      />
     </PaddingListLayout>
   )
 }

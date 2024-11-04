@@ -1,4 +1,5 @@
 import React from 'react'
+import { parseAsInteger, useQueryState } from 'nuqs'
 import { Spacer, Text, Button } from '@harnessio/canary'
 import {
   FormFieldSet,
@@ -6,9 +7,11 @@ import {
   ProfileKeysList,
   KeysList,
   ProfileTokensList,
-  TokensList
+  TokensList,
+  PaginationComponent
 } from '@harnessio/playground'
 import { AlertDeleteParams } from './types'
+import { PageResponseHeader } from '../../types'
 
 interface SandboxSettingsAccountKeysPageProps {
   publicKeys: KeysList[]
@@ -17,6 +20,7 @@ interface SandboxSettingsAccountKeysPageProps {
   openSshKeyDialog: () => void
   openAlertDeleteDialog: (data: AlertDeleteParams) => void
   error: { type: string; message: string } | null
+  headers?: Headers
 }
 const SandboxSettingsAccountKeysPage: React.FC<SandboxSettingsAccountKeysPageProps> = ({
   publicKeys,
@@ -24,8 +28,11 @@ const SandboxSettingsAccountKeysPage: React.FC<SandboxSettingsAccountKeysPagePro
   openTokenDialog,
   openSshKeyDialog,
   openAlertDeleteDialog,
-  error
+  error,
+  headers
 }) => {
+  const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
+  const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '')
   return (
     <SandboxLayout.Main hasLeftPanel hasHeader hasSubHeader>
       <SandboxLayout.Content>
@@ -78,7 +85,14 @@ const SandboxSettingsAccountKeysPage: React.FC<SandboxSettingsAccountKeysPagePro
             <FormFieldSet.ControlGroup>
               <>
                 {(!error || error.type !== 'keyFetch') && (
-                  <ProfileKeysList publicKeys={publicKeys} openAlertDeleteDialog={openAlertDeleteDialog} />
+                  <>
+                    <ProfileKeysList publicKeys={publicKeys} openAlertDeleteDialog={openAlertDeleteDialog} />
+                    <PaginationComponent
+                      totalPages={totalPages}
+                      currentPage={page}
+                      goToPage={(pageNum: number) => setPage(pageNum)}
+                    />
+                  </>
                 )}
                 {error && error.type === 'keyFetch' && (
                   <>
