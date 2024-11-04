@@ -7,26 +7,35 @@ import { RootLayout } from './layouts/RootLayout'
 import RepoLayout from './layouts/RepoLayout'
 import PipelineLayout from './layouts/PipelineLayout'
 import PullRequestLayout from './layouts/PullRequestLayout'
+import SandboxPullRequestLayout from './layouts/SandboxPullRequestLayout'
 import ErrorPage from './pages/error-page'
 import LandingPage from './pages/landing-page'
 import RepoListPage from './pages/repo-list-page'
 import PipelineListPage from './pages/pipeline-list-page'
+import SandboxRepoPipelineListPage from './pages/sandbox-repo-pipeline-list-page'
 import RepoSummaryPage from './pages/repo-summary-page'
 import ExecutionDetailsPage from './pages/execution-details-page'
 import PullRequestListPage from './pages/pull-request-list-page'
+import SandboxPullRequestListPage from './pages/sandbox-pull-request-list-page'
 import CommitsListPage from './pages/commits-list-page'
+import SandboxCommitsListPage from './pages/sandbox-commits-list-page'
 import BranchesListPage from './pages/branches-list-page'
+import SandboxBranchesListPage from './pages/sandbox-branches-list-page'
 import CommitsDetailsPage from './pages/commits-details-page'
 import PullRequestConversationPage from './pages/pull-request-conversation-page'
+import SandboxPullRequestConversationPage from './pages/sandbox-pull-request-conversation-page'
 import PullRequestChangesPage from './pages/pull-request-changes-page'
 import PullRequestChecksPage from './pages/pull-request-checks-page'
 import PipelineEdit from './pages/pipeline-edit-page'
 import PullRequestCommitsPage from './pages/pull-request-commits-page'
 import RepoPipelineListPage from './pages/repo-pipeline-list-page'
 import RepoExecutionListPage from './pages/repo-execution-list-page'
+import SandboxRepoExecutionsListPage from './pages/sandbox-repo-execution-list-page'
 import RepoWebhooksListPage from './pages/repo-webhooks-page'
+import SandboxRepoWebhooksListPage from './pages/sandbox-repo-webhooks-list-page'
 import { RepoWebhooksCreatePage } from './pages/repo-webhooks-create-page'
 import { CreatePipelinePage } from './pages/create-pipeline-page'
+import { SandboxCreatePipelinePage } from './pages/sandbox-create-pipeline-page'
 import { SandboxRoot } from './layouts/SandboxRoot'
 import { SandboxRepo } from './layouts/SandboxRepo'
 import { SandboxRepoListPage } from './pages/sandbox-repo-list-page'
@@ -102,8 +111,83 @@ const router = createBrowserRouter([
                 element: <SandboxPullRequestComparePage />
               },
               {
+                path: 'pull-requests',
+                element: <SandboxPullRequestListPage />
+              },
+              {
+                path: 'pull-requests/:pullRequestId',
+                element: <SandboxPullRequestLayout />,
+                children: [
+                  {
+                    index: true,
+                    element: <Navigate to="conversation" />
+                  },
+                  {
+                    path: 'conversation',
+                    element: <SandboxPullRequestConversationPage />
+                  },
+                  {
+                    path: 'changes',
+                    element: <PullRequestChangesPage />
+                  },
+                  {
+                    path: 'commits',
+                    element: <PullRequestCommitsPage />
+                  },
+                  {
+                    path: 'checks',
+                    element: <PullRequestChecksPage />
+                  }
+                ]
+              },
+              {
+                path: 'branches',
+                element: <SandboxBranchesListPage />
+              },
+              {
+                path: 'webhooks',
+                element: <SandboxRepoWebhooksListPage />
+              },
+              {
                 path: 'webhooks/create',
-                element: <RepoWebhooksCreatePage />
+                element: <RepoWebhooksCreatePage onFormSubmit={noop} onFormCancel={noop} isLoading={false} />
+              },
+              {
+                path: 'pipelines',
+                element: <SandboxRepoPipelineListPage />
+              },
+              {
+                path: 'pipelines/create',
+                element: <SandboxCreatePipelinePage />
+              },
+              {
+                path: 'pipelines/:pipelineId',
+                children: [
+                  {
+                    index: true,
+                    element: <SandboxRepoExecutionsListPage />
+                  },
+                  {
+                    path: 'edit',
+                    element: <PipelineEdit />
+                  },
+                  {
+                    path: 'executions',
+                    element: <SandboxRepoExecutionsListPage />
+                  },
+                  {
+                    path: 'executions/:executionId',
+                    element: <ExecutionDetailsPage />
+                  }
+                ]
+              },
+              {
+                path: 'commits',
+                element: <SandboxCommitsListPage />
+              },
+              {
+                path: 'commits/:commitId',
+                element: <CommitsDetailsPage />
               },
               {
                 path: 'settings',
@@ -127,6 +211,10 @@ const router = createBrowserRouter([
                   },
                   {
                     path: 'rules',
+                    element: <RepoSettingsGeneralPlaygroundContainer />
+                  },
+                  {
+                    path: 'rules/create',
                     element: (
                       <RepoBranchSettingsRulesPage
                         handleRuleUpdate={noop}
@@ -359,7 +447,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'webhooks/create',
-            element: <RepoWebhooksCreatePage />
+            element: <RepoWebhooksCreatePage onFormSubmit={noop} onFormCancel={noop} isLoading={false} />
           },
           {
             path: 'commits',
