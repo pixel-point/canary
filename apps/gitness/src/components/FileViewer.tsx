@@ -100,7 +100,7 @@ export const FileViewer: React.FC = () => {
           setLoading(false)
         })
     }
-  }, [repoEntryPathToFileTypeMap.size, repoRef])
+  }, [repoEntryPathToFileTypeMap.size, repoRef, selectedBranch])
 
   const renderListContent = () => {
     if (loading) return <SkeletonList />

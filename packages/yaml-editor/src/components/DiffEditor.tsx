@@ -20,7 +20,10 @@ const defaultOptions: monaco.editor.IStandaloneDiffEditorConstructionOptions = {
     selectLeadingAndTrailingWhitespace: true
   },
   originalEditable: false,
-  overviewRulerBorder: false
+  overviewRulerBorder: false,
+  padding: {
+    top: 10
+  }
 }
 
 export interface DiffEditorProps<T> {

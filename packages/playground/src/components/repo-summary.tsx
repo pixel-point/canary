@@ -60,7 +60,7 @@ export const TopTitle = ({ file }: { file: Pick<FileProps, 'user' | 'lastCommitM
       <Text size={2} weight="normal" color="tertiaryBackground" wrap="nowrap">
         {user?.name}
       </Text>
-      <Text size={2} weight="normal" color="primary" wrap="nowrap">
+      <Text size={2} weight="normal" color="primary" className="line-clamp-1">
         {lastCommitMessage}
       </Text>
     </ButtonGroup.Root>

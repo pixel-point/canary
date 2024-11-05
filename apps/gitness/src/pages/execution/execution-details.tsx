@@ -7,7 +7,7 @@ import {
   useFindExecutionQuery,
   useViewLogsQuery
 } from '@harnessio/code-service-client'
-import { Badge, DropdownMenuItem, Icon, ScrollArea, Separator, SplitButton, Text } from '@harnessio/canary'
+import { Badge, Button, Icon, ScrollArea, Separator, Text } from '@harnessio/canary'
 import {
   Layout,
   ExecutionTree,
@@ -132,24 +132,27 @@ const ExecutionLogs: React.FC = () => {
       .then(() => {})
       .catch()
   }
+  const emptyLogsPlaceholder = [
+    {
+      pos: 0,
+      out: 'No Logs Found\n',
+      time: 0
+    }
+  ]
 
   return (
     <>
       <div className="absolute right-0 top-0 w-fit">
         <div className="flex items-center gap-x-3 h-14 px-4">
-          <SplitButton
-            size="sm"
-            onClick={() => setOpenRunPipeline(true)}
-            dropdown={<Icon name="chevron-down" size={12} />}
-            menu={
-              <>
-                <DropdownMenuItem onClick={handleCancel} disabled={!isPipelineStillExecuting}>
-                  Cancel
-                </DropdownMenuItem>
-              </>
-            }>
-            Run
-          </SplitButton>
+          {isPipelineStillExecuting && currentStepStatus === ExecutionState.RUNNING ? (
+            <Button size="sm" onClick={handleCancel}>
+              Cancel
+            </Button>
+          ) : (
+            <Button size="sm" onClick={() => setOpenRunPipeline(true)}>
+              Run
+            </Button>
+          )}
         </div>
       </div>
       <Layout.Horizontal className="px-8">
@@ -158,7 +161,9 @@ const ExecutionLogs: React.FC = () => {
             <StageExecution
               stage={stage as StageProps}
               logs={
-                isPipelineStillExecuting && currentStepStatus === ExecutionState.RUNNING ? streamedLogs : logs || []
+                isPipelineStillExecuting && currentStepStatus === ExecutionState.RUNNING
+                  ? streamedLogs
+                  : logs || emptyLogsPlaceholder
               }
               selectedStepIdx={stepNum > 0 ? stepNum - 1 : 0}
               onEdit={() => navigate('../edit')}
@@ -170,19 +175,30 @@ const ExecutionLogs: React.FC = () => {
           <div className="flex flex-col gap-2 my-5">
             <Text className="text-white text-base">{execution?.message}</Text>
             <div className="flex gap-2 items-center">
-              <Badge variant="secondary" className="bg-primary-foreground flex gap-1">
-                <Layout.Horizontal gap="space-x-1" className="flex items-center">
-                  <Icon size={12} name={'tube-sign'} />
-                  <Text className="text-sm text-git pb-0.5">{execution?.source}</Text>
-                </Layout.Horizontal>
-              </Badge>
-              <span>to</span>
-              <Badge variant="secondary" className="flex gap-1 bg-primary-foreground">
-                <Layout.Horizontal gap="space-x-1" className="flex items-center">
-                  <Icon size={12} name={'git-branch'} />
-                  <Text className="text-sm text-git pb-0.5">{execution?.target}</Text>
-                </Layout.Horizontal>
-              </Badge>
+              {execution?.event === 'manual' ? (
+                <Badge variant="secondary" className="bg-primary-foreground flex gap-1">
+                  <Layout.Horizontal gap="space-x-1" className="flex items-center">
+                    <Icon size={12} name={'tube-sign'} />
+                    <Text className="text-sm text-git pb-0.5">{execution?.source}</Text>
+                  </Layout.Horizontal>
+                </Badge>
+              ) : (
+                <>
+                  <Badge variant="secondary" className="bg-primary-foreground flex gap-1">
+                    <Layout.Horizontal gap="space-x-1" className="flex items-center">
+                      <Icon size={12} name={'tube-sign'} />
+                      <Text className="text-sm text-git pb-0.5">{execution?.source}</Text>
+                    </Layout.Horizontal>
+                  </Badge>
+                  <span>to</span>
+                  <Badge variant="secondary" className="flex gap-1 bg-primary-foreground">
+                    <Layout.Horizontal gap="space-x-1" className="flex items-center">
+                      <Icon size={12} name={'git-branch'} />
+                      <Text className="text-sm text-git pb-0.5">{execution?.target}</Text>
+                    </Layout.Horizontal>
+                  </Badge>
+                </>
+              )}
             </div>
           </div>
           <Layout.Horizontal>
@@ -198,7 +214,7 @@ const ExecutionLogs: React.FC = () => {
             )}
             {execution?.created && (
               <Layout.Vertical gap="space-y-1">
-                <Text className="text-sm text-muted-foreground">Created</Text>
+                <Text className="text-sm text-muted-foreground">Started</Text>
                 <span className="text-white">{timeAgoFromEpochTime(execution.created)}</span>
               </Layout.Vertical>
             )}

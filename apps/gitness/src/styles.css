@@ -1,2 +1,6 @@
 @import '@harnessio/playground/src/styles.css';
 @import '@harnessio/canary/src/styles.css';
+
+mark {
+  background: var(--diff-grey) !important;
+}

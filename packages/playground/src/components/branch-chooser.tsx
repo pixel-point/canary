@@ -10,7 +10,7 @@ import {
   cn
 } from '@harnessio/canary'
 
-interface BranchListProps {
+export interface BranchListProps {
   name: string
 }
 
