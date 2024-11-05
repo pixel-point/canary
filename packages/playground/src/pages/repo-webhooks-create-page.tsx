@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button, ButtonGroup, useZodForm, Text, Spacer } from '@harnessio/canary'
 import { SubmitHandler } from 'react-hook-form'
 import {
@@ -14,20 +14,22 @@ import {
 import { branchEvents, tagEvents, prEvents } from '../components/webhooks/create-webhook-form-data'
 import { FormFieldSet, SandboxLayout } from '../index'
 import { createWebhookFormSchema } from '../components/webhooks/create-webhooks-form-schema'
-import { EventTypes, CreateWebhookFormFields, TriggerEventsEnum } from '../components/webhooks/types'
+import { CreateWebhookFormFields, TriggerEventsEnum } from '../components/webhooks/types'
 
 interface RepoWebhooksCreatePageProps {
   onFormSubmit: (data: CreateWebhookFormFields) => void
   onFormCancel: () => void
   apiError?: string | null
   isLoading: boolean
+  preSetWebHookData: CreateWebhookFormFields | null
 }
 
 export const RepoWebhooksCreatePage: React.FC<RepoWebhooksCreatePageProps> = ({
   onFormSubmit,
   apiError,
   isLoading,
-  onFormCancel
+  onFormCancel,
+  preSetWebHookData
 }) => {
   const {
     register,
@@ -47,11 +49,21 @@ export const RepoWebhooksCreatePage: React.FC<RepoWebhooksCreatePageProps> = ({
       secret: '',
       insecure: '1',
       trigger: '1',
-      branchEvents: [],
-      tagEvents: [],
-      prEvents: []
+      triggers: []
     }
   })
+
+  useEffect(() => {
+    if (preSetWebHookData) {
+      setValue('identifier', preSetWebHookData.identifier)
+      setValue('description', preSetWebHookData.description)
+      setValue('url', preSetWebHookData.url)
+      setValue('enabled', preSetWebHookData.enabled)
+      setValue('insecure', preSetWebHookData.insecure)
+      setValue('trigger', preSetWebHookData.trigger)
+      setValue('triggers', preSetWebHookData.triggers)
+    }
+  }, [preSetWebHookData])
 
   const eventSettingsComponents = [
     { fieldName: 'branchEvents', events: branchEvents },
@@ -85,12 +97,7 @@ export const RepoWebhooksCreatePage: React.FC<RepoWebhooksCreatePageProps> = ({
                 <div className="flex justify-between">
                   {eventSettingsComponents.map(component => (
                     <div key={component.fieldName} className="flex flex-col">
-                      <WebhookEventSettingsFieldset
-                        setValue={setValue}
-                        watch={watch}
-                        eventList={component.events}
-                        fieldName={component.fieldName as keyof EventTypes}
-                      />
+                      <WebhookEventSettingsFieldset setValue={setValue} watch={watch} eventList={component.events} />
                     </div>
                   ))}
                 </div>
@@ -110,7 +117,13 @@ export const RepoWebhooksCreatePage: React.FC<RepoWebhooksCreatePageProps> = ({
                   <ButtonGroup.Root>
                     <>
                       <Button type="submit" size="sm" disabled={!isValid || isLoading}>
-                        {isLoading ? 'Creating webhook...' : 'Create webhook'}
+                        {isLoading
+                          ? preSetWebHookData
+                            ? 'Updating webhook...'
+                            : 'Creating webhook...'
+                          : preSetWebHookData
+                            ? 'Update webhook'
+                            : 'Create webhook'}
                       </Button>
                       <Button type="button" variant="outline" size="sm" onClick={onFormCancel}>
                         Cancel
