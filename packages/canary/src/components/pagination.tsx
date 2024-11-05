@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { cn } from '@/lib/utils'
 import { ButtonProps, buttonVariants } from '@/components/button'
 import { Icon } from './icon'
@@ -8,7 +7,7 @@ const Pagination = ({ className, ...props }: React.ComponentProps<'nav'>) => (
   <nav
     role="navigation"
     aria-label="pagination"
-    className={cn('mx-auto flex w-full max-w-full items-center justify-between', className)}
+    className={cn('mx-auto flex w-full px-9 max-w-full items-center justify-between', className)}
     {...props}
   />
 )
@@ -22,7 +21,7 @@ const PaginationContent = React.forwardRef<HTMLUListElement, React.ComponentProp
 PaginationContent.displayName = 'PaginationContent'
 
 const PaginationItem = React.forwardRef<HTMLLIElement, React.ComponentProps<'li'>>(({ className, ...props }, ref) => (
-  <li ref={ref} className={cn('', className)} {...props} />
+  <li ref={ref} className={cn('first:mr-auto last:ml-auto', className)} {...props} />
 ))
 PaginationItem.displayName = 'PaginationItem'
 
@@ -37,12 +36,15 @@ const PaginationLink = ({ className, isActive, size, ...props }: PaginationLinkP
     aria-current={isActive ? 'page' : undefined}
     className={cn(
       buttonVariants({
-        variant: isActive ? 'secondary' : 'tertiary',
+        variant: 'custom',
         size: size ? size : 'sm_icon',
         borderRadius: 'full'
       }),
-      'text-[12px] font-normal min-w-7 px-1.5 w-auto',
-      { 'bg-primary/15': isActive },
+      'text-12 font-normal min-w-7 px-1.5 w-auto bg-pagination-bg text-secondary-foreground hover:bg-pagination-bg-hover',
+      {
+        'bg-pagination-bg-active shadow-[0px_2px_4px_0px_hsla(var(--pagination-shadow-active),_0.5)] cursor-default hover:bg-pagination-bg-active':
+          isActive
+      },
       className
     )}
     {...props}
@@ -55,8 +57,9 @@ const PaginationPrevious = ({ disabled, className, ...props }: React.ComponentPr
     aria-label="Go to previous page"
     size="default"
     className={cn(
-      'gap-1.5 pl-2.5 text-sm font-normal bg-transparent, cursor-pointer',
-      { 'text-tertiary-background cursor-default opacity-40 hover:bg-transparent pointer-events-none': disabled },
+      'gap-1.5 pl-2.5 text-sm font-normal bg-transparent cursor-pointer text-pagination-text',
+      'hover:text-primary hover:bg-transparent',
+      { 'text-secondary-muted cursor-default pointer-events-none': disabled },
       className
     )}
     {...props}>
@@ -71,8 +74,9 @@ const PaginationNext = ({ disabled, className, ...props }: React.ComponentProps<
     aria-label="Go to next page"
     size="default"
     className={cn(
-      'gap-1.5 pr-2.5 text-sm font-normal bg-transparent, cursor-pointer',
-      { 'text-tertiary-background cursor-default opacity-40 hover:bg-transparent pointer-events-none': disabled },
+      'gap-1.5 pr-2.5 text-sm font-normal bg-transparent cursor-pointer text-pagination-text',
+      'hover:text-primary hover:bg-transparent',
+      { 'text-secondary-muted cursor-default pointer-events-none': disabled },
       className
     )}
     {...props}>
@@ -85,9 +89,12 @@ PaginationNext.displayName = 'PaginationNext'
 const PaginationEllipsis = ({ className, ...props }: React.ComponentProps<'span'>) => (
   <span
     aria-hidden
-    className={cn('flex h-7 w-7 items-center justify-center text-sm font-normal bg-tertiary rounded-full', className)}
+    className={cn(
+      'flex h-7 w-7 items-center justify-center text-12 font-normal bg-pagination-bg rounded-full',
+      className
+    )}
     {...props}>
-    <DotsHorizontalIcon className="h-4 w-4" />
+    ...
     <span className="sr-only">More pages</span>
   </span>
 )

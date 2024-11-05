@@ -14,7 +14,7 @@ export const NoSearchResults: React.FC<NoSearchResultsProps> = ({
   secondaryButton
 }: NoSearchResultsProps) => {
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center border rounded-md py-20 pb-24">
+    <div className="w-full h-full flex flex-col justify-center items-center border rounded-md pt-[6.25rem] pb-[9.75rem]">
       <NoData
         iconName={iconName}
         iconSize={iconSize}
