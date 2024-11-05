@@ -7,12 +7,12 @@ import {
   SandboxSettings,
   SandboxSettingsAccountPage,
   SandboxSettingsProjectPage,
-  SandboxSettingsProjectMembersPage,
   ForgotPasswordPage,
   NewPasswordPage,
   OTPPage,
   SandboxRepoSettingsPage,
-  RepoSettingsPlaceholderPage
+  RepoSettingsPlaceholderPage,
+  SandboxSettingsCreateNewMemberPage
 } from '@harnessio/playground'
 import SnadboxRootWraper from './components/SandboxRootWrapper'
 import { TooltipProvider } from '@harnessio/canary'
@@ -55,6 +55,7 @@ import { FileEditor } from './components/FileEditor'
 import { RepoSettingsGeneralPageContainer } from './pages/repo-sandbox/repo-settings-general-container'
 import { CreatePullRequest } from './pages/pull-request/pull-request-compare-page'
 import { ExitConfirmProvider } from './framework/context/ExitConfirmContext'
+import { ProjectSettingsMemebersPage } from './pages/project-settings/project-settings-members-page'
 import { EmptyPage } from './pages/empty-page'
 import { CreateWebhookContainer } from './pages/webhooks/create-webhook-container'
 import { RepoBranchSettingsRulesPageContainer } from './pages/repo-sandbox/repo-sandbox-branch-rules-container'
@@ -385,7 +386,11 @@ export default function App() {
                 },
                 {
                   path: 'members',
-                  element: <SandboxSettingsProjectMembersPage />
+                  element: <ProjectSettingsMemebersPage />
+                },
+                {
+                  path: 'create-new-member',
+                  element: <SandboxSettingsCreateNewMemberPage />
                 }
               ]
             }

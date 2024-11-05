@@ -64,16 +64,15 @@ export const FormEditMemberDialog: React.FC<FormEditDialogProps> = ({
       resetNewMemberForm() // Reset the form after submission
     }
   }
-
   return (
     <AlertDialog open={true} onOpenChange={onClose}>
       <AlertDialogContent>
-        <AlertDialogHeader>
+        <AlertDialogHeader className="text-left">
           <AlertDialogTitle>Change Role</AlertDialogTitle>
         </AlertDialogHeader>
 
         {/* Accessibility: Add Description */}
-        <AlertDialogDescription>
+        <AlertDialogDescription className="text-left">
           Select a new role for the member and confirm to save the changes.
         </AlertDialogDescription>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -117,7 +116,7 @@ export const FormEditMemberDialog: React.FC<FormEditDialogProps> = ({
                 <ButtonGroup.Root>
                   {!submitted ? (
                     <>
-                      <AlertDialogCancel onClick={onClose} disabled={!isValid || isSubmitting}>
+                      <AlertDialogCancel onClick={onClose} disabled={!isValid || isSubmitting} className="mt-0">
                         Cancel
                       </AlertDialogCancel>
                       <Button type="submit" theme="primary" disabled={!isValid || isSubmitting || !dirtyFields.role}>
