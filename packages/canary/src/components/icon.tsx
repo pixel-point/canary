@@ -59,6 +59,7 @@ import NoDataFolder from '../icons/no-data-folder.svg'
 import NoDataMembers from '../icons/no-data-members.svg'
 import NoDataMerge from '../icons/no-data-merge.svg'
 import NoDataWebhooks from '../icons/no-data-webhooks.svg'
+import NoRepository from '../icons/no-repository.svg'
 import NoSearchMagnifyingGlass from '../icons/no-search-magnifying-glass.svg'
 import NodeLogo from '../icons/node-logo.svg'
 import OpenPR from '../icons/open-pr.svg'
@@ -138,6 +139,7 @@ const IconNameMap = {
   tasks: Tasks,
   tick: Tick,
   'no-data-folder': NoDataFolder,
+  'no-repository': NoRepository,
   'no-data-merge': NoDataMerge,
   'no-data-cog': NoDataCog,
   'no-data-branches': NoDataBranches,
