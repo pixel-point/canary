@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { parseAsInteger, useQueryState } from 'nuqs'
 import { TypesExecution, useListExecutionsQuery } from '@harnessio/code-service-client'
 import { ListActions, SearchBox, Spacer, Text, Button } from '@harnessio/canary'
@@ -8,13 +8,14 @@ import {
   timeDistance,
   NoData,
   PaginationComponent,
-  SandboxLayout
+  SandboxLayout,
+  ExecutionState
 } from '@harnessio/playground'
-import { ExecutionState, PageResponseHeader } from '../types'
+import { PageResponseHeader } from '../types'
 import { Link, useParams } from 'react-router-dom'
 import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 import { PathParams } from '../RouteDefinitions'
-import { getLabel } from '../utils/execution-utils'
+import { getExecutionStatus, getLabel } from '../utils/execution-utils'
 import RunPipelineDialog from './run-pipeline-dialog/run-pipeline-dialog'
 
 const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
@@ -30,7 +31,6 @@ export default function SandboxExecutionsListPage() {
   const {
     data: { body: executions, headers } = {},
     isFetching,
-    error,
     isSuccess
   } = useListExecutionsQuery({
     repo_ref: repoRef,
@@ -52,7 +52,7 @@ export default function SandboxExecutionsListPage() {
           <ExecutionList
             executions={executions?.map((item: TypesExecution) => ({
               id: item?.number && `executions/${item.number}`,
-              status: item?.status,
+              status: getExecutionStatus(item?.status),
               success: item?.status,
               name: item?.message || item?.title,
               sha: item?.after?.slice(0, 6),
@@ -83,9 +83,6 @@ export default function SandboxExecutionsListPage() {
           />
         </>
       )
-    } else {
-      console.log({ error })
-      return <></>
     }
   }
 

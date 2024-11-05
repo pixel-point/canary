@@ -1,64 +1,92 @@
+import { Link } from 'react-router-dom'
+import { parseAsInteger, useQueryState } from 'nuqs'
+import { Button, Spacer, Text } from '@harnessio/canary'
+import { useListReposQuery, RepoRepositoryOutput, ListReposQueryQueryParams } from '@harnessio/code-service-client'
 import {
-  Button,
-  ListActions,
-  ListPagination,
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-  SearchBox,
-  Spacer,
-  Text
-} from '@harnessio/canary'
-import { useListReposQuery, RepoRepositoryOutput } from '@harnessio/code-service-client'
-import { SkeletonList, RepoList, SandboxLayout } from '@harnessio/playground'
-import { Link, useNavigate } from 'react-router-dom'
+  SkeletonList,
+  RepoList,
+  Filter,
+  useCommonFilter,
+  NoData,
+  NoSearchResults,
+  PaginationComponent,
+  SandboxLayout
+} from '@harnessio/playground'
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
-import { usePagination } from '../../framework/hooks/usePagination'
 import { timeAgoFromEpochTime } from '../pipeline-edit/utils/time-utils'
+import { PageResponseHeader } from '../../types'
 
-const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
-const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
-const viewOptions = [{ name: 'View option 1' }, { name: 'View option 2' }]
+const sortOptions = [
+  { name: 'Created', value: 'created' },
+  { name: 'Identifier', value: 'identifier' },
+  { name: 'Updated', value: 'updated' }
+]
 
 const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => <Link to={to}>{children}</Link>
 
 export default function ReposSandboxListPage() {
-  // hardcoded
-  const totalPages = 10
-  const navigate = useNavigate()
   const space = useGetSpaceURLParam()
 
-  const { isFetching, data: { body: repositories } = {} } = useListReposQuery({
-    queryParams: {},
+  /* Query and Pagination */
+  const { query: currentQuery = '', sort } = useCommonFilter<ListReposQueryQueryParams['sort']>()
+  const [query, _] = useQueryState('query', { defaultValue: currentQuery })
+  const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
+
+  const { isFetching, data: { body: repositories, headers } = {} } = useListReposQuery({
+    queryParams: { sort, query, page },
     space_ref: `${space}/+`
   })
-  const { currentPage, previousPage, nextPage, handleClick } = usePagination(1, totalPages)
+
+  const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '')
 
   const renderListContent = () => {
-    if (isFetching) {
-      return <SkeletonList />
-    }
-    return (
-      repositories && (
-        <RepoList
-          LinkComponent={LinkComponent}
-          repos={repositories?.map((repo: RepoRepositoryOutput) => {
-            return {
-              id: repo.id,
-              name: repo.identifier,
-              description: repo.description,
-              private: !repo.is_public,
-              stars: 0,
-              forks: repo.num_forks,
-              pulls: repo.num_pulls,
-              timestamp: repo.updated && timeAgoFromEpochTime(repo.updated)
-            }
-          })}
+    if (isFetching) return <SkeletonList />
+
+    if (!repositories?.length) {
+      if (query) {
+        return (
+          <NoSearchResults
+            iconName="no-search-magnifying-glass"
+            title="No search results"
+            description={['Check your spelling and filter options,', 'or search for a different keyword.']}
+            primaryButton={{ label: 'Clear search' }}
+            secondaryButton={{ label: 'Clear filters' }}
+          />
+        )
+      }
+      return (
+        <NoData
+          iconName="no-data-folder"
+          title="No repositories yet"
+          description={[
+            'There are no repositories in this project yet.',
+            'Create new or import an existing repository.'
+          ]}
+          primaryButton={{ label: 'Create repository', to: `/spaces/${space}/repos/create` }}
+          /**
+           * @TODO add "to" link when Import repository gets implemented
+           */
+          secondaryButton={{ label: 'Import repository', to: '' }}
         />
       )
+    }
+
+    return (
+      <RepoList
+        LinkComponent={LinkComponent}
+        repos={repositories?.map((repo: RepoRepositoryOutput) => {
+          return {
+            id: repo.id || '',
+            name: repo.identifier,
+            description: repo.description,
+            private: !repo.is_public,
+            stars: 0,
+            forks: repo.num_forks,
+            pulls: repo.num_pulls,
+            timestamp: repo.updated && timeAgoFromEpochTime(repo.updated)
+          }
+        })}
+      />
     )
   }
 
@@ -67,61 +95,34 @@ export default function ReposSandboxListPage() {
       <SandboxLayout.Main hasHeader hasLeftPanel>
         <SandboxLayout.Content>
           <Spacer size={10} />
-          <Text size={5} weight={'medium'}>
-            Repositories
-          </Text>
-          <Spacer size={6} />
-          <ListActions.Root>
-            <ListActions.Left>
-              <SearchBox.Root placeholder="Search repositories" />
-            </ListActions.Left>
-            <ListActions.Right>
-              <ListActions.Dropdown title="Filter" items={filterOptions} />
-              <ListActions.Dropdown title="Sort" items={sortOptions} />
-              <ListActions.Dropdown title="View" items={viewOptions} />
-              <Button variant="default" onClick={() => navigate(`/spaces/${space}/repos/create`)}>
-                Create Repo
-              </Button>
-            </ListActions.Right>
-          </ListActions.Root>
+          {/**
+           * Show if repositories exist.
+           * Additionally, show if query(search) is applied.
+           */}
+          {(query || (repositories?.length || 0) > 0) && (
+            <>
+              <Text size={5} weight={'medium'}>
+                Repositories
+              </Text>
+              <Spacer size={6} />
+              <div className="flex justify-between gap-5">
+                <div className="flex-1">
+                  <Filter sortOptions={sortOptions} />
+                </div>
+                <Button variant="default" asChild>
+                  <Link to={`/spaces/${space}/repos/create`}>Create Repository</Link>
+                </Button>
+              </div>
+            </>
+          )}
           <Spacer size={5} />
           {renderListContent()}
           <Spacer size={8} />
-          {(repositories?.length ?? 0) > 0 && (
-            <ListPagination.Root>
-              <Pagination>
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious
-                      size="sm"
-                      href="#"
-                      onClick={() => currentPage > 1 && previousPage()}
-                      disabled={currentPage === 1}
-                    />
-                  </PaginationItem>
-                  {Array.from({ length: totalPages }, (_, index) => (
-                    <PaginationItem key={index}>
-                      <PaginationLink
-                        isActive={currentPage === index + 1}
-                        size="sm_icon"
-                        href="#"
-                        onClick={() => handleClick(index + 1)}>
-                        {index + 1}
-                      </PaginationLink>
-                    </PaginationItem>
-                  ))}
-                  <PaginationItem>
-                    <PaginationNext
-                      size="sm"
-                      href="#"
-                      onClick={() => currentPage < totalPages && nextPage()}
-                      disabled={currentPage === totalPages}
-                    />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
-            </ListPagination.Root>
-          )}
+          <PaginationComponent
+            totalPages={totalPages}
+            currentPage={page}
+            goToPage={(pageNum: number) => setPage(pageNum)}
+          />
         </SandboxLayout.Content>
       </SandboxLayout.Main>
     </>

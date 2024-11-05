@@ -1,5 +1,6 @@
 import { Icon } from '@harnessio/canary'
-import { TypesExecution } from '@harnessio/code-service-client'
+import { EnumCiStatus, TypesExecution } from '@harnessio/code-service-client'
+import { ExecutionState } from '@harnessio/playground'
 
 const renderBranch = (branch: string): React.ReactElement => {
   return (
@@ -29,5 +30,22 @@ export const getLabel = (execution: TypesExecution): string | React.ReactElement
       )
     default:
       return ''
+  }
+}
+
+export const getExecutionStatus = (status?: EnumCiStatus): ExecutionState => {
+  switch (status) {
+    case 'running':
+      return ExecutionState.RUNNING
+    case 'success':
+      return ExecutionState.SUCCESS
+    case 'failure':
+      return ExecutionState.FAILURE
+    case 'error':
+      return ExecutionState.ERROR
+    case 'killed':
+      return ExecutionState.KILLED
+    default:
+      return ExecutionState.UNKNOWN
   }
 }

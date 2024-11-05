@@ -17,16 +17,6 @@ export enum SSEEvent {
   PULLREQ_UPDATED = 'pullreq_updated'
 }
 
-export enum ExecutionState {
-  PENDING = 'pending',
-  RUNNING = 'running',
-  SUCCESS = 'success',
-  FAILURE = 'failure',
-  ERROR = 'error',
-  SKIPPED = 'skipped',
-  KILLED = 'killed'
-}
-
 export interface CreateFormType {
   name: string
   branch: string

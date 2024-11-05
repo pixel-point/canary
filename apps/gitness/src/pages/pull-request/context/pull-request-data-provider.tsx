@@ -15,6 +15,7 @@ import {
   useListCommitsQuery,
   useListPullReqActivitiesQuery
 } from '@harnessio/code-service-client'
+import { ExecutionState } from '@harnessio/playground'
 import { normalizeGitRef } from '../../../utils/git-utils'
 import { useGetSpaceURLParam } from '../../../framework/hooks/useGetSpaceParam'
 import { useGetRepoRef } from '../../../framework/hooks/useGetRepoPath'
@@ -22,10 +23,11 @@ import { useParams } from 'react-router-dom'
 import { PathParams } from '../../../RouteDefinitions'
 import useSpaceSSE from '../../../framework/hooks/useSpaceSSE'
 import { usePRChecksDecision } from '../hooks/usePRChecksDecision'
-import { ExecutionState, SSEEvent } from '../../../types'
+import { SSEEvent } from '../../../types'
 import { PullRequestState } from '../types/types'
 import { extractSpecificViolations } from '../utils'
 import useGetPullRequestTab, { PullRequestTab } from '../../../hooks/useGetPullRequestTab'
+
 export const codeOwnersNotFoundMessage = 'CODEOWNERS file not found'
 export const codeOwnersNotFoundMessage2 = `path "CODEOWNERS" not found`
 export const codeOwnersNotFoundMessage3 = `failed to find node 'CODEOWNERS' in 'main': failed to get tree node: failed to ls file: path "CODEOWNERS" not found`

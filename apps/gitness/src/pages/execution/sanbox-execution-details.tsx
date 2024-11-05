@@ -17,11 +17,12 @@ import {
   convertExecutionToTree,
   StageProps,
   getStepId,
-  parseStageStepId
+  parseStageStepId,
+  ExecutionState
 } from '@harnessio/playground'
 import { PathParams } from '../../RouteDefinitions'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
-import { SSEEvent, ExecutionState } from '../../types'
+import { SSEEvent } from '../../types'
 import { getDuration, timeAgoFromEpochTime, formatDuration } from '../pipeline-edit/utils/time-utils'
 import useSpaceSSE from '../../framework/hooks/useSpaceSSE'
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'

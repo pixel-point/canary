@@ -2,10 +2,19 @@ import { Link } from 'react-router-dom'
 import { parseAsInteger, useQueryState } from 'nuqs'
 import { Button, Spacer, Text } from '@harnessio/canary'
 import { useListPipelinesQuery, TypesPipeline } from '@harnessio/code-service-client'
-import { PipelineList, MeterState, SandboxLayout, SkeletonList, Filter, useCommonFilter } from '@harnessio/playground'
-import { ExecutionState, PageResponseHeader } from '../types'
+import {
+  PipelineList,
+  MeterState,
+  SandboxLayout,
+  SkeletonList,
+  Filter,
+  useCommonFilter,
+  ExecutionState
+} from '@harnessio/playground'
+import { PageResponseHeader } from '../types'
 import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 import { PaginationComponent } from '../../../../packages/playground/dist'
+import { getExecutionStatus } from '../utils/execution-utils'
 
 export default function SandboxPipelinesPage() {
   const repoRef = useGetRepoRef()
@@ -30,8 +39,8 @@ export default function SandboxPipelinesPage() {
     return (
       <PipelineList
         pipelines={pipelines?.map((item: TypesPipeline) => ({
-          id: item?.identifier,
-          status: item?.execution?.status,
+          id: item?.identifier || '',
+          status: getExecutionStatus(item?.execution?.status),
           name: item?.identifier,
           sha: item?.execution?.after,
           description: item?.execution?.message,
@@ -65,7 +74,6 @@ export default function SandboxPipelinesPage() {
               <Link to="create">Create Pipeline</Link>
             </Button>
           </div>
-
           <Spacer size={5} />
           {renderListContent()}
           <Spacer size={8} />

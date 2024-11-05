@@ -13,5 +13,6 @@ export enum ExecutionState {
   SKIPPED = 'skipped',
   KILLED = 'killed',
   BLOCKED = 'blocked',
-  WAITING_ON_DEPENDENCIES = 'waiting_on_dependencies'
+  WAITING_ON_DEPENDENCIES = 'waiting_on_dependencies',
+  UNKNOWN = 'unknown'
 }
