@@ -33,7 +33,7 @@ const Stats = ({ stars, pulls }: { stars?: number; pulls: number }) => (
 const Title = ({ title, isPrivate }: { title: string; isPrivate: boolean }) => (
   <div className="inline-flex gap-2.5 items-center">
     {title}
-    <Badge size="sm" disableHover borderRadius="full" theme={isPrivate ? 'muted' : 'success'}>
+    <Badge size="sm" disableHover borderRadius="full" theme={isPrivate ? 'muted' : 'emphasis'}>
       {isPrivate ? 'Private' : 'Public'}
     </Badge>
   </div>
