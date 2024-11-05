@@ -63,7 +63,7 @@ const PullRequestSideBar = (props: PullRequestSideBarProps) => {
               <Icon name="vertical-ellipsis" size={14} className="text-tertiary-background" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="shadow-sm py-2 bg-primary-background border border-gray-800 rounded-[10px] w-[180px]">
+          <DropdownMenuContent className="rounded-[10px] w-[180px]">
             <DropdownMenuGroup>
               <DropdownMenuItem
                 className="cursor-pointer text-red-400 hover:text-red-400 focus:text-red-400"

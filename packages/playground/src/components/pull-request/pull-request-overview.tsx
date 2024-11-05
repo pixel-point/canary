@@ -25,7 +25,7 @@ import AvatarUrl from '../../../public/images/user-avatar.svg'
 import { PullRequestStatusSelect } from './pull-request-status-select-button'
 interface PullRequestOverviewProps {
   data?: TypesPullReqActivity[]
-  currentUser?: string
+  currentUser?: { display_name?: string; uid?: string }
   handleSaveComment: (comment: string, parentId?: number) => void
   refetchActivities: () => void
   // data: CommentItem<TypesPullReqActivity>[][]
@@ -56,7 +56,8 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
   handleSaveComment,
   commentStatusPullReq,
   repoId,
-  refetchActivities
+  refetchActivities,
+  currentUser
 }) => {
   const {
     // mode,
@@ -105,38 +106,40 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
           _activities => !_activities[0].payload?.resolved && (isComment(_activities) || isCodeComment(_activities))
         )
 
-      // case PRCommentFilterType.MY_COMMENTS: {
-      //   const allCommentBlock = blocks?.filter(_activities => !isSystemComment(_activities))
-      //   const userCommentsOnly = allCommentBlock?.filter(_activities => {
-      //     const userCommentReply = _activities?.filter(
-      //       authorIsUser => currentUser?.uid && authorIsUser.payload?.author?.uid === currentUser?.uid
-      //     )
-      //     return userCommentReply.length !== 0
-      //   })
-      //   return userCommentsOnly
-      // }
+      case PRCommentFilterType.MY_COMMENTS: {
+        const allCommentBlock = blocks?.filter(_activities => !isSystemComment(_activities))
+        const userCommentsOnly = allCommentBlock?.filter(_activities => {
+          const userCommentReply = _activities?.filter(
+            authorIsUser => currentUser?.uid && authorIsUser.payload?.author?.uid === currentUser?.uid
+          )
+          return userCommentReply.length !== 0
+        })
+        return userCommentsOnly
+      }
     }
 
     return blocks
   }, [
     data,
-    handleSaveComment
+    handleSaveComment,
     // dateOrderSort,
-    // activityFilter
-    // currentUser?.uid
+    activityFilter,
+    currentUser?.uid
   ])
 
   const renderedActivityBlocks = useMemo(() => {
     return (
       <div className="flex flex-col">
         <div>
-          <PullRequestDescBox
-            createdAt={pullReqMetadata?.created}
-            isLast={!(activityBlocks?.length > 0)}
-            author={pullReqMetadata?.author?.display_name}
-            prNum={`#${pullReqMetadata?.number}`}
-            description={pullReqMetadata?.description}
-          />
+          {activityFilter.value === PRCommentFilterType.SHOW_EVERYTHING && (
+            <PullRequestDescBox
+              createdAt={pullReqMetadata?.created}
+              isLast={!(activityBlocks?.length > 0)}
+              author={pullReqMetadata?.author?.display_name}
+              prNum={`#${pullReqMetadata?.number}`}
+              description={pullReqMetadata?.description}
+            />
+          )}
           {activityBlocks?.map((commentItems, index) => {
             if (isSystemComment(commentItems)) {
               return (
@@ -191,7 +194,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                           <Text size={3} color="primary">
                             {(payload?.code_comment as PayloadCodeComment)?.path}
                           </Text>
-                          <div className="flex">
+                          <div className="flex" key={`${index}-${payload.id}`}>
                             {/* TODO: fix states on this on a comment like resolved and active */}
                             <PullRequestStatusSelect
                               refetchActivities={refetchActivities}
@@ -370,7 +373,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
         </div>
       </div>
     ) // [activityBlocks, currentUser, pullReqMetadata, activities]
-  }, [data, handleSaveComment, pullReqMetadata])
+  }, [data, handleSaveComment, pullReqMetadata, activityFilter, currentUser])
 
   return <div>{renderedActivityBlocks}</div>
 }
