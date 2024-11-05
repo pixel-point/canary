@@ -59,6 +59,7 @@
     --tertiary: 240 4.8% 95.9%;
     --tertiary-foreground: 240 5.9% 10%;
     --tertiary-background: 240 6% 60%;
+    --tertiary-muted: var(--grey-8);
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
     --accent: 240 4.8% 95.9%;
@@ -97,6 +98,13 @@
     --diff-add-widget-color--: hsl(0, 0%, 100%);
     --diff-empty-content--: var(--background);
     --diff-hunk-content-color--: hsl(0, 0%, 100%);
+    /*TODO: update after colors design system integration*/
+    /*Pagination colors*/
+    --pagination-bg: var(--grey-8);
+    --pagination-bg-hover: var(--grey-10);
+    --pagination-bg-active: 240 5% 12%;
+    --pagination-shadow-active: 0 0% 0% 0.5;
+    --pagination-text: var(--grey-80);
   }
 
   .dark {
@@ -118,6 +126,7 @@
     --tertiary: var(--grey-12);
     --tertiary-foreground: var(--white);
     --tertiary-background: var(--grey-60);
+    --tertiary-muted: var(--grey-8);
     --muted: var(--grey-15);
     --muted-foreground: var(--grey-60);
     --accent: var(--grey-15);
@@ -138,6 +147,13 @@
     --ai-button-stop-2: 335 58% 76%;
     --ai-button-stop-3: 246 66% 72%;
     --ai-button-stop-4: 188 97% 89%;
+    /*TODO: update after colors design system integration*/
+    /*Pagination colors*/
+    --pagination-bg: var(--grey-8);
+    --pagination-bg-hover: var(--grey-10);
+    --pagination-bg-active: 240 5% 12%;
+    --pagination-shadow-active: 0, 0%, 0%;
+    --pagination-text: var(--grey-80);
   }
 }
 
@@ -151,7 +167,7 @@
   }
 
   body {
-    @apply bg-background text-foreground text-sm font-normal;
+    @apply bg-background text-foreground text-sm font-normal -tracking-[0.02em];
   }
 }
 
