@@ -17,16 +17,17 @@ const buttonVariants = cva(
         tertiary: 'bg-tertiary text-secondary-foreground hover:bg-tertiary/80 shadow-sm',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
-        split: 'flex items-center gap-1.5 border p-0',
-        'gradient-border': 'bg-background hover:bg-accent text-primary hover:text-accent-foreground'
+        split: 'border flex items-center gap-1.5 p-0',
+        'gradient-border': 'bg-background hover:bg-accent text-primary hover:text-accent-foreground',
+        custom: ''
       },
       size: {
-        default: 'h-9 px-4 py-2',
+        default: 'h-8 px-6 py-2',
         sm: 'h-8 px-3 py-0 text-sm font-normal',
         xs: 'h-auto px-1.5 py-0.5 text-xs font-normal',
         lg: 'h-10 px-8',
-        icon: 'size-9',
-        sm_icon: 'size-7',
+        icon: 'h-8 w-8',
+        sm_icon: 'h-7 w-7',
         xs_split: 'h-auto p-0 text-xs font-medium'
       },
       borderRadius: {
@@ -35,9 +36,9 @@ const buttonVariants = cva(
       },
       theme: {
         default: '',
-        error: 'text-error border-[hsla(var(--error),0.3)] bg-[hsla(var(--error),0.1)]',
-        warning: 'text-warning border-[hsla(var(--warning),0.3)] bg-[hsla(var(--warning),0.1)]',
-        success: 'text-success border-[hsla(var(--success),0.3)] bg-[hsla(var(--success),0.1)]',
+        error: 'text-error border-borders-danger/30 bg-background-danger',
+        warning: 'text-warning border-borders-warning/30 bg-background-warning',
+        success: 'text-success border-borders-success/30 bg-background-success',
         muted: 'text-tertiary-background border-tertiary-background/20 bg-tertiary-background/10',
         primary: 'text-primary-foreground border-primary-foreground/20 bg-primary'
       },
