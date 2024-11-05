@@ -16,7 +16,7 @@ const badgeVariants = cva(
       size: {
         default: 'px-2.5 py-0.5 text-xs font-semibold',
         lg: 'px-3 py-1 text-xs font-normal',
-        sm: 'h-5 px-1 text-[12px]',
+        sm: 'h-5 px-1 text-[12px] leading-none',
         xs: 'px-1.5 py-0 text-[11px] font-light'
       },
       borderRadius: {
@@ -25,7 +25,17 @@ const badgeVariants = cva(
       },
       hover: {
         enabled: '',
-        disabled: 'hover:bg-transparent hover:shadow-none'
+        // variant
+        'disabled-default': 'hover:shadow-none hover:bg-primary',
+        'disabled-secondary': 'hover:shadow-none hover:bg-secondary',
+        'disabled-destructive': 'hover:shadow-none hover:bg-destructive',
+        'disabled-outline': '',
+        // theme
+        'disabled-destructive-theme': 'hover:shadow-none hover:bg-[hsla(var(--error),0.1)]',
+        'disabled-warning-theme': 'hover:shadow-none hover:bg-[hsla(var(--warning),0.1)]',
+        'disabled-success-theme': 'hover:shadow-none hover:bg-[hsla(var(--success),0.1)]',
+        'disabled-emphasis-theme': 'hover:shadow-none hover:bg-[hsla(var(--emphasis),0.1)]',
+        'disabled-muted-theme': 'hover:shadow-none hover:bg-tertiary-background/10'
       },
       theme: {
         default: '',
@@ -59,17 +69,25 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement>, Varian
 
 function Badge({
   className,
-  variant,
+  variant = 'default',
   size,
   borderRadius = 'default',
   theme = 'default',
   disableHover,
   ...props
 }: BadgeProps) {
+  const hover = disableHover ? (theme !== 'default' ? `disabled-${theme}-theme` : `disabled-${variant}`) : 'enabled'
+
   return (
     <div
       className={cn(
-        badgeVariants({ variant, size, borderRadius, theme, hover: disableHover ? 'disabled' : 'enabled' }),
+        badgeVariants({
+          variant,
+          size,
+          borderRadius,
+          theme,
+          hover
+        }),
         className
       )}
       {...props}

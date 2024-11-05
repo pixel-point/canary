@@ -40,7 +40,8 @@ export default {
         tertiary: {
           DEFAULT: 'hsl(var(--tertiary))',
           foreground: 'hsl(var(--tertiary-foreground))',
-          background: 'hsl(var(--tertiary-background))'
+          background: 'hsl(var(--tertiary-background))',
+          muted: 'hsl(var(--tertiary-muted-muted))'
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
@@ -86,6 +87,13 @@ export default {
         divergence: {
           behind: 'hsl(var(--grey-20))',
           ahead: 'hsl(var(--grey-30))'
+        },
+        // TODO: update after colors design system integration
+        pagination: {
+          bg: 'hsl(var(--pagination-bg))',
+          'bg-hover': 'hsl(var(--pagination-bg-hover))',
+          'bg-active': 'hsl(var(--pagination-bg-active))',
+          text: 'hsl(var(--pagination-text))'
         }
       },
       borderRadius: {
