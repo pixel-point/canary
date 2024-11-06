@@ -313,11 +313,13 @@ const router = createBrowserRouter([
               },
               {
                 path: 'members',
-                element: <SandboxSettingsProjectMembersPage />
-              },
-              {
-                path: 'create-new-member',
-                element: <SandboxSettingsCreateNewMemberPage />
+                children: [
+                  { index: true, element: <SandboxSettingsProjectMembersPage /> },
+                  {
+                    path: 'create',
+                    element: <SandboxSettingsCreateNewMemberPage />
+                  }
+                ]
               }
             ]
           },

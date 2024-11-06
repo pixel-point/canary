@@ -347,11 +347,13 @@ export default function App() {
                     },
                     {
                       path: 'members',
-                      element: <ProjectSettingsMemebersPage />
-                    },
-                    {
-                      path: 'create-new-member',
-                      element: <SandboxSettingsCreateNewMemberPage />
+                      children: [
+                        { index: true, element: <ProjectSettingsMemebersPage /> },
+                        {
+                          path: 'create',
+                          element: <SandboxSettingsCreateNewMemberPage />
+                        }
+                      ]
                     }
                   ]
                 }

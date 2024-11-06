@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Spacer, Text, ListActions, SearchBox, Button } from '@harnessio/canary'
-
+import pluralize from 'pluralize'
 import {
   SandboxLayout,
   SkeletonList,
@@ -9,7 +9,8 @@ import {
   FormEditMemberDialog,
   FormDeleteMemberDialog,
   useCommonFilter,
-  PaginationComponent
+  PaginationComponent,
+  MembersProps
 } from '@harnessio/playground'
 import {
   useMembershipListQuery,
@@ -28,7 +29,7 @@ const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { nam
 
 const ProjectSettingsMemebersPage = () => {
   const space_ref = useGetSpaceURLParam()
-  const [totalMembers, setTotalMembers] = useState<number | null>(null)
+  const [totalMembers, setTotalMembers] = useState<number>(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const [dialogState, setDialogState] = useState({
@@ -95,7 +96,7 @@ const ProjectSettingsMemebersPage = () => {
             avatarUrl: '',
             timestamp: member.created ? timeAgoFromEpochTime(member.created) : 'no time available'
           }))}
-          onEdit={member =>
+          onEdit={(member: MembersProps) =>
             setDialogState({
               ...dialogState,
               isDialogEditOpen: true,
@@ -106,7 +107,7 @@ const ProjectSettingsMemebersPage = () => {
               }
             })
           }
-          onDelete={member =>
+          onDelete={(member: MembersProps) =>
             setDialogState({
               ...dialogState,
               isDialogDeleteOpen: true,
@@ -147,7 +148,7 @@ const ProjectSettingsMemebersPage = () => {
           Team
         </Text>
         <Text size={5} weight={'medium'} color="tertiaryBackground">
-          , {totalMembers ? `${totalMembers} members` : ''}
+          {totalMembers ? `, ${totalMembers} ${pluralize('member', totalMembers)}` : ''}
         </Text>
         <Spacer size={6} />
         <ListActions.Root>
@@ -157,7 +158,7 @@ const ProjectSettingsMemebersPage = () => {
           <ListActions.Right>
             <ListActions.Dropdown title="All Team Roles" items={filterOptions} />
             <ListActions.Dropdown title="Last added" items={sortOptions} />
-            <Link to={`/${space_ref}/sandbox/settings/project/create-new-member`}>
+            <Link to={`/spaces/${space_ref}/settings/members/create`}>
               <Button variant="default">Invite New Members</Button>
             </Link>
           </ListActions.Right>
