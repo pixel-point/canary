@@ -117,7 +117,7 @@ export default function App() {
               children: [
                 {
                   index: true,
-                  element: <RepoSandboxSummaryList />
+                  element: <Navigate to="summary" replace />
                 },
                 {
                   path: 'summary',
@@ -205,7 +205,7 @@ export default function App() {
                   children: [
                     {
                       index: true,
-                      element: <Navigate to="conversation" />
+                      element: <Navigate to="conversation" replace />
                     },
                     {
                       path: 'conversation',
@@ -258,7 +258,7 @@ export default function App() {
                   children: [
                     {
                       index: true,
-                      element: <Navigate to="general" />
+                      element: <Navigate to="general" replace />
                     },
                     {
                       path: 'general',
@@ -335,7 +335,7 @@ export default function App() {
                   children: [
                     {
                       index: true,
-                      element: <Navigate to="general" />
+                      element: <Navigate to="general" replace />
                     },
                     {
                       path: 'general',
@@ -368,7 +368,7 @@ export default function App() {
               children: [
                 {
                   index: true,
-                  element: <Navigate to="general" />
+                  element: <Navigate to="general" replace />
                 },
                 {
                   path: 'general',
