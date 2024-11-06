@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import { CheckCircleSolid, WarningTriangleSolid, Clock, ChatBubbleQuestionSolid } from '@harnessio/icons-noir'
 import {
@@ -12,7 +12,16 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuShortcut,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
+  PopoverContent,
+  PopoverTrigger,
+  Popover,
+  CommandInput,
+  Command,
+  CommandList,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem
 } from '@harnessio/canary'
 import { EnumPullReqReviewDecision, PullReqReviewDecision } from './interfaces'
 import { getInitials } from '../../utils/utils'
@@ -31,10 +40,20 @@ interface PullRequestSideBarProps {
   pullRequestMetadata?: { source_sha: string }
   refetchReviewers: () => void
   handleDelete: (id: number) => void
+  addReviewers?: (id?: number) => void
+  usersList?: { display_name?: string; id?: number; uid?: string }[]
 }
 
 const PullRequestSideBar = (props: PullRequestSideBarProps) => {
-  const { reviewers = [], pullRequestMetadata, processReviewDecision, refetchReviewers, handleDelete } = props
+  const {
+    usersList,
+    reviewers = [],
+    pullRequestMetadata,
+    processReviewDecision,
+    refetchReviewers,
+    handleDelete,
+    addReviewers
+  } = props
 
   const ReviewerItem = ({
     reviewer,
@@ -129,16 +148,48 @@ const PullRequestSideBar = (props: PullRequestSideBarProps) => {
     </div>
   )
 
-  const ReviewersHeader = () => (
-    <div className="flex justify-between items-center">
-      <Text size={2} weight="medium">
-        Reviewers
-      </Text>
-      <Button size="sm" variant="ghost" className="px-2 py-1" onClick={refetchReviewers}>
-        <Icon name="vertical-ellipsis" size={12} />
-      </Button>
-    </div>
-  )
+  const ReviewersHeader = () => {
+    const [isOpen, setIsOpen] = useState(false)
+
+    return (
+      <div className="flex justify-between items-center">
+        <Text size={2} weight="medium">
+          Reviewers
+        </Text>
+        <Popover open={isOpen} onOpenChange={setIsOpen}>
+          <PopoverTrigger asChild>
+            <Button size="sm" variant="ghost" className="px-2 py-1 text-tertiary-background">
+              <Icon name="vertical-ellipsis" size={12} />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-[300px] p-0" align="start">
+            <Command>
+              <CommandInput placeholder="Search users..." className="h-9" />
+              <CommandList>
+                <CommandEmpty>No users found.</CommandEmpty>
+                <CommandGroup>
+                  {usersList?.map(({ display_name, id }, idx: number) => (
+                    <CommandItem
+                      key={idx}
+                      value={display_name}
+                      onSelect={() => {
+                        if (display_name) {
+                          addReviewers?.(id)
+                          setIsOpen(false)
+                          refetchReviewers?.()
+                        }
+                      }}>
+                      {display_name}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+      </div>
+    )
+  }
 
   return (
     <div>

@@ -221,7 +221,7 @@ export default function PullRequestConversationPage() {
               activityFilter={activityFilter}
               dateOrderSort={dateOrderSort}
               handleSaveComment={handleSaveComment}
-              currentUser={currentUser}
+              currentUser={{ display_name: currentUser, uid: currentUser }}
             />
             <Spacer size={9} />
             <PullRequestCommentBox currentUser={currentUser} onSaveComment={handleSaveComment} />

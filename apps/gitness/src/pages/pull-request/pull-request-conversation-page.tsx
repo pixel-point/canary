@@ -7,10 +7,12 @@ import {
   EnumMergeMethod,
   mergePullReqOp,
   OpenapiMergePullReq,
+  reviewerAddPullReq,
   reviewerDeletePullReq,
   TypesPullReqActivity,
   TypesPullReqReviewer,
   useCodeownersPullReqQuery,
+  useListPrincipalsQuery,
   useListPullReqActivitiesQuery,
   useReviewerListPullReqQuery
 } from '@harnessio/code-service-client'
@@ -76,6 +78,10 @@ export default function PullRequestConversationPage() {
     repo_ref: repoRef,
     pullreq_number: prId,
     queryParams: {}
+  })
+  const { data: { body: principals } = {} } = useListPrincipalsQuery({
+    // @ts-expect-error : BE issue - not implemnted
+    queryParams: { page: 1, limit: 100, type: 'user' }
   })
   const [changesLoading, setChangesLoading] = useState(true)
 
@@ -202,11 +208,18 @@ export default function PullRequestConversationPage() {
       .catch(exception => console.warn(exception))
   }
 
+  const handleAddReviewer = (id?: number) => {
+    reviewerAddPullReq({ repo_ref: repoRef, pullreq_number: prId, body: { reviewer_id: id } })
+      .then(() => {
+        refetchReviewers()
+      })
+      .catch(exception => console.warn(exception))
+  }
   const onPRStateChanged = useCallback(() => {
     refetchCodeOwners()
     refetchPullReq()
     refetchActivities()
-  }, [refetchCodeOwners, repoRef, handleDeleteReviewer]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [refetchCodeOwners, repoRef, handleDeleteReviewer, handleAddReviewer]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleMerge = (method: string) => {
     const payload: OpenapiMergePullReq = {
@@ -252,7 +265,6 @@ export default function PullRequestConversationPage() {
   if (prLoading || prPanelData?.PRStateLoading || changesLoading) {
     return <SkeletonList />
   }
-
   return (
     <>
       <FullWidth2ColumnLayout
@@ -352,6 +364,8 @@ export default function PullRequestConversationPage() {
         }
         rightColumn={
           <PullRequestSideBar
+            addReviewers={handleAddReviewer}
+            usersList={principals?.map(user => ({ id: user.id, display_name: user.display_name, uid: user.uid }))}
             // repoMetadata={undefined}
             pullRequestMetadata={{ source_sha: pullReqMetadata?.source_sha as string }}
             processReviewDecision={processReviewDecision}
