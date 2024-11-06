@@ -75,6 +75,7 @@ import { mockBypassUserData, mockStatusChecks } from './pages/mocks/repo-branch-
 import { BypassUsersList } from './components/repo-settings/repo-branch-settings-rules/types'
 import { currentUser } from './pages/mocks/mockCurrentUserData'
 import { mockUsersData } from './data/mockUsersData'
+import RepoTagsListPage from './pages/repo-tags-list-page'
 
 const router = createBrowserRouter([
   // TEMPORARY LAYOUT SANDBOX
@@ -420,6 +421,10 @@ const router = createBrowserRouter([
                 element: <ExecutionDetailsPage />
               }
             ]
+          },
+          {
+            path: 'tags',
+            element: <RepoTagsListPage />
           },
           {
             path: 'pull-requests',

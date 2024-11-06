@@ -36,6 +36,9 @@ const RepoLayout: React.FC = () => {
             <NavLink to={`branches`}>
               <TabsTrigger value="branches">Branches</TabsTrigger>
             </NavLink>
+            <NavLink to={`tags`}>
+              <TabsTrigger value="tags">Tags</TabsTrigger>
+            </NavLink>
             <NavLink to={`/sandbox/repos/${repoId}/settings`}>
               <TabsTrigger value="settings">Settings</TabsTrigger>
             </NavLink>

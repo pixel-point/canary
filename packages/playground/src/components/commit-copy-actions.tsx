@@ -29,7 +29,7 @@ export const CommitCopyActions = ({ sha }: { sha: string }) => {
         </Link>
       </ShaBadge.Content>
       <ShaBadge.Icon handleClick={() => setCopied(true)}>
-        <Icon size={12} name={copied ? 'tick' : 'clone'} className={cn({ 'text-success': copied })} />
+        <Icon size={16} name={copied ? 'tick' : 'clone'} className={cn({ 'text-ring': copied })} />
       </ShaBadge.Icon>
     </ShaBadge.Root>
   )
