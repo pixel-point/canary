@@ -96,7 +96,7 @@ export default function RepoSandboxWebhooksListPage() {
 
   return (
     <>
-      <SandboxLayout.Main hasHeader hasLeftPanel>
+      <SandboxLayout.Main hasHeader hasSubHeader hasLeftPanel>
         <SandboxLayout.Content>
           <Spacer size={10} />
           {/**

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { PlaygroundListSettings } from '../settings/list-settings'
 import { SandboxLayout } from '../index'
-import { Navbar } from '@harnessio/canary'
+import { Navbar, Spacer } from '@harnessio/canary'
 import { NavLink, Outlet } from 'react-router-dom'
 
 const navItems = [
@@ -84,6 +84,7 @@ function SandboxRepoSettingsPage() {
 
   return (
     <SandboxLayout.Main hasHeader hasSubHeader hasLeftPanel>
+      <Spacer size={10} />
       <SandboxLayout.Columns columnWidths="auto 1fr">
         <SandboxLayout.Column>
           <Sidebar />

@@ -58,6 +58,7 @@ import { ProjectSettingsMemebersPage } from './pages/project-settings/project-se
 import { EmptyPage } from './pages/empty-page'
 import { CreateWebhookContainer } from './pages/webhooks/create-webhook-container'
 import { RepoBranchSettingsRulesPageContainer } from './pages/repo-sandbox/repo-sandbox-branch-rules-container'
+import { Logout } from './pages/logout'
 const BASE_URL_PREFIX = `${window.apiUrl || ''}/api/v1`
 
 export default function App() {
@@ -382,6 +383,10 @@ export default function App() {
           ]
         }
       ]
+    },
+    {
+      path: 'logout',
+      element: <Logout />
     },
     {
       path: 'chaos-engineering',

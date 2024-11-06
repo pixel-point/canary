@@ -9,7 +9,9 @@ import {
   SkeletonList,
   Filter,
   useCommonFilter,
-  ExecutionState
+  ExecutionState,
+  NoData,
+  NoSearchResults
 } from '@harnessio/playground'
 import { PageResponseHeader } from '../types'
 import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
@@ -36,45 +38,69 @@ export default function SandboxPipelinesPage() {
     if (isFetching) {
       return <SkeletonList />
     }
+
+    if (!pipelines?.length) {
+      if (query) {
+        return (
+          <NoSearchResults
+            iconName="no-search-magnifying-glass"
+            title="No search results"
+            description={['Check your spelling and filter options,', 'or search for a different keyword.']}
+            primaryButton={{ label: 'Clear search' }}
+            secondaryButton={{ label: 'Clear filters' }}
+          />
+        )
+      }
+      return (
+        <NoData
+          iconName="no-data-folder"
+          title="No pipelines yet"
+          description={['There are no pipelines in this repository yet.']}
+          primaryButton={{ label: 'Create pipeline', to: 'create' }}
+        />
+      )
+    }
     return (
-      <PipelineList
-        pipelines={pipelines?.map((item: TypesPipeline) => ({
-          id: item?.identifier || '',
-          status: getExecutionStatus(item?.execution?.status),
-          name: item?.identifier,
-          sha: item?.execution?.after,
-          description: item?.execution?.message,
-          timestamp: item?.created,
-          meter: [
-            {
-              id: item?.execution?.number,
-              state: item?.execution?.status === ExecutionState.SUCCESS ? MeterState.Success : MeterState.Error
-            }
-          ]
-        }))}
-        LinkComponent={LinkComponent}
-      />
+      <>
+        <div className="flex justify-between gap-5">
+          <div className="flex-1">
+            <Filter />
+          </div>
+          <Button variant="default" asChild>
+            <Link to="create">Create Pipeline</Link>
+          </Button>
+        </div>
+        <Spacer size={5} />
+        <PipelineList
+          pipelines={pipelines?.map((item: TypesPipeline) => ({
+            id: item?.identifier || '',
+            status: getExecutionStatus(item?.execution?.status),
+            name: item?.identifier,
+            sha: item?.execution?.after,
+            description: item?.execution?.message,
+            timestamp: item?.created,
+            meter: [
+              {
+                id: item?.execution?.number,
+                state: item?.execution?.status === ExecutionState.SUCCESS ? MeterState.Success : MeterState.Error
+              }
+            ]
+          }))}
+          LinkComponent={LinkComponent}
+        />
+      </>
     )
   }
 
   return (
     <>
-      <SandboxLayout.Main hasHeader hasLeftPanel>
+      <SandboxLayout.Main hasHeader hasSubHeader hasLeftPanel>
         <SandboxLayout.Content>
           <Spacer size={10} />
           <Text size={5} weight={'medium'}>
             Pipelines
           </Text>
           <Spacer size={6} />
-          <div className="flex justify-between gap-5">
-            <div className="flex-1">
-              <Filter />
-            </div>
-            <Button variant="default" asChild>
-              <Link to="create">Create Pipeline</Link>
-            </Button>
-          </div>
-          <Spacer size={5} />
           {renderListContent()}
           <Spacer size={8} />
           <PaginationComponent

@@ -121,7 +121,7 @@ export function RepoSandboxBranchesListPage() {
   const branchesExist = (branches?.length ?? 0) > 0
 
   return (
-    <SandboxLayout.Main hasHeader hasLeftPanel>
+    <SandboxLayout.Main hasHeader hasSubHeader hasLeftPanel>
       <SandboxLayout.Content>
         <Spacer size={10} />
         {/**

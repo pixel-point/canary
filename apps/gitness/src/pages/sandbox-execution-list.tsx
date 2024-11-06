@@ -49,23 +49,48 @@ export default function SandboxExecutionsListPage() {
     if (isSuccess) {
       if (executions?.length) {
         return (
-          <ExecutionList
-            executions={executions?.map((item: TypesExecution) => ({
-              id: item?.number && `executions/${item.number}`,
-              status: getExecutionStatus(item?.status),
-              success: item?.status,
-              name: item?.message || item?.title,
-              sha: item?.after?.slice(0, 6),
-              description: getLabel(item),
-              timestamp: `${timeDistance(item?.finished, Date.now(), true)} ago`,
-              lastTimestamp: timeDistance(
-                item?.started,
-                item?.status === ExecutionState.RUNNING ? Date.now() : item?.finished,
-                true
-              )
-            }))}
-            LinkComponent={LinkComponent}
-          />
+          <>
+            <ListActions.Root>
+              <ListActions.Left>
+                <SearchBox.Root placeholder="Search executions" />
+              </ListActions.Left>
+              <ListActions.Right>
+                <ListActions.Dropdown title="Filter" items={filterOptions} />
+                <ListActions.Dropdown title="Sort" items={sortOptions} />
+                <ListActions.Dropdown title="View" items={viewOptions} />
+                <div className="flex gap-x-4">
+                  <Button
+                    variant="default"
+                    onClick={() => {
+                      setOpenRunPipeline(true)
+                    }}>
+                    Run
+                  </Button>
+                  <Button variant="default" asChild>
+                    <Link to="edit">Edit Pipeline</Link>
+                  </Button>
+                </div>
+              </ListActions.Right>
+            </ListActions.Root>
+            <Spacer size={5} />
+            <ExecutionList
+              executions={executions?.map((item: TypesExecution) => ({
+                id: item?.number && `executions/${item.number}`,
+                status: getExecutionStatus(item?.status),
+                success: item?.status,
+                name: item?.message || item?.title,
+                sha: item?.after?.slice(0, 6),
+                description: getLabel(item),
+                timestamp: `${timeDistance(item?.finished, Date.now(), true)} ago`,
+                lastTimestamp: timeDistance(
+                  item?.started,
+                  item?.status === ExecutionState.RUNNING ? Date.now() : item?.finished,
+                  true
+                )
+              }))}
+              LinkComponent={LinkComponent}
+            />
+          </>
         )
       }
 
@@ -74,12 +99,14 @@ export default function SandboxExecutionsListPage() {
           <NoData
             iconName="no-data-cog"
             title="No executions yet"
-            description={[
-              "Your pipeline executions will appear here once they're completed.",
-              'Start your pipeline to see the results.'
-            ]}
-            primaryButton={{ label: 'Create pipeline' }}
-            secondaryButton={{ label: 'Import pipeline' }}
+            description={['Your pipeline executions will appear here once you run a pipeline.']}
+            primaryButton={{
+              label: 'Run Pipeline',
+              onClick: () => {
+                setOpenRunPipeline(true)
+              }
+            }}
+            secondaryButton={{ label: 'Edit pipeline', to: 'edit' }}
           />
         </>
       )
@@ -88,36 +115,13 @@ export default function SandboxExecutionsListPage() {
 
   return (
     <>
-      <SandboxLayout.Main hasHeader hasLeftPanel>
+      <SandboxLayout.Main hasHeader hasLeftPanel hasSubHeader>
         <SandboxLayout.Content>
           <Spacer size={10} />
           <Text size={5} weight={'medium'}>
             Executions
           </Text>
           <Spacer size={6} />
-          <ListActions.Root>
-            <ListActions.Left>
-              <SearchBox.Root placeholder="Search executions" />
-            </ListActions.Left>
-            <ListActions.Right>
-              <ListActions.Dropdown title="Filter" items={filterOptions} />
-              <ListActions.Dropdown title="Sort" items={sortOptions} />
-              <ListActions.Dropdown title="View" items={viewOptions} />
-              <div className="flex gap-x-4">
-                <Button
-                  variant="default"
-                  onClick={() => {
-                    setOpenRunPipeline(true)
-                  }}>
-                  Run
-                </Button>
-                <Button variant="default" asChild>
-                  <Link to="edit">Edit Pipeline</Link>
-                </Button>
-              </div>
-            </ListActions.Right>
-          </ListActions.Root>
-          <Spacer size={5} />
           {renderListContent()}
           <Spacer size={8} />
           <PaginationComponent

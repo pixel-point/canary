@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { SandboxLayout } from '..'
 import {
+  Alert,
+  AlertDescription,
   Button,
   ButtonGroup,
   Icon,
@@ -26,7 +28,7 @@ import { MessageTheme } from '../components/form-field-set'
 // Define the form schema with optional fields for gitignore and license
 const formSchema = z.object({
   name: z.string().min(1, { message: 'Please provide a name' }),
-  description: z.string().min(1, { message: 'Please provide a description' }),
+  description: z.string(),
   gitignore: z.enum(['', '1', '2', '3']),
   license: z.enum(['', '1', '2', '3']),
   access: z.enum(['1', '2'], { errorMap: () => ({ message: 'Please select who has access' }) })
@@ -126,9 +128,7 @@ const SandboxRepoCreatePage: React.FC<SandboxRepoCreatePageProps> = ({
               </FormFieldSet.ControlGroup>
               {/* DESCRIPTION */}
               <FormFieldSet.ControlGroup>
-                <FormFieldSet.Label htmlFor="description" required>
-                  Description
-                </FormFieldSet.Label>
+                <FormFieldSet.Label htmlFor="description">Description</FormFieldSet.Label>
                 <Textarea
                   id="description"
                   {...register('description')}
@@ -214,13 +214,11 @@ const SandboxRepoCreatePage: React.FC<SandboxRepoCreatePageProps> = ({
                 )}
               </FormFieldSet.ControlGroup>
             </FormFieldSet.Root>
+
             {apiError && (
-              <>
-                <Spacer size={2} />
-                <Text size={1} className="text-destructive">
-                  {apiError?.toString()}
-                </Text>
-              </>
+              <Alert variant="destructive" className="mb-8">
+                <AlertDescription>{apiError?.toString()}</AlertDescription>
+              </Alert>
             )}
 
             {/* SUBMIT BUTTONS */}

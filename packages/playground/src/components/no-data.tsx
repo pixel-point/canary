@@ -60,16 +60,26 @@ export const NoData: React.FC<NoDataProps> = ({
         )}
         {(primaryButton || secondaryButton) && (
           <div className="mt-3.5 flex gap-4">
-            {primaryButton && (
-              <Button size="lg" asChild onClick={primaryButton.onClick}>
-                <NavLink to={primaryButton.to || '/</Button>'}>{primaryButton.label}</NavLink>
-              </Button>
-            )}
-            {secondaryButton && (
-              <Button variant="outline" size="lg" asChild onClick={secondaryButton.onClick}>
-                <NavLink to={secondaryButton.to || '/</Button>'}>{secondaryButton.label}</NavLink>
-              </Button>
-            )}
+            {primaryButton &&
+              (primaryButton.to ? (
+                <Button size="lg" asChild onClick={primaryButton.onClick}>
+                  <NavLink to={primaryButton.to}>{primaryButton.label}</NavLink>
+                </Button>
+              ) : (
+                <Button size="lg" onClick={primaryButton.onClick}>
+                  {primaryButton.label}
+                </Button>
+              ))}
+            {secondaryButton &&
+              (secondaryButton.to ? (
+                <Button variant="outline" size="lg" asChild onClick={secondaryButton.onClick}>
+                  <NavLink to={secondaryButton.to || '/</Button>'}>{secondaryButton.label}</NavLink>
+                </Button>
+              ) : (
+                <Button variant="outline" size="lg" onClick={secondaryButton.onClick}>
+                  {secondaryButton.label}
+                </Button>
+              ))}
           </div>
         )}
       </div>

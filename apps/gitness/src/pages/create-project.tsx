@@ -22,7 +22,7 @@ export default function CreateProject() {
         setApiError(null)
         addSpaces([project])
         //onSuccess in react-query has allowed 200-299
-        navigate(`/${project?.identifier}/repos`)
+        navigate(`/spaces/${project?.identifier}/repos`)
       },
       onError: (error: CreateSpaceErrorResponse) => {
         const message = error.message || 'An unknown error occurred.'
