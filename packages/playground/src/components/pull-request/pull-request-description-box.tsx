@@ -1,8 +1,7 @@
 import React from 'react'
 import PullRequestTimelineItem from './pull-request-timeline-item'
-import { Avatar, AvatarFallback, AvatarImage, Icon, Text } from '@harnessio/canary'
+import { Avatar, AvatarFallback, Icon, Text } from '@harnessio/canary'
 import { MarkdownViewer } from '../markdown-viewer'
-import AvatarUrl from '../../../public/images/user-avatar.svg'
 import { getInitials, timeAgo } from '../../utils/utils'
 
 interface PullRequestDescBoxProps {
@@ -24,7 +23,7 @@ const PullRequestDescBox: React.FC<PullRequestDescBoxProps> = ({ isLast, author,
         {
           avatar: (
             <Avatar size="6">
-              <AvatarImage src={AvatarUrl} />
+              {/* <AvatarImage src={AvatarUrl} /> */}
               <AvatarFallback>
                 <Text size={0} color="tertiaryBackground">
                   {getInitials(author || '')}
