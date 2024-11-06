@@ -42,7 +42,7 @@ export const NoData: React.FC<NoDataProps> = ({
   return (
     <div
       className={cn('w-full h-full flex flex-col gap-4 place-content-center place-items-center', {
-        'py-20 pb-24': insideTabView
+        'min-h-[calc(100vh-100px)]': insideTabView
       })}>
       {iconName && <Icon name={iconName as IconProps['name']} size={iconSize} />}
       <div className="flex flex-col gap-2.5 place-content-center place-items-center ">

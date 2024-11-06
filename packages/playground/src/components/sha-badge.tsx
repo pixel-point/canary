@@ -20,18 +20,14 @@ interface ContentProps {
 function Root({ ...props }: RootProps) {
   const { children } = props
 
-  return (
-    <div className="grid grid-flow-col grid-col-[1fr_auto] border rounded-md overflow-hidden cursor-pointer">
-      {children}
-    </div>
-  )
+  return <div className="grid grid-flow-col grid-col-[1fr_auto] border rounded overflow-hidden">{children}</div>
 }
 
 function Content({ ...props }: ContentProps) {
   const { children } = props
 
   return (
-    <div className="flex items-center px-2 py-0.5 bg-background hover:bg-muted/50">
+    <div className="flex items-center pl-2.5 pr-2 pt-1 pb-0.5 bg-background">
       <Text size={1} className="text-tertiary-background">
         {children}
       </Text>
@@ -45,7 +41,7 @@ function Icon({ ...props }: IconProps) {
   return (
     <div
       onClick={handleClick && handleClick}
-      className="flex items-center border-l px-1.5 py-0.5 bg-background hover:bg-muted/50">
+      className="flex items-center border-l px-1.5 py-0.5 bg-background hover:bg-primary-foreground cursor-pointer">
       {children}
     </div>
   )

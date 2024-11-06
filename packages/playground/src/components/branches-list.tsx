@@ -96,7 +96,7 @@ export const BranchesList = ({ branches, spaceId, repoId, defaultBranch }: PageP
         {branches &&
           branches.map(branch => {
             return (
-              <TableRow>
+              <TableRow key={branch.id}>
                 {/* branch name */}
                 <TableCell className="content-center">
                   <div className="flex items-center gap-1.5">

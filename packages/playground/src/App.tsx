@@ -78,6 +78,7 @@ import { mockUsersData } from './data/mockUsersData'
 import { gitIgnoreOptions, licenseOptions } from './data/mockCreateRepoData'
 import { SandboxRepoImportPage } from './pages/sandbox-repo-import-page'
 import SandboxPullRequestLayout from './layouts/SandboxPullrequestLayout'
+import RepoTagsListPage from './pages/repo-tags-list-page'
 
 const router = createBrowserRouter([
   // TEMPORARY LAYOUT SANDBOX
@@ -437,6 +438,10 @@ const router = createBrowserRouter([
                 element: <ExecutionDetailsPage />
               }
             ]
+          },
+          {
+            path: 'tags',
+            element: <RepoTagsListPage />
           },
           {
             path: 'pull-requests',

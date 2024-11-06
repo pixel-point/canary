@@ -7,7 +7,7 @@ const tableVariants = cva('w-full text-sm', {
     variant: {
       default: 'caption-bottom ',
       asStackedList:
-        'rounded-md border [&_th]:px-4 [&_td]:px-4 [&_td]:py-2.5 [&_td]:align-top [&_thead]:bg-primary/[0.02]'
+        'rounded-md border [&_th]:px-4 [&_td]:px-4 [&_td]:pt-2 [&_td]:pb-[0.4375rem] [&_td]:align-top [&_thead]:bg-primary/[0.02]'
     }
   },
   defaultVariants: {
@@ -67,7 +67,7 @@ const TableHead = React.forwardRef<HTMLTableCellElement, React.ThHTMLAttributes<
     <th
       ref={ref}
       className={cn(
-        'h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
+        'h-11 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-0.5',
         className
       )}
       {...props}
@@ -80,7 +80,7 @@ const TableCell = React.forwardRef<HTMLTableCellElement, React.TdHTMLAttributes<
   ({ className, ...props }, ref) => (
     <td
       ref={ref}
-      className={cn('p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]', className)}
+      className={cn('p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-0.5', className)}
       {...props}
     />
   )
