@@ -2,5 +2,5 @@
 @import '@harnessio/canary/src/styles.css';
 
 mark {
-  background: var(--diff-grey) !important;
+  background: white !important;
 }

@@ -28,8 +28,8 @@ import useSpaceSSE from '../../framework/hooks/useSpaceSSE'
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
 import { useLogs } from '../../framework/hooks/useLogs'
 import RunPipelineDialog from '../run-pipeline-dialog/run-pipeline-dialog'
-import { createAndDownloadLogsBlob, getLogsText } from '../pipeline-edit/utils/common-utils'
 import copy from 'clipboard-copy'
+import { createAndDownloadBlob, getLogsText } from '../../utils/common-utils'
 
 const ExecutionLogs: React.FC = () => {
   const navigate = useNavigate()
@@ -177,14 +177,14 @@ const ExecutionLogs: React.FC = () => {
               }
               selectedStepIdx={stepNum > 0 ? stepNum - 1 : 0}
               onEdit={() => navigate('../edit')}
-              onDownload={() =>
-                createAndDownloadLogsBlob(
+              onDownload={() => {
+                const logsReference =
                   isPipelineStillExecuting && currentStepStatus === ExecutionState.RUNNING
                     ? streamedLogs
-                    : logs || emptyLogsPlaceholder,
-                  'logs'
-                )
-              }
+                    : logs || emptyLogsPlaceholder
+                const output = getLogsText(logsReference)
+                createAndDownloadBlob(output, 'logs')
+              }}
               onCopy={() =>
                 copy(
                   getLogsText(
