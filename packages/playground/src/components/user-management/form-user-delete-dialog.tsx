@@ -9,7 +9,6 @@ import {
   AlertDialogTitle,
   AlertDialogDescription,
   AlertDialogFooter,
-  AlertDialogCancel,
   Button,
   Icon,
   Text,
@@ -23,7 +22,8 @@ export const FormDeleteUserDialog: React.FC<FormDeleterDialogProps> = ({
   onClose,
   onDelete,
   isDeleting,
-  deleteSuccess
+  deleteSuccess,
+  handleDeleteUser
 }) => {
   return (
     <AlertDialog open={true} onOpenChange={onClose}>
@@ -43,14 +43,26 @@ export const FormDeleteUserDialog: React.FC<FormDeleterDialogProps> = ({
         </AlertDialogHeader>
         <Spacer size={3} />
         <AlertDialogFooter>
-          {!isDeleting && !deleteSuccess && <AlertDialogCancel onClick={onClose}>Cancel</AlertDialogCancel>}
+          {!isDeleting && !deleteSuccess && (
+            <Button variant="outline" onClick={onClose}>
+              Cancel
+            </Button>
+          )}
           {deleteSuccess ? (
             <Button size="default" theme="success" className="self-start pointer-events-none flex gap-2">
               Users deleted
               <Icon name="tick" size={14} />
             </Button>
           ) : (
-            <Button size="default" theme="error" className="self-start" onClick={onDelete} disabled={isDeleting}>
+            <Button
+              size="default"
+              theme="error"
+              className="self-start"
+              onClick={() => {
+                handleDeleteUser(user!.uid!)
+                onDelete()
+              }}
+              disabled={isDeleting}>
               {isDeleting ? 'Deleting user...' : 'Yes, delete user'}
             </Button>
           )}

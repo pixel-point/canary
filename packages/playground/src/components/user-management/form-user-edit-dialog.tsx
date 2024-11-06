@@ -5,7 +5,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogFooter,
-  AlertDialogCancel,
   AlertDialogDescription,
   Button,
   Input,
@@ -26,7 +25,8 @@ export const FormUserEditDialog: React.FC<FormEditDialogProps> = ({
   onSave,
   onClose,
   isSubmitting,
-  submitted
+  submitted,
+  handleUpdateUser
 }) => {
   const newUserSchema = z.object({
     userID: z.string().min(1, { message: 'Please provide a project name' }),
@@ -53,8 +53,9 @@ export const FormUserEditDialog: React.FC<FormEditDialogProps> = ({
 
   // Form edit submit handler
   const onSubmit: SubmitHandler<MemberFields> = data => {
+    handleUpdateUser(data)
     onSave()
-    resetNewMemberForm(data) // Reset to the current values
+    resetNewMemberForm(data)
   }
 
   return (
@@ -128,9 +129,9 @@ export const FormUserEditDialog: React.FC<FormEditDialogProps> = ({
                 <ButtonGroup.Root>
                   {!submitted ? (
                     <>
-                      <AlertDialogCancel onClick={onClose} disabled={!isValid || isSubmitting}>
+                      <Button variant="outline" onClick={onClose} disabled={!isValid || isSubmitting}>
                         Cancel
-                      </AlertDialogCancel>
+                      </Button>
                       <Button type="submit" theme="primary" disabled={!isValid || isSubmitting || !isDirty}>
                         {isSubmitting ? 'Saving...' : 'Save'}
                       </Button>

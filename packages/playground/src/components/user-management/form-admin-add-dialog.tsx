@@ -15,8 +15,8 @@ import {
 } from '@harnessio/canary'
 import { FormRemoveUserDialogProps } from './interfaces'
 
-//Form Remove Admin Dialog
-export const FormRemoveAdminDialog: React.FC<FormRemoveUserDialogProps> = ({
+//Form Add Admin Dialog
+export const FormAddAdminDialog: React.FC<FormRemoveUserDialogProps> = ({
   user,
   onClose,
   onRemove,
@@ -30,14 +30,14 @@ export const FormRemoveAdminDialog: React.FC<FormRemoveUserDialogProps> = ({
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Are you sure you want to remove
+            Are you sure you want to add
             <Badge type="admin" className="mx-2" variant="muted" disableHover={true}>
               <Text>{user?.display_name}</Text>
             </Badge>
             as an admin?
           </AlertDialogTitle>
           <AlertDialogDescription>
-            This will permanently remove a admin tag for "{user?.display_name}" ({user?.uid}).
+            This will add an admin tag for "{user?.display_name}" ({user?.uid}).
           </AlertDialogDescription>
         </AlertDialogHeader>
         <Spacer size={3} />
@@ -49,7 +49,7 @@ export const FormRemoveAdminDialog: React.FC<FormRemoveUserDialogProps> = ({
           )}
           {removeSuccess ? (
             <Button size="default" theme="success" className="self-start pointer-events-none flex gap-2">
-              Admin removed
+              Admin added
               <Icon name="tick" size={14} />
             </Button>
           ) : (
@@ -58,11 +58,11 @@ export const FormRemoveAdminDialog: React.FC<FormRemoveUserDialogProps> = ({
               theme="error"
               className="self-start"
               onClick={() => {
-                updateUserAdmin(user!.uid!, false)
+                updateUserAdmin(user?.uid, true)
                 onRemove()
               }}
               disabled={isRemoving || removeSuccess}>
-              {isRemoving ? 'Removing admin...' : 'Yes, remove admin'}
+              {isRemoving ? 'Adding admin...' : 'Yes, add admin'}
             </Button>
           )}
         </AlertDialogFooter>

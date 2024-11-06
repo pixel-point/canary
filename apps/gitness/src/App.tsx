@@ -12,7 +12,8 @@ import {
   OTPPage,
   SandboxRepoSettingsPage,
   RepoSettingsPlaceholderPage,
-  SandboxSettingsCreateNewMemberPage
+  SandboxSettingsCreateNewMemberPage,
+  SandboxSettingsCreateNewUserPage
 } from '@harnessio/playground'
 import SandboxRootWrapper from './components/SandboxRootWrapper'
 import { TooltipProvider } from '@harnessio/canary'
@@ -59,6 +60,7 @@ import { CreateWebhookContainer } from './pages/webhooks/create-webhook-containe
 import { RepoBranchSettingsRulesPageContainer } from './pages/repo-sandbox/repo-sandbox-branch-rules-container'
 import { ExplorerPathsProvider } from './framework/context/ExplorerPathsContext'
 import { Logout } from './pages/logout'
+import { UserManagementPageContainer } from './user-management/user-management-container'
 const BASE_URL_PREFIX = `${window.apiUrl || ''}/api/v1`
 
 export default function App() {
@@ -387,6 +389,16 @@ export default function App() {
               ]
             }
           ]
+        },
+
+        {
+          path: 'users',
+          element: <UserManagementPageContainer />
+        },
+
+        {
+          path: 'create-new-user',
+          element: <SandboxSettingsCreateNewUserPage />
         }
       ]
     },

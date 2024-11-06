@@ -30,10 +30,11 @@ interface PageProps {
   onEdit: (user: UsersProps) => void
   onRemoveAdmin: (user: UsersProps) => void
   onResetPassword: (user: UsersProps) => void
+  onSetAdmin: (user: UsersProps) => void
 }
 
 // fix the edit form dialog and mock data and coressponding props
-export const UsersList = ({ users, onDelete, onEdit, onRemoveAdmin, onResetPassword }: PageProps) => {
+export const UsersList = ({ users, onDelete, onEdit, onRemoveAdmin, onResetPassword, onSetAdmin }: PageProps) => {
   //TODO: migrate actions component
   const moreActionsTooltip = ({ user }: { user: UsersProps }) => {
     return (
@@ -50,12 +51,12 @@ export const UsersList = ({ users, onDelete, onEdit, onRemoveAdmin, onResetPassw
             <DropdownMenuItem
               className="cursor-pointer"
               onSelect={() => {
-                onRemoveAdmin(user)
+                return user.admin ? onRemoveAdmin(user) : onSetAdmin(user)
               }}>
               <DropdownMenuShortcut className="ml-0">
                 <Icon name="trash" className="mr-2" />
               </DropdownMenuShortcut>
-              Remove Admin
+              {user.admin ? 'Remove Admin' : 'Set as Admin'}
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
@@ -117,7 +118,7 @@ export const UsersList = ({ users, onDelete, onEdit, onRemoveAdmin, onResetPassw
                   <div className="flex items-center gap-4">
                     <Avatar size="10">
                       {user.avatarUrl && <AvatarImage src={user.avatarUrl} />}
-                      <AvatarFallback className="text-xs p-1 text-center">{getInitials(user.uid, 2)}</AvatarFallback>
+                      <AvatarFallback className="text-xs p-1 text-center">{getInitials(user.uid!, 2)}</AvatarFallback>
                     </Avatar>
                     <Text size={2} weight="medium" wrap="nowrap" truncate className="text-primary">
                       {user.display_name}
