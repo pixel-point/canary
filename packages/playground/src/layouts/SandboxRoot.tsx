@@ -16,35 +16,38 @@ interface NavbarItem {
 
 interface SandboxRootProps {
   currentUser: TypesUser | undefined
+  currentSpaceId: string | undefined
 }
 
-export const SandboxRoot: React.FC<SandboxRootProps> = ({ currentUser }) => {
+export const SandboxRoot: React.FC<SandboxRootProps> = ({ currentUser, currentSpaceId }) => {
   const [showMore, setShowMore] = useState<boolean>(false)
 
   const primaryMenuItems = [
     {
       text: 'Repositories',
       icon: <Icon name="repositories" size={12} />,
-      to: '/repos'
+      to: `/spaces/${currentSpaceId}/repos`
     },
     {
       text: 'Pipelines',
       icon: <Icon name="pipelines" size={12} />,
-      to: '/pipelines'
+      to: `/spaces/${currentSpaceId}/pipelines`
     },
     {
       text: 'Executions',
       icon: <Icon name="cog-6" size={12} />,
-      to: '/executions'
-    },
-    {
-      text: 'Featured Flags',
-      icon: <Icon name="featured-flags" size={12} />,
-      to: '/feature-flags'
+      to: `/spaces/${currentSpaceId}/executions`
     }
   ]
 
   const initialPinnedMenuItems: NavbarItem[] = [
+    {
+      id: 3,
+      title: 'Featured Flags',
+      iconName: 'featured-flags',
+      description: 'Toggle Featured Flags',
+      to: '/feature-flags'
+    },
     {
       id: 4,
       title: 'Chaos Engineering',
@@ -54,10 +57,10 @@ export const SandboxRoot: React.FC<SandboxRootProps> = ({ currentUser }) => {
     },
     {
       id: 12,
-      title: 'Environment',
+      title: 'Environments',
       iconName: 'environment',
       description: 'Manage your environments',
-      to: '/environment'
+      to: '/environments'
     },
     {
       id: 13,
@@ -148,39 +151,13 @@ export const SandboxRoot: React.FC<SandboxRootProps> = ({ currentUser }) => {
                 </NavLink>
               ))}
             </Navbar.AccordionGroup>
-            {/* Sandboxed new layout examples */}
-            <Navbar.AccordionGroup title="Layout Sandbox">
-              <NavLink to="/sandbox/landing">
-                <Navbar.Item text="Landing" icon={<Icon name="harness" size={12} />} />
+            <Navbar.Group>
+              <NavLink to={`/spaces/${currentSpaceId}/settings`}>
+                {({ isActive }) => (
+                  <Navbar.Item text="Project Settings" icon={<Icon name="cog-6" size={12} />} active={isActive} />
+                )}
               </NavLink>
-              <NavLink to="/sandbox/repos">
-                <Navbar.Item text="Repo List" icon={<Icon name="repositories" size={12} />} />
-              </NavLink>
-              <NavLink to="/sandbox/repos/drone/summary">
-                <Navbar.Item
-                  text="Repo&nbsp;&nbsp;/&nbsp;&nbsp;Summary"
-                  icon={<Icon name="repositories" size={12} />}
-                />
-              </NavLink>
-              <NavLink to="/sandbox/repos/drone/code">
-                <Navbar.Item text="Repo&nbsp;&nbsp;/&nbsp;&nbsp;Code" icon={<Icon name="repositories" size={12} />} />
-              </NavLink>
-              <NavLink to="/sandbox/executions">
-                <Navbar.Item text="Executions" icon={<Icon name="cog-6" size={12} />} />
-              </NavLink>
-              <NavLink to="/sandbox/repos/create">
-                <Navbar.Item text="Create repository" icon={<Icon name="repositories" size={12} />} />
-              </NavLink>
-              <NavLink to="/sandbox/settings/account">
-                <Navbar.Item text="Account settings" icon={<Icon name="cog-6" size={12} />} />
-              </NavLink>
-              <NavLink to="/sandbox/settings/project">
-                <Navbar.Item text="Project settings" icon={<Icon name="cog-6" size={12} />} />
-              </NavLink>
-              <NavLink to="/sandbox/settings/user-mamagement">
-                <Navbar.Item text="User Management" icon={<Icon name="cog-6" size={12} />} />
-              </NavLink>
-            </Navbar.AccordionGroup>
+            </Navbar.Group>
           </Navbar.Content>
           <Navbar.Footer>
             <NavbarUser.Root
@@ -190,7 +167,7 @@ export const SandboxRoot: React.FC<SandboxRootProps> = ({ currentUser }) => {
               menuItems={[
                 {
                   key: 0,
-                  element: <Link to="/sandbox/settings/profile/general">Settings</Link>
+                  element: <Link to="/settings/general">Settings</Link>
                 },
                 {
                   key: 1,

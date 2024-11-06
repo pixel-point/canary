@@ -14,7 +14,7 @@ import {
   RepoSettingsPlaceholderPage,
   SandboxSettingsCreateNewMemberPage
 } from '@harnessio/playground'
-import SnadboxRootWraper from './components/SandboxRootWrapper'
+import SandboxRootWrapper from './components/SandboxRootWrapper'
 import { TooltipProvider } from '@harnessio/canary'
 import { queryClient } from './framework/queryClient'
 import PipelineListPage from './pages/pipeline-list'
@@ -22,7 +22,6 @@ import SandboxPipelinesPage from './pages/sandbox-pipeline-list'
 import { SignIn } from './pages/signin'
 import { SignUp } from './pages/signup'
 import PullRequestSandboxListPage from './pages/sandbox-pull-request-list-page'
-import ExecutionsListPage from './pages/execution-list'
 import SandboxExecutionsListPage from './pages/sandbox-execution-list'
 import PullRequestSandboxLayout from './layouts/PullRequestSandboxLayout'
 import PullRequestCommitsPage from './pages/pull-request-commits-page'
@@ -95,10 +94,9 @@ export default function App() {
       path: '/new-password',
       element: <NewPasswordPage />
     },
-
     {
       path: '/',
-      element: <SnadboxRootWraper />,
+      element: <SandboxRootWrapper />,
       children: [
         {
           index: true,
@@ -288,19 +286,14 @@ export default function App() {
               ]
             },
             // Pipelines (OUTSIDE REPOS)
-            //
-            /**
-             * 🚨 Root level pipelines will be disabled 🚨
-             * Pipelines will only be part of repos for now
-             */
             {
-              path: 'pipelines',
-              element: <PipelineListPage />
+              path: ':spaceId/pipelines',
+              element: <SandboxPipelinesPage />
             },
             // Executions (OUTSIDE REPOS)
             {
-              path: 'executions',
-              element: <ExecutionsListPage />
+              path: ':spaceId/executions',
+              element: <SandboxExecutionsListPage />
             },
             {
               path: ':spaceId/repos/:repoId',
@@ -329,8 +322,35 @@ export default function App() {
               ]
             },
             {
-              path: 'create-project',
+              path: 'create',
               element: <CreateProject />
+            },
+            {
+              path: ':spaceId/settings',
+              element: <SandboxRootWrapper />,
+              children: [
+                {
+                  element: <SandboxSettingsProjectPage />,
+                  children: [
+                    {
+                      index: true,
+                      element: <Navigate to="general" />
+                    },
+                    {
+                      path: 'general',
+                      element: <ProjectSettingsGeneralPage />
+                    },
+                    {
+                      path: 'members',
+                      element: <ProjectSettingsMemebersPage />
+                    },
+                    {
+                      path: 'create-new-member',
+                      element: <SandboxSettingsCreateNewMemberPage />
+                    }
+                  ]
+                }
+              ]
             },
             {
               path: ':spaceId/repos/create',
@@ -343,7 +363,6 @@ export default function App() {
           element: <SandboxSettings />,
           children: [
             {
-              path: 'profile',
               element: <SandboxSettingsAccountPage />,
               children: [
                 {
@@ -365,46 +384,12 @@ export default function App() {
       ]
     },
     {
-      path: ':spaceId/sandbox',
-      element: <SnadboxRootWraper />,
-      children: [
-        {
-          path: 'settings',
-          element: <SandboxSettings />,
-          children: [
-            {
-              path: 'project',
-              element: <SandboxSettingsProjectPage />,
-              children: [
-                {
-                  index: true,
-                  element: <Navigate to="general" />
-                },
-                {
-                  path: 'general',
-                  element: <ProjectSettingsGeneralPage />
-                },
-                {
-                  path: 'members',
-                  element: <ProjectSettingsMemebersPage />
-                },
-                {
-                  path: 'create-new-member',
-                  element: <SandboxSettingsCreateNewMemberPage />
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       path: 'chaos-engineering',
       element: <EmptyPage pathName="Chaos Engineering" />
     },
     {
-      path: 'environment',
-      element: <EmptyPage pathName="Environment" />
+      path: 'environments',
+      element: <EmptyPage pathName="Environments" />
     },
     {
       path: 'secrets',

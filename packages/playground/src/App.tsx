@@ -79,7 +79,7 @@ const router = createBrowserRouter([
   // TEMPORARY LAYOUT SANDBOX
   {
     path: '/sandbox',
-    element: <SandboxRoot currentUser={currentUser} />,
+    element: <SandboxRoot currentUser={currentUser} currentSpaceId="spaceId" />,
     errorElement: <ErrorPage />,
     children: [
       {
