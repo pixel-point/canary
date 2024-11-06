@@ -125,7 +125,7 @@ export const RepoSummary: React.FC = () => {
                     timestamp: item?.last_commit?.author?.when ? timeAgoFromISOTime(item.last_commit.author.when) : '',
                     user: { name: item?.last_commit?.author?.identity?.name },
                     sha: item?.last_commit?.sha && getTrimmedSha(item.last_commit.sha),
-                    path: `/${spaceId}/repos/${repoId}/code/${gitRef || selectedBranch}/~/${item?.path}`
+                    path: `/spaces/${spaceId}/repos/${repoId}/code/${gitRef || selectedBranch}/~/${item?.path}`
                   }) as FileProps
               )
             )
@@ -209,7 +209,7 @@ export const RepoSummary: React.FC = () => {
                       <DropdownMenuItem
                         key={'create-file'}
                         onClick={() => {
-                          navigate(`/${spaceId}/repos/${repoId}/code/new/${gitRef || selectedBranch}/~/`)
+                          navigate(`/spaces/${spaceId}/repos/${repoId}/code/new/${gitRef || selectedBranch}/~/`)
                         }}>
                         + Create New File
                       </DropdownMenuItem>

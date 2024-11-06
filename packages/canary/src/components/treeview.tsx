@@ -144,6 +144,7 @@ const Tree = forwardRef<HTMLDivElement, TreeViewProps>(
     useEffect(() => {
       if (initialSelectedId) {
         expandSpecificTargetedElements(elements, initialSelectedId)
+        setSelectedId(initialSelectedId)
       }
     }, [initialSelectedId, elements])
 

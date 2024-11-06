@@ -166,7 +166,7 @@ export const RepoFiles: React.FC = () => {
   const selectBranch = useCallback(
     (branch: string) => {
       setSelectedBranch(branch)
-      navigate(`/${spaceId}/repos/${repoId}/code/${branch}`)
+      navigate(`/spaces/${spaceId}/repos/${repoId}/code/${branch}`)
     },
     [navigate, repoId, spaceId]
   )
@@ -182,20 +182,20 @@ export const RepoFiles: React.FC = () => {
         }
       }).then(response => {
         if (response.body.type === 'dir') {
-          navigate(`/${spaceId}/repos/${repoId}/code/new/${gitRef}/~/${fullResourcePath}`)
+          navigate(`/spaces/${spaceId}/repos/${repoId}/code/new/${gitRef}/~/${fullResourcePath}`)
         } else {
           const parentDirPath = fullResourcePath?.split(FILE_SEPERATOR).slice(0, -1).join(FILE_SEPERATOR)
-          navigate(`/${spaceId}/repos/${repoId}/code/new/${gitRef}/~/${parentDirPath}`)
+          navigate(`/spaces/${spaceId}/repos/${repoId}/code/new/${gitRef}/~/${parentDirPath}`)
         }
       })
     } else {
-      navigate(`/${spaceId}/repos/${repoId}/code/new/${gitRef || selectedBranch}/~/`)
+      navigate(`/spaces/${spaceId}/repos/${repoId}/code/new/${gitRef || selectedBranch}/~/`)
     }
   }, [fullResourcePath, gitRef, navigate, repoId, repoRef, selectedBranch, spaceId])
 
   const navigateToFile = useCallback(
     (filePath: string) => {
-      navigate(`/${spaceId}/repos/${repoId}/code/${gitRef || selectedBranch}/~/${filePath}`)
+      navigate(`/spaces/${spaceId}/repos/${repoId}/code/${gitRef || selectedBranch}/~/${filePath}`)
     },
     [gitRef, selectedBranch]
   )

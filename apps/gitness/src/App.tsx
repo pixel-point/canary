@@ -46,7 +46,6 @@ import ReposSandboxListPage from './pages/repo-sandbox/repo-sandbox-list'
 import RepoSandboxLayout from './layouts/RepoSandboxLayout'
 import { SettingsProfileGeneralPage } from './pages/profile-settings/profile-settings-general-container'
 import { SettingsProfileKeysPage } from './pages/profile-settings/profile-settings-keys-container'
-import { FileViewer } from './components/FileViewer'
 import { SandboxFileViewer } from './components/SandboxFileViewer'
 import PullRequestChangesPage from './pages/pull-request/pull-request-changes-page'
 import { ProjectSettingsGeneralPage } from './pages/project-settings/project-settings-general-page'
@@ -58,6 +57,7 @@ import { ProjectSettingsMemebersPage } from './pages/project-settings/project-se
 import { EmptyPage } from './pages/empty-page'
 import { CreateWebhookContainer } from './pages/webhooks/create-webhook-container'
 import { RepoBranchSettingsRulesPageContainer } from './pages/repo-sandbox/repo-sandbox-branch-rules-container'
+import { ExplorerPathsProvider } from './framework/context/ExplorerPathsContext'
 import { Logout } from './pages/logout'
 const BASE_URL_PREFIX = `${window.apiUrl || ''}/api/v1`
 
@@ -125,11 +125,29 @@ export default function App() {
                 },
                 {
                   path: 'code',
-                  element: <RepoSandboxFiles />,
+                  element: (
+                    <ExplorerPathsProvider>
+                      <RepoSandboxFiles />
+                    </ExplorerPathsProvider>
+                  ),
                   children: [
                     {
                       index: true,
                       element: <SandboxFileViewer />
+                    },
+                    {
+                      path: 'edit/:gitRef/~/:resourcePath*',
+                      element: <FileEditor />
+                    },
+                    {
+                      path: 'new/:gitRef/~/*',
+                      element: <FileEditor />,
+                      children: [
+                        {
+                          path: ':resourcePath*',
+                          element: <SandboxFileViewer />
+                        }
+                      ]
                     },
                     {
                       path: ':gitRef',
@@ -138,20 +156,6 @@ export default function App() {
                         {
                           index: true,
                           element: <SandboxFileViewer />
-                        },
-                        {
-                          path: 'edit/:gitRef/~/:resourcePath*',
-                          element: <FileEditor />
-                        },
-                        {
-                          path: 'new/:gitRef/~/*',
-                          element: <FileEditor />,
-                          children: [
-                            {
-                              path: ':resourcePath*',
-                              element: <FileViewer />
-                            }
-                          ]
                         },
                         {
                           path: '~/:resourcePath*',

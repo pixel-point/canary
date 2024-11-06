@@ -21,7 +21,7 @@ export const FileViewer: React.FC = () => {
   const repoRef = useGetRepoRef()
   const { spaceId, repoId, gitRef, resourcePath } = useParams<PathParams>()
   const subResourcePath = useParams()['*'] || ''
-  const repoPath = `/${spaceId}/repos/${repoId}/code/${gitRef}`
+  const repoPath = `/spaces/${spaceId}/repos/${repoId}/code/${gitRef}`
   const fullResourcePath = subResourcePath ? resourcePath + '/' + subResourcePath : resourcePath
   const pathParts = splitPathWithParents(fullResourcePath || '')
   const [files, setFiles] = useState<FileProps[]>([])
@@ -89,7 +89,7 @@ export const FileViewer: React.FC = () => {
                     timestamp: item?.last_commit?.author?.when ? timeAgoFromISOTime(item.last_commit.author.when) : '',
                     user: { name: item?.last_commit?.author?.identity?.name },
                     sha: item?.last_commit?.sha && getTrimmedSha(item.last_commit.sha),
-                    path: `/${spaceId}/repos/${repoId}/code/${gitRef || selectedBranch}/~/${item?.path}`
+                    path: `/spaces/${spaceId}/repos/${repoId}/code/${gitRef || selectedBranch}/~/${item?.path}`
                   }) as FileProps
               )
             )

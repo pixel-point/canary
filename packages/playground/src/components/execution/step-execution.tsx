@@ -15,12 +15,15 @@ export interface StepProps {
   stopped?: number
   inputs?: KeyValuePair[]
   outputs?: KeyValuePair[]
+  number?: number
 }
 
 interface StepExecutionProps {
   step: StepProps
   logs: LivelogLine[]
   onEdit: () => void
+  onDownload: () => void
+  onCopy: () => void
 }
 
 enum StepExecutionTab {
@@ -29,18 +32,26 @@ enum StepExecutionTab {
   OUTPUT = 'output'
 }
 
-const StepExecutionToolbar: React.FC<Pick<StepExecutionProps, 'onEdit'>> = ({ onEdit }) => {
+const StepExecutionToolbar: React.FC<Pick<StepExecutionProps, 'onEdit' | 'onDownload' | 'onCopy'>> = ({
+  onEdit,
+  onDownload,
+  onCopy
+}) => {
   return (
     <Layout.Horizontal>
       <Input placeholder="Find in logs" />
       <div className="flex">
-        <Button variant="outline" size="icon" className="rounded-tr-none rounded-br-none border-r-0">
+        <Button variant="outline" size="icon" className="rounded-tr-none rounded-br-none border-r-0" onClick={onCopy}>
           <Copy className="h-4 w-4" />
         </Button>
         <Button variant="outline" size="icon" className="rounded-none" onClick={onEdit}>
           <Edit className="h-4 w-4" />
         </Button>
-        <Button variant="outline" size="icon" className="rounded-tl-none rounded-bl-none border-l-0">
+        <Button
+          variant="outline"
+          size="icon"
+          className="rounded-tl-none rounded-bl-none border-l-0"
+          onClick={onDownload}>
           <Download className="h-4 w-4" />
         </Button>
       </div>
@@ -48,7 +59,7 @@ const StepExecutionToolbar: React.FC<Pick<StepExecutionProps, 'onEdit'>> = ({ on
   )
 }
 
-export const StepExecution: React.FC<StepExecutionProps> = ({ step, logs, onEdit }) => {
+export const StepExecution: React.FC<StepExecutionProps> = ({ step, logs, onEdit, onDownload, onCopy }) => {
   if (!step) return null
   const inputTable = step?.inputs || []
   const outputTable = step?.outputs || []
@@ -71,7 +82,7 @@ export const StepExecution: React.FC<StepExecutionProps> = ({ step, logs, onEdit
               <TabsTrigger value={StepExecutionTab.INPUT}>Inputs</TabsTrigger>
               <TabsTrigger value={StepExecutionTab.OUTPUT}>Output</TabsTrigger>
             </TabsList>
-            <StepExecutionToolbar onEdit={onEdit} />
+            <StepExecutionToolbar onEdit={onEdit} onDownload={onDownload} onCopy={onCopy} />
           </Layout.Horizontal>
           <TabsContent value={StepExecutionTab.LOG}>
             <ScrollArea className="h-[calc(100vh-23rem)] border-t pt-4">

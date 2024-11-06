@@ -18,8 +18,10 @@ import {
   StageProps,
   getStepId,
   parseStageStepId,
+  SandboxLayout,
   ExecutionState
 } from '@harnessio/playground'
+import copy from 'clipboard-copy'
 import { PathParams } from '../../RouteDefinitions'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { SSEEvent } from '../../types'
@@ -28,6 +30,7 @@ import useSpaceSSE from '../../framework/hooks/useSpaceSSE'
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
 import { useLogs } from '../../framework/hooks/useLogs'
 import RunPipelineDialog from '../run-pipeline-dialog/run-pipeline-dialog'
+import { createAndDownloadBlob, getLogsText } from '../../utils/common-utils'
 
 const ExecutionLogs: React.FC = () => {
   const navigate = useNavigate()
@@ -141,107 +144,133 @@ const ExecutionLogs: React.FC = () => {
     }
   ]
 
+  const onStepNav = (stepId: number) => {
+    setStepNum(stepId)
+  }
+
   return (
     <>
-      <div className="absolute right-0 top-0 w-fit">
-        <div className="flex items-center gap-x-3 h-14 px-4">
-          {isPipelineStillExecuting && currentStepStatus === ExecutionState.RUNNING ? (
-            <Button size="sm" onClick={handleCancel}>
-              Cancel
-            </Button>
-          ) : (
-            <Button size="sm" onClick={() => setOpenRunPipeline(true)}>
-              Run
-            </Button>
-          )}
-        </div>
-      </div>
-      <Layout.Horizontal className="px-8">
-        <div className="w-2/3">
-          {stage && (
-            <StageExecution
-              stage={stage as StageProps}
-              logs={
-                isPipelineStillExecuting && currentStepStatus === ExecutionState.RUNNING
-                  ? streamedLogs
-                  : logs || emptyLogsPlaceholder
-              }
-              selectedStepIdx={stepNum > 0 ? stepNum - 1 : 0}
-              onEdit={() => navigate('../edit')}
-            />
-          )}
-        </div>
-        <ScrollArea className="w-1/3 h-[calc(100vh-16rem)] pt-4">
-          <ContactCard authorEmail={execution?.author_email || ''} authorName={execution?.author_name} />
-          <div className="flex flex-col gap-2 my-5">
-            <Text className="text-white text-base">{execution?.message}</Text>
-            <div className="flex gap-2 items-center">
-              {execution?.event === 'manual' ? (
-                <Badge variant="secondary" className="bg-primary-foreground flex gap-1">
-                  <Layout.Horizontal gap="space-x-1" className="flex items-center">
-                    <Icon size={12} name={'tube-sign'} />
-                    <Text className="text-sm text-git pb-0.5">{execution?.source}</Text>
-                  </Layout.Horizontal>
-                </Badge>
+      <SandboxLayout.Main hasHeader hasSubHeader fullWidth hasLeftPanel>
+        <SandboxLayout.Content>
+          <div className="absolute right-0 top-0 w-fit">
+            <div className="flex items-center gap-x-3 h-14 px-4">
+              {isPipelineStillExecuting && currentStepStatus === ExecutionState.RUNNING ? (
+                <Button size="sm" onClick={handleCancel}>
+                  Cancel
+                </Button>
               ) : (
-                <>
-                  <Badge variant="secondary" className="bg-primary-foreground flex gap-1">
-                    <Layout.Horizontal gap="space-x-1" className="flex items-center">
-                      <Icon size={12} name={'tube-sign'} />
-                      <Text className="text-sm text-git pb-0.5">{execution?.source}</Text>
-                    </Layout.Horizontal>
-                  </Badge>
-                  <span>to</span>
-                  <Badge variant="secondary" className="flex gap-1 bg-primary-foreground">
-                    <Layout.Horizontal gap="space-x-1" className="flex items-center">
-                      <Icon size={12} name={'git-branch'} />
-                      <Text className="text-sm text-git pb-0.5">{execution?.target}</Text>
-                    </Layout.Horizontal>
-                  </Badge>
-                </>
+                <Button size="sm" onClick={() => setOpenRunPipeline(true)}>
+                  Run
+                </Button>
               )}
             </div>
           </div>
-          <Layout.Horizontal>
-            {execution?.status && (
-              <Layout.Vertical gap="space-y-1">
-                <Text className="text-sm text-muted-foreground">Status</Text>
-                <ExecutionStatus.Badge
-                  status={execution.status as ExecutionState}
-                  minimal
-                  duration={formatDuration(getDuration(execution?.started, execution?.finished))}
+          <Layout.Horizontal className="px-8">
+            <div className="w-2/3">
+              {stage && (
+                <StageExecution
+                  stage={stage as StageProps}
+                  logs={
+                    isPipelineStillExecuting && currentStepStatus === ExecutionState.RUNNING
+                      ? streamedLogs
+                      : logs || emptyLogsPlaceholder
+                  }
+                  selectedStepIdx={stepNum > 0 ? stepNum - 1 : 0}
+                  onEdit={() => navigate('../edit')}
+                  onDownload={() => {
+                    const logsReference =
+                      isPipelineStillExecuting && currentStepStatus === ExecutionState.RUNNING
+                        ? streamedLogs
+                        : logs || emptyLogsPlaceholder
+                    const output = getLogsText(logsReference)
+                    createAndDownloadBlob(output, 'logs')
+                  }}
+                  onCopy={() =>
+                    copy(
+                      getLogsText(
+                        isPipelineStillExecuting && currentStepStatus === ExecutionState.RUNNING
+                          ? streamedLogs
+                          : logs || emptyLogsPlaceholder
+                      )
+                    )
+                  }
+                  onStepNav={onStepNav}
                 />
-              </Layout.Vertical>
-            )}
-            {execution?.created && (
-              <Layout.Vertical gap="space-y-1">
-                <Text className="text-sm text-muted-foreground">Started</Text>
-                <span className="text-white">{timeAgoFromEpochTime(execution.created)}</span>
-              </Layout.Vertical>
-            )}
+              )}
+            </div>
+            <ScrollArea className="w-1/3 h-[calc(100vh-16rem)] pt-4">
+              <ContactCard authorEmail={execution?.author_email || ''} authorName={execution?.author_name} />
+              <div className="flex flex-col gap-2 my-5">
+                <Text className="text-white text-base">{execution?.message}</Text>
+                <div className="flex gap-2 items-center">
+                  {execution?.event === 'manual' ? (
+                    <Badge variant="secondary" className="bg-primary-foreground flex gap-1">
+                      <Layout.Horizontal gap="space-x-1" className="flex items-center">
+                        <Icon size={12} name={'tube-sign'} />
+                        <Text className="text-sm text-git pb-0.5">{execution?.source}</Text>
+                      </Layout.Horizontal>
+                    </Badge>
+                  ) : (
+                    <>
+                      <Badge variant="secondary" className="bg-primary-foreground flex gap-1">
+                        <Layout.Horizontal gap="space-x-1" className="flex items-center">
+                          <Icon size={12} name={'tube-sign'} />
+                          <Text className="text-sm text-git pb-0.5">{execution?.source}</Text>
+                        </Layout.Horizontal>
+                      </Badge>
+                      <span>to</span>
+                      <Badge variant="secondary" className="flex gap-1 bg-primary-foreground">
+                        <Layout.Horizontal gap="space-x-1" className="flex items-center">
+                          <Icon size={12} name={'git-branch'} />
+                          <Text className="text-sm text-git pb-0.5">{execution?.target}</Text>
+                        </Layout.Horizontal>
+                      </Badge>
+                    </>
+                  )}
+                </div>
+              </div>
+              <Layout.Horizontal>
+                {execution?.status && (
+                  <Layout.Vertical gap="space-y-1">
+                    <Text className="text-sm text-muted-foreground">Status</Text>
+                    <ExecutionStatus.Badge
+                      status={execution.status as ExecutionState}
+                      minimal
+                      duration={formatDuration(getDuration(execution?.started, execution?.finished))}
+                    />
+                  </Layout.Vertical>
+                )}
+                {execution?.created && (
+                  <Layout.Vertical gap="space-y-1">
+                    <Text className="text-sm text-muted-foreground">Started</Text>
+                    <span className="text-white">{timeAgoFromEpochTime(execution.created)}</span>
+                  </Layout.Vertical>
+                )}
+              </Layout.Horizontal>
+              <Separator className="my-4" />
+              {execution && (
+                <ExecutionTree
+                  defaultSelectedId={getStepId(stageNum, stepNum)}
+                  elements={convertExecutionToTree(execution)}
+                  onSelectNode={({ childId: fullStepId }: { parentId: string; childId: string }) => {
+                    try {
+                      const { stageId, stepId } = parseStageStepId(fullStepId) || {}
+                      if (!isNaN(Number(stageId))) {
+                        setStageNum(Number(stageId))
+                      }
+                      if (!isNaN(Number(stepId))) {
+                        setStepNum(Number(stepId))
+                      }
+                    } catch {
+                      // Ignore exception
+                    }
+                  }}
+                />
+              )}
+            </ScrollArea>
           </Layout.Horizontal>
-          <Separator className="my-4" />
-          {execution && (
-            <ExecutionTree
-              defaultSelectedId={getStepId(stageNum, stepNum)}
-              elements={convertExecutionToTree(execution)}
-              onSelectNode={({ childId: fullStepId }: { parentId: string; childId: string }) => {
-                try {
-                  const { stageId, stepId } = parseStageStepId(fullStepId) || {}
-                  if (!isNaN(Number(stageId))) {
-                    setStageNum(Number(stageId))
-                  }
-                  if (!isNaN(Number(stepId))) {
-                    setStepNum(Number(stepId))
-                  }
-                } catch {
-                  // Ignore exception
-                }
-              }}
-            />
-          )}
-        </ScrollArea>
-      </Layout.Horizontal>
+        </SandboxLayout.Content>
+      </SandboxLayout.Main>
       <RunPipelineDialog
         open={openRunPipeline}
         onClose={() => {

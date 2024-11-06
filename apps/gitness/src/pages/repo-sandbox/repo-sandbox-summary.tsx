@@ -206,7 +206,7 @@ export const RepoSandboxSummaryList: React.FC = () => {
                       <DropdownMenuItem
                         key={'create-file'}
                         onClick={() => {
-                          navigate(`/${spaceId}/repos/${repoId}/code/new/${gitRef || selectedBranch}/~/`)
+                          navigate(`/spaces/${spaceId}/repos/${repoId}/code/new/${gitRef || selectedBranch}/~/`)
                         }}>
                         + Create New File
                       </DropdownMenuItem>

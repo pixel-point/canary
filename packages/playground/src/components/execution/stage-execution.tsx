@@ -17,6 +17,9 @@ interface StageExecutionProps {
   selectedStepIdx: number
   logs: LivelogLine[]
   onEdit: () => void
+  onStepNav: (selectedStepIdx: number) => void
+  onDownload: () => void
+  onCopy: () => void
 }
 
 interface StepNavigationProps {
@@ -73,7 +76,10 @@ export const StageExecution: React.FC<StageExecutionProps> = ({
   stage,
   selectedStepIdx,
   logs,
-  onEdit
+  onEdit,
+  onStepNav,
+  onDownload,
+  onCopy
 }): React.ReactElement => {
   if (!stage || !stage?.steps) {
     return <></>
@@ -99,8 +105,16 @@ export const StageExecution: React.FC<StageExecutionProps> = ({
     <Layout.Horizontal gap="space-x-0">
       <StepNavigation
         stepIndex={selectedStepIndex}
-        onClickUp={() => setSelectedStepIndex(currIdx => (currIdx - 1 > 0 ? currIdx - 1 : 0))}
-        onClickDown={() => setSelectedStepIndex(currIdx => (currIdx + 1 < stepMaxIndex ? currIdx + 1 : stepMaxIndex))}
+        onClickUp={() => {
+          const index = selectedStepIndex - 1 > 0 ? selectedStepIndex - 1 : 0
+          onStepNav(stage?.steps?.[index]?.number || 0)
+          setSelectedStepIndex(index)
+        }}
+        onClickDown={() => {
+          const index = selectedStepIndex + 1 < stepMaxIndex ? selectedStepIndex + 1 : stepMaxIndex
+          onStepNav(stage?.steps?.[index]?.number || 0)
+          setSelectedStepIndex(index)
+        }}
         disableUp={selectedStepIndex === 0}
         disableDown={stepCount - 1 === selectedStepIndex}
       />
@@ -114,7 +128,7 @@ export const StageExecution: React.FC<StageExecutionProps> = ({
         ) : (
           <Text>{stage.name}</Text>
         )}
-        {step && <StepExecution step={step} logs={logs} onEdit={onEdit} />}
+        {step && <StepExecution step={step} logs={logs} onEdit={onEdit} onDownload={onDownload} onCopy={onCopy} />}
       </Layout.Vertical>
     </Layout.Horizontal>
   )

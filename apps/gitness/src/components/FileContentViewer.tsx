@@ -92,7 +92,7 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
         <PipelineStudioToolbarActions
           onCopyClick={() => copy(fileContent)}
           onDownloadClick={() => downloadFile({ repoRef, resourcePath: fullResourcePath || '', gitRef: gitRef || '' })}
-          onEditClick={() => navigate(`/${spaceId}/repos/${repoId}/code/edit/${gitRef}/~/${fullResourcePath}`)}
+          onEditClick={() => navigate(`/spaces/${spaceId}/repos/${repoId}/code/edit/${gitRef}/~/${fullResourcePath}`)}
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -150,7 +150,7 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
         gitRef={gitRef || ''}
         resourcePath={fullResourcePath || ''}
         onSuccess={(_commitInfo, isNewBranch) => {
-          if (!isNewBranch) navigate(`/${spaceId}/repos/${repoId}/code`)
+          if (!isNewBranch) navigate(`/spaces/${spaceId}/repos/${repoId}/code`)
         }}
       />
       <StackedList.Root>
