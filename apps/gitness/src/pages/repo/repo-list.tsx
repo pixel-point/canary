@@ -13,9 +13,9 @@ import {
   PaginationComponent
 } from '@harnessio/playground'
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
-import Header from '../../components/Header'
 import { timeAgoFromEpochTime } from '../pipeline-edit/utils/time-utils'
 import { PageResponseHeader } from '../../types'
+import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs'
 
 const sortOptions = [
   { name: 'Created', value: 'created' },
@@ -93,7 +93,7 @@ export default function ReposListPage() {
 
   return (
     <>
-      <Header />
+      <Breadcrumbs />
       <PaddingListLayout>
         {/**
          * Show if repositories exist.

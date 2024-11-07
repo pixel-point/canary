@@ -85,13 +85,12 @@ const PipelineStudioHeaderActions = (): JSX.Element => {
   }
 
   return (
-    // NOTE: absolute positioning in the top right corner of the page
     <>
-      <div className="absolute right-0 top-0 w-fit">
+      <div className="absolute right-0 top-0 w-fit z-50">
         <div className="flex items-center gap-x-3 h-14 px-4">
-          <Button variant="ghost" size="sm" disabled={!isInitialized || fetchingPipelineFileContent}>
+          {/* <Button variant="ghost" size="sm" disabled={!isInitialized || fetchingPipelineFileContent}>
             Settings
-          </Button>
+          </Button> */}
           {renderActionButton({ disabled: !isInitialized || fetchingPipelineFileContent })}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { Project } from '../components/project-dropdown'
+import { Project } from '../components/home'
 
 export const mockProjects: Project[] = [
   {

@@ -6,7 +6,7 @@ import { SandboxLayout } from '@harnessio/playground'
 
 const PipelineEditPage = (): JSX.Element => {
   return (
-    <SandboxLayout.Main hasHeader hasSubHeader hasLeftPanel fullWidth>
+    <SandboxLayout.Main hasHeader hasLeftPanel fullWidth>
       <SandboxLayout.Content className="p-0">
         <YamlEditorContextProvider>
           <PipelineStudioDataProvider>

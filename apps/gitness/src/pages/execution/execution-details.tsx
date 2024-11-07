@@ -1,13 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import {
-  TypesExecution,
-  TypesStage,
-  useCancelExecutionMutation,
-  useFindExecutionQuery,
-  useViewLogsQuery
-} from '@harnessio/code-service-client'
-import { Badge, Button, Icon, ScrollArea, Separator, Text } from '@harnessio/canary'
+import { TypesExecution, TypesStage, useFindExecutionQuery, useViewLogsQuery } from '@harnessio/code-service-client'
+import { Badge, Icon, ScrollArea, Separator, Text } from '@harnessio/canary'
 import {
   Layout,
   ExecutionTree,
@@ -29,15 +23,14 @@ import { getDuration, timeAgoFromEpochTime, formatDuration } from '../pipeline-e
 import useSpaceSSE from '../../framework/hooks/useSpaceSSE'
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
 import { useLogs } from '../../framework/hooks/useLogs'
-import RunPipelineDialog from '../run-pipeline-dialog/run-pipeline-dialog'
 import { createAndDownloadBlob, getLogsText } from '../../utils/common-utils'
+import ExecutionDetailsHeaderActions from './execution-details-header-actions'
 
 const ExecutionLogs: React.FC = () => {
   const navigate = useNavigate()
   const space = useGetSpaceURLParam() ?? ''
   const { pipelineId, executionId } = useParams<PathParams>()
   const repoRef = useGetRepoRef()
-  const [openRunPipeline, setOpenRunPipeline] = useState(false)
   const [stage, setStage] = useState<TypesStage>()
   const [stageNum, setStageNum] = useState<number>(1)
   const [stepNum, setStepNum] = useState<number>(1)
@@ -76,12 +69,6 @@ const ExecutionLogs: React.FC = () => {
     },
     { enabled: !isPipelineStillExecuting }
   )
-
-  const { mutateAsync: cancelExecution } = useCancelExecutionMutation({
-    pipeline_identifier: pipelineIdentifier,
-    execution_number: executionNum,
-    repo_ref: repoRef
-  })
 
   useEffect(() => {
     setExecution(initialExecutionData)
@@ -131,11 +118,6 @@ const ExecutionLogs: React.FC = () => {
     }
   }, [execution?.stages, stageNum])
 
-  const handleCancel = (): void => {
-    cancelExecution({})
-      .then(() => {})
-      .catch()
-  }
   const emptyLogsPlaceholder = [
     {
       pos: 0,
@@ -150,21 +132,15 @@ const ExecutionLogs: React.FC = () => {
 
   return (
     <>
-      <SandboxLayout.Main hasHeader hasSubHeader fullWidth hasLeftPanel>
+      <SandboxLayout.Main hasHeader fullWidth hasLeftPanel>
         <SandboxLayout.Content>
-          <div className="absolute right-0 top-0 w-fit">
-            <div className="flex items-center gap-x-3 h-14 px-4">
-              {isPipelineStillExecuting && currentStepStatus === ExecutionState.RUNNING ? (
-                <Button size="sm" onClick={handleCancel}>
-                  Cancel
-                </Button>
-              ) : (
-                <Button size="sm" onClick={() => setOpenRunPipeline(true)}>
-                  Run
-                </Button>
-              )}
-            </div>
-          </div>
+          <ExecutionDetailsHeaderActions
+            isExecuting={isPipelineStillExecuting}
+            pipelineIdentifier={pipelineIdentifier}
+            executionNum={executionNum}
+            repoRef={repoRef}
+            currentBranch={initialExecutionData?.source ?? ''}
+          />
           <Layout.Horizontal className="px-8">
             <div className="w-2/3">
               {stage && (
@@ -271,15 +247,6 @@ const ExecutionLogs: React.FC = () => {
           </Layout.Horizontal>
         </SandboxLayout.Content>
       </SandboxLayout.Main>
-      <RunPipelineDialog
-        open={openRunPipeline}
-        onClose={() => {
-          setOpenRunPipeline(false)
-        }}
-        pipelineId={pipelineIdentifier}
-        branch={initialExecutionData?.source} // TODO: check this
-        toExecutions={'../executions'}
-      />
     </>
   )
 }

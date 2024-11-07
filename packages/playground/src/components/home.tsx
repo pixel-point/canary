@@ -16,7 +16,11 @@ import {
   SpotlightsBG,
   Text
 } from '@harnessio/canary'
-import { type Project } from '../components/project-dropdown'
+
+export interface Project {
+  id?: number
+  name?: string
+}
 
 interface HomeProps {
   title: string

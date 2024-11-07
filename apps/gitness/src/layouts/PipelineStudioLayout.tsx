@@ -1,9 +1,9 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 import { SandboxLayout } from '@harnessio/playground'
-import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs'
+import Breadcrumbs from '../components/breadcrumbs/breadcrumbs'
 
-const SandboxRepoHeader: React.FC = () => {
+const PipelineLayout: React.FC = () => {
   return (
     <>
       <SandboxLayout.Header>
@@ -14,4 +14,4 @@ const SandboxRepoHeader: React.FC = () => {
   )
 }
 
-export { SandboxRepoHeader }
+export default PipelineLayout

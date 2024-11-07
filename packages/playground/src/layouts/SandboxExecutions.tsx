@@ -1,7 +1,5 @@
 import React from 'react'
-import { noop } from 'lodash-es'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
-import { mockProjects } from '../data/mockProjects'
 import { SandboxLayout } from '..'
 import { ExecutionsTopBar } from '../components/layout/executions-top-bar'
 import { Tabs, TabsList, TabsTrigger } from '@harnessio/canary'
@@ -9,10 +7,11 @@ import { Tabs, TabsList, TabsTrigger } from '@harnessio/canary'
 const SandboxExecutions: React.FC = () => {
   const location = useLocation()
   const activeTab = location.pathname.split('/').pop() || 'summary'
+
   return (
     <>
       <SandboxLayout.Header>
-        <ExecutionsTopBar projects={mockProjects} onSelectProject={noop} />
+        <ExecutionsTopBar />
       </SandboxLayout.Header>
       <SandboxLayout.SubHeader>
         <Tabs variant="navigation" value={activeTab}>

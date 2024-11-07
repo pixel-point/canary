@@ -88,7 +88,7 @@ export default function ExecutionsListPage() {
 
   return (
     <>
-      <PaddingListLayout>
+      <PaddingListLayout spaceTop={false}>
         <Text size={5} weight={'medium'}>
           Executions
         </Text>
