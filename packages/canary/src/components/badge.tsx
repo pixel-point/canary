@@ -17,7 +17,11 @@ const badgeVariants = cva(
         default: 'px-2.5 py-0.5 text-xs font-semibold',
         lg: 'px-3 py-1 text-xs font-normal',
         sm: 'h-5 px-1 text-[12px]',
-        xs: 'px-1.5 py-0 text-[11px] font-light'
+        xs: 'px-1.5 py-0 text-[11px] font-light',
+        // TODO: Consider switching size variants to numeric values
+        // Numeric size variants (like '18') provide clearer context about actual dimensions
+        // compared to abstract sizes (xs, sm, lg).
+        '18': 'h-[18px] px-2 text-[12px]'
       },
       borderRadius: {
         default: '',
