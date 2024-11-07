@@ -70,14 +70,13 @@ const DropdownMenuExtendedContent = ({
   const items = allItems.slice(0, MAX_ITEMS_TO_SHOW)
 
   return (
-    <DropdownMenuContent className="w-[298px] p-0 bg-[var(--dropdown-background)]" align="start">
+    <DropdownMenuContent className="w-[298px] p-0" align="start">
       <div className="px-3 pt-2">
-        <Text className="-tracking-[0.02em] leading-none" size={2} weight="medium">
+        <Text className="leading-none" size={2} weight="medium">
           Switch branches/tags
         </Text>
         <SearchBox.Root
           className="w-full mt-[18px]"
-          inputClassName="h-8"
           placeholder={BRANCH_SELECTOR_LABELS[activeTab].searchPlaceholder}
         />
       </div>
@@ -87,12 +86,10 @@ const DropdownMenuExtendedContent = ({
         value={activeTab}
         onValueChange={value => setActiveTab(value as BranchSelectorTab)}>
         <TabsList>
-          <TabsTrigger
-            className="data-[state=active]:bg-[var(--dropdown-background)] -tracking-[0.02em]"
-            value="branches">
+          <TabsTrigger className="data-[state=active]:bg-[var(--dropdown-background)]" value="branches">
             Branches
           </TabsTrigger>
-          <TabsTrigger className="data-[state=active]:bg-[var(--dropdown-background)] -tracking-[0.02em]" value="tags">
+          <TabsTrigger className="data-[state=active]:bg-[var(--dropdown-background)]" value="tags">
             Tags
           </TabsTrigger>
         </TabsList>
@@ -122,7 +119,7 @@ const DropdownMenuExtendedContent = ({
               <div className="flex items-center w-full gap-x-2 min-w-0">
                 {isSelected && <Icon name="tick" size={12} className="min-w-[12px] text-white" />}
                 <Text
-                  className={cn('text-ring -tracking-[0.02em]', {
+                  className={cn('text-ring', {
                     'text-white': isSelected
                   })}
                   truncate>
@@ -132,7 +129,7 @@ const DropdownMenuExtendedContent = ({
 
               {isDefault && (
                 <Badge
-                  className="text-primary-muted bg-transparent -tracking-[0.02em] font-medium"
+                  className="text-primary-muted bg-transparent font-medium"
                   variant="outline"
                   // TODO: Review and update 'muted' theme implementation
                   // Current 'muted' theme styles don't fully match the design requirements
@@ -156,7 +153,7 @@ const DropdownMenuExtendedContent = ({
 
         <div className="p-2 mt-1 border-t border-tertiary">
           <Link to="/">
-            <Text className="text-ring -tracking-[0.02em] hover:text-primary transition-colors duration-200 leading-none">
+            <Text className="text-ring hover:text-primary transition-colors duration-200 leading-none">
               View all {activeTab === BranchSelectorTab.BRANCHES ? 'branches' : 'tags'}
             </Text>
           </Link>
@@ -191,7 +188,7 @@ export const BranchSelector = ({
         <Button
           className={cn(
             widthClasses[width],
-            'overflow-hidden flex gap-1.5 items-center px-3 max-w-[220px] data-[state=open]:border-primary-muted [&>svg]:data-[state=open]:text-primary'
+            'overflow-hidden flex gap-1.5 items-center px-3 min-w-[136px] max-w-[220px] data-[state=open]:border-primary-muted [&>svg]:data-[state=open]:text-primary'
           )}
           variant="outline"
           size={size}>
@@ -205,7 +202,7 @@ export const BranchSelector = ({
           <Text className="w-full text-primary/90" truncate align="left">
             {prefix ? `${prefix}: ${name}` : name}
           </Text>
-          <Icon name="chevron-down" size={10} className="min-w-[10px] chevron-down ml-0 text-tertiary-background" />
+          <Icon className="min-w-[10px] chevron-down ml-0 text-tertiary-background" name="chevron-down" size={10} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuExtendedContent
