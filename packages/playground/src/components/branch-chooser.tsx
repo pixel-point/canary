@@ -15,13 +15,16 @@ import {
   cn
 } from '@harnessio/canary'
 import { Link } from 'react-router-dom'
+
 interface BranchListProps {
   name: string
   isDefault?: boolean
 }
+
 interface TagListProps {
   name: string
 }
+
 interface BranchSelectorProps {
   name: string
   branchList: BranchListProps[]
