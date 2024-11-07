@@ -33,6 +33,7 @@ interface SearchBoxProps {
   showOnFocus?: boolean // New prop to control dialog appearance on focus
   defaultValue?: string
   className?: string
+  inputClassName?: string
 }
 
 const Root = ({
@@ -46,7 +47,8 @@ const Root = ({
   handleChange = noop,
   defaultValue,
   showOnFocus = false,
-  className
+  className,
+  inputClassName
 }: SearchBoxProps) => {
   const textSizeClass = TextSize[textSize]
 
@@ -110,11 +112,11 @@ const Root = ({
       <Input
         placeholder={placeholder}
         // TODO: Restore the line and remove temp fix below
-        // className={cn('border-input-foreground pl-7', textSizeClass, { 'pr-10': hasShortcut })}
+        // className={cn('border-input-foreground pl-7', textSizeClass, { 'pr-10': hasShortcut }, inputClassName)}
 
         // Start of temporary fix
         defaultValue={defaultValue}
-        className={cn('border-input-foreground', textSizeClass)}
+        className={cn('border-input-foreground', textSizeClass, inputClassName)}
         style={{
           paddingLeft: '1.75rem', // Equivalent to 'pl-7' in Tailwind (28px)
           paddingRight: hasShortcut ? '2.5rem' : undefined // Equivalent to 'pr-10' in Tailwind (40px) if `hasShortcut` is true
