@@ -32,11 +32,14 @@ export default function SandboxExecutionsListPage() {
     data: { body: executions, headers } = {},
     isFetching,
     isSuccess
-  } = useListExecutionsQuery({
-    repo_ref: repoRef,
-    pipeline_identifier: pipelineId || '',
-    queryParams: { page }
-  })
+  } = useListExecutionsQuery(
+    {
+      repo_ref: repoRef,
+      pipeline_identifier: pipelineId || '',
+      queryParams: { page }
+    },
+    { enabled: !!repoRef }
+  )
 
   const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '')
 

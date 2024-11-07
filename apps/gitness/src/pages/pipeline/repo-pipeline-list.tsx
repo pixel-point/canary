@@ -16,17 +16,19 @@ import { PageResponseHeader } from '../../types'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { getExecutionStatus, getMeterState } from '../../utils/execution-utils'
 
-export default function SandboxPipelinesPage() {
+export default function RepoPipelinesPage() {
   const repoRef = useGetRepoRef()
-
   const { query: currentQuery } = useCommonFilter()
   const [query, _] = useQueryState('query', { defaultValue: currentQuery || '' })
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
 
-  const { data: { body: pipelines, headers } = {}, isFetching } = useListPipelinesQuery({
-    repo_ref: repoRef,
-    queryParams: { page, query, latest: true }
-  })
+  const { data: { body: pipelines, headers } = {}, isFetching } = useListPipelinesQuery(
+    {
+      repo_ref: repoRef,
+      queryParams: { page, query, latest: true }
+    },
+    { enabled: !!repoRef }
+  )
 
   const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '')
 
