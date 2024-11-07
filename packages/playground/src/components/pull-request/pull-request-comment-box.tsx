@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { Avatar, AvatarFallback, Text, Button, Textarea, AvatarImage } from '@harnessio/canary'
+import { Avatar, AvatarFallback, Text, Button, Textarea } from '@harnessio/canary'
 import { getInitials } from '../../utils/utils'
-import AvatarUrl from '../../../public/images/user-avatar.svg'
 interface PullRequestCommentBoxProps {
   onSaveComment: (comment: string) => void
   currentUser?: string
@@ -22,7 +21,7 @@ const PullRequestCommentBox: React.FC<PullRequestCommentBoxProps> = ({ onSaveCom
   return (
     <div className="flex gap-x-2">
       <Avatar size="6">
-        <AvatarImage src={AvatarUrl} />
+        {/* <AvatarImage src={AvatarUrl} /> */}
         <AvatarFallback>
           <Text size={0} color="tertiaryBackground">
             {getInitials(currentUser || '')}

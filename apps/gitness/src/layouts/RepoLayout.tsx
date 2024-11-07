@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
-import Header from '../components/Header'
+import Breadcrumbs from '../components/breadcrumbs/breadcrumbs'
 
 const RepoLayout: React.FC = () => {
   const baseClasses = 'h-full text-center flex items-center'
@@ -10,7 +10,7 @@ const RepoLayout: React.FC = () => {
 
   return (
     <div>
-      <Header />
+      <Breadcrumbs />
       <div className="inline-flex items-center text-muted-foreground h-[44px] border-b border-border-background gap-6 justify-start w-full px-8">
         <NavLink to="summary" className={({ isActive }) => getLinkClasses(isActive)}>
           Summary

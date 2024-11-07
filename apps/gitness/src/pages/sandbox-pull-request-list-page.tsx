@@ -1,24 +1,22 @@
-import React from 'react'
-import {
-  Spacer,
-  ListPagination,
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationLink,
-  PaginationNext,
-  Text,
-  Button
-} from '@harnessio/canary'
+import { parseAsInteger, useQueryState } from 'nuqs'
+import { Spacer, Text, Button } from '@harnessio/canary'
 import { Link, useParams } from 'react-router-dom'
-import { SkeletonList, PullRequestList, NoData, useCommonFilter, Filter, SandboxLayout } from '@harnessio/playground'
+import {
+  SkeletonList,
+  PullRequestList,
+  NoData,
+  useCommonFilter,
+  Filter,
+  NoSearchResults,
+  SandboxLayout
+} from '@harnessio/playground'
 import { ListPullReqQueryQueryParams, TypesPullReq, useListPullReqQuery } from '@harnessio/code-service-client'
-import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
-import { usePagination } from '../framework/hooks/usePagination'
 import { timeAgoFromEpochTime } from './pipeline-edit/utils/time-utils'
 import { DropdownItemProps } from '../../../../packages/canary/dist/components/list-actions'
 import { PathParams } from '../RouteDefinitions'
+import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
+import { PaginationComponent } from '../../../../packages/playground/dist'
+import { PageResponseHeader } from '../types'
 
 const SortOptions = [
   { name: 'Created', value: 'created' },
@@ -28,26 +26,40 @@ const SortOptions = [
   { name: 'Updated', value: 'updated' }
 ] as const satisfies DropdownItemProps[]
 
-function PullRequestSandboxListPage() {
-  const { repoId, spaceId } = useParams<PathParams>()
-  // hardcoded
-  const totalPages = 10
+const colorArr = ['mint', 'yellow', 'red', 'blue', 'purple']
+
+export default function PullRequestSandboxListPage() {
   const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => <Link to={to}>{children}</Link>
   const repoRef = useGetRepoRef()
-  const { currentPage, previousPage, nextPage, handleClick } = usePagination(1, totalPages)
+  const { repoId, spaceId } = useParams<PathParams>()
 
-  const { sort, query } = useCommonFilter<ListPullReqQueryQueryParams['sort']>()
+  const { sort, query: currentQuery } = useCommonFilter<ListPullReqQueryQueryParams['sort']>()
+  const [query, _] = useQueryState('query', { defaultValue: currentQuery || '' })
+  const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
 
-  const { data: { body: pullrequests } = {}, isFetching } = useListPullReqQuery({
+  const { data: { body: pullrequests, headers } = {}, isFetching } = useListPullReqQuery({
     repo_ref: repoRef,
-    queryParams: { page: 0, limit: 20, query: query?.trim(), sort }
+    queryParams: { page, query, sort }
   })
+
+  const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '')
 
   const renderListContent = () => {
     if (isFetching) {
       return <SkeletonList />
     }
-    if (pullrequests?.length === 0) {
+    if (!pullrequests?.length) {
+      if (query) {
+        return (
+          <NoSearchResults
+            iconName="no-search-magnifying-glass"
+            title="No search results"
+            description={['Check your spelling and filter options,', 'or search for a different keyword.']}
+            primaryButton={{ label: 'Clear search' }}
+            secondaryButton={{ label: 'Clear filters' }}
+          />
+        )
+      }
       return (
         <NoData
           insideTabView
@@ -55,11 +67,8 @@ function PullRequestSandboxListPage() {
           title="No Pull Requests yet"
           description={['There are no pull requests in this repository yet.']}
           primaryButton={{
-            label: 'Create pull requests',
+            label: 'Open a pull request',
             to: `/spaces/${spaceId}/repos/${repoId}/pull-requests/compare`
-          }}
-          secondaryButton={{
-            label: 'Import pull requests'
           }}
         />
       )
@@ -71,87 +80,63 @@ function PullRequestSandboxListPage() {
           author: item?.author?.display_name,
           name: item?.title,
           // TODO: fix review required when its actually there
-          reviewRequired: true,
+          reviewRequired: !item?.is_draft,
           merged: item.merged,
           comments: item.stats?.conversations,
           number: item?.number,
+          is_draft: item?.is_draft,
           // TODO: add label information to display associated labels for each pull request
           // labels: item?.labels?.map((key: string, color: string) => ({ text: key, color: color })),
           // TODO: fix 2 hours ago in timestamp
           timestamp: item?.created ? timeAgoFromEpochTime(item?.created) : '',
           source_branch: item?.source_branch,
-          state: item?.state
+          state: item?.state,
+          labels: item?.labels?.map((label, index) => ({
+            text: label?.key && label?.value ? `${label?.key}:${label?.value}` : (label.key ?? ''),
+            color: colorArr[index % colorArr.length]
+          }))
         }))}
       />
     )
   }
+
+  const pullRequestsExist = (pullrequests?.length ?? 0) > 0
 
   return (
     <>
       <SandboxLayout.Main hasHeader hasLeftPanel>
         <SandboxLayout.Content>
           <Spacer size={10} />
-          <Text size={5} weight={'medium'}>
-            Pull Requests
-          </Text>
-          <Spacer size={6} />
-
-          <div className="flex justify-between gap-5 items-center">
-            <div className="flex-1">
-              <Filter sortOptions={SortOptions} />
-            </div>
-            <Button variant="default" asChild>
-              <Link to={`/spaces/${spaceId}/repos/${repoId}/pull-requests/compare`}>New pull request</Link>
-            </Button>
-          </div>
-
+          {/**
+           * Show if pull requests exist.
+           * Additionally, show if query(search) is applied.
+           */}
+          {(query || pullRequestsExist) && (
+            <>
+              <Text size={5} weight={'medium'}>
+                Pull Requests
+              </Text>
+              <Spacer size={6} />
+              <div className="flex justify-between gap-5 items-center">
+                <div className="flex-1">
+                  <Filter sortOptions={SortOptions} />
+                </div>
+                <Button variant="default" asChild>
+                  <Link to={`/spaces/${spaceId}/repos/${repoId}/pull-requests/compare/`}>New pull request</Link>
+                </Button>
+              </div>
+            </>
+          )}
           <Spacer size={5} />
           {renderListContent()}
           <Spacer size={8} />
-          {(pullrequests?.length ?? 0) > 0 && (
-            <ListPagination.Root>
-              <Pagination>
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious
-                      size="sm"
-                      href="#"
-                      onClick={() => currentPage > 1 && previousPage()}
-                      disabled={currentPage === 1}
-                    />
-                  </PaginationItem>
-                  {/* <PaginationItem>
-              <PaginationLink size="sm_icon" href="#">
-                <PaginationEllipsis />
-              </PaginationLink>
-            </PaginationItem> */}
-                  {Array.from({ length: totalPages }, (_, index) => (
-                    <PaginationItem key={index}>
-                      <PaginationLink
-                        isActive={currentPage === index + 1}
-                        size="sm_icon"
-                        href="#"
-                        onClick={() => handleClick(index + 1)}>
-                        {index + 1}
-                      </PaginationLink>
-                    </PaginationItem>
-                  ))}
-                  <PaginationItem>
-                    <PaginationNext
-                      size="sm"
-                      href="#"
-                      onClick={() => currentPage < totalPages && nextPage()}
-                      disabled={currentPage === totalPages}
-                    />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
-            </ListPagination.Root>
-          )}
+          <PaginationComponent
+            totalPages={totalPages}
+            currentPage={page}
+            goToPage={(pageNum: number) => setPage(pageNum)}
+          />
         </SandboxLayout.Content>
       </SandboxLayout.Main>
     </>
   )
 }
-
-export default PullRequestSandboxListPage

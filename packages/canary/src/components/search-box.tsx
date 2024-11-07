@@ -32,6 +32,7 @@ interface SearchBoxProps {
   handleChange?: React.ChangeEventHandler<HTMLInputElement>
   showOnFocus?: boolean // New prop to control dialog appearance on focus
   defaultValue?: string
+  value?: string
   className?: string
 }
 
@@ -45,6 +46,7 @@ const Root = ({
   onSearch,
   handleChange = noop,
   defaultValue,
+  value,
   showOnFocus = false,
   className
 }: SearchBoxProps) => {
@@ -123,6 +125,7 @@ const Root = ({
         onKeyDown={handleKeyDown}
         onFocus={handleFocus}
         onInput={handleChange}
+        value={value}
       />
     </div>
   )

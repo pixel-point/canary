@@ -7,14 +7,15 @@ import {
   SandboxSettings,
   SandboxSettingsAccountPage,
   SandboxSettingsProjectPage,
-  SandboxSettingsProjectMembersPage,
   ForgotPasswordPage,
   NewPasswordPage,
   OTPPage,
   SandboxRepoSettingsPage,
-  RepoSettingsPlaceholderPage
+  RepoSettingsPlaceholderPage,
+  SandboxSettingsCreateNewMemberPage,
+  SandboxSettingsCreateNewUserPage
 } from '@harnessio/playground'
-import SnadboxRootWraper from './components/SandboxRootWrapper'
+import SandboxRootWrapper from './components/SandboxRootWrapper'
 import { TooltipProvider } from '@harnessio/canary'
 import { queryClient } from './framework/queryClient'
 import PipelineListPage from './pages/pipeline-list'
@@ -22,7 +23,6 @@ import SandboxPipelinesPage from './pages/sandbox-pipeline-list'
 import { SignIn } from './pages/signin'
 import { SignUp } from './pages/signup'
 import PullRequestSandboxListPage from './pages/sandbox-pull-request-list-page'
-import ExecutionsListPage from './pages/execution-list'
 import SandboxExecutionsListPage from './pages/sandbox-execution-list'
 import PullRequestSandboxLayout from './layouts/PullRequestSandboxLayout'
 import PullRequestCommitsPage from './pages/pull-request-commits-page'
@@ -34,7 +34,6 @@ import { RepoSandboxSummaryList } from './pages/repo-sandbox/repo-sandbox-summar
 import CreateProject from './pages/create-project'
 import { CreateRepo } from './pages/repo/repo-create-page'
 import { PipelineCreate } from './pages/pipeline-create/pipeline-create'
-import { SandboxPipelineCreate } from './pages/pipeline-create/pipeline-create-sandbox'
 import RepoSandboxCommitsPage from './pages/repo-sandbox/repo-sandbox-commits'
 import { Execution } from './pages/execution/execution-details'
 import RepoSandboxWebhooksListPage from './pages/repo-sandbox/repo-sandbox-webhooks'
@@ -47,7 +46,6 @@ import ReposSandboxListPage from './pages/repo-sandbox/repo-sandbox-list'
 import RepoSandboxLayout from './layouts/RepoSandboxLayout'
 import { SettingsProfileGeneralPage } from './pages/profile-settings/profile-settings-general-container'
 import { SettingsProfileKeysPage } from './pages/profile-settings/profile-settings-keys-container'
-import { FileViewer } from './components/FileViewer'
 import { SandboxFileViewer } from './components/SandboxFileViewer'
 import PullRequestChangesPage from './pages/pull-request/pull-request-changes-page'
 import { ProjectSettingsGeneralPage } from './pages/project-settings/project-settings-general-page'
@@ -55,9 +53,16 @@ import { FileEditor } from './components/FileEditor'
 import { RepoSettingsGeneralPageContainer } from './pages/repo-sandbox/repo-settings-general-container'
 import { CreatePullRequest } from './pages/pull-request/pull-request-compare-page'
 import { ExitConfirmProvider } from './framework/context/ExitConfirmContext'
+import { ProjectSettingsMemebersPage } from './pages/project-settings/project-settings-members-page'
 import { EmptyPage } from './pages/empty-page'
 import { CreateWebhookContainer } from './pages/webhooks/create-webhook-container'
 import { RepoBranchSettingsRulesPageContainer } from './pages/repo-sandbox/repo-sandbox-branch-rules-container'
+import { ExplorerPathsProvider } from './framework/context/ExplorerPathsContext'
+import { Logout } from './pages/logout'
+import { UserManagementPageContainer } from './user-management/user-management-container'
+import PipelineLayout from './layouts/PipelineStudioLayout'
+import { SandboxPipelineCreate } from './pages/pipeline-create/pipeline-create-sandbox'
+
 const BASE_URL_PREFIX = `${window.apiUrl || ''}/api/v1`
 
 export default function App() {
@@ -94,14 +99,34 @@ export default function App() {
       path: '/new-password',
       element: <NewPasswordPage />
     },
-
     {
       path: '/',
-      element: <SnadboxRootWraper />,
+      element: <SandboxRootWrapper />,
       children: [
         {
           index: true,
           element: <LandingPage />
+        },
+        {
+          path: 'spaces/:spaceId/repos/:repoId/pipelines',
+          element: <PipelineLayout />,
+          children: [
+            {
+              path: 'create',
+              element: <SandboxPipelineCreate />
+            },
+            {
+              path: ':pipelineId',
+              children: [
+                { index: true, element: <SandboxExecutionsListPage /> },
+                {
+                  path: 'edit',
+                  element: <PipelineEditPage />
+                },
+                { path: 'executions/:executionId', element: <Execution /> }
+              ]
+            }
+          ]
         },
         {
           path: 'spaces',
@@ -117,7 +142,7 @@ export default function App() {
               children: [
                 {
                   index: true,
-                  element: <RepoSandboxSummaryList />
+                  element: <Navigate to="summary" replace />
                 },
                 {
                   path: 'summary',
@@ -125,11 +150,29 @@ export default function App() {
                 },
                 {
                   path: 'code',
-                  element: <RepoSandboxFiles />,
+                  element: (
+                    <ExplorerPathsProvider>
+                      <RepoSandboxFiles />
+                    </ExplorerPathsProvider>
+                  ),
                   children: [
                     {
                       index: true,
                       element: <SandboxFileViewer />
+                    },
+                    {
+                      path: 'edit/:gitRef/~/:resourcePath*',
+                      element: <FileEditor />
+                    },
+                    {
+                      path: 'new/:gitRef/~/*',
+                      element: <FileEditor />,
+                      children: [
+                        {
+                          path: ':resourcePath*',
+                          element: <SandboxFileViewer />
+                        }
+                      ]
                     },
                     {
                       path: ':gitRef',
@@ -138,20 +181,6 @@ export default function App() {
                         {
                           index: true,
                           element: <SandboxFileViewer />
-                        },
-                        {
-                          path: 'edit/:gitRef/~/:resourcePath*',
-                          element: <FileEditor />
-                        },
-                        {
-                          path: 'new/:gitRef/~/*',
-                          element: <FileEditor />,
-                          children: [
-                            {
-                              path: ':resourcePath*',
-                              element: <FileViewer />
-                            }
-                          ]
                         },
                         {
                           path: '~/:resourcePath*',
@@ -167,21 +196,6 @@ export default function App() {
                     {
                       index: true,
                       element: <SandboxPipelinesPage />
-                    },
-                    {
-                      path: ':pipelineId',
-                      children: [
-                        { index: true, element: <SandboxExecutionsListPage /> },
-                        { path: 'executions/:executionId', element: <Execution /> },
-                        {
-                          path: 'edit',
-                          element: <PipelineEditPage />
-                        }
-                      ]
-                    },
-                    {
-                      path: 'create',
-                      element: <SandboxPipelineCreate />
                     }
                   ]
                 },
@@ -205,7 +219,7 @@ export default function App() {
                   children: [
                     {
                       index: true,
-                      element: <Navigate to="conversation" />
+                      element: <Navigate to="conversation" replace />
                     },
                     {
                       path: 'conversation',
@@ -258,7 +272,7 @@ export default function App() {
                   children: [
                     {
                       index: true,
-                      element: <Navigate to="general" />
+                      element: <Navigate to="general" replace />
                     },
                     {
                       path: 'general',
@@ -287,19 +301,14 @@ export default function App() {
               ]
             },
             // Pipelines (OUTSIDE REPOS)
-            //
-            /**
-             * 🚨 Root level pipelines will be disabled 🚨
-             * Pipelines will only be part of repos for now
-             */
             {
-              path: 'pipelines',
-              element: <PipelineListPage />
+              path: ':spaceId/pipelines',
+              element: <SandboxPipelinesPage />
             },
             // Executions (OUTSIDE REPOS)
             {
-              path: 'executions',
-              element: <ExecutionsListPage />
+              path: ':spaceId/executions',
+              element: <SandboxExecutionsListPage />
             },
             {
               path: ':spaceId/repos/:repoId',
@@ -328,8 +337,37 @@ export default function App() {
               ]
             },
             {
-              path: 'create-project',
+              path: 'create',
               element: <CreateProject />
+            },
+            {
+              path: ':spaceId/settings',
+              element: <SandboxRootWrapper />,
+              children: [
+                {
+                  element: <SandboxSettingsProjectPage />,
+                  children: [
+                    {
+                      index: true,
+                      element: <Navigate to="general" replace />
+                    },
+                    {
+                      path: 'general',
+                      element: <ProjectSettingsGeneralPage />
+                    },
+                    {
+                      path: 'members',
+                      children: [
+                        { index: true, element: <ProjectSettingsMemebersPage /> },
+                        {
+                          path: 'create',
+                          element: <SandboxSettingsCreateNewMemberPage />
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
             },
             {
               path: ':spaceId/repos/create',
@@ -342,12 +380,11 @@ export default function App() {
           element: <SandboxSettings />,
           children: [
             {
-              path: 'profile',
               element: <SandboxSettingsAccountPage />,
               children: [
                 {
                   index: true,
-                  element: <Navigate to="general" />
+                  element: <Navigate to="general" replace />
                 },
                 {
                   path: 'general',
@@ -360,46 +397,30 @@ export default function App() {
               ]
             }
           ]
+        },
+
+        {
+          path: 'users',
+          element: <UserManagementPageContainer />
+        },
+
+        {
+          path: 'create-new-user',
+          element: <SandboxSettingsCreateNewUserPage />
         }
       ]
     },
     {
-      path: ':spaceId/sandbox',
-      element: <SnadboxRootWraper />,
-      children: [
-        {
-          path: 'settings',
-          element: <SandboxSettings />,
-          children: [
-            {
-              path: 'project',
-              element: <SandboxSettingsProjectPage />,
-              children: [
-                {
-                  index: true,
-                  element: <Navigate to="general" />
-                },
-                {
-                  path: 'general',
-                  element: <ProjectSettingsGeneralPage />
-                },
-                {
-                  path: 'members',
-                  element: <SandboxSettingsProjectMembersPage />
-                }
-              ]
-            }
-          ]
-        }
-      ]
+      path: 'logout',
+      element: <Logout />
     },
     {
       path: 'chaos-engineering',
       element: <EmptyPage pathName="Chaos Engineering" />
     },
     {
-      path: 'environment',
-      element: <EmptyPage pathName="Environment" />
+      path: 'environments',
+      element: <EmptyPage pathName="Environments" />
     },
     {
       path: 'secrets',

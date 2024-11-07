@@ -81,6 +81,7 @@ export const RepoWebhooksCreatePage: React.FC<RepoWebhooksCreatePageProps> = ({
     <>
       <SandboxLayout.Main hasHeader hasSubHeader hasLeftPanel>
         <SandboxLayout.Content maxWidth="2xl">
+          <Spacer size={10} />
           <Text size={5} weight="medium" as="div" className="mb-8">
             Create a webhook
           </Text>

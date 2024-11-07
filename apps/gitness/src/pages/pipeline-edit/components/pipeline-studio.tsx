@@ -115,7 +115,7 @@ export default function PipelineEdit() {
   )
 
   return (
-    <Container.Root wFull={true} hFull={true} className="h-[calc(100vh-100px)]">
+    <Container.Root wFull={true} hFull={true} className="h-[calc(100vh-54px)]">
       <Container.Main>
         <div>
           <PipelineStudioHeaderActions />

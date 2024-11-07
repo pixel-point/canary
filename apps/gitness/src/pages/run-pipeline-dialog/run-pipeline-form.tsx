@@ -90,7 +90,7 @@ export default function RunPipelineForm({
         options: branches?.body?.map(branchItem => ({ label: branchItem?.name, value: branchItem?.name }))
       }
     },
-    { inputType: InputType.separator, path: '' }
+    ...(formDefinition.inputs.length > 0 ? [{ inputType: InputType.separator, path: '' }] : [])
   ]
   formDefinition.inputs = [...additionalInput, ...formDefinition.inputs]
 

@@ -35,7 +35,7 @@ function FolderItem({ children, key, value, isActive, content, chevronClass, lin
         </div>
       </AccordionTrigger>
       {content && (
-        <AccordionContent className="pl-3 pb-0 flex gap-2 items-center py-1 overflow-hidden w-full">
+        <AccordionContent className="pl-3 pb-0 flex gap-2 items-center overflow-hidden w-full">
           {content}
         </AccordionContent>
       )}

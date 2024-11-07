@@ -17,16 +17,19 @@ import {
   convertExecutionToTree,
   StageProps,
   getStepId,
-  parseStageStepId
+  parseStageStepId,
+  ExecutionState
 } from '@harnessio/playground'
 import { PathParams } from '../../RouteDefinitions'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
-import { SSEEvent, ExecutionState } from '../../types'
+import { SSEEvent } from '../../types'
 import { getDuration, timeAgoFromEpochTime, formatDuration } from '../pipeline-edit/utils/time-utils'
 import useSpaceSSE from '../../framework/hooks/useSpaceSSE'
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
 import { useLogs } from '../../framework/hooks/useLogs'
 import RunPipelineDialog from '../run-pipeline-dialog/run-pipeline-dialog'
+import copy from 'clipboard-copy'
+import { createAndDownloadBlob, getLogsText } from '../../utils/common-utils'
 
 const ExecutionLogs: React.FC = () => {
   const navigate = useNavigate()
@@ -133,6 +136,18 @@ const ExecutionLogs: React.FC = () => {
       .catch()
   }
 
+  const emptyLogsPlaceholder = [
+    {
+      pos: 0,
+      out: 'No Logs Found\n',
+      time: 0
+    }
+  ]
+
+  const onStepNav = (stepId: number) => {
+    setStepNum(stepId)
+  }
+
   return (
     <>
       <div className="absolute right-0 top-0 w-fit">
@@ -162,6 +177,24 @@ const ExecutionLogs: React.FC = () => {
               }
               selectedStepIdx={stepNum > 0 ? stepNum - 1 : 0}
               onEdit={() => navigate('../edit')}
+              onDownload={() => {
+                const logsReference =
+                  isPipelineStillExecuting && currentStepStatus === ExecutionState.RUNNING
+                    ? streamedLogs
+                    : logs || emptyLogsPlaceholder
+                const output = getLogsText(logsReference)
+                createAndDownloadBlob(output, 'logs')
+              }}
+              onCopy={() =>
+                copy(
+                  getLogsText(
+                    isPipelineStillExecuting && currentStepStatus === ExecutionState.RUNNING
+                      ? streamedLogs
+                      : logs || emptyLogsPlaceholder
+                  )
+                )
+              }
+              onStepNav={onStepNav}
             />
           )}
         </div>

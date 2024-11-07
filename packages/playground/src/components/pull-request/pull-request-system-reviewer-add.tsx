@@ -1,6 +1,6 @@
 import React from 'react'
 import PullRequestTimelineItem from './pull-request-timeline-item'
-import { Avatar, AvatarFallback, AvatarImage, Icon, Text } from '@harnessio/canary'
+import { Avatar, AvatarFallback, Icon, Text } from '@harnessio/canary'
 import { getInitials } from '../../utils/utils'
 import { GeneralPayload, PayloadAuthor, TypesPullReqActivity } from './interfaces'
 
@@ -9,11 +9,7 @@ interface PullRequestSystemReviewerAddItemProps {
   isLast: boolean
   avatarUrl: string
 }
-const PullRequestSystemReviewerAddItem: React.FC<PullRequestSystemReviewerAddItemProps> = ({
-  payload,
-  isLast,
-  avatarUrl
-}) => {
+const PullRequestSystemReviewerAddItem: React.FC<PullRequestSystemReviewerAddItemProps> = ({ payload, isLast }) => {
   const mentionId = payload?.metadata?.mentions?.ids?.[0] ?? 0
   const mentionDisplayName = payload?.mentions?.[mentionId]?.display_name ?? ''
   return (
@@ -23,8 +19,6 @@ const PullRequestSystemReviewerAddItem: React.FC<PullRequestSystemReviewerAddIte
         {
           avatar: (
             <Avatar className="w-6 h-6 rounded-full p-0">
-              <AvatarImage src={avatarUrl} />
-
               <AvatarFallback>
                 <Text size={1} color="tertiaryBackground">
                   {/* TODO: fix fallback string */}

@@ -7,8 +7,8 @@ export const EmptyPage = ({ pathName }: { pathName: string }) => {
     <div className="min-h-[100vh] flex items-center">
       <NoData
         iconName="no-search-magnifying-glass"
-        title={`${pathName} does not exist`}
-        description={[`Upgrade to harness-enterprise to access ${pathName}`]}
+        title={`Upgrade to Harness Enterprise to access ${pathName}`}
+        description={[]}
         primaryButton={{
           label: 'Take me back',
           onClick: () => navigate(-1)

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, AvatarFallback, AvatarImage, Button, Icon, Text } from '@harnessio/canary'
+import { Avatar, AvatarFallback, Button, Icon, Text } from '@harnessio/canary'
 import {
   CommentItem,
   CommentType,
@@ -66,7 +66,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
             {
               avatar: (
                 <Avatar className="w-6 h-6 rounded-full p-0">
-                  <AvatarImage src={AvatarUrl} />
+                  {/* <AvatarImage src={AvatarUrl} /> */}
 
                   <AvatarFallback>
                     <Text size={1} color="tertiaryBackground">
@@ -102,7 +102,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
             {
               avatar: (
                 <Avatar className="w-6 h-6 rounded-full p-0">
-                  <AvatarImage src={AvatarUrl} />
+                  {/* <AvatarImage src={AvatarUrl} /> */}
 
                   <AvatarFallback>
                     <Text size={1} color="tertiaryBackground">
@@ -130,7 +130,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
             {
               avatar: (
                 <Avatar className="w-6 h-6 rounded-full p-0">
-                  <AvatarImage src={AvatarUrl} />
+                  {/* <AvatarImage src={AvatarUrl} /> */}
 
                   <AvatarFallback>
                     <Text size={1} color="tertiaryBackground">
@@ -164,7 +164,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
             {
               avatar: (
                 <Avatar className="w-6 h-6 rounded-full p-0">
-                  <AvatarImage src={AvatarUrl} />
+                  {/* <AvatarImage src={AvatarUrl} /> */}
 
                   <AvatarFallback>
                     <Text size={1} color="tertiaryBackground">

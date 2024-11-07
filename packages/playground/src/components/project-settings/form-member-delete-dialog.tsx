@@ -28,20 +28,24 @@ export const FormDeleteMemberDialog: React.FC<FormDeleteMemberDialogProps> = ({
       <AlertDialogTrigger asChild></AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>
+          <AlertDialogTitle className="text-left">
             Are you absolutely sure you want to delete
             <Badge type="admin" className="mx-2" variant="muted" disableHover={true}>
               <Text>{member.display_name}</Text>
             </Badge>
             ?
           </AlertDialogTitle>
-          <AlertDialogDescription>
+          <AlertDialogDescription className="text-left">
             This will permanently delete "{member.display_name}" in the project.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <Spacer size={3} />
         <AlertDialogFooter>
-          {!isDeleting && !deleteSuccess && <AlertDialogCancel onClick={onClose}>Cancel</AlertDialogCancel>}
+          {!isDeleting && !deleteSuccess && (
+            <AlertDialogCancel onClick={onClose} className="mt-0">
+              Cancel
+            </AlertDialogCancel>
+          )}
           {deleteSuccess ? (
             <Button size="default" theme="success" className="self-start pointer-events-none flex gap-2">
               Member removed

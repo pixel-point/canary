@@ -11,7 +11,6 @@ import {
   Avatar,
   AvatarImage,
   AvatarFallback,
-  Badge,
   Button,
   DropdownMenu,
   DropdownMenuContent,
@@ -19,7 +18,12 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
+  Select,
+  SelectValue,
+  SelectItem,
+  SelectTrigger,
+  SelectContent
 } from '@harnessio/canary'
 import { getInitials } from '../../utils/utils'
 import { MembersProps } from './interfaces'
@@ -72,9 +76,8 @@ export const MembersList = ({ members, onDelete, onEdit }: PageProps) => {
         <TableHeader>
           <TableRow>
             <TableHead className="text-primary">Name</TableHead>
-            <TableHead className="text-primary">Role</TableHead>
             <TableHead className="text-primary">Email</TableHead>
-            {<TableHead className="text-right text-primary">Date added</TableHead>}
+            <TableHead className="text-primary">Role</TableHead>
             <TableHead>
               <></>
             </TableHead>
@@ -82,7 +85,7 @@ export const MembersList = ({ members, onDelete, onEdit }: PageProps) => {
         </TableHeader>
         <TableBody>
           {members.map(member => (
-            <TableRow key={member.display_name}>
+            <TableRow key={member.email}>
               {/* NAME */}
               <TableCell className="content-center my-6">
                 <div className="flex items-center gap-4">
@@ -97,19 +100,6 @@ export const MembersList = ({ members, onDelete, onEdit }: PageProps) => {
                   </Text>
                 </div>
               </TableCell>
-              {/* ROLE */}
-              <TableCell className="content-center my-6">
-                <div className="flex gap-1.5 items-center">
-                  <Text size={2} wrap="nowrap" truncate className="text-tertiary-background">
-                    <Badge
-                      variant="outline"
-                      size="xs"
-                      className="rounded-full font-normal text-xs p-2 h-5 text-tertiary-background text-center m-auto bg-tertiary-background/10">
-                      {member.role}
-                    </Badge>
-                  </Text>
-                </div>
-              </TableCell>
               {/* EMAIL */}
               <TableCell className="content-center my-6">
                 <div className="flex gap-1.5">
@@ -118,16 +108,38 @@ export const MembersList = ({ members, onDelete, onEdit }: PageProps) => {
                   </Text>
                 </div>
               </TableCell>
-              {/* DATE ADDED */}
-              {member.timestamp && (
-                <TableCell className="content-center">
-                  <div className="flex gap-1.5 items-center justify-end">
-                    <Text wrap="nowrap" size={1} truncate className="text-tertiary-background text-right">
-                      {member.timestamp}
-                    </Text>
-                  </div>
-                </TableCell>
-              )}
+              {/* ROLE */}
+              <TableCell className="content-center my-6">
+                <Select defaultValue={member.role} onValueChange={newRole => onEdit({ ...member, role: newRole })}>
+                  <SelectTrigger className="w-[150px] border-0 justify-start" iconClassName="flex-shrink-0">
+                    <SelectValue className="flex-1 basis-[70%] grow-0" placeholder="Select Role" />
+                  </SelectTrigger>
+                  <SelectContent className="w-[300px]">
+                    <SelectItem value="Owner">
+                      <Text className="text-left inline-block w-full">Owner</Text>
+                      <Text className="text-muted-foreground inline-block w-full mt-1.5">
+                        Admin-level access to all resources.
+                      </Text>
+                    </SelectItem>
+                    <SelectItem value="Contributor">
+                      <Text className="text-left inline-block w-full">Contributor</Text>
+                      <Text className="text-muted-foreground inline-block w-full mt-1.5">
+                        Can view, comment, and edit resources.
+                      </Text>
+                    </SelectItem>
+                    <SelectItem value="Reader">
+                      <Text className="text-left inline-block w-full">Reader</Text>
+                      <Text className="text-muted-foreground inline-block w-full mt-1.5">Can view and comment.</Text>
+                    </SelectItem>
+                    <SelectItem value="Executor">
+                      <Text className="text-left inline-block w-full">Executor</Text>
+                      <Text className="text-muted-foreground inline-block w-full mt-1.5">
+                        Can view but cannot make changes or leave comments.
+                      </Text>
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </TableCell>
               <TableCell className="content-center my-6">
                 <div className="flex gap-1.5 items-center justify-end">{moreActionsTooltip({ member })}</div>
               </TableCell>

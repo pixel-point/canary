@@ -1,6 +1,7 @@
 import { TypesCodeOwnerEvaluationEntry } from '@harnessio/code-service-client'
+import { ExecutionState } from '@harnessio/playground'
 import { EnumPullReqReviewDecisionExtended, PullReqReviewDecision, TypeCheckData } from './types/types'
-import { ExecutionState, extractInfoForCodeOwnerContentProps } from '../../types'
+import { extractInfoForCodeOwnerContentProps } from '../../types'
 import { get, isEmpty } from 'lodash-es'
 import type * as Diff2Html from 'diff2html'
 import HoganJsUtils from 'diff2html/lib/hoganjs-utils'

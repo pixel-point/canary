@@ -72,13 +72,13 @@ function SandboxSettingsCreateNewMemberPage() {
       setSubmitted(true)
       resetNewMemberForm(data) // Reset to the current values
       setTimeout(() => setSubmitted(false), 2000)
-      navigate('/sandbox/settings/project/members')
+      navigate('..')
     }, 2000)
   }
 
   const handleCancel = () => {
     resetNewMemberForm()
-    navigate('/sandbox/settings/project/members')
+    navigate('..')
   }
 
   return (
@@ -86,7 +86,10 @@ function SandboxSettingsCreateNewMemberPage() {
       <SandboxLayout.Content maxWidth="2xl">
         <Spacer size={10} />
         <Text size={5} weight={'medium'}>
-          Add a new member to Pixel Point
+          {/**
+           * @TODO Add actual project name here
+           */}
+          Add a new member
         </Text>
         <Spacer size={6} />
         <form onSubmit={handleSubmit(onSubmit)}>

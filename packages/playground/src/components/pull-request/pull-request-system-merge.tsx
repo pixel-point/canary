@@ -1,6 +1,6 @@
 import React from 'react'
 import PullRequestTimelineItem from './pull-request-timeline-item'
-import { Avatar, AvatarFallback, AvatarImage, Button, Icon, Text } from '@harnessio/canary'
+import { Avatar, AvatarFallback, Button, Icon, Text } from '@harnessio/canary'
 import { getInitials } from '../../utils/utils'
 import { GeneralPayload, MergeStrategy, PayloadAuthor, TypesPullReq, TypesPullReqActivity } from './interfaces'
 
@@ -13,7 +13,6 @@ interface PullRequestSystemMergeItemProps {
 const PullRequestSystemMergeItem: React.FC<PullRequestSystemMergeItemProps> = ({
   payload,
   isLast,
-  avatarUrl,
   pullReqMetadata
 }) => {
   return (
@@ -23,8 +22,6 @@ const PullRequestSystemMergeItem: React.FC<PullRequestSystemMergeItemProps> = ({
         {
           avatar: (
             <Avatar className="w-6 h-6 rounded-full p-0">
-              <AvatarImage src={avatarUrl} />
-
               <AvatarFallback>
                 <Text size={1} color="tertiaryBackground">
                   {/* TODO: fix fallback string */}

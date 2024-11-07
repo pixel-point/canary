@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { Avatar, AvatarFallback, AvatarImage, Button, Icon, Text } from '@harnessio/canary'
+import { Avatar, AvatarFallback, Button, Icon, Text } from '@harnessio/canary'
 import {
   CommentItem,
   EnumPullReqActivityType,
@@ -21,7 +21,6 @@ import { useDiffConfig } from './hooks/useDiffConfig'
 import { DiffModeEnum } from '@git-diff-view/react'
 import PullRequestDescBox from './pull-request-description-box'
 import { getInitials, timeAgo } from '../../utils/utils'
-import AvatarUrl from '../../../public/images/user-avatar.svg'
 import { PullRequestStatusSelect } from './pull-request-status-select-button'
 interface PullRequestOverviewProps {
   data?: TypesPullReqActivity[]
@@ -173,7 +172,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                       {
                         avatar: (
                           <Avatar className="w-6 h-6 rounded-full p-0">
-                            <AvatarImage src={AvatarUrl} />
+                            {/* <AvatarImage src={AvatarUrl} /> */}
 
                             <AvatarFallback>
                               <Text size={1} color="tertiaryBackground">
@@ -194,7 +193,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                           <Text size={3} color="primary">
                             {(payload?.code_comment as PayloadCodeComment)?.path}
                           </Text>
-                          <div className="flex" key={`${index}-${payload.id}`}>
+                          <div className="flex gap-x-2" key={`${index}-${payload.id}`}>
                             {/* TODO: fix states on this on a comment like resolved and active */}
                             <PullRequestStatusSelect
                               refetchActivities={refetchActivities}
@@ -231,7 +230,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                               <PullRequestTimelineItem
                                 icon={
                                   <Avatar className="w-6 h-6 rounded-full p-0">
-                                    <AvatarImage src={AvatarUrl} />
+                                    {/* <AvatarImage src={AvatarUrl} /> */}
 
                                     <AvatarFallback>
                                       <Text size={1} color="tertiaryBackground">
@@ -286,7 +285,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                     {
                       avatar: (
                         <Avatar className="w-6 h-6 rounded-full p-0">
-                          <AvatarImage src={AvatarUrl} />
+                          {/* <AvatarImage src={AvatarUrl} /> */}
 
                           <AvatarFallback>
                             <Text size={1} color="tertiaryBackground">
@@ -323,7 +322,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                           <PullRequestTimelineItem
                             icon={
                               <Avatar className="w-6 h-6 rounded-full p-0">
-                                <AvatarImage src={AvatarUrl} />
+                                {/* <AvatarImage src={AvatarUrl} /> */}
 
                                 <AvatarFallback>
                                   <Text size={1} color="tertiaryBackground">

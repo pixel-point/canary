@@ -13,7 +13,11 @@ export interface CodeRevision {
 
 const defaultOptions: monaco.editor.IStandaloneEditorConstructionOptions = {
   selectOnLineNumbers: true,
-  scrollBeyondLastLine: false
+  scrollBeyondLastLine: false,
+  padding: {
+    top: 10
+  },
+  minimap: { enabled: false }
 }
 
 export interface CodeEditorProps<T> {

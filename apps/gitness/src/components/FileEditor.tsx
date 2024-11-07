@@ -37,7 +37,7 @@ export const FileEditor: React.FC = () => {
   const repoRef = useGetRepoRef()
   const { spaceId, repoId, gitRef, resourcePath } = useParams<PathParams>()
   const subResourcePath = useParams()['*'] || ''
-  const repoPath = `/${spaceId}/repos/${repoId}/code/${gitRef}`
+  const repoPath = `/spaces/${spaceId}/repos/${repoId}/code/${gitRef}`
   const fullResourcePath = subResourcePath ? resourcePath + '/' + subResourcePath : resourcePath
   const [fileName, setFileName] = useState<string>()
   const [language, setLanguage] = useState('')
@@ -140,7 +140,7 @@ export const FileEditor: React.FC = () => {
         payload={content}
         sha={repoDetails?.sha}
         onSuccess={(_commitInfo, isNewBranch, newBranchName) => {
-          if (!isNewBranch) navigate(`/${spaceId}/repos/${repoId}/code/${gitRef}/~/${fileResourcePath}`)
+          if (!isNewBranch) navigate(`/spaces/${spaceId}/repos/${repoId}/code/${gitRef}/~/${fileResourcePath}`)
           else {
             navigate(
               `/spaces/${spaceId}/repos/${repoId}/pull-requests/compare/${repoMetadata?.default_branch}...${newBranchName}`
@@ -148,7 +148,7 @@ export const FileEditor: React.FC = () => {
           }
         }}
       />
-      <SandboxLayout.Main fullWidth hasLeftSubPanel>
+      <SandboxLayout.Main fullWidth hasLeftPanel hasLeftSubPanel hasHeader hasSubHeader>
         <SandboxLayout.Content>
           <ListActions.Root>
             <ListActions.Left>
@@ -218,7 +218,7 @@ export const FileEditor: React.FC = () => {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => navigate(`/${spaceId}/repos/${repoId}/code/${gitRef}/~/${fullResourcePath}`)}>
+                onClick={() => navigate(`/spaces/${spaceId}/repos/${repoId}/code/${gitRef}/~/${fullResourcePath}`)}>
                 Cancel
               </Button>
             </ListActions.Right>

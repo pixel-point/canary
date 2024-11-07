@@ -5,6 +5,10 @@
 @import 'highlight.js/styles/github.css';
 /* @import '@git-diff-view/react/tailwind.css'; */
 
+mark {
+  background: white !important;
+}
+
 .diff-style-root tr {
   content-visibility: auto;
 }

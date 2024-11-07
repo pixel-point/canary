@@ -16,6 +16,7 @@ import PullRequestDiffViewer from './pull-request-diff-viewer'
 import { useDiffConfig } from './hooks/useDiffConfig'
 import { DiffModeEnum } from '@git-diff-view/react'
 import { parseStartingLineIfOne } from './utils'
+import { CopyButton } from '../copy-button'
 
 interface HeaderProps {
   text: string
@@ -34,9 +35,12 @@ const LineTitle: React.FC<Omit<HeaderProps, 'title' | 'data' | 'lang'>> = ({ tex
   <div className="flex items-center gap-3 justify-between">
     <div className="inline-flex gap-2 items-center">
       <Text weight="medium">{text}</Text>
-      <Button size="sm" variant="ghost">
-        <Icon name="clone" size={14} className="text-tertiary-background" />
-      </Button>
+      <div
+        onClick={e => {
+          e.preventDefault()
+        }}>
+        <CopyButton name={text} className="text-tertiary-background" />
+      </div>
       {numAdditions != null && numAdditions > 0 && (
         <Badge variant="outline" size="sm" theme="success">
           +{numAdditions}
@@ -49,14 +53,14 @@ const LineTitle: React.FC<Omit<HeaderProps, 'title' | 'data' | 'lang'>> = ({ tex
       )}
     </div>
     <div className="inline-flex gap-x-6 items-center">
-      <div className="flex gap-2 items-center">
-        <Checkbox checked className="w-4 h-4" />
+      <div title="coming soon" className="flex gap-2 items-center">
+        <Checkbox title="coming soon" checked className="w-4 h-4" />
         {/* This would need to be dynamic text value if/when viewing functionality is hooked up */}
-        <Text size={2} className="text-primary/90">
+        <Text title="coming soon" size={2} className="text-primary/90">
           Viewed
         </Text>
       </div>
-      <Button variant="ghost" size="sm">
+      <Button title="coming soon" variant="ghost" size="sm">
         <Icon name="ellipsis" size={12} className="text-primary-muted/40" />
       </Button>
     </div>

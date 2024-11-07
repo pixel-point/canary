@@ -1,5 +1,5 @@
-import React from 'react'
-import { Tabs, TabsContent, TabsList, TabsTrigger, Input, Button, Text, ScrollArea } from '@harnessio/canary'
+import React, { useState } from 'react'
+import { Tabs, TabsContent, TabsList, TabsTrigger, Button, Text, ScrollArea, SearchBox } from '@harnessio/canary'
 import { Copy, Edit, Download } from '@harnessio/icons-noir'
 import ConsoleLogs from './console-logs'
 import { Layout } from '../layout/layout'
@@ -15,12 +15,17 @@ export interface StepProps {
   stopped?: number
   inputs?: KeyValuePair[]
   outputs?: KeyValuePair[]
+  number?: number
 }
 
 interface StepExecutionProps {
   step: StepProps
   logs: LivelogLine[]
   onEdit: () => void
+  onDownload: () => void
+  onCopy: () => void
+  query?: string
+  handleInputChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 enum StepExecutionTab {
@@ -29,18 +34,30 @@ enum StepExecutionTab {
   OUTPUT = 'output'
 }
 
-const StepExecutionToolbar: React.FC<Pick<StepExecutionProps, 'onEdit'>> = ({ onEdit }) => {
+const StepExecutionToolbar: React.FC<
+  Pick<StepExecutionProps, 'onEdit' | 'onDownload' | 'onCopy' | 'query' | 'handleInputChange'>
+> = ({ onEdit, onDownload, onCopy, query, handleInputChange }) => {
   return (
     <Layout.Horizontal>
-      <Input placeholder="Find in logs" />
+      <SearchBox.Root
+        width="full"
+        placeholder="Find in logs"
+        className="h-9 searchbox"
+        handleChange={handleInputChange}
+        value={query}
+      />
       <div className="flex">
-        <Button variant="outline" size="icon" className="rounded-tr-none rounded-br-none border-r-0">
+        <Button variant="outline" size="icon" className="rounded-tr-none rounded-br-none border-r-0" onClick={onCopy}>
           <Copy className="h-4 w-4" />
         </Button>
         <Button variant="outline" size="icon" className="rounded-none" onClick={onEdit}>
           <Edit className="h-4 w-4" />
         </Button>
-        <Button variant="outline" size="icon" className="rounded-tl-none rounded-bl-none border-l-0">
+        <Button
+          variant="outline"
+          size="icon"
+          className="rounded-tl-none rounded-bl-none border-l-0"
+          onClick={onDownload}>
           <Download className="h-4 w-4" />
         </Button>
       </div>
@@ -48,10 +65,15 @@ const StepExecutionToolbar: React.FC<Pick<StepExecutionProps, 'onEdit'>> = ({ on
   )
 }
 
-export const StepExecution: React.FC<StepExecutionProps> = ({ step, logs, onEdit }) => {
+export const StepExecution: React.FC<StepExecutionProps> = ({ step, logs, onEdit, onDownload, onCopy }) => {
   if (!step) return null
   const inputTable = step?.inputs || []
   const outputTable = step?.outputs || []
+  const [query, setQuery] = useState('')
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value
+    setQuery(value)
+  }
   return (
     <Layout.Vertical>
       <Layout.Horizontal className="flex justify-between items-center">
@@ -71,11 +93,17 @@ export const StepExecution: React.FC<StepExecutionProps> = ({ step, logs, onEdit
               <TabsTrigger value={StepExecutionTab.INPUT}>Inputs</TabsTrigger>
               <TabsTrigger value={StepExecutionTab.OUTPUT}>Output</TabsTrigger>
             </TabsList>
-            <StepExecutionToolbar onEdit={onEdit} />
+            <StepExecutionToolbar
+              onEdit={onEdit}
+              onDownload={onDownload}
+              onCopy={onCopy}
+              query={query}
+              handleInputChange={handleInputChange}
+            />
           </Layout.Horizontal>
           <TabsContent value={StepExecutionTab.LOG}>
             <ScrollArea className="h-[calc(100vh-23rem)] border-t pt-4">
-              <ConsoleLogs logs={logs} />
+              <ConsoleLogs logs={logs} query={query} />
             </ScrollArea>
           </TabsContent>
           <TabsContent value={StepExecutionTab.INPUT}>

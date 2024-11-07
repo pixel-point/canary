@@ -16,12 +16,12 @@ import { ApprovalItem, ButtonEnum, FilterViewProps, PullReqReviewDecision } from
 import { EnumPullReqReviewDecision } from '@harnessio/code-service-client'
 import { processReviewDecision } from './utils'
 import { useEffect, useMemo, useState } from 'react'
-import { FileViewGauge } from '@harnessio/playground'
+// import { FileViewGauge } from '@harnessio/playground'
 
-const filesViewed = {
-  total: 3,
-  viewed: 1
-}
+// const filesViewed = {
+//   total: 3,
+//   viewed: 1
+// }
 
 // TODO: workon on filter and files viewed
 export const PullRequestChangesFilter: React.FC<FilterViewProps> = ({
@@ -31,9 +31,9 @@ export const PullRequestChangesFilter: React.FC<FilterViewProps> = ({
   submitReview,
   refetchReviewers
 }) => {
-  const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
-  const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
-  const viewOptions = [{ name: 'View option 1' }, { name: 'View option 2' }]
+  // const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
+  // const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
+  // const viewOptions = [{ name: 'View option 1' }, { name: 'View option 2' }]
 
   const shouldHideReviewButton = useMemo(
     () => pullRequestMetadata?.state === 'merged' || pullRequestMetadata?.state === 'closed',
@@ -110,17 +110,18 @@ export const PullRequestChangesFilter: React.FC<FilterViewProps> = ({
   return (
     <ListActions.Root>
       <ListActions.Left>
-        <ListActions.Dropdown title="All commits" items={filterOptions} />
+        <></>
+        {/* <ListActions.Dropdown title="All commits" items={filterOptions} />
         <ListActions.Dropdown title="File filter" items={sortOptions} />
-        <ListActions.Dropdown title="View" items={viewOptions} />
+        <ListActions.Dropdown title="View" items={viewOptions} /> */}
       </ListActions.Left>
       <ListActions.Right>
-        <FileViewGauge.Root>
+        {/* <FileViewGauge.Root>
           <FileViewGauge.Content>
             {filesViewed.viewed}/{filesViewed.total} file{filesViewed.total === 1 ? '' : 's'} viewed
           </FileViewGauge.Content>
           <FileViewGauge.Bar total={filesViewed.total} filled={filesViewed.viewed} />
-        </FileViewGauge.Root>
+        </FileViewGauge.Root> */}
         {!shouldHideReviewButton && currentUser && (
           <Button
             hidden={loading}

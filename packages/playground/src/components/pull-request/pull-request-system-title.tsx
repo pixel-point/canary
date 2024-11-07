@@ -1,6 +1,6 @@
 import React from 'react'
 import PullRequestTimelineItem from './pull-request-timeline-item'
-import { Avatar, AvatarFallback, AvatarImage, Icon, Text } from '@harnessio/canary'
+import { Avatar, AvatarFallback, Icon, Text } from '@harnessio/canary'
 import { getInitials } from '../../utils/utils'
 import { GeneralPayload, PayloadAuthor, TypesPullReqActivity } from './interfaces'
 
@@ -9,7 +9,7 @@ interface PullRequestSystemTitleItemProps {
   isLast: boolean
   avatarUrl: string
 }
-const PullRequestSystemTitleItem: React.FC<PullRequestSystemTitleItemProps> = ({ payload, isLast, avatarUrl }) => {
+const PullRequestSystemTitleItem: React.FC<PullRequestSystemTitleItemProps> = ({ payload, isLast }) => {
   return (
     <PullRequestTimelineItem
       key={payload?.id} // Consider using a unique ID if available
@@ -17,7 +17,7 @@ const PullRequestSystemTitleItem: React.FC<PullRequestSystemTitleItemProps> = ({
         {
           avatar: (
             <Avatar className="w-6 h-6 rounded-full p-0">
-              <AvatarImage src={avatarUrl} />
+              {/* <AvatarImage src={avatarUrl} /> */}
 
               <AvatarFallback>
                 <Text size={1} color="tertiaryBackground">

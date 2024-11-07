@@ -2,14 +2,17 @@ import { useCallback, useEffect, useState } from 'react'
 import { Spacer } from '@harnessio/canary'
 import {
   commentCreatePullReq,
+  commentStatusPullReq,
   EnumCheckStatus,
   EnumMergeMethod,
   mergePullReqOp,
   OpenapiMergePullReq,
+  reviewerAddPullReq,
   reviewerDeletePullReq,
   TypesPullReqActivity,
   TypesPullReqReviewer,
   useCodeownersPullReqQuery,
+  useListPrincipalsQuery,
   useListPullReqActivitiesQuery,
   useReviewerListPullReqQuery
 } from '@harnessio/code-service-client'
@@ -54,7 +57,10 @@ export default function SandboxPullRequestConversationPage() {
   const { currentUser: currentUserData } = useAppContext()
   const [checkboxBypass, setCheckboxBypass] = useState(false)
   const { spaceId, repoId } = useParams<PathParams>()
-
+  const { data: { body: principals } = {} } = useListPrincipalsQuery({
+    // @ts-expect-error : BE issue - not implemnted
+    queryParams: { page: 1, limit: 100, type: 'user' }
+  })
   const repoRef = useGetRepoRef()
   const { pullRequestId } = useParams<PathParams>()
   const prId = (pullRequestId && Number(pullRequestId)) || -1
@@ -193,12 +199,25 @@ export default function SandboxPullRequestConversationPage() {
       setChangesLoading(false)
     }
   }, [changesInfo, prPanelData, pullReqMetadata?.merged])
-
+  const handleAddReviewer = (id?: number) => {
+    reviewerAddPullReq({ repo_ref: repoRef, pullreq_number: prId, body: { reviewer_id: id } })
+      .then(() => {
+        refetchReviewers()
+      })
+      .catch(exception => console.warn(exception))
+  }
+  const handleDeleteReviewer = (id: number) => {
+    reviewerDeletePullReq({ repo_ref: repoRef, pullreq_number: prId, pullreq_reviewer_id: id })
+      .then(() => {
+        refetchReviewers()
+      })
+      .catch(exception => console.warn(exception))
+  }
   const onPRStateChanged = useCallback(() => {
     refetchCodeOwners()
     refetchPullReq()
     refetchActivities()
-  }, [refetchCodeOwners, repoRef]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [refetchCodeOwners, repoRef, handleAddReviewer, handleDeleteReviewer]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleMerge = (method: string) => {
     const payload: OpenapiMergePullReq = {
@@ -244,13 +263,7 @@ export default function SandboxPullRequestConversationPage() {
   if (prLoading || prPanelData?.PRStateLoading || changesLoading) {
     return <SkeletonList />
   }
-  const handleDeleteReviewer = (id: number) => {
-    reviewerDeletePullReq({ repo_ref: repoRef, pullreq_number: prId, pullreq_reviewer_id: id })
-      .then(() => {
-        refetchReviewers()
-      })
-      .catch(exception => console.warn(exception))
-  }
+
   return (
     <>
       <SandboxLayout.Columns columnWidths="1fr 220px">
@@ -311,6 +324,9 @@ export default function SandboxPullRequestConversationPage() {
             <Spacer size={6} />
 
             <PullRequestOverview
+              repoId={repoRef}
+              refetchActivities={refetchActivities}
+              commentStatusPullReq={commentStatusPullReq}
               data={activities?.map((item: TypesPullReqActivity) => {
                 return {
                   author: item?.author,
@@ -338,7 +354,7 @@ export default function SandboxPullRequestConversationPage() {
               activityFilter={activityFilter}
               dateOrderSort={dateOrderSort}
               handleSaveComment={handleSaveComment}
-              currentUser={currentUser}
+              currentUser={{ display_name: currentUserData?.display_name, uid: currentUserData?.uid }}
             />
             <Spacer size={9} />
             <PullRequestCommentBox currentUser={currentUser} onSaveComment={handleSaveComment} />
@@ -348,6 +364,8 @@ export default function SandboxPullRequestConversationPage() {
         <SandboxLayout.Column>
           <SandboxLayout.Content className="pl-0 pr-0">
             <PullRequestSideBar
+              addReviewers={handleAddReviewer}
+              usersList={principals?.map(user => ({ id: user.id, display_name: user.display_name, uid: user.uid }))}
               // repoMetadata={undefined}
               pullRequestMetadata={{ source_sha: pullReqMetadata?.source_sha as string }}
               processReviewDecision={processReviewDecision}
