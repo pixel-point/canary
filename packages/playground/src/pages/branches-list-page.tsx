@@ -7,6 +7,8 @@ import { Button, ListActions, SearchBox, Spacer, Text } from '@harnessio/canary'
 import { PaginationComponent } from '../components/pagination'
 import PlaygroundBranchesSettings from '../settings/branches-settings'
 import { mockBranchData } from '../data/mockBranchData'
+import { CreateBranchDialog } from '../components/create-branch-dialog'
+import { noop } from 'lodash-es'
 
 const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
 const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
@@ -34,6 +36,7 @@ type BranchProps = {
 
 export default function BranchesListPage() {
   const [loadState, setLoadState] = useState('data-loaded')
+  const [isBranchDialogOpen, setBranchDialogOpen] = useState(false)
   const spaceId = 'spaceid'
   const repoId = 'repoId'
   const branch = 'main'
@@ -86,7 +89,13 @@ export default function BranchesListPage() {
         <ListActions.Right>
           <ListActions.Dropdown title="Filter" items={filterOptions} />
           <ListActions.Dropdown title="Sort" items={sortOptions} />
-          <Button variant="default">Create Branch</Button>
+          <Button
+            variant="default"
+            onClick={() => {
+              setBranchDialogOpen(true)
+            }}>
+            Create Branch
+          </Button>
         </ListActions.Right>
       </ListActions.Root>
       <Spacer size={5} />
@@ -95,6 +104,16 @@ export default function BranchesListPage() {
       {loadState === 'data-loaded' && <PaginationComponent totalPages={10} currentPage={5} goToPage={() => {}} />}
 
       <PlaygroundBranchesSettings loadState={loadState} setLoadState={setLoadState} />
+      <CreateBranchDialog
+        open={isBranchDialogOpen}
+        onClose={() => {
+          setBranchDialogOpen(false)
+        }}
+        branches={mockBranchData}
+        onSubmit={noop}
+        isSaving={false}
+        isLoadingBranches={false}
+      />
     </PaddingListLayout>
   )
 }

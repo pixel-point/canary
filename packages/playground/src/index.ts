@@ -51,6 +51,7 @@ export * from './components/repo-settings/repo-settings-general/types'
 export * from './components/pipeline-studio/pipeline-studio-footer-bar/pipeline-studio-footer-bar'
 export * from './components/pipeline-studio/popover-commit-info'
 export * from './components/branches-list'
+export * from './components/create-branch-dialog'
 export * from './components/divergence-gauge'
 
 export * from './components/form-inputs/factory/factory'

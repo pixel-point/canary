@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { parseAsInteger, useQueryState } from 'nuqs'
 import { SkeletonList, NoData, SandboxLayout, BranchesList, Filter, useCommonFilter } from '@harnessio/playground'
 import { Button, Spacer, Text } from '@harnessio/canary'
@@ -15,6 +15,7 @@ import { PageResponseHeader, orderSortDate } from '../../types'
 import { timeAgoFromISOTime } from '../pipeline-edit/utils/time-utils'
 import { NoSearchResults, PaginationComponent } from '../../../../../packages/playground/dist'
 import { PathParams } from '../../RouteDefinitions'
+import CreateBranchDialog from './repo-sandbox-branch-create'
 
 const sortOptions = [
   { name: 'Date', value: 'date' },
@@ -24,7 +25,7 @@ const sortOptions = [
 export function RepoSandboxBranchesListPage() {
   const repoRef = useGetRepoRef()
   const { spaceId, repoId } = useParams<PathParams>()
-
+  const [isCreateBranchDialogOpen, setCreateBranchDialogOpen] = useState(false)
   const { data: { body: repoMetadata } = {} } = useFindRepositoryQuery({ repo_ref: repoRef })
 
   const { query: currentQuery, sort } = useCommonFilter<ListBranchesQueryQueryParams['sort']>()
@@ -77,7 +78,12 @@ export function RepoSandboxBranchesListPage() {
             "Your branches will appear here once they're created.",
             'Start branching to see your work organized.'
           ]}
-          primaryButton={{ label: 'Create new branch' }}
+          primaryButton={{
+            label: 'Create branch',
+            onClick: () => {
+              setCreateBranchDialogOpen(true)
+            }
+          }}
         />
       )
     }
@@ -138,8 +144,12 @@ export function RepoSandboxBranchesListPage() {
               <div className="flex-1">
                 <Filter sortOptions={sortOptions} />
               </div>
-              <Button variant="default" asChild>
-                <Link to="create">Create Branch</Link>
+              <Button
+                variant="default"
+                onClick={() => {
+                  setCreateBranchDialogOpen(true)
+                }}>
+                Create branch
               </Button>
             </div>
           </>
@@ -154,6 +164,12 @@ export function RepoSandboxBranchesListPage() {
           goToPage={(pageNum: number) => setPage(pageNum)}
         />
       </SandboxLayout.Content>
+      <CreateBranchDialog
+        open={isCreateBranchDialogOpen}
+        onClose={() => {
+          setCreateBranchDialogOpen(false)
+        }}
+      />
     </SandboxLayout.Main>
   )
 }
