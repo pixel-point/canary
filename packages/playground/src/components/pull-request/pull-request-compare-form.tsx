@@ -8,7 +8,7 @@ import { FormFieldSet } from '../..'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const formSchemaCompare = z.object({
   title: z.string().min(1, { message: 'Please provide a pull request title' }),
-  description: z.string().min(1, { message: 'Please provide a description' })
+  description: z.string().optional()
 })
 
 export type FormFields = z.infer<typeof formSchemaCompare> // Automatically generate a type from the schema
@@ -42,9 +42,7 @@ const PullRequestCompareForm = forwardRef<HTMLFormElement, PullRequestFormProps>
             )}
           </FormFieldSet.ControlGroup>
           <FormFieldSet.ControlGroup>
-            <FormFieldSet.Label htmlFor="description" required>
-              Description
-            </FormFieldSet.Label>
+            <FormFieldSet.Label htmlFor="description">Description</FormFieldSet.Label>
             <Textarea id="description" {...register('description')} placeholder="Add Pull Request description here." />
             {errors.description && (
               <FormFieldSet.Message theme={MessageTheme.ERROR}>

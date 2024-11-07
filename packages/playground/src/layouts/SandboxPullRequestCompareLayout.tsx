@@ -27,7 +27,7 @@ import { TypesDiffStats } from './types'
 
 export const formSchema = z.object({
   title: z.string().min(1, { message: 'Please provide a pull request title' }),
-  description: z.string().min(1, { message: 'Please provide a description' })
+  description: z.string().optional()
 })
 export type CompareFormFields = z.infer<typeof formSchema> // Automatically generate a type from the schema
 
