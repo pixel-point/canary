@@ -45,11 +45,7 @@ const PullRequestCompareForm = forwardRef<HTMLFormElement, PullRequestFormProps>
             <FormFieldSet.Label htmlFor="description" required>
               Description
             </FormFieldSet.Label>
-            <Textarea
-              id="description"
-              {...register('description')}
-              placeholder="Enter a description of this repository..."
-            />
+            <Textarea id="description" {...register('description')} placeholder="Add Pull Request description here." />
             {errors.description && (
               <FormFieldSet.Message theme={MessageTheme.ERROR}>
                 {errors.description.message?.toString()}
