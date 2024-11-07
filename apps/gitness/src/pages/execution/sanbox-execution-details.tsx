@@ -183,7 +183,7 @@ const ExecutionLogs: React.FC = () => {
                     ? streamedLogs
                     : logs || emptyLogsPlaceholder
                 const output = getLogsText(logsReference)
-                createAndDownloadBlob(output, 'logs')
+                createAndDownloadBlob(output, 'logs.log')
               }}
               onCopy={() =>
                 copy(

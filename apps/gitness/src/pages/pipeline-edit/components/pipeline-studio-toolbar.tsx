@@ -1,7 +1,9 @@
 import cx from 'clsx'
+import copy from 'clipboard-copy'
 import { PipelineStudioToolbarActions, Topbar, VisualYamlToggle } from '@harnessio/playground'
 import { VisualYamlValue } from '../../../types/pipeline'
 import { usePipelineDataContext } from '../context/PipelineStudioDataProvider'
+import { createAndDownloadBlob } from '../../../utils/common-utils'
 
 export const PipelineStudioToolbar = ({
   view,
@@ -11,7 +13,7 @@ export const PipelineStudioToolbar = ({
   setView: (view: VisualYamlValue) => void
 }) => {
   const {
-    state: { isYamlValid }
+    state: { isYamlValid, yamlRevision, pipelineData }
   } = usePipelineDataContext()
 
   return (
@@ -23,9 +25,14 @@ export const PipelineStudioToolbar = ({
       {view === 'yaml' && (
         <Topbar.Right>
           <PipelineStudioToolbarActions
-            onCopyClick={() => undefined}
-            onDownloadClick={() => undefined}
-            onEditClick={() => undefined}
+            onCopyClick={() => {
+              copy(yamlRevision.yaml).then(() => {
+                // TODO: toast
+              })
+            }}
+            onDownloadClick={() => {
+              createAndDownloadBlob(yamlRevision.yaml, `${pipelineData?.identifier}.yaml`)
+            }}
           />
         </Topbar.Right>
       )}
