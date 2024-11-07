@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { noop, pick } from 'lodash-es'
+import { pick } from 'lodash-es'
 import {
   Spacer,
   ListActions,
@@ -11,12 +11,23 @@ import {
   StackedList,
   IconProps
 } from '@harnessio/canary'
-import { Summary } from '../components/repo-summary'
+import { FileProps, Summary } from '../components/repo-summary'
 import { RepoSummaryPanel } from '../components/repo-summary-panel'
 import { BranchSelector } from '../components/branch-chooser'
 import { mockFiles } from '../data/mockSummaryFiiles'
 import { SandboxLayout } from '..'
 import { PlaygroundSandboxLayoutSettings } from '../settings/sandbox-settings'
+
+// TODO: Move LAYOUT_STATES and LayoutState type to a shared location (e.g., types/layouts.ts)
+// since these states are used across multiple pages and should be managed in a single place
+// for better maintainability and consistency
+const LAYOUT_STATES = {
+  float: 'float',
+  sub: 'sub',
+  full: 'full'
+} as const
+
+type LayoutState = (typeof LAYOUT_STATES)[keyof typeof LAYOUT_STATES]
 
 const mockSummaryDetails: { id: string; name: string; count: number; iconName: IconProps['name'] }[] = [
   {
@@ -45,27 +56,63 @@ const mockSummaryDetails: { id: string; name: string; count: number; iconName: I
   }
 ]
 
-const mockBranchList = [
-  {
-    name: 'main'
-  },
-  {
-    name: 'new-feature'
-  },
-  {
-    name: 'test-wip'
-  },
-  {
-    name: 'display-db'
-  }
-]
+const mockBranchList = {
+  branches: [
+    {
+      name: 'main',
+      isDefault: true
+    },
+    {
+      name: 'new-feature'
+    },
+    {
+      name: 'renovate/major-typescript-eslint-monorepo'
+    },
+    {
+      name: 'test-wip'
+    },
+    {
+      name: 'test-wip-2'
+    },
+    {
+      name: 'test-wip-3'
+    },
+    {
+      name: 'test-wip-4'
+    },
+    {
+      name: 'test-wip-5'
+    },
+    {
+      name: 'test-wip-6'
+    },
+    {
+      name: 'test-wip-7'
+    },
+    {
+      name: 'test-wip-8'
+    }
+  ],
+  tags: [
+    {
+      name: 'v1.0.0'
+    },
+    {
+      name: 'v1.0.1'
+    },
+    {
+      name: 'v1.0.2'
+    }
+  ]
+}
 
 function SandboxRepoSummaryPage() {
-  const [loadState, setLoadState] = useState('float')
+  const [loadState, setLoadState] = useState<LayoutState | string>(LAYOUT_STATES.float)
+  const [selectedBranch, setSelectedBranch] = useState<string>(mockBranchList.branches[0].name)
 
   return (
     <>
-      {loadState.includes('sub') && (
+      {loadState.includes(LAYOUT_STATES.sub) && (
         <SandboxLayout.LeftSubPanel hasHeader hasSubHeader>
           <SandboxLayout.Content>
             <Text as="p" size={2} className="text-primary/70">
@@ -82,9 +129,9 @@ function SandboxRepoSummaryPage() {
         </SandboxLayout.LeftSubPanel>
       )}
       <SandboxLayout.Main
-        fullWidth={loadState.includes('full')}
+        fullWidth={loadState.includes(LAYOUT_STATES.full)}
         hasLeftPanel
-        hasLeftSubPanel={loadState.includes('sub')}
+        hasLeftSubPanel={loadState.includes(LAYOUT_STATES.sub)}
         hasHeader
         hasSubHeader>
         <SandboxLayout.Columns columnWidths="1fr 220px">
@@ -93,7 +140,12 @@ function SandboxRepoSummaryPage() {
               <ListActions.Root>
                 <ListActions.Left>
                   <ButtonGroup.Root>
-                    <BranchSelector size="default" name={'main'} branchList={mockBranchList} selectBranch={noop} />
+                    <BranchSelector
+                      name={selectedBranch}
+                      branchList={mockBranchList.branches}
+                      tagsList={mockBranchList.tags}
+                      selectBranch={setSelectedBranch}
+                    />
                     <SearchBox.Root placeholder="Search" />
                   </ButtonGroup.Root>
                 </ListActions.Left>
@@ -109,7 +161,7 @@ function SandboxRepoSummaryPage() {
               </ListActions.Root>
               <Spacer size={5} />
               <Summary
-                files={mockFiles}
+                files={mockFiles as FileProps[]}
                 latestFile={pick(mockFiles[0], ['user', 'lastCommitMessage', 'timestamp', 'sha'])}
               />
               <Spacer size={12} />
