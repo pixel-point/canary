@@ -17,15 +17,11 @@ export interface PageProps {
   LinkComponent: React.ComponentType<{ to: string; children: React.ReactNode }>
 }
 
-const Stats = ({ stars, forks, pulls }: { stars?: number; forks: number; pulls: number }) => (
+const Stats = ({ stars, pulls }: { stars?: number; pulls: number }) => (
   <div className="flex gap-3 justify-end items-center select-none font-medium">
     <span className="flex gap-1 items-center">
       <Icon width={16} name="star" className="text-tertiary-background" />
       <span className="text-primary text-xs font-normal">{stars || 0}</span>
-    </span>
-    <span className="flex gap-1 items-center">
-      <Icon size={16} name="pull" className="text-tertiary-background" />
-      <span className="text-primary text-xs font-normal">{forks || 0}</span>
     </span>
     <span className="flex gap-1 items-center">
       <Icon size={16} name="pull" className="text-tertiary-background" />
@@ -63,7 +59,7 @@ export function RepoList({ repos, LinkComponent }: PageProps) {
                       Updated <em>{repo.timestamp}</em>
                     </>
                   }
-                  description={<Stats stars={repo.stars} forks={repo.forks} pulls={repo.pulls} />}
+                  description={<Stats stars={repo.stars} pulls={repo.pulls} />}
                   right
                   label
                   secondary
