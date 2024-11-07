@@ -138,6 +138,7 @@
     --ai-button-stop-2: 335 58% 76%;
     --ai-button-stop-3: 246 66% 72%;
     --ai-button-stop-4: 188 97% 89%;
+    --dropdown-background: hsl(var(--grey-8));
   }
 }
 
