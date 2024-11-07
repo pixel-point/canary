@@ -14,9 +14,9 @@ import {
   PaginationComponent,
   ExecutionState
 } from '@harnessio/playground'
-import { PageResponseHeader } from '../types'
-import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
-import { PathParams } from '../RouteDefinitions'
+import { PageResponseHeader } from '../../types'
+import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
+import { PathParams } from '../../RouteDefinitions'
 
 export default function PipelinesPage() {
   const { spaceId, repoId } = useParams<PathParams>()

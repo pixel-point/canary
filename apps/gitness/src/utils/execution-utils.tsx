@@ -1,6 +1,6 @@
-import { Icon } from '@harnessio/canary'
-import { EnumCiStatus, TypesExecution } from '@harnessio/code-service-client'
+import { Icon, Meter } from '@harnessio/canary'
 import { ExecutionState } from '@harnessio/playground'
+import { EnumCiStatus, TypesExecution } from '@harnessio/code-service-client'
 
 const renderBranch = (branch: string): React.ReactElement => {
   return (
@@ -47,5 +47,23 @@ export const getExecutionStatus = (status?: EnumCiStatus): ExecutionState => {
       return ExecutionState.KILLED
     default:
       return ExecutionState.UNKNOWN
+  }
+}
+
+export const getMeterState = (status?: EnumCiStatus): Meter.MeterState => {
+  switch (status) {
+    case ExecutionState.FAILURE:
+    case ExecutionState.KILLED:
+    case ExecutionState.ERROR:
+      return Meter.MeterState.Error
+    case ExecutionState.SUCCESS:
+      return Meter.MeterState.Success
+    case ExecutionState.SKIPPED:
+    case ExecutionState.BLOCKED:
+      return Meter.MeterState.Warning
+    case ExecutionState.PENDING:
+    case ExecutionState.WAITING_ON_DEPENDENCIES:
+    default:
+      return Meter.MeterState.Empty
   }
 }
