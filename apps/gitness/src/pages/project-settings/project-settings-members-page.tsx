@@ -1,77 +1,149 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { Spacer, Text, ListActions, SearchBox, Button } from '@harnessio/canary'
-import pluralize from 'pluralize'
+import debounce from 'lodash-es/debounce'
 import {
   SandboxLayout,
   SkeletonList,
   NoData,
   MembersList,
-  FormEditMemberDialog,
   FormDeleteMemberDialog,
   useCommonFilter,
   PaginationComponent,
-  MembersProps
+  Filter
 } from '@harnessio/playground'
 import {
   useMembershipListQuery,
   TypesMembershipUser,
   EnumMembershipRole,
-  MembershipListQueryQueryParams
+  MembershipListQueryQueryParams,
+  useMembershipUpdateMutation,
+  useMembershipDeleteMutation
 } from '@harnessio/code-service-client'
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
 import { Link } from 'react-router-dom'
 import { timeAgoFromEpochTime } from '../pipeline-edit/utils/time-utils'
 import { useQueryState, parseAsInteger } from 'nuqs'
 import { PageResponseHeader } from '../../types'
+import { DialogState } from './types'
 
 const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
-const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
+const SortOptions = [
+  { name: 'Name', value: 'name' },
+  { name: 'Created', value: 'created' }
+]
 
 const ProjectSettingsMemebersPage = () => {
   const space_ref = useGetSpaceURLParam()
-  const [totalMembers, setTotalMembers] = useState<number>(0)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isDeleting, setIsDeleting] = useState(false)
-  const [dialogState, setDialogState] = useState({
-    isDialogEditOpen: false,
+
+  const [dialogState, setDialogState] = useState<DialogState>({
     isDialogDeleteOpen: false,
-    selectedMember: null as { display_name: string; role: string; email: string } | null
+    selectedMember: null
   })
 
   const { sort, query: currentQuery } = useCommonFilter<MembershipListQueryQueryParams['sort']>()
-  const [query, _] = useQueryState('query', { defaultValue: currentQuery || '' })
+  const [query, setQuery] = useQueryState('query', {
+    defaultValue: currentQuery || ''
+  })
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
 
-  const { isLoading, data: { body: members, headers } = {} } = useMembershipListQuery(
-    { space_ref: space_ref ?? '', queryParams: { query, sort } },
+  // Define the query parameters for useMembershipListQuery
+  const queryParams: MembershipListQueryQueryParams = {
+    query,
+    order: 'asc',
+    sort,
+    page,
+    limit: 30
+  }
+
+  const {
+    isLoading,
+    data: { body: membersData, headers } = {},
+    refetch
+  } = useMembershipListQuery({ space_ref: space_ref ?? '', queryParams: queryParams })
+
+  const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '')
+
+  // edit api call
+  const { mutateAsync: updateRole } = useMembershipUpdateMutation(
+    { space_ref },
     {
-      onSuccess: ({ body: members }) => {
-        setTotalMembers(members.length) // Update total members count
+      onError: error => {
+        //no design nere
+        alert('Error updating membership role: ' + error.message)
       }
     }
   )
 
-  const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '')
+  // delete api call
+  const {
+    isLoading: deleteLoading,
+    mutateAsync: deleteMember,
+    isSuccess: deleteSuccess
+  } = useMembershipDeleteMutation(
+    { space_ref: space_ref, user_uid: dialogState.selectedMember?.uid ?? '' },
+    {
+      onError: error => {
+        //no design here
+        alert('Error deleting membership role: ' + error.message)
+      }
+    }
+  )
 
-  const handleDelete = () => {
-    setIsDeleting(true)
-    setTimeout(() => {
-      setIsDeleting(false)
-      setDialogState(prev => ({ ...prev, isDialogDeleteOpen: false, selectedMember: null }))
-    }, 2000)
+  const handleDelete = async () => {
+    if (dialogState.selectedMember?.uid) {
+      await deleteMember({ user_uid: dialogState.selectedMember.uid })
+      refetch()
+      setDialogState(prev => ({
+        ...prev,
+        isDialogDeleteOpen: false,
+        selectedMember: null
+      }))
+    }
   }
 
-  const handleRoleSave = () => {
-    setIsSubmitting(true)
-    setTimeout(() => {
-      setIsSubmitting(false)
-      setDialogState(prev => ({ ...prev, isDialogEditOpen: false, selectedMember: null }))
-    }, 2000)
+  const handleRoleChange = async (user_uid: string, newRole: EnumMembershipRole) => {
+    const owners = membersData?.filter(member => (member.role as EnumMembershipRole) === 'space_owner') ?? []
+    const isOnlyOwner = owners.length === 1
+    const isCurrentUserOwner = owners.some(member => member.principal?.uid === user_uid)
+
+    // Check if the current user is the only owner and is trying to change their role
+    if (isOnlyOwner && isCurrentUserOwner && newRole !== 'space_owner') {
+      alert('Cannot change role. At least one owner is required.')
+      return
+    }
+
+    // Proceed with the role change if validation passes
+    await updateRole({ user_uid, body: { role: newRole } })
+    refetch()
+  }
+
+  // Debounce the search term change to avoid frequent updates
+  const debouncedSetQuery = useCallback(
+    debounce(term => setQuery(term), 300), // 300 ms debounce delay
+    [setQuery]
+  )
+
+  // Update search term on input change and debounce the API call
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newTerm = event.target.value
+    setQuery(newTerm)
+    debouncedSetQuery(newTerm)
   }
 
   const renderMemberListContent = () => {
     if (isLoading) return <SkeletonList />
-    if (!members?.length) {
+    if (!membersData?.length) {
+      if (query) {
+        return (
+          <NoData
+            iconName="no-search-magnifying-glass"
+            title="No search results"
+            description={['Check your spelling and filter options,', 'or search for a different keyword.']}
+            primaryButton={{ label: 'Clear search' }}
+            secondaryButton={{ label: 'Clear filters' }}
+          />
+        )
+      }
       return (
         //add this layout to target the content in the center of the page without header and subheader
         <SandboxLayout.Main hasLeftPanel>
@@ -89,25 +161,16 @@ const ProjectSettingsMemebersPage = () => {
     return (
       <>
         <MembersList
-          members={members.map((member: TypesMembershipUser) => ({
+          members={membersData.map((member: TypesMembershipUser) => ({
             display_name: member.principal?.display_name ?? '',
-            role: member.role as EnumMembershipRole | string,
+            role: member.role === 'space_owner' ? 'Owner' : (member.role ?? ''), // Ensure role is always a string
             email: member.added_by?.email ?? '',
             avatarUrl: '',
-            timestamp: member.created ? timeAgoFromEpochTime(member.created) : 'no time available'
+            timestamp: member.created ? timeAgoFromEpochTime(member.created) : 'No time available',
+            uid: member.principal?.uid ?? ''
           }))}
-          onEdit={(member: MembersProps) =>
-            setDialogState({
-              ...dialogState,
-              isDialogEditOpen: true,
-              selectedMember: {
-                display_name: member.display_name,
-                role: member.role === 'space_owner' ? 'Owner' : member.role,
-                email: member.email
-              }
-            })
-          }
-          onDelete={(member: MembersProps) =>
+          onEdit={member => handleRoleChange(member.uid, member.role as EnumMembershipRole)}
+          onDelete={member =>
             setDialogState({
               ...dialogState,
               isDialogDeleteOpen: true,
@@ -115,25 +178,17 @@ const ProjectSettingsMemebersPage = () => {
             })
           }
         />
-        {/* TODO Delete Dialog: error & delete updated*/}
         {dialogState.isDialogDeleteOpen && dialogState.selectedMember && (
           <FormDeleteMemberDialog
-            isDeleting={isDeleting}
-            deleteSuccess={!isDeleting}
-            member={{ ...dialogState.selectedMember, email: dialogState.selectedMember.email }} // Add the 'email' property
+            isDeleting={deleteLoading}
+            deleteSuccess={deleteSuccess}
+            member={{
+              ...dialogState.selectedMember,
+              email: dialogState.selectedMember.email,
+              uid: dialogState.selectedMember.uid // Add the 'uid' property
+            }}
             onDelete={handleDelete}
             onClose={() => setDialogState(prev => ({ ...prev, isDialogDeleteOpen: false }))}
-          />
-        )}
-
-        {/* TODO: Edit Dialog: error & edit updated*/}
-        {dialogState.isDialogEditOpen && dialogState.selectedMember && (
-          <FormEditMemberDialog
-            isSubmitting={isSubmitting}
-            submitted={!isSubmitting}
-            member={dialogState.selectedMember}
-            onSave={handleRoleSave}
-            onClose={() => setDialogState(prev => ({ ...prev, isDialogEditOpen: false }))}
           />
         )}
       </>
@@ -148,16 +203,16 @@ const ProjectSettingsMemebersPage = () => {
           Team
         </Text>
         <Text size={5} weight={'medium'} color="tertiaryBackground">
-          {totalMembers ? `, ${totalMembers} ${pluralize('member', totalMembers)}` : ''}
+          , {membersData?.length ?? ''} members
         </Text>
         <Spacer size={6} />
         <ListActions.Root>
           <ListActions.Left>
-            <SearchBox.Root placeholder="Search Members" />
+            <SearchBox.Root placeholder="Search Members" handleChange={handleInputChange} defaultValue={query} />
           </ListActions.Left>
           <ListActions.Right>
             <ListActions.Dropdown title="All Team Roles" items={filterOptions} />
-            <ListActions.Dropdown title="Last added" items={sortOptions} />
+            <Filter showSearch={false} sortOptions={SortOptions} />
             <Link to={`/spaces/${space_ref}/settings/members/create`}>
               <Button variant="default">Invite New Members</Button>
             </Link>
