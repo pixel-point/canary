@@ -33,7 +33,7 @@ const textVariants = cva('text-base', {
       both: ''
     },
     truncate: {
-      true: 'truncate text-ellipsis text-nowrap'
+      true: 'truncate'
     },
     weight: {
       normal: 'font-normal',

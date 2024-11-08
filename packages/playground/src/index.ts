@@ -3,7 +3,7 @@ export * from './components/layout/layout'
 export * from './components/layout/topbar'
 export * from './layouts/FullWidth2ColumnLayout'
 export * from './components/repo-summary-panel'
-export * from './components/branch-chooser'
+export * from './components/branch-selector'
 export * from './components/repo-summary'
 export * from './components/markdown-viewer'
 
