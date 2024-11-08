@@ -75,6 +75,7 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
     register,
     handleSubmit,
     reset,
+
     formState: { errors, isValid }
   } = useForm<CompareFormFields>({
     resolver: zodResolver(formSchema),
@@ -84,6 +85,15 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
       description: ''
     }
   })
+
+  useEffect(() => {
+    if (commitData && commitData.length > 0) {
+      reset({
+        title: commitData[commitData.length - 1]?.title,
+        description: ''
+      })
+    }
+  }, [commitData, reset])
 
   useEffect(() => {
     if (isSuccess === true) {

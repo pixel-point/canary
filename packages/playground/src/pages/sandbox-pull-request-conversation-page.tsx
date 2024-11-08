@@ -26,6 +26,7 @@ import { mockCodeOwnerData } from '../data/mockCodeOwner'
 import { mockPullRequestActions } from '../data/mockPullRequestActions'
 import { TypesPullReqActivity } from '../components/pull-request/interfaces'
 import { SandboxLayout } from '..'
+import { noop } from 'lodash-es'
 // Mock useMutate hook
 // Define the type for the useFakeMutate parameters
 interface UseFakeMutateParams {
@@ -212,12 +213,15 @@ export default function SandboxPullRequestConversationPage() {
             />
             <Spacer size={6} />
             <PullRequestOverview
+              repoId=""
               data={mockActivties}
               pullReqMetadata={pullReqMetadata}
               activityFilter={activityFilter}
               dateOrderSort={dateOrderSort}
+              commentStatusPullReq={noop}
+              refetchActivities={noop}
               handleSaveComment={handleSaveComment}
-              currentUser={currentUser}
+              currentUser={{ display_name: currentUser, uid: currentUser }}
             />
             <Spacer size={9} />
             <PullRequestCommentBox currentUser={currentUser} onSaveComment={handleSaveComment} />
@@ -228,12 +232,13 @@ export default function SandboxPullRequestConversationPage() {
         <SandboxLayout.Column>
           <SandboxLayout.Content className="pl-0 pr-0">
             <PullRequestSideBar
+              addReviewers={noop}
+              usersList={undefined}
               // repoMetadata={undefined}
               pullRequestMetadata={undefined}
               processReviewDecision={processReviewDecision}
-              refetchReviewers={function (): void {
-                throw new Error('Function not implemented.')
-              }}
+              refetchReviewers={noop}
+              handleDelete={noop}
               reviewers={mockReviewers}
             />
           </SandboxLayout.Content>
