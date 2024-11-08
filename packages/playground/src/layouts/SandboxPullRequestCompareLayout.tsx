@@ -114,7 +114,7 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
           Comparing changes
         </Text>
         <Spacer size={2} />
-        <Layout.Vertical className="max-w-[65%]">
+        <Layout.Vertical>
           <Text size={2} as="p" className="text-primary/80 ">
             Choose two branches to see what's changed or to start a new pull request. If you need to, you can also
             compare across forks or learn more about diff comparisons.
