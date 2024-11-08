@@ -51,6 +51,12 @@ const BRANCH_SELECTOR_LABELS = {
   }
 } as const
 
+const filterItems = (items: (BranchListProps | TagListProps)[], query: string) => {
+  if (!query.trim()) return items
+
+  return items.filter(item => item.name.toLowerCase().includes(query.toLowerCase().trim()))
+}
+
 const DropdownMenuExtendedContent = ({
   name,
   branchList,
@@ -63,8 +69,14 @@ const DropdownMenuExtendedContent = ({
   selectBranch: (branch: string) => void
 }) => {
   const [activeTab, setActiveTab] = useState<BranchSelectorTab>(BranchSelectorTab.BRANCHES)
+  const [searchQuery, setSearchQuery] = useState('')
 
-  const items = activeTab === BranchSelectorTab.BRANCHES ? branchList : tagsList
+  const sourceItems = activeTab === BranchSelectorTab.BRANCHES ? branchList : tagsList
+  const filteredItems = filterItems(sourceItems, searchQuery)
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value)
+  }
 
   return (
     <DropdownMenuContent className="w-[298px] p-0" align="start">
@@ -75,13 +87,19 @@ const DropdownMenuExtendedContent = ({
         <SearchBox.Root
           className="w-full mt-[18px]"
           placeholder={BRANCH_SELECTOR_LABELS[activeTab].searchPlaceholder}
+          value={searchQuery}
+          handleChange={handleSearchChange}
+          showOnFocus
         />
       </div>
       <Tabs
         className="mt-2"
         variant="branch"
         value={activeTab}
-        onValueChange={value => setActiveTab(value as BranchSelectorTab)}>
+        onValueChange={value => {
+          setActiveTab(value as BranchSelectorTab)
+          setSearchQuery('')
+        }}>
         <TabsList>
           <TabsTrigger className="data-[state=active]:bg-[var(--dropdown-background)]" value="branches">
             Branches
@@ -92,7 +110,7 @@ const DropdownMenuExtendedContent = ({
         </TabsList>
       </Tabs>
       <div className="mt-1 px-1">
-        {items.length === 0 && (
+        {filteredItems.length === 0 && (
           <div className="p-4 text-center">
             <Text className="text-ring leading-tight" size={2}>
               Nothing to show
@@ -101,7 +119,7 @@ const DropdownMenuExtendedContent = ({
         )}
 
         <div className="max-h-[360px] overflow-y-auto">
-          {items.map(item => {
+          {filteredItems.map(item => {
             const isSelected = item.name === name
             const isDefault = activeTab === BranchSelectorTab.BRANCHES && (item as BranchListProps).isDefault
 
