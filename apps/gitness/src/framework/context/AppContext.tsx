@@ -7,7 +7,6 @@ interface AppContextType {
   spaces: TypesSpace[]
   setSpaces: (value: TypesSpace[]) => void
   addSpaces: (newSpaces: TypesSpace[]) => void
-  resetApp: () => void
   currentUser?: TypesUser
   setCurrentUser: (value: TypesUser) => void
 }
@@ -16,7 +15,6 @@ const AppContext = createContext<AppContextType>({
   spaces: [],
   setSpaces: noop,
   addSpaces: noop,
-  resetApp: noop,
   currentUser: undefined,
   setCurrentUser: noop
 })
@@ -24,11 +22,6 @@ const AppContext = createContext<AppContextType>({
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [spaces, setSpaces] = useLocalStorage<TypesSpace[]>('spaces', [])
   const [currentUser, setCurrentUser] = useLocalStorage<TypesUser>('currentUser', {})
-
-  const resetApp = (): void => {
-    setSpaces([])
-    setCurrentUser({})
-  }
 
   const addSpaces = (newSpaces: TypesSpace[]): void => {
     setSpaces([...spaces, ...newSpaces])
@@ -40,7 +33,6 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         spaces,
         setSpaces,
         addSpaces,
-        resetApp,
         currentUser,
         setCurrentUser
       }}>

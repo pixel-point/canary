@@ -24,7 +24,7 @@ const sortOptions = [
 
 const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => <Link to={to}>{children}</Link>
 
-export default function ReposSandboxListPage() {
+export default function ReposListPage() {
   const space = useGetSpaceURLParam()
   const navigate = useNavigate()
 
@@ -113,6 +113,8 @@ export default function ReposSandboxListPage() {
     )
   }
 
+  const repositoriesExist = (repositories?.length || 0) > 0
+
   return (
     <>
       <SandboxLayout.Main hasHeader hasLeftPanel>
@@ -122,7 +124,7 @@ export default function ReposSandboxListPage() {
            * Show if repositories exist.
            * Additionally, show if query(search) is applied.
            */}
-          {(query || (repositories?.length || 0) > 0) && (
+          {(query || repositoriesExist) && (
             <>
               <Text size={5} weight={'medium'}>
                 Repositories
@@ -130,7 +132,7 @@ export default function ReposSandboxListPage() {
               <Spacer size={6} />
               <div className="flex justify-between gap-5">
                 <div className="flex-1">
-                  <Filter sortOptions={sortOptions} />
+                  <Filter showSort={repositoriesExist} sortOptions={sortOptions} />
                 </div>
                 <Button variant="default" asChild>
                   <Link to={`/spaces/${space}/repos/create`}>Create Repository</Link>

@@ -28,9 +28,9 @@ function useCommonFilter<S>() {
   const handleSearch = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchParams(params => {
-        const latstSearchQuery = event?.target?.value
-        if (!isEmpty(latstSearchQuery)) {
-          params.set('query', latstSearchQuery)
+        const latestSearchQuery = event?.target?.value
+        if (!isEmpty(latestSearchQuery)) {
+          params.set('query', latestSearchQuery)
         } else params.delete('query')
 
         return params

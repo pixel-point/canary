@@ -74,7 +74,7 @@ export default function Breadcrumbs() {
         path: '/spaces/create',
         value: ''
       })
-      return { items, selectedValue: space, placeholder: 'Select space' }
+      return { items, selectedValue: space, placeholder: 'Select project' }
     }
   }, [spaces, space, isProjectRoute])
 

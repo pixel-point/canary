@@ -6,7 +6,7 @@ import { ExecutionStatus } from './execution/execution-status'
 export interface Execution {
   id: string
   status: ExecutionState
-  name: string
+  name?: string
   sha?: string
   description?: string
   version?: string

@@ -22,7 +22,7 @@ import ProjectPipelinesPage from './pages/pipeline/project-pipeline-list'
 import { SignIn } from './pages/signin'
 import { SignUp } from './pages/signup'
 import PullRequestSandboxListPage from './pages/sandbox-pull-request-list-page'
-import SandboxExecutionsListPage from './pages/sandbox-execution-list'
+import RepoExecutionListPage from './pages/execution/repo-execution-list'
 import PullRequestSandboxLayout from './layouts/PullRequestSandboxLayout'
 import PullRequestCommitsPage from './pages/pull-request-commits-page'
 import PipelineEditPage from './pages/pipeline-edit/pipeline-edit'
@@ -39,7 +39,7 @@ import PullRequestDataProvider from './pages/pull-request/context/pull-request-d
 import SandboxPullRequestConversationPage from './pages/pull-request/sandbox-pull-request-conversation-page'
 import { RepoSandboxFiles } from './pages/repo-sandbox/repo-sandbox-files'
 import { SandboxRepoHeader } from './pages/repo-sandbox/repo-sandbox-header'
-import ReposSandboxListPage from './pages/repo-sandbox/repo-sandbox-list'
+import ReposListPage from './pages/repo-sandbox/repo-list'
 import RepoSandboxLayout from './layouts/RepoSandboxLayout'
 import { SettingsProfileGeneralPage } from './pages/profile-settings/profile-settings-general-container'
 import { SettingsProfileKeysPage } from './pages/profile-settings/profile-settings-keys-container'
@@ -116,7 +116,7 @@ export default function App() {
             {
               path: ':pipelineId',
               children: [
-                { index: true, element: <SandboxExecutionsListPage /> },
+                { index: true, element: <RepoExecutionListPage /> },
                 {
                   path: 'edit',
                   element: <PipelineEditPage />
@@ -132,7 +132,7 @@ export default function App() {
           children: [
             {
               path: ':spaceId/repos',
-              element: <ReposSandboxListPage />
+              element: <ReposListPage />
             },
             {
               path: ':spaceId/repos/:repoId',
@@ -308,14 +308,14 @@ export default function App() {
                 },
                 {
                   path: ':pipelineId',
-                  element: <SandboxExecutionsListPage />
+                  element: <RepoExecutionListPage />
                 }
               ]
             },
             // Executions (OUTSIDE REPOS)
             {
               path: ':spaceId/executions',
-              element: <SandboxExecutionsListPage />
+              element: <RepoExecutionListPage />
             },
             {
               path: 'create',
