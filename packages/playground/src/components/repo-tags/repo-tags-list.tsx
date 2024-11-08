@@ -1,7 +1,11 @@
 import {
   Button,
-  DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
-  DropdownMenuTrigger, Icon,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  Icon,
   TableBody,
   TableCell,
   TableHead,
@@ -11,7 +15,7 @@ import {
   Text
 } from '@harnessio/canary'
 import React from 'react'
-import { CommitCopyActions } from './commit-copy-actions'
+import { CommitCopyActions } from '../commit-copy-actions'
 import { Link } from 'react-router-dom'
 
 export type Tag = {
@@ -33,45 +37,28 @@ const moreActionsTooltip = () => {
           <Icon name="vertical-ellipsis" size={14} />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent
-        className="w-[200px]"
-        align="end"
-        sideOffset={-6}
-        alignOffset={10}
-      >
+      <DropdownMenuContent className="w-[12.5rem]" align="end" sideOffset={-6} alignOffset={10}>
         <DropdownMenuGroup>
           <Link
             replace
             // TODO add link to create branch page
-            to={`/`}
-          >
-            <DropdownMenuItem className="cursor-pointer">
-              Create branch
-            </DropdownMenuItem>
+            to={`/`}>
+            <DropdownMenuItem className="cursor-pointer">Create branch</DropdownMenuItem>
           </Link>
           <Link
             replace
             // TODO add link to view files page
-            to={`/`}
-          >
-            <DropdownMenuItem className="cursor-pointer">
-              View files
-            </DropdownMenuItem>
+            to={`/`}>
+            <DropdownMenuItem className="cursor-pointer">View files</DropdownMenuItem>
           </Link>
-          <DropdownMenuItem className="cursor-pointer text-destructive">
-            Delete tag
-          </DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer text-destructive">Delete tag</DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   )
 }
 
-export const TagsList = ({
-  tags
-}: TagsListProps) => {
-  console.log('1')
-
+export const RepoTagsList = ({ tags }: TagsListProps) => {
   return (
     <Table variant="asStackedList">
       <TableHeader>
@@ -88,9 +75,7 @@ export const TagsList = ({
         {tags.map(tag => (
           <TableRow key={tag.id}>
             <TableCell className="content-center w-[40%]">
-              <Text>
-                {tag.name}
-              </Text>
+              <Text>{tag.name}</Text>
             </TableCell>
             <TableCell className="content-center w-[37%]">
               <div className="flex">
@@ -111,4 +96,3 @@ export const TagsList = ({
     </Table>
   )
 }
-

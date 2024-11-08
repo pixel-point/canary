@@ -95,6 +95,10 @@ export default {
           'bg-hover': 'hsl(var(--pagination-bg-hover))',
           'bg-active': 'hsl(var(--pagination-bg-active))',
           text: 'hsl(var(--pagination-text))'
+        },
+        'dropdown-menu': {
+          bg: 'hsl(var(--dropdown-menu-bg))',
+          'bg-hover': 'hsla(var(--dropdown-menu-bg-hover))'
         }
       },
       borderRadius: {

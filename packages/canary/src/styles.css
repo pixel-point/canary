@@ -103,8 +103,12 @@
     --pagination-bg: var(--grey-8);
     --pagination-bg-hover: var(--grey-10);
     --pagination-bg-active: 240 5% 12%;
-    --pagination-shadow-active: 0 0% 0% 0.5;
+    --pagination-shadow-active: 0, 0%, 0%;
     --pagination-text: var(--grey-80);
+    /*Dropdown-menu colors*/
+    --dropdown-menu-bg: var(--grey-8);
+    --dropdown-menu-shadow: 0, 0%, 0%;
+    --dropdown-menu-bg-hover: 222, 100%, 96%;
   }
 
   .dark {
@@ -154,6 +158,10 @@
     --pagination-bg-active: 240 5% 12%;
     --pagination-shadow-active: 0, 0%, 0%;
     --pagination-text: var(--grey-80);
+    /*Dropdown-menu colors*/
+    --dropdown-menu-bg: var(--grey-8);
+    --dropdown-menu-shadow: 0, 0%, 0%;
+    --dropdown-menu-bg-hover: 222, 100%, 96%, 0.05;
   }
 }
 

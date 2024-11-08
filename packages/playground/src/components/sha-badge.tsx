@@ -20,11 +20,7 @@ interface ContentProps {
 function Root({ ...props }: RootProps) {
   const { children } = props
 
-  return (
-    <div className="grid grid-flow-col grid-col-[1fr_auto] border rounded-[4px] overflow-hidden">
-      {children}
-    </div>
-  )
+  return <div className="grid grid-flow-col grid-col-[1fr_auto] border rounded overflow-hidden">{children}</div>
 }
 
 function Content({ ...props }: ContentProps) {
