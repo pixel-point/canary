@@ -7,7 +7,9 @@ import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
 import {
   useCreateRepositoryMutation,
   OpenapiCreateRepositoryRequest,
-  CreateRepositoryErrorResponse
+  CreateRepositoryErrorResponse,
+  useListGitignoreQuery,
+  useListLicensesQuery
 } from '@harnessio/code-service-client'
 
 export const CreateRepo = () => {
@@ -21,8 +23,8 @@ export const CreateRepo = () => {
       default_branch: 'main',
       parent_ref: spaceId,
       description: data.description,
-      // git_ignore: data.gitignore,
-      // license: data.license,
+      git_ignore: data.gitignore,
+      license: data.license,
       is_public: data.access === '1',
       readme: true,
       identifier: data.name
@@ -46,6 +48,10 @@ export const CreateRepo = () => {
     )
   }
 
+  const { data: { body: gitIgnoreOptions } = {} } = useListGitignoreQuery({})
+
+  const { data: { body: licenseOptions } = {} } = useListLicensesQuery({})
+
   const onCancel = () => {
     navigate(`/spaces/${spaceId}/repos`)
   }
@@ -58,6 +64,8 @@ export const CreateRepo = () => {
         apiError={apiError}
         isLoading={createRepositoryMutation.isLoading}
         isSuccess={createRepositoryMutation.isSuccess}
+        gitIgnoreOptions={gitIgnoreOptions}
+        licenseOptions={licenseOptions}
       />
     </>
   )
