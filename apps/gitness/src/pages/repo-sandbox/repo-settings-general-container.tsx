@@ -25,16 +25,12 @@ import {
   useUpdatePublicAccessMutation,
   UpdatePublicAccessErrorResponse,
   useFindSecuritySettingsQuery,
-  // FindSecuritySettingsOkResponse,
   FindSecuritySettingsErrorResponse,
   useUpdateSecuritySettingsMutation,
-  // UpdateSecuritySettingsOkResponse,
   UpdateSecuritySettingsErrorResponse,
   useDeleteRepositoryMutation,
-  // DeleteRepositoryOkResponse,
   DeleteRepositoryErrorResponse,
   useRuleListQuery,
-  // RuleListOkResponse,
   RuleListErrorResponse,
   useRuleDeleteMutation,
   RuleDeleteOkResponse,
@@ -44,6 +40,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { useGetRepoId } from '../../framework/hooks/useGetRepoId'
+import { getTotalRulesApplied } from '../../utils/repo-branch-rules-utils'
 
 export const RepoSettingsGeneralPageContainer = () => {
   const repoRef = useGetRepoRef()
@@ -130,7 +127,7 @@ export const RepoSettingsGeneralPageContainer = () => {
         const rulesData = data.map(rule => {
           return {
             targetPatternsCount: (rule.pattern?.include?.length ?? 0) + (rule.pattern?.exclude?.length ?? 0),
-            rulesAppliedCount: Object.keys(rule.definition ?? {}).length,
+            rulesAppliedCount: getTotalRulesApplied(rule),
             bypassAllowed: rule.definition?.bypass?.repo_owners === true,
             identifier: rule.identifier,
             state: rule.state ? String(rule.state) : undefined
