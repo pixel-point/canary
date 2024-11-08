@@ -47,7 +47,7 @@ export const CreateRepo = () => {
   }
 
   const onCancel = () => {
-    navigate(`/${spaceId}/repos`)
+    navigate(`/spaces/${spaceId}/repos`)
   }
 
   return (

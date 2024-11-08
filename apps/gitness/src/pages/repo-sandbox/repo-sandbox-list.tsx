@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { parseAsInteger, useQueryState } from 'nuqs'
 import { Button, Spacer, Text } from '@harnessio/canary'
 import { useListReposQuery, RepoRepositoryOutput, ListReposQueryQueryParams } from '@harnessio/code-service-client'
@@ -26,21 +26,44 @@ const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode
 
 export default function ReposSandboxListPage() {
   const space = useGetSpaceURLParam()
+  const navigate = useNavigate()
 
   /* Query and Pagination */
   const { query: currentQuery = '', sort } = useCommonFilter<ListReposQueryQueryParams['sort']>()
   const [query, _] = useQueryState('query', { defaultValue: currentQuery })
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
 
-  const { isFetching, data: { body: repositories, headers } = {} } = useListReposQuery({
-    queryParams: { sort, query, page },
-    space_ref: `${space}/+`
-  })
+  const {
+    isFetching,
+    data: { body: repositories, headers } = {},
+    isError,
+    error
+  } = useListReposQuery(
+    {
+      queryParams: { sort, query, page },
+      space_ref: `${space}/+`
+    },
+    { retry: false }
+  )
 
   const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '')
 
   const renderListContent = () => {
     if (isFetching) return <SkeletonList />
+
+    if (isError)
+      return (
+        <NoData
+          title="Error"
+          description={[error.message || '']}
+          primaryButton={{
+            label: 'Go Back',
+            onClick: () => {
+              navigate(-1)
+            }
+          }}
+        />
+      )
 
     if (!repositories?.length) {
       if (query) {
