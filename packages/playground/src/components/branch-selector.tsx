@@ -64,10 +64,7 @@ const DropdownMenuExtendedContent = ({
 }) => {
   const [activeTab, setActiveTab] = useState<BranchSelectorTab>(BranchSelectorTab.BRANCHES)
 
-  const MAX_ITEMS_TO_SHOW = 10
-
-  const allItems = activeTab === BranchSelectorTab.BRANCHES ? branchList : tagsList
-  const items = allItems.slice(0, MAX_ITEMS_TO_SHOW)
+  const items = activeTab === BranchSelectorTab.BRANCHES ? branchList : tagsList
 
   return (
     <DropdownMenuContent className="w-[298px] p-0" align="start">
@@ -94,7 +91,7 @@ const DropdownMenuExtendedContent = ({
           </TabsTrigger>
         </TabsList>
       </Tabs>
-      <div className="mt-1.5 px-1">
+      <div className="mt-1 px-1">
         {items.length === 0 && (
           <div className="p-4 text-center">
             <Text className="text-ring leading-tight" size={2}>
@@ -103,53 +100,55 @@ const DropdownMenuExtendedContent = ({
           </div>
         )}
 
-        {items.map(item => {
-          const isSelected = item.name === name
-          const isDefault = activeTab === BranchSelectorTab.BRANCHES && (item as BranchListProps).isDefault
+        <div className="max-h-[360px] overflow-y-auto">
+          {items.map(item => {
+            const isSelected = item.name === name
+            const isDefault = activeTab === BranchSelectorTab.BRANCHES && (item as BranchListProps).isDefault
 
-          return (
-            <DropdownMenuItem
-              className={cn('cursor-pointer hover:bg-accent py-2 leading-none', {
-                'justify-between gap-x-2': isDefault,
-                'bg-accent': isSelected,
-                'pl-7': !isSelected
-              })}
-              onClick={() => selectBranch(item.name)}
-              key={item.name}>
-              <div className="flex items-center w-full gap-x-2 min-w-0">
-                {isSelected && <Icon name="tick" size={12} className="min-w-[12px] text-white" />}
-                <Text
-                  className={cn('text-ring', {
-                    'text-white': isSelected
-                  })}
-                  truncate>
-                  {item.name}
-                </Text>
-              </div>
+            return (
+              <DropdownMenuItem
+                className={cn('cursor-pointer hover:bg-accent py-2 leading-none', {
+                  'justify-between gap-x-2': isDefault,
+                  'bg-accent': isSelected,
+                  'pl-7': !isSelected
+                })}
+                onClick={() => selectBranch(item.name)}
+                key={item.name}>
+                <div className="flex items-center w-full gap-x-2 min-w-0">
+                  {isSelected && <Icon name="tick" size={12} className="min-w-[12px] text-white" />}
+                  <Text
+                    className={cn('text-ring', {
+                      'text-white': isSelected
+                    })}
+                    truncate>
+                    {item.name}
+                  </Text>
+                </div>
 
-              {isDefault && (
-                <Badge
-                  className="text-primary-muted bg-transparent font-medium"
-                  variant="outline"
-                  // TODO: Review and update 'muted' theme implementation
-                  // Current 'muted' theme styles don't fully match the design requirements
-                  // Steps before updating:
-                  // 1. Audit all instances of 'muted' theme usage
-                  // 2. Compare with design specs across different components
-                  // 3. Ensure changes won't break existing implementations
-                  // 4. Consider creating a new theme variant if changes affect existing usage
-                  // 5. After theme update, remove overriding classes (text-primary-muted, bg-transparent, -tracking, font-medium)
-                  //    as they should be part of the theme definition
-                  theme="muted"
-                  size="18"
-                  borderRadius="full"
-                  disableHover>
-                  Default
-                </Badge>
-              )}
-            </DropdownMenuItem>
-          )
-        })}
+                {isDefault && (
+                  <Badge
+                    className="text-primary-muted bg-transparent font-medium"
+                    variant="outline"
+                    // TODO: Review and update 'muted' theme implementation
+                    // Current 'muted' theme styles don't fully match the design requirements
+                    // Steps before updating:
+                    // 1. Audit all instances of 'muted' theme usage
+                    // 2. Compare with design specs across different components
+                    // 3. Ensure changes won't break existing implementations
+                    // 4. Consider creating a new theme variant if changes affect existing usage
+                    // 5. After theme update, remove overriding classes (text-primary-muted, bg-transparent, -tracking, font-medium)
+                    //    as they should be part of the theme definition
+                    theme="muted"
+                    size="18"
+                    borderRadius="full"
+                    disableHover>
+                    Default
+                  </Badge>
+                )}
+              </DropdownMenuItem>
+            )
+          })}
+        </div>
 
         <div className="p-2 mt-1 border-t border-tertiary">
           <Link to="/">
