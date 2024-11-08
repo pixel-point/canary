@@ -59,7 +59,7 @@ export const NoData: React.FC<NoDataProps> = ({
           </div>
         )}
         {(primaryButton || secondaryButton) && (
-          <div className="mt-4 flex gap-[18px]">
+          <div className="mt-4 flex gap-[1.125rem]">
             {primaryButton &&
               (primaryButton.to ? (
                 <Button asChild onClick={primaryButton.onClick}>

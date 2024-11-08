@@ -6,7 +6,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { NavArrowRight } from '@harnessio/icons-noir'
 
 const listItemVariants = cva(
-  'align-middle flex flex-row flex-1 gap-1 px-4 pt-[10px] pb-[9px] border-b flex-wrap justify-start items-center',
+  'align-middle flex flex-row flex-1 gap-1 px-4 pt-2.5 pb-[0.5625rem] border-b flex-wrap justify-start items-center',
   {
     variants: {
       disabled: {
@@ -57,8 +57,13 @@ interface ListProps extends React.ComponentProps<'div'> {
 const List: React.FC<ListProps> = ({ className, children, onlyTopRounded, borderBackground, ...props }) => (
   <div
     className={cn(
-      'w-full overflow-hidden',
+      'w-full',
       '[&>div:last-child]:border-0 border',
+      '[&>.stacked-list-item:first-child]:rounded-t-md [&>*:first-child_>.stacked-list-item]:rounded-t-md',
+      {
+        '[&>.stacked-list-item:last-child]:rounded-b-md [&>*:last-child_>.stacked-list-item]:rounded-b-md':
+          !onlyTopRounded
+      },
       onlyTopRounded ? 'rounded-t-md' : 'rounded-md',
       borderBackground ? 'border-border-background' : '',
       className
@@ -85,6 +90,7 @@ const ListItem = ({
   return (
     <Comp
       className={cn(
+        'stacked-list-item',
         listItemVariants({}),
         className,
         isLast ? 'border-none' : 'border-b',
@@ -107,7 +113,7 @@ const ListField = ({ className, title, description, label, primary, secondary, r
     {title && (
       <div
         className={cn(
-          primary ? 'text-[16px] leading-snug' : secondary ? 'text-xs' : 'text-sm', // Conditionally apply text-xs if secondary is true
+          primary ? 'text-16 leading-snug' : secondary ? 'text-xs' : 'text-sm', // Conditionally apply text-xs if secondary is true
           'font-normal text-primary [&>em]:font-medium [&>em]:text-primary [&>em]:not-italic',
           label && 'text-tertiary-background',
           className
@@ -119,7 +125,7 @@ const ListField = ({ className, title, description, label, primary, secondary, r
       <div
         className={cn(
           'flex gap-2 text-tertiary-background whitespace-nowrap overflow-hidden text-ellipsis',
-          primary ? 'text-[14px] leading-[1.25]' : 'text-xs',
+          primary ? 'text-sm' : 'text-xs',
           className
         )}>
         {description}

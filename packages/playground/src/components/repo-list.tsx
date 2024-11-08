@@ -45,7 +45,7 @@ export function RepoList({ repos, LinkComponent }: PageProps) {
       {repos && repos.length > 0 && (
         <StackedList.Root>
           {repos.map((repo, repo_idx) => (
-            <LinkComponent to={repo.name}>
+            <LinkComponent key={repo_idx} to={repo.name}>
               <StackedList.Item key={repo.name} isLast={repos.length - 1 === repo_idx}>
                 <StackedList.Field
                   primary

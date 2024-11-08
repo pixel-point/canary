@@ -40,7 +40,7 @@ const PaginationLink = ({ className, isActive, size, ...props }: PaginationLinkP
         size: size ? size : 'sm_icon',
         borderRadius: 'full'
       }),
-      'text-[12px] font-normal min-w-7 px-1.5 w-auto bg-pagination-bg text-secondary-foreground hover:bg-pagination-bg-hover',
+      'text-12 font-normal min-w-7 px-1.5 w-auto bg-pagination-bg text-secondary-foreground hover:bg-pagination-bg-hover',
       {
         'bg-pagination-bg-active shadow-[0px_2px_4px_0px_hsla(var(--pagination-shadow-active),_0.5)] cursor-default hover:bg-pagination-bg-active':
           isActive
@@ -90,7 +90,7 @@ const PaginationEllipsis = ({ className, ...props }: React.ComponentProps<'span'
   <span
     aria-hidden
     className={cn(
-      'flex h-7 w-7 items-center justify-center text-[12px] font-normal bg-pagination-bg rounded-full',
+      'flex h-7 w-7 items-center justify-center text-12 font-normal bg-pagination-bg rounded-full',
       className
     )}
     {...props}>

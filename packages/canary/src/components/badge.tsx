@@ -3,6 +3,19 @@ import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
 
+enum BadgesHoverStates {
+  ENABLED = 'enabled',
+  DISABLED_DEFAULT = 'disabled-default',
+  DISABLED_SECONDARY = 'disabled-secondary',
+  DISABLED_DESTRUCTIVE = 'disabled-destructive',
+  DISABLED_OUTLINE = 'disabled-outline',
+  DISABLED_DESTRUCTIVE_THEME = 'disabled-destructive-theme',
+  DISABLED_WARNING_THEME = 'disabled-warning-theme',
+  DISABLED_SUCCESS_THEME = 'disabled-success-theme',
+  DISABLED_EMPHASIS_THEME = 'disabled-emphasis-theme',
+  DISABLED_MUTED_THEME = 'disabled-muted-theme'
+}
+
 const badgeVariants = cva(
   'inline-flex items-center rounded-md border transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
   {
@@ -16,26 +29,26 @@ const badgeVariants = cva(
       size: {
         default: 'px-2.5 py-0.5 text-xs font-semibold',
         lg: 'px-3 py-1 text-xs font-normal',
-        sm: 'h-5 px-1 text-[12px] leading-none',
-        xs: 'px-1.5 py-0 text-[11px] font-light'
+        sm: 'h-5 px-1 text-12 leading-none',
+        xs: 'px-1.5 py-0 text-11 font-light'
       },
       borderRadius: {
         default: '',
         full: 'rounded-full'
       },
       hover: {
-        enabled: '',
+        [BadgesHoverStates.ENABLED]: '',
         // variant
-        'disabled-default': 'hover:shadow-none hover:bg-primary',
-        'disabled-secondary': 'hover:shadow-none hover:bg-secondary',
-        'disabled-destructive': 'hover:shadow-none hover:bg-destructive',
-        'disabled-outline': '',
+        [BadgesHoverStates.DISABLED_DEFAULT]: 'hover:shadow-none hover:bg-primary',
+        [BadgesHoverStates.DISABLED_SECONDARY]: 'hover:shadow-none hover:bg-secondary',
+        [BadgesHoverStates.DISABLED_DESTRUCTIVE]: 'hover:shadow-none hover:bg-destructive',
+        [BadgesHoverStates.DISABLED_OUTLINE]: '',
         // theme
-        'disabled-destructive-theme': 'hover:shadow-none hover:bg-[hsla(var(--error),0.1)]',
-        'disabled-warning-theme': 'hover:shadow-none hover:bg-[hsla(var(--warning),0.1)]',
-        'disabled-success-theme': 'hover:shadow-none hover:bg-[hsla(var(--success),0.1)]',
-        'disabled-emphasis-theme': 'hover:shadow-none hover:bg-[hsla(var(--emphasis),0.1)]',
-        'disabled-muted-theme': 'hover:shadow-none hover:bg-tertiary-background/10'
+        [BadgesHoverStates.DISABLED_DESTRUCTIVE_THEME]: 'hover:shadow-none hover:bg-[hsla(var(--error),0.1)]',
+        [BadgesHoverStates.DISABLED_WARNING_THEME]: 'hover:shadow-none hover:bg-[hsla(var(--warning),0.1)]',
+        [BadgesHoverStates.DISABLED_SUCCESS_THEME]: 'hover:shadow-none hover:bg-[hsla(var(--success),0.1)]',
+        [BadgesHoverStates.DISABLED_EMPHASIS_THEME]: 'hover:shadow-none hover:bg-[hsla(var(--emphasis),0.1)]',
+        [BadgesHoverStates.DISABLED_MUTED_THEME]: 'hover:shadow-none hover:bg-tertiary-background/10'
       },
       theme: {
         default: '',
@@ -56,7 +69,7 @@ const badgeVariants = cva(
     defaultVariants: {
       variant: 'default',
       size: 'default',
-      hover: 'enabled',
+      hover: BadgesHoverStates.ENABLED,
       theme: 'default'
     }
   }
@@ -76,7 +89,9 @@ function Badge({
   disableHover,
   ...props
 }: BadgeProps) {
-  const hover = disableHover ? (theme !== 'default' ? `disabled-${theme}-theme` : `disabled-${variant}`) : 'enabled'
+  const hover = (
+    disableHover ? (theme !== 'default' ? `disabled-${theme}-theme` : `disabled-${variant}`) : BadgesHoverStates.ENABLED
+  ) as BadgesHoverStates
 
   return (
     <div

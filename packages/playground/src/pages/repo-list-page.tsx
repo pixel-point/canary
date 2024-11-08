@@ -81,7 +81,7 @@ function RepoListPage() {
             <Button variant="default">New repository</Button>
           </ListActions.Right>
         </ListActions.Root>
-        <Spacer className="mt-[18px]" />
+        <Spacer className="mt-[1.125rem]" />
         {renderListContent()}
         <Spacer size={6} />
         {loadState === 'data-loaded' && <PaginationComponent totalPages={10} currentPage={5} goToPage={() => {}} />}
