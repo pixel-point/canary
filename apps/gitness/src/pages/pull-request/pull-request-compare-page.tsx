@@ -154,7 +154,10 @@ export const CreatePullRequest = () => {
       {
         onSuccess: ({ body: data }) => {
           setApiError(null)
-          navigate(`/spaces/${spaceId}/repos/${repoId}/pull-requests/${data?.number}`)
+
+          setTimeout(() => {
+            navigate(`/spaces/${spaceId}/repos/${repoId}/pull-requests/${data?.number}`)
+          }, 2000)
         },
         onError: (error: CreateRepositoryErrorResponse) => {
           const message = error.message || 'An unknown error occurred.'
@@ -257,7 +260,13 @@ export const CreatePullRequest = () => {
             text: item.filePath,
             data: item.raw,
             title: item.filePath,
-            lang: item.filePath.split('.')[1]
+            lang: item.filePath.split('.')?.[1],
+            addedLines: item.addedLines,
+            removedLines: item.deletedLines,
+            isBinary: item.isBinary,
+            deleted: item.isDeleted,
+            unchangedPercentage: item.unchangedPercentage,
+            blocks: item.blocks
           })) || []
         }
         diffStats={

@@ -1,9 +1,11 @@
 import { DiffModeEnum, DiffFile, DiffView, DiffViewProps, SplitSide } from '@git-diff-view/react'
 import { Card, Input, Text } from '@harnessio/canary'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { OverlayScrollbars } from 'overlayscrollbars'
 
 import { debounce } from 'lodash-es'
+import { DiffBlock } from 'diff2html/lib/types'
+import constants from './constants'
 
 const TextArea = ({ onChange }: { onChange: (v: string) => void }) => {
   const [val, setVal] = useState('')
@@ -31,6 +33,12 @@ interface PullRequestDiffviewerProps {
   fileName: string
   lang: string
   fullContent?: string
+  addedLines?: number
+  removedLines?: number
+  isBinary?: boolean
+  deleted?: boolean
+  unchangedPercentage?: number
+  blocks?: DiffBlock[]
 }
 
 const PullRequestDiffViewer = ({
@@ -42,14 +50,36 @@ const PullRequestDiffViewer = ({
   addWidget,
   lang,
   fileName,
-  fullContent
+  fullContent,
+  addedLines,
+  removedLines,
+  unchangedPercentage,
+  deleted,
+  isBinary,
+  blocks
 }: PullRequestDiffviewerProps) => {
   const ref = useRef<{ getDiffFileInstance: () => DiffFile }>(null)
   const valRef = useRef('')
   const reactWrapRef = useRef<HTMLDivElement>(null)
   const reactRef = useRef<HTMLDivElement | null>(null)
   const highlightRef = useRef(highlight)
-
+  const fileUnchanged = useMemo(
+    () => unchangedPercentage === 100 || (addedLines === 0 && removedLines === 0),
+    [addedLines, removedLines, unchangedPercentage]
+  )
+  const diffHasVeryLongLine = useMemo(
+    () => blocks?.some(block => block.lines?.some(line => line.content?.length > constants.MAX_TEXT_LINE_SIZE_LIMIT)),
+    [blocks]
+  )
+  const fileDeleted = useMemo(() => deleted, [deleted])
+  const isDiffTooLarge = useMemo(
+    () => addedLines && removedLines && addedLines + removedLines > constants.PULL_REQUEST_LARGE_DIFF_CHANGES_LIMIT,
+    [addedLines, removedLines]
+  )
+  const [renderCustomContent] = useState(
+    // !shouldDiffBeShownByDefault &&
+    fileUnchanged || fileDeleted || isDiffTooLarge || isBinary || diffHasVeryLongLine
+  )
   highlightRef.current = highlight
   const [diffFileInstance, setDiffFileInstance] = useState<DiffFile>()
 
@@ -184,89 +214,102 @@ const PullRequestDiffViewer = ({
     // setDiffFileInstance(instance)
   }, [handleClick])
   return (
-    diffFileInstance && (
-      <DiffView<string>
-        ref={ref}
-        className="text-tertiary-background bg-tr w-full"
-        //   renderWidgetLine={({ onClose }) => {
-        //     console.log('render widget')
-        //     return <></>
-        //   }}
-        renderWidgetLine={({ onClose, side, lineNumber }) => {
-          return (
-            <div className="flex w-full absolute flex-col border px-[4px] py-[8px]">
-              <TextArea onChange={v => (valRef.current = v)} />
-              <div className="m-[5px] mt-[0.8em] text-right">
-                <div className="inline-flex justify-end gap-x-[12px]">
-                  <button
-                    className="rounded-[4px] border !px-[12px] py-[6px]"
-                    onClick={() => {
-                      onClose()
-                      valRef.current = ''
-                    }}>
-                    cancel
-                  </button>
-                  <button
-                    className="rounded-[4px] border !px-[12px] py-[6px]"
-                    onClick={() => {
-                      onClose()
-                      if (valRef.current) {
-                        const sideKey = side === SplitSide.old ? 'oldFile' : 'newFile'
-                        setExtend(prev => {
-                          const res = { ...prev }
-                          res[sideKey] = {
-                            ...res[sideKey],
-                            [lineNumber]: { lineNumber, data: valRef.current }
-                          }
-                          return res
-                        })
-                        setTimeout(() => {
-                          valRef.current = ''
-                        })
-                      }
-                    }}>
-                    submit
-                  </button>
+    <>
+      {diffFileInstance && !renderCustomContent && (
+        <DiffView<string>
+          ref={ref}
+          className="text-tertiary-background bg-tr w-full"
+          //   renderWidgetLine={({ onClose }) => {
+          //     console.log('render widget')
+          //     return <></>
+          //   }}
+          renderWidgetLine={({ onClose, side, lineNumber }) => {
+            return (
+              <div className="flex w-full absolute flex-col border px-[4px] py-[8px]">
+                <TextArea onChange={v => (valRef.current = v)} />
+                <div className="m-[5px] mt-[0.8em] text-right">
+                  <div className="inline-flex justify-end gap-x-[12px]">
+                    <button
+                      className="rounded-[4px] border !px-[12px] py-[6px]"
+                      onClick={() => {
+                        onClose()
+                        valRef.current = ''
+                      }}>
+                      cancel
+                    </button>
+                    <button
+                      className="rounded-[4px] border !px-[12px] py-[6px]"
+                      onClick={() => {
+                        onClose()
+                        if (valRef.current) {
+                          const sideKey = side === SplitSide.old ? 'oldFile' : 'newFile'
+                          setExtend(prev => {
+                            const res = { ...prev }
+                            res[sideKey] = {
+                              ...res[sideKey],
+                              [lineNumber]: { lineNumber, data: valRef.current }
+                            }
+                            return res
+                          })
+                          setTimeout(() => {
+                            valRef.current = ''
+                          })
+                        }
+                      }}>
+                      submit
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          )
-        }}
-        diffFile={diffFileInstance}
-        extendData={extend}
-        renderExtendLine={({ data }) => (
-          <div className="bg-background/50 px-6 py-[6px]">
-            <Card className="bg-transparent rounded-md">
-              <div className="flex flex-col px-4 py-4">
-                <div className="flex items-center space-x-2">
-                  <div className='h-6 w-6 rounded-full bg-tertiary-background bg-[url("../images/user-avatar.svg")] bg-cover'></div>
-                  <Text color="primary">adam </Text>
-                  <Text size={1} color="tertiaryBackground">
-                    4 hours ago
+            )
+          }}
+          diffFile={diffFileInstance}
+          extendData={extend}
+          renderExtendLine={({ data }) => (
+            <div className="bg-background/50 px-6 py-[6px]">
+              <Card className="bg-transparent rounded-md">
+                <div className="flex flex-col px-4 py-4">
+                  <div className="flex items-center space-x-2">
+                    <div className='h-6 w-6 rounded-full bg-tertiary-background bg-[url("../images/user-avatar.svg")] bg-cover'></div>
+                    <Text color="primary">adam </Text>
+                    <Text size={1} color="tertiaryBackground">
+                      4 hours ago
+                    </Text>
+                  </div>
+                  <Text size={2} color="primary" className="px-8 py-2">
+                    {data}
                   </Text>
                 </div>
-                <Text size={2} color="primary" className="px-8 py-2">
-                  {data}
-                </Text>
-              </div>
-              <div className="flex items-center gap-3 border-t px-4 py-4">
-                <div className='h-6 w-6 rounded-full bg-tertiary-background bg-[url("../images/user-avatar.svg")] bg-cover'></div>
-                <Input placeholder={'Reply here'} />
-              </div>
-            </Card>
-          </div>
-        )}
-        // data={data}
-        diffViewFontSize={fontsize}
-        diffViewHighlight={highlight}
-        diffViewMode={mode}
-        diffViewWrap={wrap}
-        diffViewAddWidget={addWidget}
-        onAddWidgetClick={() => {
-          handleClick()
-        }}
-      />
-    )
+                <div className="flex items-center gap-3 border-t px-4 py-4">
+                  <div className='h-6 w-6 rounded-full bg-tertiary-background bg-[url("../images/user-avatar.svg")] bg-cover'></div>
+                  <Input placeholder={'Reply here'} />
+                </div>
+              </Card>
+            </div>
+          )}
+          // data={data}
+          diffViewFontSize={fontsize}
+          diffViewHighlight={highlight}
+          diffViewMode={mode}
+          diffViewWrap={wrap}
+          diffViewAddWidget={addWidget}
+          onAddWidgetClick={() => {
+            handleClick()
+          }}
+        />
+      )}
+      {renderCustomContent && (
+        <div className="pt-4 pl-6">
+          {fileDeleted
+            ? 'This file was deleted.'
+            : isDiffTooLarge || diffHasVeryLongLine
+              ? 'Large diffs are not rendered by default.'
+              : isBinary
+                ? 'Binary file not shown.'
+                : 'File without changes.'}
+        </div>
+      )}
+    </>
   )
 }
 

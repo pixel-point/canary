@@ -266,6 +266,11 @@ interface HeaderProps {
   data?: string
   title: string
   lang: string
+  addedLines?: number
+  removedLines?: number
+  isBinary?: boolean
+  deleted?: boolean
+  unchangedPercentage?: number
 }
 
 const LineTitle: React.FC<Omit<HeaderProps, 'title' | 'data' | 'lang'>> = ({ text }) => (
@@ -289,7 +294,6 @@ const PullRequestAccordion: React.FC<{
   data?: string
 }> = ({ header }) => {
   const { highlight, wrap, fontsize } = useDiffConfig()
-
   const startingLine =
     parseStartingLineIfOne(header?.data ?? '') !== null ? parseStartingLineIfOne(header?.data ?? '') : null
   return (
@@ -317,6 +321,11 @@ const PullRequestAccordion: React.FC<{
                     addWidget
                     fileName={header?.title ?? ''}
                     lang={header?.lang ?? ''}
+                    isBinary={header?.isBinary}
+                    addedLines={header?.addedLines}
+                    removedLines={header?.removedLines}
+                    deleted={header?.deleted}
+                    unchangedPercentage={header?.unchangedPercentage}
                   />
                 </div>
               </div>
