@@ -14,10 +14,16 @@ const cloneRepoFormSchema = z.object({
 
 export type CloneRepoFormType = z.infer<typeof cloneRepoFormSchema>
 
-export function CloneRepoForm({ httpsUrl, sshUrl, currentTab }: CloneRepoFormType & { currentTab: string }) {
+export interface CloneRepoFormProps {
+  httpsUrl: string
+  sshUrl: string
+  handleCreateToken: () => void
+  currentTab: string
+}
+
+export const CloneRepoForm: React.FC<CloneRepoFormProps> = ({ httpsUrl, sshUrl, currentTab, handleCreateToken }) => {
   const {
     register,
-
     formState: { errors }
   } = useForm<CloneRepoFormType>({
     resolver: zodResolver(cloneRepoFormSchema),
@@ -44,7 +50,7 @@ export function CloneRepoForm({ httpsUrl, sshUrl, currentTab }: CloneRepoFormTyp
                   className="text-tertiary-background"
                   right={<CopyButton name={httpsUrl} />}
                 />
-                <Button variant="default" type="button">
+                <Button variant="default" type="button" onClick={handleCreateToken}>
                   Generate Clone Credential
                 </Button>
                 <div className="flex items-center">
