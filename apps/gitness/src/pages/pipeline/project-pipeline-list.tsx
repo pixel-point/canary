@@ -15,11 +15,11 @@ import { PageResponseHeader } from '../../types'
 import { getExecutionStatus } from '../../utils/execution-utils'
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
 import { timeAgoFromEpochTime } from '../pipeline-edit/utils/time-utils'
-import { useDebouncedQuery } from '../../hooks/useQuery'
+import { useDebouncedQueryState } from '../../hooks/useDebouncedQueryState'
 
 export default function ProjectPipelinesPage() {
   const spaceId = useGetSpaceURLParam()
-  const [query, setQuery] = useDebouncedQuery()
+  const [query, setQuery] = useDebouncedQueryState('query')
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
 
   const { data: { body: pipelines, headers } = {}, isFetching } = useListSpacePipelinesQuery(

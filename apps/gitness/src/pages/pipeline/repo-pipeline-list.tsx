@@ -7,7 +7,6 @@ import {
   SandboxLayout,
   SkeletonList,
   Filter,
-  useCommonFilter,
   NoData,
   NoSearchResults,
   PaginationComponent
@@ -15,11 +14,11 @@ import {
 import { PageResponseHeader } from '../../types'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { getExecutionStatus, getMeterState } from '../../utils/execution-utils'
+import { useDebouncedQueryState } from '../../hooks/useDebouncedQueryState'
 
 export default function RepoPipelinesPage() {
   const repoRef = useGetRepoRef()
-  const { query: currentQuery } = useCommonFilter()
-  const [query, _] = useQueryState('query', { defaultValue: currentQuery || '' })
+  const [query, setQuery] = useDebouncedQueryState('query')
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
 
   const { data: { body: pipelines, headers } = {}, isFetching } = useListPipelinesQuery(
@@ -46,8 +45,7 @@ export default function RepoPipelinesPage() {
             iconName="no-search-magnifying-glass"
             title="No search results"
             description={['Check your spelling and filter options,', 'or search for a different keyword.']}
-            primaryButton={{ label: 'Clear search' }}
-            secondaryButton={{ label: 'Clear filters' }}
+            primaryButton={{ label: 'Clear search', onClick: () => setQuery('') }}
           />
         )
       }
@@ -61,34 +59,23 @@ export default function RepoPipelinesPage() {
       )
     }
     return (
-      <>
-        <div className="flex justify-between gap-5">
-          <div className="flex-1">
-            <Filter />
-          </div>
-          <Button variant="default" asChild>
-            <Link to="create">Create Pipeline</Link>
-          </Button>
-        </div>
-        <Spacer size={5} />
-        <PipelineList
-          pipelines={pipelines?.map((item: TypesPipeline) => ({
-            id: item?.identifier || '',
-            status: getExecutionStatus(item?.execution?.status),
-            name: item?.identifier,
-            sha: item?.execution?.after,
-            description: item?.execution?.message,
-            timestamp: item?.created,
-            meter: [
-              {
-                id: item?.execution?.number,
-                state: getMeterState(item?.execution?.status)
-              }
-            ]
-          }))}
-          LinkComponent={LinkComponent}
-        />
-      </>
+      <PipelineList
+        pipelines={pipelines?.map((item: TypesPipeline) => ({
+          id: item?.identifier || '',
+          status: getExecutionStatus(item?.execution?.status),
+          name: item?.identifier,
+          sha: item?.execution?.after,
+          description: item?.execution?.message,
+          timestamp: item?.created,
+          meter: [
+            {
+              id: item?.execution?.number,
+              state: getMeterState(item?.execution?.status)
+            }
+          ]
+        }))}
+        LinkComponent={LinkComponent}
+      />
     )
   }
 
@@ -101,6 +88,15 @@ export default function RepoPipelinesPage() {
             Pipelines
           </Text>
           <Spacer size={6} />
+          <div className="flex justify-between gap-5">
+            <div className="flex-1">
+              <Filter />
+            </div>
+            <Button variant="default" asChild>
+              <Link to="create">Create Pipeline</Link>
+            </Button>
+          </div>
+          <Spacer size={5} />
           {renderListContent()}
           <Spacer size={8} />
           <PaginationComponent

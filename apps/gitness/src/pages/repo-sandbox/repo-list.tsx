@@ -15,6 +15,7 @@ import {
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
 import { timeAgoFromEpochTime } from '../pipeline-edit/utils/time-utils'
 import { PageResponseHeader } from '../../types'
+import { useDebouncedQueryState } from '../../hooks/useDebouncedQueryState'
 
 const sortOptions = [
   { name: 'Created', value: 'created' },
@@ -29,8 +30,8 @@ export default function ReposListPage() {
   const navigate = useNavigate()
 
   /* Query and Pagination */
-  const { query: currentQuery = '', sort } = useCommonFilter<ListReposQueryQueryParams['sort']>()
-  const [query, _] = useQueryState('query', { defaultValue: currentQuery })
+  const { sort } = useCommonFilter<ListReposQueryQueryParams['sort']>()
+  const [query, setQuery] = useDebouncedQueryState('query')
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
 
   const {
@@ -72,8 +73,7 @@ export default function ReposListPage() {
             iconName="no-search-magnifying-glass"
             title="No search results"
             description={['Check your spelling and filter options,', 'or search for a different keyword.']}
-            primaryButton={{ label: 'Clear search' }}
-            secondaryButton={{ label: 'Clear filters' }}
+            primaryButton={{ label: 'Clear search', onClick: () => setQuery('') }}
           />
         )
       }

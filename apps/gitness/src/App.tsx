@@ -21,7 +21,7 @@ import RepoPipelinesPage from './pages/pipeline/repo-pipeline-list'
 import ProjectPipelinesPage from './pages/pipeline/project-pipeline-list'
 import { SignIn } from './pages/signin'
 import { SignUp } from './pages/signup'
-import PullRequestSandboxListPage from './pages/sandbox-pull-request-list-page'
+import PullRequestListPage from './pages/pull-request/pull-request-list-page'
 import RepoExecutionListPage from './pages/execution/repo-execution-list'
 import PullRequestSandboxLayout from './layouts/PullRequestSandboxLayout'
 import PullRequestCommitsPage from './pages/pull-request-commits-page'
@@ -33,8 +33,8 @@ import CreateProject from './pages/create-project'
 import { CreateRepo } from './pages/repo/repo-create-page'
 import RepoSandboxCommitsPage from './pages/repo-sandbox/repo-sandbox-commits'
 import { Execution } from './pages/execution/execution-details'
-import RepoSandboxWebhooksListPage from './pages/repo-sandbox/repo-sandbox-webhooks'
-import { RepoSandboxBranchesListPage } from './pages/repo-sandbox/repo-sandbox-branch-list'
+import RepoSandboxWebhooksListPage from './pages/webhooks/repo-webhook-list'
+import { RepoBranchesListPage } from './pages/repo/repo-branch-list'
 import PullRequestDataProvider from './pages/pull-request/context/pull-request-data-provider'
 import SandboxPullRequestConversationPage from './pages/pull-request/sandbox-pull-request-conversation-page'
 import { RepoSandboxFiles } from './pages/repo-sandbox/repo-sandbox-files'
@@ -204,7 +204,7 @@ export default function App() {
                 {
                   path: 'pull-requests',
                   children: [
-                    { index: true, element: <PullRequestSandboxListPage /> },
+                    { index: true, element: <PullRequestListPage /> },
                     {
                       path: 'compare/:diffRefs*?',
                       element: <CreatePullRequest />
@@ -262,7 +262,7 @@ export default function App() {
                 },
                 {
                   path: 'branches',
-                  element: <RepoSandboxBranchesListPage />
+                  element: <RepoBranchesListPage />
                 },
                 {
                   path: 'settings',

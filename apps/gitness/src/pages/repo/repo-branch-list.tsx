@@ -1,7 +1,7 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { parseAsInteger, useQueryState } from 'nuqs'
-import { Link, useParams } from 'react-router-dom'
-import { SkeletonList, NoData, PaddingListLayout, BranchesList, Filter, useCommonFilter } from '@harnessio/playground'
+import { SkeletonList, NoData, SandboxLayout, BranchesList, Filter, useCommonFilter } from '@harnessio/playground'
 import { Button, Spacer, Text } from '@harnessio/canary'
 import {
   useListBranchesQuery,
@@ -13,23 +13,24 @@ import {
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { PageResponseHeader, orderSortDate } from '../../types'
 import { timeAgoFromISOTime } from '../pipeline-edit/utils/time-utils'
-import { NoSearchResults, PaginationComponent } from '../../../../../packages/playground/dist'
+import { NoSearchResults, PaginationComponent } from '@harnessio/playground'
 import { PathParams } from '../../RouteDefinitions'
+import CreateBranchDialog from '../repo-sandbox/repo-sandbox-branch-create'
+import { useDebouncedQueryState } from '../../hooks/useDebouncedQueryState'
 
 const sortOptions = [
   { name: 'Date', value: 'date' },
   { name: 'Name', value: 'name' }
 ]
 
-export function ReposBranchesListPage() {
+export function RepoBranchesListPage() {
   const repoRef = useGetRepoRef()
   const { spaceId, repoId } = useParams<PathParams>()
-
+  const [isCreateBranchDialogOpen, setCreateBranchDialogOpen] = useState(false)
   const { data: { body: repoMetadata } = {} } = useFindRepositoryQuery({ repo_ref: repoRef })
 
-  const { query: currentQuery, sort } = useCommonFilter<ListBranchesQueryQueryParams['sort']>()
-
-  const [query, _] = useQueryState('query', { defaultValue: currentQuery || '' })
+  const { sort } = useCommonFilter<ListBranchesQueryQueryParams['sort']>()
+  const [query, setQuery] = useDebouncedQueryState('query')
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
 
   const { isLoading, data: { body: branches, headers } = {} } = useListBranchesQuery({
@@ -40,7 +41,7 @@ export function ReposBranchesListPage() {
   const xNextPage = parseInt(headers?.get(PageResponseHeader.xNextPage) || '')
   const xPrevPage = parseInt(headers?.get(PageResponseHeader.xPrevPage) || '')
 
-  const { data: branchDivergence, mutate } = useCalculateCommitDivergenceMutation({
+  const { data: { body: branchDivergence = [] } = {}, mutate } = useCalculateCommitDivergenceMutation({
     repo_ref: repoRef
   })
 
@@ -64,8 +65,7 @@ export function ReposBranchesListPage() {
             iconName="no-search-magnifying-glass"
             title="No search results"
             description={['Check your spelling and filter options,', 'or search for a different keyword.']}
-            primaryButton={{ label: 'Clear search' }}
-            secondaryButton={{ label: 'Clear filters' }}
+            primaryButton={{ label: 'Clear search', onClick: () => setQuery('') }}
           />
         )
       }
@@ -77,14 +77,19 @@ export function ReposBranchesListPage() {
             "Your branches will appear here once they're created.",
             'Start branching to see your work organized.'
           ]}
-          primaryButton={{ label: 'Create new branch' }}
+          primaryButton={{
+            label: 'Create branch',
+            onClick: () => {
+              setCreateBranchDialogOpen(true)
+            }
+          }}
         />
       )
     }
 
     //get the data arr from behindAhead
     const behindAhead =
-      branchDivergence?.body?.map(divergence => {
+      branchDivergence?.map(divergence => {
         return {
           behind: divergence.behind,
           ahead: divergence.ahead
@@ -118,40 +123,42 @@ export function ReposBranchesListPage() {
     )
   }
 
-  const branchesExist = (branches?.length ?? 0) > 0
-
   return (
-    <PaddingListLayout spaceTop={false}>
-      <Spacer size={2} />
-      {/**
-       * Show if branches exist.
-       * Additionally, show if query(search) is applied.
-       */}
-      {(query || branchesExist) && (
-        <>
-          <Text size={5} weight={'medium'}>
-            Branches
-          </Text>
-          <Spacer size={6} />
-          <div className="flex justify-between gap-5 items-center">
-            <div className="flex-1">
-              <Filter sortOptions={sortOptions} />
-            </div>
-            <Button variant="default" asChild>
-              <Link to="create">Create Branch</Link>
-            </Button>
+    <SandboxLayout.Main hasHeader hasSubHeader hasLeftPanel>
+      <SandboxLayout.Content>
+        <Spacer size={10} />
+        <Text size={5} weight={'medium'}>
+          Branches
+        </Text>
+        <Spacer size={6} />
+        <div className="flex justify-between gap-5 items-center">
+          <div className="flex-1">
+            <Filter sortOptions={sortOptions} />
           </div>
-        </>
-      )}
-      <Spacer size={5} />
-      {renderListContent()}
-      <Spacer size={8} />
-      <PaginationComponent
-        nextPage={xNextPage}
-        previousPage={xPrevPage}
-        currentPage={page}
-        goToPage={(pageNum: number) => setPage(pageNum)}
+          <Button
+            variant="default"
+            onClick={() => {
+              setCreateBranchDialogOpen(true)
+            }}>
+            Create branch
+          </Button>
+        </div>
+        <Spacer size={5} />
+        {renderListContent()}
+        <Spacer size={8} />
+        <PaginationComponent
+          nextPage={xNextPage}
+          previousPage={xPrevPage}
+          currentPage={page}
+          goToPage={(pageNum: number) => setPage(pageNum)}
+        />
+      </SandboxLayout.Content>
+      <CreateBranchDialog
+        open={isCreateBranchDialogOpen}
+        onClose={() => {
+          setCreateBranchDialogOpen(false)
+        }}
       />
-    </PaddingListLayout>
+    </SandboxLayout.Main>
   )
 }

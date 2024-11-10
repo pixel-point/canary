@@ -11,16 +11,14 @@ import { PageResponseHeader } from '../types'
 import { useQueryClient } from '@tanstack/react-query'
 
 export const UserManagementPageContainer = () => {
-  const { query: _currentQuery, sort } = useCommonFilter<AdminListUsersQueryQueryParams['sort']>()
-  // const [query, _] = useQueryState('query', { defaultValue: currentQuery || '' })
+  const { sort } = useCommonFilter<AdminListUsersQueryQueryParams['sort']>()
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
   const changePage = (pageNum: number) => setPage(pageNum)
   const queryClient = useQueryClient()
   const { data: { body: userData, headers } = {} } = useAdminListUsersQuery({
     queryParams: {
-      page: page,
-      limit: 30,
-      sort: sort
+      page,
+      sort
     }
   })
 

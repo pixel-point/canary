@@ -1,6 +1,6 @@
-import { useState, useCallback } from 'react'
-import { Spacer, Text, ListActions, SearchBox, Button } from '@harnessio/canary'
-import debounce from 'lodash-es/debounce'
+import { useState } from 'react'
+import { Spacer, Text, Button } from '@harnessio/canary'
+import pluralize from 'pluralize'
 import {
   SandboxLayout,
   SkeletonList,
@@ -9,7 +9,9 @@ import {
   FormDeleteMemberDialog,
   useCommonFilter,
   PaginationComponent,
-  Filter
+  Filter,
+  MemberProps,
+  NoSearchResults
 } from '@harnessio/playground'
 import {
   useMembershipListQuery,
@@ -25,8 +27,8 @@ import { timeAgoFromEpochTime } from '../pipeline-edit/utils/time-utils'
 import { useQueryState, parseAsInteger } from 'nuqs'
 import { PageResponseHeader } from '../../types'
 import { DialogState } from './types'
+import { useDebouncedQueryState } from '../../hooks/useDebouncedQueryState'
 
-const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
 const SortOptions = [
   { name: 'Name', value: 'name' },
   { name: 'Created', value: 'created' }
@@ -34,32 +36,27 @@ const SortOptions = [
 
 const ProjectSettingsMemebersPage = () => {
   const space_ref = useGetSpaceURLParam()
-
   const [dialogState, setDialogState] = useState<DialogState>({
     isDialogDeleteOpen: false,
     selectedMember: null
   })
-
-  const { sort, query: currentQuery } = useCommonFilter<MembershipListQueryQueryParams['sort']>()
-  const [query, setQuery] = useQueryState('query', {
-    defaultValue: currentQuery || ''
-  })
+  const { sort } = useCommonFilter<MembershipListQueryQueryParams['sort']>()
+  const [query, setQuery] = useDebouncedQueryState('query')
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
-
-  // Define the query parameters for useMembershipListQuery
-  const queryParams: MembershipListQueryQueryParams = {
-    query,
-    order: 'asc',
-    sort,
-    page,
-    limit: 30
-  }
 
   const {
     isLoading,
     data: { body: membersData, headers } = {},
     refetch
-  } = useMembershipListQuery({ space_ref: space_ref ?? '', queryParams: queryParams })
+  } = useMembershipListQuery({
+    space_ref: space_ref ?? '',
+    queryParams: {
+      query,
+      order: 'asc',
+      sort,
+      page
+    }
+  })
 
   const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '')
 
@@ -117,45 +114,26 @@ const ProjectSettingsMemebersPage = () => {
     refetch()
   }
 
-  // Debounce the search term change to avoid frequent updates
-  const debouncedSetQuery = useCallback(
-    debounce(term => setQuery(term), 300), // 300 ms debounce delay
-    [setQuery]
-  )
-
-  // Update search term on input change and debounce the API call
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newTerm = event.target.value
-    setQuery(newTerm)
-    debouncedSetQuery(newTerm)
-  }
-
   const renderMemberListContent = () => {
     if (isLoading) return <SkeletonList />
     if (!membersData?.length) {
       if (query) {
         return (
-          <NoData
+          <NoSearchResults
             iconName="no-search-magnifying-glass"
             title="No search results"
             description={['Check your spelling and filter options,', 'or search for a different keyword.']}
-            primaryButton={{ label: 'Clear search' }}
-            secondaryButton={{ label: 'Clear filters' }}
+            primaryButton={{ label: 'Clear search', onClick: () => setQuery('') }}
           />
         )
       }
       return (
-        //add this layout to target the content in the center of the page without header and subheader
-        <SandboxLayout.Main hasLeftPanel>
-          <SandboxLayout.Content maxWidth="3xl" className="h-screen">
-            <NoData
-              iconName="no-data-members"
-              title="No Members yet"
-              description={['Add your first team members by inviting them to join this project.']}
-              primaryButton={{ label: 'Invite new members' }}
-            />
-          </SandboxLayout.Content>
-        </SandboxLayout.Main>
+        <NoData
+          iconName="no-data-members"
+          title="No Members yet"
+          description={['Add your first team members by inviting them to join this project.']}
+          primaryButton={{ label: 'Invite new members' }}
+        />
       )
     }
     return (
@@ -169,8 +147,8 @@ const ProjectSettingsMemebersPage = () => {
             timestamp: member.created ? timeAgoFromEpochTime(member.created) : 'No time available',
             uid: member.principal?.uid ?? ''
           }))}
-          onEdit={member => handleRoleChange(member.uid, member.role as EnumMembershipRole)}
-          onDelete={member =>
+          onEdit={(member: MemberProps) => handleRoleChange(member.uid, member.role as EnumMembershipRole)}
+          onDelete={(member: MemberProps) =>
             setDialogState({
               ...dialogState,
               isDialogDeleteOpen: true,
@@ -203,21 +181,17 @@ const ProjectSettingsMemebersPage = () => {
           Team
         </Text>
         <Text size={5} weight={'medium'} color="tertiaryBackground">
-          , {membersData?.length ?? ''} members
+          {membersData?.length ? `, ${membersData.length} ${pluralize('member', membersData.length)}` : ''}
         </Text>
         <Spacer size={6} />
-        <ListActions.Root>
-          <ListActions.Left>
-            <SearchBox.Root placeholder="Search Members" handleChange={handleInputChange} defaultValue={query} />
-          </ListActions.Left>
-          <ListActions.Right>
-            <ListActions.Dropdown title="All Team Roles" items={filterOptions} />
-            <Filter showSearch={false} sortOptions={SortOptions} />
-            <Link to={`/spaces/${space_ref}/settings/members/create`}>
-              <Button variant="default">Invite New Members</Button>
-            </Link>
-          </ListActions.Right>
-        </ListActions.Root>
+        <div className="flex justify-between gap-5">
+          <div className="flex-1">
+            <Filter sortOptions={SortOptions} />
+          </div>
+          <Button variant="default" asChild>
+            <Link to={`/spaces/${space_ref}/settings/members/create`}>Invite New Members</Link>
+          </Button>
+        </div>
         <Spacer size={5} />
         {renderMemberListContent()}
         <Spacer size={8} />
