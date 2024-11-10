@@ -11,8 +11,7 @@ import {
   NewPasswordPage,
   OTPPage,
   SandboxRepoSettingsPage,
-  RepoSettingsPlaceholderPage,
-  SandboxSettingsCreateNewMemberPage
+  RepoSettingsPlaceholderPage
 } from '@harnessio/playground'
 import SandboxRootWrapper from './components/SandboxRootWrapper'
 import { TooltipProvider } from '@harnessio/canary'
@@ -60,6 +59,7 @@ import { UserManagementPageContainer } from './user-management/user-management-c
 import PipelineLayout from './layouts/PipelineStudioLayout'
 import { SandboxPipelineCreate } from './pages/pipeline-create/pipeline-create-sandbox'
 import { CreateNewUserContainer } from './user-management/create-new-user-container'
+import { CreateNewMemberPage } from './pages/project-settings/project-settings-new-member-page'
 
 const BASE_URL_PREFIX = `${window.apiUrl || ''}/api/v1`
 
@@ -342,7 +342,7 @@ export default function App() {
                         { index: true, element: <ProjectSettingsMemebersPage /> },
                         {
                           path: 'create',
-                          element: <SandboxSettingsCreateNewMemberPage />
+                          element: <CreateNewMemberPage />
                         }
                       ]
                     }

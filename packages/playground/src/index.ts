@@ -72,6 +72,7 @@ export * from './components/profile-settings/profile-settings-keys-list'
 export * from './components/profile-settings/profile-settings-tokens-list'
 export * from './components/profile-settings/types'
 export * from './components/project-settings/members-list'
+export * from './components/project-settings/interfaces'
 export * from './components/project-settings/form-member-delete-dialog'
 export * from './components/project-settings/form-member-edit-dialog'
 

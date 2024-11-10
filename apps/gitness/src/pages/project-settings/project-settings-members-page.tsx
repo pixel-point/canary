@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Spacer, Text, Button } from '@harnessio/canary'
 import pluralize from 'pluralize'
+import { Spacer, Text, Button } from '@harnessio/canary'
 import {
   SandboxLayout,
   SkeletonList,
@@ -10,7 +10,7 @@ import {
   useCommonFilter,
   PaginationComponent,
   Filter,
-  MemberProps,
+  MembersProps,
   NoSearchResults
 } from '@harnessio/playground'
 import {
@@ -147,8 +147,8 @@ const ProjectSettingsMemebersPage = () => {
             timestamp: member.created ? timeAgoFromEpochTime(member.created) : 'No time available',
             uid: member.principal?.uid ?? ''
           }))}
-          onEdit={(member: MemberProps) => handleRoleChange(member.uid, member.role as EnumMembershipRole)}
-          onDelete={(member: MemberProps) =>
+          onEdit={(member: MembersProps) => handleRoleChange(member.uid, member.role as EnumMembershipRole)}
+          onDelete={(member: MembersProps) =>
             setDialogState({
               ...dialogState,
               isDialogDeleteOpen: true,
