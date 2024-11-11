@@ -16,19 +16,30 @@ import {
 } from '@harnessio/canary'
 import { Link } from 'react-router-dom'
 
-interface BranchListProps {
+interface BaseItem {
   name: string
+}
+
+interface BranchItem extends BaseItem {
   isDefault?: boolean
 }
 
-interface TagListProps {
-  name: string
+interface BaseListProps {
+  viewAllUrl: string
+}
+
+interface BranchListProps extends BaseListProps {
+  items: BranchItem[]
+}
+
+interface TagListProps extends BaseListProps {
+  items?: BaseItem[]
 }
 
 interface BranchSelectorProps {
   name: string
-  branchList: BranchListProps[]
-  tagsList: TagListProps[]
+  branchList: BranchListProps
+  tagList: TagListProps
   size?: 'default' | 'sm'
   width?: 'auto' | 'sm' | 'md' | 'lg' | 'full'
   selectBranch: (branch: string) => void
@@ -52,7 +63,7 @@ const BRANCH_SELECTOR_LABELS = {
   }
 } as const
 
-const filterItems = (items: (BranchListProps | TagListProps)[], query: string) => {
+const filterItems = (items: BranchItem[] | BaseItem[], query: string) => {
   if (!query.trim()) return items
 
   return items.filter(item => item.name.toLowerCase().includes(query.toLowerCase().trim()))
@@ -61,23 +72,25 @@ const filterItems = (items: (BranchListProps | TagListProps)[], query: string) =
 const DropdownMenuExtendedContent = ({
   name,
   branchList,
-  tagsList,
+  tagList,
   selectBranch
 }: {
   name: string
-  branchList: BranchListProps[]
-  tagsList: TagListProps[]
+  branchList: BranchListProps
+  tagList: TagListProps
   selectBranch: (branch: string) => void
 }) => {
   const [activeTab, setActiveTab] = useState<BranchSelectorTab>(BranchSelectorTab.BRANCHES)
   const [searchQuery, setSearchQuery] = useState('')
 
-  const sourceItems = activeTab === BranchSelectorTab.BRANCHES ? branchList : tagsList
+  const sourceItems = activeTab === BranchSelectorTab.BRANCHES ? branchList.items : (tagList.items ?? [])
   const filteredItems = filterItems(sourceItems, searchQuery)
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value)
   }
+
+  const viewAllUrl = activeTab === BranchSelectorTab.BRANCHES ? branchList.viewAllUrl : tagList.viewAllUrl
 
   return (
     <DropdownMenuContent className="w-[298px] p-0" align="start">
@@ -122,7 +135,7 @@ const DropdownMenuExtendedContent = ({
         <div className="max-h-[360px] overflow-y-auto px-1">
           {filteredItems.map(item => {
             const isSelected = item.name === name
-            const isDefault = activeTab === BranchSelectorTab.BRANCHES && (item as BranchListProps).isDefault
+            const isDefault = activeTab === BranchSelectorTab.BRANCHES && (item as BranchItem).isDefault
 
             return (
               <DropdownMenuItem
@@ -170,7 +183,7 @@ const DropdownMenuExtendedContent = ({
         </div>
 
         <div className="px-3 py-2 mt-1 border-t border-borders-4">
-          <Link to="/">
+          <Link to={viewAllUrl}>
             <Text className="text-ring hover:text-foreground-1 transition-colors duration-200 leading-none">
               View all {activeTab === BranchSelectorTab.BRANCHES ? 'branches' : 'tags'}
             </Text>
@@ -184,7 +197,7 @@ const DropdownMenuExtendedContent = ({
 export const BranchSelector = ({
   name,
   branchList,
-  tagsList = [],
+  tagList,
   size = 'default',
   selectBranch,
   width = 'auto',
@@ -199,7 +212,7 @@ export const BranchSelector = ({
     full: 'w-full'
   }
 
-  const isTag = tagsList.some(tag => tag.name === name)
+  const isTag = tagList.items?.some(tag => tag.name === name) ?? false
 
   return (
     <DropdownMenu>
@@ -225,12 +238,7 @@ export const BranchSelector = ({
           <Icon className="min-w-[10px] chevron-down ml-0 text-tertiary-background" name="chevron-down" size={10} />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuExtendedContent
-        branchList={branchList}
-        tagsList={tagsList}
-        name={name}
-        selectBranch={selectBranch}
-      />
+      <DropdownMenuExtendedContent branchList={branchList} tagList={tagList} name={name} selectBranch={selectBranch} />
     </DropdownMenu>
   )
 }
