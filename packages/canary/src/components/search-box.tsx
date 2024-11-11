@@ -116,7 +116,7 @@ const Root = ({
 
         // Start of temporary fix
         defaultValue={defaultValue}
-        className={cn('border-input-foreground h-8 pt-[0.4375rem]', textSizeClass)}
+        className={cn('h-8 pt-[0.4375rem]', textSizeClass)}
         style={{
           paddingLeft: '1.75rem', // Equivalent to 'pl-7' in Tailwind (28px)
           paddingRight: hasShortcut ? '2.5rem' : undefined // Equivalent to 'pr-10' in Tailwind (40px) if `hasShortcut` is true
