@@ -15,13 +15,10 @@ import {
   cn
 } from '@harnessio/canary'
 import { Link } from 'react-router-dom'
+import { BranchProps } from '../types/branch'
 
 interface BaseItem {
   name: string
-}
-
-interface BranchItem extends BaseItem {
-  isDefault?: boolean
 }
 
 interface BaseListProps {
@@ -29,7 +26,7 @@ interface BaseListProps {
 }
 
 interface BranchListProps extends BaseListProps {
-  items: BranchItem[]
+  items: BranchProps[]
 }
 
 interface TagListProps extends BaseListProps {
@@ -63,7 +60,7 @@ const BRANCH_SELECTOR_LABELS = {
   }
 } as const
 
-const filterItems = (items: BranchItem[] | BaseItem[], query: string) => {
+const filterItems = (items: BranchProps[] | BaseItem[], query: string) => {
   if (!query.trim()) return items
 
   return items.filter(item => item.name.toLowerCase().includes(query.toLowerCase().trim()))
@@ -135,7 +132,7 @@ const DropdownMenuExtendedContent = ({
         <div className="max-h-[360px] overflow-y-auto px-1">
           {filteredItems.map(item => {
             const isSelected = item.name === name
-            const isDefault = activeTab === BranchSelectorTab.BRANCHES && (item as BranchItem).isDefault
+            const isDefault = activeTab === BranchSelectorTab.BRANCHES && (item as BranchProps).default
 
             return (
               <DropdownMenuItem

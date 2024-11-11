@@ -12,6 +12,7 @@ import {
   IconProps
 } from '@harnessio/canary'
 import { FileProps, Summary } from '../components/repo-summary'
+import { mockBranchData } from '../data/mockBranchData'
 import { RepoSummaryPanel } from '../components/repo-summary-panel'
 import { BranchSelector } from '../components/branch-selector'
 import { mockFiles } from '../data/mockSummaryFiiles'
@@ -59,51 +60,7 @@ const mockSummaryDetails: { id: string; name: string; count: number; iconName: I
 
 const mockBranchList = {
   branches: {
-    items: [
-      {
-        name: 'main',
-        isDefault: true
-      },
-      {
-        name: 'new-feature'
-      },
-      {
-        name: 'renovate/major-typescript-eslint-monorepo'
-      },
-      {
-        name: 'test-wip'
-      },
-      {
-        name: 'test-wip-2'
-      },
-      {
-        name: 'test-wip-3'
-      },
-      {
-        name: 'test-wip-4'
-      },
-      {
-        name: 'test-wip-5'
-      },
-      {
-        name: 'test-wip-6'
-      },
-      {
-        name: 'test-wip-7'
-      },
-      {
-        name: 'test-wip-8'
-      },
-      {
-        name: 'test-wip-9'
-      },
-      {
-        name: 'test-wip-10'
-      },
-      {
-        name: 'test-wip-11'
-      }
-    ],
+    items: mockBranchData,
     viewAllUrl: '#'
   },
   tags: {
