@@ -40,10 +40,9 @@ const PaginationLink = ({ className, isActive, size, ...props }: PaginationLinkP
         size: size ? size : 'sm_icon',
         borderRadius: 'full'
       }),
-      'text-12 font-normal min-w-7 px-1.5 w-auto bg-pagination-bg text-secondary-foreground hover:bg-pagination-bg-hover',
+      'text-12 font-normal min-w-7 px-1.5 w-auto bg-background-2 text-foreground-1 hover:bg-background-3',
       {
-        'bg-pagination-bg-active shadow-[0px_2px_4px_0px_hsla(var(--pagination-shadow-active),_0.5)] cursor-default hover:bg-pagination-bg-active':
-          isActive
+        'bg-background-8 shadow-pagination-1 cursor-default hover:bg-background-8': isActive
       },
       className
     )}
@@ -57,13 +56,13 @@ const PaginationPrevious = ({ disabled, className, ...props }: React.ComponentPr
     aria-label="Go to previous page"
     size="default"
     className={cn(
-      'gap-1.5 pl-2.5 text-sm font-normal bg-transparent cursor-pointer text-pagination-text',
-      'hover:text-primary hover:bg-transparent',
-      { 'text-secondary-muted cursor-default pointer-events-none': disabled },
+      'gap-1.5 pl-2.5 text-sm font-normal bg-transparent cursor-pointer text-foreground-2',
+      'hover:text-foreground-1 hover:bg-transparent',
+      { 'text-foreground-7 cursor-default pointer-events-none': disabled },
       className
     )}
     {...props}>
-    <Icon name="arrow-long" size={12} className="rotate-180 text-tertiary-background" />
+    <Icon name="arrow-long" size={12} className="rotate-180" />
     <span>Previous</span>
   </PaginationLink>
 )
@@ -74,9 +73,9 @@ const PaginationNext = ({ disabled, className, ...props }: React.ComponentProps<
     aria-label="Go to next page"
     size="default"
     className={cn(
-      'gap-1.5 pr-2.5 text-sm font-normal bg-transparent cursor-pointer text-pagination-text',
-      'hover:text-primary hover:bg-transparent',
-      { 'text-secondary-muted cursor-default pointer-events-none': disabled },
+      'gap-1.5 pr-2.5 text-sm font-normal bg-transparent cursor-pointer text-foreground-2',
+      'hover:text-foreground-1 hover:bg-transparent',
+      { 'text-foreground-7 cursor-default pointer-events-none': disabled },
       className
     )}
     {...props}>
@@ -90,7 +89,7 @@ const PaginationEllipsis = ({ className, ...props }: React.ComponentProps<'span'
   <span
     aria-hidden
     className={cn(
-      'flex h-7 w-7 items-center justify-center text-12 font-normal bg-pagination-bg rounded-full',
+      'flex h-7 w-7 items-center justify-center text-12 font-normal bg-background-2 rounded-full',
       className
     )}
     {...props}>
