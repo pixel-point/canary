@@ -33,6 +33,7 @@ interface BranchSelectorProps {
   width?: 'auto' | 'sm' | 'md' | 'lg' | 'full'
   selectBranch: (branch: string) => void
   prefix?: string
+  className?: string
 }
 
 enum BranchSelectorTab {
@@ -187,7 +188,8 @@ export const BranchSelector = ({
   size = 'default',
   selectBranch,
   width = 'auto',
-  prefix = undefined
+  prefix = undefined,
+  className
 }: BranchSelectorProps) => {
   const widthClasses: { [key in NonNullable<BranchSelectorProps['width']>]: string } = {
     auto: 'w-auto',
@@ -205,7 +207,8 @@ export const BranchSelector = ({
         <Button
           className={cn(
             widthClasses[width],
-            'overflow-hidden flex gap-1.5 items-center px-3 w-full max-w-[8.5rem] data-[state=open]:border-primary-muted [&_svg]:data-[state=open]:text-primary'
+            'overflow-hidden flex gap-1.5 items-center px-3 data-[state=open]:border-primary-muted [&_svg]:data-[state=open]:text-primary',
+            className
           )}
           variant="outline"
           size={size}>
