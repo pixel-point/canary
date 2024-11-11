@@ -76,7 +76,8 @@ export const RepoBranchSettingsRulesPage: React.FC<RepoBranchSettingsRulesPagePr
       id: rule.id,
       checked: false,
       submenu: [],
-      selectOptions: []
+      selectOptions: [],
+      input: ''
     }))
   )
 
@@ -106,7 +107,8 @@ export const RepoBranchSettingsRulesPage: React.FC<RepoBranchSettingsRulesPagePr
           id: rule.id,
           checked: rule.checked || false,
           submenu: (rule.submenu || []) as MergeStrategy[],
-          selectOptions: rule.selectOptions || []
+          selectOptions: rule.selectOptions || [],
+          input: rule.input || ''
         }))
       })
     }

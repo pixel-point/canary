@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Spacer } from '@harnessio/canary'
 import {
   commentCreatePullReq,
@@ -124,7 +124,7 @@ export default function SandboxPullRequestConversationPage() {
   useEffect(() => {
     setActivities(activityData)
   }, [activityData])
-  const currentUser = currentUserData?.display_name || ''
+  const currentUser = useMemo(() => currentUserData?.display_name, [currentUserData?.display_name])
 
   let count = generateAlphaNumericHash(5)
   const handleSaveComment = (comment: string, parentId?: number) => {
@@ -263,7 +263,6 @@ export default function SandboxPullRequestConversationPage() {
   if (prLoading || prPanelData?.PRStateLoading || changesLoading) {
     return <SkeletonList />
   }
-
   return (
     <>
       <SandboxLayout.Columns columnWidths="1fr 220px">
@@ -357,7 +356,7 @@ export default function SandboxPullRequestConversationPage() {
               currentUser={{ display_name: currentUserData?.display_name, uid: currentUserData?.uid }}
             />
             <Spacer size={9} />
-            <PullRequestCommentBox currentUser={currentUser} onSaveComment={handleSaveComment} />
+            <PullRequestCommentBox currentUser={currentUserData?.display_name} onSaveComment={handleSaveComment} />
             <Spacer size={9} />
           </SandboxLayout.Content>
         </SandboxLayout.Column>

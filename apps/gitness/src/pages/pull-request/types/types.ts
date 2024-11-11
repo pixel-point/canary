@@ -190,7 +190,7 @@ export type EnumPullReqReviewDecisionExtended = EnumPullReqReviewDecision | 'out
 
 export const formSchema = z.object({
   title: z.string().min(1, { message: 'Please provide a pull request title' }),
-  description: z.string().min(1, { message: 'Please provide a description' })
+  description: z.string().optional()
 })
 export type FormFields = z.infer<typeof formSchema> // Automatically generate a type from the schema
 export const changesInfoAtom = atom<{ path?: string; raw?: string; fileViews?: Map<string, string> }>({})

@@ -3,26 +3,25 @@ import { Link } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
 import { parseAsInteger, useQueryState } from 'nuqs'
 import { Spacer, Button, Text } from '@harnessio/canary'
-// import { NoSearchResults } from '../components/no-search-results'
 import {
   Filter,
   NoData,
   SandboxLayout,
   SkeletonList,
-  useCommonFilter,
   WebhooksList,
   NoSearchResults,
   DeleteTokenAlertDialog
 } from '@harnessio/playground'
 import { useListWebhooksQuery, useDeleteWebhookMutation } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
-import { PaginationComponent } from '../../../../../packages/playground/dist'
+import { PaginationComponent } from '@harnessio/playground'
 import { PageResponseHeader } from '../../types'
-export default function RepoSandboxWebhooksListPage() {
+import { useDebouncedQueryState } from '../../hooks/useDebouncedQueryState'
+
+export default function RepoWebhooksListPage() {
   const queryClient = useQueryClient()
   const repoRef = useGetRepoRef()
-  const { query: currentQuery } = useCommonFilter()
-  const [query, _] = useQueryState('query', { defaultValue: currentQuery || '' })
+  const [query, setQuery] = useDebouncedQueryState('query')
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
 
   const [isDeleteWebhookDialogOpen, setIsDeleteWebhookDialogOpen] = useState(false)
@@ -68,8 +67,7 @@ export default function RepoSandboxWebhooksListPage() {
             iconName="no-search-magnifying-glass"
             title="No search results"
             description={['Check your spelling and filter options,', 'or search for a different keyword.']}
-            primaryButton={{ label: 'Clear search' }}
-            secondaryButton={{ label: 'Clear filters' }}
+            primaryButton={{ label: 'Clear search', onClick: () => setQuery('') }}
           />
         )
       }
@@ -92,33 +90,23 @@ export default function RepoSandboxWebhooksListPage() {
     )
   }
 
-  const webhooksExist = (webhooks?.length ?? 0) > 0
-
   return (
     <>
       <SandboxLayout.Main hasHeader hasSubHeader hasLeftPanel>
         <SandboxLayout.Content>
           <Spacer size={10} />
-          {/**
-           * Show if webhooks exist.
-           * Additionally, show if query(search) is applied.
-           */}
-          {(query || webhooksExist) && (
-            <>
-              <Text size={5} weight={'medium'}>
-                Webhooks
-              </Text>
-              <Spacer size={6} />
-              <div className="flex justify-between gap-5 items-center">
-                <div className="flex-1">
-                  <Filter />
-                </div>
-                <Button variant="default" asChild>
-                  <Link to="create">Create webhook</Link>
-                </Button>
-              </div>
-            </>
-          )}
+          <Text size={5} weight={'medium'}>
+            Webhooks
+          </Text>
+          <Spacer size={6} />
+          <div className="flex justify-between gap-5 items-center">
+            <div className="flex-1">
+              <Filter />
+            </div>
+            <Button variant="default" asChild>
+              <Link to="create">Create webhook</Link>
+            </Button>
+          </div>
           <Spacer size={5} />
           {renderListContent()}
           <Spacer size={8} />

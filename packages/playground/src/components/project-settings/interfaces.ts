@@ -4,6 +4,7 @@ export interface MembersProps {
   email: string
   timestamp?: string
   avatarUrl?: string
+  uid: string
 }
 
 export interface DialogState {

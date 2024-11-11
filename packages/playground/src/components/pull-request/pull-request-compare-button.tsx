@@ -20,7 +20,6 @@ interface PullRequestCompareButtonProps {
 
 const PullRequestCompareButton: React.FC<PullRequestCompareButtonProps> = ({
   isSubmitted,
-  isValid,
   isLoading,
   formRef,
   onFormDraftSubmit,
@@ -65,7 +64,7 @@ const PullRequestCompareButton: React.FC<PullRequestCompareButtonProps> = ({
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="mt-1">
                     <DropdownMenuGroup>
-                      <DropdownMenuItem onClick={handleDraftClick} disabled={!isValid || isLoading}>
+                      <DropdownMenuItem onClick={handleDraftClick} disabled={isLoading}>
                         <div className="flex flex-col">
                           <Text color="primary">Create draft pull request</Text>
                           <Text color="tertiaryBackground">Does not request code reviews and cannot be merged</Text>
@@ -76,7 +75,7 @@ const PullRequestCompareButton: React.FC<PullRequestCompareButtonProps> = ({
                 </DropdownMenu>
               }
               type="button" // Change to button type
-              disabled={!isValid || isLoading}>
+              disabled={isLoading}>
               {!isLoading ? 'Create pull request' : 'Creating pull request...'}
             </Button>
           </ButtonGroup.Root>

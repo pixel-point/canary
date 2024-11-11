@@ -6,7 +6,8 @@ import { Button, ListActions, SearchBox, Spacer, Text } from '@harnessio/canary'
 import { PaginationComponent } from '../components/pagination'
 import PlaygroundBranchesSettings from '../settings/branches-settings'
 import { mockBranchData } from '../data/mockBranchData'
-import { SandboxLayout } from '..'
+import { CreateBranchDialog, SandboxLayout } from '..'
+import { noop } from 'lodash-es'
 
 const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
 const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
@@ -34,6 +35,7 @@ type BranchProps = {
 
 export default function SandboxBranchesListPage() {
   const [loadState, setLoadState] = useState('data-loaded')
+  const [isBranchDialogOpen, setBranchDialogOpen] = useState(false)
   const spaceId = 'spaceid'
   const repoId = 'repoId'
   const branch = 'main'
@@ -66,7 +68,12 @@ export default function SandboxBranchesListPage() {
             "Your branches will appear here once they're created.",
             'Start branching to see your work organized.'
           ]}
-          primaryButton={{ label: 'Create new branch' }}
+          primaryButton={{
+            label: 'Create new branch',
+            onClick: () => {
+              setBranchDialogOpen(true)
+            }
+          }}
         />
         <PlaygroundBranchesSettings loadState={loadState} setLoadState={setLoadState} />
       </>
@@ -87,7 +94,13 @@ export default function SandboxBranchesListPage() {
           <ListActions.Right>
             <ListActions.Dropdown title="Filter" items={filterOptions} />
             <ListActions.Dropdown title="Sort" items={sortOptions} />
-            <Button variant="default">Create Branch</Button>
+            <Button
+              variant="default"
+              onClick={() => {
+                setBranchDialogOpen(true)
+              }}>
+              Create Branch
+            </Button>
           </ListActions.Right>
         </ListActions.Root>
         <Spacer size={5} />
@@ -96,6 +109,16 @@ export default function SandboxBranchesListPage() {
         {loadState === 'data-loaded' && <PaginationComponent totalPages={10} currentPage={5} goToPage={() => {}} />}
 
         <PlaygroundBranchesSettings loadState={loadState} setLoadState={setLoadState} />
+        <CreateBranchDialog
+          open={isBranchDialogOpen}
+          onClose={() => {
+            setBranchDialogOpen(false)
+          }}
+          branches={mockBranchData}
+          onSubmit={noop}
+          isSaving={false}
+          isLoadingBranches={false}
+        />
       </SandboxLayout.Content>
     </SandboxLayout.Main>
   )

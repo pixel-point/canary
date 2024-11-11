@@ -75,6 +75,7 @@ import { mockBypassUserData, mockStatusChecks } from './pages/mocks/repo-branch-
 import { BypassUsersList } from './components/repo-settings/repo-branch-settings-rules/types'
 import { currentUser } from './pages/mocks/mockCurrentUserData'
 import { mockUsersData } from './data/mockUsersData'
+import { gitIgnoreOptions, licenseOptions } from './data/mockCreateRepoData'
 
 const router = createBrowserRouter([
   // TEMPORARY LAYOUT SANDBOX
@@ -93,7 +94,17 @@ const router = createBrowserRouter([
           },
           {
             path: 'create',
-            element: <SandboxRepoCreatePage apiError="" isLoading isSuccess onFormCancel={noop} onFormSubmit={noop} />
+            element: (
+              <SandboxRepoCreatePage
+                apiError=""
+                isLoading={false}
+                isSuccess={false}
+                onFormCancel={noop}
+                onFormSubmit={noop}
+                licenseOptions={licenseOptions}
+                gitIgnoreOptions={gitIgnoreOptions}
+              />
+            )
           },
           {
             path: ':repoId',
@@ -355,8 +366,8 @@ const router = createBrowserRouter([
       },
 
       {
-        path: 'create-new-user',
-        element: <SandboxSettingsCreateNewUserPage />
+        path: 'users/create',
+        element: <SandboxSettingsCreateNewUserPage handleCreateUser={noop} isLoading={false} apiError={null} />
       }
     ]
   },

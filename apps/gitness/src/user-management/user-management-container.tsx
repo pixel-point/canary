@@ -6,96 +6,87 @@ import {
   useUpdateUserAdminMutation,
   AdminListUsersQueryQueryParams
 } from '@harnessio/code-service-client'
-import { useQueryClient } from '@tanstack/react-query'
 import { parseAsInteger, useQueryState } from 'nuqs'
 import { PageResponseHeader } from '../types'
+import { useQueryClient } from '@tanstack/react-query'
 
 export const UserManagementPageContainer = () => {
-  const queryClient = useQueryClient()
-
-  const { query: _currentQuery, sort } = useCommonFilter<AdminListUsersQueryQueryParams['sort']>()
-  // const [query, _] = useQueryState('query', { defaultValue: currentQuery || '' })
+  const { sort } = useCommonFilter<AdminListUsersQueryQueryParams['sort']>()
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
   const changePage = (pageNum: number) => setPage(pageNum)
-
+  const queryClient = useQueryClient()
   const { data: { body: userData, headers } = {} } = useAdminListUsersQuery({
     queryParams: {
-      page: page,
-      limit: 30,
-      sort: sort
+      page,
+      sort
     }
   })
 
   const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '')
 
-  const { mutate: updateUser } = useAdminUpdateUserMutation(
+  const { mutateAsync: updateUser } = useAdminUpdateUserMutation(
     {},
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['adminListUsers'] })
-      },
       onError: error => {
         console.error(error)
       }
     }
   )
 
-  const { mutate: deleteUser } = useAdminDeleteUserMutation(
+  const { mutateAsync: deleteUser } = useAdminDeleteUserMutation(
     {},
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['adminListUsers'] })
-      },
       onError: error => {
         console.error(error)
       }
     }
   )
 
-  const { mutate: updateUserAdmin } = useUpdateUserAdminMutation(
+  const { mutateAsync: updateUserAdmin } = useUpdateUserAdminMutation(
     {},
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['adminListUsers'] })
-      },
       onError: error => {
         console.error(error)
       }
     }
   )
 
-  const handleUpdateUser = (data: { email: string; displayName: string; userID: string }) => {
-    updateUser({
+  const handleUpdateUser = async (data: { email: string; displayName: string; userID: string }) => {
+    await updateUser({
       user_uid: data.userID,
       body: {
         email: data.email,
         display_name: data.displayName
       }
     })
+    queryClient.invalidateQueries({ queryKey: ['adminListUsers'] })
   }
 
-  const handleDeleteUser = (userUid: string) => {
-    deleteUser({
+  const handleDeleteUser = async (userUid: string) => {
+    await deleteUser({
       user_uid: userUid
     })
+    queryClient.invalidateQueries({ queryKey: ['adminListUsers'] })
   }
 
-  const handleUpdateUserAdmin = (userUid: string, isAdmin: boolean) => {
-    updateUserAdmin({
+  const handleUpdateUserAdmin = async (userUid: string, isAdmin: boolean) => {
+    await updateUserAdmin({
       user_uid: userUid,
       body: {
         admin: isAdmin
       }
     })
+    queryClient.invalidateQueries({ queryKey: ['adminListUsers'] })
   }
 
-  const handleUpdatePassword = (userId: string, password: string) => {
-    updateUser({
+  const handleUpdatePassword = async (userId: string, password: string) => {
+    await updateUser({
       user_uid: userId,
       body: {
         password: password
       }
     })
+    queryClient.invalidateQueries({ queryKey: ['adminListUsers'] })
   }
   return (
     <SandboxSettingsUserManagementPage

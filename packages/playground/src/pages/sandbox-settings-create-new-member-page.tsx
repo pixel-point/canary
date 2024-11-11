@@ -22,7 +22,6 @@ import { useNavigate } from 'react-router-dom'
 // Define form schema for Project Settings
 const newMemberSchema = z.object({
   memberName: z.string().min(1, { message: 'Please provide a project name' }),
-  email: z.string().email({ message: 'Please provide a valid email address' }),
   role: z.string().min(1, { message: 'Please select a role for the new member' })
 })
 
@@ -51,7 +50,6 @@ function SandboxSettingsCreateNewMemberPage() {
     mode: 'onChange',
     defaultValues: {
       memberName: '',
-      email: '',
       role: ''
     }
   })
@@ -103,19 +101,6 @@ function SandboxSettingsCreateNewMemberPage() {
               {errors.memberName && (
                 <FormFieldSet.Message theme={MessageTheme.ERROR}>
                   {errors.memberName.message?.toString()}
-                </FormFieldSet.Message>
-              )}
-            </FormFieldSet.ControlGroup>
-
-            {/* EMAIL */}
-            <FormFieldSet.ControlGroup>
-              <FormFieldSet.Label htmlFor="email" required>
-                Email
-              </FormFieldSet.Label>
-              <Input id="email" {...register('email')} placeholder="Enter email address" />
-              {errors.email && (
-                <FormFieldSet.Message theme={MessageTheme.ERROR}>
-                  {errors.email.message?.toString()}
                 </FormFieldSet.Message>
               )}
             </FormFieldSet.ControlGroup>

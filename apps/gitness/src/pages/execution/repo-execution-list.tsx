@@ -1,7 +1,8 @@
 import { useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import { parseAsInteger, useQueryState } from 'nuqs'
 import { TypesExecution, useListExecutionsQuery } from '@harnessio/code-service-client'
-import { ListActions, SearchBox, Spacer, Text, Button } from '@harnessio/canary'
+import { ListActions, Spacer, Text, Button } from '@harnessio/canary'
 import {
   ExecutionList,
   SkeletonList,
@@ -11,18 +12,13 @@ import {
   SandboxLayout,
   ExecutionState
 } from '@harnessio/playground'
-import { PageResponseHeader } from '../types'
-import { Link, useParams } from 'react-router-dom'
-import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
-import { PathParams } from '../RouteDefinitions'
-import { getExecutionStatus, getLabel } from '../utils/execution-utils'
-import RunPipelineDialog from './run-pipeline-dialog/run-pipeline-dialog'
+import { PageResponseHeader } from '../../types'
+import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
+import { PathParams } from '../../RouteDefinitions'
+import { getExecutionStatus, getLabel } from '../../utils/execution-utils'
+import RunPipelineDialog from '../run-pipeline-dialog/run-pipeline-dialog'
 
-const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
-const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
-const viewOptions = [{ name: 'View option 1' }, { name: 'View option 2' }]
-
-export default function SandboxExecutionsListPage() {
+export default function RepoExecutionListPage() {
   const repoRef = useGetRepoRef()
   const { pipelineId } = useParams<PathParams>()
   const [openRunPipeline, setOpenRunPipeline] = useState(false)
@@ -32,11 +28,14 @@ export default function SandboxExecutionsListPage() {
     data: { body: executions, headers } = {},
     isFetching,
     isSuccess
-  } = useListExecutionsQuery({
-    repo_ref: repoRef,
-    pipeline_identifier: pipelineId || '',
-    queryParams: { page }
-  })
+  } = useListExecutionsQuery(
+    {
+      repo_ref: repoRef,
+      pipeline_identifier: pipelineId || '',
+      queryParams: { page }
+    },
+    { enabled: !!repoRef }
+  )
 
   const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '')
 
@@ -52,12 +51,13 @@ export default function SandboxExecutionsListPage() {
           <>
             <ListActions.Root>
               <ListActions.Left>
-                <SearchBox.Root placeholder="Search executions" />
+                {/**
+                 * @TODO enable this when execution list api supports querying
+                 */}
+                {/* <SearchBox.Root placeholder="Search executions" /> */}
+                <></>
               </ListActions.Left>
               <ListActions.Right>
-                <ListActions.Dropdown title="Filter" items={filterOptions} />
-                <ListActions.Dropdown title="Sort" items={sortOptions} />
-                <ListActions.Dropdown title="View" items={viewOptions} />
                 <div className="flex gap-x-4">
                   <Button
                     variant="default"
@@ -75,11 +75,11 @@ export default function SandboxExecutionsListPage() {
             <Spacer size={5} />
             <ExecutionList
               executions={executions?.map((item: TypesExecution) => ({
-                id: item?.number && `executions/${item.number}`,
+                id: item?.number ? `executions/${item.number}` : '',
                 status: getExecutionStatus(item?.status),
                 success: item?.status,
                 name: item?.message || item?.title,
-                sha: item?.after?.slice(0, 6),
+                sha: item?.after?.slice(0, 7),
                 description: getLabel(item),
                 timestamp: `${timeDistance(item?.finished, Date.now(), true)} ago`,
                 lastTimestamp: timeDistance(

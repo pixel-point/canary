@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { parseAsInteger, useQueryState } from 'nuqs'
 import { Button, Spacer, Text } from '@harnessio/canary'
 import { useListReposQuery, RepoRepositoryOutput, ListReposQueryQueryParams } from '@harnessio/code-service-client'
@@ -15,6 +15,7 @@ import {
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
 import { timeAgoFromEpochTime } from '../pipeline-edit/utils/time-utils'
 import { PageResponseHeader } from '../../types'
+import { useDebouncedQueryState } from '../../hooks/useDebouncedQueryState'
 
 const sortOptions = [
   { name: 'Created', value: 'created' },
@@ -24,23 +25,46 @@ const sortOptions = [
 
 const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => <Link to={to}>{children}</Link>
 
-export default function ReposSandboxListPage() {
+export default function ReposListPage() {
   const space = useGetSpaceURLParam()
+  const navigate = useNavigate()
 
   /* Query and Pagination */
-  const { query: currentQuery = '', sort } = useCommonFilter<ListReposQueryQueryParams['sort']>()
-  const [query, _] = useQueryState('query', { defaultValue: currentQuery })
+  const { sort } = useCommonFilter<ListReposQueryQueryParams['sort']>()
+  const [query, setQuery] = useDebouncedQueryState('query')
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
 
-  const { isFetching, data: { body: repositories, headers } = {} } = useListReposQuery({
-    queryParams: { sort, query, page },
-    space_ref: `${space}/+`
-  })
+  const {
+    isFetching,
+    data: { body: repositories, headers } = {},
+    isError,
+    error
+  } = useListReposQuery(
+    {
+      queryParams: { sort, query, page },
+      space_ref: `${space}/+`
+    },
+    { retry: false }
+  )
 
   const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '')
 
   const renderListContent = () => {
     if (isFetching) return <SkeletonList />
+
+    if (isError)
+      return (
+        <NoData
+          title="Error"
+          description={[error.message || '']}
+          primaryButton={{
+            label: 'Go Back',
+            onClick: () => {
+              navigate(-1)
+            }
+          }}
+        />
+      )
 
     if (!repositories?.length) {
       if (query) {
@@ -49,8 +73,7 @@ export default function ReposSandboxListPage() {
             iconName="no-search-magnifying-glass"
             title="No search results"
             description={['Check your spelling and filter options,', 'or search for a different keyword.']}
-            primaryButton={{ label: 'Clear search' }}
-            secondaryButton={{ label: 'Clear filters' }}
+            primaryButton={{ label: 'Clear search', onClick: () => setQuery('') }}
           />
         )
       }
@@ -90,6 +113,8 @@ export default function ReposSandboxListPage() {
     )
   }
 
+  const repositoriesExist = (repositories?.length || 0) > 0
+
   return (
     <>
       <SandboxLayout.Main hasHeader hasLeftPanel>
@@ -99,7 +124,7 @@ export default function ReposSandboxListPage() {
            * Show if repositories exist.
            * Additionally, show if query(search) is applied.
            */}
-          {(query || (repositories?.length || 0) > 0) && (
+          {(query || repositoriesExist) && (
             <>
               <Text size={5} weight={'medium'}>
                 Repositories
@@ -107,7 +132,7 @@ export default function ReposSandboxListPage() {
               <Spacer size={6} />
               <div className="flex justify-between gap-5">
                 <div className="flex-1">
-                  <Filter sortOptions={sortOptions} />
+                  <Filter showSort={repositoriesExist} sortOptions={sortOptions} />
                 </div>
                 <Button variant="default" asChild>
                   <Link to={`/spaces/${space}/repos/create`}>Create Repository</Link>

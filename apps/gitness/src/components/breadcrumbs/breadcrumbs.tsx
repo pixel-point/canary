@@ -29,17 +29,23 @@ export default function Breadcrumbs() {
   })
   const hasMoreRepos = parseInt(reposHeaders?.get(PageResponseHeader.xTotalPages) || '') > 1
 
-  const { data: { body: pipelines, headers: pipelinesHeaders } = {} } = useListPipelinesQuery({
-    repo_ref: repoRef,
-    queryParams: { limit: MAX_DROPDOWN_ITEMS }
-  })
+  const { data: { body: pipelines, headers: pipelinesHeaders } = {} } = useListPipelinesQuery(
+    {
+      repo_ref: repoRef,
+      queryParams: { limit: MAX_DROPDOWN_ITEMS }
+    },
+    { enabled: !!repoRef }
+  )
   const hasMorePipelines = parseInt(pipelinesHeaders?.get(PageResponseHeader.xTotalPages) || '') > 1
 
-  const { data: { body: executions, headers: executionsHeaders } = {} } = useListExecutionsQuery({
-    repo_ref: repoRef,
-    pipeline_identifier: pipelineId || '',
-    queryParams: { limit: MAX_DROPDOWN_ITEMS }
-  })
+  const { data: { body: executions, headers: executionsHeaders } = {} } = useListExecutionsQuery(
+    {
+      repo_ref: repoRef,
+      pipeline_identifier: pipelineId || '',
+      queryParams: { limit: MAX_DROPDOWN_ITEMS }
+    },
+    { enabled: !!repoRef }
+  )
   const hasMoreExecutions = parseInt(executionsHeaders?.get(PageResponseHeader.xTotalPages) || '') > 1
 
   const {
@@ -68,7 +74,7 @@ export default function Breadcrumbs() {
         path: '/spaces/create',
         value: ''
       })
-      return { items, selectedValue: space, placeholder: 'Select space' }
+      return { items, selectedValue: space, placeholder: 'Select project' }
     }
   }, [spaces, space, isProjectRoute])
 

@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { SandboxLayout } from '..'
 import {
   Alert,
   AlertDescription,
   Button,
   ButtonGroup,
-  Icon,
   Input,
   RadioGroup,
   RadioGroupItem,
@@ -29,8 +28,8 @@ import { MessageTheme } from '../components/form-field-set'
 const formSchema = z.object({
   name: z.string().min(1, { message: 'Please provide a name' }),
   description: z.string(),
-  gitignore: z.enum(['', '1', '2', '3']),
-  license: z.enum(['', '1', '2', '3']),
+  gitignore: z.string().optional(),
+  license: z.string().optional(),
   access: z.enum(['1', '2'], { errorMap: () => ({ message: 'Please select who has access' }) })
 })
 
@@ -42,13 +41,17 @@ interface SandboxRepoCreatePageProps {
   apiError: string | null
   isLoading: boolean
   isSuccess: boolean
+  gitIgnoreOptions?: string[]
+  licenseOptions?: { value?: string; label?: string }[]
 }
 const SandboxRepoCreatePage: React.FC<SandboxRepoCreatePageProps> = ({
   onFormSubmit,
   apiError = null,
   onFormCancel,
   isLoading,
-  isSuccess
+  isSuccess,
+  gitIgnoreOptions,
+  licenseOptions
 }) => {
   const {
     register,
@@ -65,15 +68,13 @@ const SandboxRepoCreatePage: React.FC<SandboxRepoCreatePageProps> = ({
       description: '',
       gitignore: '',
       license: '',
-      access: '1'
+      access: '2'
     }
   })
 
   const accessValue = watch('access')
   const gitignoreValue = watch('gitignore')
   const licenseValue = watch('license')
-
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
 
   const handleSelectChange = (fieldName: keyof FormFields, value: string) => {
     setValue(fieldName, value, { shouldValidate: true })
@@ -86,7 +87,6 @@ const SandboxRepoCreatePage: React.FC<SandboxRepoCreatePageProps> = ({
   useEffect(() => {
     if (isSuccess === true) {
       reset()
-      setIsSubmitted(true)
     }
   }, [isSuccess])
 
@@ -145,9 +145,7 @@ const SandboxRepoCreatePage: React.FC<SandboxRepoCreatePageProps> = ({
             {/* ACCESS */}
             <FormFieldSet.Root box shaded>
               <FormFieldSet.ControlGroup>
-                <FormFieldSet.Label htmlFor="access" required>
-                  Who has access?
-                </FormFieldSet.Label>
+                <FormFieldSet.Label htmlFor="access">Who has access?</FormFieldSet.Label>
                 <RadioGroup value={accessValue} onValueChange={handleAccessChange} id="access">
                   <FormFieldSet.Option
                     control={<RadioGroupItem value="1" id="access-public" />}
@@ -179,9 +177,14 @@ const SandboxRepoCreatePage: React.FC<SandboxRepoCreatePageProps> = ({
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="1">.gitignore option 1</SelectItem>
-                    <SelectItem value="2">.gitignore option 2</SelectItem>
-                    <SelectItem value="3">.gitignore option 3</SelectItem>
+                    {gitIgnoreOptions &&
+                      gitIgnoreOptions?.map(option => {
+                        return (
+                          <SelectItem key={option} value={option}>
+                            {option}
+                          </SelectItem>
+                        )
+                      })}
                   </SelectContent>
                 </Select>
                 {errors.gitignore && (
@@ -199,9 +202,12 @@ const SandboxRepoCreatePage: React.FC<SandboxRepoCreatePageProps> = ({
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="1">License option 1</SelectItem>
-                    <SelectItem value="2">License option 2</SelectItem>
-                    <SelectItem value="3">License option 3</SelectItem>
+                    {licenseOptions &&
+                      licenseOptions?.map(option => (
+                        <SelectItem key={option.value} value={option.value ?? ''}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
                   </SelectContent>
                 </Select>
                 <FormFieldSet.Caption>
@@ -225,21 +231,14 @@ const SandboxRepoCreatePage: React.FC<SandboxRepoCreatePageProps> = ({
             <FormFieldSet.Root>
               <FormFieldSet.ControlGroup>
                 <ButtonGroup.Root>
-                  {!isSubmitted ? (
-                    <>
-                      <Button type="submit" size="sm" disabled={!isValid || isLoading}>
-                        {!isLoading ? 'Create repository' : 'Creating repository...'}
-                      </Button>
-                      <Button type="button" variant="outline" size="sm" onClick={handleCancel}>
-                        Cancel
-                      </Button>
-                    </>
-                  ) : (
-                    <Button variant="ghost" type="button" size="sm" theme="success" className="pointer-events-none">
-                      Repository created&nbsp;&nbsp;
-                      <Icon name="tick" size={14} />
+                  <>
+                    <Button type="submit" size="sm" disabled={!isValid || isLoading}>
+                      {!isLoading ? 'Create repository' : 'Creating repository...'}
                     </Button>
-                  )}
+                    <Button type="button" variant="outline" size="sm" onClick={handleCancel}>
+                      Cancel
+                    </Button>
+                  </>
                 </ButtonGroup.Root>
               </FormFieldSet.ControlGroup>
             </FormFieldSet.Root>

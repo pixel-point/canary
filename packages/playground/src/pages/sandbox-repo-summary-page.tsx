@@ -17,6 +17,7 @@ import { BranchSelector } from '../components/branch-selector'
 import { mockFiles } from '../data/mockSummaryFiiles'
 import { SandboxLayout } from '..'
 import { PlaygroundSandboxLayoutSettings } from '../settings/sandbox-settings'
+import { CloneRepoDialog } from '../components/repo-clone/clone-repo-dialog'
 
 // TODO: Move LAYOUT_STATES and LayoutState type to a shared location (e.g., types/layouts.ts)
 // since these states are used across multiple pages and should be managed in a single place
@@ -164,7 +165,11 @@ function SandboxRepoSummaryPage() {
                       Add file&nbsp;&nbsp;
                       <Icon name="chevron-down" size={11} className="chevron-down" />
                     </Button>
-                    <Button variant="default">Clone repository</Button>
+                    <CloneRepoDialog
+                      sshUrl="ssh://git@localhost:3022/sample-proj/sample-repo.git"
+                      httpsUrl="http://localhost:3000/git/sample-proj/sample-repo.git"
+                      handleCreateToken={noop}
+                    />
                   </ButtonGroup.Root>
                 </ListActions.Right>
               </ListActions.Root>
@@ -227,6 +232,7 @@ function SandboxRepoSummaryPage() {
           </SandboxLayout.Column>
         </SandboxLayout.Columns>
       </SandboxLayout.Main>
+
       <PlaygroundSandboxLayoutSettings loadState={loadState} setLoadState={setLoadState} />
     </>
   )

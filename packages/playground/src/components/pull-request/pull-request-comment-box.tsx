@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Avatar, AvatarFallback, Text, Button, Textarea } from '@harnessio/canary'
 import { getInitials } from '../../utils/utils'
 interface PullRequestCommentBoxProps {
@@ -17,9 +17,8 @@ const PullRequestCommentBox: React.FC<PullRequestCommentBoxProps> = ({ onSaveCom
       setComment('') // Clear the comment box after saving
     }
   }
-
-  return (
-    <div className="flex gap-x-2">
+  const avatar = useMemo(() => {
+    return (
       <Avatar size="6">
         {/* <AvatarImage src={AvatarUrl} /> */}
         <AvatarFallback>
@@ -28,6 +27,12 @@ const PullRequestCommentBox: React.FC<PullRequestCommentBoxProps> = ({ onSaveCom
           </Text>
         </AvatarFallback>
       </Avatar>
+    )
+  }, [currentUser])
+
+  return (
+    <div className="flex gap-x-2">
+      {avatar}
       <div className="px-2 w-full rounded-md pb-3 border ">
         <Textarea
           value={comment}

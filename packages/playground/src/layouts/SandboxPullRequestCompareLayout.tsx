@@ -27,7 +27,7 @@ import { TypesDiffStats } from './types'
 
 export const formSchema = z.object({
   title: z.string().min(1, { message: 'Please provide a pull request title' }),
-  description: z.string().min(1, { message: 'Please provide a description' })
+  description: z.string().optional()
 })
 export type CompareFormFields = z.infer<typeof formSchema> // Automatically generate a type from the schema
 
@@ -75,6 +75,7 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
     register,
     handleSubmit,
     reset,
+
     formState: { errors, isValid }
   } = useForm<CompareFormFields>({
     resolver: zodResolver(formSchema),
@@ -84,6 +85,15 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
       description: ''
     }
   })
+
+  useEffect(() => {
+    if (commitData && commitData.length > 0) {
+      reset({
+        title: commitData[commitData.length - 1]?.title,
+        description: ''
+      })
+    }
+  }, [commitData, reset])
 
   useEffect(() => {
     if (isSuccess === true) {
@@ -104,7 +114,7 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
           Comparing changes
         </Text>
         <Spacer size={2} />
-        <Layout.Vertical className="max-w-[65%]">
+        <Layout.Vertical>
           <Text size={2} as="p" className="text-primary/80 ">
             Choose two branches to see what's changed or to start a new pull request. If you need to, you can also
             compare across forks or learn more about diff comparisons.
@@ -256,6 +266,11 @@ interface HeaderProps {
   data?: string
   title: string
   lang: string
+  addedLines?: number
+  removedLines?: number
+  isBinary?: boolean
+  deleted?: boolean
+  unchangedPercentage?: number
 }
 
 const LineTitle: React.FC<Omit<HeaderProps, 'title' | 'data' | 'lang'>> = ({ text }) => (
@@ -279,7 +294,6 @@ const PullRequestAccordion: React.FC<{
   data?: string
 }> = ({ header }) => {
   const { highlight, wrap, fontsize } = useDiffConfig()
-
   const startingLine =
     parseStartingLineIfOne(header?.data ?? '') !== null ? parseStartingLineIfOne(header?.data ?? '') : null
   return (
@@ -307,6 +321,11 @@ const PullRequestAccordion: React.FC<{
                     addWidget
                     fileName={header?.title ?? ''}
                     lang={header?.lang ?? ''}
+                    isBinary={header?.isBinary}
+                    addedLines={header?.addedLines}
+                    removedLines={header?.removedLines}
+                    deleted={header?.deleted}
+                    unchangedPercentage={header?.unchangedPercentage}
                   />
                 </div>
               </div>

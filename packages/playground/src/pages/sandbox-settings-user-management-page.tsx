@@ -164,7 +164,7 @@ function SandboxSettingsUserManagementPage({
   }
 
   const handleInviteClick = () => {
-    navigate('../create-new-user')
+    navigate('../users/create')
   }
 
   return (
@@ -179,7 +179,7 @@ function SandboxSettingsUserManagementPage({
           <div className="flex-1">
             <Filter sortOptions={sortOptions} />
           </div>
-          <Button variant="default" onClick={handleInviteClick} disabled title="Coming soon">
+          <Button variant="default" onClick={handleInviteClick}>
             Invite New Users
           </Button>
         </div>

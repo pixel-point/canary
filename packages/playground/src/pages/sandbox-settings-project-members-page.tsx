@@ -10,7 +10,7 @@ import {
   dialogStateReducer,
   initialDialogState
 } from '../components/project-settings/members-reducers/dialog-state-reducers'
-import { FormEditMemberDialog } from '../components/project-settings/form-member-edit-dialog'
+
 import { FormDeleteMemberDialog } from '../components/project-settings/form-member-delete-dialog'
 import { DialogType, ActionType } from '../components/project-settings/interfaces'
 const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
@@ -41,16 +41,6 @@ function SandboxSettingsProjectMembersPage() {
     }, 2000)
   }
 
-  const handleRoleSave = () => {
-    dispatch({ type: ActionType.START_SUBMITTING })
-
-    setTimeout(() => {
-      dispatch({ type: ActionType.SUBMIT_SUCCESS })
-      closeDialog(DialogType.EDIT)
-      dispatch({ type: ActionType.RESET_SUBMIT })
-    }, 2000)
-  }
-
   const renderMemberListContent = () => {
     switch (loadState) {
       case 'loading':
@@ -74,19 +64,6 @@ function SandboxSettingsProjectMembersPage() {
                   closeDialog(DialogType.DELETE)
                   dispatch({ type: ActionType.RESET_DELETE })
                 }}
-              />
-            )}
-            {/* Edit Dialog */}
-            {dialogState.isDialogEditOpen && dialogState.editMember && (
-              <FormEditMemberDialog
-                member={dialogState.editMember}
-                onSave={handleRoleSave}
-                onClose={() => {
-                  closeDialog(DialogType.EDIT)
-                  dispatch({ type: ActionType.RESET_SUBMIT })
-                }}
-                isSubmitting={dialogState.isSubmitting}
-                submitted={dialogState.submitted}
               />
             )}
           </>
@@ -125,7 +102,7 @@ function SandboxSettingsProjectMembersPage() {
   }
 
   const handleInviteClick = () => {
-    navigate('/sandbox/settings/project/create-new-member')
+    navigate('/sandbox/settings/project/members/create')
   }
 
   return (

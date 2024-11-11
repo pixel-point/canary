@@ -11,38 +11,34 @@ import {
   NewPasswordPage,
   OTPPage,
   SandboxRepoSettingsPage,
-  RepoSettingsPlaceholderPage,
-  SandboxSettingsCreateNewMemberPage,
-  SandboxSettingsCreateNewUserPage
+  RepoSettingsPlaceholderPage
 } from '@harnessio/playground'
 import SandboxRootWrapper from './components/SandboxRootWrapper'
 import { TooltipProvider } from '@harnessio/canary'
 import { queryClient } from './framework/queryClient'
-import PipelineListPage from './pages/pipeline-list'
-import SandboxPipelinesPage from './pages/sandbox-pipeline-list'
+import RepoPipelinesPage from './pages/pipeline/repo-pipeline-list'
+import ProjectPipelinesPage from './pages/pipeline/project-pipeline-list'
 import { SignIn } from './pages/signin'
 import { SignUp } from './pages/signup'
-import PullRequestSandboxListPage from './pages/sandbox-pull-request-list-page'
-import SandboxExecutionsListPage from './pages/sandbox-execution-list'
+import PullRequestListPage from './pages/pull-request/pull-request-list-page'
+import RepoExecutionListPage from './pages/execution/repo-execution-list'
 import PullRequestSandboxLayout from './layouts/PullRequestSandboxLayout'
 import PullRequestCommitsPage from './pages/pull-request-commits-page'
-import RepoLayout from './layouts/RepoLayout'
 import PipelineEditPage from './pages/pipeline-edit/pipeline-edit'
 import { LandingPage } from './pages/landing-page'
 import { AppProvider } from './framework/context/AppContext'
 import { RepoSandboxSummaryList } from './pages/repo-sandbox/repo-sandbox-summary'
 import CreateProject from './pages/create-project'
 import { CreateRepo } from './pages/repo/repo-create-page'
-import { PipelineCreate } from './pages/pipeline-create/pipeline-create'
 import RepoSandboxCommitsPage from './pages/repo-sandbox/repo-sandbox-commits'
 import { Execution } from './pages/execution/execution-details'
-import RepoSandboxWebhooksListPage from './pages/repo-sandbox/repo-sandbox-webhooks'
-import { RepoSandboxBranchesListPage } from './pages/repo-sandbox/repo-sandbox-branch-list'
+import RepoSandboxWebhooksListPage from './pages/webhooks/repo-webhook-list'
+import { RepoBranchesListPage } from './pages/repo/repo-branch-list'
 import PullRequestDataProvider from './pages/pull-request/context/pull-request-data-provider'
 import SandboxPullRequestConversationPage from './pages/pull-request/sandbox-pull-request-conversation-page'
 import { RepoSandboxFiles } from './pages/repo-sandbox/repo-sandbox-files'
 import { SandboxRepoHeader } from './pages/repo-sandbox/repo-sandbox-header'
-import ReposSandboxListPage from './pages/repo-sandbox/repo-sandbox-list'
+import ReposListPage from './pages/repo-sandbox/repo-list'
 import RepoSandboxLayout from './layouts/RepoSandboxLayout'
 import { SettingsProfileGeneralPage } from './pages/profile-settings/profile-settings-general-container'
 import { SettingsProfileKeysPage } from './pages/profile-settings/profile-settings-keys-container'
@@ -62,6 +58,8 @@ import { Logout } from './pages/logout'
 import { UserManagementPageContainer } from './user-management/user-management-container'
 import PipelineLayout from './layouts/PipelineStudioLayout'
 import { SandboxPipelineCreate } from './pages/pipeline-create/pipeline-create-sandbox'
+import { CreateNewUserContainer } from './user-management/create-new-user-container'
+import { CreateNewMemberPage } from './pages/project-settings/project-settings-new-member-page'
 
 const BASE_URL_PREFIX = `${window.apiUrl || ''}/api/v1`
 
@@ -118,7 +116,7 @@ export default function App() {
             {
               path: ':pipelineId',
               children: [
-                { index: true, element: <SandboxExecutionsListPage /> },
+                { index: true, element: <RepoExecutionListPage /> },
                 {
                   path: 'edit',
                   element: <PipelineEditPage />
@@ -134,7 +132,7 @@ export default function App() {
           children: [
             {
               path: ':spaceId/repos',
-              element: <ReposSandboxListPage />
+              element: <ReposListPage />
             },
             {
               path: ':spaceId/repos/:repoId',
@@ -195,7 +193,7 @@ export default function App() {
                   children: [
                     {
                       index: true,
-                      element: <SandboxPipelinesPage />
+                      element: <RepoPipelinesPage />
                     }
                   ]
                 },
@@ -206,7 +204,7 @@ export default function App() {
                 {
                   path: 'pull-requests',
                   children: [
-                    { index: true, element: <PullRequestSandboxListPage /> },
+                    { index: true, element: <PullRequestListPage /> },
                     {
                       path: 'compare/:diffRefs*?',
                       element: <CreatePullRequest />
@@ -264,7 +262,7 @@ export default function App() {
                 },
                 {
                   path: 'branches',
-                  element: <RepoSandboxBranchesListPage />
+                  element: <RepoBranchesListPage />
                 },
                 {
                   path: 'settings',
@@ -303,38 +301,21 @@ export default function App() {
             // Pipelines (OUTSIDE REPOS)
             {
               path: ':spaceId/pipelines',
-              element: <SandboxPipelinesPage />
+              children: [
+                {
+                  index: true,
+                  element: <ProjectPipelinesPage />
+                },
+                {
+                  path: ':pipelineId',
+                  element: <RepoExecutionListPage />
+                }
+              ]
             },
             // Executions (OUTSIDE REPOS)
             {
               path: ':spaceId/executions',
-              element: <SandboxExecutionsListPage />
-            },
-            {
-              path: ':spaceId/repos/:repoId',
-              element: <RepoLayout />,
-              children: [
-                {
-                  index: true,
-                  element: <>Repos list</>
-                },
-                {
-                  path: 'pipelines',
-                  element: <PipelineListPage />
-                },
-                {
-                  path: 'pipelines/:pipelineId/edit',
-                  element: <PipelineEditPage />
-                },
-                {
-                  path: 'pipelines/create',
-                  element: <PipelineCreate />
-                },
-                {
-                  path: 'pipelines/:pipelineId/executions/:executionId',
-                  element: <div>Execution page</div>
-                }
-              ]
+              element: <RepoExecutionListPage />
             },
             {
               path: 'create',
@@ -361,7 +342,7 @@ export default function App() {
                         { index: true, element: <ProjectSettingsMemebersPage /> },
                         {
                           path: 'create',
-                          element: <SandboxSettingsCreateNewMemberPage />
+                          element: <CreateNewMemberPage />
                         }
                       ]
                     }
@@ -398,15 +379,13 @@ export default function App() {
             }
           ]
         },
-
         {
           path: 'users',
           element: <UserManagementPageContainer />
         },
-
         {
-          path: 'create-new-user',
-          element: <SandboxSettingsCreateNewUserPage />
+          path: 'users/create',
+          element: <CreateNewUserContainer />
         }
       ]
     },

@@ -24,8 +24,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/canary
       '@harnessio/code-service-client':
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.1.0
+        version: 3.1.0
       '@harnessio/forms':
         specifier: workspace:*
         version: link:../../packages/forms
@@ -2519,8 +2519,8 @@ packages:
   '@git-diff-view/shiki@0.0.16':
     resolution: {integrity: sha512-qKw0rN3O5H4xhDS7ExPlZpRVWOEIJuaNOPuj/JqNJqDvc7pGZry2nMVEyy5dmiIKcO+4QrzYXlP71PdoHj+HIQ==}
 
-  '@harnessio/code-service-client@3.0.0':
-    resolution: {integrity: sha512-y7O0ShXjrcs33TMPMUO6duCzoSG9Aghpe5ffqbFdAhY0papk25Xaf1ILrWbBBmkG+a9BXZocGOjGICZdVEiCaQ==}
+  '@harnessio/code-service-client@3.1.0':
+    resolution: {integrity: sha512-qhrA8hkeRV3AUpY4OfCJoWd5HSi8nqZf9jn1/x6bHJdNZw53W836m0XkZI4fyoj+JWsPDx2H9Ylnuh9vKKGU/A==}
 
   '@harnessio/icons-noir@0.2.1':
     resolution: {integrity: sha512-gJJmolPrbwVfwznPN6zjOuUqVKCYb7Q/ZvZMR5WvlNdTxl8/UukhtGiCCEdy/JRU4zcZqm24FW2L40+Qv2Tz0Q==}
@@ -9699,8 +9699,8 @@ packages:
   tslib@2.6.3:
     resolution: {integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==}
 
-  tslib@2.8.0:
-    resolution: {integrity: sha512-jWVzBLplnCmoaTr13V9dYbiQ99wvZRd0vNWaDRg+aVYRcjDF3nDksxFDE/+fkXnKhpnUUkmx5pK/v8mCtLVqZA==}
+  tslib@2.8.1:
+    resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
   tsutils@3.21.0:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
@@ -11672,7 +11672,7 @@ snapshots:
     dependencies:
       shiki: 1.17.5
 
-  '@harnessio/code-service-client@3.0.0': {}
+  '@harnessio/code-service-client@3.1.0': {}
 
   '@harnessio/icons-noir@0.2.1(@harnessio/svg-icon-react@0.2.1(@harnessio/svg-icon@0.2.1)(react@18.3.1))(@harnessio/svg-icon@0.2.1)(react@18.3.1)':
     dependencies:
@@ -13741,7 +13741,7 @@ snapshots:
 
   '@swc/helpers@0.5.2':
     dependencies:
-      tslib: 2.8.0
+      tslib: 2.8.1
     optional: true
 
   '@swc/types@0.1.9':
@@ -21059,7 +21059,7 @@ snapshots:
 
   tslib@2.6.3: {}
 
-  tslib@2.8.0:
+  tslib@2.8.1:
     optional: true
 
   tsutils@3.21.0(typescript@5.5.3):
