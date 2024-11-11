@@ -119,7 +119,7 @@ export default {
           9: 'hsl(var(--background-09))',
           10: 'hsl(var(--background-09))',
           danger: 'hsla(var(--background-danger))',
-          success: 'hsla(var(--background-success))',
+          success: 'hsla(var(--background-success))'
         },
         borders: {
           1: 'hsl(var(--border-01))',
@@ -149,7 +149,7 @@ export default {
       boxShadow: {
         1: '0px 8px 16px rgba(0, 0, 0, 0.30)',
         2: '0px 8px 8px rgba(0, 0, 0, 0.60)',
-        'pagination-1': '0px 2px 4px rgba(0, 0, 0, 0.50)',
+        'pagination-1': '0px 2px 4px rgba(0, 0, 0, 0.50)'
       },
       borderRadius: {
         DEFAULT: 'var(--radius)'
@@ -161,19 +161,19 @@ export default {
         tiny: '0.75rem',
         xs: '0.8125rem',
         // By px
-        8: "0.5rem",
-        9: "0.5625rem",
-        10: "0.625rem",
-        11: "0.6875rem",
-        12: "0.75rem",
-        13: "0.8125rem",
-        14: "0.875rem",
-        15: "0.9375rem",
-        16: "1rem",
-        17: "1.0625rem",
-        18: "1.125rem",
-        19: "1.1875rem",
-        20: "1.25rem"
+        8: '0.5rem',
+        9: '0.5625rem',
+        10: '0.625rem',
+        11: '0.6875rem',
+        12: '0.75rem',
+        13: '0.8125rem',
+        14: '0.875rem',
+        15: '0.9375rem',
+        16: '1rem',
+        17: '1.0625rem',
+        18: '1.125rem',
+        19: '1.1875rem',
+        20: '1.25rem'
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
