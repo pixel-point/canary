@@ -17,7 +17,7 @@ export default {
       fontFamily: {
         sans: ['Inter', 'sans-serif']
       },
-       colors: {
+      colors: {
         border: 'hsl(var(--border))',
         'border-background': 'hsl(var(--border-background))',
         input: 'hsl(var(--input))',
@@ -144,7 +144,7 @@ export default {
           alert: 'hsl(var(--icon-alert))',
           success: 'hsl(var(--icon-success))',
           accent: 'hsl(var(--icon-accent))'
-        },
+        }
       },
       boxShadow: {
         1: '0px 8px 16px rgba(0, 0, 0, 0.30)',
@@ -178,7 +178,7 @@ export default {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'ai-button':
-          'linear-gradient(to right, hsl(var(--ai-button-stop-1)), hsl(var(--ai-button-stop-2)), hsl(var(--ai-button-stop-3)), hsl(var(--ai-button-stop-4)))'
+          'linear-gradient(to right, var(--ai-button-stop-1), var(--ai-button-stop-2), var(--ai-button-stop-3), var(--ai-button-stop-4))'
       },
       keyframes: {
         'accordion-down': {
