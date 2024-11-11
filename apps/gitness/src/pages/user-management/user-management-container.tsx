@@ -7,7 +7,7 @@ import {
   AdminListUsersQueryQueryParams
 } from '@harnessio/code-service-client'
 import { parseAsInteger, useQueryState } from 'nuqs'
-import { PageResponseHeader } from '../types'
+import { PageResponseHeader } from '../../types'
 import { useQueryClient } from '@tanstack/react-query'
 
 export const UserManagementPageContainer = () => {

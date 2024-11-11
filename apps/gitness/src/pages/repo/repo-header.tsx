@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom'
 import { SandboxLayout } from '@harnessio/playground'
 import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs'
 
-const SandboxRepoHeader: React.FC = () => {
+const RepoHeader: React.FC = () => {
   return (
     <>
       <SandboxLayout.Header>
@@ -14,4 +14,4 @@ const SandboxRepoHeader: React.FC = () => {
   )
 }
 
-export { SandboxRepoHeader }
+export { RepoHeader }

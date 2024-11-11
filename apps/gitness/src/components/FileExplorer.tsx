@@ -1,16 +1,18 @@
-import { useEffect } from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import { FileExplorer } from '@harnessio/playground'
 import { OpenapiContentInfo, getContent, OpenapiGetContentOutput } from '@harnessio/code-service-client'
+import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 import { normalizeGitRef } from '../utils/git-utils'
 import { PathParams } from '../RouteDefinitions'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useOpenFolderPaths } from '../framework/context/ExplorerPathsContext'
-import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 
 interface ExplorerProps {
   selectedBranch: string
   repoDetails: OpenapiGetContentOutput
+}
+
+const generateLocalStorageKey = (repoRef: string, gitRef: string, keyType: string) => {
+  return `${repoRef}_${gitRef}_${keyType}`
 }
 
 const sortEntriesByType = (entries: OpenapiContentInfo[]): OpenapiContentInfo[] => {
@@ -28,27 +30,61 @@ export default function Explorer({ selectedBranch, repoDetails }: ExplorerProps)
   const repoRef = useGetRepoRef()
   const { spaceId, repoId, resourcePath } = useParams<PathParams>()
   const subResourcePath = useParams()['*'] || ''
-  const fullResourcePath = subResourcePath ? `${resourcePath}/${subResourcePath}` : resourcePath
-  const location = useLocation()
-  const isFileEditMode = location.pathname.includes('edit')
-  const queryClient = useQueryClient()
-  const { openFolderPaths, setOpenFolderPaths } = useOpenFolderPaths()
+  const fullResourcePath = subResourcePath ? resourcePath + '/' + subResourcePath : resourcePath
 
-  const handleOpenFoldersChange = (newOpenFolderPaths: string[]) => {
-    const newlyOpenedFolders = newOpenFolderPaths.filter(path => !openFolderPaths.includes(path))
+  const uniqueOpenFoldersKey = generateLocalStorageKey(repoRef, selectedBranch, 'openFolderPaths')
+  const uniqueFolderContentsKey = generateLocalStorageKey(repoRef, selectedBranch, 'folderContents')
 
-    // contents for newly opened folders
-    newlyOpenedFolders.forEach(folderPath => {
-      queryClient.prefetchQuery(
-        ['folderContents', repoRef, selectedBranch, folderPath],
-        () => fetchFolderContents(folderPath),
-        {
-          staleTime: 300000,
-          cacheTime: 900000
-        }
-      )
+  // Initialize state for openFolderPaths and folderContentsCache using unique keys for repoRef + gitRef
+  const [openFolderPaths, setOpenFolderPaths] = useState<string[]>(() => {
+    const storedPaths = localStorage.getItem(uniqueOpenFoldersKey)
+    return storedPaths ? JSON.parse(storedPaths) : []
+  })
+
+  const [folderTree, setFolderTree] = useState<OpenapiContentInfo[]>([])
+
+  const [folderContentsCache, setFolderContentsCache] = useState<{ [folderPath: string]: OpenapiContentInfo[] }>(() => {
+    const storedFolderContents = localStorage.getItem(uniqueFolderContentsKey)
+    return storedFolderContents ? JSON.parse(storedFolderContents) : {}
+  })
+
+  const mergeFolderTree = (initialEntries: OpenapiContentInfo[], existingTree: OpenapiContentInfo[]) => {
+    const existingPaths = new Set(existingTree.map(entry => entry.path))
+
+    const mergedTree = [...existingTree]
+    initialEntries.forEach(entry => {
+      if (!existingPaths.has(entry.path)) {
+        mergedTree.push(entry)
+      }
     })
 
+    return mergedTree
+  }
+
+  const handleOpenFoldersChange = (newOpenFolderPaths: string[]) => {
+    const newlyOpenedFolders = newOpenFolderPaths.filter(folderPath => !openFolderPaths.includes(folderPath))
+
+    const foldersToFetch = newlyOpenedFolders.filter(folderPath => !folderContentsCache[folderPath])
+
+    // Fetch contents for newly opened folders only if not already in cache
+    foldersToFetch.forEach(folderPath => {
+      fetchFolderContents(folderPath).then(contents => {
+        setFolderContentsCache(prevContents => {
+          const updatedCache = {
+            ...prevContents,
+            [folderPath]: contents
+          }
+          // Store folder contents for the current repoRef + gitRef
+          localStorage.setItem(uniqueFolderContentsKey, JSON.stringify(updatedCache))
+          return updatedCache
+        })
+
+        updateFolderTree(folderPath, contents)
+      })
+    })
+
+    // Persist open folder paths for the current repoRef + gitRef
+    localStorage.setItem(uniqueOpenFoldersKey, JSON.stringify(newOpenFolderPaths))
     setOpenFolderPaths(newOpenFolderPaths)
   }
 
@@ -66,15 +102,20 @@ export default function Explorer({ selectedBranch, repoDetails }: ExplorerProps)
     }
   }
 
-  const useFolderContents = (folderPath: string) => {
-    return useQuery<OpenapiContentInfo[]>(
-      ['folderContents', repoRef, selectedBranch, folderPath],
-      () => fetchFolderContents(folderPath),
-      {
-        staleTime: 300000,
-        cacheTime: 900000
-      }
-    )
+  const updateFolderTree = (folderPath: string, newContents: OpenapiContentInfo[]) => {
+    const updateTreeRecursive = (entries: OpenapiContentInfo[], path: string): OpenapiContentInfo[] => {
+      return entries.map(entry => {
+        const currentPath = `${entry.path}`
+        if (currentPath === path && entry.type === 'dir') {
+          return { ...entry, entries: newContents }
+        } else if (entry.type === 'dir' && entry.entries) {
+          return { ...entry, entries: updateTreeRecursive(entry.entries, path) }
+        }
+        return entry
+      })
+    }
+
+    setFolderTree(prevTree => updateTreeRecursive(prevTree, folderPath))
   }
 
   const renderEntries = (entries: OpenapiContentInfo[], parentPath: string = '') => {
@@ -84,15 +125,8 @@ export default function Explorer({ selectedBranch, repoDetails }: ExplorerProps)
       const fullPath = `/spaces/${spaceId}/repos/${repoId}/code/${selectedBranch}/~/${itemPath}`
 
       if (item.type === 'file') {
-        return isFileEditMode && itemPath === fullResourcePath ? (
-          <FileExplorer.FileItem
-            key={itemPath || idx.toString()}
-            isActive={itemPath === fullResourcePath}
-            link={fullPath}>
-            {item.name}
-          </FileExplorer.FileItem>
-        ) : (
-          <Link to={fullPath} key={itemPath}>
+        return (
+          <Link to={fullPath}>
             <FileExplorer.FileItem
               key={itemPath || idx.toString()}
               isActive={itemPath === fullResourcePath}
@@ -102,124 +136,57 @@ export default function Explorer({ selectedBranch, repoDetails }: ExplorerProps)
           </Link>
         )
       } else {
-        return (
+        return itemPath ? (
           <FileExplorer.FolderItem
-            key={itemPath || idx.toString()}
+            key={itemPath}
             value={itemPath}
             link={fullPath}
             isActive={itemPath === fullResourcePath}
             content={
-              <FolderContents
-                folderPath={itemPath || ''}
-                isOpen={openFolderPaths.includes(itemPath!)}
-                renderEntries={renderEntries}
-                handleOpenFoldersChange={handleOpenFoldersChange}
-                openFolderPaths={openFolderPaths}
-              />
+              // If the folder's content is already cached, render it. Otherwise, show loading.
+              folderContentsCache[itemPath] ? (
+                <FileExplorer.Root onValueChange={handleOpenFoldersChange} value={openFolderPaths}>
+                  {renderEntries(folderContentsCache[itemPath], itemPath)}
+                </FileExplorer.Root>
+              ) : (
+                <div>Loading...</div>
+              )
             }>
             {item.name}
           </FileExplorer.FolderItem>
-        )
+        ) : null
       }
     })
   }
 
-  const FolderContents = ({
-    folderPath,
-    isOpen,
-    renderEntries,
-    handleOpenFoldersChange,
-    openFolderPaths
-  }: {
-    folderPath: string
-    isOpen: boolean
-    renderEntries: (entries: OpenapiContentInfo[], parentPath: string) => React.ReactNode[]
-    handleOpenFoldersChange: (newOpenFolderPaths: string[]) => void
-    openFolderPaths: string[]
-  }) => {
-    const { data: contents, isLoading, error } = useFolderContents(folderPath)
-
-    if (!isOpen) {
-      return null
-    }
-
-    if (isLoading) {
-      return <div>Loading...</div>
-    }
-
-    if (error) {
-      return <div>Error loading folder contents</div>
-    }
-
-    return (
-      <FileExplorer.Root onValueChange={handleOpenFoldersChange} value={openFolderPaths}>
-        {contents && renderEntries(contents, folderPath)}
-      </FileExplorer.Root>
-    )
-  }
-
+  // Reset open folders and contents when the repoRef or gitRef changes
   useEffect(() => {
-    // Automatically expand folders along the fullResourcePath
-    const expandFoldersAlongPath = async () => {
-      if (fullResourcePath) {
-        const pathSegments = fullResourcePath.split('/')
-        const isFile = pathSegments[pathSegments.length - 1].includes('.')
-        const folderSegments = isFile ? pathSegments.slice(0, -1) : pathSegments
+    // Clear the state and fetch new data based on new repoRef + gitRef combination
+    setOpenFolderPaths(() => {
+      const storedPaths = localStorage.getItem(uniqueOpenFoldersKey)
+      return storedPaths ? JSON.parse(storedPaths) : []
+    })
 
-        const folderPaths: string[] = []
-        let currentPath = ''
-        folderSegments.forEach(segment => {
-          currentPath = currentPath ? `${currentPath}/${segment}` : segment
-          folderPaths.push(currentPath)
-        })
+    setFolderContentsCache(() => {
+      const storedFolderContents = localStorage.getItem(uniqueFolderContentsKey)
+      return storedFolderContents ? JSON.parse(storedFolderContents) : {}
+    })
 
-        // Update openFolderPaths
-        setOpenFolderPaths(prevOpenFolderPaths => {
-          const newOpenFolderPaths = [...prevOpenFolderPaths]
-          folderPaths.forEach(folderPath => {
-            if (!newOpenFolderPaths.includes(folderPath)) {
-              newOpenFolderPaths.push(folderPath)
-            }
-          })
-          return newOpenFolderPaths
-        })
+    setFolderTree([]) // Clear folder tree to ensure new data is fetched
+  }, [repoRef, selectedBranch])
 
-        // Prefetch contents for folders along the path
-        for (const folderPath of folderPaths) {
-          queryClient.prefetchQuery(
-            ['folderContents', repoRef, selectedBranch, folderPath],
-            () => fetchFolderContents(folderPath),
-            {
-              staleTime: 300000,
-              cacheTime: 900000
-            }
-          )
-        }
-      }
+  // Merge initial repo content entries into the folder tree when repoDetails change
+  useEffect(() => {
+    if (repoDetails?.content?.entries?.length) {
+      setFolderTree(prevTree =>
+        repoDetails?.content?.entries?.length ? mergeFolderTree(repoDetails.content.entries, prevTree) : prevTree
+      )
     }
-    expandFoldersAlongPath()
-  }, [fullResourcePath])
-
-  // Fetch root contents
-  const {
-    data: rootEntries,
-    isLoading: isRootLoading,
-    error: rootError
-  } = useQuery(['folderContents', repoRef, selectedBranch, ''], () => fetchFolderContents(''), {
-    staleTime: 300000,
-    cacheTime: 900000,
-    initialData: repoDetails?.content?.entries
-  })
+  }, [repoDetails?.content?.entries])
 
   return (
     <FileExplorer.Root onValueChange={handleOpenFoldersChange} value={openFolderPaths}>
-      {isRootLoading ? (
-        <div>Loading...</div>
-      ) : rootError ? (
-        <div>Error loading root folder</div>
-      ) : (
-        rootEntries && renderEntries(rootEntries)
-      )}
+      {folderTree.length && renderEntries(folderTree)}
     </FileExplorer.Root>
   )
 }

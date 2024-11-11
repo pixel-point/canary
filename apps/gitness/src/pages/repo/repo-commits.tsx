@@ -4,10 +4,10 @@ import {
   BranchSelector,
   Filter,
   NoData,
-  PaddingListLayout,
   PaginationComponent,
   PullRequestCommits,
-  SkeletonList
+  SkeletonList,
+  SandboxLayout
 } from '@harnessio/playground'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 
@@ -26,7 +26,7 @@ const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { nam
 export default function RepoCommitsPage() {
   const repoRef = useGetRepoRef()
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
-  const { data: repository } = useFindRepositoryQuery({ repo_ref: repoRef })
+  const { data: { body: repository } = {} } = useFindRepositoryQuery({ repo_ref: repoRef })
   const { data: { body: branches } = {}, isFetching: isFetchingBranches } = useListBranchesQuery({
     repo_ref: repoRef,
     queryParams: { page }
@@ -46,13 +46,11 @@ export default function RepoCommitsPage() {
   // 🚨 API not supporting sort, so waiting for API changes
   // const { sort } = useCommonFilter()
 
-  // logic once we have dynamic pagination set up
-
   useEffect(() => {
-    if (repository?.body?.default_branch) {
-      setSelectedBranch(repository.body.default_branch)
+    if (repository) {
+      setSelectedBranch(repository?.default_branch || '')
     }
-  }, [repository?.body?.default_branch])
+  }, [repository])
 
   const selectBranch = (branch: string) => {
     setSelectedBranch(branch)
@@ -81,34 +79,36 @@ export default function RepoCommitsPage() {
   }
 
   return (
-    <PaddingListLayout spaceTop={false}>
-      <Spacer size={2} />
-      <Text size={5} weight={'medium'}>
-        Commits
-      </Text>
-      <Spacer size={6} />
-      <div className="flex justify-between gap-5">
-        {!isFetchingBranches && branches && (
-          <BranchSelector
-            name={selectedBranch}
-            branchList={branches.map(item => ({
-              name: item.name || ''
-            }))}
-            selectBranch={(branch: string) => selectBranch(branch)}
-          />
-        )}
+    <SandboxLayout.Main hasHeader hasSubHeader hasLeftPanel>
+      <SandboxLayout.Content>
+        <Spacer size={10} />
+        <Text size={5} weight={'medium'}>
+          Commits
+        </Text>
+        <Spacer size={6} />
+        <div className="flex justify-between gap-5">
+          {!isFetchingBranches && branches && (
+            <BranchSelector
+              name={selectedBranch}
+              branchList={branches.map(item => ({
+                name: item.name || ''
+              }))}
+              selectBranch={(branch: string) => selectBranch(branch)}
+            />
+          )}
 
-        <Filter showSearch={false} sortOptions={sortOptions} />
-      </div>
-      <Spacer size={5} />
-      {renderListContent()}
-      <Spacer size={8} />
-      <PaginationComponent
-        nextPage={xNextPage}
-        previousPage={xPrevPage}
-        currentPage={page}
-        goToPage={(pageNum: number) => setPage(pageNum)}
-      />
-    </PaddingListLayout>
+          <Filter showSearch={false} sortOptions={sortOptions} />
+        </div>
+        <Spacer size={5} />
+        {renderListContent()}
+        <Spacer size={8} />
+        <PaginationComponent
+          nextPage={xNextPage}
+          previousPage={xPrevPage}
+          currentPage={page}
+          goToPage={(pageNum: number) => setPage(pageNum)}
+        />
+      </SandboxLayout.Content>
+    </SandboxLayout.Main>
   )
 }

@@ -2,7 +2,7 @@ import { SandboxRoot } from '@harnessio/playground'
 import { useAppContext } from '../framework/context/AppContext'
 import { useGetSpaceURLParam } from '../framework/hooks/useGetSpaceParam'
 
-const SandboxRootWrapper = () => {
+const RootWrapper = () => {
   const { currentUser, spaces } = useAppContext()
   const spaceId = useGetSpaceURLParam()
 
@@ -13,4 +13,4 @@ const SandboxRootWrapper = () => {
   )
 }
 
-export default SandboxRootWrapper
+export default RootWrapper

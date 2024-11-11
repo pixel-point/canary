@@ -13,8 +13,6 @@ import {
   Text
 } from '@harnessio/canary'
 import {
-  Floating1ColumnLayout,
-  FullWidth2ColumnLayout,
   RepoSummaryPanel,
   BranchSelector,
   SkeletonList,
@@ -24,7 +22,10 @@ import {
   NoData,
   MarkdownViewer,
   Filter,
-  useCommonFilter
+  useCommonFilter,
+  SandboxLayout,
+  CloneRepoDialog,
+  generateAlphaNumericHash
 } from '@harnessio/playground'
 import {
   useListBranchesQuery,
@@ -32,25 +33,28 @@ import {
   useGetContentQuery,
   useFindRepositoryQuery,
   pathDetails,
+  RepoPathsDetailsOutput,
   GitPathDetails,
   OpenapiGetContentOutput,
-  OpenapiContentInfo
+  OpenapiContentInfo,
+  useCreateTokenMutation
 } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { decodeGitContent, getTrimmedSha, normalizeGitRef } from '../../utils/git-utils'
 import { timeAgoFromISOTime } from '../pipeline-edit/utils/time-utils'
 import { useNavigate, useParams } from 'react-router-dom'
 import { PathParams } from '../../RouteDefinitions'
+import { TokenSuccessDialog } from '../profile-settings/token-create/token-success-dialog'
+import { TokenFormType } from '../profile-settings/token-create/token-create-form'
 
-export const RepoSummary: React.FC = () => {
+export const RepoSummaryList: React.FC = () => {
   const [loading, setLoading] = useState(false)
   const [files, setFiles] = useState<FileProps[]>([])
   const repoRef = useGetRepoRef()
   const navigate = useNavigate()
-
   const { spaceId, repoId, gitRef } = useParams<PathParams>()
 
-  const { data: repository } = useFindRepositoryQuery({ repo_ref: repoRef })
+  const { data: { body: repository } = {} } = useFindRepositoryQuery({ repo_ref: repoRef })
 
   const { data: { body: branches } = {} } = useListBranchesQuery({
     repo_ref: repoRef,
@@ -58,6 +62,8 @@ export const RepoSummary: React.FC = () => {
   })
 
   const [selectedBranch, setSelectedBranch] = useState<string>('')
+  const [createdTokenData, setCreatedTokenData] = useState<(TokenFormType & { token: string }) | null>(null)
+  const [successTokenDialog, setSuccessTokenDialog] = useState(false)
 
   const { query } = useCommonFilter()
 
@@ -65,21 +71,21 @@ export const RepoSummary: React.FC = () => {
     name: item?.name
   }))
 
-  const { data: repoSummary } = useSummaryQuery({
+  const { data: { body: repoSummary } = {} } = useSummaryQuery({
     repo_ref: repoRef,
     queryParams: { include_commit: false, sort: 'date', order: 'asc', limit: 20, page: 1, query }
   })
 
-  const { branch_count, default_branch_commit_count, pull_req_summary, tag_count } = repoSummary?.body || {}
+  const { branch_count, default_branch_commit_count, pull_req_summary, tag_count } = repoSummary || {}
 
-  const { data: readmeContent } = useGetContentQuery({
+  const { data: { body: readmeContent } = {} } = useGetContentQuery({
     path: 'README.md',
     repo_ref: repoRef,
     queryParams: { include_commit: false, git_ref: normalizeGitRef(selectedBranch) }
   })
 
   const decodedReadmeContent = useMemo(() => {
-    return decodeGitContent(readmeContent?.body?.content?.data)
+    return decodeGitContent(readmeContent?.content?.data)
   }, [readmeContent])
 
   const { data: { body: repoDetails } = {} } = useGetContentQuery({
@@ -87,6 +93,31 @@ export const RepoSummary: React.FC = () => {
     repo_ref: repoRef,
     queryParams: { include_commit: true, git_ref: normalizeGitRef(selectedBranch) }
   })
+
+  const { mutate: createToken } = useCreateTokenMutation(
+    { body: {} },
+    {
+      onSuccess: ({ body: newToken }) => {
+        const tokenData = {
+          identifier: newToken.token?.identifier ?? 'Unknown',
+          lifetime: newToken.token?.expires_at
+            ? new Date(newToken.token.expires_at).toLocaleDateString()
+            : 'No Expiration',
+          token: newToken.access_token ?? 'Token not available'
+        }
+
+        setCreatedTokenData(tokenData)
+        setSuccessTokenDialog(true)
+      }
+    }
+  )
+
+  const handleCreateToken = () => {
+    const body = {
+      identifier: `code_token_${generateAlphaNumericHash(5)}`
+    }
+    createToken({ body })
+  }
 
   const repoEntryPathToFileTypeMap = useMemo((): Map<string, OpenapiGetContentOutput['type']> => {
     if (repoDetails?.content?.entries?.length === 0) return new Map()
@@ -109,8 +140,7 @@ export const RepoSummary: React.FC = () => {
         body: { paths: Array.from(repoEntryPathToFileTypeMap.keys()) },
         repo_ref: repoRef
       })
-        .then(res => {
-          const response = res?.body
+        .then(({ body: response }: { body: RepoPathsDetailsOutput }) => {
           if (response?.details && response.details.length > 0) {
             setFiles(
               response.details.map(
@@ -124,8 +154,7 @@ export const RepoSummary: React.FC = () => {
                     lastCommitMessage: item?.last_commit?.message || '',
                     timestamp: item?.last_commit?.author?.when ? timeAgoFromISOTime(item.last_commit.author.when) : '',
                     user: { name: item?.last_commit?.author?.identity?.name },
-                    sha: item?.last_commit?.sha && getTrimmedSha(item.last_commit.sha),
-                    path: `/spaces/${spaceId}/repos/${repoId}/code/${gitRef || selectedBranch}/~/${item?.path}`
+                    sha: item?.last_commit?.sha && getTrimmedSha(item.last_commit.sha)
                   }) as FileProps
               )
             )
@@ -140,7 +169,7 @@ export const RepoSummary: React.FC = () => {
 
   useEffect(() => {
     if (repository) {
-      setSelectedBranch(repository?.body?.default_branch || '')
+      setSelectedBranch(repository?.default_branch || '')
     }
   }, [repository])
 
@@ -179,91 +208,106 @@ export const RepoSummary: React.FC = () => {
       )
   }
   return (
-    <Floating1ColumnLayout>
-      <FullWidth2ColumnLayout
-        leftColumn={
-          <>
-            <Spacer size={6} />
-            <ListActions.Root>
-              <ListActions.Left>
-                <ButtonGroup.Root>
-                  <BranchSelector
-                    name={selectedBranch}
-                    branchList={branchList}
-                    selectBranch={(branch: string) => selectBranch(branch)}
-                  />
+    <>
+      <SandboxLayout.Main hasLeftPanel hasHeader hasSubHeader>
+        <SandboxLayout.Columns columnWidths="1fr 220px">
+          <SandboxLayout.Column>
+            <SandboxLayout.Content>
+              <ListActions.Root>
+                <ListActions.Left>
+                  <ButtonGroup.Root>
+                    <BranchSelector
+                      size="default"
+                      name={selectedBranch}
+                      branchList={branchList}
+                      selectBranch={branch => selectBranch(branch)}
+                    />
 
-                  <Filter />
-                </ButtonGroup.Root>
-              </ListActions.Left>
-              <ListActions.Right>
-                <ButtonGroup.Root>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline">
-                        Add file&nbsp;&nbsp;
-                        <Icon name="chevron-down" size={11} className="chevron-down" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
-                      <DropdownMenuItem
-                        key={'create-file'}
-                        onClick={() => {
-                          navigate(`/spaces/${spaceId}/repos/${repoId}/code/new/${gitRef || selectedBranch}/~/`)
-                        }}>
-                        + Create New File
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                  <Button variant="default">Clone repository</Button>
-                </ButtonGroup.Root>
-              </ListActions.Right>
-            </ListActions.Root>
-            <Spacer size={5} />
-            {renderListContent()}
-            <Spacer size={12} />
-            <StackedList.Root>
-              <StackedList.Item isHeader disableHover>
-                <StackedList.Field title={<Text color="tertiaryBackground">README.md</Text>} />
-              </StackedList.Item>
-              <StackedList.Item disableHover>
-                <MarkdownViewer source={decodedReadmeContent || ''} />
-              </StackedList.Item>
-            </StackedList.Root>
-          </>
-        }
-        rightColumn={
-          <RepoSummaryPanel
-            title="Summary"
-            details={[
-              {
-                id: '0',
-                name: 'Commits',
-                count: default_branch_commit_count || 0,
-                iconName: 'tube-sign'
-              },
-              {
-                id: '1',
-                name: 'Branches',
-                count: branch_count || 0,
-                iconName: 'branch'
-              },
-              {
-                id: '2',
-                name: 'Tags',
-                count: tag_count || 0,
-                iconName: 'tag'
-              },
-              {
-                id: '3',
-                name: 'Open pull requests',
-                count: pull_req_summary?.open_count || 0,
-                iconName: 'open-pr'
-              }
-            ]}
-          />
-        }
-      />
-    </Floating1ColumnLayout>
+                    <Filter />
+                  </ButtonGroup.Root>
+                </ListActions.Left>
+                <ListActions.Right>
+                  <ButtonGroup.Root>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline">
+                          Add file&nbsp;&nbsp;
+                          <Icon name="chevron-down" size={11} className="chevron-down" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start">
+                        <DropdownMenuItem
+                          key={'create-file'}
+                          onClick={() => {
+                            navigate(`/spaces/${spaceId}/repos/${repoId}/code/new/${gitRef || selectedBranch}/~/`)
+                          }}>
+                          + Create New File
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                    <CloneRepoDialog
+                      sshUrl={repository?.git_ssh_url ?? 'could not fetch url'}
+                      httpsUrl={repository?.git_url ?? 'could not fetch url'}
+                      handleCreateToken={handleCreateToken}
+                    />
+                  </ButtonGroup.Root>
+                </ListActions.Right>
+              </ListActions.Root>
+              <Spacer size={5} />
+              {renderListContent()}
+              <Spacer size={12} />
+              <StackedList.Root>
+                <StackedList.Item isHeader disableHover>
+                  <StackedList.Field title={<Text color="tertiaryBackground">README.md</Text>} />
+                </StackedList.Item>
+                <StackedList.Item disableHover>
+                  <MarkdownViewer source={decodedReadmeContent || ''} />
+                </StackedList.Item>
+              </StackedList.Root>
+            </SandboxLayout.Content>
+          </SandboxLayout.Column>
+          <SandboxLayout.Column>
+            <SandboxLayout.Content className="pl-0">
+              <RepoSummaryPanel
+                title="Summary"
+                details={[
+                  {
+                    id: '0',
+                    name: 'Commits',
+                    count: default_branch_commit_count || 0,
+                    iconName: 'tube-sign'
+                  },
+                  {
+                    id: '1',
+                    name: 'Branches',
+                    count: branch_count || 0,
+                    iconName: 'branch'
+                  },
+                  {
+                    id: '2',
+                    name: 'Tags',
+                    count: tag_count || 0,
+                    iconName: 'tag'
+                  },
+                  {
+                    id: '3',
+                    name: 'Open pull requests',
+                    count: pull_req_summary?.open_count || 0,
+                    iconName: 'open-pr'
+                  }
+                ]}
+              />
+            </SandboxLayout.Content>
+          </SandboxLayout.Column>
+        </SandboxLayout.Columns>
+      </SandboxLayout.Main>
+      {createdTokenData && (
+        <TokenSuccessDialog
+          open={successTokenDialog}
+          onClose={() => setSuccessTokenDialog(false)}
+          tokenData={createdTokenData}
+        />
+      )}
+    </>
   )
 }

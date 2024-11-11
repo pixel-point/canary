@@ -15,7 +15,7 @@ import { PageResponseHeader, orderSortDate } from '../../types'
 import { timeAgoFromISOTime } from '../pipeline-edit/utils/time-utils'
 import { NoSearchResults, PaginationComponent } from '@harnessio/playground'
 import { PathParams } from '../../RouteDefinitions'
-import CreateBranchDialog from '../repo-sandbox/repo-sandbox-branch-create'
+import CreateBranchDialog from './repo-branch-create'
 import { useDebouncedQueryState } from '../../hooks/useDebouncedQueryState'
 
 const sortOptions = [

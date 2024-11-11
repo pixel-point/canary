@@ -33,7 +33,6 @@ export const FileViewer: React.FC = () => {
     repo_ref: repoRef,
     queryParams: { include_commit: true, git_ref: normalizeGitRef(gitRef || '') }
   })
-
   const { data: { body: repository } = {} } = useFindRepositoryQuery({ repo_ref: repoRef })
 
   useEffect(() => {
@@ -134,7 +133,7 @@ export const FileViewer: React.FC = () => {
   }
 
   return (
-    <SandboxLayout.Main fullWidth hasLeftSubPanel>
+    <SandboxLayout.Main fullWidth hasLeftPanel hasLeftSubPanel hasHeader hasSubHeader>
       <SandboxLayout.Content>
         <ListActions.Root>
           <ListActions.Left>

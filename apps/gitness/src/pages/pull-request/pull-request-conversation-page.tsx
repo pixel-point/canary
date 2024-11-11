@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Spacer } from '@harnessio/canary'
 import {
   commentCreatePullReq,
@@ -17,7 +17,7 @@ import {
   useReviewerListPullReqQuery
 } from '@harnessio/code-service-client'
 import {
-  FullWidth2ColumnLayout,
+  SandboxLayout,
   PullRequestCommentBox,
   PullRequestFilters,
   PullRequestOverview,
@@ -57,7 +57,10 @@ export default function PullRequestConversationPage() {
   const { currentUser: currentUserData } = useAppContext()
   const [checkboxBypass, setCheckboxBypass] = useState(false)
   const { spaceId, repoId } = useParams<PathParams>()
-
+  const { data: { body: principals } = {} } = useListPrincipalsQuery({
+    // @ts-expect-error : BE issue - not implemnted
+    queryParams: { page: 1, limit: 100, type: 'user' }
+  })
   const repoRef = useGetRepoRef()
   const { pullRequestId } = useParams<PathParams>()
   const prId = (pullRequestId && Number(pullRequestId)) || -1
@@ -78,10 +81,6 @@ export default function PullRequestConversationPage() {
     repo_ref: repoRef,
     pullreq_number: prId,
     queryParams: {}
-  })
-  const { data: { body: principals } = {} } = useListPrincipalsQuery({
-    // @ts-expect-error : BE issue - not implemnted
-    queryParams: { page: 1, limit: 100, type: 'user' }
   })
   const [changesLoading, setChangesLoading] = useState(true)
 
@@ -125,7 +124,7 @@ export default function PullRequestConversationPage() {
   useEffect(() => {
     setActivities(activityData)
   }, [activityData])
-  const currentUser = currentUserData?.display_name || ''
+  const currentUser = useMemo(() => currentUserData?.display_name, [currentUserData?.display_name])
 
   let count = generateAlphaNumericHash(5)
   const handleSaveComment = (comment: string, parentId?: number) => {
@@ -154,6 +153,7 @@ export default function PullRequestConversationPage() {
       }
     }
     count = count + 1
+
     // Update the state locally
     // setActivities(prevData => [...(prevData || []), newComment])
 
@@ -199,17 +199,15 @@ export default function PullRequestConversationPage() {
       setChangesLoading(false)
     }
   }, [changesInfo, prPanelData, pullReqMetadata?.merged])
-
-  const handleDeleteReviewer = (id: number) => {
-    reviewerDeletePullReq({ repo_ref: repoRef, pullreq_number: prId, pullreq_reviewer_id: id })
+  const handleAddReviewer = (id?: number) => {
+    reviewerAddPullReq({ repo_ref: repoRef, pullreq_number: prId, body: { reviewer_id: id } })
       .then(() => {
         refetchReviewers()
       })
       .catch(exception => console.warn(exception))
   }
-
-  const handleAddReviewer = (id?: number) => {
-    reviewerAddPullReq({ repo_ref: repoRef, pullreq_number: prId, body: { reviewer_id: id } })
+  const handleDeleteReviewer = (id: number) => {
+    reviewerDeletePullReq({ repo_ref: repoRef, pullreq_number: prId, pullreq_reviewer_id: id })
       .then(() => {
         refetchReviewers()
       })
@@ -219,7 +217,7 @@ export default function PullRequestConversationPage() {
     refetchCodeOwners()
     refetchPullReq()
     refetchActivities()
-  }, [refetchCodeOwners, repoRef, handleDeleteReviewer, handleAddReviewer]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [refetchCodeOwners, repoRef, handleAddReviewer, handleDeleteReviewer]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleMerge = (method: string) => {
     const payload: OpenapiMergePullReq = {
@@ -267,9 +265,9 @@ export default function PullRequestConversationPage() {
   }
   return (
     <>
-      <FullWidth2ColumnLayout
-        leftColumn={
-          <>
+      <SandboxLayout.Columns columnWidths="1fr 220px">
+        <SandboxLayout.Column>
+          <SandboxLayout.Content className="pl-0">
             {/* TODO: fix handleaction for comment section in panel */}
             <PullRequestPanel
               spaceId={spaceId}
@@ -327,6 +325,7 @@ export default function PullRequestConversationPage() {
             <PullRequestOverview
               repoId={repoRef}
               refetchActivities={refetchActivities}
+              commentStatusPullReq={commentStatusPullReq}
               data={activities?.map((item: TypesPullReqActivity) => {
                 return {
                   author: item?.author,
@@ -350,7 +349,6 @@ export default function PullRequestConversationPage() {
                   updated: item?.updated
                 }
               })}
-              commentStatusPullReq={commentStatusPullReq}
               pullReqMetadata={pullReqMetadata}
               activityFilter={activityFilter}
               dateOrderSort={dateOrderSort}
@@ -358,27 +356,29 @@ export default function PullRequestConversationPage() {
               currentUser={{ display_name: currentUserData?.display_name, uid: currentUserData?.uid }}
             />
             <Spacer size={9} />
-            <PullRequestCommentBox currentUser={currentUser} onSaveComment={handleSaveComment} />
+            <PullRequestCommentBox currentUser={currentUserData?.display_name} onSaveComment={handleSaveComment} />
             <Spacer size={9} />
-          </>
-        }
-        rightColumn={
-          <PullRequestSideBar
-            addReviewers={handleAddReviewer}
-            usersList={principals?.map(user => ({ id: user.id, display_name: user.display_name, uid: user.uid }))}
-            // repoMetadata={undefined}
-            pullRequestMetadata={{ source_sha: pullReqMetadata?.source_sha as string }}
-            processReviewDecision={processReviewDecision}
-            refetchReviewers={refetchReviewers}
-            handleDelete={handleDeleteReviewer}
-            reviewers={reviewers?.map((val: TypesPullReqReviewer) => ({
-              reviewer: { display_name: val.reviewer?.display_name, id: val.reviewer?.id },
-              review_decision: val.review_decision,
-              sha: val.sha
-            }))}
-          />
-        }
-      />
+          </SandboxLayout.Content>
+        </SandboxLayout.Column>
+        <SandboxLayout.Column>
+          <SandboxLayout.Content className="pl-0 pr-0">
+            <PullRequestSideBar
+              addReviewers={handleAddReviewer}
+              usersList={principals?.map(user => ({ id: user.id, display_name: user.display_name, uid: user.uid }))}
+              // repoMetadata={undefined}
+              pullRequestMetadata={{ source_sha: pullReqMetadata?.source_sha as string }}
+              processReviewDecision={processReviewDecision}
+              refetchReviewers={refetchReviewers}
+              handleDelete={handleDeleteReviewer}
+              reviewers={reviewers?.map((val: TypesPullReqReviewer) => ({
+                reviewer: { display_name: val.reviewer?.display_name, id: val.reviewer?.id },
+                review_decision: val.review_decision,
+                sha: val.sha
+              }))}
+            />
+          </SandboxLayout.Content>
+        </SandboxLayout.Column>
+      </SandboxLayout.Columns>
     </>
   )
 }

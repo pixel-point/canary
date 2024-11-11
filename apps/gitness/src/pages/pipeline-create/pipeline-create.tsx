@@ -1,4 +1,4 @@
-import { CreatePipelinePage, SandboxLayout } from '@harnessio/playground'
+import { SandboxCreatePipelinePage } from '@harnessio/playground'
 import CreatePipelineDialog from './PipelineCreateDialog/PipelineCreateDialog'
 import { useState } from 'react'
 
@@ -10,9 +10,9 @@ export function PipelineCreate() {
   }
 
   return (
-    <SandboxLayout.Main hasHeader hasLeftPanel fullWidth>
+    <>
       <CreatePipelineDialog open={isCreatePipelineDialogOpen} onClose={closeSearchDialog} />
-      <CreatePipelinePage onClickStartFromScratch={() => setCreatePipelineDialogOpen(true)} />
-    </SandboxLayout.Main>
+      <SandboxCreatePipelinePage onClickStartFromScratch={() => setCreatePipelineDialogOpen(true)} />
+    </>
   )
 }

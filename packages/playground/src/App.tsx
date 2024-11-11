@@ -7,7 +7,6 @@ import { RootLayout } from './layouts/RootLayout'
 import RepoLayout from './layouts/RepoLayout'
 import PipelineLayout from './layouts/PipelineLayout'
 import PullRequestLayout from './layouts/PullRequestLayout'
-import SandboxPullRequestLayout from './layouts/SandboxPullRequestLayout'
 import ErrorPage from './pages/error-page'
 import LandingPage from './pages/landing-page'
 import RepoListPage from './pages/repo-list-page'
@@ -34,7 +33,6 @@ import SandboxRepoExecutionsListPage from './pages/sandbox-repo-execution-list-p
 import RepoWebhooksListPage from './pages/repo-webhooks-page'
 import SandboxRepoWebhooksListPage from './pages/sandbox-repo-webhooks-list-page'
 import { RepoWebhooksCreatePage } from './pages/repo-webhooks-create-page'
-import { CreatePipelinePage } from './pages/create-pipeline-page'
 import { SandboxCreatePipelinePage } from './pages/sandbox-create-pipeline-page'
 import { SandboxRoot } from './layouts/SandboxRoot'
 import { SandboxRepo } from './layouts/SandboxRepo'
@@ -77,6 +75,7 @@ import { currentUser } from './pages/mocks/mockCurrentUserData'
 import { mockUsersData } from './data/mockUsersData'
 import { gitIgnoreOptions, licenseOptions } from './data/mockCreateRepoData'
 import { SandboxRepoImportPage } from './pages/sandbox-repo-import-page'
+import SandboxPullRequestLayout from './layouts/SandboxPullrequestLayout'
 
 const router = createBrowserRouter([
   // TEMPORARY LAYOUT SANDBOX
@@ -414,7 +413,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'pipelines/create',
-            element: <CreatePipelinePage />
+            element: <SandboxCreatePipelinePage />
           },
           {
             path: 'pipelines/:pipelineId',
@@ -507,7 +506,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'create',
-            element: <CreatePipelinePage />
+            element: <SandboxCreatePipelinePage />
           }
         ]
       },
