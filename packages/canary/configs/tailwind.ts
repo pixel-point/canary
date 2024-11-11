@@ -23,8 +23,6 @@ export default {
         input: 'hsl(var(--input))',
         'input-background': 'hsl(var(--input-background))',
         ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           background: 'hsl(var(--primary-background))',
@@ -89,13 +87,69 @@ export default {
           behind: 'hsl(var(--grey-20))',
           ahead: 'hsl(var(--grey-30))'
         },
-        // TODO: update after colors design system integration
-        pagination: {
-          bg: 'hsl(var(--pagination-bg))',
-          'bg-hover': 'hsl(var(--pagination-bg-hover))',
-          'bg-active': 'hsl(var(--pagination-bg-active))',
-          text: 'hsl(var(--pagination-text))'
+        /* New colors design variables */
+        foreground: {
+          // TODO: remove DEFAULT, cause use old color var
+          DEFAULT: 'hsl(var(--foreground))',
+          1: 'hsl(var(--foreground-01))',
+          2: 'hsl(var(--foreground-02))',
+          3: 'hsl(var(--foreground-03))',
+          4: 'hsl(var(--foreground-04))',
+          5: 'hsl(var(--foreground-05))',
+          6: 'hsl(var(--foreground-06))',
+          7: 'hsl(var(--foreground-07))',
+          8: 'hsl(var(--foreground-08))',
+          9: 'hsl(var(--foreground-09))',
+          danger: 'hsl(var(--foreground-danger))',
+          alert: 'hsl(var(--foreground-alert))',
+          success: 'hsl(var(--foreground-success))',
+          accent: 'hsl(var(--foreground-accent))'
+        },
+        background: {
+          // TODO: remove DEFAULT, cause use old color var
+          DEFAULT: 'hsl(var(--background))',
+          1: 'hsl(var(--background-01))',
+          2: 'hsl(var(--background-02))',
+          3: 'hsl(var(--background-03))',
+          4: 'hsla(var(--background-04))',
+          5: 'hsl(var(--background-05))',
+          6: 'hsl(var(--background-06))',
+          7: 'hsl(var(--background-07))',
+          8: 'hsl(var(--background-08))',
+          9: 'hsl(var(--background-09))',
+          10: 'hsl(var(--background-09))',
+          danger: 'hsla(var(--background-danger))',
+          success: 'hsla(var(--background-success))',
+        },
+        borders: {
+          1: 'hsl(var(--border-01))',
+          2: 'hsl(var(--border-02))',
+          3: 'hsl(var(--border-03))',
+          4: 'hsl(var(--border-04))',
+          5: 'hsl(var(--border-05))',
+          6: 'hsl(var(--border-06))',
+          danger: 'hsl(var(--border-danger))',
+          success: 'hsl(var(--border-success))'
+        },
+        icons: {
+          1: 'hsl(var(--icon-01))',
+          2: 'hsl(var(--icon-02))',
+          3: 'hsl(var(--icon-03))',
+          4: 'hsl(var(--icon-04))',
+          5: 'hsl(var(--icon-05))',
+          6: 'hsl(var(--icon-06))',
+          7: 'hsl(var(--icon-07))',
+          8: 'hsl(var(--icon-08))',
+          danger: 'hsl(var(--icon-danger))',
+          alert: 'hsl(var(--icon-alert))',
+          success: 'hsl(var(--icon-success))',
+          accent: 'hsl(var(--icon-accent))'
         }
+      },
+      boxShadow: {
+        1: '0px 8px 16px rgba(0, 0, 0, 0.30)',
+        2: '0px 8px 8px rgba(0, 0, 0, 0.60)',
+        'pagination-1': '0px 2px 4px rgba(0, 0, 0, 0.50)',
       },
       borderRadius: {
         DEFAULT: 'var(--radius)'
@@ -124,7 +178,7 @@ export default {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'ai-button':
-          'linear-gradient(to right, hsl(var(--ai-button-stop-1)), hsl(var(--ai-button-stop-2)), hsl(var(--ai-button-stop-3)), hsl(var(--ai-button-stop-4)))'
+          'linear-gradient(to right, var(--ai-button-stop-1), var(--ai-button-stop-2), var(--ai-button-stop-3), var(--ai-button-stop-4))'
       },
       keyframes: {
         'accordion-down': {
@@ -148,10 +202,10 @@ export default {
       addUtilities({
         '.tabnav-active': {
           boxShadow:
-            'inset 0 1px 0 0 hsl(var(--border-background)), inset 1px 0 0 0 hsl(var(--border-background)), inset -1px 0 0 0 hsl(var(--border-background))'
+            'inset 0 1px 0 0 var(--border-background), inset 1px 0 0 0 var(--border-background), inset -1px 0 0 0 var(--border-background)'
         },
         '.tabnav-inactive': {
-          boxShadow: 'inset 0 -1px 0 0 hsl(var(--border-background))'
+          boxShadow: 'inset 0 -1px 0 0 var(--border-background)'
         }
       })
     }
