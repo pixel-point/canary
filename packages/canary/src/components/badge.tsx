@@ -3,6 +3,19 @@ import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
 
+enum BadgesHoverStates {
+  ENABLED = 'enabled',
+  DISABLED_DEFAULT = 'disabled-default',
+  DISABLED_SECONDARY = 'disabled-secondary',
+  DISABLED_DESTRUCTIVE = 'disabled-destructive',
+  DISABLED_OUTLINE = 'disabled-outline',
+  DISABLED_DESTRUCTIVE_THEME = 'disabled-destructive-theme',
+  DISABLED_WARNING_THEME = 'disabled-warning-theme',
+  DISABLED_SUCCESS_THEME = 'disabled-success-theme',
+  DISABLED_EMPHASIS_THEME = 'disabled-emphasis-theme',
+  DISABLED_MUTED_THEME = 'disabled-muted-theme'
+}
+
 const badgeVariants = cva(
   'inline-flex items-center rounded-md border transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
   {
@@ -16,24 +29,39 @@ const badgeVariants = cva(
       size: {
         default: 'px-2.5 py-0.5 text-xs font-semibold',
         lg: 'px-3 py-1 text-xs font-normal',
-        sm: 'h-5 px-1 text-[12px]',
-        xs: 'px-1.5 py-0 text-[11px] font-light'
+        sm: 'h-5 px-1 text-12 leading-none',
+        xs: 'px-1.5 py-0 text-11 font-light'
       },
       borderRadius: {
         default: '',
         full: 'rounded-full'
       },
       hover: {
-        enabled: '',
-        disabled: 'hover:bg-transparent hover:shadow-none'
+        [BadgesHoverStates.ENABLED]: '',
+        // variant
+        [BadgesHoverStates.DISABLED_DEFAULT]: 'hover:shadow-none hover:!bg-primary',
+        [BadgesHoverStates.DISABLED_SECONDARY]: 'hover:shadow-none hover:!bg-secondary',
+        [BadgesHoverStates.DISABLED_DESTRUCTIVE]: 'hover:shadow-none hover:!bg-destructive',
+        [BadgesHoverStates.DISABLED_OUTLINE]: '',
+        // theme
+        [BadgesHoverStates.DISABLED_DESTRUCTIVE_THEME]: 'hover:shadow-none hover:!bg-[var(--tag-background-red-01)]',
+        [BadgesHoverStates.DISABLED_WARNING_THEME]: 'hover:shadow-none hover:!bg-[var(--tag-background-amber-01)]',
+        [BadgesHoverStates.DISABLED_SUCCESS_THEME]: 'hover:shadow-none hover:!bg-[var(--tag-background-mint-01)]',
+        [BadgesHoverStates.DISABLED_EMPHASIS_THEME]: 'hover:shadow-none hover:!bg-[var(--tag-background-purple-01)]',
+        [BadgesHoverStates.DISABLED_MUTED_THEME]: 'hover:shadow-none hover:!bg-[var(--tag-background-gray-01)]'
       },
       theme: {
         default: '',
-        destructive: 'text-error border-[hsla(var(--error),0.3)] bg-[hsla(var(--error),0.1)]',
-        warning: 'text-warning border-[hsla(var(--warning),0.3)] bg-[hsla(var(--warning),0.1)]',
-        success: 'text-success border-[hsla(var(--success),0.3)] bg-[hsla(var(--success),0.1)]',
-        emphasis: 'text-emphasis border-[hsla(var(--emphasis),0.3)] bg-[hsla(var(--emphasis),0.1)]',
-        muted: 'text-tertiary-background border-tertiary-background/20 bg-tertiary-background/10'
+        destructive:
+          'text-[var(--tag-foreground-red-01)] border-[var(--tag-border-red-01)] bg-[var(--tag-background-red-01)] hover:bg-[var(--tag-background-red-02)]',
+        warning:
+          'text-[var(--tag-foreground-amber-01)] border-[var(--tag-border-amber-01)] bg-[var(--tag-background-amber-01)] hover:bg-[var(--tag-background-amber-02)]',
+        success:
+          'text-[var(--tag-foreground-mint-01)] border-[var(--tag-border-mint-01)] bg-[var(--tag-background-mint-01)] hover:bg-[var(--tag-background-mint-02)]',
+        emphasis:
+          'text-[var(--tag-foreground-purple-01)] border-[var(--tag-border-purple-01)] bg-[var(--tag-background-purple-01)] hover:bg-[var(--tag-background-purple-02)]',
+        muted:
+          'text-[var(--tag-foreground-gray-01)] border-[var(--tag-border-gray-01)] bg-[var(--tag-background-gray-01)] hover:bg-[var(--tag-background-gray-02)]'
       }
     },
     compoundVariants: [
@@ -46,7 +74,7 @@ const badgeVariants = cva(
     defaultVariants: {
       variant: 'default',
       size: 'default',
-      hover: 'enabled',
+      hover: BadgesHoverStates.ENABLED,
       theme: 'default'
     }
   }
@@ -59,17 +87,27 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement>, Varian
 
 function Badge({
   className,
-  variant,
+  variant = 'default',
   size,
   borderRadius = 'default',
   theme = 'default',
   disableHover,
   ...props
 }: BadgeProps) {
+  const hover = (
+    disableHover ? (theme !== 'default' ? `disabled-${theme}-theme` : `disabled-${variant}`) : BadgesHoverStates.ENABLED
+  ) as BadgesHoverStates
+
   return (
     <div
       className={cn(
-        badgeVariants({ variant, size, borderRadius, theme, hover: disableHover ? 'disabled' : 'enabled' }),
+        badgeVariants({
+          variant,
+          size,
+          borderRadius,
+          theme,
+          hover
+        }),
         className
       )}
       {...props}
