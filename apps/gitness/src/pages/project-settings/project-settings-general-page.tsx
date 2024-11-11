@@ -12,7 +12,7 @@ import {
   DeleteSpaceErrorResponse,
   UpdateSpaceRequestBody
 } from '@harnessio/code-service-client'
-import { ProjectSettingsSandboxPage } from './project-settings-sandbox-page'
+import { ProjectSettingsPage } from './project-settings-page'
 import { redirect } from 'react-router-dom'
 
 type spaceData = {
@@ -113,7 +113,7 @@ export const ProjectSettingsGeneralPage = () => {
       )
     } else {
       return (
-        <ProjectSettingsSandboxPage
+        <ProjectSettingsPage
           spaceData={spaceData}
           onFormSubmit={handleFormSubmit}
           onHandleDescription={handleDescriptionChange}

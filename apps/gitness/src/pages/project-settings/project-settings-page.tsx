@@ -32,7 +32,7 @@ const projectSettingsSchema = z.object({
 // Define TypeScript type
 type ProjectSettingsFields = z.infer<typeof projectSettingsSchema>
 
-export const ProjectSettingsSandboxPage = ({
+export const ProjectSettingsPage = ({
   spaceData,
   onFormSubmit,
   handleDeleteProject,

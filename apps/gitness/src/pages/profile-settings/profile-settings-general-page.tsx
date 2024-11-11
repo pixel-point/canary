@@ -29,7 +29,7 @@ const passwordSchema = z
 export type ProfileFields = z.infer<typeof profileSchema>
 export type PasswordFields = z.infer<typeof passwordSchema>
 
-interface SandboxSettingsAccountGeneralPageProps {
+interface SettingsAccountGeneralPageProps {
   userData: ProfileFields
   isLoadingUser: boolean
   isUpdatingUser: boolean
@@ -41,7 +41,7 @@ interface SandboxSettingsAccountGeneralPageProps {
   onUpdatePassword: (data: PasswordFields) => void
 }
 
-const SandboxSettingsAccountGeneralPage: React.FC<SandboxSettingsAccountGeneralPageProps> = ({
+const SettingsAccountGeneralPage: React.FC<SettingsAccountGeneralPageProps> = ({
   userData,
   isLoadingUser,
   isUpdatingUser,
@@ -334,4 +334,4 @@ const SandboxSettingsAccountGeneralPage: React.FC<SandboxSettingsAccountGeneralP
   )
 }
 
-export { SandboxSettingsAccountGeneralPage }
+export { SettingsAccountGeneralPage }

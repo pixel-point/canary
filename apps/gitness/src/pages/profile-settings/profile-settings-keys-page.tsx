@@ -13,7 +13,7 @@ import {
 import { AlertDeleteParams } from './types'
 import { PageResponseHeader } from '../../types'
 
-interface SandboxSettingsAccountKeysPageProps {
+interface SettingsAccountKeysPageProps {
   publicKeys: KeysList[]
   tokens: TokensList[]
   openTokenDialog: () => void
@@ -22,7 +22,7 @@ interface SandboxSettingsAccountKeysPageProps {
   error: { type: string; message: string } | null
   headers?: Headers
 }
-const SandboxSettingsAccountKeysPage: React.FC<SandboxSettingsAccountKeysPageProps> = ({
+const SettingsAccountKeysPage: React.FC<SettingsAccountKeysPageProps> = ({
   publicKeys,
   tokens,
   openTokenDialog,
@@ -111,4 +111,4 @@ const SandboxSettingsAccountKeysPage: React.FC<SandboxSettingsAccountKeysPagePro
   )
 }
 
-export { SandboxSettingsAccountKeysPage }
+export { SettingsAccountKeysPage }

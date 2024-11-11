@@ -18,7 +18,7 @@ import {
   ListTokensErrorResponse
 } from '@harnessio/code-service-client'
 import { TokensList, KeysList, DeleteTokenAlertDialog } from '@harnessio/playground'
-import { SandboxSettingsAccountKeysPage } from './profile-settings-keys-page'
+import { SettingsAccountKeysPage } from './profile-settings-keys-page'
 import { TokenCreateDialog } from './token-create/token-create-dialog'
 import { TokenFormType } from './token-create/token-create-form'
 import { SshKeyCreateDialog } from './ssh-key-create/ssh-key-create-dialog'
@@ -200,7 +200,7 @@ export const SettingsProfileKeysPage = () => {
 
   return (
     <>
-      <SandboxSettingsAccountKeysPage
+      <SettingsAccountKeysPage
         publicKeys={publicKeys}
         tokens={tokens}
         openTokenDialog={openTokenDialog}

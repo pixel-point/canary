@@ -6,7 +6,7 @@ import {
   UpdateUserRequestBody,
   UpdateUserErrorResponse
 } from '@harnessio/code-service-client'
-import { SandboxSettingsAccountGeneralPage, ProfileFields, PasswordFields } from './profile-settings-general-page'
+import { SettingsAccountGeneralPage, ProfileFields, PasswordFields } from './profile-settings-general-page'
 
 export const SettingsProfileGeneralPage: React.FC = () => {
   const [apiError, setApiError] = useState<{ type: 'profile' | 'password'; message: string } | null>(null)
@@ -92,7 +92,7 @@ export const SettingsProfileGeneralPage: React.FC = () => {
   }
 
   return (
-    <SandboxSettingsAccountGeneralPage
+    <SettingsAccountGeneralPage
       userData={userData}
       isLoadingUser={isLoadingUser}
       isUpdatingUser={updateUserMutation.isLoading}
