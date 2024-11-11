@@ -33,13 +33,16 @@ interface TagListProps extends BaseListProps {
   items?: BaseItem[]
 }
 
-interface BranchSelectorProps {
+interface DropdownMenuExtendedContentProps {
   name: string
   branchList: BranchListProps
   tagList: TagListProps
+  selectBranch: (branch: BranchProps | BaseItem) => void
+}
+
+interface BranchSelectorProps extends DropdownMenuExtendedContentProps {
   size?: 'default' | 'sm'
   width?: 'auto' | 'sm' | 'md' | 'lg' | 'full'
-  selectBranch: (branch: string) => void
   prefix?: string
   className?: string
 }
@@ -66,17 +69,7 @@ const filterItems = (items: BranchProps[] | BaseItem[], query: string) => {
   return items.filter(item => item.name.toLowerCase().includes(query.toLowerCase().trim()))
 }
 
-const DropdownMenuExtendedContent = ({
-  name,
-  branchList,
-  tagList,
-  selectBranch
-}: {
-  name: string
-  branchList: BranchListProps
-  tagList: TagListProps
-  selectBranch: (branch: string) => void
-}) => {
+const DropdownMenuExtendedContent = ({ name, branchList, tagList, selectBranch }: DropdownMenuExtendedContentProps) => {
   const [activeTab, setActiveTab] = useState<BranchSelectorTab>(BranchSelectorTab.BRANCHES)
   const [searchQuery, setSearchQuery] = useState('')
 
@@ -141,7 +134,7 @@ const DropdownMenuExtendedContent = ({
                   'bg-background-4': isSelected,
                   'pl-7': !isSelected
                 })}
-                onClick={() => selectBranch(item.name)}
+                onClick={() => selectBranch(item)}
                 key={item.name}>
                 <div className="flex items-center w-full gap-x-2 min-w-0">
                   {isSelected && <Icon name="tick" size={12} className="min-w-[12px] text-foreground-1" />}
