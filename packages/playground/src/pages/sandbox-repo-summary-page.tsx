@@ -19,6 +19,7 @@ import { mockFiles } from '../data/mockSummaryFiiles'
 import { SandboxLayout } from '..'
 import { PlaygroundSandboxLayoutSettings } from '../settings/sandbox-settings'
 import { CloneRepoDialog } from '../components/repo-clone/clone-repo-dialog'
+import { BranchProps } from '../types/branch'
 
 // TODO: Move LAYOUT_STATES and LayoutState type to a shared location (e.g., types/layouts.ts)
 // since these states are used across multiple pages and should be managed in a single place
@@ -81,7 +82,7 @@ const mockBranchList = {
 
 function SandboxRepoSummaryPage() {
   const [loadState, setLoadState] = useState<LayoutState | string>(LAYOUT_STATES.float)
-  const [selectedBranch, setSelectedBranch] = useState<string>(mockBranchList.branches.items[0].name)
+  const [selectedBranch, setSelectedBranch] = useState<BranchProps | { name: string }>(mockBranchList.branches.items[0])
 
   return (
     <>
@@ -115,7 +116,7 @@ function SandboxRepoSummaryPage() {
                   <ButtonGroup.Root className="w-full">
                     <BranchSelector
                       className="w-full max-w-[8.5rem]"
-                      name={selectedBranch}
+                      name={selectedBranch.name}
                       branchList={mockBranchList.branches}
                       tagList={mockBranchList.tags}
                       selectBranch={setSelectedBranch}
