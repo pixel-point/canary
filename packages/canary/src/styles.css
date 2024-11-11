@@ -45,38 +45,38 @@
 }
 
 @layer themes {
-  /* TODO: replace hsl with variables for theming */
+  /* TODO: replace colors variables for theming */
   :root {
     --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --foreground: 225 18% 4%;
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 225 18% 4%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: var(--black);
-    --primary-background: var(--white);
-    --primary-foreground: var(--grey-98);
-    --primary-muted: var(--grey-60);
-    --primary-accent: 216 100% 60%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
+    --popover-foreground: 225 18% 4%;
+    --primary: 228 9% 10%;
+    --primary-background: 228 9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --primary-muted: var(--grey-70);
+    --primary-accent: 207 100% 61%;
+    --secondary: 240 4% 95%;
+    --secondary-foreground: 228 9% 10%;
     --secondary-background: 0 0% 100%;
     --secondary-muted: var(--grey-40);
-    --tertiary: 240 4.8% 95.9%;
-    --tertiary-foreground: 240 5.9% 10%;
-    --tertiary-background: 240 6% 60%;
+    --tertiary: 240 4% 95%;
+    --tertiary-foreground: 228 9% 10%;
+    --tertiary-background: 0 0% 40%;
     --tertiary-muted: var(--grey-8);
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
+    --muted: 240 4% 95%;
+    --muted-foreground: 240 4% 45%;
+    --accent: 240 4% 95%;
+    --accent-foreground: 228 9% 10%;
+    --destructive: 0 68% 53%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --border-background: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --input-background: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
+    --border: 0 0% 90%;
+    --border-background: 0 0% 90%;
+    --input: 0 0% 90%;
+    --input-background: 0 0% 90%;
+    --ring: 228 9% 10%;
     --radius: 0.5rem;
     --success: var(--green);
     --error: var(--red);
@@ -104,7 +104,7 @@
     --diff-add-widget-color--: hsl(0, 0%, 100%);
     --diff-empty-content--: var(--background);
     --diff-hunk-content-color--: hsl(0, 0%, 100%);
-     /* New colors design variables */
+    /* New colors design variables */
     /* Text */
     --foreground-01: var(--white);
     --foreground-02: var(--grey-80);
@@ -203,7 +203,7 @@
     --primary-background: var(--black);
     --primary-foreground: var(--grey-10);
     --primary-muted: var(--grey-70);
-    --primary-accent: 216 100% 60%;
+    --primary-accent: 207 100% 61%;
     --secondary: var(--grey-15);
     --secondary-foreground: var(--white);
     --secondary-background: var(--grey-6);
