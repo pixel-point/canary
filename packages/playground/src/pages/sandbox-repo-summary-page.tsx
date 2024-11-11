@@ -151,6 +151,7 @@ function SandboxRepoSummaryPage() {
                 <ListActions.Left>
                   <ButtonGroup.Root className="w-full">
                     <BranchSelector
+                      className="w-full max-w-[8.5rem]"
                       name={selectedBranch}
                       branchList={mockBranchList.branches}
                       tagsList={mockBranchList.tags}
