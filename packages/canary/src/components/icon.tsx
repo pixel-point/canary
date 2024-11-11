@@ -2,6 +2,7 @@ import * as React from 'react'
 import ChevronDown from '../icons/chevron-down.svg'
 import ChevronRight from '../icons/chevron-right.svg'
 import ChevronUp from '../icons/chevron-up.svg'
+import Checkbox from '../icons/checkbox.svg'
 import Archive from '../icons/repositories-icon.svg'
 import Harness from '../icons/harness.svg'
 import Pipelines from '../icons/pipelines-icon.svg'
@@ -129,6 +130,9 @@ import Briefcase from '../icons/briefcase-icon.svg'
 import Shield from '../icons/shield-icon.svg'
 import Snow from '../icons/snow-icon.svg'
 import Ticket from '../icons/ticket-icon.svg'
+import GridDots from '../icons/grid-dots.svg'
+import CircleArrowTop from '../icons/circle-arrow-top.svg'
+import CircleArrowsUpDown from '../icons/circle-arrows-updown.svg'
 // import Fork from '../icons/fork.svg'
 
 const IconNameMap = {
@@ -140,6 +144,7 @@ const IconNameMap = {
   play: Play,
   download: Download,
   clock: Clock,
+  checkbox: Checkbox,
   archive: Archive,
   harness: Harness,
   pipelines: Pipelines,
@@ -261,7 +266,10 @@ const IconNameMap = {
   briefcase: Briefcase,
   shield: Shield,
   snow: Snow,
-  ticket: Ticket
+  ticket: Ticket,
+  'grid-dots': GridDots,
+  'circle-arrow-top': CircleArrowTop,
+  'circle-arrows-updown': CircleArrowsUpDown
   // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 
