@@ -149,14 +149,14 @@ function SandboxRepoSummaryPage() {
             <SandboxLayout.Content>
               <ListActions.Root>
                 <ListActions.Left>
-                  <ButtonGroup.Root>
+                  <ButtonGroup.Root className="w-full">
                     <BranchSelector
                       name={selectedBranch}
                       branchList={mockBranchList.branches}
                       tagsList={mockBranchList.tags}
                       selectBranch={setSelectedBranch}
                     />
-                    <SearchBox.Root placeholder="Search" />
+                    <SearchBox.Root className="max-w-80" width="full" placeholder="Search" />
                   </ButtonGroup.Root>
                 </ListActions.Left>
                 <ListActions.Right>

@@ -205,7 +205,7 @@ export const BranchSelector = ({
         <Button
           className={cn(
             widthClasses[width],
-            'overflow-hidden flex gap-1.5 items-center px-3 min-w-[136px] max-w-[220px] data-[state=open]:border-primary-muted [&_svg]:data-[state=open]:text-primary'
+            'overflow-hidden flex gap-1.5 items-center px-3 w-full max-w-[8.5rem] data-[state=open]:border-primary-muted [&_svg]:data-[state=open]:text-primary'
           )}
           variant="outline"
           size={size}>
