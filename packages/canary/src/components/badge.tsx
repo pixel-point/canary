@@ -34,7 +34,7 @@ const badgeVariants = cva(
         // TODO: Consider switching size variants to numeric values
         // Numeric size variants (like '18') provide clearer context about actual dimensions
         // compared to abstract sizes (xs, sm, lg).
-        '18': 'h-[18px] px-2 text-[12px]'
+        '18': 'h-[18px] px-2 text-12'
       },
       borderRadius: {
         default: '',

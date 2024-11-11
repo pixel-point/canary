@@ -16,7 +16,7 @@ const tabsListVariants = cva('inline-flex items-center text-muted-foreground', {
       // 2. Create a unified variant based on branch
       // 3. Update existing components
       tabnav: 'h-[36px] gap-0 justify-start w-full',
-      branch: 'w-full flex border-b border-tertiary px-3'
+      branch: 'w-full flex border-b border-borders-4 px-3'
     }
   },
   defaultVariants: {
@@ -38,7 +38,7 @@ const tabsTriggerVariants = cva(
         tabnav:
           'px-4 items-center gap-2 bg-background font-normal text-sm text-tertiary-background ease-in-out duration-150 hover:text-primary h-[36px] rounded-tl-md rounded-tr-md m-0 data-[state=active]:text-primary [&svg]:data-[state=active]:text-primary tabnav-inactive data-[state=active]:tabnav-active',
         branch:
-          'h-[34px] font-normal px-3.5 text-ring hover:text-white -mb-px border-t border-x rounded-t-md border-transparent data-[state=active]:text-white data-[state=active]:border-tertiary'
+          'h-[34px] font-normal px-3.5 text-foreground-2 hover:text-foreground-1 -mb-px border-t border-x rounded-t-md border-transparent data-[state=active]:text-foreground-1 data-[state=active]:border-borders-4'
       }
     },
     defaultVariants: {

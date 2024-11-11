@@ -101,42 +101,42 @@ const DropdownMenuExtendedContent = ({
           setSearchQuery('')
         }}>
         <TabsList>
-          <TabsTrigger className="data-[state=active]:bg-[var(--dropdown-background)]" value="branches">
+          <TabsTrigger className="data-[state=active]:bg-background-2" value="branches">
             Branches
           </TabsTrigger>
-          <TabsTrigger className="data-[state=active]:bg-[var(--dropdown-background)]" value="tags">
+          <TabsTrigger className="data-[state=active]:bg-background-2" value="tags">
             Tags
           </TabsTrigger>
         </TabsList>
       </Tabs>
-      <div className="mt-1 px-1">
+      <div className="mt-1">
         {filteredItems.length === 0 && (
-          <div className="p-4 text-center">
-            <Text className="text-ring leading-tight" size={2}>
+          <div className="text-center px-5 py-4">
+            <Text className="text-foreground-2 leading-tight" size={2}>
               Nothing to show
             </Text>
           </div>
         )}
 
-        <div className="max-h-[360px] overflow-y-auto">
+        <div className="max-h-[360px] overflow-y-auto px-1">
           {filteredItems.map(item => {
             const isSelected = item.name === name
             const isDefault = activeTab === BranchSelectorTab.BRANCHES && (item as BranchListProps).isDefault
 
             return (
               <DropdownMenuItem
-                className={cn('cursor-pointer hover:bg-accent py-2 leading-none', {
+                className={cn('cursor-pointer hover:bg-background-4 py-2 leading-none', {
                   'justify-between gap-x-2': isDefault,
-                  'bg-accent': isSelected,
+                  'bg-background-4': isSelected,
                   'pl-7': !isSelected
                 })}
                 onClick={() => selectBranch(item.name)}
                 key={item.name}>
                 <div className="flex items-center w-full gap-x-2 min-w-0">
-                  {isSelected && <Icon name="tick" size={12} className="min-w-[12px] text-white" />}
+                  {isSelected && <Icon name="tick" size={12} className="min-w-[12px] text-foreground-1" />}
                   <Text
-                    className={cn('text-ring', {
-                      'text-white': isSelected
+                    className={cn('text-foreground-2', {
+                      'text-foreground-1': isSelected
                     })}
                     truncate>
                     {item.name}
@@ -145,7 +145,7 @@ const DropdownMenuExtendedContent = ({
 
                 {isDefault && (
                   <Badge
-                    className="text-primary-muted bg-transparent font-medium"
+                    className="text-foreground-3 bg-transparent font-medium"
                     variant="outline"
                     // TODO: Review and update 'muted' theme implementation
                     // Current 'muted' theme styles don't fully match the design requirements
@@ -168,9 +168,9 @@ const DropdownMenuExtendedContent = ({
           })}
         </div>
 
-        <div className="p-2 mt-1 border-t border-tertiary">
+        <div className="px-3 py-2 mt-1 border-t border-borders-4">
           <Link to="/">
-            <Text className="text-ring hover:text-primary transition-colors duration-200 leading-none">
+            <Text className="text-ring hover:text-foreground-1 transition-colors duration-200 leading-none">
               View all {activeTab === BranchSelectorTab.BRANCHES ? 'branches' : 'tags'}
             </Text>
           </Link>
