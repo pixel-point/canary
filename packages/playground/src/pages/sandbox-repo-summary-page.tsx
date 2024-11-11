@@ -58,67 +58,73 @@ const mockSummaryDetails: { id: string; name: string; count: number; iconName: I
 ]
 
 const mockBranchList = {
-  branches: [
-    {
-      name: 'main',
-      isDefault: true
-    },
-    {
-      name: 'new-feature'
-    },
-    {
-      name: 'renovate/major-typescript-eslint-monorepo'
-    },
-    {
-      name: 'test-wip'
-    },
-    {
-      name: 'test-wip-2'
-    },
-    {
-      name: 'test-wip-3'
-    },
-    {
-      name: 'test-wip-4'
-    },
-    {
-      name: 'test-wip-5'
-    },
-    {
-      name: 'test-wip-6'
-    },
-    {
-      name: 'test-wip-7'
-    },
-    {
-      name: 'test-wip-8'
-    },
-    {
-      name: 'test-wip-9'
-    },
-    {
-      name: 'test-wip-10'
-    },
-    {
-      name: 'test-wip-11'
-    }
-  ],
-  tags: [
-    {
-      name: 'v1.0.0'
-    },
-    {
-      name: 'v1.0.1'
-    },
-    {
-      name: 'v1.0.2'
-    }
-  ]
+  branches: {
+    items: [
+      {
+        name: 'main',
+        isDefault: true
+      },
+      {
+        name: 'new-feature'
+      },
+      {
+        name: 'renovate/major-typescript-eslint-monorepo'
+      },
+      {
+        name: 'test-wip'
+      },
+      {
+        name: 'test-wip-2'
+      },
+      {
+        name: 'test-wip-3'
+      },
+      {
+        name: 'test-wip-4'
+      },
+      {
+        name: 'test-wip-5'
+      },
+      {
+        name: 'test-wip-6'
+      },
+      {
+        name: 'test-wip-7'
+      },
+      {
+        name: 'test-wip-8'
+      },
+      {
+        name: 'test-wip-9'
+      },
+      {
+        name: 'test-wip-10'
+      },
+      {
+        name: 'test-wip-11'
+      }
+    ],
+    viewAllUrl: '#'
+  },
+  tags: {
+    items: [
+      {
+        name: 'v1.0.0'
+      },
+      {
+        name: 'v1.0.1'
+      },
+      {
+        name: 'v1.0.2'
+      }
+    ],
+    viewAllUrl: '#'
+  }
 }
 
 function SandboxRepoSummaryPage() {
   const [loadState, setLoadState] = useState<LayoutState | string>(LAYOUT_STATES.float)
-  const [selectedBranch, setSelectedBranch] = useState<string>(mockBranchList.branches[0].name)
+  const [selectedBranch, setSelectedBranch] = useState<string>(mockBranchList.branches.items[0].name)
 
   return (
     <>
@@ -154,7 +160,7 @@ function SandboxRepoSummaryPage() {
                       className="w-full max-w-[8.5rem]"
                       name={selectedBranch}
                       branchList={mockBranchList.branches}
-                      tagsList={mockBranchList.tags}
+                      tagList={mockBranchList.tags}
                       selectBranch={setSelectedBranch}
                     />
                     <SearchBox.Root className="max-w-80" width="full" placeholder="Search" />
