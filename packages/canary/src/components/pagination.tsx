@@ -44,8 +44,7 @@ const PaginationLink = ({ className, isActive, size, ...props }: PaginationLinkP
       }),
       'text-12 font-normal min-w-7 px-1.5 w-auto bg-background-2 text-foreground-1 hover:bg-background-3',
       {
-        'bg-background-8 shadow-pagination-1 cursor-default hover:bg-background-8':
-          isActive
+        'bg-background-8 shadow-pagination-1 cursor-default hover:bg-background-8': isActive
       },
       className
     )}
