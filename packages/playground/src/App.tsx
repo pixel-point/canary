@@ -76,6 +76,7 @@ import { BypassUsersList } from './components/repo-settings/repo-branch-settings
 import { currentUser } from './pages/mocks/mockCurrentUserData'
 import { mockUsersData } from './data/mockUsersData'
 import { gitIgnoreOptions, licenseOptions } from './data/mockCreateRepoData'
+import { SandboxRepoImportPage } from './pages/sandbox-repo-import-page'
 
 const router = createBrowserRouter([
   // TEMPORARY LAYOUT SANDBOX
@@ -105,6 +106,10 @@ const router = createBrowserRouter([
                 gitIgnoreOptions={gitIgnoreOptions}
               />
             )
+          },
+          {
+            path: 'import',
+            element: <SandboxRepoImportPage />
           },
           {
             path: ':repoId',
