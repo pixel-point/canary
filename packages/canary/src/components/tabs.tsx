@@ -8,10 +8,17 @@ import { cn } from '../lib/utils'
 const tabsListVariants = cva('text-muted-foreground inline-flex items-center', {
   variants: {
     variant: {
-      default: 'bg-muted h-9 justify-center rounded-lg p-1',
-      underline: 'h-11 justify-center gap-4',
-      navigation: 'border-border-background h-[44px] w-full justify-start gap-6 border-b px-8',
-      tabnav: 'h-[36px] w-full justify-start gap-0'
+      default: 'h-9 rounded-lg bg-muted p-1 justify-center',
+      underline: 'h-11 gap-4 justify-center',
+      navigation: 'h-[44px] border-b border-border-background gap-6 justify-start w-full px-8',
+      // TODO: Refactor - merge tabnav and branch variants
+      // tabnav is used in existing components and has conflicting styles
+      // Future steps:
+      // 1. Analyze all tabnav usage locations
+      // 2. Create a unified variant based on branch
+      // 3. Update existing components
+      tabnav: 'h-[36px] gap-0 justify-start w-full',
+      branch: 'w-full flex border-b border-borders-4 px-3'
     }
   },
   defaultVariants: {
@@ -31,7 +38,9 @@ const tabsTriggerVariants = cva(
         navigation:
           'text-tertiary-background hover:text-primary data-[state=active]:text-primary data-[state=active]:border-tertiary-background m-0 h-[44px] border-b border-solid border-b-transparent px-0 text-xs font-normal duration-150 ease-in-out',
         tabnav:
-          'bg-background text-tertiary-background hover:text-primary data-[state=active]:text-primary [&svg]:data-[state=active]:text-primary tabnav-inactive data-[state=active]:tabnav-active m-0 h-[36px] items-center gap-2 rounded-t-md px-4 text-sm font-normal duration-150 ease-in-out'
+          'px-4 items-center gap-2 bg-background font-normal text-sm text-tertiary-background ease-in-out duration-150 hover:text-primary h-[36px] rounded-tl-md rounded-tr-md m-0 data-[state=active]:text-primary [&svg]:data-[state=active]:text-primary tabnav-inactive data-[state=active]:tabnav-active',
+        branch:
+          'h-[34px] font-normal px-3.5 text-foreground-2 hover:text-foreground-1 -mb-px border-t border-x rounded-t-md border-transparent data-[state=active]:text-foreground-1 data-[state=active]:border-borders-4'
       }
     },
     defaultVariants: {
@@ -48,7 +57,8 @@ const tabsContentVariants = cva(
         default: '',
         underline: '',
         navigation: '',
-        tabnav: ''
+        tabnav: '',
+        branch: ''
       }
     },
     defaultVariants: {
