@@ -117,7 +117,7 @@ export default {
           7: 'hsl(var(--background-07))',
           8: 'hsl(var(--background-08))',
           9: 'hsl(var(--background-09))',
-          10: 'hsl(var(--background-09))',
+          10: 'hsl(var(--background-10))',
           danger: 'hsla(var(--background-danger))',
           success: 'hsla(var(--background-success))'
         },
@@ -178,7 +178,7 @@ export default {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'ai-button':
-          'linear-gradient(to right, var(--ai-button-stop-1), var(--ai-button-stop-2), var(--ai-button-stop-3), var(--ai-button-stop-4))'
+          'linear-gradient(to right, hsl(var(--ai-button-stop-1)), hsl(var(--ai-button-stop-2)), hsl(var(--ai-button-stop-3)), hsl(var(--ai-button-stop-4)))'
       },
       keyframes: {
         'accordion-down': {
@@ -202,10 +202,10 @@ export default {
       addUtilities({
         '.tabnav-active': {
           boxShadow:
-            'inset 0 1px 0 0 var(--border-background), inset 1px 0 0 0 var(--border-background), inset -1px 0 0 0 var(--border-background)'
+            'inset 0 1px 0 0 hsl(var(--border-background)), inset 1px 0 0 0 hsl(var(--border-background)), inset -1px 0 0 0 hsl(var(--border-background))'
         },
         '.tabnav-inactive': {
-          boxShadow: 'inset 0 -1px 0 0 var(--border-background)'
+          boxShadow: 'inset 0 -1px 0 0 hsl(var(--border-background))'
         }
       })
     }
