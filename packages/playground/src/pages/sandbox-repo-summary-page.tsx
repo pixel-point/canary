@@ -20,6 +20,7 @@ import { SandboxLayout } from '..'
 import { PlaygroundSandboxLayoutSettings } from '../settings/sandbox-settings'
 import { CloneRepoDialog } from '../components/repo-clone/clone-repo-dialog'
 import { BranchProps } from '../types/branch'
+import { BranchInfoBar } from '../components/branch-info-bar'
 
 // TODO: Move LAYOUT_STATES and LayoutState type to a shared location (e.g., types/layouts.ts)
 // since these states are used across multiple pages and should be managed in a single place
@@ -128,7 +129,7 @@ function SandboxRepoSummaryPage() {
                   <ButtonGroup.Root>
                     <Button variant="outline">
                       Add file&nbsp;&nbsp;
-                      <Icon name="chevron-down" size={11} className="chevron-down" />
+                      <Icon className="text-icons-7" name="chevron-down" size={11} />
                     </Button>
                     <CloneRepoDialog
                       sshUrl="ssh://git@localhost:3022/sample-proj/sample-repo.git"
@@ -138,6 +139,15 @@ function SandboxRepoSummaryPage() {
                   </ButtonGroup.Root>
                 </ListActions.Right>
               </ListActions.Root>
+              {'id' in selectedBranch && (!('default' in selectedBranch) || !selectedBranch.default) && (
+                <>
+                  <Spacer size={4} />
+                  <BranchInfoBar
+                    branches={mockBranchList.branches.items as BranchProps[]}
+                    currentBranch={selectedBranch as BranchProps}
+                  />
+                </>
+              )}
               <Spacer size={5} />
               <Summary
                 files={mockFiles as FileProps[]}
