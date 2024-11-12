@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@harnessio/canary'
-import { SandboxLayout, FormFieldSet } from '@harnessio/playground'
+import { SandboxLayout, FormFieldSet } from '@harnessio/views'
 import { useNavigate } from 'react-router-dom'
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
 import { useMembershipAddMutation, EnumMembershipRole, useListPrincipalsQuery } from '@harnessio/code-service-client'

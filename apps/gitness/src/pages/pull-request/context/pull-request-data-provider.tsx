@@ -15,7 +15,7 @@ import {
   useListCommitsQuery,
   useListPullReqActivitiesQuery
 } from '@harnessio/code-service-client'
-import { ExecutionState } from '@harnessio/playground'
+import { ExecutionState } from '@harnessio/views'
 import { normalizeGitRef } from '../../../utils/git-utils'
 import { useGetSpaceURLParam } from '../../../framework/hooks/useGetSpaceParam'
 import { useGetRepoRef } from '../../../framework/hooks/useGetRepoPath'

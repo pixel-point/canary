@@ -24,7 +24,7 @@ import {
   PullRequestPanel,
   PullRequestSideBar,
   SkeletonList
-} from '@harnessio/playground'
+} from '@harnessio/views'
 import { useDateFilters } from './hooks/useDataFilters'
 import { useActivityFilters } from './hooks/useActivityFilters'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'

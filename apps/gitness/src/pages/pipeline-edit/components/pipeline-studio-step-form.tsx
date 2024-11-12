@@ -21,7 +21,7 @@ import {
   getHarnessStepDefinition,
   InputType,
   getHarnessStepIdentifier
-} from '@harnessio/playground'
+} from '@harnessio/views'
 import { usePipelineDataContext } from '../context/PipelineStudioDataProvider'
 import { ApiInputs, addNameInput, apiInput2IInputDefinition } from '../utils/step-form-utils'
 

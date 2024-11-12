@@ -1,6 +1,6 @@
 import { editor } from 'monaco-editor'
 import { OpenapiGetContentOutput, TypesPipeline, TypesPlugin } from '@harnessio/code-service-client'
-import { Problem } from '@harnessio/playground'
+import { Problem } from '@harnessio/views'
 import { YamlRevision } from '../PipelineStudioDataProvider'
 import { InlineActionArgsType } from '../../utils/inline-actions'
 import { YamlProblemSeverity } from '../../types/types'

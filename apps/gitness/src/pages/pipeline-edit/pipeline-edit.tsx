@@ -2,7 +2,7 @@ import { YamlEditorContextProvider } from '@harnessio/yaml-editor'
 import PipelineStudio from './components/pipeline-studio'
 import PipelineStudioDataProvider from './context/PipelineStudioDataProvider'
 import PipelineStudioViewProvider from './context/PipelineStudioViewProvider'
-import { SandboxLayout } from '@harnessio/playground'
+import { SandboxLayout } from '@harnessio/views'
 
 const PipelineEditPage = (): JSX.Element => {
   return (

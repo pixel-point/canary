@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom'
 import { parseAsInteger, useQueryState } from 'nuqs'
 import { Spacer } from '@harnessio/canary'
-import { NoData, PaginationComponent, PullRequestCommits, SkeletonList } from '@harnessio/playground'
+import { NoData, PaginationComponent, PullRequestCommits, SkeletonList } from '@harnessio/views'
 import { useListPullReqCommitsQuery, TypesCommit } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 import { PathParams } from '../RouteDefinitions'

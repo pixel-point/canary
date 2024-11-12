@@ -1,7 +1,7 @@
 import type { editor, MarkerSeverity } from 'monaco-editor'
 import { MarkerSeverity as MarkerSeverityEnum } from 'monaco-editor'
 import { YamlProblemSeverity } from '../types/types'
-import { Problem } from '@harnessio/playground'
+import { Problem } from '@harnessio/views'
 
 const markerSeverity2ProblemSeverity = (severity: MarkerSeverity) => {
   switch (severity) {

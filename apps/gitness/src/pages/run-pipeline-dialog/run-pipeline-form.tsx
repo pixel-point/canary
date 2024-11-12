@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { parse } from 'yaml'
 import { omit } from 'lodash-es'
-import { inputComponentFactory, InputType } from '@harnessio/playground'
+import { inputComponentFactory, InputType } from '@harnessio/views'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Spacer, DialogHeader, DialogTitle, DialogDescription, DialogFooter, Button } from '@harnessio/canary'
 import {

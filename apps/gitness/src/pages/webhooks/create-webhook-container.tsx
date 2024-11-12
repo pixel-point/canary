@@ -5,7 +5,7 @@ import {
   SSLVerificationEnum,
   WebhookTriggerEnum,
   TriggerEventsEnum
-} from '@harnessio/playground'
+} from '@harnessio/views'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useCreateWebhookMutation, useGetWebhookQuery, useUpdateWebhookMutation } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'

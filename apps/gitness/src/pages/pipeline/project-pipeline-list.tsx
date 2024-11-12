@@ -10,7 +10,7 @@ import {
   NoData,
   NoSearchResults,
   PaginationComponent
-} from '@harnessio/playground'
+} from '@harnessio/views'
 import { PageResponseHeader } from '../../types'
 import { getExecutionStatus } from '../../utils/execution-utils'
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'

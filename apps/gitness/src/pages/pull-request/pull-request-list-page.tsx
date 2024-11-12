@@ -9,13 +9,13 @@ import {
   Filter,
   NoSearchResults,
   SandboxLayout
-} from '@harnessio/playground'
+} from '@harnessio/views'
 import { ListPullReqQueryQueryParams, TypesPullReq, useListPullReqQuery } from '@harnessio/code-service-client'
 import { timeAgoFromEpochTime } from '../pipeline-edit/utils/time-utils'
 import { DropdownItemProps } from '../../../../../packages/canary/dist/components/list-actions'
 import { PathParams } from '../../RouteDefinitions'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
-import { PaginationComponent } from '@harnessio/playground'
+import { PaginationComponent } from '@harnessio/views'
 import { PageResponseHeader } from '../../types'
 import { useDebouncedQueryState } from '../../hooks/useDebouncedQueryState'
 

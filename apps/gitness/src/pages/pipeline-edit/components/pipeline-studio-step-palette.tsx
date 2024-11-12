@@ -9,7 +9,7 @@ import {
   StepPaletteFilters,
   harnessSteps,
   harnessStepGroups
-} from '@harnessio/playground'
+} from '@harnessio/views'
 import { usePipelineDataContext } from '../context/PipelineStudioDataProvider'
 import { StepDrawer, usePipelineViewContext } from '../context/PipelineStudioViewProvider'
 import { TypesPlugin } from '../types/api-types'

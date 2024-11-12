@@ -26,7 +26,7 @@ import {
   SandboxLayout,
   CloneRepoDialog,
   generateAlphaNumericHash
-} from '@harnessio/playground'
+} from '@harnessio/views'
 import {
   useListBranchesQuery,
   useSummaryQuery,

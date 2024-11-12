@@ -1,6 +1,6 @@
 import cx from 'clsx'
 import copy from 'clipboard-copy'
-import { PipelineStudioToolbarActions, Topbar, VisualYamlToggle } from '@harnessio/playground'
+import { PipelineStudioToolbarActions, Topbar, VisualYamlToggle } from '@harnessio/views'
 import { VisualYamlValue } from '../../../types/pipeline'
 import { usePipelineDataContext } from '../context/PipelineStudioDataProvider'
 import { createAndDownloadBlob } from '../../../utils/common-utils'

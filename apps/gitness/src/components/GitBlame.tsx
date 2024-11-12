@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { getInitials } from '@harnessio/playground'
+import { getInitials } from '@harnessio/views'
 import { useGetBlameQuery } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 import { normalizeGitRef } from '../utils/git-utils'

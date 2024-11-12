@@ -1,4 +1,4 @@
-import { SettingsUserManagementPage, useCommonFilter } from '@harnessio/playground'
+import { SettingsUserManagementPage, useCommonFilter } from '@harnessio/views'
 import {
   useAdminListUsersQuery,
   useAdminUpdateUserMutation,

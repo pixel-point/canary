@@ -11,7 +11,7 @@ import {
   PaginationComponent,
   SandboxLayout,
   ExecutionState
-} from '@harnessio/playground'
+} from '@harnessio/views'
 import { PageResponseHeader } from '../../types'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { PathParams } from '../../RouteDefinitions'

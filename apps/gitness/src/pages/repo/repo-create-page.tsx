@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { RepoCreatePageForm, FormFields } from '@harnessio/playground'
+import { RepoCreatePageForm, FormFields } from '@harnessio/views'
 import { useNavigate } from 'react-router-dom'
 
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'

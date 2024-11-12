@@ -1,4 +1,4 @@
-import { Topbar } from '@harnessio/playground'
+import { Topbar } from '@harnessio/views'
 import {
   Breadcrumb,
   BreadcrumbItem,

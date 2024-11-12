@@ -1,7 +1,7 @@
 import { useCreateBranchMutation, useListBranchesQuery, UsererrorError } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { useQueryClient } from '@tanstack/react-query'
-import { CreateBranchDialog, ICreateBranchForm } from '@harnessio/playground'
+import { CreateBranchDialog, ICreateBranchForm } from '@harnessio/views'
 
 interface CreateBranchDialogContainerProps {
   open: boolean

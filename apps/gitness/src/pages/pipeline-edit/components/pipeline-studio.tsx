@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from 'react'
-import { Container, PipelineStudioFooterBar, getInitials } from '@harnessio/playground'
+import { Container, PipelineStudioFooterBar, getInitials } from '@harnessio/views'
 import { useListBranchesQuery } from '@harnessio/code-service-client'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup, Sheet, SheetContent } from '@harnessio/canary'
 import { PipelineStudioPanel } from './pipeline-studio-panel'

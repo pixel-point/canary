@@ -7,7 +7,7 @@ import {
   useRawDiffQuery,
   useReviewerListPullReqQuery
 } from '@harnessio/code-service-client'
-import { PullRequestChanges, SkeletonList } from '@harnessio/playground'
+import { PullRequestChanges, SkeletonList } from '@harnessio/views'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { compact, isEqual } from 'lodash-es'
 import { useAtom } from 'jotai'

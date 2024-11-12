@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { parseAsInteger, useQueryState } from 'nuqs'
-import { SkeletonList, NoData, SandboxLayout, BranchesList, Filter, useCommonFilter } from '@harnessio/playground'
+import { SkeletonList, NoData, SandboxLayout, BranchesList, Filter, useCommonFilter } from '@harnessio/views'
 import { Button, Spacer, Text } from '@harnessio/canary'
 import {
   useListBranchesQuery,
@@ -13,7 +13,7 @@ import {
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { PageResponseHeader, orderSortDate } from '../../types'
 import { timeAgoFromISOTime } from '../pipeline-edit/utils/time-utils'
-import { NoSearchResults, PaginationComponent } from '@harnessio/playground'
+import { NoSearchResults, PaginationComponent } from '@harnessio/views'
 import { PathParams } from '../../RouteDefinitions'
 import CreateBranchDialog from './repo-branch-create'
 import { useDebouncedQueryState } from '../../hooks/useDebouncedQueryState'

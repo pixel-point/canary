@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { BreadcrumbItem, BreadcrumbLink, ButtonGroup, cn, ListActions, Spacer, Text } from '@harnessio/canary'
-import { SkeletonList, Summary, FileProps, SummaryItemType, NoData, SandboxLayout } from '@harnessio/playground'
+import { SkeletonList, Summary, FileProps, SummaryItemType, NoData, SandboxLayout } from '@harnessio/views'
 import {
   useGetContentQuery,
   pathDetails,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button, ButtonGroup, Input, Spacer, Text, Icon } from '@harnessio/canary'
-import { SandboxLayout, FormFieldSet } from '@harnessio/playground'
+import { SandboxLayout, FormFieldSet } from '@harnessio/views'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'

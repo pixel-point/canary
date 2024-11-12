@@ -17,7 +17,7 @@ import {
 } from '@harnessio/canary'
 import { z } from 'zod'
 import { GitCommitFormType } from '../types'
-import { FormFieldSet, Layout } from '@harnessio/playground'
+import { FormFieldSet, Layout } from '@harnessio/views'
 import { UsererrorError } from '@harnessio/code-service-client'
 import { useRuleViolationCheck } from '../framework/hooks/useRuleViolationCheck'
 

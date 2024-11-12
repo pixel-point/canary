@@ -16,7 +16,7 @@ import { ApprovalItem, ButtonEnum, FilterViewProps, PullReqReviewDecision } from
 import { EnumPullReqReviewDecision } from '@harnessio/code-service-client'
 import { processReviewDecision } from './utils'
 import { useEffect, useMemo, useState } from 'react'
-// import { FileViewGauge } from '@harnessio/playground'
+// import { FileViewGauge } from '@harnessio/views'
 
 // const filesViewed = {
 //   total: 3,

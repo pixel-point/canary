@@ -8,7 +8,7 @@ import {
   PullRequestCommits,
   SkeletonList,
   SandboxLayout
-} from '@harnessio/playground'
+} from '@harnessio/views'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 
 import {

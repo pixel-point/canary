@@ -1,4 +1,4 @@
-import { RepoBranchSettingsRulesPage, RepoBranchSettingsFormFields, BypassUsersList } from '@harnessio/playground'
+import { RepoBranchSettingsRulesPage, RepoBranchSettingsFormFields, BypassUsersList } from '@harnessio/views'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { useGetRepoId } from '../../framework/hooks/useGetRepoId'
 

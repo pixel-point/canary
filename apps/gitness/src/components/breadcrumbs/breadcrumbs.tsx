@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useParams, useLocation, Link } from 'react-router-dom'
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator } from '@harnessio/canary'
-import { Topbar } from '@harnessio/playground'
+import { Topbar } from '@harnessio/views'
 import { useListExecutionsQuery, useListPipelinesQuery, useListReposQuery } from '@harnessio/code-service-client'
 import { useAppContext } from '../../framework/context/AppContext'
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'

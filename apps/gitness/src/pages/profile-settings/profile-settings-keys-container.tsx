@@ -17,7 +17,7 @@ import {
   useListTokensQuery,
   ListTokensErrorResponse
 } from '@harnessio/code-service-client'
-import { TokensList, KeysList, DeleteTokenAlertDialog } from '@harnessio/playground'
+import { TokensList, KeysList, DeleteTokenAlertDialog } from '@harnessio/views'
 import { SettingsAccountKeysPage } from './profile-settings-keys-page'
 import { TokenCreateDialog } from './token-create/token-create-dialog'
 import { TokenFormType } from './token-create/token-create-form'

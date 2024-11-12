@@ -2,7 +2,7 @@ import { Button, ButtonGroup, Input, Textarea, Spacer, Text } from '@harnessio/c
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { FormFieldSet } from '@harnessio/playground'
+import { FormFieldSet } from '@harnessio/views'
 
 const formSchema = z.object({
   identifier: z.string().min(1, { message: 'Please provide a name' }),

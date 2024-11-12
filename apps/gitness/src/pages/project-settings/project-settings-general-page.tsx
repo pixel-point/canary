@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
 import { useAppContext } from '../../framework/context/AppContext'
-import { NoData } from '@harnessio/playground'
+import { NoData } from '@harnessio/views'
 import {
   TypesSpace,
   useUpdateSpaceMutation,

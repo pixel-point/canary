@@ -3,7 +3,7 @@ import { Button, ButtonGroup, Input, Text } from '@harnessio/canary'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { FormFieldSet, CopyButton } from '@harnessio/playground'
+import { FormFieldSet, CopyButton } from '@harnessio/views'
 
 const formSchema = z.object({
   identifier: z.string(),

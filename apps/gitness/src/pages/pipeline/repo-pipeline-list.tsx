@@ -10,7 +10,7 @@ import {
   NoData,
   NoSearchResults,
   PaginationComponent
-} from '@harnessio/playground'
+} from '@harnessio/views'
 import { PageResponseHeader } from '../../types'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { getExecutionStatus, getMeterState } from '../../utils/execution-utils'

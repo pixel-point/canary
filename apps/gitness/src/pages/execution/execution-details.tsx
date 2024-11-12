@@ -14,7 +14,7 @@ import {
   parseStageStepId,
   SandboxLayout,
   ExecutionState
-} from '@harnessio/playground'
+} from '@harnessio/views'
 import copy from 'clipboard-copy'
 import { PathParams } from '../../RouteDefinitions'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'

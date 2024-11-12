@@ -1,6 +1,6 @@
 import { IInputDefinition, unsetEmptyArrayOutputTransformer, unsetEmptyStringOutputTransformer } from '@harnessio/forms'
 import { generateFriendlyName } from './common-utils'
-import { InputType, UIInputWithConfigsForArray } from '@harnessio/playground'
+import { InputType, UIInputWithConfigsForArray } from '@harnessio/views'
 
 // TODO
 enum ApiInputType {

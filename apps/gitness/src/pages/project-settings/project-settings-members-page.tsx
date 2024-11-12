@@ -12,7 +12,7 @@ import {
   Filter,
   MembersProps,
   NoSearchResults
-} from '@harnessio/playground'
+} from '@harnessio/views'
 import {
   useMembershipListQuery,
   TypesMembershipUser,

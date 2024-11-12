@@ -1,5 +1,5 @@
 import { TypesCodeOwnerEvaluationEntry } from '@harnessio/code-service-client'
-import { ExecutionState } from '@harnessio/playground'
+import { ExecutionState } from '@harnessio/views'
 import { EnumPullReqReviewDecisionExtended, PullReqReviewDecision, TypeCheckData } from './types/types'
 import { extractInfoForCodeOwnerContentProps } from '../../types'
 import { get, isEmpty } from 'lodash-es'
