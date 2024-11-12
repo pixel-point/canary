@@ -4,8 +4,9 @@ import ConsoleLogs from './console-logs'
 import { Layout } from '../layout/layout'
 import { ExecutionStatus } from './execution-status'
 import { getFormattedDuration } from '../../utils/TimeUtils'
-import { KeyValuePair, KeyValueTable } from './key-value-table'
-import { ExecutionState, LivelogLine } from './types'
+import type { KeyValuePair } from './key-value-table'
+import { KeyValueTable } from './key-value-table'
+import type { ExecutionState, LivelogLine } from './types'
 
 export interface StepProps {
   name?: string

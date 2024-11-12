@@ -1,7 +1,7 @@
 import PullRequestTimelineItem from './pull-request-timeline-item'
 import { Avatar, AvatarFallback, Icon, Text } from '@harnessio/canary'
 import { getInitials } from '../../utils/utils'
-import { GeneralPayload, LabelActivity, PayloadAuthor, TypesPullReqActivity } from './interfaces'
+import type { GeneralPayload, LabelActivity, PayloadAuthor, TypesPullReqActivity } from './interfaces'
 
 interface PullRequestSystemLabelItemProps {
   payload?: TypesPullReqActivity | undefined

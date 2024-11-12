@@ -1,4 +1,4 @@
-import { IconProps } from '@harnessio/canary'
+import type { IconProps } from '@harnessio/canary'
 
 export const navbarSubmenuData: {
   groupId: number

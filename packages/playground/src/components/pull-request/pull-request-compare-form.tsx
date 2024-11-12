@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { forwardRef } from 'react'
 import { SubmitHandler, FieldErrors, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
+=======
+import React, { forwardRef } from 'react'
+import type { SubmitHandler, FieldErrors, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
+>>>>>>> 45f591e1 (fix: updated common layout and navbar)
 import { z } from 'zod'
 import { Input, Textarea, Text } from '@harnessio/canary'
 import { MessageTheme } from '../form-field-set'

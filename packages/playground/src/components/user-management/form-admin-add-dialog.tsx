@@ -12,7 +12,7 @@ import {
   Badge,
   Text
 } from '@harnessio/canary'
-import { FormRemoveUserDialogProps } from './interfaces'
+import type { FormRemoveUserDialogProps } from './interfaces'
 
 //Form Add Admin Dialog
 export const FormAddAdminDialog: React.FC<FormRemoveUserDialogProps> = ({

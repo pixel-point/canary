@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 import { cn, Text, Label as ShadLabel, RadioGroupItem, Checkbox } from '@harnessio/canary'
+=======
+import type { RadioGroupItem, Checkbox } from '@harnessio/canary'
+import { cn, Text, Label as ShadLabel } from '@harnessio/canary'
+import React from 'react'
+>>>>>>> 45f591e1 (fix: updated common layout and navbar)
 
 interface CompProps {
   children: React.ReactNode

@@ -20,12 +20,12 @@ import TabTriggerItem from '../components/TabsTriggerItem'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import PullRequestCompareButton from '../components/pull-request/pull-request-compare-button'
-import { TypesCommit } from '../components/pull-request/interfaces'
+import type { TypesCommit } from '../components/pull-request/interfaces'
 import PullRequestDiffViewer from '../components/pull-request/pull-request-diff-viewer'
 import { DiffModeEnum } from '@git-diff-view/react'
 import { parseStartingLineIfOne } from '../components/pull-request/utils'
 import { useDiffConfig } from '../components/pull-request/hooks/useDiffConfig'
-import { TypesDiffStats } from './types'
+import type { TypesDiffStats } from './types'
 
 export const formSchema = z.object({
   title: z.string().min(1, { message: 'Please provide a pull request title' }),

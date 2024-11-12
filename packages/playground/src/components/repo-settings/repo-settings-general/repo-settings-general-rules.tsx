@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 import { RuleDataType, ErrorTypes } from './types'
+=======
+import React from 'react'
+import type { RuleDataType } from './types'
+import { ErrorTypes } from './types'
+>>>>>>> 45f591e1 (fix: updated common layout and navbar)
 import { Button, ListActions, SearchBox, Icon, Text, StackedList, Spacer } from '@harnessio/canary'
 import { RepoSettingsToolTip } from './repo-settings-general-tooltip'
 import { NoData } from '../../no-data'

@@ -1,5 +1,5 @@
 import tailwindcssAnimate from 'tailwindcss-animate'
-import { PluginAPI } from 'tailwindcss/types/config'
+import type { PluginAPI } from 'tailwindcss/types/config'
 
 export default {
   darkMode: ['class'],
@@ -128,6 +128,10 @@ export default {
           4: 'hsl(var(--border-04))',
           5: 'hsl(var(--border-05))',
           6: 'hsl(var(--border-06))',
+          7: 'hsl(var(--border-07))',
+          8: 'hsl(var(--border-08))',
+          9: 'hsl(var(--border-09))',
+          10: 'hsl(var(--border-10))',
           danger: 'hsl(var(--border-danger))',
           success: 'hsl(var(--border-success))'
         },
@@ -150,9 +154,6 @@ export default {
         1: '0px 8px 16px rgba(0, 0, 0, 0.30)',
         2: '0px 8px 8px rgba(0, 0, 0, 0.60)',
         'pagination-1': '0px 2px 4px rgba(0, 0, 0, 0.50)'
-      },
-      borderRadius: {
-        DEFAULT: 'var(--radius)'
       },
       border: {
         DEFAULT: '1px'
@@ -178,7 +179,7 @@ export default {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'ai-button':
-          'linear-gradient(to right, var(--ai-button-stop-1), var(--ai-button-stop-2), var(--ai-button-stop-3), var(--ai-button-stop-4))'
+          'linear-gradient(to right, hsl(var(--ai-button-stop-1)), hsl(var(--ai-button-stop-2)), hsl(var(--ai-button-stop-3)), hsl(var(--ai-button-stop-4)))'
       },
       keyframes: {
         'accordion-down': {
@@ -202,10 +203,10 @@ export default {
       addUtilities({
         '.tabnav-active': {
           boxShadow:
-            'inset 0 1px 0 0 var(--border-background), inset 1px 0 0 0 var(--border-background), inset -1px 0 0 0 var(--border-background)'
+            'inset 0 1px 0 0 hsl(var(--border-background)), inset 1px 0 0 0 hsl(var(--border-background)), inset -1px 0 0 0 hsl(var(--border-background))'
         },
         '.tabnav-inactive': {
-          boxShadow: 'inset 0 -1px 0 0 var(--border-background)'
+          boxShadow: 'inset 0 -1px 0 0 hsl(var(--border-background))'
         }
       })
     }

@@ -12,13 +12,13 @@ import {
   cn
 } from '@harnessio/canary'
 import { Link } from 'react-router-dom'
-import {
+import type {
   BranchSelectorBaseItem,
   BranchSelectorBranchListProps,
   BranchSelectorBranchProps,
-  BranchSelectorTab,
   BranchSelectorTagListProps
 } from './types'
+import { BranchSelectorTab } from './types'
 
 const BRANCH_SELECTOR_LABELS = {
   [BranchSelectorTab.BRANCHES]: {
