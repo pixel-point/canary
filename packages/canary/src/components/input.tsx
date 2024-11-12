@@ -6,10 +6,10 @@ export interface BaseInputProps extends React.InputHTMLAttributes<HTMLInputEleme
 }
 
 const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(({ className, type, isExtended, ...props }, ref) => {
-  const commonClassName = 'bg-transparent px-3 py-1'
+  const commonClassName = 'bg-transparent px-3 py-1 text-foreground-1'
   const specificClassNames = isExtended
     ? 'border-none grow focus-visible:outline-none'
-    : 'flex h-9 w-full rounded-md border border-input text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
+    : 'flex h-9 w-full rounded border border-input text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-foreground-4 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
 
   return <input type={type} className={cn(commonClassName, specificClassNames, className)} ref={ref} {...props} />
 })
@@ -24,21 +24,31 @@ export interface ExtendedInputProps extends BaseInputProps {
   rightClassName?: string
 }
 
+const containerClassName =
+  'flex h-9 w-full rounded border border-input text-sm shadow-sm transition-colors placeholder:text-foreground-4 focus-within:outline-none focus-within:ring-1 focus-within:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
+const leftRightCommonClassName = 'flex items-center text-muted-foreground'
+
 const ExtendedInput = React.forwardRef<HTMLInputElement, ExtendedInputProps>(
-  ({ className, type, left, leftStyle, leftClassName, right, rightStyle, rightClassName, ...props }, ref) => {
-    const containerClassName =
-      'flex h-9 w-full rounded-md border border-input text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-within:outline-none focus-within:ring-1 focus-within:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
-
-    const leftRightCommonClassName = 'flex items-center text-muted-foreground'
-
+  ({
+     className,
+     type,
+     left,
+     leftStyle,
+     leftClassName,
+     right,
+     rightStyle,
+     rightClassName,
+     ...props
+   },
+   ref) => {
     return (
       <div className={cn(containerClassName, className)}>
         {left && (
           <div
             className={cn(
               leftRightCommonClassName,
-              'rounded-l-md',
-              leftStyle ? 'bg-muted border-r' : '-mr-3',
+              'rounded-l',
+              leftStyle ? 'border-r bg-muted' : '-mr-3',
               leftClassName
             )}>
             {left}
@@ -49,8 +59,8 @@ const ExtendedInput = React.forwardRef<HTMLInputElement, ExtendedInputProps>(
           <div
             className={cn(
               leftRightCommonClassName,
-              'rounded-r-md',
-              rightStyle ? 'bg-muted border-l' : '-ml-3',
+              'rounded-r',
+              rightStyle ? 'border-l bg-muted' : '-ml-3',
               rightClassName
             )}>
             {right}

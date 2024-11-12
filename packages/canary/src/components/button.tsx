@@ -17,13 +17,13 @@ const buttonVariants = cva(
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
         split: 'border flex items-center gap-1.5 p-0',
-        'gradient-border': 'bg-background hover:bg-accent text-primary hover:text-accent-foreground',
+        'gradient-border': 'bg-background-2 hover:bg-background-8 text-foreground-1',
         custom: ''
       },
       size: {
         default: 'h-8 px-6 py-2',
-        sm: 'h-8 px-3 py-0 text-sm font-normal',
-        xs: 'h-auto px-1.5 py-0.5 text-xs font-normal',
+        sm: 'h-7 px-3 py-0 text-sm font-normal',
+        xs: 'h-auto py-0.5 px-1.5 text-xs font-normal',
         lg: 'h-10 px-8',
         icon: 'h-8 w-8',
         sm_icon: 'h-7 w-7',
@@ -43,7 +43,7 @@ const buttonVariants = cva(
       },
       padding: {
         default: '',
-        sm: 'px-2.5'
+        sm: 'px-3'
       },
       gradient: {
         default: 'ai-button'

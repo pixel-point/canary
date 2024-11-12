@@ -16,26 +16,31 @@ interface items {
 }
 
 const Root: React.FC<{
-  username?: string
-  isAdmin?: boolean
+  username: string
+  email?: string
   url?: string
   menuItems?: items[]
-}> = ({ username, isAdmin, url, menuItems }) => {
+}> = ({ username, email, url, menuItems }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="group relative grid cursor-pointer grid-cols-[auto_1fr] grid-rows-2 items-center justify-start gap-x-3">
-          <div className="group-hover:bg-primary/5 absolute -inset-2 rounded-md duration-100 ease-in-out" />
+        <div className="group relative grid grid-rows-2 grid-cols-[auto_1fr] gap-x-2.5 items-center justify-start cursor-pointer">
+          <div className="absolute -inset-2 rounded group-hover:bg-primary/5 ease-in-out duration-100" />
           <div className="col-start-1 row-span-2">
-            <Avatar className="overflow-hidden rounded-md">
+            <Avatar
+              className="rounded-md overflow-hidden"
+              size='8'
+            >
               {url && <AvatarImage src={url} alt="user" />}
-              {username && <AvatarFallback>{getInitials(username)}</AvatarFallback>}
+              <AvatarFallback>{getInitials(username)}</AvatarFallback>
             </Avatar>
           </div>
-          <p className="text-primary col-start-2 row-start-1 text-xs font-medium">{username}</p>
-          <p className="text-tertiary-background col-start-2 row-start-2 text-xs font-normal">
-            {isAdmin ? 'Admin' : 'Account Member'}
-          </p>
+          <p className="col-start-2 row-start-1 text-13 leading-none text-foreground-1 font-medium">{username}</p>
+          {!!email && (
+            <p className="col-start-2 row-start-2 text-13 leading-none font-normal text-foreground-4 mt-0.5">
+              {email}
+            </p>
+          )}
         </div>
       </DropdownMenuTrigger>
       {menuItems && (

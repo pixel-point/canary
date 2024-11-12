@@ -128,6 +128,10 @@ export default {
           4: 'hsl(var(--border-04))',
           5: 'hsl(var(--border-05))',
           6: 'hsl(var(--border-06))',
+          7: 'hsl(var(--border-07))',
+          8: 'hsl(var(--border-08))',
+          9: 'hsl(var(--border-09))',
+          10: 'hsl(var(--border-10))',
           danger: 'hsl(var(--border-danger))',
           success: 'hsl(var(--border-success))'
         },
@@ -150,9 +154,6 @@ export default {
         1: '0px 8px 16px rgba(0, 0, 0, 0.30)',
         2: '0px 8px 8px rgba(0, 0, 0, 0.60)',
         'pagination-1': '0px 2px 4px rgba(0, 0, 0, 0.50)'
-      },
-      borderRadius: {
-        DEFAULT: 'var(--radius)'
       },
       border: {
         DEFAULT: '1px'
