@@ -12,7 +12,7 @@ import {
   Text,
   Badge
 } from '@harnessio/canary'
-import { FormDeleterDialogProps } from './interfaces'
+import type { FormDeleterDialogProps } from './interfaces'
 
 //Form Delete Member Dialog
 export const FormDeleteUserDialog: React.FC<FormDeleterDialogProps> = ({

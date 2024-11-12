@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { useEffect } from 'react'
+=======
+import React, { useEffect } from 'react'
+>>>>>>> 45f591e1 (fix: updated common layout and navbar)
 import { SandboxLayout, FormFieldSet } from '..'
 import {
   Alert,
@@ -17,7 +21,8 @@ import {
   Text,
   Textarea
 } from '@harnessio/canary'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import type { SubmitHandler } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 

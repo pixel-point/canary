@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 import { Tree, TreeViewElement } from '@harnessio/canary'
+=======
+import React from 'react'
+import type { TreeViewElement } from '@harnessio/canary'
+import { Tree } from '@harnessio/canary'
+>>>>>>> 45f591e1 (fix: updated common layout and navbar)
 import { renderTree } from './utils'
 
 export interface ExecutionTreeProps {

@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import React from 'react'
+>>>>>>> 45f591e1 (fix: updated common layout and navbar)
 import { Badge, Icon, Separator, Text, ScrollArea } from '@harnessio/canary'
 import moment from 'moment'
 import { noop } from 'lodash-es'
@@ -7,7 +11,7 @@ import { data as mockStepLogs } from '../../pages/mocks/execution/mockStepLogs'
 import { Layout } from '../layout/layout'
 import { ExecutionTree } from './execution-tree'
 import { ExecutionStatus } from './execution-status'
-import { ExecutionState } from './types'
+import type { ExecutionState } from './types'
 import { ContactCard } from '../contact-card'
 import { convertExecutionToTree } from './execution-tree-utils'
 import { getFormattedDuration } from '../../utils/TimeUtils'

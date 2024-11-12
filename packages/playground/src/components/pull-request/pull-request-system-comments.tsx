@@ -1,12 +1,6 @@
 import { Avatar, AvatarFallback, Button, Icon, Text } from '@harnessio/canary'
-import {
-  CommentItem,
-  CommentType,
-  GeneralPayload,
-  PayloadAuthor,
-  TypesPullReq,
-  TypesPullReqActivity
-} from './interfaces'
+import type { CommentItem, GeneralPayload, PayloadAuthor, TypesPullReq, TypesPullReqActivity } from './interfaces'
+import { CommentType } from './interfaces'
 import PullRequestTimelineItem from './pull-request-timeline-item'
 import { getInitials } from '../../utils/utils'
 import AvatarUrl from '../../../public/images/user-avatar.svg'

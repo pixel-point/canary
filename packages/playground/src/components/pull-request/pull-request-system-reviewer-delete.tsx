@@ -1,7 +1,7 @@
 import PullRequestTimelineItem from './pull-request-timeline-item'
 import { Avatar, AvatarFallback, Icon, Text } from '@harnessio/canary'
 import { getInitials } from '../../utils/utils'
-import { PayloadAuthor, TypesPullReqActivity } from './interfaces'
+import type { PayloadAuthor, TypesPullReqActivity } from './interfaces'
 
 interface PullRequestSystemReviewerDeleteItemProps {
   payload?: TypesPullReqActivity | undefined

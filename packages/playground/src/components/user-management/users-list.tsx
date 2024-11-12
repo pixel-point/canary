@@ -21,7 +21,7 @@ import {
   DropdownMenuTrigger
 } from '@harnessio/canary'
 import { getInitials, timeAgo } from '../../utils/utils'
-import { UsersProps } from './interfaces'
+import type { UsersProps } from './interfaces'
 
 interface PageProps {
   users: UsersProps[]

@@ -20,15 +20,8 @@ import {
 } from '@harnessio/canary'
 import { FormFieldSet, MessageTheme } from '../../../index'
 import { branchRules } from './repo-branch-settings-rules-data'
-import {
-  FieldProps,
-  Rule,
-  Dispatch,
-  BypassUsersList,
-  BranchRulesActionType,
-  MergeStrategy,
-  PatternsButtonType
-} from './types'
+import type { FieldProps, Rule, Dispatch, BypassUsersList, MergeStrategy } from './types'
+import { BranchRulesActionType, PatternsButtonType } from './types'
 
 export const BranchSettingsRuleToggleField: React.FC<FieldProps> = ({ register, watch, setValue }) => (
   <StackedList.Root className="border-none">

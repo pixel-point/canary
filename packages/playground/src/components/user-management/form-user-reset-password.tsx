@@ -12,7 +12,7 @@ import {
   Text,
   Input
 } from '@harnessio/canary'
-import { FormResetPasswordsDialogProps } from './interfaces'
+import type { FormResetPasswordsDialogProps } from './interfaces'
 import { CopyButton } from '../copy-button'
 import { generateAlphaNumericHash } from '../../utils/utils'
 

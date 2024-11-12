@@ -18,7 +18,7 @@ import { useMemo } from 'react'
 import { Badge, Button, Icon, Text } from '@harnessio/canary'
 import { Layout } from '../layout/layout'
 import { getPrState } from './utils'
-import { IconType } from './interfaces'
+import type { IconType } from './interfaces'
 import { timeAgo } from '../../utils/utils'
 
 interface PullRequestTitleProps {

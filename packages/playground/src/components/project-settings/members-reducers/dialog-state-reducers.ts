@@ -1,4 +1,4 @@
-import { ProjectDialogAction, DialogState } from '../interfaces'
+import type { ProjectDialogAction, DialogState } from '../interfaces'
 import { upperFirst } from 'lodash-es'
 
 export const initialDialogState: DialogState = {

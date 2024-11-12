@@ -22,7 +22,8 @@ import {
   CommandGroup,
   CommandItem
 } from '@harnessio/canary'
-import { EnumPullReqReviewDecision, PullReqReviewDecision } from './interfaces'
+import type { EnumPullReqReviewDecision } from './interfaces'
+import { PullReqReviewDecision } from './interfaces'
 import { getInitials } from '../../utils/utils'
 
 interface PullRequestSideBarProps {

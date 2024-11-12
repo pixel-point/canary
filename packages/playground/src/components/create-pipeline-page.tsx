@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+import React from 'react'
+import type { IconProps } from '@harnessio/canary'
+>>>>>>> 45f591e1 (fix: updated common layout and navbar)
 import {
   Spacer,
   Text,
@@ -8,8 +13,7 @@ import {
   SpotlightsBox,
   ButtonGroup,
   Input,
-  AIPrompt,
-  IconProps
+  AIPrompt
 } from '@harnessio/canary'
 import { Link } from 'react-router-dom'
 import noop from 'lodash-es/noop'

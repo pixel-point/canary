@@ -1,6 +1,10 @@
+<<<<<<< HEAD
+=======
+import React from 'react'
+>>>>>>> 45f591e1 (fix: updated common layout and navbar)
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Text, Icon } from '@harnessio/canary'
 import { timeAgo } from '../../utils/utils'
-import { TokensList } from './types'
+import type { TokensList } from './types'
 
 interface PageProps {
   tokens: TokensList[]

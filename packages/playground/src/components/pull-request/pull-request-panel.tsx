@@ -12,17 +12,15 @@ import {
   StackedList,
   Text
 } from '@harnessio/canary'
-import {
-  MergeCheckStatus,
-  PullRequestState,
+import type {
   TypesPullReq,
   TypesPullReqCheck,
   EnumCheckStatus,
   PullRequestChangesSectionProps,
   PullRequestAction,
-  PullRequestFilterOption,
   TypesRuleViolations
 } from './interfaces'
+import { MergeCheckStatus, PullRequestState, PullRequestFilterOption } from './interfaces'
 import PullRequestCheckSection from './sections/pull-request-check-section'
 import PullRequestCommentSection from './sections/pull-request-comment-section'
 import PullRequestChangesSection from './sections/pull-request-changes-section'
