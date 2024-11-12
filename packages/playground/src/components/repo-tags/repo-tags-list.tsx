@@ -33,7 +33,7 @@ const moreActionsTooltip = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="muted" size="icon" className="data-[state=open]:text-primary">
+        <Button variant="muted" size="icon" className="data-[state=open]:text-foreground-1">
           <Icon name="vertical-ellipsis" size={14} />
         </Button>
       </DropdownMenuTrigger>
@@ -51,7 +51,7 @@ const moreActionsTooltip = () => {
             to={`/`}>
             <DropdownMenuItem className="cursor-pointer">View files</DropdownMenuItem>
           </Link>
-          <DropdownMenuItem className="cursor-pointer text-destructive">Delete tag</DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer text-foreground-danger">Delete tag</DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -79,13 +79,11 @@ export const RepoTagsList = ({ tags }: TagsListProps) => {
             </TableCell>
             <TableCell className="content-center w-[37%]">
               <div className="flex">
-                <Text wrap="nowrap" size={1} truncate className="text-tertiary-background font-mono">
-                  <CommitCopyActions sha={tag.commit} />
-                </Text>
+                <CommitCopyActions sha={tag.commit} />
               </div>
             </TableCell>
             <TableCell className="content-center w-[23%]">
-              <Text wrap="nowrap" truncate className="text-primary-muted">
+              <Text wrap="nowrap" truncate className="text-foreground-3">
                 {tag.timestamp}
               </Text>
             </TableCell>

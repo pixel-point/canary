@@ -117,7 +117,7 @@ export default {
           7: 'hsl(var(--background-07))',
           8: 'hsl(var(--background-08))',
           9: 'hsl(var(--background-09))',
-          10: 'hsl(var(--background-09))',
+          10: 'hsl(var(--background-10))',
           danger: 'hsla(var(--background-danger))',
           success: 'hsla(var(--background-success))'
         },

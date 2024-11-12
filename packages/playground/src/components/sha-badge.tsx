@@ -27,8 +27,8 @@ function Content({ ...props }: ContentProps) {
   const { children } = props
 
   return (
-    <div className="flex items-center pl-2.5 pr-2 pt-1 pb-0.5 bg-background">
-      <Text size={1} className="text-tertiary-background">
+    <div className="flex items-center pl-2.5 pr-2 pt-1 pb-0.5 bg-background-1">
+      <Text size={1} className="text-foreground-3">
         {children}
       </Text>
     </div>
@@ -41,7 +41,7 @@ function Icon({ ...props }: IconProps) {
   return (
     <div
       onClick={handleClick && handleClick}
-      className="flex items-center border-l px-1.5 py-0.5 bg-background hover:bg-primary-foreground cursor-pointer">
+      className="flex items-center border-l px-1.5 py-0.5 bg-background-1 hover:bg-background-3 cursor-pointer">
       {children}
     </div>
   )
