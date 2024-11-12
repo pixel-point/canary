@@ -1,16 +1,11 @@
 import React, { useRef } from 'react'
-import { FormFieldSet } from '..'
-import { RepoSettingsGeneralForm } from '../components/repo-settings/repo-settings-general/repo-settings-general-form'
-import { RepoSettingsGeneralRules } from '../components/repo-settings/repo-settings-general/repo-settings-general-rules'
-import { RepoSettingsSecurityForm } from '../components/repo-settings/repo-settings-general/repo-settings-general-security'
-import { RepoSettingsGeneralDelete } from '../components/repo-settings/repo-settings-general/repo-settings-general-delete'
-import {
-  RepoData,
-  RepoUpdateData,
-  ErrorTypes,
-  RuleDataType
-} from '../components/repo-settings/repo-settings-general/types'
-import { RepoSettingsSecurityFormFields } from '../components/repo-settings/repo-settings-general/repo-settings-general-security'
+import { FormFieldSet } from '../..'
+import { RepoSettingsGeneralForm } from './repo-settings-general/repo-settings-general-form'
+import { RepoSettingsGeneralRules } from './repo-settings-general/repo-settings-general-rules'
+import { RepoSettingsSecurityForm } from './repo-settings-general/repo-settings-general-security'
+import { RepoSettingsGeneralDelete } from './repo-settings-general/repo-settings-general-delete'
+import { RepoData, RepoUpdateData, ErrorTypes, RuleDataType } from './repo-settings-general/types'
+import { RepoSettingsSecurityFormFields } from './repo-settings-general/repo-settings-general-security'
 
 interface ILoadingStates {
   isLoadingRepoData: boolean

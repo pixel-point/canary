@@ -1,8 +1,8 @@
-import { Rule, Action, ActionType, MergeStrategy } from '../types'
+import { Rule, BranchRulesAction, BranchRulesActionType, MergeStrategy } from '../types'
 
-export const branchSettingsReducer = (state: Rule[], action: Action): Rule[] => {
+export const branchSettingsReducer = (state: Rule[], action: BranchRulesAction): Rule[] => {
   switch (action.type) {
-    case ActionType.TOGGLE_RULE:
+    case BranchRulesActionType.TOGGLE_RULE:
       return state.map(rule => {
         if (rule.id === action.ruleId) {
           const updatedRule = { ...rule, checked: action.checked }
@@ -15,7 +15,7 @@ export const branchSettingsReducer = (state: Rule[], action: Action): Rule[] => 
         return rule
       })
 
-    case ActionType.TOGGLE_SUBMENU:
+    case BranchRulesActionType.TOGGLE_SUBMENU:
       return state.map(rule => {
         if (rule.id === action.ruleId) {
           const updatedSubmenu = action.checked
@@ -26,7 +26,7 @@ export const branchSettingsReducer = (state: Rule[], action: Action): Rule[] => 
         return rule
       })
 
-    case ActionType.SET_SELECT_OPTION:
+    case BranchRulesActionType.SET_SELECT_OPTION:
       return state.map(rule =>
         rule.id === action.ruleId
           ? {
@@ -38,10 +38,10 @@ export const branchSettingsReducer = (state: Rule[], action: Action): Rule[] => 
           : rule
       )
 
-    case ActionType.SET_INPUT_VALUE:
+    case BranchRulesActionType.SET_INPUT_VALUE:
       return state.map(rule => (rule.id === action.ruleId ? { ...rule, input: action.value } : rule))
 
-    case ActionType.SET_INITIAL_RULES:
+    case BranchRulesActionType.SET_INITIAL_RULES:
       return action.payload || []
 
     default:

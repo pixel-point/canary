@@ -1,14 +1,14 @@
 import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle, Button, Input, Label, Icon, Text, Spacer } from '@harnessio/canary'
-import { useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Floating1ColumnLayout } from '../layouts/Floating1ColumnLayout'
-import { noop } from 'lodash-es'
 import { Link } from 'react-router-dom'
 
 interface PageProps {
   isLoading?: boolean
+  onSubmit?: (emailData: ForgotPasswordDataProps) => void
 }
 
 export interface ForgotPasswordDataProps {
@@ -19,7 +19,7 @@ const forgotPasswordSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' })
 })
 
-export function ForgotPasswordPage({ isLoading }: PageProps) {
+export function ForgotPasswordPage({ isLoading, onSubmit }: PageProps) {
   const {
     register,
     handleSubmit,
@@ -28,7 +28,12 @@ export function ForgotPasswordPage({ isLoading }: PageProps) {
     resolver: zodResolver(forgotPasswordSchema)
   })
 
-  const onSubmit = () => noop
+  const handleOnSubmit: SubmitHandler<ForgotPasswordDataProps> = data => {
+    // Handle the submission of the forgot password form
+    if (onSubmit) {
+      onSubmit(data)
+    }
+  }
 
   return (
     <Floating1ColumnLayout maxWidth="md" verticalCenter>
@@ -47,7 +52,7 @@ export function ForgotPasswordPage({ isLoading }: PageProps) {
         </CardHeader>
         <Spacer size={1} />
         <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(handleOnSubmit)}>
             <Label htmlFor="email" variant="sm">
               Email
             </Label>

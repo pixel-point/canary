@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, ButtonGroup, Input, Spacer, Text } from '@harnessio/canary'
 import { SandboxLayout, FormFieldSet } from '..'
-import { MessageTheme } from '../components/form-field-set'
+import { MessageTheme } from './form-field-set'
 import { InfoCircle } from '@harnessio/icons-noir'
 import { useNavigate } from 'react-router-dom'
 
@@ -16,7 +16,7 @@ const newUserSchema = z.object({
 
 export type NewUserFields = z.infer<typeof newUserSchema>
 
-function SandboxSettingsCreateNewUserPage({
+function SettingsCreateNewUserForm({
   handleCreateUser,
   isLoading,
   apiError
@@ -137,4 +137,4 @@ function SandboxSettingsCreateNewUserPage({
   )
 }
 
-export { SandboxSettingsCreateNewUserPage }
+export { SettingsCreateNewUserForm }

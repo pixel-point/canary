@@ -5,12 +5,12 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import {
   ThemeProvider,
   SandboxSettings,
-  SandboxSettingsAccountPage,
-  SandboxSettingsProjectPage,
+  SettingsAccountPage,
+  SettingsProjectNav,
   ForgotPasswordPage,
   NewPasswordPage,
   OTPPage,
-  SandboxRepoSettingsPage,
+  RepoSettingsPage,
   RepoSettingsPlaceholderPage
 } from '@harnessio/playground'
 import RootWrapper from './components/RootWrapper'
@@ -266,7 +266,7 @@ export default function App() {
                 },
                 {
                   path: 'settings',
-                  element: <SandboxRepoSettingsPage />,
+                  element: <RepoSettingsPage />,
                   children: [
                     {
                       index: true,
@@ -307,6 +307,10 @@ export default function App() {
                   element: <ProjectPipelinesPage />
                 },
                 {
+                  path: 'create',
+                  element: <PipelineCreate />
+                },
+                {
                   path: ':pipelineId',
                   element: <RepoExecutionListPage />
                 }
@@ -326,7 +330,7 @@ export default function App() {
               element: <RootWrapper />,
               children: [
                 {
-                  element: <SandboxSettingsProjectPage />,
+                  element: <SettingsProjectNav />,
                   children: [
                     {
                       index: true,
@@ -361,7 +365,7 @@ export default function App() {
           element: <SandboxSettings />,
           children: [
             {
-              element: <SandboxSettingsAccountPage />,
+              element: <SettingsAccountPage />,
               children: [
                 {
                   index: true,

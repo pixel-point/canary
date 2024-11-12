@@ -20,7 +20,15 @@ import {
 } from '@harnessio/canary'
 import { FormFieldSet, MessageTheme } from '../../../index'
 import { branchRules } from './repo-branch-settings-rules-data'
-import { FieldProps, Rule, Dispatch, BypassUsersList, ActionType, MergeStrategy, PatternsButtonType } from './types'
+import {
+  FieldProps,
+  Rule,
+  Dispatch,
+  BypassUsersList,
+  BranchRulesActionType,
+  MergeStrategy,
+  PatternsButtonType
+} from './types'
 
 export const BranchSettingsRuleToggleField: React.FC<FieldProps> = ({ register, watch, setValue }) => (
   <StackedList.Root className="border-none">
@@ -273,19 +281,19 @@ export const BranchSettingsRuleListField: React.FC<{
   recentStatusChecks?: string[]
 }> = ({ rules, dispatch, recentStatusChecks }) => {
   const handleCheckboxChange = (ruleId: string, checked: boolean) => {
-    dispatch({ type: ActionType.TOGGLE_RULE, ruleId, checked })
+    dispatch({ type: BranchRulesActionType.TOGGLE_RULE, ruleId, checked })
   }
 
   const handleSubmenuChange = (ruleId: string, submenuId: string, checked: boolean) => {
-    dispatch({ type: ActionType.TOGGLE_SUBMENU, ruleId, submenuId, checked })
+    dispatch({ type: BranchRulesActionType.TOGGLE_SUBMENU, ruleId, submenuId, checked })
   }
 
   const handleSelectChangeForRule = (ruleId: string, checkName: string) => {
-    dispatch({ type: ActionType.SET_SELECT_OPTION, ruleId, checkName })
+    dispatch({ type: BranchRulesActionType.SET_SELECT_OPTION, ruleId, checkName })
   }
 
   const handleInputChange = (ruleId: string, value: string) => {
-    dispatch({ type: ActionType.SET_INPUT_VALUE, ruleId, value })
+    dispatch({ type: BranchRulesActionType.SET_INPUT_VALUE, ruleId, value })
   }
 
   return (

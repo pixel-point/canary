@@ -1,21 +1,18 @@
 import React, { useReducer } from 'react'
 import { Spacer, Text, Button } from '@harnessio/canary'
 import { SandboxLayout } from '..'
-import { UsersList } from '../components/user-management/users-list'
+import { UsersList } from './user-management/users-list'
 import { useNavigate } from 'react-router-dom'
-import {
-  dialogStateReducer,
-  initialDialogState
-} from '../components/user-management/user-reducers/dialog-state-reducers'
-import { FormUserEditDialog } from '../components/user-management/form-user-edit-dialog'
-import { FormDeleteUserDialog } from '../components/user-management/form-user-delete-dialog'
-import { FormRemoveAdminDialog } from '../components/user-management/form-admin-remove-dialog'
-import { FormResetPasswordDialog } from '../components/user-management/form-user-reset-password'
-import { FormAddAdminDialog } from '../components/user-management/form-admin-add-dialog'
-import { DialogActionType, DialogType } from '../components/user-management/interfaces'
-import { UsersProps } from '../components/user-management/interfaces'
+import { dialogStateReducer, initialDialogState } from './user-management/user-reducers/dialog-state-reducers'
+import { FormUserEditDialog } from './user-management/form-user-edit-dialog'
+import { FormDeleteUserDialog } from './user-management/form-user-delete-dialog'
+import { FormRemoveAdminDialog } from './user-management/form-admin-remove-dialog'
+import { FormResetPasswordDialog } from './user-management/form-user-reset-password'
+import { FormAddAdminDialog } from './user-management/form-admin-add-dialog'
+import { DialogActionType, DialogType } from './user-management/interfaces'
+import { UsersProps } from './user-management/interfaces'
 import { Filter } from '..'
-import { PaginationComponent } from '../components/pagination'
+import { PaginationComponent } from './pagination'
 const sortOptions = [
   { name: 'Date', value: 'created' },
   { name: 'Email', value: 'email' },
@@ -23,7 +20,7 @@ const sortOptions = [
   { name: 'Last Modified', value: 'updated' }
 ]
 
-function SandboxSettingsUserManagementPage({
+export function SettingsUserManagementPage({
   userData,
   handleUpdateUser,
   handleDeleteUser,
@@ -196,5 +193,3 @@ function SandboxSettingsUserManagementPage({
     </SandboxLayout.Main>
   )
 }
-
-export { SandboxSettingsUserManagementPage }

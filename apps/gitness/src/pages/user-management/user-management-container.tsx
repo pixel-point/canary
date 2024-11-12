@@ -1,4 +1,4 @@
-import { SandboxSettingsUserManagementPage, useCommonFilter } from '@harnessio/playground'
+import { SettingsUserManagementPage, useCommonFilter } from '@harnessio/playground'
 import {
   useAdminListUsersQuery,
   useAdminUpdateUserMutation,
@@ -89,7 +89,7 @@ export const UserManagementPageContainer = () => {
     queryClient.invalidateQueries({ queryKey: ['adminListUsers'] })
   }
   return (
-    <SandboxSettingsUserManagementPage
+    <SettingsUserManagementPage
       userData={userData ?? null}
       handleUpdateUser={handleUpdateUser}
       handleDeleteUser={handleDeleteUser}

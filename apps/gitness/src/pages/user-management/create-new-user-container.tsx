@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import {
-  SandboxSettingsCreateNewUserPage,
+  SettingsCreateNewUserForm,
   generateAlphaNumericHash,
   ResetPasswordDialog,
   NewUserFields
@@ -31,7 +31,7 @@ export const CreateNewUserContainer = () => {
 
   return (
     <>
-      <SandboxSettingsCreateNewUserPage
+      <SettingsCreateNewUserForm
         handleCreateUser={handleCreateUser}
         isLoading={creatingUser}
         apiError={createUserError?.message || null}

@@ -4,11 +4,11 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Floating1ColumnLayout } from '../layouts/Floating1ColumnLayout'
-import { noop } from 'lodash-es'
 import { Link } from 'react-router-dom'
 
 interface PageProps {
   isLoading?: boolean
+  handleFormSubmit?: (data: NewPasswordDataProps) => void
 }
 
 export interface NewPasswordDataProps {
@@ -21,7 +21,7 @@ const newPasswordSchema = z.object({
   confirmPassword: z.string()
 })
 
-export function NewPasswordPage({ isLoading }: PageProps) {
+export function NewPasswordPage({ isLoading, handleFormSubmit }: PageProps) {
   const {
     register,
     handleSubmit,
@@ -31,7 +31,9 @@ export function NewPasswordPage({ isLoading }: PageProps) {
     resolver: zodResolver(newPasswordSchema)
   })
 
-  const onSubmit = () => noop
+  const onFormSubmit = (data: NewPasswordDataProps) => {
+    handleFormSubmit?.(data)
+  }
 
   const password = watch('password', '')
   const confirmPassword = watch('confirmPassword', '')
@@ -53,7 +55,7 @@ export function NewPasswordPage({ isLoading }: PageProps) {
         </CardHeader>
         <Spacer size={1} />
         <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onFormSubmit)}>
             <Label htmlFor="password" variant="sm">
               New password
             </Label>

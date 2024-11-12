@@ -1,4 +1,4 @@
-import { Action, DialogState } from '../interfaces'
+import { ProjectDialogAction, DialogState } from '../interfaces'
 import { upperFirst } from 'lodash-es'
 
 export const initialDialogState: DialogState = {
@@ -12,7 +12,7 @@ export const initialDialogState: DialogState = {
   deleteSuccess: false
 }
 
-export function dialogStateReducer(state: DialogState, action: Action): DialogState {
+export function dialogStateReducer(state: DialogState, action: ProjectDialogAction): DialogState {
   switch (action.type) {
     case 'OPEN_DIALOG':
       return {

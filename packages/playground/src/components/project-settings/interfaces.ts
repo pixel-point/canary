@@ -25,7 +25,7 @@ export enum DialogType {
 }
 
 // Enum for action types
-export enum ActionType {
+export enum ProjectDialogActionType {
   OPEN_DIALOG = 'OPEN_DIALOG',
   CLOSE_DIALOG = 'CLOSE_DIALOG',
   START_SUBMITTING = 'START_SUBMITTING',
@@ -36,15 +36,15 @@ export enum ActionType {
   RESET_DELETE = 'RESET_DELETE'
 }
 
-export type Action =
-  | { type: ActionType.OPEN_DIALOG; dialogType: DialogType; member: MembersProps }
-  | { type: ActionType.CLOSE_DIALOG; dialogType: DialogType }
-  | { type: ActionType.START_SUBMITTING }
-  | { type: ActionType.SUBMIT_SUCCESS }
-  | { type: ActionType.RESET_SUBMIT }
-  | { type: ActionType.START_DELETING }
-  | { type: ActionType.DELETE_SUCCESS }
-  | { type: ActionType.RESET_DELETE }
+export type ProjectDialogAction =
+  | { type: ProjectDialogActionType.OPEN_DIALOG; dialogType: DialogType; member: MembersProps }
+  | { type: ProjectDialogActionType.CLOSE_DIALOG; dialogType: DialogType }
+  | { type: ProjectDialogActionType.START_SUBMITTING }
+  | { type: ProjectDialogActionType.SUBMIT_SUCCESS }
+  | { type: ProjectDialogActionType.RESET_SUBMIT }
+  | { type: ProjectDialogActionType.START_DELETING }
+  | { type: ProjectDialogActionType.DELETE_SUCCESS }
+  | { type: ProjectDialogActionType.RESET_DELETE }
 
 export interface FormDeleteMemberDialogProps {
   member: MembersProps

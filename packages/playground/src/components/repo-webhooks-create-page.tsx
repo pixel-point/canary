@@ -10,11 +10,11 @@ import {
   WebhookSSLVerificationField,
   WebhookTriggerField,
   WebhookEventSettingsFieldset
-} from '../components/webhooks/create-webhooks-form-fields'
-import { branchEvents, tagEvents, prEvents } from '../components/webhooks/create-webhook-form-data'
+} from './webhooks/create-webhooks-form-fields'
+import { branchEvents, tagEvents, prEvents } from './webhooks/create-webhook-form-data'
 import { FormFieldSet, SandboxLayout } from '../index'
-import { createWebhookFormSchema } from '../components/webhooks/create-webhooks-form-schema'
-import { CreateWebhookFormFields, TriggerEventsEnum } from '../components/webhooks/types'
+import { createWebhookFormSchema } from './webhooks/create-webhooks-form-schema'
+import { CreateWebhookFormFields, TriggerEventsEnum } from './webhooks/types'
 
 interface RepoWebhooksCreatePageProps {
   onFormSubmit: (data: CreateWebhookFormFields) => void

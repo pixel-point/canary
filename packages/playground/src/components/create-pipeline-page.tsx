@@ -12,9 +12,9 @@ import {
   AIPrompt,
   IconProps
 } from '@harnessio/canary'
-import { Floating1ColumnLayout } from '../layouts/Floating1ColumnLayout'
 import { Link } from 'react-router-dom'
 import noop from 'lodash-es/noop'
+import { SandboxLayout } from '../index'
 
 const SectionList = ({ children }: { children: React.ReactNode }) => (
   <div className="flex flex-col gap-9 w-full">{children}</div>
@@ -183,47 +183,49 @@ export function CreatePipelinePage({ onClickStartFromScratch = noop }: CreatePip
   ]
 
   return (
-    <Floating1ColumnLayout>
-      <Spacer size={16} />
-      <Text as="p" size={6} weight="medium">
-        Create your pipeline
-      </Text>
-      <Spacer size={3} />
-      <Text as="p" size={2} weight="normal" className="max-w-[50%] text-primary/80">
-        It's very simple to start using Playground. Allow our AI to create your pipeline based on the code base or start
-        from a clean state.
-      </Text>
-      <Spacer size={8} />
-      <AIPrompt
-        placeholder="Start by describing your project goals or key requirements..."
-        useAIButton={
-          <Button variant="gradient-border" gradientType="ai-button" size="sm" borderRadius="full">
-            <Icon name="ai-sparks" size={22} />
-            <Text size={2} className="ml-1">
-              Create with AI
-            </Text>
-          </Button>
-        }
-        useManualButton={
-          <Button onClick={onClickStartFromScratch} variant="outline" size="sm" borderRadius="full">
-            Start from scratch
-          </Button>
-        }>
-        <Input
+    <SandboxLayout.Main hasHeader hasSubHeader hasLeftPanel>
+      <SandboxLayout.Content>
+        {/* <Spacer size={16} /> */}
+        <Text as="p" size={6} weight="medium">
+          Create your pipeline
+        </Text>
+        <Spacer size={3} />
+        <Text as="p" size={2} weight="normal" className="max-w-[50%] text-primary/80">
+          It's very simple to start using Playground. Allow our AI to create your pipeline based on the code base or
+          start from a clean state.
+        </Text>
+        <Spacer size={8} />
+        <AIPrompt
           placeholder="Start by describing your project goals or key requirements..."
-          className="pl-4 border-none rounded-full flex-grow"
-        />
-      </AIPrompt>
-      <Spacer size={6} />
-      <SectionList>
-        <TemplateSection />
-        <Section.Root>
-          <Section.Content>
-            <ResourceInfo />
-            <ResourceSectionList sections={resourceSections} />
-          </Section.Content>
-        </Section.Root>
-      </SectionList>
-    </Floating1ColumnLayout>
+          useAIButton={
+            <Button variant="gradient-border" gradientType="ai-button" size="sm" borderRadius="full">
+              <Icon name="ai-sparks" size={22} />
+              <Text size={2} className="ml-1">
+                Create with AI
+              </Text>
+            </Button>
+          }
+          useManualButton={
+            <Button onClick={onClickStartFromScratch} variant="outline" size="sm" borderRadius="full">
+              Start from scratch
+            </Button>
+          }>
+          <Input
+            placeholder="Start by describing your project goals or key requirements..."
+            className="pl-4 border-none rounded-full flex-grow"
+          />
+        </AIPrompt>
+        <Spacer size={6} />
+        <SectionList>
+          <TemplateSection />
+          <Section.Root>
+            <Section.Content>
+              <ResourceInfo />
+              <ResourceSectionList sections={resourceSections} />
+            </Section.Content>
+          </Section.Root>
+        </SectionList>
+      </SandboxLayout.Content>
+    </SandboxLayout.Main>
   )
 }

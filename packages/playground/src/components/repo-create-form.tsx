@@ -22,7 +22,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
 import { FormFieldSet } from '../index'
-import { MessageTheme } from '../components/form-field-set'
+import { MessageTheme } from './form-field-set'
 
 // Define the form schema with optional fields for gitignore and license
 const formSchema = z.object({
@@ -35,7 +35,7 @@ const formSchema = z.object({
 
 export type FormFields = z.infer<typeof formSchema> // Automatically generate a type from the schema
 
-interface SandboxRepoCreatePageProps {
+interface RepoCreatePageFormProps {
   onFormSubmit: (data: FormFields) => void
   onFormCancel: () => void
   apiError: string | null
@@ -44,7 +44,7 @@ interface SandboxRepoCreatePageProps {
   gitIgnoreOptions?: string[]
   licenseOptions?: { value?: string; label?: string }[]
 }
-const SandboxRepoCreatePage: React.FC<SandboxRepoCreatePageProps> = ({
+const RepoCreatePageForm: React.FC<RepoCreatePageFormProps> = ({
   onFormSubmit,
   apiError = null,
   onFormCancel,
@@ -249,4 +249,4 @@ const SandboxRepoCreatePage: React.FC<SandboxRepoCreatePageProps> = ({
   )
 }
 
-export { SandboxRepoCreatePage }
+export { RepoCreatePageForm }

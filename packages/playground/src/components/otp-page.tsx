@@ -17,11 +17,11 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Floating1ColumnLayout } from '../layouts/Floating1ColumnLayout'
-import { noop } from 'lodash-es'
 
 interface PageProps {
   handleResend?: () => void
   isLoading?: boolean
+  handleFormSubmit?: (data: OtpPageDataProps) => void
 }
 
 export interface OtpPageDataProps {
@@ -32,12 +32,14 @@ const otpPasswordSchema = z.object({
   otp: z.string().email({ message: 'Code required' })
 })
 
-export function OTPPage({ handleResend, isLoading }: PageProps) {
+export function OTPPage({ handleResend, isLoading, handleFormSubmit }: PageProps) {
   const { register, handleSubmit } = useForm({
     resolver: zodResolver(otpPasswordSchema)
   })
 
-  const onSubmit = () => noop
+  const onSubmit = (data: OtpPageDataProps) => {
+    handleFormSubmit?.(data)
+  }
 
   return (
     <Floating1ColumnLayout maxWidth="md" verticalCenter>

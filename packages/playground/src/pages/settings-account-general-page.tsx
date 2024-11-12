@@ -32,7 +32,7 @@ const passwordSchema = z
 type ProfileFields = z.infer<typeof profileSchema>
 type PasswordFields = z.infer<typeof passwordSchema>
 
-function SandboxSettingsAccountGeneralPage() {
+export function SettingsAccountGeneralPage() {
   // Profile form handling
   const {
     register: registerProfile,
@@ -273,5 +273,3 @@ function SandboxSettingsAccountGeneralPage() {
     </SandboxLayout.Main>
   )
 }
-
-export { SandboxSettingsAccountGeneralPage }

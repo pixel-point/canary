@@ -9,7 +9,7 @@ import { TokenCreateDialog } from '../components/profile-settings/token-create-d
 import { SshKeyCreateDialog } from '../components/profile-settings/ssh-key-create-dialog'
 import { DeleteTokenAlertDialog } from '..'
 
-function SandboxSettingsAccountKeysPage() {
+export function SettingsAccountKeysPage() {
   const [openCreateTokenDialog, setCreateTokenDialog] = useState(false)
   const [saveSshKeyDialog, setSshKeyDialog] = useState(false)
   const [isAlertDeleteDialogOpen, setIsAlertDeleteDialogOpen] = useState(false)
@@ -87,5 +87,3 @@ function SandboxSettingsAccountKeysPage() {
     </SandboxLayout.Main>
   )
 }
-
-export { SandboxSettingsAccountKeysPage }

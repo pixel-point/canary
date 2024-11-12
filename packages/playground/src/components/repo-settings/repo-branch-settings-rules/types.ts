@@ -18,7 +18,7 @@ export type Rule = {
   input: string
 }
 
-export enum ActionType {
+export enum BranchRulesActionType {
   TOGGLE_RULE = 'TOGGLE_RULE',
   TOGGLE_SUBMENU = 'TOGGLE_SUBMENU',
   SET_SELECT_OPTION = 'SET_SELECT_OPTION',
@@ -26,14 +26,14 @@ export enum ActionType {
   SET_INPUT_VALUE = 'SET_INPUT_VALUE'
 }
 
-export type Action =
-  | { type: ActionType.TOGGLE_RULE; ruleId: string; checked: boolean }
-  | { type: ActionType.TOGGLE_SUBMENU; ruleId: string; submenuId: string; checked: boolean }
-  | { type: ActionType.SET_SELECT_OPTION; ruleId: string; checkName: string }
-  | { type: ActionType.SET_INITIAL_RULES; payload: Rule[] }
-  | { type: ActionType.SET_INPUT_VALUE; ruleId: string; value: string }
+export type BranchRulesAction =
+  | { type: BranchRulesActionType.TOGGLE_RULE; ruleId: string; checked: boolean }
+  | { type: BranchRulesActionType.TOGGLE_SUBMENU; ruleId: string; submenuId: string; checked: boolean }
+  | { type: BranchRulesActionType.SET_SELECT_OPTION; ruleId: string; checkName: string }
+  | { type: BranchRulesActionType.SET_INITIAL_RULES; payload: Rule[] }
+  | { type: BranchRulesActionType.SET_INPUT_VALUE; ruleId: string; value: string }
 
-export type Dispatch = (action: Action) => void
+export type Dispatch = (action: BranchRulesAction) => void
 
 export interface FieldProps {
   register?: UseFormRegister<RepoBranchSettingsFormFields>

@@ -32,8 +32,8 @@ import RepoExecutionListPage from './pages/repo-execution-list-page'
 import SandboxRepoExecutionsListPage from './pages/sandbox-repo-execution-list-page'
 import RepoWebhooksListPage from './pages/repo-webhooks-page'
 import SandboxRepoWebhooksListPage from './pages/sandbox-repo-webhooks-list-page'
-import { RepoWebhooksCreatePage } from './pages/repo-webhooks-create-page'
-import { SandboxCreatePipelinePage } from './pages/sandbox-create-pipeline-page'
+import { RepoWebhooksCreatePage } from './components/repo-webhooks-create-page'
+import { CreatePipelinePage } from './components/create-pipeline-page'
 import { SandboxRoot } from './layouts/SandboxRoot'
 import { SandboxRepo } from './layouts/SandboxRepo'
 import { SandboxRepoListPage } from './pages/sandbox-repo-list-page'
@@ -51,23 +51,25 @@ import { SandboxExecutionTestsPage } from './pages/sandbox-executions-tests-page
 import { SandboxExecutionSecurityTestsPage } from './pages/sandbox-executions-security-tests-page'
 import { SandboxExecutionSecretsPage } from './pages/sandbox-executions-secrets-page'
 import { SandboxSettings } from './layouts/SandboxSettings'
-import { SandboxSettingsAccountPage } from './pages/sandbox-settings-account-page'
-import { SandboxSettingsAccountKeysPage } from './pages/sandbox-settings-account-keys-page'
-import { SandboxSettingsProjectPage } from './pages/sandbox-settings-project-page'
-import { SandboxSettingsProjectGeneralPage } from './pages/sandbox-settings-project-general-page'
-import { SandboxSettingsProjectMembersPage } from './pages/sandbox-settings-project-members-page'
-import { SandboxRepoCreatePage } from './pages/sandbox-repo-create-page'
-import { SandboxRepoSettingsPage } from './pages/sandbox-repo-settings-page'
+import { SettingsAccountPage } from './components/settings-account-page'
+import { SettingsAccountKeysPage } from './pages/settings-account-keys-page'
+import { SettingsProjectNav } from './components/project-settings-nav'
+// import { SandboxSettingsProjectGeneralPage } from './components/sandbox-settings-project-general-page'
+// import { SandboxSettingsProjectMembersPage } from './pages/sandbox-settings-project-members-page'
+import { RepoCreatePageForm } from './components/repo-create-form'
+// import { SandboxRepoSettingsPage } from './pages/sandbox-repo-settings-page'
+import { RepoSettingsPage } from './components/repo-settings/repo-settings-page'
+
 import { RepoSettingsGeneralPlaygroundContainer } from './pages/repo-settings-general-page-playground-container'
 import { RepoSettingsCollaborationsPage } from './pages/repo-settings-collaborations-page'
 import { RepoSettingsModerationPage } from './pages/repo-settings-moderation-page'
-import { RepoSettingsPlaceholderPage } from './pages/repo-settings-placeholder-page'
-import { SandboxSettingsAccountGeneralPage } from './pages/sandbox-settings-account-general-page'
-import { SandboxSettingsCreateNewMemberPage } from './pages/sandbox-settings-create-new-member-page'
-import { SandboxSettingsUserManagementPage } from './pages/sandbox-settings-user-management-page'
-import { SandboxSettingsCreateNewUserPage } from './pages/sandbox-settings-create-new-user-page'
-import { SignInPage } from './pages/signin-page'
-import { RepoBranchSettingsRulesPage } from './pages/repo-branch-settings-rules-page'
+import { RepoSettingsPlaceholderPage } from './components/repo-settings/repo-settings-placeholder'
+import { SettingsAccountGeneralPage } from './pages/settings-account-general-page'
+// import { SandboxSettingsCreateNewMemberPage } from './pages/sandbox-settings-create-new-member-page'
+import { SettingsUserManagementPage } from './components/settings-user-management-page'
+import { SettingsCreateNewUserForm } from './components/settings-create-new-user-form'
+import { SignInPage } from './components/signin-page'
+import { RepoBranchSettingsRulesPage } from './components/repo-branch-settings-rules-page'
 import SandboxPullRequestComparePage from './pages/sandbox-pull-request-compare-page'
 import { mockBypassUserData, mockStatusChecks } from './pages/mocks/repo-branch-settings/mockData'
 import { BypassUsersList } from './components/repo-settings/repo-branch-settings-rules/types'
@@ -95,7 +97,7 @@ const router = createBrowserRouter([
           {
             path: 'create',
             element: (
-              <SandboxRepoCreatePage
+              <RepoCreatePageForm
                 apiError=""
                 isLoading={false}
                 isSuccess={false}
@@ -181,7 +183,7 @@ const router = createBrowserRouter([
               },
               {
                 path: 'pipelines/create',
-                element: <SandboxCreatePipelinePage />
+                element: <CreatePipelinePage />
               },
               {
                 path: 'pipelines/:pipelineId',
@@ -214,7 +216,7 @@ const router = createBrowserRouter([
               },
               {
                 path: 'settings',
-                element: <SandboxRepoSettingsPage />,
+                element: <RepoSettingsPage />,
                 children: [
                   {
                     index: true,
@@ -306,7 +308,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: 'account',
-            element: <SandboxSettingsAccountPage />,
+            element: <SettingsAccountPage />,
             children: [
               {
                 index: true,
@@ -314,36 +316,36 @@ const router = createBrowserRouter([
               },
               {
                 path: 'general',
-                element: <SandboxSettingsAccountGeneralPage />
+                element: <SettingsAccountGeneralPage />
               },
               {
                 path: 'keys',
-                element: <SandboxSettingsAccountKeysPage />
+                element: <SettingsAccountKeysPage />
               }
             ]
           },
           {
             path: 'project',
-            element: <SandboxSettingsProjectPage />,
+            element: <SettingsProjectNav />,
             children: [
               {
                 index: true,
                 element: <Navigate to="general" />
-              },
-              {
-                path: 'general',
-                element: <SandboxSettingsProjectGeneralPage />
-              },
-              {
-                path: 'members',
-                children: [
-                  { index: true, element: <SandboxSettingsProjectMembersPage /> },
-                  {
-                    path: 'create',
-                    element: <SandboxSettingsCreateNewMemberPage />
-                  }
-                ]
               }
+              // {
+              //   path: 'general',
+              //   element: <SandboxSettingsProjectGeneralPage />
+              // },
+              // {
+              //   path: 'members',
+              //   children: [
+              //     { index: true, element: <SandboxSettingsProjectMembersPage /> },
+              //     {
+              //       path: 'create',
+              //       element: <SandboxSettingsCreateNewMemberPage />
+              //     }
+              //   ]
+              // }
             ]
           }
         ]
@@ -356,7 +358,7 @@ const router = createBrowserRouter([
       {
         path: 'users',
         element: (
-          <SandboxSettingsUserManagementPage
+          <SettingsUserManagementPage
             userData={mockUsersData}
             handleDeleteUser={noop}
             handleUpdatePassword={noop}
@@ -371,7 +373,7 @@ const router = createBrowserRouter([
 
       {
         path: 'users/create',
-        element: <SandboxSettingsCreateNewUserPage handleCreateUser={noop} isLoading={false} apiError={null} />
+        element: <SettingsCreateNewUserForm handleCreateUser={noop} isLoading={false} apiError={null} />
       }
     ]
   },
@@ -413,7 +415,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'pipelines/create',
-            element: <SandboxCreatePipelinePage />
+            element: <CreatePipelinePage />
           },
           {
             path: 'pipelines/:pipelineId',
@@ -506,7 +508,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'create',
-            element: <SandboxCreatePipelinePage />
+            element: <CreatePipelinePage />
           }
         ]
       },
