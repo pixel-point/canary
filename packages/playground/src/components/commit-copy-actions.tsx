@@ -23,13 +23,11 @@ export const CommitCopyActions = ({ sha }: { sha: string }) => {
     <ShaBadge.Root>
       <ShaBadge.Content>
         <Link to="#">
-          <Text size={1}>
-            {sha.substring(0, 7)}
-          </Text>
+          {sha.substring(0, 7)}
         </Link>
       </ShaBadge.Content>
       <ShaBadge.Icon handleClick={() => setCopied(true)}>
-        <Icon size={16} name={copied ? 'tick' : 'clone'} className="text-icons-3" />
+        <Icon size={16} name={copied ? 'tick' : 'clone'} />
       </ShaBadge.Icon>
     </ShaBadge.Root>
   )

@@ -6,24 +6,18 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   Icon,
+  Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
-  Table,
   Text
 } from '@harnessio/canary'
 import React from 'react'
 import { CommitCopyActions } from '../commit-copy-actions'
 import { Link } from 'react-router-dom'
-
-export type Tag = {
-  id: string
-  name: string
-  commit: string
-  timestamp: string
-}
+import { Tag } from './interfaces'
 
 interface TagsListProps {
   tags: Tag[]
@@ -33,7 +27,7 @@ const moreActionsTooltip = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="muted" size="icon" className="data-[state=open]:text-foreground-1">
+        <Button variant="custom" size="icon" className="text-icons-1 data-[state=open]:text-icons-2">
           <Icon name="vertical-ellipsis" size={14} />
         </Button>
       </DropdownMenuTrigger>
