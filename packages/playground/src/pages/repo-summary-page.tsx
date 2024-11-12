@@ -1,16 +1,7 @@
 import React, { useState } from 'react'
 import { noop, pick } from 'lodash-es'
-import {
-  Spacer,
-  ListActions,
-  Button,
-  SearchBox,
-  Text,
-  Icon,
-  ButtonGroup,
-  StackedList,
-  IconProps
-} from '@harnessio/canary'
+import type { IconProps } from '@harnessio/canary'
+import { Spacer, ListActions, Button, SearchBox, Text, Icon, ButtonGroup, StackedList } from '@harnessio/canary'
 import { Summary } from '../components/repo-summary'
 import { NoData } from '../components/no-data'
 import { NoSearchResults } from '../components/no-search-results'

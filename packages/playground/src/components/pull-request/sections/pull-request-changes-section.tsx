@@ -12,7 +12,7 @@ import {
 import { LineDescription, LineTitle } from '../pull-request-line-title'
 import { isEmpty } from 'lodash-es'
 import cx from 'classnames'
-import {
+import type {
   TypesCodeOwnerEvaluation,
   TypesCodeOwnerEvaluationEntry,
   TypesOwnerEvaluation,

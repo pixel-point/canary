@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react'
-import { SubmitHandler, FieldErrors, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
+import type { SubmitHandler, FieldErrors, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
 import { z } from 'zod'
 import { Input, Textarea, Text } from '@harnessio/canary'
 import { MessageTheme } from '../form-field-set'

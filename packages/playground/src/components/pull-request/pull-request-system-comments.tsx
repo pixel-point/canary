@@ -1,13 +1,7 @@
 import React from 'react'
 import { Avatar, AvatarFallback, Button, Icon, Text } from '@harnessio/canary'
-import {
-  CommentItem,
-  CommentType,
-  GeneralPayload,
-  PayloadAuthor,
-  TypesPullReq,
-  TypesPullReqActivity
-} from './interfaces'
+import type { CommentItem, GeneralPayload, PayloadAuthor, TypesPullReq, TypesPullReqActivity } from './interfaces'
+import { CommentType } from './interfaces'
 import PullRequestTimelineItem from './pull-request-timeline-item'
 import { getInitials } from '../../utils/utils'
 import AvatarUrl from '../../../public/images/user-avatar.svg'
@@ -65,7 +59,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
           header={[
             {
               avatar: (
-                <Avatar className="h-6 w-6 rounded-full p-0">
+                <Avatar className="size-6 rounded-full p-0">
                   {/* <AvatarImage src={AvatarUrl} /> */}
 
                   <AvatarFallback>
@@ -101,7 +95,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
           header={[
             {
               avatar: (
-                <Avatar className="h-6 w-6 rounded-full p-0">
+                <Avatar className="size-6 rounded-full p-0">
                   {/* <AvatarImage src={AvatarUrl} /> */}
 
                   <AvatarFallback>
@@ -129,7 +123,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
           header={[
             {
               avatar: (
-                <Avatar className="h-6 w-6 rounded-full p-0">
+                <Avatar className="size-6 rounded-full p-0">
                   {/* <AvatarImage src={AvatarUrl} /> */}
 
                   <AvatarFallback>
@@ -144,7 +138,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
               description: (
                 <Text color="tertiaryBackground">
                   deleted the
-                  <Button className="ml-1 mr-1" variant="secondary" size="xs">
+                  <Button className="mx-1" variant="secondary" size="xs">
                     {pullReqMetadata?.source_branch}
                   </Button>
                   branch
@@ -163,7 +157,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
           header={[
             {
               avatar: (
-                <Avatar className="h-6 w-6 rounded-full p-0">
+                <Avatar className="size-6 rounded-full p-0">
                   {/* <AvatarImage src={AvatarUrl} /> */}
 
                   <AvatarFallback>

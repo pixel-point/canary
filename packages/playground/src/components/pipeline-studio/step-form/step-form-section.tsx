@@ -2,7 +2,7 @@ import React from 'react'
 
 const StepFormSection = {
   Root: function Root({ children }: { children: React.ReactNode }) {
-    return <div className="flex flex-grow flex-col overflow-scroll">{children}</div>
+    return <div className="flex grow flex-col overflow-scroll">{children}</div>
   },
 
   Header: function Header({ children }: { children: React.ReactNode }) {

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Button, ButtonGroup, useZodForm, Text, Spacer } from '@harnessio/canary'
-import { SubmitHandler } from 'react-hook-form'
+import type { SubmitHandler } from 'react-hook-form'
 import {
   WebhookToggleField,
   WebhookNameField,
@@ -14,7 +14,8 @@ import {
 import { branchEvents, tagEvents, prEvents } from './webhooks/create-webhook-form-data'
 import { FormFieldSet, SandboxLayout } from '../index'
 import { createWebhookFormSchema } from './webhooks/create-webhooks-form-schema'
-import { CreateWebhookFormFields, TriggerEventsEnum } from './webhooks/types'
+import type { CreateWebhookFormFields } from './webhooks/types'
+import { TriggerEventsEnum } from './webhooks/types'
 
 interface RepoWebhooksCreatePageProps {
   onFormSubmit: (data: CreateWebhookFormFields) => void

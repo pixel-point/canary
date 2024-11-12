@@ -9,21 +9,23 @@ import {
   StackedList,
   Tabs,
   TabsContent,
-  TabsList
+  TabsList,
+  Icon,
+  Spacer,
+  Text
 } from '@harnessio/canary'
-import { Icon, Spacer, Text } from '@harnessio/canary'
 import { z } from 'zod'
 import PullRequestCompareForm from '../components/pull-request/pull-request-compare-form'
 import TabTriggerItem from '../components/TabsTriggerItem'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import PullRequestCompareButton from '../components/pull-request/pull-request-compare-button'
-import { TypesCommit } from '../components/pull-request/interfaces'
+import type { TypesCommit } from '../components/pull-request/interfaces'
 import PullRequestDiffViewer from '../components/pull-request/pull-request-diff-viewer'
 import { DiffModeEnum } from '@git-diff-view/react'
 import { parseStartingLineIfOne } from '../components/pull-request/utils'
 import { useDiffConfig } from '../components/pull-request/hooks/useDiffConfig'
-import { TypesDiffStats } from './types'
+import type { TypesDiffStats } from './types'
 
 export const formSchema = z.object({
   title: z.string().min(1, { message: 'Please provide a pull request title' }),
@@ -180,7 +182,7 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
           </Layout.Horizontal>
         </Layout.Vertical>
         <Spacer size={3} />
-        <Layout.Horizontal className="bg-background border-border items-center justify-between rounded-md border-2 px-3 py-3">
+        <Layout.Horizontal className="border-border bg-background items-center justify-between rounded-md border-2 p-3">
           <div>
             <Layout.Horizontal className="py-2">
               {isBranchSelected ? (

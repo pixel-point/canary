@@ -1,7 +1,8 @@
 import React from 'react'
 import { Input, Textarea, Checkbox, StackedList, Switch, RadioGroup, RadioGroupItem } from '@harnessio/canary'
 import { FormFieldSet, MessageTheme } from '../../index'
-import { WebhookEvent, WebhookFormFieldProps, WebhookTriggerEnum, TriggerEventsEnum } from './types'
+import type { WebhookEvent, WebhookFormFieldProps, WebhookTriggerEnum } from './types'
+import { TriggerEventsEnum } from './types'
 
 export const WebhookToggleField: React.FC<WebhookFormFieldProps> = ({ register, watch, setValue }) => (
   <StackedList.Root className="bg-tertiary/2 border-none" borderBackground>

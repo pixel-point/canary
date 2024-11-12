@@ -52,7 +52,7 @@ export const SkeletonList = ({ className }: SkeletonListProps) => {
           ))}
         </StackedList.Root>
       )}
-      <div className="absolute z-10 bottom-0 w-full h-[50%] bg-gradient-to-b from-transparent to-background" />
+      <div className="to-background absolute bottom-0 z-10 h-[50%] w-full bg-gradient-to-b from-transparent" />
     </div>
   )
 }

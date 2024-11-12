@@ -78,7 +78,7 @@ const PipelineStudioFooterBar: React.FC<PipelineStudioFooterBarProps> = (props: 
           <div className={'flex items-baseline'}>
             <span className="text-tertiary-background text-[12px]">Branch:</span>
             <Select value={currentBranch} disabled={branchesLoading} onValueChange={onBranchChange}>
-              <SelectTrigger className="text-primary w-fit border-none px-1 text-[12px] focus:ring-[0px]">
+              <SelectTrigger className="text-primary w-fit border-none px-1 text-[12px] focus:ring-0">
                 <SelectValue placeholder={branchesLoading ? 'Loading...' : 'Select branch'} />
               </SelectTrigger>
               <SelectContent>{branches?.map(branch => <SelectItem value={branch}>{branch}</SelectItem>)}</SelectContent>

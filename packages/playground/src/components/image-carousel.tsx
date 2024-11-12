@@ -28,7 +28,7 @@ const ImageCarousel = (props: ImageCarouselProps) => {
         setIsOpen(false)
         setZoomLevel(1)
       }}>
-      <DialogContent className="bg-primary-background border-border h-[600px] max-w-[800px]">
+      <DialogContent className="border-border bg-primary-background h-[600px] max-w-[800px]">
         <DialogHeader>
           <DialogTitle>
             {imgTitle ? imgTitle.substring(imgTitle.lastIndexOf('/') + 1, imgTitle.length) : 'image'}

@@ -21,7 +21,7 @@ export const VisualYamlToggle = (props: VisualYamlToggleProps): JSX.Element => {
       value={view}
       type="single"
       unselectable={'on'}
-      className={'bg-primary-foreground border-primary/10 rounded-lg border p-0.5'}>
+      className={'border-primary/10 bg-primary-foreground rounded-lg border p-0.5'}>
       <ToggleGroupItem
         disabled={!isYamlValid}
         value={'visual'}

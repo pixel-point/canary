@@ -17,7 +17,7 @@ import {
   SelectContent
 } from '@harnessio/canary'
 import { getInitials } from '../../utils/utils'
-import { MembersProps } from './interfaces'
+import type { MembersProps } from './interfaces'
 import { upperFirst } from 'lodash-es'
 import { moreActionsDropdown } from './moreActionsDropdown'
 import { transformValue } from './utils'

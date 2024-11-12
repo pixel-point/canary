@@ -1,5 +1,5 @@
 import { upperFirst } from 'lodash-es'
-import { DialogState, DialogAction } from '../interfaces'
+import type { DialogState, DialogAction } from '../interfaces'
 
 export const initialDialogState: DialogState = {
   isDialogDeleteOpen: false,

@@ -18,12 +18,12 @@ export interface PageProps {
 }
 
 const Stats = ({ stars, pulls }: { stars?: number; pulls: number }) => (
-  <div className="flex gap-3 justify-end items-center select-none font-medium">
-    <span className="flex gap-1 items-center">
+  <div className="flex select-none items-center justify-end gap-3 font-medium">
+    <span className="flex items-center gap-1">
       <Icon width={16} name="star" className="text-tertiary-background" />
       <span className="text-primary text-xs font-normal">{stars || 0}</span>
     </span>
-    <span className="flex gap-1 items-center">
+    <span className="flex items-center gap-1">
       <Icon size={16} name="pull" className="text-tertiary-background" />
       <span className="text-primary text-xs font-normal">{pulls || 0}</span>
     </span>
@@ -31,7 +31,7 @@ const Stats = ({ stars, pulls }: { stars?: number; pulls: number }) => (
 )
 
 const Title = ({ title, isPrivate }: { title: string; isPrivate: boolean }) => (
-  <div className="inline-flex gap-2.5 items-center">
+  <div className="inline-flex items-center gap-2.5">
     {title}
     <Badge size="sm" disableHover borderRadius="full" theme={isPrivate ? 'muted' : 'success'}>
       {isPrivate ? 'Private' : 'Public'}

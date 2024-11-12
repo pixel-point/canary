@@ -4,20 +4,20 @@ import type { VariantProps } from 'class-variance-authority'
 import { cva } from 'class-variance-authority'
 import { cn } from '../lib/utils'
 
-const tabsListVariants = cva('text-muted-foreground inline-flex items-center', {
+const tabsListVariants = cva('inline-flex items-center text-muted-foreground', {
   variants: {
     variant: {
-      default: 'h-9 rounded-lg bg-muted p-1 justify-center',
-      underline: 'h-11 gap-4 justify-center',
-      navigation: 'h-[44px] border-b border-border-background gap-6 justify-start w-full px-8',
+      default: 'h-9 justify-center rounded-lg bg-muted p-1',
+      underline: 'h-11 justify-center gap-4',
+      navigation: 'h-[44px] w-full justify-start gap-6 border-b border-border-background px-8',
       // TODO: Refactor - merge tabnav and branch variants
       // tabnav is used in existing components and has conflicting styles
       // Future steps:
       // 1. Analyze all tabnav usage locations
       // 2. Create a unified variant based on branch
       // 3. Update existing components
-      tabnav: 'h-[36px] gap-0 justify-start w-full',
-      branch: 'w-full flex border-b border-borders-4 px-3'
+      tabnav: 'h-[36px] w-full justify-start gap-0',
+      branch: 'flex w-full border-b border-borders-4 px-3'
     }
   },
   defaultVariants: {
@@ -26,20 +26,20 @@ const tabsListVariants = cva('text-muted-foreground inline-flex items-center', {
 })
 
 const tabsTriggerVariants = cva(
-  'ring-offset-background focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap px-3 py-1 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+  'inline-flex items-center justify-center whitespace-nowrap px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
         default:
-          'data-[state=active]:bg-background data-[state=active]:text-foreground rounded-md data-[state=active]:shadow',
+          'rounded-md data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow',
         underline:
-          'data-[state=active]:text-primary data-[state=active]:border-primary m-0 h-11 border-b-2 border-solid border-b-transparent px-0 font-normal',
+          'm-0 h-11 border-b-2 border-solid border-b-transparent px-0 font-normal data-[state=active]:border-primary data-[state=active]:text-primary',
         navigation:
-          'text-tertiary-background hover:text-primary data-[state=active]:text-primary data-[state=active]:border-tertiary-background m-0 h-[44px] border-b border-solid border-b-transparent px-0 text-xs font-normal duration-150 ease-in-out',
+          'm-0 h-[44px] border-b border-solid border-b-transparent px-0 text-xs font-normal text-tertiary-background duration-150 ease-in-out hover:text-primary data-[state=active]:border-tertiary-background data-[state=active]:text-primary',
         tabnav:
-          'px-4 items-center gap-2 bg-background font-normal text-sm text-tertiary-background ease-in-out duration-150 hover:text-primary h-[36px] rounded-tl-md rounded-tr-md m-0 data-[state=active]:text-primary [&svg]:data-[state=active]:text-primary tabnav-inactive data-[state=active]:tabnav-active',
+          'm-0 h-[36px] items-center gap-2 rounded-t-md bg-background px-4 text-sm font-normal text-tertiary-background duration-150 ease-in-out tabnav-inactive hover:text-primary data-[state=active]:text-primary data-[state=active]:tabnav-active [&svg]:data-[state=active]:text-primary',
         branch:
-          'h-[34px] font-normal px-3.5 text-foreground-2 hover:text-foreground-1 -mb-px border-t border-x rounded-t-md border-transparent data-[state=active]:text-foreground-1 data-[state=active]:border-borders-4'
+          '-mb-px h-[34px] rounded-t-md border-x border-t border-transparent px-3.5 font-normal text-foreground-2 hover:text-foreground-1 data-[state=active]:border-borders-4 data-[state=active]:text-foreground-1'
       }
     },
     defaultVariants: {
@@ -49,7 +49,7 @@ const tabsTriggerVariants = cva(
 )
 
 const tabsContentVariants = cva(
-  'ring-offset-background focus-visible:ring-ring focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+  'ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
   {
     variants: {
       variant: {

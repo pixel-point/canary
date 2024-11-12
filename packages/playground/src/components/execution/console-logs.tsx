@@ -1,6 +1,7 @@
-import React, { FC, useCallback } from 'react'
+import type { FC } from 'react'
+import React, { useCallback } from 'react'
 import { Text } from '@harnessio/canary'
-import { LivelogLine } from './types'
+import type { LivelogLine } from './types'
 import { formatDuration } from '../../utils/TimeUtils'
 
 interface ConsoleLogsProps {

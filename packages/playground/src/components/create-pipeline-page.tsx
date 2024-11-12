@@ -1,4 +1,5 @@
 import React from 'react'
+import type { IconProps } from '@harnessio/canary'
 import {
   Spacer,
   Text,
@@ -9,8 +10,7 @@ import {
   SpotlightsBox,
   ButtonGroup,
   Input,
-  AIPrompt,
-  IconProps
+  AIPrompt
 } from '@harnessio/canary'
 import { Link } from 'react-router-dom'
 import noop from 'lodash-es/noop'
@@ -212,7 +212,7 @@ export function CreatePipelinePage({ onClickStartFromScratch = noop }: CreatePip
           }>
           <Input
             placeholder="Start by describing your project goals or key requirements..."
-            className="flex-grow rounded-full border-none pl-4"
+            className="grow rounded-full border-none pl-4"
           />
         </AIPrompt>
         <Spacer size={6} />

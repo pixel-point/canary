@@ -22,7 +22,7 @@ import {
   DropdownMenuTrigger
 } from '@harnessio/canary'
 import { getInitials, timeAgo } from '../../utils/utils'
-import { UsersProps } from './interfaces'
+import type { UsersProps } from './interfaces'
 
 interface PageProps {
   users: UsersProps[]
@@ -126,7 +126,7 @@ export const UsersList = ({ users, onDelete, onEdit, onRemoveAdmin, onResetPassw
                         <Badge
                           variant="outline"
                           size="xs"
-                          className="text-tertiary-background bg-tertiary-background/10 m-auto ml-2 h-5 rounded-full p-2 text-center text-xs font-normal">
+                          className="bg-tertiary-background/10 text-tertiary-background m-auto ml-2 h-5 rounded-full p-2 text-center text-xs font-normal">
                           Admin
                         </Badge>
                       )}

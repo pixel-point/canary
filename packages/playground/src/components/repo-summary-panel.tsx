@@ -1,4 +1,5 @@
 import React from 'react'
+import type { IconProps } from '@harnessio/canary'
 import {
   Text,
   Icon,
@@ -8,8 +9,7 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuItem,
-  IconProps
+  DropdownMenuItem
 } from '@harnessio/canary'
 
 interface DetailsProps {

@@ -32,7 +32,8 @@ import { OutlineModel } from 'monaco-editor/esm/vs/editor/contrib/documentSymbol
 import { StandaloneServices } from 'monaco-editor/esm/vs/editor/standalone/browser/standaloneServices.js'
 import { Container } from '../components/layout/container'
 import { Topbar } from '../components/layout/topbar'
-import { VisualYamlToggle, VisualYamlValue } from '../components/pipeline-studio/visual-yaml-toggle'
+import type { VisualYamlValue } from '../components/pipeline-studio/visual-yaml-toggle'
+import { VisualYamlToggle } from '../components/pipeline-studio/visual-yaml-toggle'
 import { PipelineStudioToolbarActions } from '../components/pipeline-studio/pipeline-studio-toolbar-actions'
 import { PipelineStudioFooterBar } from '../components/pipeline-studio/pipeline-studio-footer-bar/pipeline-studio-footer-bar'
 import pipeline from '../assets/pipeline.yaml'
@@ -40,7 +41,8 @@ import pipeline from '../assets/pipeline.yaml'
 import { themes } from '../assets/monacoTheme'
 import { Problems } from '../components/pipeline-studio/problems'
 import { problemsMock } from '../assets/problemsMock'
-import { InlineActionArgsType, getInlineActions } from '../assets/inlineActions'
+import type { InlineActionArgsType } from '../assets/inlineActions'
+import { getInlineActions } from '../assets/inlineActions'
 import unifiedSchema from '../assets/unifiedSchema.json'
 import { StepForm } from '../components/pipeline-studio/step-form/step-form'
 import { StepFormSection } from '../components/pipeline-studio/step-form/step-form-section'
@@ -97,7 +99,7 @@ const YamlView = (props: { setDrawerOpen: (open: 'stepform' | 'palette' | undefi
 
   return useMemo(
     () => (
-      <div className="flex h-full w-full">
+      <div className="flex size-full">
         <YamlEditor
           onYamlRevisionChange={() => {}}
           yamlRevision={yamlRevision}

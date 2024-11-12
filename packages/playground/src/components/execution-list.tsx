@@ -1,6 +1,6 @@
 import { Icon, StackedList, Text } from '@harnessio/canary'
 import React from 'react'
-import { ExecutionState } from './execution/types'
+import type { ExecutionState } from './execution/types'
 import { ExecutionStatus } from './execution/execution-status'
 
 export interface Execution {

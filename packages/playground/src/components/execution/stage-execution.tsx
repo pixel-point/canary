@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
 import { Button, Text, Icon } from '@harnessio/canary'
-import { StepExecution, StepProps } from './step-execution'
+import type { StepProps } from './step-execution'
+import { StepExecution } from './step-execution'
 import { Layout } from '../layout/layout'
-import { LivelogLine } from './types'
+import type { LivelogLine } from './types'
 
 export interface StageProps {
   name?: string
@@ -118,7 +119,7 @@ export const StageExecution: React.FC<StageExecutionProps> = ({
         disableUp={selectedStepIndex === 0}
         disableDown={stepCount - 1 === selectedStepIndex}
       />
-      <Layout.Vertical gap="space-y-2" className="flex-grow p-4">
+      <Layout.Vertical gap="space-y-2" className="grow p-4">
         {stage?.group ? (
           <Layout.Horizontal gap="space-x-1" className="flex items-center">
             <Text className="text-stage text-sm">{stage.group}</Text>

@@ -1,3 +1,4 @@
+import type { FormEventHandler, InputHTMLAttributes } from 'react'
 import React, { useEffect } from 'react'
 import { Input } from './input'
 import { Icon } from './icon'
@@ -29,10 +30,10 @@ interface SearchBoxProps {
   shortcutModifier?: string
   textSize?: TextSize
   onSearch?: () => void
-  handleChange?: React.ChangeEventHandler<HTMLInputElement>
+  handleChange?: FormEventHandler<HTMLInputElement>
   showOnFocus?: boolean // New prop to control dialog appearance on focus
-  defaultValue?: string
-  value?: string
+  defaultValue?: InputHTMLAttributes<HTMLInputElement>['defaultValue']
+  value?: InputHTMLAttributes<HTMLInputElement>['value']
   className?: string
 }
 
@@ -96,28 +97,19 @@ const Root = ({
 
   return (
     <div className={cn('relative', width === 'full' ? 'w-full' : 'w-96', className)}>
-      <Icon name="search" size={12} className="text-tertiary-background absolute left-2.5 top-1/2 -translate-y-1/2" />
-      {hasShortcut && (
-        <div className="text-tertiary-background shadow-border absolute right-2.5 top-1/2 flex -translate-y-1/2 cursor-pointer items-center gap-0.5 rounded-sm px-1.5 opacity-80 shadow-[0_0_0_1px] duration-100 ease-in-out hover:opacity-100">
+      <Icon name="search" size={12} className="text-icon-1 absolute left-2.5 top-1/2 -translate-y-1/2" />
+      {hasShortcut && !!shortcutLetter && (
+        <div className="bg-background-3 text-foreground-2 absolute right-1.5 top-1/2 flex h-5 -translate-y-1/2 cursor-pointer items-center gap-0.5 rounded-sm border px-1 duration-100 ease-in-out">
           <Icon name="apple-shortcut" size={12} />
-          <Text size={0} color="tertiaryBackground">
+          <Text size={0} className="text-inherit">
             {shortcutLetter}
           </Text>
         </div>
       )}
       <Input
         placeholder={placeholder}
-        // TODO: Restore the line and remove temp fix below
-        // className={cn('border-input-foreground pl-7', textSizeClass, { 'pr-10': hasShortcut })}
-
-        // Start of temporary fix
         defaultValue={defaultValue}
-        className={cn('h-8', textSizeClass)}
-        style={{
-          paddingLeft: '1.75rem', // Equivalent to 'pl-7' in Tailwind (28px)
-          paddingRight: hasShortcut ? '2.5rem' : undefined // Equivalent to 'pr-10' in Tailwind (40px) if `hasShortcut` is true
-        }}
-        // End of temporary fix
+        className={cn('h-8 pl-7', { 'pr-10': hasShortcut }, textSizeClass)}
         onKeyDown={handleKeyDown}
         onFocus={handleFocus}
         onInput={handleChange}

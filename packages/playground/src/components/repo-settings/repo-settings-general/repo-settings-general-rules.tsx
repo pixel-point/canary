@@ -1,5 +1,6 @@
 import React from 'react'
-import { RuleDataType, ErrorTypes } from './types'
+import type { RuleDataType } from './types'
+import { ErrorTypes } from './types'
 import { Button, ListActions, SearchBox, Icon, Text, StackedList, Spacer } from '@harnessio/canary'
 import { RepoSettingsToolTip } from './repo-settings-general-tooltip'
 import { NoData } from '../../no-data'

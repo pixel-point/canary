@@ -15,7 +15,7 @@ import {
   cn
 } from '@harnessio/canary'
 import { Link } from 'react-router-dom'
-import { BranchProps } from '../types/branch'
+import type { BranchProps } from '../types/branch'
 
 interface BaseItem {
   name: string
@@ -89,7 +89,7 @@ const DropdownMenuExtendedContent = ({ name, branchList, tagList, selectBranch }
           Switch branches/tags
         </Text>
         <SearchBox.Root
-          className="w-full mt-[18px]"
+          className="mt-[18px] w-full"
           placeholder={BRANCH_SELECTOR_LABELS[activeTab].searchPlaceholder}
           value={searchQuery}
           handleChange={handleSearchChange}
@@ -115,7 +115,7 @@ const DropdownMenuExtendedContent = ({ name, branchList, tagList, selectBranch }
       </Tabs>
       <div className="mt-1">
         {filteredItems.length === 0 && (
-          <div className="text-center px-5 py-4">
+          <div className="px-5 py-4 text-center">
             <Text className="text-foreground-2 leading-tight" size={2}>
               Nothing to show
             </Text>
@@ -129,15 +129,15 @@ const DropdownMenuExtendedContent = ({ name, branchList, tagList, selectBranch }
 
             return (
               <DropdownMenuItem
-                className={cn('cursor-pointer hover:bg-background-4 py-2 leading-none', {
+                className={cn('hover:bg-background-4 cursor-pointer py-2 leading-none', {
                   'justify-between gap-x-2': isDefault,
                   'bg-background-4': isSelected,
                   'pl-7': !isSelected
                 })}
                 onClick={() => selectBranch(item)}
                 key={item.name}>
-                <div className="flex items-center w-full gap-x-2 min-w-0">
-                  {isSelected && <Icon name="tick" size={12} className="min-w-[12px] text-foreground-1" />}
+                <div className="flex w-full min-w-0 items-center gap-x-2">
+                  {isSelected && <Icon name="tick" size={12} className="text-foreground-1 min-w-[12px]" />}
                   <Text
                     className={cn('text-foreground-2', {
                       'text-foreground-1': isSelected
@@ -172,9 +172,9 @@ const DropdownMenuExtendedContent = ({ name, branchList, tagList, selectBranch }
           })}
         </div>
 
-        <div className="px-3 py-2 mt-1 border-t border-borders-4">
+        <div className="border-borders-4 mt-1 border-t px-3 py-2">
           <Link to={viewAllUrl}>
-            <Text className="text-ring hover:text-foreground-1 transition-colors duration-200 leading-none">
+            <Text className="text-ring hover:text-foreground-1 leading-none transition-colors duration-200">
               View all {activeTab === BranchSelectorTab.BRANCHES ? 'branches' : 'tags'}
             </Text>
           </Link>
@@ -210,18 +210,18 @@ export const BranchSelector = ({
         <Button
           className={cn(
             widthClasses[width],
-            'overflow-hidden flex gap-1.5 items-center px-3 data-[state=open]:border-borders-8 [&_svg]:data-[state=open]:text-foreground-1',
+            'data-[state=open]:border-borders-8 [&_svg]:data-[state=open]:text-foreground-1 flex items-center gap-1.5 overflow-hidden px-3',
             className
           )}
           variant="outline"
           size={size}>
           {prefix ? null : (
-            <Icon className="min-w-[12px] text-icons-9 fill-transparent" name={isTag ? 'tag' : 'branch'} size={12} />
+            <Icon className="text-icons-9 min-w-[12px] fill-transparent" name={isTag ? 'tag' : 'branch'} size={12} />
           )}
-          <Text className="w-full text-primary/90" truncate align="left">
+          <Text className="text-primary/90 w-full" truncate align="left">
             {prefix ? `${prefix}: ${name}` : name}
           </Text>
-          <Icon className="min-w-[10px] chevron-down ml-0 text-tertiary-background" name="chevron-down" size={10} />
+          <Icon className="chevron-down text-tertiary-background ml-0 min-w-[10px]" name="chevron-down" size={10} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuExtendedContent branchList={branchList} tagList={tagList} name={name} selectBranch={selectBranch} />
