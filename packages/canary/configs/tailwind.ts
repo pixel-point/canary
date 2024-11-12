@@ -178,7 +178,7 @@ export default {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'ai-button':
-          'linear-gradient(to right, var(--ai-button-stop-1), var(--ai-button-stop-2), var(--ai-button-stop-3), var(--ai-button-stop-4))'
+          'linear-gradient(to right, hsl(var(--ai-button-stop-1)), hsl(var(--ai-button-stop-2)), hsl(var(--ai-button-stop-3)), hsl(var(--ai-button-stop-4)))'
       },
       keyframes: {
         'accordion-down': {
