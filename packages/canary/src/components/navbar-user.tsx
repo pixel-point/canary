@@ -24,16 +24,16 @@ const Root: React.FC<{
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <div className="group relative grid cursor-pointer grid-cols-[auto_1fr] grid-rows-2 items-center justify-start gap-x-2.5">
-          <div className="absolute -inset-2 rounded duration-100 ease-in-out group-hover:bg-primary/5" />
+          <div className="group-hover:bg-primary/5 absolute -inset-2 rounded duration-100 ease-in-out" />
           <div className="col-start-1 row-span-2">
             <Avatar className="overflow-hidden rounded-md" size="8">
               {url && <AvatarImage src={url} alt="user" />}
               <AvatarFallback>{getInitials(username)}</AvatarFallback>
             </Avatar>
           </div>
-          <p className="col-start-2 row-start-1 text-13 font-medium leading-none text-foreground-1">{username}</p>
+          <p className="text-13 text-foreground-1 col-start-2 row-start-1 font-medium leading-none">{username}</p>
           {!!email && (
-            <p className="col-start-2 row-start-2 mt-0.5 text-13 font-normal leading-none text-foreground-4">{email}</p>
+            <p className="text-13 text-foreground-4 col-start-2 row-start-2 mt-0.5 font-normal leading-none">{email}</p>
           )}
         </div>
       </DropdownMenuTrigger>
