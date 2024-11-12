@@ -8,7 +8,7 @@ const Pagination = ({ className, ...props }: React.ComponentProps<'nav'>) => (
   <nav
     role="navigation"
     aria-label="pagination"
-    className={cn('mx-auto flex w-full px-9 max-w-full items-center justify-between', className)}
+    className={cn('mx-auto flex w-full max-w-full items-center justify-between px-9', className)}
     {...props}
   />
 )
@@ -42,9 +42,9 @@ const PaginationLink = ({ className, isActive, size, ...props }: PaginationLinkP
         size: size ? size : 'sm_icon',
         borderRadius: 'full'
       }),
-      'text-12 font-normal min-w-7 px-1.5 w-auto bg-background-2 text-foreground-1 hover:bg-background-3',
+      'text-12 bg-background-2 text-foreground-1 hover:bg-background-3 w-auto min-w-7 px-1.5 font-normal',
       {
-        'bg-background-8 shadow-pagination-1 cursor-default hover:bg-background-8': isActive
+        'bg-background-8 shadow-pagination-1 hover:bg-background-8 cursor-default': isActive
       },
       className
     )}
@@ -58,9 +58,9 @@ const PaginationPrevious = ({ disabled, className, ...props }: React.ComponentPr
     aria-label="Go to previous page"
     size="default"
     className={cn(
-      'gap-1.5 pl-2.5 text-sm font-normal bg-transparent cursor-pointer text-foreground-2',
+      'text-foreground-2 cursor-pointer gap-1.5 bg-transparent pl-2.5 text-sm font-normal',
       'hover:text-foreground-1 hover:bg-transparent',
-      { 'text-foreground-7 cursor-default pointer-events-none': disabled },
+      { 'text-foreground-7 pointer-events-none cursor-default': disabled },
       className
     )}
     {...props}>
@@ -75,9 +75,9 @@ const PaginationNext = ({ disabled, className, ...props }: React.ComponentProps<
     aria-label="Go to next page"
     size="default"
     className={cn(
-      'gap-1.5 pr-2.5 text-sm font-normal bg-transparent cursor-pointer text-foreground-2',
+      'text-foreground-2 cursor-pointer gap-1.5 bg-transparent pr-2.5 text-sm font-normal',
       'hover:text-foreground-1 hover:bg-transparent',
-      { 'text-foreground-7 cursor-default pointer-events-none': disabled },
+      { 'text-foreground-7 pointer-events-none cursor-default': disabled },
       className
     )}
     {...props}>
@@ -91,7 +91,7 @@ const PaginationEllipsis = ({ className, ...props }: React.ComponentProps<'span'
   <span
     aria-hidden
     className={cn(
-      'flex h-7 w-7 items-center justify-center text-12 font-normal bg-background-2 rounded-full',
+      'text-12 bg-background-2 flex h-7 w-7 items-center justify-center rounded-full font-normal',
       className
     )}
     {...props}>

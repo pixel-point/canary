@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 import { RepoImportForm, ImportRepoFormType } from '../components/repo-import-form-component'
+=======
+import React from 'react'
+import type { ImportRepoFormType } from '../components/repo-import-form-component'
+import { RepoImportForm } from '../components/repo-import-form-component'
+>>>>>>> 45f591e1 (fix: updated common layout and navbar)
 import { Text, Spacer } from '@harnessio/canary'
 import { SandboxLayout } from '../index'
 import { useNavigate } from 'react-router-dom'

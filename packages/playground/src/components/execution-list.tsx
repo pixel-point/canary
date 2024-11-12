@@ -1,6 +1,11 @@
 import { Icon, StackedList, Text } from '@harnessio/canary'
+<<<<<<< HEAD
 
 import { ExecutionState } from './execution/types'
+=======
+import React from 'react'
+import type { ExecutionState } from './execution/types'
+>>>>>>> 45f591e1 (fix: updated common layout and navbar)
 import { ExecutionStatus } from './execution/execution-status'
 
 export interface Execution {

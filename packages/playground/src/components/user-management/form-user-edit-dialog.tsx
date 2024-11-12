@@ -13,10 +13,11 @@ import {
   Text
 } from '@harnessio/canary'
 import { z } from 'zod'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import type { SubmitHandler } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormFieldSet, MessageTheme } from '../..'
-import { FormEditDialogProps } from './interfaces'
+import type { FormEditDialogProps } from './interfaces'
 
 export const FormUserEditDialog: React.FC<FormEditDialogProps> = ({
   user,

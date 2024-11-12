@@ -1,5 +1,5 @@
-import * as monaco from 'monaco-editor'
-import { ThemeDefinition } from '@harnessio/yaml-editor'
+import type * as monaco from 'monaco-editor'
+import type { ThemeDefinition } from '@harnessio/yaml-editor'
 
 const harnessLightTheme = {
   base: 'vs' as monaco.editor.IStandaloneThemeData['base'],

@@ -7,8 +7,8 @@
 
 import { useEffect, useState } from 'react'
 import { get } from 'lodash-es'
-import { InputComponent, InputProps, RenderInputs, useFormContext } from '@harnessio/forms'
-import type { AnyFormikValue } from '@harnessio/forms'
+import { InputComponent, RenderInputs, useFormContext } from '@harnessio/forms'
+import type { AnyFormikValue, InputProps } from '@harnessio/forms'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Icon } from '@harnessio/canary'
 import { InputType } from './types'
 import InputLabel from './common/InputLabel'

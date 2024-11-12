@@ -25,7 +25,7 @@ import { processReviewDecision, useActivityFilters, useDateFilters } from '../co
 import { FullWidth2ColumnLayout } from '../layouts/FullWidth2ColumnLayout'
 import { mockCodeOwnerData } from '../data/mockCodeOwner'
 import { mockPullRequestActions } from '../data/mockPullRequestActions'
-import { TypesPullReqActivity } from '../components/pull-request/interfaces'
+import type { TypesPullReqActivity } from '../components/pull-request/interfaces'
 import { noop } from 'lodash-es'
 // Mock useMutate hook
 // Define the type for the useFakeMutate parameters

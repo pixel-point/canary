@@ -10,7 +10,7 @@ import {
 } from '@harnessio/canary'
 
 import { isEmpty } from 'lodash-es'
-import { EnumCheckStatus, TypesPullReqCheck } from '../interfaces'
+import type { EnumCheckStatus, TypesPullReqCheck } from '../interfaces'
 import { ExecutionState } from '../../execution/types'
 import { timeDistance } from '../../../utils/utils'
 import { LineDescription, LineTitle } from '../pull-request-line-title'
