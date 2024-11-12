@@ -15,11 +15,11 @@ import {
 } from '@harnessio/canary'
 
 import {
+  BranchSelectorBaseItem,
+  BranchSelectorBranchListProps,
+  BranchSelectorBranchProps,
   BranchSelectorTab,
-  type BranchSelectorBaseItem,
-  type BranchSelectorBranchListProps,
-  type BranchSelectorBranchProps,
-  type BranchSelectorTagListProps
+  BranchSelectorTagListProps
 } from './types'
 
 const BRANCH_SELECTOR_LABELS = {

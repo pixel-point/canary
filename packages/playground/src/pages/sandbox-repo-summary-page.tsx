@@ -15,7 +15,7 @@ import {
 } from '@harnessio/canary'
 
 import { SandboxLayout } from '..'
-import { BranchSelector, type BranchSelectorBranchProps } from '../components/branch-selector'
+import { BranchSelector, BranchSelectorBranchProps } from '../components/branch-selector'
 import { CloneRepoDialog } from '../components/repo-clone/clone-repo-dialog'
 import { FileProps, Summary } from '../components/repo-summary'
 import { RepoSummaryPanel } from '../components/repo-summary-panel'

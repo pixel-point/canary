@@ -11,7 +11,7 @@ import { RepoBranchSettingsRulesPage } from './components/repo-branch-settings-r
 // import { SandboxSettingsProjectGeneralPage } from './components/sandbox-settings-project-general-page'
 // import { SandboxSettingsProjectMembersPage } from './pages/sandbox-settings-project-members-page'
 import { RepoCreatePageForm } from './components/repo-create-form'
-import { BypassUsersList } from './components/repo-settings/repo-branch-settings-rules/types'
+import type { BypassUsersList } from './components/repo-settings/repo-branch-settings-rules/types'
 // import { SandboxRepoSettingsPage } from './pages/sandbox-repo-settings-page'
 import { RepoSettingsPage } from './components/repo-settings/repo-settings-page'
 import { RepoSettingsPlaceholderPage } from './components/repo-settings/repo-settings-placeholder'
