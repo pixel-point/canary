@@ -22,15 +22,8 @@ import {
 
 import { FormFieldSet, MessageTheme } from '../../../index'
 import { branchRules } from './repo-branch-settings-rules-data'
-import {
-  BranchRulesActionType,
-  BypassUsersList,
-  Dispatch,
-  FieldProps,
-  MergeStrategy,
-  PatternsButtonType,
-  Rule
-} from './types'
+import type { FieldProps, Rule, Dispatch, BypassUsersList, MergeStrategy } from './types'
+import { BranchRulesActionType, PatternsButtonType } from './types'
 
 export const BranchSettingsRuleToggleField: React.FC<FieldProps> = ({ register, watch, setValue }) => (
   <StackedList.Root className="border-none">

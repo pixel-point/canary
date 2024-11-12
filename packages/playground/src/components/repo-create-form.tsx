@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useForm, type SubmitHandler } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -44,7 +44,6 @@ interface RepoCreatePageFormProps {
   gitIgnoreOptions?: string[]
   licenseOptions?: { value?: string; label?: string }[]
 }
-
 const RepoCreatePageForm: React.FC<RepoCreatePageFormProps> = ({
   onFormSubmit,
   apiError = null,

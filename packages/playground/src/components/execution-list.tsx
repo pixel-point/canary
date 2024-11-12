@@ -1,7 +1,7 @@
 import { Icon, StackedList, Text } from '@harnessio/canary'
 
 import { ExecutionStatus } from './execution/execution-status'
-import { ExecutionState } from './execution/types'
+import type { ExecutionState } from './execution/types'
 
 export interface Execution {
   id: string

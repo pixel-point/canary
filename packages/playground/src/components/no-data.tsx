@@ -13,6 +13,7 @@ export interface NoDataProps {
     | 'no-data-webhooks'
     | 'no-data-branches'
     | 'no-data-members'
+    | 'no-repository'
   iconSize?: number
   description: string[]
   primaryButton?: {
@@ -41,12 +42,12 @@ export const NoData: React.FC<NoDataProps> = ({
 }) => {
   return (
     <div
-      className={cn('w-full h-full flex flex-col gap-4 place-content-center place-items-center', {
+      className={cn('flex h-full w-full flex-col place-content-center place-items-center gap-4', {
         'py-20 pb-24': insideTabView
       })}
     >
       {iconName && <Icon name={iconName as IconProps['name']} size={iconSize} />}
-      <div className="flex flex-col gap-2.5 place-content-center place-items-center">
+      <div className="flex flex-col place-content-center place-items-center gap-2.5">
         <Text size={5} weight="medium">
           {title}
         </Text>

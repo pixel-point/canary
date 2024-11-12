@@ -1,7 +1,7 @@
 import { Icon, Meter, StackedList, Text } from '@harnessio/canary'
 
 import { ExecutionStatus } from './execution/execution-status'
-import { ExecutionState } from './execution/types'
+import type { ExecutionState } from './execution/types'
 
 export enum MeterState {
   Empty = 0,

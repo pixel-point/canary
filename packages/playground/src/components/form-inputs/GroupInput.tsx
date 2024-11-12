@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react'
 import { get } from 'lodash-es'
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Icon } from '@harnessio/canary'
-import { InputComponent, InputProps, RenderInputs, useFormContext, type AnyFormikValue } from '@harnessio/forms'
+import { AnyFormikValue, InputComponent, InputProps, RenderInputs, useFormContext } from '@harnessio/forms'
 
 import { Layout } from '../layout/layout'
 import InputLabel from './common/InputLabel'
