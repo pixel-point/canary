@@ -1,7 +1,15 @@
+<<<<<<< HEAD
 import type { UseFormReturn, AnyFormikValue } from '@harnessio/forms'
 import { InputType } from './types'
 import { FormControl, FormField, FormItem, Switch } from '@harnessio/canary'
 import { InputComponent, InputProps } from '@harnessio/forms'
+=======
+import React from 'react'
+import type { UseFormReturn, InputProps, AnyFormikValue } from '@harnessio/forms'
+import { InputType } from './types'
+import { FormControl, FormField, FormItem, Switch } from '@harnessio/canary'
+import { InputComponent } from '@harnessio/forms'
+>>>>>>> 45f591e1 (fix: updated common layout and navbar)
 import InputLabel from './common/InputLabel'
 import InputWrapper from './common/InputWrapper'
 import { InputError } from './common/InputError'

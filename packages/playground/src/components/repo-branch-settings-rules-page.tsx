@@ -1,6 +1,6 @@
 import { useReducer, useEffect } from 'react'
 import { Button, ButtonGroup, useZodForm, Spacer, Text } from '@harnessio/canary'
-import { SubmitHandler } from 'react-hook-form'
+import type { SubmitHandler } from 'react-hook-form'
 import {
   BranchSettingsRuleToggleField,
   BranchSettingsRuleNameField,
@@ -15,12 +15,12 @@ import { branchSettingsReducer } from './repo-settings/repo-branch-settings-rule
 import { FormFieldSet } from '../index'
 import { branchRules } from './repo-settings/repo-branch-settings-rules/repo-branch-settings-rules-data'
 import { repoBranchSettingsFormSchema } from './repo-settings/repo-branch-settings-rules/repo-branch-settings-rules-schema'
-import {
+import type {
   RepoBranchSettingsFormFields,
   BypassUsersList,
-  BranchRulesActionType,
   MergeStrategy
 } from './repo-settings/repo-branch-settings-rules/types'
+import { BranchRulesActionType } from './repo-settings/repo-branch-settings-rules/types'
 import { NavLink } from 'react-router-dom'
 
 type BranchSettingsErrors = {

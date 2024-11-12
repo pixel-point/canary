@@ -24,7 +24,7 @@ import { PullRequestSideBar } from '../components/pull-request/pull-request-side
 import { processReviewDecision, useActivityFilters, useDateFilters } from '../components/pull-request/utils'
 import { mockCodeOwnerData } from '../data/mockCodeOwner'
 import { mockPullRequestActions } from '../data/mockPullRequestActions'
-import { TypesPullReqActivity } from '../components/pull-request/interfaces'
+import type { TypesPullReqActivity } from '../components/pull-request/interfaces'
 import { SandboxLayout } from '..'
 import { noop } from 'lodash-es'
 // Mock useMutate hook

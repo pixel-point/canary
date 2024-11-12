@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Text, Icon } from '@harnessio/canary'
 import { timeAgo } from '../../utils/utils'
 import { KeysList } from './types'
+=======
+import React from 'react'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Text, Icon } from '@harnessio/canary'
+import { timeAgo } from '../../utils/utils'
+import type { KeysList } from './types'
+>>>>>>> 45f591e1 (fix: updated common layout and navbar)
 
 interface PageProps {
   publicKeys: KeysList[]

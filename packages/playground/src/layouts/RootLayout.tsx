@@ -1,114 +1,64 @@
+<<<<<<< HEAD
 import { Navbar, Icon, NavbarProjectChooser, NavbarUser, IconProps } from '@harnessio/canary'
 import { useState } from 'react'
 import { Outlet, NavLink, useLocation, Link } from 'react-router-dom'
+=======
+import React, { useState } from 'react'
+import { Outlet } from 'react-router-dom'
+>>>>>>> 45f591e1 (fix: updated common layout and navbar)
 import { MoreSubmenu } from '../components/more-submenu'
-import { navbarSubmenuData } from '../data/mockNavbarSubmenuData'
-import { TypesUser } from './types'
-
-interface NavbarItem {
-  id: number
-  title: string
-  iconName: IconProps['name']
-  description: string
-  to?: string
-}
+import type { TypesUser } from './types'
+import { Navbar } from '../components/navbar'
+import { SystemAdminMenu } from '../components/system-admin-menu'
 
 interface RootLayoutProps {
   currentUser: TypesUser | undefined
 }
 
 export const RootLayout: React.FC<RootLayoutProps> = ({ currentUser }) => {
-  const location = useLocation()
-  const hideNavbarPaths = ['/signin', '/signup']
-  const showNavbar = !hideNavbarPaths.includes(location.pathname)
-  const [showMore, setShowMore] = useState<boolean>(false)
+  const [showMore, setShowMore] = useState(false)
+  const [showSystemAdmin, setShowSystemAdmin] = useState(false)
 
-  const primaryMenuItems = [
-    {
-      text: 'Repositories',
-      icon: <Icon name="repositories" size={12} />,
-      to: '/repos'
-    },
-    {
-      text: 'Pipelines',
-      icon: <Icon name="pipelines" size={12} />,
-      to: '/pipelines'
-    },
-    {
-      text: 'Executions',
-      icon: <Icon name="cog-6" size={12} />,
-      to: '/executions'
-    },
-    {
-      text: 'Featured Flags',
-      icon: <Icon name="featured-flags" size={12} />,
-      to: '/feature-flags'
-    }
-  ]
-
-  const initialPinnedMenuItems: NavbarItem[] = [
-    {
-      id: 4,
-      title: 'Chaos Engineering',
-      iconName: 'chaos-engineering',
-      description: 'Manage chaos experiments',
-      to: '/chaos-engineering'
-    },
-    {
-      id: 12,
-      title: 'Environment',
-      iconName: 'environment',
-      description: 'Manage your environments',
-      to: '/environment'
-    },
-    {
-      id: 13,
-      title: 'Secrets',
-      iconName: 'secrets',
-      description: 'Store your secrets securely',
-      to: '/secrets'
-    },
-    {
-      id: 14,
-      title: 'Connectors',
-      iconName: 'connectors',
-      description: 'Manage your connectors',
-      to: '/connectors'
-    }
-  ]
-
-  const [pinnedItems, setPinnedItems] = useState<NavbarItem[]>(initialPinnedMenuItems)
-
-  function handleMore() {
-    setShowMore(!showMore)
+  const handleMore = () => {
+    setShowSystemAdmin(false)
+    setShowMore(prevState => !prevState)
   }
 
-  function handlePinItem(item: NavbarItem) {
-    setPinnedItems(prevPinnedItems => {
-      const isPinned = prevPinnedItems.some(pinned => pinned.id === item.id)
-      if (isPinned) {
-        return prevPinnedItems.filter(pinned => pinned.id !== item.id)
-      } else {
-        const itemToPin = navbarSubmenuData.flatMap(group => group.items).find(i => i.id === item.id)
-        if (itemToPin) {
-          return [
-            {
-              id: itemToPin.id,
-              title: itemToPin.title,
-              iconName: itemToPin.iconName,
-              description: itemToPin.description,
-              to: itemToPin.to || ''
-            },
-            ...prevPinnedItems
-          ]
-        }
-        return prevPinnedItems
-      }
-    })
+  const handleSystemAdmin = () => {
+    setShowMore(false)
+    setShowSystemAdmin(prevState => !prevState)
   }
+
+  // const handlePinItem = (item: NavbarItem) => {
+  //   setPinnedItems(prevPinnedItems => {
+  //     const isPinned = prevPinnedItems.some(pinned => pinned.id === item.id)
+  //
+  //     if (isPinned) {
+  //       return prevPinnedItems.filter(pinned => pinned.id !== item.id)
+  //     }
+  //
+  //     const itemToPin = navbarSubmenuData.flatMap(group => group.items).find(i => i.id === item.id)
+  //
+  //     if (itemToPin) {
+  //       return [
+  //         {
+  //           id: itemToPin.id,
+  //           title: itemToPin.title,
+  //           iconName: itemToPin.iconName,
+  //           description: itemToPin.description,
+  //           to: itemToPin.to || ''
+  //         },
+  //         ...prevPinnedItems
+  //       ]
+  //     }
+  //
+  //     return prevPinnedItems
+  //   })
+  // }
 
   return (
     <>
+<<<<<<< HEAD
       <div className="min-w-screen bg-background grid md:grid-cols-[220px_minmax(900px,_1fr)]">
         {showNavbar && (
           <Navbar.Root className="fixed inset-y-0 left-0 z-50 max-md:hidden">
@@ -204,11 +154,22 @@ export const RootLayout: React.FC<RootLayoutProps> = ({ currentUser }) => {
             </Navbar.Footer>
           </Navbar.Root>
         )}
+=======
+      <div className="min-w-screen grid md:grid-cols-[220px_minmax(900px,_1fr)]">
+        <Navbar
+          showMore={showMore}
+          showSystemAdmin={showSystemAdmin}
+          handleMore={handleMore}
+          handleSystemAdmin={handleSystemAdmin}
+          currentUser={currentUser}
+        />
+>>>>>>> 45f591e1 (fix: updated common layout and navbar)
         <main className="col-start-2 box-border min-h-screen overflow-x-hidden overflow-y-scroll">
           <Outlet />
         </main>
       </div>
-      <MoreSubmenu showMore={showMore} handleMore={handleMore} onPinItem={handlePinItem} pinnedItems={pinnedItems} />
+      <MoreSubmenu showMore={showMore} handleMore={handleMore} />
+      <SystemAdminMenu showSystemAdmin={showSystemAdmin} handleSystemAdmin={handleSystemAdmin} />
     </>
   )
 }

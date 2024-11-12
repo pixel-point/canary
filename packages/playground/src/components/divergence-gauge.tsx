@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import React from 'react'
+>>>>>>> 45f591e1 (fix: updated common layout and navbar)
 import { Progress, Text, cn } from '@harnessio/canary'
 
 interface GaugeProps {

@@ -1,4 +1,5 @@
-import { TreeViewElement, Status } from '@harnessio/canary'
+import type { TreeViewElement } from '@harnessio/canary'
+import { Status } from '@harnessio/canary'
 import { ExecutionState } from '../execution/types'
 import { getFormattedDuration } from '../../utils/TimeUtils'
 

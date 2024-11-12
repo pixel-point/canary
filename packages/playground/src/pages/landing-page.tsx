@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState } from 'react'
 import { noop } from 'lodash-es'
 import { Home } from '../components/home'
@@ -10,52 +11,10 @@ import { OTPPage } from '../components/otp-page'
 import { NewPasswordPage } from '../components/new-password-page'
 import { mockProjects } from '../data/mockProjects'
 import { CreateProjectPage } from '../components/create-project-page'
+=======
+import React from 'react'
+>>>>>>> 45f591e1 (fix: updated common layout and navbar)
 
 export default function LandingPage() {
-  const [loadState, setLoadState] = useState('home-auth')
-  const navigate = useNavigate()
-
-  const handleSelectProject = () => {
-    navigate('/repos')
-  }
-
-  const handleSignUp = () => {
-    setLoadState('sign-up')
-  }
-
-  const handleSignIn = () => {
-    setLoadState('sign-in')
-  }
-
-  const renderContent = () => {
-    switch (loadState) {
-      case 'home-auth':
-        return <Home isAuthed onSelectProject={handleSelectProject} title="Canary Playground" projects={mockProjects} />
-      case 'home-unauth':
-        return (
-          <Home isAuthed={false} handleSignUp={handleSignUp} handleSignIn={handleSignIn} title="Canary Playground" />
-        )
-      case 'create-project':
-        return <CreateProjectPage onFormSubmit={noop} />
-      case 'sign-in':
-        return <SignInPage handleSignIn={handleSignIn} />
-      case 'sign-up':
-        return <SignUpPage handleSignUp={handleSignUp} />
-      case 'password-forgot':
-        return <ForgotPasswordPage handleSignUp={handleSignUp} />
-      case 'password-new':
-        return <NewPasswordPage handleSignIn={handleSignIn} />
-      case 'password-otp':
-        return <OTPPage handleResend={noop} />
-      default:
-        return null
-    }
-  }
-
-  return (
-    <>
-      {renderContent()}
-      <PlaygroundLandingSettings loadState={loadState} setLoadState={setLoadState} />
-    </>
-  )
+  return <></>
 }

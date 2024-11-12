@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 import { Badge, Icon, IconProps, TabsTrigger, Text } from '@harnessio/canary'
+=======
+import React from 'react'
+import type { IconProps } from '@harnessio/canary'
+import { Badge, Icon, TabsTrigger, Text } from '@harnessio/canary'
+>>>>>>> 45f591e1 (fix: updated common layout and navbar)
 import { Layout } from './layout/layout'
 
 interface TabTriggerItemProps {

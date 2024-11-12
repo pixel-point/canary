@@ -1,116 +1,33 @@
 import { useState } from 'react'
 import { SandboxLayout } from '../index'
-import { Link, NavLink, Outlet } from 'react-router-dom'
-import { Icon, IconProps, Navbar, NavbarProjectChooser, NavbarUser } from '@harnessio/canary'
+import { Outlet } from 'react-router-dom'
+import { Navbar } from '../components/navbar'
 import { MoreSubmenu } from '../components/more-submenu'
-import { navbarSubmenuData } from '../data/mockNavbarSubmenuData'
-import { TypesUser } from './types'
-
-interface NavbarItem {
-  id: number
-  title: string
-  iconName: IconProps['name']
-  description: string
-  to?: string
-}
+import type { TypesUser } from './types'
+import { SystemAdminMenu } from '../components/system-admin-menu'
 
 interface SandboxRootProps {
   currentUser: TypesUser | undefined
-  currentSpaceId: string | undefined
 }
 
-export const SandboxRoot: React.FC<SandboxRootProps> = ({ currentUser, currentSpaceId }) => {
-  const [showMore, setShowMore] = useState<boolean>(false)
+export const SandboxRoot: React.FC<SandboxRootProps> = ({ currentUser }) => {
+  const [showMore, setShowMore] = useState(false)
+  const [showSystemAdmin, setShowSystemAdmin] = useState(false)
 
-  const primaryMenuItems = [
-    {
-      text: 'Repositories',
-      icon: <Icon name="repositories" size={12} />,
-      to: `/spaces/${currentSpaceId}/repos`
-    },
-    {
-      text: 'Pipelines',
-      icon: <Icon name="pipelines" size={12} />,
-      to: `/spaces/${currentSpaceId}/pipelines`
-    },
-    {
-      text: 'Executions',
-      icon: <Icon name="cog-6" size={12} />,
-      to: `/spaces/${currentSpaceId}/executions`
-    }
-  ]
-
-  const initialPinnedMenuItems: NavbarItem[] = [
-    {
-      id: 3,
-      title: 'Featured Flags',
-      iconName: 'featured-flags',
-      description: 'Toggle Featured Flags',
-      to: '/feature-flags'
-    },
-    {
-      id: 4,
-      title: 'Chaos Engineering',
-      iconName: 'chaos-engineering',
-      description: 'Manage chaos experiments',
-      to: '/chaos-engineering'
-    },
-    {
-      id: 12,
-      title: 'Environments',
-      iconName: 'environment',
-      description: 'Manage your environments',
-      to: '/environments'
-    },
-    {
-      id: 13,
-      title: 'Secrets',
-      iconName: 'secrets',
-      description: 'Store your secrets securely',
-      to: '/secrets'
-    },
-    {
-      id: 14,
-      title: 'Connectors',
-      iconName: 'connectors',
-      description: 'Manage your connectors',
-      to: '/connectors'
-    }
-  ]
-
-  const [pinnedItems, setPinnedItems] = useState<NavbarItem[]>(initialPinnedMenuItems)
-
-  function handleMore() {
-    setShowMore(!showMore)
+  const handleMore = () => {
+    setShowSystemAdmin(false)
+    setShowMore(prevState => !prevState)
   }
 
-  function handlePinItem(item: NavbarItem) {
-    setPinnedItems(prevPinnedItems => {
-      const isPinned = prevPinnedItems.some(pinned => pinned.id === item.id)
-      if (isPinned) {
-        return prevPinnedItems.filter(pinned => pinned.id !== item.id)
-      } else {
-        const itemToPin = navbarSubmenuData.flatMap(group => group.items).find(i => i.id === item.id)
-        if (itemToPin) {
-          return [
-            {
-              id: itemToPin.id,
-              title: itemToPin.title,
-              iconName: itemToPin.iconName,
-              description: itemToPin.description,
-              to: itemToPin.to || ''
-            },
-            ...prevPinnedItems
-          ]
-        }
-        return prevPinnedItems
-      }
-    })
+  const handleSystemAdmin = () => {
+    setShowMore(false)
+    setShowSystemAdmin(prevState => !prevState)
   }
 
   return (
     <SandboxLayout.Root>
       <SandboxLayout.LeftPanel>
+<<<<<<< HEAD
         <Navbar.Root>
           <Navbar.Header>
             <NavbarProjectChooser.Root
@@ -188,9 +105,19 @@ export const SandboxRoot: React.FC<SandboxRootProps> = ({ currentUser, currentSp
             />
           </Navbar.Footer>
         </Navbar.Root>
+=======
+        <Navbar
+          showMore={showMore}
+          showSystemAdmin={showSystemAdmin}
+          handleMore={handleMore}
+          handleSystemAdmin={handleSystemAdmin}
+          currentUser={currentUser}
+        />
+>>>>>>> 45f591e1 (fix: updated common layout and navbar)
       </SandboxLayout.LeftPanel>
       <Outlet />
-      <MoreSubmenu showMore={showMore} handleMore={handleMore} onPinItem={handlePinItem} pinnedItems={pinnedItems} />
+      <MoreSubmenu showMore={showMore} handleMore={handleMore} />
+      <SystemAdminMenu showSystemAdmin={showSystemAdmin} handleSystemAdmin={handleSystemAdmin} />
     </SandboxLayout.Root>
   )
 }

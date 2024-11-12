@@ -139,6 +139,10 @@
     --border-04: var(--grey-12);
     --border-05: var(--grey-10);
     --border-06: var(--grey-30);
+    --border-07: var(--grey-90);
+    --border-08: var(--white);
+    --border-09: var(--grey-60);
+    --border-10: var(--grey-6);
     --border-danger: var(--red-65);
     --border-success: var(--green-65);
     /* Icons */
@@ -267,6 +271,10 @@
     --border-04: var(--grey-12);
     --border-05: var(--grey-10);
     --border-06: var(--grey-30);
+    --border-07: var(--grey-90);
+    --border-08: var(--white);
+    --border-09: var(--grey-60);
+    --border-10: var(--grey-6);
     --border-danger: var(--red-65);
     --border-success: var(--green-65);
     /* Icons */
@@ -323,7 +331,7 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-borders-1;
   }
 
   html {
@@ -331,7 +339,7 @@
   }
 
   body {
-    @apply bg-background text-foreground text-sm font-normal -tracking-[0.02em];
+    @apply bg-background-1 text-foreground-2 text-sm font-normal -tracking-[0.02em];
   }
 }
 
@@ -620,4 +628,14 @@
 .diff-tailwindcss-wrapper .scrollbar-disable {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.sub-menu-icon-bg {
+  stop {
+    stop-color: hsla(0, 0%, 94%, 1);
+
+    & + stop {
+      stop-color: hsla(0, 0%, 61%, 1);
+    }
+  }
 }

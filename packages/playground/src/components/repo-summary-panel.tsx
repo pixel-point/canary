@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+import React from 'react'
+import type { IconProps } from '@harnessio/canary'
+>>>>>>> 45f591e1 (fix: updated common layout and navbar)
 import {
   Text,
   Icon,
@@ -7,8 +12,7 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuItem,
-  IconProps
+  DropdownMenuItem
 } from '@harnessio/canary'
 
 interface DetailsProps {

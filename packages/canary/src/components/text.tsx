@@ -12,7 +12,7 @@ const textVariants = cva('text-base', {
       right: 'text-right'
     },
     size: {
-      0: 'text-[12px]',
+      0: 'text-12',
       1: 'text-xs',
       2: 'text-sm',
       3: 'text-base',
@@ -42,8 +42,8 @@ const textVariants = cva('text-base', {
       bold: 'font-bold'
     },
     color: {
-      primary: 'text-primary',
-      secondary: 'text-secondary',
+      primary: 'text-foreground-1',
+      secondary: 'text-foreground-9',
       tertiary: 'text-tertiary',
       tertiaryBackground: 'text-tertiary-background'
     },
