@@ -210,17 +210,13 @@ export const BranchSelector = ({
         <Button
           className={cn(
             widthClasses[width],
-            'overflow-hidden flex gap-1.5 items-center px-3 data-[state=open]:border-primary-muted [&_svg]:data-[state=open]:text-primary',
+            'overflow-hidden flex gap-1.5 items-center px-3 data-[state=open]:border-borders-8 [&_svg]:data-[state=open]:text-foreground-1',
             className
           )}
           variant="outline"
           size={size}>
           {prefix ? null : (
-            <Icon
-              className="min-w-[12px] text-tertiary-background fill-transparent"
-              name={isTag ? 'tag' : 'branch'}
-              size={12}
-            />
+            <Icon className="min-w-[12px] text-icons-9 fill-transparent" name={isTag ? 'tag' : 'branch'} size={12} />
           )}
           <Text className="w-full text-primary/90" truncate align="left">
             {prefix ? `${prefix}: ${name}` : name}
