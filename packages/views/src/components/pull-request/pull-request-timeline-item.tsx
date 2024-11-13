@@ -94,6 +94,7 @@ const PullRequestTimelineItem: React.FC<TimelineItemProps> = ({
                   }}
                 />
                 <Button
+                  disabled={!comment.trim()}
                   onClick={() => {
                     handleSaveComment?.(comment, parentCommentId)
                     setComment('')
