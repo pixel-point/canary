@@ -77,7 +77,7 @@ import { currentUser } from './pages/mocks/mockCurrentUserData'
 import { mockUsersData } from './data/mockUsersData'
 import { gitIgnoreOptions, licenseOptions } from './data/mockCreateRepoData'
 import { SandboxRepoImportPage } from './pages/sandbox-repo-import-page'
-import SandboxPullRequestLayout from './layouts/SandboxPullrequestLayout'
+import SandboxPullRequestLayout from './layouts/SandboxPullRequestLayout'
 
 const router = createBrowserRouter([
   // TEMPORARY LAYOUT SANDBOX
