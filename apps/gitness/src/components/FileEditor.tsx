@@ -30,6 +30,7 @@ import { PathParts, splitPathWithParents } from '../utils/path-utils'
 import { CodeDiffEditor, CodeEditor } from '@harnessio/yaml-editor'
 import { themes } from '../pages/pipeline-edit/theme/monaco-theme'
 import GitCommitDialog from './GitCommitDialog'
+import { ExitConfirmDialog } from './ExitConfirmDialog'
 
 export type ViewTypeValue = 'contents' | 'changes'
 
@@ -63,7 +64,7 @@ export const FileEditor: React.FC = () => {
     []
   )
 
-  const isNew = useMemo(() => repoDetails && (!repoDetails?.content?.data || repoDetails.type === 'dir'), [repoDetails])
+  const isNew = useMemo(() => repoDetails && repoDetails.type === 'dir', [repoDetails])
   const [parentPath, setParentPath] = useState(
     isNew ? fullResourcePath : fullResourcePath?.split(FILE_SEPERATOR).slice(0, -1).join(FILE_SEPERATOR)
   )
@@ -128,6 +129,21 @@ export const FileEditor: React.FC = () => {
     setParentPath(_parentPath)
   }, [fileName, parentPath, language, content])
 
+  const [isExitConfirmOpen, setIsExitConfirmOpen] = useState(false)
+  const handleCancelFileEdit = () => {
+    if (dirty) {
+      setIsExitConfirmOpen(true)
+    } else {
+      onExitConfirm()
+    }
+  }
+  const onExitConfirm = () => {
+    const navigateTo = `/spaces/${spaceId}/repos/${repoId}/code/${gitRef}/${fullResourcePath ? `~/${fullResourcePath}` : ''}`
+    navigate(navigateTo)
+  }
+  const onExitCancel = () => {
+    setIsExitConfirmOpen(false)
+  }
   return (
     <>
       <GitCommitDialog
@@ -139,15 +155,21 @@ export const FileEditor: React.FC = () => {
         resourcePath={fileResourcePath || ''}
         payload={content}
         sha={repoDetails?.sha}
-        onSuccess={(_commitInfo, isNewBranch, newBranchName) => {
-          if (!isNewBranch) navigate(`/spaces/${spaceId}/repos/${repoId}/code/${gitRef}/~/${fileResourcePath}`)
-          else {
+        onSuccess={(_commitInfo, isNewBranch, newBranchName, fileName) => {
+          if (!isNewBranch) {
+            navigate(
+              `/spaces/${spaceId}/repos/${repoId}/code/${gitRef}/~/${isNew ? fileResourcePath + fileName : fileResourcePath}`
+            )
+          } else {
             navigate(
               `/spaces/${spaceId}/repos/${repoId}/pull-requests/compare/${repoMetadata?.default_branch}...${newBranchName}`
             )
           }
         }}
+        defaultBranch={repoMetadata?.default_branch || ''}
+        isNew={!!isNew}
       />
+      <ExitConfirmDialog onCancel={onExitCancel} onConfirm={onExitConfirm} open={isExitConfirmOpen} />
       <SandboxLayout.Main fullWidth hasLeftPanel hasLeftSubPanel hasHeader hasSubHeader>
         <SandboxLayout.Content>
           <ListActions.Root>
@@ -188,37 +210,42 @@ export const FileEditor: React.FC = () => {
                     </>
                   )
                 })}
-                <BreadcrumbItem>
-                  <Input
-                    id="fileName"
-                    value={fileName}
-                    size={20}
-                    onInput={(event: ChangeEvent<HTMLInputElement>) => {
-                      setFileName(event.currentTarget.value)
-                    }}
-                    ref={_ref => (inputRef.current = _ref)}
-                    onBlur={rebuildPaths}
-                    onFocus={({ target }) => {
-                      const value = (parentPath ? parentPath + FILE_SEPERATOR : '') + fileName
-                      setFileName(value)
-                      setParentPath('')
-                      setTimeout(() => {
-                        target.setSelectionRange(value.length, value.length)
-                        target.scrollLeft = Number.MAX_SAFE_INTEGER
-                      }, 0)
-                    }}
-                  />
-                </BreadcrumbItem>
+                {!isNew && (
+                  <BreadcrumbItem>
+                    <Input
+                      id="fileName"
+                      value={fileName}
+                      size={20}
+                      onInput={(event: ChangeEvent<HTMLInputElement>) => {
+                        setFileName(event.currentTarget.value)
+                      }}
+                      ref={_ref => (inputRef.current = _ref)}
+                      onBlur={rebuildPaths}
+                      onFocus={({ target }) => {
+                        const value = (parentPath ? parentPath + FILE_SEPERATOR : '') + fileName
+                        setFileName(value)
+                        setParentPath('')
+                        setTimeout(() => {
+                          target.setSelectionRange(value.length, value.length)
+                          target.scrollLeft = Number.MAX_SAFE_INTEGER
+                        }, 0)
+                      }}
+                      placeholder="Name your file..."
+                    />
+                  </BreadcrumbItem>
+                )}
               </ButtonGroup.Root>
             </ListActions.Left>
             <ListActions.Right>
-              <Button variant="default" size="sm" disabled={!dirty} onClick={() => setIsCommitDialogOpen(true)}>
+              <Button variant="default" size="sm" onClick={() => setIsCommitDialogOpen(true)}>
                 Commit Changes
               </Button>
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => navigate(`/spaces/${spaceId}/repos/${repoId}/code/${gitRef}/~/${fullResourcePath}`)}>
+                onClick={() => {
+                  handleCancelFileEdit()
+                }}>
                 Cancel
               </Button>
             </ListActions.Right>

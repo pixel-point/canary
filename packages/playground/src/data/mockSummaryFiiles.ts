@@ -9,7 +9,8 @@ export const mockFiles = [
     },
     lastCommitMessage: 'Updated public assets and added new favicon for branding',
     timestamp: '1 hour ago',
-    sha: '12cbg67a'
+    sha: '12cbg67a',
+    path: 'path'
   },
   {
     id: '1',
@@ -21,7 +22,8 @@ export const mockFiles = [
     },
     lastCommitMessage: 'Organized static files and optimized images for faster load times',
     timestamp: '5 hours ago',
-    sha: '98fgh23d'
+    sha: '98fgh23d',
+    path: 'path'
   },
   {
     id: '2',
@@ -33,7 +35,8 @@ export const mockFiles = [
     },
     lastCommitMessage: 'Refactored source structure for better module separation',
     timestamp: '1 day ago',
-    sha: '45abk78l'
+    sha: '45abk78l',
+    path: 'path'
   },
   {
     id: '3',
@@ -45,7 +48,8 @@ export const mockFiles = [
     },
     lastCommitMessage: 'Configured commitlint rules for consistent commit messages',
     timestamp: '1 day ago',
-    sha: '29lkj92a'
+    sha: '29lkj92a',
+    path: 'path'
   },
   {
     id: '4',
@@ -57,7 +61,8 @@ export const mockFiles = [
     },
     lastCommitMessage: 'Set up editorconfig for consistent coding styles across IDEs',
     timestamp: '1 day ago',
-    sha: '67dhk87b'
+    sha: '67dhk87b',
+    path: 'path'
   },
   {
     id: '5',
@@ -69,7 +74,8 @@ export const mockFiles = [
     },
     lastCommitMessage: 'Added example environment variables for easy setup',
     timestamp: '2 days ago',
-    sha: '89dfj56n'
+    sha: '89dfj56n',
+    path: 'path'
   },
   {
     id: '6',
@@ -81,7 +87,8 @@ export const mockFiles = [
     },
     lastCommitMessage: 'Updated .gitignore to exclude node_modules and build files',
     timestamp: '2 days ago',
-    sha: '32nbv34z'
+    sha: '32nbv34z',
+    path: 'path'
   },
   {
     id: '7',
@@ -93,7 +100,8 @@ export const mockFiles = [
     },
     lastCommitMessage: 'Configured Prettier with editorconfig for consistent formatting',
     timestamp: '1 week ago',
-    sha: '90plm56q'
+    sha: '90plm56q',
+    path: 'path'
   },
   {
     id: '8',
@@ -105,7 +113,8 @@ export const mockFiles = [
     },
     lastCommitMessage: 'Added global styles for responsive layout and typography',
     timestamp: '1 week ago',
-    sha: '87zxc34j'
+    sha: '87zxc34j',
+    path: 'path'
   },
   {
     id: '9',
@@ -117,7 +126,8 @@ export const mockFiles = [
     },
     lastCommitMessage: 'Configured Tailwind for custom theme colors and spacing',
     timestamp: '2 weeks ago',
-    sha: '65ert98p'
+    sha: '65ert98p',
+    path: 'path'
   },
   {
     id: '10',
@@ -129,7 +139,8 @@ export const mockFiles = [
     },
     lastCommitMessage: 'Enabled Next.js image optimization and API routes',
     timestamp: '2 weeks ago',
-    sha: '23vbn65q'
+    sha: '23vbn65q',
+    path: 'path'
   },
   {
     id: '11',
@@ -141,7 +152,8 @@ export const mockFiles = [
     },
     lastCommitMessage: 'Locked dependencies for consistent builds across environments',
     timestamp: '3 weeks ago',
-    sha: '43nhj56t'
+    sha: '43nhj56t',
+    path: 'path'
   },
   {
     id: '12',
@@ -153,6 +165,7 @@ export const mockFiles = [
     },
     lastCommitMessage: 'Initial setup of App component with routing and state management',
     timestamp: '1 month ago',
-    sha: '78qwe45l'
+    sha: '78qwe45l',
+    path: 'path'
   }
 ]

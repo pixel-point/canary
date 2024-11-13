@@ -28,6 +28,7 @@ export interface GitCommitFormType {
   description?: string
   commitToGitRef: string
   newBranchName?: string
+  fileName?: string
 }
 
 export enum CodeOwnerReqDecision {

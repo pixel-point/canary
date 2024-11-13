@@ -1,6 +1,7 @@
 import cx from 'clsx'
 import copy from 'clipboard-copy'
 import { PipelineStudioToolbarActions, Topbar, VisualYamlToggle } from '@harnessio/views'
+import { noop } from 'lodash-es'
 import { VisualYamlValue } from '../../../types/pipeline'
 import { usePipelineDataContext } from '../context/PipelineStudioDataProvider'
 import { createAndDownloadBlob } from '../../../utils/common-utils'
@@ -33,6 +34,8 @@ export const PipelineStudioToolbar = ({
             onDownloadClick={() => {
               createAndDownloadBlob(yamlRevision.yaml, `${pipelineData?.identifier}.yaml`)
             }}
+            copyContent={yamlRevision.yaml}
+            onEditClick={noop}
           />
         </Topbar.Right>
       )}

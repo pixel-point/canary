@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { CodeEditor } from '@harnessio/yaml-editor'
+import { noop } from 'lodash-es'
 import { themes } from '../pages/pipeline-edit/theme/monaco-theme'
-import copy from 'clipboard-copy'
 import { decodeGitContent, filenameToLanguage, formatBytes, getTrimmedSha, GitCommitAction } from '../utils/git-utils'
 import {
   Button,
@@ -19,7 +19,7 @@ import {
 } from '@harnessio/canary'
 import { timeAgoFromISOTime } from '../pages/pipeline-edit/utils/time-utils'
 import { MarkdownViewer, PipelineStudioToolbarActions, TopDetails, TopTitle } from '@harnessio/views'
-import { OpenapiGetContentOutput } from '@harnessio/code-service-client'
+import { OpenapiGetContentOutput, useFindRepositoryQuery } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 import { useNavigate, useParams } from 'react-router-dom'
 import { PathParams } from '../RouteDefinitions'
@@ -69,6 +69,8 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
     []
   )
 
+  const { data: { body: repoMetadata } = {} } = useFindRepositoryQuery({ repo_ref: repoRef })
+
   const closeDialog = () => {
     setIsDeleteFileDialogOpen(false)
   }
@@ -90,9 +92,11 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
           {formatBytes(repoContent?.content?.size || 0)}
         </Text>
         <PipelineStudioToolbarActions
-          onCopyClick={() => copy(fileContent)}
+          copyContent={fileContent}
+          showEdit
           onDownloadClick={() => downloadFile({ repoRef, resourcePath: fullResourcePath || '', gitRef: gitRef || '' })}
           onEditClick={() => navigate(`/spaces/${spaceId}/repos/${repoId}/code/edit/${gitRef}/~/${fullResourcePath}`)}
+          onCopyClick={noop}
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -149,9 +153,17 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
         commitAction={GitCommitAction.DELETE}
         gitRef={gitRef || ''}
         resourcePath={fullResourcePath || ''}
-        onSuccess={(_commitInfo, isNewBranch) => {
-          if (!isNewBranch) navigate(`/spaces/${spaceId}/repos/${repoId}/code`)
+        onSuccess={(_commitInfo, isNewBranch, newBranchName) => {
+          if (!isNewBranch) {
+            navigate(`/spaces/${spaceId}/repos/${repoId}/code`)
+          } else {
+            navigate(
+              `/spaces/${spaceId}/repos/${repoId}/pull-requests/compare/${repoMetadata?.default_branch}...${newBranchName}`
+            )
+          }
         }}
+        defaultBranch={repoMetadata?.default_branch || ''}
+        isNew={false}
       />
       <StackedList.Root>
         <StackedList.Item disableHover isHeader className="py-2.5 px-3">
@@ -200,7 +212,9 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
         </StackedList.Item>
       </StackedList.Root>
       {language === 'markdown' && view === 'preview' ? (
-        <MarkdownViewer source={fileContent} />
+        <div className="px-2 py-2 border-l border-r border-b border-border-background">
+          <MarkdownViewer source={fileContent} />
+        </div>
       ) : view === 'code' ? (
         <CodeView />
       ) : (

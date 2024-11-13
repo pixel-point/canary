@@ -23,5 +23,7 @@ module.exports = {
         }
       }
     }
-  }
+  },
+  plugins: [require('@tailwindcss/typography')],
+  safelist: ['prose', 'prose-invert ', 'prose-headings', 'prose-p', 'prose-a', 'prose-img', 'prose-code']
 }

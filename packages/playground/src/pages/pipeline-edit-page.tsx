@@ -129,6 +129,7 @@ const PipelineStudioToolbar = ({
             onCopyClick={() => undefined}
             onDownloadClick={() => undefined}
             onEditClick={() => undefined}
+            copyContent=""
           />
         </Topbar.Right>
       )}

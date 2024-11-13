@@ -27,9 +27,11 @@ interface GitCommitFormProps {
   commitTitlePlaceHolder: string
   error?: UsererrorError
   disableCTA: boolean
-  dryRun: (commitToGitRef: CommitToGitRefOption) => void
+  dryRun: (commitToGitRef: CommitToGitRefOption, fileName?: string) => void
   violation: boolean
   bypassable: boolean
+  defaultBranch?: string
+  isNew: boolean
 }
 
 export enum CommitToGitRefOption {
@@ -42,7 +44,8 @@ const gitCommitSchema = z
     message: z.string().optional(),
     description: z.string().optional(),
     commitToGitRef: z.string(),
-    newBranchName: z.string().optional()
+    newBranchName: z.string().optional(),
+    fileName: z.string().optional()
   })
   .superRefine((data, ctx) => {
     if (data.commitToGitRef === CommitToGitRefOption.NEW_BRANCH) {
@@ -54,6 +57,13 @@ const gitCommitSchema = z
         })
       }
     }
+    if (data.fileName !== undefined && !data.fileName.length) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'File Name is required ',
+        path: ['fileName']
+      })
+    }
   })
 
 export function GitCommitForm({
@@ -64,14 +74,17 @@ export function GitCommitForm({
   disableCTA,
   dryRun,
   violation,
-  bypassable
+  bypassable,
+  defaultBranch,
+  isNew
 }: GitCommitFormProps) {
   const { setAllStates } = useRuleViolationCheck()
   const form = useZodForm({
     schema: gitCommitSchema,
     defaultValues: {
       message: '',
-      commitToGitRef: CommitToGitRefOption.DIRECTLY
+      commitToGitRef: CommitToGitRefOption.DIRECTLY,
+      fileName: isNew ? '' : undefined
     }
   })
 
@@ -106,6 +119,21 @@ export function GitCommitForm({
         )}
       />
 
+      {isNew && (
+        <FormField
+          control={form.control}
+          name="fileName"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Textarea className="text-primary" {...field} placeholder="Name your file" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )}
+
       <FormField
         control={form.control}
         name="commitToGitRef"
@@ -116,13 +144,13 @@ export function GitCommitForm({
                 value={field.value}
                 id="commitToGitRef"
                 onValueChange={value => {
-                  dryRun(value as CommitToGitRefOption)
+                  dryRun(value as CommitToGitRefOption, form.getValues().fileName)
                   field.onChange(value)
                 }}>
                 <FormFieldSet.Option
                   control={<RadioGroupItem value={CommitToGitRefOption.DIRECTLY} id="directly" />}
                   id="directly"
-                  label="Commit to Master directly"
+                  label={`Commit to ${defaultBranch} directly`}
                   description=""
                 />
                 {violation && form.getValues().commitToGitRef === CommitToGitRefOption.DIRECTLY && (
@@ -165,7 +193,7 @@ export function GitCommitForm({
                       className="text-primary"
                       {...field}
                       placeholder="New Branch Name"
-                      left={<Icon name="branch" size={24} className="min-w-[12px] text-tertiary-background pr-2" />}
+                      left={<Icon name="branch" size={34} className="min-w-[12px] text-tertiary-background px-2" />}
                       onChange={value => {
                         field.onChange(value)
 
@@ -194,7 +222,7 @@ export function GitCommitForm({
       )}
 
       <div className="flex gap-3 justify-end">
-        <Button onClick={onCancel} className="text-primary" variant="outline">
+        <Button type="button" onClick={onCancel} className="text-primary" variant="outline">
           Cancel
         </Button>
         {!bypassable ? (

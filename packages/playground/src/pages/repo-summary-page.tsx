@@ -134,7 +134,7 @@ function RepoSummaryPage() {
             </ListActions.Root>
             <Spacer size={5} />
             {renderListContent()}
-            <Spacer size={12} />
+            <Spacer size={5} />
             <StackedList.Root>
               <StackedList.Item isHeader disableHover>
                 <StackedList.Field title={<Text color="tertiaryBackground">README.md</Text>} />

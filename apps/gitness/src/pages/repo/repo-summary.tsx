@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   Button,
   ButtonGroup,
@@ -21,11 +21,11 @@ import {
   SummaryItemType,
   NoData,
   MarkdownViewer,
-  Filter,
   useCommonFilter,
   SandboxLayout,
   CloneRepoDialog,
-  generateAlphaNumericHash
+  generateAlphaNumericHash,
+  SearchFiles
 } from '@harnessio/views'
 import {
   useListBranchesQuery,
@@ -37,7 +37,8 @@ import {
   GitPathDetails,
   OpenapiGetContentOutput,
   OpenapiContentInfo,
-  useCreateTokenMutation
+  useCreateTokenMutation,
+  useListPathsQuery
 } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { decodeGitContent, getTrimmedSha, normalizeGitRef } from '../../utils/git-utils'
@@ -154,7 +155,8 @@ export const RepoSummaryList: React.FC = () => {
                     lastCommitMessage: item?.last_commit?.message || '',
                     timestamp: item?.last_commit?.author?.when ? timeAgoFromISOTime(item.last_commit.author.when) : '',
                     user: { name: item?.last_commit?.author?.identity?.name },
-                    sha: item?.last_commit?.sha && getTrimmedSha(item.last_commit.sha)
+                    sha: item?.last_commit?.sha && getTrimmedSha(item.last_commit.sha),
+                    path: `/spaces/${spaceId}/repos/${repoId}/code/${gitRef || selectedBranch}/~/${item?.path}`
                   }) as FileProps
               )
             )
@@ -165,7 +167,7 @@ export const RepoSummaryList: React.FC = () => {
           setLoading(false)
         })
     }
-  }, [repoEntryPathToFileTypeMap.size, repoRef])
+  }, [repoEntryPathToFileTypeMap.size, gitRef, repoRef, selectedBranch])
 
   useEffect(() => {
     if (repository) {
@@ -176,6 +178,13 @@ export const RepoSummaryList: React.FC = () => {
   const selectBranch = (branch: string) => {
     setSelectedBranch(branch)
   }
+
+  const { data: filesData } = useListPathsQuery({
+    repo_ref: repoRef,
+    queryParams: { git_ref: normalizeGitRef(gitRef || selectedBranch) }
+  })
+
+  const filesList = filesData?.body?.files || []
 
   const renderListContent = () => {
     if (loading) return <SkeletonList />
@@ -207,6 +216,14 @@ export const RepoSummaryList: React.FC = () => {
         />
       )
   }
+
+  const navigateToFile = useCallback(
+    (filePath: string) => {
+      navigate(`/spaces/${spaceId}/repos/${repoId}/code/${gitRef || selectedBranch}/~/${filePath}`)
+    },
+    [gitRef, selectedBranch, navigate, repoId, spaceId]
+  )
+
   return (
     <>
       <SandboxLayout.Main hasLeftPanel hasHeader hasSubHeader>
@@ -222,8 +239,7 @@ export const RepoSummaryList: React.FC = () => {
                       branchList={branchList}
                       selectBranch={branch => selectBranch(branch)}
                     />
-
-                    <Filter />
+                    <SearchFiles navigateToFile={navigateToFile} filesList={filesList} />
                   </ButtonGroup.Root>
                 </ListActions.Left>
                 <ListActions.Right>
@@ -255,7 +271,7 @@ export const RepoSummaryList: React.FC = () => {
               </ListActions.Root>
               <Spacer size={5} />
               {renderListContent()}
-              <Spacer size={12} />
+              <Spacer size={5} />
               <StackedList.Root>
                 <StackedList.Item isHeader disableHover>
                   <StackedList.Field title={<Text color="tertiaryBackground">README.md</Text>} />

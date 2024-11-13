@@ -17,6 +17,7 @@ import {
 import React from 'react'
 import { getInitials } from '../utils/utils'
 import { useNavigate } from 'react-router-dom'
+import { CommitCopyActions } from './commit-copy-actions'
 
 export enum SummaryItemType {
   Folder = 0,
@@ -71,9 +72,7 @@ export const TopDetails = ({ file }: { file: Pick<FileProps, 'user' | 'lastCommi
   const { sha, timestamp } = file
   return (
     <ButtonGroup.Root verticalAlign="center" spacing="2">
-      <Text size={2} weight="normal" color="tertiaryBackground">
-        {sha}
-      </Text>
+      <CommitCopyActions sha={sha || ''} />
       <Text size={2} weight="normal" color="tertiaryBackground">
         |
       </Text>
@@ -116,7 +115,11 @@ export const Summary = ({ ...props }: PageProps) => {
             {files.map(file => (
               <TableRow key={file.id} onClick={() => navigate(file.path)}>
                 <TableCell>
-                  <ButtonGroup.Root direction="horizontal" verticalAlign="center" spacing="1.5">
+                  <ButtonGroup.Root
+                    direction="horizontal"
+                    verticalAlign="center"
+                    spacing="1.5"
+                    className="cursor-pointer">
                     {file.type === SummaryItemType.File ? (
                       <Icon name="file" size={14} className="text-tertiary-background" />
                     ) : (

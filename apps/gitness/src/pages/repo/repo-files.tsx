@@ -1,21 +1,7 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useParams, useNavigate, Outlet } from 'react-router-dom'
-import { BranchSelector, SandboxLayout, BranchListProps } from '@harnessio/views'
-import {
-  Button,
-  ButtonGroup,
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-  CommandList,
-  Icon,
-  Popover,
-  PopoverAnchor,
-  PopoverContent,
-  SearchBox,
-  Text
-} from '@harnessio/canary'
+import { BranchSelector, SandboxLayout, BranchListProps, SearchFiles } from '@harnessio/views'
+import { Button, ButtonGroup, Icon } from '@harnessio/canary'
 import {
   useListBranchesQuery,
   useFindRepositoryQuery,
@@ -30,31 +16,21 @@ import Explorer from '../../components/FileExplorer'
 import { FILE_SEPERATOR, normalizeGitRef } from '../../utils/git-utils'
 
 interface SidebarProps {
-  isOpen: boolean
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
   selectedBranch: string
   selectBranch: (branch: string) => void
   branchList: BranchListProps[] | undefined
   navigateToNewFile: () => void
   navigateToFile: (file: string) => void
-  query: string
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  fileText: (file: string) => React.ReactNode
   filesList: string[] | undefined
   repoDetails: OpenapiGetContentOutput | undefined
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
-  isOpen,
-  setIsOpen,
   selectedBranch,
   selectBranch,
   branchList,
   navigateToNewFile,
   navigateToFile,
-  query,
-  handleInputChange,
-  fileText,
   filesList,
   repoDetails
 }) => {
@@ -72,47 +48,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           </Button>
         </ButtonGroup.Root>
       </div>
-      <Popover open={isOpen} onOpenChange={setIsOpen}>
-        <PopoverAnchor asChild>
-          <div>
-            <SearchBox.Root
-              width="full"
-              placeholder="Search files..."
-              className="h-9 searchbox"
-              handleChange={handleInputChange}
-              value={query}
-            />
-          </div>
-        </PopoverAnchor>
-        <PopoverContent
-          className="w-[600px] max-h-60 p-0 overflow-auto"
-          align="start"
-          // Prevent focus from moving to the popover when it opens
-          onOpenAutoFocus={event => {
-            event.preventDefault()
-          }}>
-          <Command>
-            <CommandList>
-              <CommandEmpty>No file found.</CommandEmpty>
-              <CommandGroup>
-                {filesList?.map((file: string, idx: number) => (
-                  <CommandItem
-                    key={idx}
-                    value={file}
-                    onSelect={() => {
-                      if (file) {
-                        navigateToFile(file)
-                        setIsOpen(false)
-                      }
-                    }}>
-                    {fileText(file)}
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            </CommandList>
-          </Command>
-        </PopoverContent>
-      </Popover>
+      <SearchFiles navigateToFile={navigateToFile} filesList={filesList} />
       {repoDetails?.content?.entries?.length && <Explorer repoDetails={repoDetails} selectedBranch={selectedBranch} />}
     </div>
   )
@@ -123,11 +59,8 @@ export const RepoFiles: React.FC = () => {
   const { spaceId, repoId, gitRef, resourcePath } = useParams<PathParams>()
   const subResourcePath = useParams()['*'] || ''
   const fullResourcePath = subResourcePath ? `${resourcePath}/${subResourcePath}` : resourcePath
-  const navigate = useNavigate()
-
   const [selectedBranch, setSelectedBranch] = useState<string>(gitRef || '')
-  const [isOpen, setIsOpen] = useState(false)
-  const [query, setQuery] = useState('')
+  const navigate = useNavigate()
 
   const { data: repository } = useFindRepositoryQuery({ repo_ref: repoRef })
 
@@ -208,60 +141,17 @@ export const RepoFiles: React.FC = () => {
     [gitRef, selectedBranch, navigate, repoId, spaceId]
   )
 
-  const handleInputChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const value = event.target.value
-      setQuery(value)
-      setIsOpen(value !== '')
-    },
-    [setQuery, setIsOpen]
-  )
-
-  const filteredFiles = useMemo(() => {
-    return filesList?.filter(file => file.toLowerCase().includes(query.toLowerCase()))
-  }, [query, filesList])
-
-  const fileText = useCallback(
-    (file: string) => {
-      const match = file.match(new RegExp(query))
-      if (!match) {
-        return (
-          <Text>
-            <span>{file}</span>
-          </Text>
-        )
-      }
-      const matchIndex = match?.index || 0
-      const startText = file.slice(0, matchIndex)
-      const matchedText = file.slice(matchIndex, matchIndex + query.length)
-      const endText = file.slice(matchIndex + query.length)
-      return (
-        <Text>
-          {startText ? <span>{startText}</span> : null}
-          {matchedText ? <mark>{matchedText}</mark> : null}
-          {endText ? <span>{endText}</span> : null}
-        </Text>
-      )
-    },
-    [query]
-  )
-
   return (
     <>
       <SandboxLayout.LeftSubPanel hasHeader hasSubHeader>
         <SandboxLayout.Content>
           <Sidebar
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
             selectedBranch={selectedBranch}
             selectBranch={selectBranch}
             branchList={branchList}
             navigateToNewFile={navigateToNewFile}
             navigateToFile={navigateToFile}
-            query={query}
-            handleInputChange={handleInputChange}
-            fileText={fileText}
-            filesList={filteredFiles}
+            filesList={filesList}
             repoDetails={repoDetails?.body}
           />
         </SandboxLayout.Content>

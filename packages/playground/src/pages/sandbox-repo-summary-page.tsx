@@ -117,7 +117,7 @@ function SandboxRepoSummaryPage() {
                 files={mockFiles}
                 latestFile={pick(mockFiles[0], ['user', 'lastCommitMessage', 'timestamp', 'sha'])}
               />
-              <Spacer size={12} />
+              <Spacer size={5} />
               <StackedList.Root>
                 <StackedList.Item isHeader disableHover>
                   <StackedList.Field title={<Text color="tertiaryBackground">README.md</Text>} />
