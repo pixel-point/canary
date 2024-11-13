@@ -3,12 +3,9 @@ import { Link } from 'react-router-dom'
 
 import {
   Badge,
-  Button,
   cn,
-  DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
   Icon,
   SearchBox,
   Tabs,
@@ -17,42 +14,13 @@ import {
   Text
 } from '@harnessio/canary'
 
-import { BranchProps } from '../types/branch'
-
-interface BaseItem {
-  name: string
-}
-
-interface BaseListProps {
-  viewAllUrl: string
-}
-
-interface BranchListProps extends BaseListProps {
-  items: BranchProps[]
-}
-
-interface TagListProps extends BaseListProps {
-  items?: BaseItem[]
-}
-
-interface DropdownMenuExtendedContentProps {
-  name: string
-  branchList: BranchListProps
-  tagList: TagListProps
-  selectBranch: (branch: BranchProps | BaseItem) => void
-}
-
-interface BranchSelectorProps extends DropdownMenuExtendedContentProps {
-  size?: 'default' | 'sm'
-  width?: 'auto' | 'sm' | 'md' | 'lg' | 'full'
-  prefix?: string
-  className?: string
-}
-
-enum BranchSelectorTab {
-  BRANCHES = 'branches',
-  TAGS = 'tags'
-}
+import {
+  BranchSelectorTab,
+  type BranchSelectorBaseItem,
+  type BranchSelectorBranchListProps,
+  type BranchSelectorBranchProps,
+  type BranchSelectorTagListProps
+} from './types'
 
 const BRANCH_SELECTOR_LABELS = {
   [BranchSelectorTab.BRANCHES]: {
@@ -65,13 +33,20 @@ const BRANCH_SELECTOR_LABELS = {
   }
 } as const
 
-const filterItems = (items: BranchProps[] | BaseItem[], query: string) => {
+export interface BranchSelectorDropdownProps {
+  name: string
+  branchList: BranchSelectorBranchListProps
+  tagList: BranchSelectorTagListProps
+  selectBranch: (branch: BranchSelectorBranchProps | BranchSelectorBaseItem) => void
+}
+
+const filterItems = (items: BranchSelectorBranchProps[] | BranchSelectorBaseItem[], query: string) => {
   if (!query.trim()) return items
 
   return items.filter(item => item.name.toLowerCase().includes(query.toLowerCase().trim()))
 }
 
-const DropdownMenuExtendedContent = ({ name, branchList, tagList, selectBranch }: DropdownMenuExtendedContentProps) => {
+export const BranchSelectorDropdown = ({ name, branchList, tagList, selectBranch }: BranchSelectorDropdownProps) => {
   const [activeTab, setActiveTab] = useState<BranchSelectorTab>(BranchSelectorTab.BRANCHES)
   const [searchQuery, setSearchQuery] = useState('')
 
@@ -90,14 +65,16 @@ const DropdownMenuExtendedContent = ({ name, branchList, tagList, selectBranch }
         <Text className="leading-none" size={2} weight="medium">
           Switch branches/tags
         </Text>
+
         <SearchBox.Root
-          className="w-full mt-[18px]"
+          className="mt-[18px] w-full"
           placeholder={BRANCH_SELECTOR_LABELS[activeTab].searchPlaceholder}
           value={searchQuery}
           handleChange={handleSearchChange}
           showOnFocus
         />
       </div>
+
       <Tabs
         className="mt-2"
         variant="branch"
@@ -108,17 +85,42 @@ const DropdownMenuExtendedContent = ({ name, branchList, tagList, selectBranch }
         }}
       >
         <TabsList>
-          <TabsTrigger className="data-[state=active]:bg-background-2" value="branches">
-            Branches
-          </TabsTrigger>
-          <TabsTrigger className="data-[state=active]:bg-background-2" value="tags">
-            Tags
-          </TabsTrigger>
+          <DropdownMenuItem
+            className="rounded-t-md p-0"
+            onSelect={e => {
+              e.preventDefault()
+              setActiveTab(BranchSelectorTab.BRANCHES)
+            }}
+          >
+            <TabsTrigger
+              className="data-[state=active]:bg-background-2"
+              value="branches"
+              onClick={e => e.stopPropagation()}
+            >
+              Branches
+            </TabsTrigger>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="rounded-t-md p-0"
+            onSelect={e => {
+              e.preventDefault()
+              setActiveTab(BranchSelectorTab.TAGS)
+            }}
+          >
+            <TabsTrigger
+              className="data-[state=active]:bg-background-2"
+              value="tags"
+              onClick={e => e.stopPropagation()}
+            >
+              Tags
+            </TabsTrigger>
+          </DropdownMenuItem>
         </TabsList>
       </Tabs>
+
       <div className="mt-1">
         {filteredItems.length === 0 && (
-          <div className="text-center px-5 py-4">
+          <div className="px-5 py-4 text-center">
             <Text className="text-foreground-2 leading-tight" size={2}>
               Nothing to show
             </Text>
@@ -128,11 +130,11 @@ const DropdownMenuExtendedContent = ({ name, branchList, tagList, selectBranch }
         <div className="max-h-[360px] overflow-y-auto px-1">
           {filteredItems.map(item => {
             const isSelected = item.name === name
-            const isDefault = activeTab === BranchSelectorTab.BRANCHES && (item as BranchProps).default
+            const isDefault = activeTab === BranchSelectorTab.BRANCHES && (item as BranchSelectorBranchProps).default
 
             return (
               <DropdownMenuItem
-                className={cn('cursor-pointer hover:bg-background-4 py-2 leading-none', {
+                className={cn('hover:bg-background-4 cursor-pointer py-2 leading-none', {
                   'justify-between gap-x-2': isDefault,
                   'bg-background-4': isSelected,
                   'pl-7': !isSelected
@@ -140,8 +142,8 @@ const DropdownMenuExtendedContent = ({ name, branchList, tagList, selectBranch }
                 onClick={() => selectBranch(item)}
                 key={item.name}
               >
-                <div className="flex items-center w-full gap-x-2 min-w-0">
-                  {isSelected && <Icon name="tick" size={12} className="min-w-[12px] text-foreground-1" />}
+                <div className="flex w-full min-w-0 items-center gap-x-2">
+                  {isSelected && <Icon name="tick" size={12} className="text-foreground-1 min-w-[12px]" />}
                   <Text
                     className={cn('text-foreground-2', {
                       'text-foreground-1': isSelected
@@ -178,60 +180,16 @@ const DropdownMenuExtendedContent = ({ name, branchList, tagList, selectBranch }
           })}
         </div>
 
-        <div className="px-3 py-2 mt-1 border-t border-borders-4">
-          <Link to={viewAllUrl}>
-            <Text className="text-ring hover:text-foreground-1 transition-colors duration-200 leading-none">
-              View all {activeTab === BranchSelectorTab.BRANCHES ? 'branches' : 'tags'}
-            </Text>
-          </Link>
-        </div>
+        <DropdownMenuItem className="p-0" asChild>
+          <div className="border-borders-4 mt-1 border-t px-3 py-2">
+            <Link to={viewAllUrl}>
+              <Text className="text-ring hover:text-foreground-1 leading-none transition-colors duration-200">
+                View all {activeTab === BranchSelectorTab.BRANCHES ? 'branches' : 'tags'}
+              </Text>
+            </Link>
+          </div>
+        </DropdownMenuItem>
       </div>
     </DropdownMenuContent>
-  )
-}
-
-export const BranchSelector = ({
-  name,
-  branchList,
-  tagList,
-  size = 'default',
-  selectBranch,
-  width = 'auto',
-  prefix = undefined,
-  className
-}: BranchSelectorProps) => {
-  const widthClasses: { [key in NonNullable<BranchSelectorProps['width']>]: string } = {
-    auto: 'w-auto',
-    sm: 'w-16',
-    md: 'w-32',
-    lg: 'w-48',
-    full: 'w-full'
-  }
-
-  const isTag = tagList.items?.some(tag => tag.name === name) ?? false
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          className={cn(
-            widthClasses[width],
-            'overflow-hidden flex gap-1.5 items-center px-3 data-[state=open]:border-borders-8 [&_svg]:data-[state=open]:text-foreground-1',
-            className
-          )}
-          variant="outline"
-          size={size}
-        >
-          {prefix ? null : (
-            <Icon className="min-w-[12px] text-icons-9 fill-transparent" name={isTag ? 'tag' : 'branch'} size={12} />
-          )}
-          <Text className="w-full text-primary/90" truncate align="left">
-            {prefix ? `${prefix}: ${name}` : name}
-          </Text>
-          <Icon className="min-w-[10px] chevron-down ml-0 text-tertiary-background" name="chevron-down" size={10} />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuExtendedContent branchList={branchList} tagList={tagList} name={name} selectBranch={selectBranch} />
-    </DropdownMenu>
   )
 }
