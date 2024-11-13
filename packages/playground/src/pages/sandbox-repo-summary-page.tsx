@@ -14,12 +14,12 @@ import {
 import { FileProps, Summary } from '../components/repo-summary'
 import { mockBranchData } from '../data/mockBranchData'
 import { RepoSummaryPanel } from '../components/repo-summary-panel'
-import { BranchSelector } from '../components/branch-selector'
+import { BranchSelector } from '../components/branch-selector/branch-selector'
 import { mockFiles } from '../data/mockSummaryFiiles'
 import { SandboxLayout } from '..'
 import { PlaygroundSandboxLayoutSettings } from '../settings/sandbox-settings'
 import { CloneRepoDialog } from '../components/repo-clone/clone-repo-dialog'
-import { BranchProps } from '../types/branch'
+import { BranchProps } from '../components/branch-selector/types'
 
 // TODO: Move LAYOUT_STATES and LayoutState type to a shared location (e.g., types/layouts.ts)
 // since these states are used across multiple pages and should be managed in a single place
