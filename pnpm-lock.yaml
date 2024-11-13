@@ -24,8 +24,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/canary
       '@harnessio/code-service-client':
-        specifier: 3.1.0
-        version: 3.1.0
+        specifier: 3.2.0
+        version: 3.2.0
       '@harnessio/forms':
         specifier: workspace:*
         version: link:../../packages/forms
@@ -2697,8 +2697,8 @@ packages:
   '@git-diff-view/shiki@0.0.16':
     resolution: {integrity: sha512-qKw0rN3O5H4xhDS7ExPlZpRVWOEIJuaNOPuj/JqNJqDvc7pGZry2nMVEyy5dmiIKcO+4QrzYXlP71PdoHj+HIQ==}
 
-  '@harnessio/code-service-client@3.1.0':
-    resolution: {integrity: sha512-qhrA8hkeRV3AUpY4OfCJoWd5HSi8nqZf9jn1/x6bHJdNZw53W836m0XkZI4fyoj+JWsPDx2H9Ylnuh9vKKGU/A==}
+  '@harnessio/code-service-client@3.2.0':
+    resolution: {integrity: sha512-NpS6HEHOcWDltg/6iZovjMfcGUCL4VV6Wb69S1mPPP6BsihsGZOS43Fg4x8Epg0EhJpVTGxbjM44Q38Q4uGg2A==}
 
   '@harnessio/icons-noir@0.2.1':
     resolution: {integrity: sha512-gJJmolPrbwVfwznPN6zjOuUqVKCYb7Q/ZvZMR5WvlNdTxl8/UukhtGiCCEdy/JRU4zcZqm24FW2L40+Qv2Tz0Q==}
@@ -11865,7 +11865,7 @@ snapshots:
     dependencies:
       shiki: 1.17.5
 
-  '@harnessio/code-service-client@3.1.0': {}
+  '@harnessio/code-service-client@3.2.0': {}
 
   '@harnessio/icons-noir@0.2.1(@harnessio/svg-icon-react@0.2.1(@harnessio/svg-icon@0.2.1)(react@18.3.1))(@harnessio/svg-icon@0.2.1)(react@18.3.1)':
     dependencies:

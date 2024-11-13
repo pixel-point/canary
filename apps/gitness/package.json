@@ -18,10 +18,10 @@
   },
   "dependencies": {
     "@harnessio/canary": "workspace:*",
-    "@harnessio/code-service-client": "3.1.0",
+    "@harnessio/code-service-client": "3.2.0",
     "@harnessio/forms": "workspace:*",
-    "@harnessio/views": "workspace:*",
     "@harnessio/unified-pipeline": "workspace:*",
+    "@harnessio/views": "workspace:*",
     "@harnessio/yaml-editor": "workspace:*",
     "@hookform/resolvers": "^3.6.0",
     "@tanstack/react-query": "4.36.1",

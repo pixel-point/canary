@@ -44,7 +44,6 @@ export function usePRChecksDecision({
   const status = useMemo(() => {
     let _status: ExecutionState | undefined
     const _count = { ...DEFAULT_COUNTS }
-    // @ts-expect-error remove "@ts-expect-error" once CodeServiceClient Response for useChecksPullReqQuery is fixed
     const total = data?.checks?.length
     // @ts-expect-error remove "@ts-expect-error" once CodeServiceClient Response for useChecksPullReqQuery is fixed
     const { message: summaryMessage } = generateStatusSummary(data?.checks)
@@ -55,7 +54,6 @@ export function usePRChecksDecision({
       setCheckInfo(checkInfoData)
     }
     if (total) {
-      // @ts-expect-error remove "@ts-expect-error" once CodeServiceClient Response for useChecksPullReqQuery is fixed
       for (const check of (data as Data).checks) {
         switch (check.check.status) {
           case ExecutionState.ERROR:

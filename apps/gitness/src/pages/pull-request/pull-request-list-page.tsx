@@ -81,8 +81,8 @@ export default function PullRequestListPage() {
           name: item?.title,
           // TODO: fix review required when its actually there
           reviewRequired: !item?.is_draft,
-          merged: item.merged,
-          comments: item.stats?.conversations,
+          merged: item?.merged,
+          comments: item?.stats?.conversations,
           number: item?.number,
           is_draft: item?.is_draft,
           // TODO: add label information to display associated labels for each pull request

@@ -57,8 +57,6 @@ export default function RepoCommitsPage() {
   }
   const renderListContent = () => {
     if (isFetchingCommits) return <SkeletonList />
-
-    // @ts-expect-error remove "@ts-expect-error" once CodeServiceClient Response for useListCommitsQuery is fixed
     const commitsLists = commitData?.commits
     if (!commitsLists?.length) {
       return <NoData iconName="no-data-folder" title="No commits yet" description={['There are no commits yet.']} />

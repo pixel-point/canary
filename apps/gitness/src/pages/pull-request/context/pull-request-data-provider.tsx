@@ -130,7 +130,8 @@ const PullRequestDataProvider: React.FC<PullRequestDataProviderProps> = ({ child
     refetch: refetchPullReq
   } = useGetPullReqQuery({
     repo_ref: repoRef,
-    pullreq_number: Number(pullRequestId)
+    pullreq_number: Number(pullRequestId),
+    queryParams: {}
   })
 
   const [showEditDescription, setShowEditDescription] = useState(false)

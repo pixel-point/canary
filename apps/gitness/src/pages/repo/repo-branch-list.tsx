@@ -5,7 +5,7 @@ import { SkeletonList, NoData, SandboxLayout, BranchesList, Filter, useCommonFil
 import { Button, Spacer, Text } from '@harnessio/canary'
 import {
   useListBranchesQuery,
-  RepoBranch,
+  TypesBranchExtended,
   useCalculateCommitDivergenceMutation,
   useFindRepositoryQuery,
   ListBranchesQueryQueryParams
@@ -101,7 +101,7 @@ export function RepoBranchesListPage() {
         defaultBranch={repoMetadata?.default_branch}
         repoId={repoId}
         spaceId={spaceId}
-        branches={branches?.map((branch: RepoBranch, index) => {
+        branches={branches?.map((branch: TypesBranchExtended, index) => {
           const { ahead: branchAhead, behind: branchBehind } = behindAhead[index] || {}
           return {
             id: index,

@@ -5,7 +5,7 @@ import {
   CreateRepositoryErrorResponse,
   useCreatePullReqMutation,
   OpenapiCreatePullReqRequest,
-  RepoBranch,
+  TypesBranchExtended,
   useListBranchesQuery,
   useFindRepositoryQuery,
   useListCommitsQuery,
@@ -239,13 +239,12 @@ export const CreatePullRequest = () => {
         selectSourceBranch={(branch: string) => selectSourceBranch(branch)}
         branchList={
           branches
-            ? branches?.map((item: RepoBranch) => ({
+            ? branches?.map((item: TypesBranchExtended) => ({
                 name: item.name || ''
               }))
             : []
         }
-        commitData={// @ts-expect-error remove "@ts-expect-error" once CodeServiceClient Response for useListCommitsQuery is fixed
-        commitData?.commits?.map((item: TypesCommit) => ({
+        commitData={commitData?.commits?.map((item: TypesCommit) => ({
           sha: item.sha,
           parent_shas: item.parent_shas,
           title: item.title,

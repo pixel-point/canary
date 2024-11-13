@@ -64,7 +64,7 @@ export default function ProjectPipelinesPage() {
         pipelines={pipelines?.map((item: TypesPipeline) => ({
           id: item?.identifier || '',
           status: getExecutionStatus(item?.execution?.status),
-          name: item?.identifier,
+          name: item?.identifier || '',
           sha: item?.execution?.after,
           description: item?.execution?.message,
           timestamp: item?.created ? timeAgoFromEpochTime(item.created) : ''

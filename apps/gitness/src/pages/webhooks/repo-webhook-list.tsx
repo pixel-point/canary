@@ -12,7 +12,7 @@ import {
   NoSearchResults,
   DeleteTokenAlertDialog
 } from '@harnessio/views'
-import { useListWebhooksQuery, useDeleteWebhookMutation } from '@harnessio/code-service-client'
+import { useListRepoWebhooksQuery, useDeleteRepoWebhookMutation } from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { PaginationComponent } from '@harnessio/views'
 import { PageResponseHeader } from '../../types'
@@ -34,14 +34,14 @@ export default function RepoWebhooksListPage() {
 
   const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => <Link to={to}>{children}</Link>
 
-  const { data: { body: webhooks, headers } = {}, isFetching } = useListWebhooksQuery({
+  const { data: { body: webhooks, headers } = {}, isFetching } = useListRepoWebhooksQuery({
     repo_ref: repoRef,
     queryParams: { order: 'asc', page, query }
   })
 
   const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '')
 
-  const { mutate: deleteWebhook } = useDeleteWebhookMutation(
+  const { mutate: deleteWebhook } = useDeleteRepoWebhookMutation(
     { repo_ref: repoRef, webhook_identifier: 0 },
     {
       onSuccess: () => {

@@ -7,7 +7,11 @@ import {
   TriggerEventsEnum
 } from '@harnessio/views'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useCreateWebhookMutation, useGetWebhookQuery, useUpdateWebhookMutation } from '@harnessio/code-service-client'
+import {
+  useCreateRepoWebhookMutation,
+  useGetRepoWebhookQuery,
+  useUpdateRepoWebhookMutation
+} from '@harnessio/code-service-client'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 export const CreateWebhookContainer = () => {
   const repo_ref = useGetRepoRef()
@@ -20,7 +24,7 @@ export const CreateWebhookContainer = () => {
     mutate: createWebHook,
     isLoading: creatingWebHook,
     error: createWebHookError
-  } = useCreateWebhookMutation(
+  } = useCreateRepoWebhookMutation(
     { repo_ref: repo_ref },
     {
       onSuccess: () => {
@@ -33,7 +37,7 @@ export const CreateWebhookContainer = () => {
     mutate: updateWebHook,
     isLoading: updatingWebHook,
     error: updateWebhookError
-  } = useUpdateWebhookMutation(
+  } = useUpdateRepoWebhookMutation(
     { repo_ref: repo_ref, webhook_identifier: Number(webhookId) },
     {
       onSuccess: () => {
@@ -42,7 +46,7 @@ export const CreateWebhookContainer = () => {
     }
   )
 
-  useGetWebhookQuery(
+  useGetRepoWebhookQuery(
     {
       repo_ref,
       webhook_identifier: Number(webhookId)

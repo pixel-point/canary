@@ -13,7 +13,8 @@ const PullRequestLayout: React.FC = () => {
   const prId = (pullRequestId && Number(pullRequestId)) || -1
   const { data: { body: pullRequestData } = {}, isFetching } = useGetPullReqQuery({
     repo_ref: repoRef,
-    pullreq_number: prId
+    pullreq_number: prId,
+    queryParams: {}
   })
 
   useEffect(() => {
