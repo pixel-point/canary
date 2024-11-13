@@ -33,15 +33,15 @@ export interface AppRoutes {
 
 export const routes: AppRoutes = {
   toPullRequest: ({ spaceId, repoId, pullRequestId }: PullRequestRoutePathParams) =>
-    `${spaceId}/repos/${repoId}/pull-requests/${pullRequestId}`,
+    `spaces/${spaceId}/repos/${repoId}/pull-requests/${pullRequestId}`,
   toPullRequestConversation: ({ spaceId, repoId, pullRequestId }: PullRequestRoutePathParams) =>
-    `${spaceId}/repos/${repoId}/pull-requests/${pullRequestId}/conversation`,
+    `spaces/${spaceId}/repos/${repoId}/pull-requests/${pullRequestId}/conversation`,
   toPullRequestCommits: ({ spaceId, repoId, pullRequestId }: PullRequestRoutePathParams) =>
-    `${spaceId}/repos/${repoId}/pull-requests/${pullRequestId}/commits`,
+    `spaces/${spaceId}/repos/${repoId}/pull-requests/${pullRequestId}/commits`,
   toPullRequestChanges: ({ spaceId, repoId, pullRequestId }: PullRequestRoutePathParams) =>
-    `${spaceId}/repos/${repoId}/pull-requests/${pullRequestId}/changes`,
+    `spaces/${spaceId}/repos/${repoId}/pull-requests/${pullRequestId}/changes`,
   toPullRequestChecks: ({ spaceId, repoId, pullRequestId }: PullRequestRoutePathParams) =>
-    `${spaceId}/repos/${repoId}/pull-requests/${pullRequestId}/checks`,
+    `spaces/${spaceId}/repos/${repoId}/pull-requests/${pullRequestId}/checks`,
   toPullRequestCompare({ spaceId, repoId, diffRefs }) {
     const basePath = `${spaceId}/repos/${repoId}/pull-requests/compare`
     const diffPath = diffRefs ? diffRefs : ''
