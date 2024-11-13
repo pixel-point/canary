@@ -26,14 +26,20 @@ interface PullRequestProps {
 interface PageProps {
   pullRequests?: PullRequestProps[]
   LinkComponent: React.ComponentType<{ to: string; children: React.ReactNode }>
+  closed_prs?: number
+  open_prs?: number
 }
 
 const HeaderTitle = ({
   setHeaderFilter,
-  headerFilter
+  headerFilter,
+  closed_prs,
+  open_prs
 }: {
   setHeaderFilter: (state: string) => void
   headerFilter: string
+  closed_prs?: number
+  open_prs?: number
 }) => {
   return (
     <div className="flex gap-4 items-center">
@@ -52,7 +58,7 @@ const HeaderTitle = ({
           })}
           size={2}
           truncate>
-          122 Open
+          {open_prs} Open
         </Text>
       </div>
       <div
@@ -69,7 +75,7 @@ const HeaderTitle = ({
           })}
           size={2}
           truncate>
-          8,128 Closed
+          {closed_prs} Closed
         </Text>
       </div>
     </div>
@@ -193,7 +199,7 @@ const Comments = ({ comments }: { comments: number }) => {
   )
 }
 
-export function PullRequestList({ pullRequests, LinkComponent }: PageProps) {
+export function PullRequestList({ pullRequests, LinkComponent, open_prs, closed_prs }: PageProps) {
   const [headerFilter, setHeaderFilter] = useState('open')
   const filteredData = useMemo(
     () =>
@@ -210,7 +216,14 @@ export function PullRequestList({ pullRequests, LinkComponent }: PageProps) {
         <StackedList.Root>
           <StackedList.Item isHeader disableHover>
             <StackedList.Field
-              title={<HeaderTitle headerFilter={headerFilter} setHeaderFilter={setHeaderFilter} />}></StackedList.Field>
+              title={
+                <HeaderTitle
+                  headerFilter={headerFilter}
+                  setHeaderFilter={setHeaderFilter}
+                  open_prs={open_prs}
+                  closed_prs={closed_prs}
+                />
+              }></StackedList.Field>
           </StackedList.Item>
           {filteredData?.map((pullRequest, pullRequest_idx) => (
             <LinkComponent to={pullRequest.number?.toString() || ''}>

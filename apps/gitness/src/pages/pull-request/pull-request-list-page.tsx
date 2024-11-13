@@ -10,7 +10,12 @@ import {
   NoSearchResults,
   SandboxLayout
 } from '@harnessio/views'
-import { ListPullReqQueryQueryParams, TypesPullReq, useListPullReqQuery } from '@harnessio/code-service-client'
+import {
+  ListPullReqQueryQueryParams,
+  TypesPullReq,
+  useListPullReqQuery,
+  useFindRepositoryQuery
+} from '@harnessio/code-service-client'
 import { timeAgoFromEpochTime } from '../pipeline-edit/utils/time-utils'
 import { DropdownItemProps } from '../../../../../packages/canary/dist/components/list-actions'
 import { PathParams } from '../../RouteDefinitions'
@@ -42,6 +47,10 @@ export default function PullRequestListPage() {
     repo_ref: repoRef,
     queryParams: { page, query, sort }
   })
+
+  const { data: { body: repoMetadata } = {} } = useFindRepositoryQuery({ repo_ref: repoRef })
+
+  console.log(repoMetadata)
 
   const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '')
 
@@ -96,6 +105,8 @@ export default function PullRequestListPage() {
             color: colorArr[index % colorArr.length]
           }))
         }))}
+        closed_prs={repoMetadata?.num_closed_pulls}
+        open_prs={repoMetadata?.num_open_pulls}
       />
     )
   }
