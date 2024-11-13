@@ -1,5 +1,7 @@
 import * as React from 'react'
 import ChevronDown from '../icons/chevron-down.svg'
+import ChevronRight from '../icons/chevron-right.svg'
+import ChevronUp from '../icons/chevron-up.svg'
 import Archive from '../icons/repositories-icon.svg'
 import Harness from '../icons/harness.svg'
 import Pipelines from '../icons/pipelines-icon.svg'
@@ -94,10 +96,22 @@ import GreenTick from '../icons/green-tick-nobg.svg'
 import CancelGrey from '../icons/cancel-grey.svg'
 import HarnessLogoText from '../icons/harness-logo-text.svg'
 import Account from '../icons/account.svg'
+import InfoCircle from '../icons/info-circle.svg'
+import Download from '../icons/download.svg'
+import Clock from '../icons/clock.svg'
+import FilterList from '../icons/filter-list.svg'
+import Play from '../icons/play-solid.svg'
 // import Fork from '../icons/fork.svg'
 
 const IconNameMap = {
   'chevron-down': ChevronDown,
+  'chevron-right': ChevronRight,
+  'chevron-up': ChevronUp,
+  'filter-list': FilterList,
+  'info-circle': InfoCircle,
+  play: Play,
+  download: Download,
+  clock: Clock,
   archive: Archive,
   harness: Harness,
   pipelines: Pipelines,

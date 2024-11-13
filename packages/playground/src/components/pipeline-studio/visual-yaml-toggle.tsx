@@ -1,6 +1,5 @@
 import React from 'react'
-import { ToggleGroup, ToggleGroupItem } from '@harnessio/canary'
-import { XmarkCircle } from '@harnessio/icons-noir'
+import { ToggleGroup, ToggleGroupItem, Icon } from '@harnessio/canary'
 
 export type VisualYamlValue = 'visual' | 'yaml'
 
@@ -27,7 +26,7 @@ export const VisualYamlToggle = (props: VisualYamlToggleProps): JSX.Element => {
         disabled={!isYamlValid}
         value={'visual'}
         className="h-7 border border-transparent text-xs font-medium data-[state=on]:border-primary/10 rounded-md disabled:opacity-100">
-        {!isYamlValid && <XmarkCircle className="mr-1 text-destructive" />}
+        {!isYamlValid && <Icon name="x-mark" className="mr-1 text-destructive" />}
         Visual
       </ToggleGroupItem>
       <ToggleGroupItem

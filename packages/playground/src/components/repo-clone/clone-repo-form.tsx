@@ -5,7 +5,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { FormFieldSet } from '../../index'
 import { CopyButton } from '../copy-button'
-import { InfoCircle } from '@harnessio/icons-noir'
 
 const cloneRepoFormSchema = z.object({
   httpsUrl: z.string(),
@@ -54,7 +53,7 @@ export const CloneRepoForm: React.FC<CloneRepoFormProps> = ({ httpsUrl, sshUrl, 
                   Generate Clone Credential
                 </Button>
                 <div className="flex items-center">
-                  <InfoCircle size="15" className="text-tertiary-background" />
+                  <Icon name="x-mark" size="15" className="text-tertiary-background" />
                   <Text size={1} className="text-tertiary-background ml-1">
                     Please generate a clone credential if its your first time.
                   </Text>

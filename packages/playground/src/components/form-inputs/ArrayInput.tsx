@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react'
 import { Controller, useFieldArray } from '@harnessio/forms'
-import { Button, FormField, FormItem } from '@harnessio/canary'
-import { Plus, Trash } from '@harnessio/icons-noir'
+import { Button, FormField, FormItem, Icon } from '@harnessio/canary'
 import { InputType } from './types'
 import { InputComponent, InputProps } from '@harnessio/forms'
 import { AnyFormikValue, IInputDefinition } from '@harnessio/forms'
@@ -64,7 +63,7 @@ function ArrayInputInternal(props: InputProps<AnyFormikValue, ArrayInputConfig>)
                               remove(idx)
                             }}
                             disabled={readonly}>
-                            <Trash />
+                            <Icon name="x-mark" />
                           </button>
                         </div>
                       </div>

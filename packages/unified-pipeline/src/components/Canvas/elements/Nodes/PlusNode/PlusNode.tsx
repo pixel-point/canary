@@ -1,7 +1,7 @@
 import React from 'react'
 import { Handle, NodeProps, Position, useReactFlow } from 'reactflow'
 import { capitalize } from 'lodash-es'
-import { Plus } from '@harnessio/icons-noir'
+import { Icon } from '@harnessio/canary'
 import type { DefaultNodeProps } from '../../../types'
 import { DEFAULT_NODE_LOCATION } from '../../../utils/LROrientation/Constants'
 import { useCanvasStore } from '../../../../../framework/CanvasStore/CanvasStoreContext'
@@ -40,7 +40,7 @@ export default function PlusNode({ data, xPos, yPos, zIndex }: NodeProps<PlusNod
     <>
       <Handle position={targetPosition} type="target" />
       <div className="w-5 h-5 rounded-full flex justify-center items-center border border-studio-4/[0.6] bg-studio-1">
-        <Plus className="hover:cursor-pointer" />
+        <Icon name="plus" className="hover:cursor-pointer" />
       </div>
       {enableDiagnostics?.Node && (
         <span className="text-red text-sm">{getNodeDiagnostics({ xPos, yPos, zIndex })}</span>

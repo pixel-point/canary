@@ -12,7 +12,6 @@ Welcome to the Harness Canary monorepo! This repository contains multiple projec
 - [@harnessio/svg-icon](./packages/svg-icon) - a small library to render SVG in a web component.
 - [@harnessio/svg-icons-react](./packages/svg-icon-react/) - a React binding library for [svg-icon](./libs/svg-icon).
 - [@harnessio/svg-icons-cli](./packages/svg-icon-cli/) - CLI commands to generate icon components from raw svg icons set.
-- [@harnessio/icons-noir](./packages/icons-noir/) - Noir icon set React components generated from [Iconoir](https://iconoir.com/).
 - [@harnessio/canary](./packages/canary/) - Harness Canary UI components library built on top of [Radix UI](https://www.radix-ui.com/) and [ShadCN UI](https://ui.shadcn.com/).
 - [@harnessio/unified-pipeline](./packages/unified-pipeline/) - Harness Unified Pipeline library.
 
@@ -47,16 +46,6 @@ pnpm build
 ```
 
 Or you can build individual project by running `pnpm run build` from each project folder root folder.
-
-## StoryBook
-
-To bring up Canary StoryBook locally, run:
-
-```sh
-pnpm dev
-```
-
-Note: `pnpm build` needs to be run before `pnpm dev` to ensure all packages are built.
 
 ## Publishing
 

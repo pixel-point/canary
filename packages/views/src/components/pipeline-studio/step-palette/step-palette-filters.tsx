@@ -1,6 +1,5 @@
 import React from 'react'
-import { Button, Toggle } from '@harnessio/canary'
-import { Xmark, FilterList } from '@harnessio/icons-noir'
+import { Button, Toggle, Icon } from '@harnessio/canary'
 
 const StepPaletteFiltersLayout = {
   Root: function Content({ children }: { children: React.ReactNode }) {
@@ -12,11 +11,11 @@ const StepPaletteFilters = (): JSX.Element => {
   return (
     <StepPaletteFiltersLayout.Root>
       <Button variant={'outline'} className="font-normal">
-        <FilterList className="mr-2" />
+        <Icon name="filter-list" className="mr-2" />
         Filters
       </Button>
       <Toggle variant={'outline'} className="text-muted-foreground data-[state=on]:text-muted-foreground font-normal">
-        Recommended <Xmark className="ml-2" />
+        Recommended <Icon name="x-mark" className="ml-2" />
       </Toggle>
     </StepPaletteFiltersLayout.Root>
   )

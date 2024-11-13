@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { XmarkCircle, WarningTriangle, InfoCircle, CheckCircle } from '@harnessio/icons-noir'
+import { Icon } from '@harnessio/canary'
 
 export type ProblemSeverity = 'error' | 'warning' | 'info'
 
@@ -16,11 +16,11 @@ export interface Problem<T = unknown> {
 const getProblemIcon = (severity: ProblemSeverity): React.ReactElement => {
   switch (severity) {
     case 'error':
-      return <XmarkCircle className="text-destructive-foreground" />
+      return <Icon name="x-mark" className="text-destructive-foreground" />
     case 'warning':
-      return <WarningTriangle className="text-orange" />
+      return <Icon name="x-mark" className="text-orange" />
     case 'info':
-      return <InfoCircle />
+      return <Icon name="x-mark" />
   }
 }
 

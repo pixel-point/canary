@@ -11,7 +11,6 @@ import {
 } from '@harnessio/canary'
 
 import { isEmpty } from 'lodash-es'
-import { WarningTriangleSolid, Clock, ChatBubble } from '@harnessio/icons-noir'
 import { EnumCheckStatus, TypesPullReqCheck } from '../interfaces'
 import { ExecutionState } from '../../execution/types'
 import { timeDistance } from '../../../utils/utils'
@@ -34,12 +33,12 @@ const PullRequestCheckSection = ({ checkData, checksInfo, spaceId, repoId }: Pul
       // TODO: fix icons to use from nucleo
       case ExecutionState.PENDING:
       case ExecutionState.BLOCKED:
-        return <Clock />
+        return <Icon name="clock" />
       case ExecutionState.RUNNING:
-        return <ChatBubble className="text-warning" />
+        return <Icon name="comments" className="text-warning" />
       case ExecutionState.FAILURE:
       case ExecutionState.ERROR:
-        return <WarningTriangleSolid className="text-destructive" />
+        return <Icon name="triangle-warning" className="text-destructive" />
       default:
         return <Icon name="success" className="text-success" />
     }

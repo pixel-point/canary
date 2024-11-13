@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react'
 import { Controller, useFieldArray } from '@harnessio/forms'
-import { Button, FormField, FormItem } from '@harnessio/canary'
-import { Plus, Trash } from '@harnessio/icons-noir'
+import { Button, FormField, FormItem, Icon } from '@harnessio/canary'
 import { InputType } from './types'
 import { InputComponent, InputProps } from '@harnessio/forms'
 import { AnyFormikValue, IInputDefinition } from '@harnessio/forms'
@@ -64,7 +63,7 @@ function ArrayInputInternal(props: InputProps<AnyFormikValue, ArrayInputConfig>)
                               remove(idx)
                             }}
                             disabled={readonly}>
-                            <Trash />
+                            <Icon name="trash" />
                           </button>
                         </div>
                       </div>
@@ -72,7 +71,7 @@ function ArrayInputInternal(props: InputProps<AnyFormikValue, ArrayInputConfig>)
                   </div>
                   <div>
                     <Button size="sm" onClick={() => append(input.default ?? undefined)} className="mt-2">
-                      Add <Plus />
+                      Add <Icon name="plus" />
                     </Button>
                   </div>
                 </div>

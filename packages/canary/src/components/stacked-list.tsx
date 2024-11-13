@@ -3,7 +3,7 @@ import { Slot, Slottable } from '@radix-ui/react-slot'
 
 import { cn } from '@/lib/utils'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { NavArrowRight } from '@harnessio/icons-noir'
+import { Icon } from './icon'
 
 const listItemVariants = cva(
   'p-2 align-middle flex flex-row flex-1 gap-1 px-4 py-3 border-b flex-wrap justify-start items-center',
@@ -94,7 +94,7 @@ const ListItem = ({
       {thumbnail && <div className="mr-2 flex items-center">{thumbnail}</div>}
       <Slottable>{children}</Slottable>
       {actions && <div className="ml-2 flex items-center">{actions}</div>}
-      <NavArrowRight className="hidden" strokeWidth="1.5" />
+      <Icon name="chevron-right" className="hidden" />
     </Comp>
   )
 }

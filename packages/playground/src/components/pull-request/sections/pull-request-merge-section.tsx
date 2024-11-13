@@ -1,5 +1,4 @@
 import { AccordionContent, AccordionItem, AccordionTrigger, Icon, StackedList, Text } from '@harnessio/canary'
-import { Clock, WarningTriangleSolid } from '@harnessio/icons-noir'
 import React from 'react'
 import { LineTitle, LineDescription } from '../pull-request-line-title'
 import { isEmpty } from 'lodash-es'
@@ -35,13 +34,13 @@ const PullRequestMergeSection = ({
               icon={
                 unchecked ? (
                   // TODO: update icon for unchecked status
-                  <Clock className="text-warning" />
+                  <Icon name="x-mark" className="text-warning" />
                 ) : (
                   <>
                     {mergeable ? (
                       <Icon name="success" className="text-success" />
                     ) : (
-                      <WarningTriangleSolid className="text-destructive" />
+                      <Icon name="x-mark" className="text-destructive" />
                     )}
                   </>
                 )

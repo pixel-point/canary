@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { Tabs, TabsContent, TabsList, TabsTrigger, Button, Text, ScrollArea, SearchBox } from '@harnessio/canary'
-import { Copy, Edit, Download } from '@harnessio/icons-noir'
+import { Tabs, TabsContent, TabsList, TabsTrigger, Button, Text, ScrollArea, SearchBox, Icon } from '@harnessio/canary'
 import ConsoleLogs from './console-logs'
 import { Layout } from '../layout/layout'
 import { ExecutionStatus } from './execution-status'
@@ -48,17 +47,17 @@ const StepExecutionToolbar: React.FC<
       />
       <div className="flex">
         <Button variant="outline" size="icon" className="rounded-tr-none rounded-br-none border-r-0" onClick={onCopy}>
-          <Copy className="h-4 w-4" />
+          <Icon name="clone" className="h-4 w-4" />
         </Button>
         <Button variant="outline" size="icon" className="rounded-none" onClick={onEdit}>
-          <Edit className="h-4 w-4" />
+          <Icon name="edit-pen" className="h-4 w-4" />
         </Button>
         <Button
           variant="outline"
           size="icon"
           className="rounded-tl-none rounded-bl-none border-l-0"
           onClick={onDownload}>
-          <Download className="h-4 w-4" />
+          <Icon name="download" className="h-4 w-4" />
         </Button>
       </div>
     </Layout.Horizontal>

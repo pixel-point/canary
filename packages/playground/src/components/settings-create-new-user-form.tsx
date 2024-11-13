@@ -2,10 +2,9 @@ import React from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, ButtonGroup, Input, Spacer, Text } from '@harnessio/canary'
+import { Button, ButtonGroup, Input, Spacer, Text, Icon } from '@harnessio/canary'
 import { SandboxLayout, FormFieldSet } from '..'
 import { MessageTheme } from './form-field-set'
-import { InfoCircle } from '@harnessio/icons-noir'
 import { useNavigate } from 'react-router-dom'
 
 const newUserSchema = z.object({
@@ -63,7 +62,7 @@ function SettingsCreateNewUserForm({
                 <FormFieldSet.Label htmlFor="memberName" required>
                   User ID
                 </FormFieldSet.Label>
-                <InfoCircle size="15" className="text-tertiary-background ml-3" />
+                <Icon name="x-mark" className="text-tertiary-background ml-3" />
                 <Text size={1} className="text-tertiary-background ml-1">
                   User ID cannot be changed once created
                 </Text>

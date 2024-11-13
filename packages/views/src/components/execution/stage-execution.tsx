@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
-import { Button, Text } from '@harnessio/canary'
-import { NavArrowDown, NavArrowRight, NavArrowUp } from '@harnessio/icons-noir'
+import { Button, Text, Icon } from '@harnessio/canary'
 import { StepExecution, StepProps } from './step-execution'
 import { Layout } from '../layout/layout'
 import { LivelogLine } from './types'
@@ -50,7 +49,7 @@ const StepNavigation: React.FC<StepNavigationProps> = ({
           { ['cursor-not-allowed']: disableUp }
         )}>
         <div>
-          <NavArrowUp color="white" />
+          <Icon name="chevron-up" />
         </div>
       </Button>
 
@@ -65,7 +64,7 @@ const StepNavigation: React.FC<StepNavigationProps> = ({
           { ['cursor-not-allowed']: disableDown }
         )}>
         <div>
-          <NavArrowDown color="white" />
+          <Icon name="chevron-down" />
         </div>
       </Button>
     </Layout.Horizontal>
@@ -122,7 +121,7 @@ export const StageExecution: React.FC<StageExecutionProps> = ({
         {stage?.group ? (
           <Layout.Horizontal gap="space-x-1" className="flex items-center">
             <Text className="text-stage text-sm">{stage.group}</Text>
-            <NavArrowRight />
+            <Icon name="chevron-right" />
             <Text className="text-ring text-sm">{stage.name}</Text>
           </Layout.Horizontal>
         ) : (

@@ -1,7 +1,6 @@
 import { ScrollArea } from '@radix-ui/react-scroll-area'
 import { cn } from '../lib/utils'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
-import { NavArrowRight, NavArrowDown } from '@harnessio/icons-noir'
 import { Icon as CanaryIcon } from '../components/icon'
 import React, { createContext, forwardRef, useCallback, useContext, useEffect, useState } from 'react'
 
@@ -228,8 +227,8 @@ const Folder = forwardRef<HTMLDivElement, FolderProps & React.HTMLAttributes<HTM
           onClick={() => handleExpand(value)}>
           <div className="mt-1 pt-1">
             {expendedItems?.includes(value)
-              ? (openIcon ?? <NavArrowDown className="h-4 w-4" size="12" />)
-              : (closeIcon ?? <NavArrowRight className="h-4 w-4" size="12" />)}
+              ? (openIcon ?? <CanaryIcon name="chevron-down" className="h-4 w-4" height={12} />)
+              : (closeIcon ?? <CanaryIcon name="chevron-right" className="h-4 w-4" height={12} />)}
           </div>
           <div className="flex items-baseline justify-between w-full mt-1 mr-1">
             <div className="flex items-baseline">

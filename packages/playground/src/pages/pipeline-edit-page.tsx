@@ -14,10 +14,10 @@ import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger
+  TabsTrigger,
+  Icon
 } from '@harnessio/canary'
 import { type InlineAction } from '@harnessio/yaml-editor'
-import { ArrowLeft, Box, Search, Xmark } from '@harnessio/icons-noir'
 import { YamlEditor, MonacoGlobals } from '@harnessio/yaml-editor'
 import {
   RenderForm,
@@ -150,7 +150,7 @@ const PipelineStudioPanel = (): JSX.Element => {
         </TabsList>
         <div>
           <Button onClick={() => {}} variant="ghost" size="sm" className="m-1 px-2">
-            <Xmark />
+            <Icon name="x-mark" />
           </Button>
         </div>
       </div>
@@ -225,7 +225,7 @@ const StepPalettePanel = (): JSX.Element => {
       <StepsPalette.Header>
         {/* <StepBreadcrumb title="Deploy to Dev" subTitle="Add Step" /> */}
         <StepsPalette.Title>Add Step</StepsPalette.Title>
-        <Input placeholder="Search" left={<Search />} />
+        <Input placeholder="Search" left={<Icon name="x-mark" />} />
         <StepPaletteFilters />
       </StepsPalette.Header>
       <StepsPaletteContent.Root>
@@ -239,7 +239,7 @@ const StepPalettePanel = (): JSX.Element => {
               <StepsPaletteContent.SectionItem key={item.identifier}>
                 <StepsPaletteItem.Root onClick={() => {}}>
                   <StepsPaletteItem.Left>
-                    <Box size="36" />
+                    <Icon name="x-mark" />
                   </StepsPaletteItem.Left>
                   <StepsPaletteItem.Right>
                     <StepsPaletteItem.Header>

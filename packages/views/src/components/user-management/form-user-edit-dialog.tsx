@@ -17,7 +17,6 @@ import { z } from 'zod'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormFieldSet, MessageTheme } from '../..'
-import { InfoCircle } from '@harnessio/icons-noir'
 import { FormEditDialogProps } from './interfaces'
 
 export const FormUserEditDialog: React.FC<FormEditDialogProps> = ({
@@ -73,7 +72,7 @@ export const FormUserEditDialog: React.FC<FormEditDialogProps> = ({
             <FormFieldSet.ControlGroup>
               <FormFieldSet.Label className="flex content-center items-center" htmlFor="userID" required>
                 <Text className="font-normal text-primary/80">User ID</Text>
-                <InfoCircle size="15" className="text-tertiary-background ml-3" />
+                <Icon name="info-circle" height={15} className="text-tertiary-background ml-3" />
                 <Text size={1} className="text-tertiary-background ml-1">
                   User ID cannot be changed once created
                 </Text>

@@ -1,5 +1,4 @@
 import React from 'react'
-import { Xmark } from '@harnessio/icons-noir' // TODO: Lose these!
 import { Icon as CanaryIcon } from '@harnessio/canary'
 import { ExecutionState } from './types'
 
@@ -58,7 +57,7 @@ const Badge: React.FC<ExecutionStatusProps & BadgeProps> = props => {
       ) : (
         <div className="flex gap-1 items-center border-solid border border-[#F76E6E1F] px-1 py-0.5 rounded-md bg-[#F76E6E1A]/[0.1]">
           <div className="flex gap-0.5 items-center">
-            <Xmark color="#ED5E5E" size="20" />
+            <CanaryIcon name="fail" width={20} />
             <span className="text-[#ED5E5E]">Failed</span>
           </div>
           {duration && <span className="text-[#ED5E5E]">{duration}</span>}

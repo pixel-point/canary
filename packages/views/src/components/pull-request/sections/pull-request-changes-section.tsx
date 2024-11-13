@@ -1,4 +1,3 @@
-import { CheckCircleSolid } from '@harnessio/icons-noir'
 import React from 'react'
 import {
   AccordionContent,
@@ -174,7 +173,7 @@ const PullRequestChangesSection = ({
     if (latestCodeOwnerApprovalArr && latestCodeOwnerApprovalArr?.length > 0 && reqCodeOwnerLatestApproval) {
       return (
         <Text className="flex ml-2">
-          <CheckCircleSolid className="text-success" />
+          <Icon name="success" className="text-success" />
           <Text className="pl-2 text-xs">{`Latest changes were approved by code owners`}</Text>
         </Text>
       )
@@ -182,7 +181,7 @@ const PullRequestChangesSection = ({
     if (codeOwnerApprovalEntries && codeOwnerApprovalEntries?.length > 0 && reqCodeOwnerApproval) {
       return (
         <Text className="flex ml-2">
-          <CheckCircleSolid className="text-success" />
+          <Icon name="success" className="text-success" />
           <Text className="pl-2 text-xs">{`Changes were approved by code owners`}</Text>
         </Text>
       )
@@ -244,7 +243,7 @@ const PullRequestChangesSection = ({
               <div className="flex pt-2 border-t mt-3 ml-2 items-center justify-between">
                 {approvedEvaluations && minApproval && minApproval <= approvedEvaluations?.length ? (
                   <Text className="flex ml-2">
-                    <CheckCircleSolid className="text-success" />
+                    <Icon name="success" className="text-success" />
                     <Text className="pl-2 text-xs">
                       {`Changes were approved by ${approvedEvaluations?.length} ${pluralize('reviewers', approvedEvaluations?.length)}`}
                     </Text>
@@ -271,7 +270,7 @@ const PullRequestChangesSection = ({
                 minReqLatestApproval !== undefined &&
                 minReqLatestApproval <= latestApprovalArr?.length ? (
                   <Text className="flex ml-2">
-                    <CheckCircleSolid className="text-success" />
+                    <Icon name="success" className="text-success" />
                     <Text className="pl-2 text-xs">{`Latest changes were approved by ${latestApprovalArr?.length || minReqLatestApproval || ''} ${pluralize('reviewer', latestApprovalArr?.length || minReqLatestApproval)}`}</Text>
                   </Text>
                 ) : (

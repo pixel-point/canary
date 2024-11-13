@@ -49,7 +49,6 @@
     "@git-diff-view/shiki": "^0.0.16",
     "@harnessio/canary": "workspace:*",
     "@harnessio/forms": "workspace:*",
-    "@harnessio/icons-noir": "workspace:*",
     "@harnessio/unified-pipeline": "workspace:*",
     "@harnessio/yaml-editor": "workspace:*",
     "@hookform/resolvers": "^3.6.0",

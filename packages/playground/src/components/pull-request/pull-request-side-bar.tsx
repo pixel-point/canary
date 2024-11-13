@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import { CheckCircleSolid, WarningTriangleSolid, Clock, ChatBubbleQuestionSolid } from '@harnessio/icons-noir'
 import {
   Button,
   Avatar,
@@ -115,13 +114,13 @@ const PullRequestSideBar = (props: PullRequestSideBarProps) => {
         <div className="flex-grow"></div>
 
         {updatedReviewDecision === PullReqReviewDecision.outdated ? (
-          <ChatBubbleQuestionSolid className="text-warning" />
+          <Icon name="x-mark" className="text-warning" />
         ) : updatedReviewDecision === PullReqReviewDecision.approved ? (
-          <CheckCircleSolid className="text-success" />
+          <Icon name="x-mark" className="text-success" />
         ) : updatedReviewDecision === PullReqReviewDecision.changeReq ? (
-          <WarningTriangleSolid className="text-destructive" />
+          <Icon name="x-mark" className="text-destructive" />
         ) : updatedReviewDecision === PullReqReviewDecision.pending ? (
-          <Clock />
+          <Icon name="x-mark" />
         ) : null}
         {moreActionsTooltip(reviewer)}
       </div>
