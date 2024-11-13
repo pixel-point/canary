@@ -20,6 +20,7 @@ import { Layout } from '../layout/layout'
 import { getPrState } from './utils'
 import { IconType } from './interfaces'
 import { timeAgo } from '../../utils/utils'
+import { Link } from 'react-router-dom'
 
 interface PullRequestTitleProps {
   data: {
@@ -33,11 +34,26 @@ interface PullRequestTitleProps {
     created?: number
     is_draft?: boolean
     state?: string
+    spaceId?: string
+    repoId?: string
   }
 }
 
 export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
-  data: { title, number, merged, author, stats, target_branch, source_branch, created, is_draft, state }
+  data: {
+    title,
+    number,
+    merged,
+    author,
+    stats,
+    target_branch,
+    source_branch,
+    created,
+    is_draft,
+    state,
+    spaceId,
+    repoId
+  }
 }) => {
   const [original] = useMemo(() => [title], [title])
 
@@ -74,14 +90,18 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
                   {stats?.commits} {stats?.commits === 1 ? 'commit' : 'commits'}
                 </span>
                 <span>into</span>
-                <Button variant="secondary" size="xs">
-                  <Icon name="branch" size={12} className="text-tertiary-background mr-1" />
-                  {target_branch}
+                <Button variant="secondary" size="xs" asChild>
+                  <Link to={`/spaces/${spaceId}/repos/${repoId}/code/${target_branch}`}>
+                    <Icon name="branch" size={12} className="text-tertiary-background mr-1" />
+                    {target_branch}
+                  </Link>
                 </Button>
                 <span>from</span>
-                <Button variant="secondary" size="xs">
-                  <Icon name="branch" size={12} className="text-tertiary-background mr-1" />
-                  {source_branch}
+                <Button asChild variant="secondary" size="xs">
+                  <Link to={`/spaces/${spaceId}/repos/${repoId}/code/${source_branch}`}>
+                    <Icon name="branch" size={12} className="text-tertiary-background mr-1" />
+                    {source_branch}
+                  </Link>
                 </Button>
                 <span>&nbsp;|&nbsp;</span>
                 <span className="time">{formattedTime}</span>

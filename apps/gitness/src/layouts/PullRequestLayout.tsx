@@ -8,7 +8,7 @@ import { PathParams } from '../RouteDefinitions'
 
 const PullRequestLayout: React.FC = () => {
   const [pullRequest, setPullRequest] = useState<TypesPullReq>()
-  const { pullRequestId } = useParams<PathParams>()
+  const { pullRequestId, spaceId, repoId } = useParams<PathParams>()
   const repoRef = useGetRepoRef()
   const prId = (pullRequestId && Number(pullRequestId)) || -1
   const { data: { body: pullRequestData } = {}, isFetching } = useGetPullReqQuery({
@@ -44,7 +44,9 @@ const PullRequestLayout: React.FC = () => {
                 source_branch: pullRequest?.source_branch,
                 created: pullRequest?.created,
                 is_draft: pullRequest?.is_draft,
-                state: pullRequest?.state
+                state: pullRequest?.state,
+                spaceId,
+                repoId
               }}
             />
           )}
