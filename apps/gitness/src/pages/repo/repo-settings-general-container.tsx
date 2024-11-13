@@ -33,7 +33,6 @@ import {
   useRuleListQuery,
   RuleListErrorResponse,
   useRuleDeleteMutation,
-  RuleDeleteOkResponse,
   RuleDeleteErrorResponse
 } from '@harnessio/code-service-client'
 import { useQueryClient } from '@tanstack/react-query'
@@ -150,31 +149,18 @@ export const RepoSettingsGeneralPageContainer = () => {
   } = useUpdateRepositoryMutation(
     { repo_ref: repoRef },
     {
-      onMutate: async newData => {
-        await queryClient.cancelQueries({ queryKey: ['findRepository', repoRef] })
-
-        const previousRepoData = repoData
-
-        // Optimistically update the description, mapping it to match repoData format
+      onSuccess: newData => {
+        setApiError(null)
         setRepoData(prevState => ({
           ...prevState,
           description: newData.body.description || ''
         }))
-
-        // Return the previous state for rollback if needed
-        return { previousRepoData }
       },
-      onError: (error: UpdateRepositoryErrorResponse, _data, context) => {
-        setRepoData(context.previousRepoData)
-
-        // Invalidate the query to refetch the data from the server
+      onError: (error: UpdateRepositoryErrorResponse) => {
         queryClient.invalidateQueries({ queryKey: ['findRepository', repoRef] })
 
         const message = error.message || 'Error updating repository description'
         setApiError({ type: ErrorTypes.DESCRIPTION_UPDATE, message })
-      },
-      onSuccess: () => {
-        setApiError(null)
       }
     }
   )
@@ -182,34 +168,19 @@ export const RepoSettingsGeneralPageContainer = () => {
   const { mutate: deleteRule, isLoading: isDeletingRule } = useRuleDeleteMutation(
     { repo_ref: repoRef }, // Assuming repoRef is available in your component
     {
-      onMutate: async variables => {
-        await queryClient.cancelQueries(['ruleList', repoRef])
-
-        const previousRulesData = rules
-
-        // Optimistically remove the rule from the list
+      onSuccess: (_data, variables) => {
         setRules(currentRules =>
           currentRules ? currentRules.filter(rule => rule.identifier !== variables.rule_identifier) : null
         )
         setIsRulesAlertDeleteDialogOpen(false)
-
-        // Return a context object with the previous rules data
-        return { previousRulesData }
+        setApiError(null)
       },
-      onError: (error: RuleDeleteErrorResponse, _variables, context) => {
-        // Rollback to previous state
-        if (context?.previousRulesData) {
-          setRules(context.previousRulesData)
-        }
-
+      onError: (error: RuleDeleteErrorResponse) => {
         // Invalidate queries to refetch data from server
         queryClient.invalidateQueries(['ruleList', repoRef])
 
         const message = error.message || 'Error deleting rule'
         setApiError({ type: ErrorTypes.DELETE_RULE, message })
-      },
-      onSuccess: (_data: RuleDeleteOkResponse) => {
-        setApiError(null)
       }
     }
   )
@@ -221,31 +192,19 @@ export const RepoSettingsGeneralPageContainer = () => {
   } = useUpdateDefaultBranchMutation(
     { repo_ref: repoRef },
     {
-      onMutate: async newData => {
-        await queryClient.cancelQueries({ queryKey: ['listBranches', repoRef] })
-
-        const previousRepoData = repoData
-
-        // Optimistically update the default branch
+      onSuccess: ({ body: newData }) => {
         setRepoData(prevState => ({
           ...prevState,
-          defaultBranch: newData.body.name || prevState.defaultBranch
+          defaultBranch: newData.identifier || prevState.defaultBranch
         }))
-
-        // Return the previous state for rollback if needed
-        return { previousRepoData }
+        setApiError(null)
       },
-      onError: (error: UpdateDefaultBranchErrorResponse, _data, context) => {
-        setRepoData(context.previousRepoData)
-
+      onError: (error: UpdateDefaultBranchErrorResponse) => {
         // Invalidate the query to refetch the data from the server
         queryClient.invalidateQueries({ queryKey: ['listBranches', repoRef] })
 
         const message = error.message || 'Error updating default branch'
         setApiError({ type: ErrorTypes.BRANCH_UPDATE, message })
-      },
-      onSuccess: () => {
-        setApiError(null)
       }
     }
   )
@@ -257,31 +216,19 @@ export const RepoSettingsGeneralPageContainer = () => {
   } = useUpdatePublicAccessMutation(
     { repo_ref: repoRef },
     {
-      onMutate: async newData => {
-        await queryClient.cancelQueries({ queryKey: ['findRepository', repoRef] })
-
-        const previousRepoData = repoData
-
-        // Optimistically update the public access
+      onSuccess: ({ body: newData }) => {
+        setApiError(null)
         setRepoData(prevState => ({
           ...prevState,
-          isPublic: newData.body.is_public !== undefined ? newData.body.is_public : prevState.isPublic
+          isPublic: newData.is_public !== undefined ? newData.is_public : prevState.isPublic
         }))
-
-        // Return the previous state for rollback if needed
-        return { previousRepoData }
       },
-      onError: (error: UpdatePublicAccessErrorResponse, _data, context) => {
-        setRepoData(context.previousRepoData)
-
+      onError: (error: UpdatePublicAccessErrorResponse) => {
         // Invalidate the query to refetch the data from the server
         queryClient.invalidateQueries({ queryKey: ['findRepository', repoRef] })
 
         const message = error.message || 'Error updating public access'
         setApiError({ type: ErrorTypes.UPDATE_ACCESS, message })
-      },
-      onSuccess: () => {
-        setApiError(null)
       }
     }
   )

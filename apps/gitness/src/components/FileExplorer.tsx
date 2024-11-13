@@ -152,7 +152,15 @@ export default function Explorer({ selectedBranch, repoDetails }: ExplorerProps)
     }
 
     return (
-      <FileExplorer.Root onValueChange={handleOpenFoldersChange} value={openFolderPaths}>
+      <FileExplorer.Root
+        onValueChange={value => {
+          if (typeof value === 'string') {
+            handleOpenFoldersChange([value])
+          } else {
+            handleOpenFoldersChange(value)
+          }
+        }}
+        value={openFolderPaths}>
         {contents && renderEntries(contents, folderPath)}
       </FileExplorer.Root>
     )
@@ -212,7 +220,15 @@ export default function Explorer({ selectedBranch, repoDetails }: ExplorerProps)
   })
 
   return (
-    <FileExplorer.Root onValueChange={handleOpenFoldersChange} value={openFolderPaths}>
+    <FileExplorer.Root
+      onValueChange={value => {
+        if (typeof value === 'string') {
+          handleOpenFoldersChange([value])
+        } else {
+          handleOpenFoldersChange(value)
+        }
+      }}
+      value={openFolderPaths}>
       {isRootLoading ? (
         <div>Loading...</div>
       ) : rootError ? (

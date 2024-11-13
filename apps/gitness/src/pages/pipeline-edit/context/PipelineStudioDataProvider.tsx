@@ -158,7 +158,6 @@ const PipelineStudioDataProvider = ({ children }: React.PropsWithChildren) => {
         setCurrentStepFormDefinition,
         fetchPipelineFileContent,
         setCurrentBranch,
-        //
         requestYamlModifications
       }}>
       {children}
