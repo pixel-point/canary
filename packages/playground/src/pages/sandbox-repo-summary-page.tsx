@@ -15,14 +15,13 @@ import {
 } from '@harnessio/canary'
 
 import { SandboxLayout } from '..'
-import { BranchSelector } from '../components/branch-selector'
+import { BranchSelector, type BranchSelectorBranchProps } from '../components/branch-selector'
 import { CloneRepoDialog } from '../components/repo-clone/clone-repo-dialog'
 import { FileProps, Summary } from '../components/repo-summary'
 import { RepoSummaryPanel } from '../components/repo-summary-panel'
 import { mockBranchData } from '../data/mockBranchData'
 import { mockFiles } from '../data/mockSummaryFiiles'
 import { PlaygroundSandboxLayoutSettings } from '../settings/sandbox-settings'
-import { BranchProps } from '../types/branch'
 
 // TODO: Move LAYOUT_STATES and LayoutState type to a shared location (e.g., types/layouts.ts)
 // since these states are used across multiple pages and should be managed in a single place
@@ -85,7 +84,9 @@ const mockBranchList = {
 
 function SandboxRepoSummaryPage() {
   const [loadState, setLoadState] = useState<LayoutState | string>(LAYOUT_STATES.float)
-  const [selectedBranch, setSelectedBranch] = useState<BranchProps | { name: string }>(mockBranchList.branches.items[0])
+  const [selectedBranch, setSelectedBranch] = useState<BranchSelectorBranchProps | { name: string }>(
+    mockBranchList.branches.items[0]
+  )
 
   return (
     <>
