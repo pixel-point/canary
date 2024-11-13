@@ -16,7 +16,7 @@ import {
   MergeCheckStatus,
   PullRequestState,
   TypesPullReq,
-  TypeCheckData,
+  TypesPullReqCheck,
   EnumCheckStatus,
   PullRequestChangesSectionProps,
   PullRequestAction,
@@ -36,7 +36,7 @@ interface PullRequestPanelProps extends PullRequestChangesSectionProps {
   pullReqMetadata: TypesPullReq | undefined
   conflictingFiles?: string[]
   PRStateLoading: boolean
-  checks?: TypeCheckData[]
+  checks?: TypesPullReqCheck[] | null
   ruleViolation?: boolean //TODO: fix type
   checksInfo: { header: string; content: string; status: EnumCheckStatus }
   commentsInfo: { header: string; content?: string | undefined; status: string }

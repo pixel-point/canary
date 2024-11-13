@@ -2,12 +2,12 @@ import React, { createContext, useContext, ReactNode, useCallback, useEffect, us
 import { isEqual } from 'lodash-es'
 import { useAtom, atom } from 'jotai'
 import {
-  ChecksPullReqOkResponse,
   ListCommitsOkResponse,
   mergePullReqOp,
   RepoRepositoryOutput,
   TypesPullReq,
   TypesPullReqActivity,
+  TypesPullReqChecks,
   TypesPullReqStats,
   TypesRuleViolations,
   useFindRepositoryQuery,
@@ -47,7 +47,7 @@ interface PullReqChecksDecisionProps {
     killed: number
   }
   error: unknown
-  data: ChecksPullReqOkResponse | undefined
+  data: TypesPullReqChecks | undefined
   color: string
   background: string
   message: string

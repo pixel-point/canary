@@ -6,7 +6,7 @@ import { isEmpty } from 'lodash-es'
 interface PullRequestMergeSectionProps {
   unchecked: boolean
   mergeable: boolean
-  pullReqMetadata: { target_branch?: string | undefined } | undefined
+  pullReqMetadata: { target_branch?: string | undefined } | undefined | null
   conflictingFiles?: string[]
 }
 const PullRequestMergeSection = ({

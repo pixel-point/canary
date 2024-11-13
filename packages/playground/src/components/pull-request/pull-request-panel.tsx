@@ -16,7 +16,7 @@ import {
   MergeCheckStatus,
   PullRequestState,
   TypesPullReq,
-  TypeCheckData,
+  TypesPullReqCheck,
   EnumCheckStatus,
   PullRequestChangesSectionProps,
   PullRequestAction,
@@ -33,10 +33,10 @@ import { Layout } from '../layout/layout'
 import { extractInfoFromRuleViolationArr } from './utils'
 
 interface PullRequestPanelProps extends PullRequestChangesSectionProps {
-  pullReqMetadata: TypesPullReq | undefined
+  pullReqMetadata: TypesPullReq | undefined | null
   conflictingFiles?: string[]
   PRStateLoading: boolean
-  checks?: TypeCheckData[]
+  checks?: TypesPullReqCheck[]
   ruleViolation?: boolean //TODO: fix type
   checksInfo: { header: string; content: string; status: EnumCheckStatus }
   commentsInfo: { header: string; content?: string | undefined; status: string }
@@ -63,7 +63,7 @@ interface HeaderProps {
   mergeable: boolean
   isOpen: boolean
   ruleViolation?: boolean
-  pullReqMetadata: TypesPullReq | undefined
+  pullReqMetadata: TypesPullReq | undefined | null
 }
 
 const HeaderTitle = ({ ...props }: HeaderProps) => {

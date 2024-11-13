@@ -12,7 +12,7 @@ import {
 
 import { isEmpty } from 'lodash-es'
 import { WarningTriangleSolid, Clock, ChatBubble } from '@harnessio/icons-noir'
-import { EnumCheckStatus, TypeCheckData } from '../interfaces'
+import { EnumCheckStatus, TypesPullReqCheck } from '../interfaces'
 import { ExecutionState } from '../../execution/types'
 import { timeDistance } from '../../../utils/utils'
 import { LineDescription, LineTitle } from '../pull-request-line-title'
@@ -22,7 +22,7 @@ interface ExecutionPayloadType {
   execution_number: number
 }
 interface PullRequestMergeSectionProps {
-  checkData: TypeCheckData[]
+  checkData: TypesPullReqCheck[]
   checksInfo: { header: string; content: string; status: EnumCheckStatus }
   spaceId?: string
   repoId?: string
@@ -59,23 +59,23 @@ const PullRequestCheckSection = ({ checkData, checksInfo, spaceId, repoId }: Pul
         </AccordionTrigger>
         <AccordionContent className={cn('pl-6 flex flex-col', { 'pb-0': checkData.length === 1 })}>
           {checkData.map(check => {
-            const time = timeDistance(check.check.created, check.check.updated)
+            const time = timeDistance(check?.check?.created, check?.check?.updated)
 
             return (
               <div className={cn('flex justify-between gap-2 items-center py-2.5 border-t')}>
                 <div className="flex items-center gap-2">
-                  {getStatusIcon(check.check.status as EnumCheckStatus)}
+                  {getStatusIcon(check?.check?.status as EnumCheckStatus)}
                   <Text size={1} color="primary" truncate className="max-w-[300px] overflow-hidden">
-                    {check.check.identifier}
+                    {check?.check?.identifier}
                   </Text>
                   <Text size={1} color="tertiaryBackground">
-                    {check.check.status === ExecutionState.SUCCESS
+                    {check?.check?.status === ExecutionState.SUCCESS
                       ? `Succeeded in ${time}`
-                      : check.check.status === ExecutionState.FAILURE
+                      : check?.check?.status === ExecutionState.FAILURE
                         ? `Failed in ${time}`
-                        : check.check.status === ExecutionState.RUNNING
+                        : check?.check?.status === ExecutionState.RUNNING
                           ? 'Running...'
-                          : check.check.status === ExecutionState.PENDING
+                          : check?.check?.status === ExecutionState.PENDING
                             ? 'Pending...'
                             : `Errored in ${time}`}
                   </Text>
@@ -90,12 +90,12 @@ const PullRequestCheckSection = ({ checkData, checksInfo, spaceId, repoId }: Pul
                   repoPath: repoMetadata.path as string,
                   pullRequestId: String(pullReqMetadata.number),
                   pullRequestSection: PullRequestSection.CHECKS
-                }) + `?uid=${check.check.identifier}`
+                }) + `?uid=${check?.check?.identifier}`
               }
             ></Link> */}
-                    {check.check.status !== ExecutionState.PENDING && (
+                    {check?.check?.status !== ExecutionState.PENDING && (
                       <Link
-                        to={`/${spaceId}/repos/${repoId}/pipelines/${check.check.identifier}/executions/${(check.check.payload?.data as ExecutionPayloadType).execution_number}`}
+                        to={`/${spaceId}/repos/${repoId}/pipelines/${check?.check?.identifier}/executions/${(check?.check?.payload?.data as ExecutionPayloadType).execution_number}`}
                         replace>
                         <Text size={1} color="tertiaryBackground">
                           Details
@@ -104,7 +104,7 @@ const PullRequestCheckSection = ({ checkData, checksInfo, spaceId, repoId }: Pul
                     )}
                   </div>
                   <div className="col-span-1 flex justify-end">
-                    {check.check.status === ExecutionState.PENDING ? (
+                    {check?.check?.status === ExecutionState.PENDING ? (
                       <Badge variant="outline" size="sm">
                         <Text size={1} color="tertiaryBackground">
                           Required
@@ -120,17 +120,17 @@ const PullRequestCheckSection = ({ checkData, checksInfo, spaceId, repoId }: Pul
             // return (
             //   <div key={check_idx} className="flex justify-between py-2 border-t">
             //     <div className="flex items-center">
-            //       {getStatusIcon(check.check.status as EnumCheckStatus)}
+            //       {getStatusIcon(check?.check?.status as EnumCheckStatus)}
 
-            //       <div className="truncate min-w-[200px] max-w-[200px] pl-3 pt-0.5"> {check.check.identifier}</div>
+            //       <div className="truncate min-w-[200px] max-w-[200px] pl-3 pt-0.5"> {check?.check?.identifier}</div>
             //       <div className="truncate max-w-[200px] pl-3 pt-0.5">
-            //         {check.check.status === ExecutionState.SUCCESS
+            //         {check?.check?.status === ExecutionState.SUCCESS
             //           ? `Succeeded in ${time}`
-            //           : check.check.status === ExecutionState.FAILURE
+            //           : check?.check?.status === ExecutionState.FAILURE
             //             ? `Failed in ${time}`
-            //             : check.check.status === ExecutionState.RUNNING
+            //             : check?.check?.status === ExecutionState.RUNNING
             //               ? 'Running...'
-            //               : check.check.status === ExecutionState.PENDING
+            //               : check?.check?.status === ExecutionState.PENDING
             //                 ? 'Pending...'
             //                 : `Errored in ${time}`}
             //       </div>
@@ -145,10 +145,10 @@ const PullRequestCheckSection = ({ checkData, checksInfo, spaceId, repoId }: Pul
             //       repoPath: repoMetadata.path as string,
             //       pullRequestId: String(pullReqMetadata.number),
             //       pullRequestSection: PullRequestSection.CHECKS
-            //     }) + `?uid=${check.check.identifier}`
+            //     }) + `?uid=${check?.check?.identifier}`
             //   }
             // ></Link> */}
-            //         {check.check.status !== ExecutionState.PENDING && (
+            //         {check?.check?.status !== ExecutionState.PENDING && (
             //           <Text weight="medium" size={1}>
             //             Details
             //           </Text>

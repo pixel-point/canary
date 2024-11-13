@@ -175,7 +175,7 @@ export interface TypesCheck {
   updated?: number
 }
 
-export interface TypeCheckData {
+export interface TypesPullReqCheck {
   bypassable: boolean
   required: boolean
   check: TypesCheck
@@ -370,6 +370,7 @@ export type EnumPullReqActivityType =
   | 'title-change'
   | 'reviewer-add'
   | 'label-modify'
+  | 'branch-restore'
 
 export type EnumPullReqActivityKind = 'change-comment' | 'comment' | 'system'
 export interface TypesPullReqActivityMetadata {

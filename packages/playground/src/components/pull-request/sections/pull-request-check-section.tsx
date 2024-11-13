@@ -12,7 +12,7 @@ import {
 
 import { isEmpty } from 'lodash-es'
 import { WarningTriangleSolid, Clock, ChatBubble } from '@harnessio/icons-noir'
-import { EnumCheckStatus, TypeCheckData } from '../interfaces'
+import { EnumCheckStatus, TypesPullReqCheck } from '../interfaces'
 import { ExecutionState } from '../../execution/types'
 import { timeDistance } from '../../../utils/utils'
 import { LineDescription, LineTitle } from '../pull-request-line-title'
@@ -22,7 +22,7 @@ interface ExecutionPayloadType {
   execution_number: number
 }
 interface PullRequestMergeSectionProps {
-  checkData: TypeCheckData[]
+  checkData: TypesPullReqCheck[]
   checksInfo: { header: string; content: string; status: EnumCheckStatus }
   spaceId?: string
   repoId?: string
