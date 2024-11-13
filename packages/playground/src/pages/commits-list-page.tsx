@@ -7,7 +7,7 @@ import { PaddingListLayout } from '../layouts/PaddingListLayout'
 import { PaginationComponent } from '../components/pagination'
 
 import { ListActions, Spacer, Text } from '@harnessio/canary'
-import { BranchSelector } from '../components/branch-selector'
+import { BranchSelector } from '../components/branch-selector/branch-selector'
 import { mockRepos } from '../data/mockReposData'
 import { Link } from 'react-router-dom'
 import { noop } from 'lodash-es'
