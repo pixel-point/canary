@@ -41,12 +41,12 @@ const StepExecutionToolbar: React.FC<
       <SearchBox.Root
         width="full"
         placeholder="Find in logs"
-        className="h-9 searchbox"
+        className="searchbox h-9"
         handleChange={handleInputChange}
         value={query}
       />
       <div className="flex">
-        <Button variant="outline" size="icon" className="rounded-tr-none rounded-br-none border-r-0" onClick={onCopy}>
+        <Button variant="outline" size="icon" className="rounded-br-none rounded-tr-none border-r-0" onClick={onCopy}>
           <Icon name="x-mark" className="h-4 w-4" />
         </Button>
         <Button variant="outline" size="icon" className="rounded-none" onClick={onEdit}>
@@ -55,7 +55,7 @@ const StepExecutionToolbar: React.FC<
         <Button
           variant="outline"
           size="icon"
-          className="rounded-tl-none rounded-bl-none border-l-0"
+          className="rounded-bl-none rounded-tl-none border-l-0"
           onClick={onDownload}>
           <Icon name="x-mark" className="h-4 w-4" />
         </Button>
@@ -65,7 +65,6 @@ const StepExecutionToolbar: React.FC<
 }
 
 export const StepExecution: React.FC<StepExecutionProps> = ({ step, logs, onEdit, onDownload, onCopy }) => {
-  if (!step) return null
   const inputTable = step?.inputs || []
   const outputTable = step?.outputs || []
   const [query, setQuery] = useState('')
@@ -73,16 +72,18 @@ export const StepExecution: React.FC<StepExecutionProps> = ({ step, logs, onEdit
     const value = event.target.value
     setQuery(value)
   }
+
+  if (!step) return null
   return (
     <Layout.Vertical>
-      <Layout.Horizontal className="flex justify-between items-center">
+      <Layout.Horizontal className="flex items-center justify-between">
         <Text className="text-lg">{step?.name}</Text>
         <ExecutionStatus.Badge
           status={step?.status}
           duration={getFormattedDuration(step?.started ?? 0, step?.stopped ?? 0)}
         />
       </Layout.Horizontal>
-      <Tabs defaultValue={StepExecutionTab.LOG} className="w-full h-full mt-2">
+      <Tabs defaultValue={StepExecutionTab.LOG} className="mt-2 h-full w-full">
         <Layout.Vertical gap="space-y-3">
           <Layout.Horizontal className="flex justify-between">
             <TabsList className="w-fit">

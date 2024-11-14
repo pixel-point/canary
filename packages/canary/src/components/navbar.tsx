@@ -12,7 +12,7 @@ function Root({ className, children }: NavbarRootProps) {
   return (
     <div
       className={cn(
-        'select-none grid grid-rows-[auto_1fr_auto] w-[220px] h-screen overflow-y-auto border-r border-border-background bg-primary-background',
+        'border-border-background bg-primary-background grid h-screen w-[220px] select-none grid-rows-[auto_1fr_auto] overflow-y-auto border-r',
         className
       )}>
       {children}
@@ -21,7 +21,7 @@ function Root({ className, children }: NavbarRootProps) {
 }
 
 function Header({ children }: { children: React.ReactNode }) {
-  return <div className="sticky top-0 bg-primary-background z-20 items-center grid">{children}</div>
+  return <div className="bg-primary-background sticky top-0 z-20 grid items-center">{children}</div>
 }
 
 function Content({ children }: { children: React.ReactNode }) {
@@ -31,12 +31,12 @@ function Content({ children }: { children: React.ReactNode }) {
 function Group({ children, title, topBorder }: { children: React.ReactNode; title?: string; topBorder?: boolean }) {
   return (
     <div
-      className={cn('w-full overflow-x-hidden px-5 pb-3.5 flex flex-col gap-1.5', {
-        'border-t border-border-background pt-5': topBorder
+      className={cn('flex w-full flex-col gap-1.5 overflow-x-hidden px-5 pb-3.5', {
+        'border-border-background border-t pt-5': topBorder
       })}>
       {title && (
-        <div className="group text-primary opacity-40 mb-2">
-          <p className="text-xs font-normal group-hover:text-primary ease-in-out duration-150">{title}</p>
+        <div className="text-primary group mb-2 opacity-40">
+          <p className="group-hover:text-primary text-xs font-normal duration-150 ease-in-out">{title}</p>
         </div>
       )}
       {children}
@@ -55,13 +55,13 @@ function AccordionGroup({
 }) {
   return (
     <div
-      className={cn('w-full overflow-x-hidden p-5 py-0.5 border-t border-border-background', {
+      className={cn('border-border-background w-full overflow-x-hidden border-t p-5 py-0.5', {
         'border-t-0 pt-0': topBorder
       })}>
       <Accordion type="single" collapsible defaultValue="item-1">
         <AccordionItem value="item-1" className="border-none">
-          <AccordionTrigger className="group text-primary opacity-40">
-            <p className="text-xs font-normal group-hover:text-primary ease-in-out duration-150">{title}</p>
+          <AccordionTrigger className="text-primary group opacity-40">
+            <p className="group-hover:text-primary text-xs font-normal duration-150 ease-in-out">{title}</p>
           </AccordionTrigger>
           <AccordionContent className="flex flex-col gap-1.5">{children}</AccordionContent>
         </AccordionItem>
@@ -85,30 +85,30 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
     return (
       <div
         className={cn(
-          'group relative grid grid-cols-[auto_1fr] gap-3 items-center cursor-pointer group select-none py-1',
+          'group relative grid cursor-pointer select-none grid-cols-[auto_1fr] items-center gap-3 py-1',
           { 'gap-0': !icon },
           className
         )}>
         <div
           className={cn(
-            'absolute -left-2 -right-2 w-auto h-full bg-transparent group-hover:bg-primary/5 rounded-md z-0',
+            'group-hover:bg-primary/5 absolute -left-2 -right-2 z-0 h-full w-auto rounded-md bg-transparent',
             { 'bg-primary/5': active }
           )}
         />
         <div
           className={cn(
-            'flex z-10 col-start-1 row-span-full items-center text-secondary-muted group-hover:text-primary ease-in-out duration-0 truncate',
+            'text-secondary-muted group-hover:text-primary z-10 col-start-1 row-span-full flex items-center truncate duration-0 ease-in-out',
             { 'text-primary': active }
           )}>
-          {icon ? <div className="rounded-md bg-tertiary">{icon}</div> : <div />}
+          {icon ? <div className="bg-tertiary rounded-md">{icon}</div> : <div />}
         </div>
-        <div className="flex flex-col items-start col-start-2">
+        <div className="col-start-2 flex flex-col items-start">
           <Text
             size={2}
             truncate
             weight="medium"
             className={cn(
-              '-tracking-[0.02em] text-primary-muted group-hover:text-primary ease-in-out duration-0 truncate z-10',
+              'text-primary-muted group-hover:text-primary z-10 truncate -tracking-[0.02em] duration-0 ease-in-out',
               {
                 'text-primary': active
               }
@@ -120,7 +120,7 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
             truncate
             color="tertiaryBackground"
             className={cn(
-              '-tracking-[0.02em] opacity-60 group-hover:opacity-100 group-hover:text-primary/80 ease-in-out duration-0 truncate z-10',
+              'group-hover:text-primary/80 z-10 truncate -tracking-[0.02em] opacity-60 duration-0 ease-in-out group-hover:opacity-100',
               {
                 'text-primary': active
               }
@@ -133,15 +133,11 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
 
   return (
     <div
-      className={cn(
-        'group flex gap-2.5 items-center cursor-pointer group select-none py-1',
-        { 'gap-0': !icon },
-        className
-      )}>
+      className={cn('group flex cursor-pointer select-none items-center gap-2.5 py-1', { 'gap-0': !icon }, className)}>
       {icon && (
         <div
           className={cn(
-            'w-3 min-w-3 flex z-10 items-center text-secondary-muted group-hover:text-primary ease-in-out duration-100 truncate',
+            'text-secondary-muted group-hover:text-primary z-10 flex w-3 min-w-3 items-center truncate duration-100 ease-in-out',
             { 'text-primary': active }
           )}>
           {icon}
@@ -151,7 +147,7 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
         size={2}
         weight="medium"
         className={cn(
-          '-tracking-[0.02em] text-primary-muted group-hover:text-primary ease-in-out duration-100 truncate z-10',
+          'text-primary-muted group-hover:text-primary z-10 truncate -tracking-[0.02em] duration-100 ease-in-out',
           {
             'text-primary': active
           }
@@ -164,7 +160,7 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
 
 function Footer({ children }: { children: React.ReactNode }) {
   return (
-    <div className="sticky bottom-0 bg-primary-background z-20 grid px-5 h-[76px] items-center border-t border-border-background">
+    <div className="bg-primary-background border-border-background sticky bottom-0 z-20 grid h-[76px] items-center border-t px-5">
       {children}
     </div>
   )

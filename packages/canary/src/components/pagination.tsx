@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { cn } from '@/lib/utils'
-import { ButtonProps, buttonVariants } from '@/components/button'
+import type { ButtonProps } from '@/components/button'
+import { buttonVariants } from '@/components/button'
 import { Icon } from './icon'
 
 const Pagination = ({ className, ...props }: React.ComponentProps<'nav'>) => (
@@ -33,6 +34,7 @@ type PaginationLinkProps = {
   React.ComponentProps<'a'>
 
 const PaginationLink = ({ className, isActive, size, ...props }: PaginationLinkProps) => (
+  // eslint-disable-next-line jsx-a11y/anchor-has-content
   <a
     aria-current={isActive ? 'page' : undefined}
     className={cn(
@@ -41,7 +43,7 @@ const PaginationLink = ({ className, isActive, size, ...props }: PaginationLinkP
         size: size ? size : 'sm_icon',
         borderRadius: 'full'
       }),
-      'text-[12px] font-normal min-w-7 px-1.5 w-auto',
+      'w-auto min-w-7 px-1.5 text-[12px] font-normal',
       { 'bg-primary/15': isActive },
       className
     )}
@@ -55,12 +57,12 @@ const PaginationPrevious = ({ disabled, className, ...props }: React.ComponentPr
     aria-label="Go to previous page"
     size="default"
     className={cn(
-      'gap-1.5 pl-2.5 text-sm font-normal bg-transparent, cursor-pointer',
-      { 'text-tertiary-background cursor-default opacity-40 hover:bg-transparent pointer-events-none': disabled },
+      'bg-transparent, cursor-pointer gap-1.5 pl-2.5 text-sm font-normal',
+      { 'text-tertiary-background pointer-events-none cursor-default opacity-40 hover:bg-transparent': disabled },
       className
     )}
     {...props}>
-    <Icon name="arrow-long" size={12} className="rotate-180 text-tertiary-background" />
+    <Icon name="arrow-long" size={12} className="text-tertiary-background rotate-180" />
     <span>Previous</span>
   </PaginationLink>
 )
@@ -71,8 +73,8 @@ const PaginationNext = ({ disabled, className, ...props }: React.ComponentProps<
     aria-label="Go to next page"
     size="default"
     className={cn(
-      'gap-1.5 pr-2.5 text-sm font-normal bg-transparent, cursor-pointer',
-      { 'text-tertiary-background cursor-default opacity-40 hover:bg-transparent pointer-events-none': disabled },
+      'bg-transparent, cursor-pointer gap-1.5 pr-2.5 text-sm font-normal',
+      { 'text-tertiary-background pointer-events-none cursor-default opacity-40 hover:bg-transparent': disabled },
       className
     )}
     {...props}>
@@ -85,9 +87,9 @@ PaginationNext.displayName = 'PaginationNext'
 const PaginationEllipsis = ({ className, ...props }: React.ComponentProps<'span'>) => (
   <span
     aria-hidden
-    className={cn('flex h-7 w-7 items-center justify-center text-sm font-normal bg-tertiary rounded-full', className)}
+    className={cn('bg-tertiary flex h-7 w-7 items-center justify-center rounded-full text-sm font-normal', className)}
     {...props}>
-    <DotsHorizontalIcon className="h-4 w-4" />
+    <DotsHorizontalIcon className="size-4" />
     <span className="sr-only">More pages</span>
   </span>
 )

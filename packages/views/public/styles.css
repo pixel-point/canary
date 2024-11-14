@@ -274,7 +274,6 @@
 }
 
 .react-flow__panel {
-  left: auto !important;
   right: 0px !important;
   display: flex !important;
 }
@@ -1679,13 +1678,18 @@ body {
   inset: 0px;
 }
 
-.inset-\[1px\] {
+.inset-px {
   inset: 1px;
 }
 
 .inset-x-0 {
   left: 0px;
   right: 0px;
+}
+
+.inset-x-auto {
+  left: auto;
+  right: auto;
 }
 
 .inset-y-0 {
@@ -1761,10 +1765,6 @@ body {
   left: 50%;
 }
 
-.left-auto {
-  left: auto;
-}
-
 .left-full {
   left: 100%;
 }
@@ -1787,10 +1787,6 @@ body {
 
 .right-4 {
   right: 1rem;
-}
-
-.right-auto {
-  right: auto;
 }
 
 .right-full {
@@ -1817,10 +1813,6 @@ body {
   top: 1rem;
 }
 
-.top-\[1px\] {
-  top: 1px;
-}
-
 .top-\[50\%\] {
   top: 50%;
 }
@@ -1831,6 +1823,10 @@ body {
 
 .top-full {
   top: 100%;
+}
+
+.top-px {
+  top: 1px;
 }
 
 .z-0 {
@@ -2053,6 +2049,46 @@ body {
   aspect-ratio: 1 / 1;
 }
 
+.size-2 {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+.size-2\.5 {
+  width: 0.625rem;
+  height: 0.625rem;
+}
+
+.size-3 {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.size-3\.5 {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.size-4 {
+  width: 1rem;
+  height: 1rem;
+}
+
+.size-7 {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.size-9 {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.size-\[4px\] {
+  width: 4px;
+  height: 4px;
+}
+
 .size-full {
   width: 100%;
   height: 100%;
@@ -2084,14 +2120,6 @@ body {
 
 .h-2\.5 {
   height: 0.625rem;
-}
-
-.h-3 {
-  height: 0.75rem;
-}
-
-.h-3\.5 {
-  height: 0.875rem;
 }
 
 .h-4 {
@@ -2144,10 +2172,6 @@ body {
 
 .h-\[44px\] {
   height: 44px;
-}
-
-.h-\[4px\] {
-  height: 4px;
 }
 
 .h-\[55px\] {
@@ -2222,10 +2246,6 @@ body {
   width: 0.75rem;
 }
 
-.w-3\.5 {
-  width: 0.875rem;
-}
-
 .w-3\/4 {
   width: 75%;
 }
@@ -2284,10 +2304,6 @@ body {
 
 .w-\[220px\] {
   width: 220px;
-}
-
-.w-\[4px\] {
-  width: 4px;
 }
 
 .w-\[5px\] {
@@ -2827,16 +2843,8 @@ body {
   border-top-right-radius: 0.375rem;
 }
 
-.rounded-tl-md {
-  border-top-left-radius: 0.375rem;
-}
-
 .rounded-tl-sm {
   border-top-left-radius: 0.125rem;
-}
-
-.rounded-tr-md {
-  border-top-right-radius: 0.375rem;
 }
 
 .border {
@@ -5556,12 +5564,9 @@ body {
   padding-right: 0.5rem;
 }
 
-.\[\&_\[cmdk-input-wrapper\]_svg\]\:h-5 [cmdk-input-wrapper] svg {
-  height: 1.25rem;
-}
-
-.\[\&_\[cmdk-input-wrapper\]_svg\]\:w-5 [cmdk-input-wrapper] svg {
+.\[\&_\[cmdk-input-wrapper\]_svg\]\:size-5 [cmdk-input-wrapper] svg {
   width: 1.25rem;
+  height: 1.25rem;
 }
 
 .\[\&_\[cmdk-input\]\]\:h-12 [cmdk-input] {
@@ -5578,12 +5583,9 @@ body {
   padding-bottom: 0.75rem;
 }
 
-.\[\&_\[cmdk-item\]_svg\]\:h-5 [cmdk-item] svg {
-  height: 1.25rem;
-}
-
-.\[\&_\[cmdk-item\]_svg\]\:w-5 [cmdk-item] svg {
+.\[\&_\[cmdk-item\]_svg\]\:size-5 [cmdk-item] svg {
   width: 1.25rem;
+  height: 1.25rem;
 }
 
 .\[\&_p\]\:leading-relaxed p {
@@ -6813,13 +6815,18 @@ body{
   inset: 0px;
 }
 
-.inset-\[1px\]{
+.inset-px{
   inset: 1px;
 }
 
 .inset-x-0{
   left: 0px;
   right: 0px;
+}
+
+.inset-x-auto{
+  left: auto;
+  right: auto;
 }
 
 .inset-y-0{
@@ -6899,10 +6906,6 @@ body{
   left: 50%;
 }
 
-.left-auto{
-  left: auto;
-}
-
 .left-full{
   left: 100%;
 }
@@ -6925,10 +6928,6 @@ body{
 
 .right-4{
   right: 1rem;
-}
-
-.right-auto{
-  right: auto;
 }
 
 .right-full{
@@ -6959,10 +6958,6 @@ body{
   top: 100px;
 }
 
-.top-\[1px\]{
-  top: 1px;
-}
-
 .top-\[45px\]{
   top: 45px;
 }
@@ -6981,6 +6976,10 @@ body{
 
 .top-full{
   top: 100%;
+}
+
+.top-px{
+  top: 1px;
 }
 
 .z-0{
@@ -7354,6 +7353,46 @@ body{
   aspect-ratio: 1 / 1;
 }
 
+.size-2{
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+.size-2\.5{
+  width: 0.625rem;
+  height: 0.625rem;
+}
+
+.size-3{
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.size-3\.5{
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.size-4{
+  width: 1rem;
+  height: 1rem;
+}
+
+.size-7{
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.size-9{
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.size-\[4px\]{
+  width: 4px;
+  height: 4px;
+}
+
 .size-full{
   width: 100%;
   height: 100%;
@@ -7389,14 +7428,6 @@ body{
 
 .h-2\.5{
   height: 0.625rem;
-}
-
-.h-3{
-  height: 0.75rem;
-}
-
-.h-3\.5{
-  height: 0.875rem;
 }
 
 .h-4{
@@ -7457,10 +7488,6 @@ body{
 
 .h-\[45px\]{
   height: 45px;
-}
-
-.h-\[4px\]{
-  height: 4px;
 }
 
 .h-\[55px\]{
@@ -7600,10 +7627,6 @@ body{
   width: 0.75rem;
 }
 
-.w-3\.5{
-  width: 0.875rem;
-}
-
 .w-3\/4{
   width: 75%;
 }
@@ -7706,10 +7729,6 @@ body{
 
 .w-\[337px\]{
   width: 337px;
-}
-
-.w-\[4px\]{
-  width: 4px;
 }
 
 .w-\[50\%\]{
@@ -8551,20 +8570,12 @@ body{
   border-bottom-right-radius: 0px;
 }
 
-.rounded-tl-md{
-  border-top-left-radius: 0.375rem;
-}
-
 .rounded-tl-none{
   border-top-left-radius: 0px;
 }
 
 .rounded-tl-sm{
   border-top-left-radius: 0.125rem;
-}
-
-.rounded-tr-md{
-  border-top-right-radius: 0.375rem;
 }
 
 .rounded-tr-none{
@@ -11975,12 +11986,9 @@ mark {
   padding-right: 0.5rem;
 }
 
-.\[\&_\[cmdk-input-wrapper\]_svg\]\:h-5 [cmdk-input-wrapper] svg{
-  height: 1.25rem;
-}
-
-.\[\&_\[cmdk-input-wrapper\]_svg\]\:w-5 [cmdk-input-wrapper] svg{
+.\[\&_\[cmdk-input-wrapper\]_svg\]\:size-5 [cmdk-input-wrapper] svg{
   width: 1.25rem;
+  height: 1.25rem;
 }
 
 .\[\&_\[cmdk-input\]\]\:h-12 [cmdk-input]{
@@ -11997,12 +12005,9 @@ mark {
   padding-bottom: 0.75rem;
 }
 
-.\[\&_\[cmdk-item\]_svg\]\:h-5 [cmdk-item] svg{
-  height: 1.25rem;
-}
-
-.\[\&_\[cmdk-item\]_svg\]\:w-5 [cmdk-item] svg{
+.\[\&_\[cmdk-item\]_svg\]\:size-5 [cmdk-item] svg{
   width: 1.25rem;
+  height: 1.25rem;
 }
 
 .\[\&_p\]\:leading-relaxed p{

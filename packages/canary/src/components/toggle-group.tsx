@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as ToggleGroupPrimitive from '@radix-ui/react-toggle-group'
-import { VariantProps, cva } from 'class-variance-authority'
+import type { VariantProps } from 'class-variance-authority'
+import { cva } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 import { toggleVariants } from '@/components/toggle'
 
@@ -9,7 +10,7 @@ const toggleGroupVariants = cva('flex items-center justify-center gap-1', {
     variant: {
       default: '',
       outline: '',
-      compact: 'border rounded-md gap-0 divide-x'
+      compact: 'gap-0 divide-x rounded-md border'
     }
   },
   defaultVariants: {

@@ -1,0 +1,62 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:@typescript-eslint/recommended",
+
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+
+    "plugin:jsx-a11y/recommended",
+
+    "plugin:tailwindcss/recommended",
+    "prettier"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "typescript": true,
+      "node": true
+    }
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint", "tailwindcss", "react", "react-hooks", "import", "prettier"],
+  "rules": {
+    "tailwindcss/classnames-order": "warn",
+    "tailwindcss/no-contradicting-classname": "error",
+    "import/no-unresolved": "off",
+    "react/prop-types": "warn",
+    "react/react-in-jsx-scope": "off",
+
+    "tailwindcss/no-custom-classname": "off",
+    "import/default": "off",
+    "jsx-a11y/anchor-is-valid": "warn",
+    "jsx-a11y/click-events-have-key-events": "warn",
+    "jsx-a11y/no-static-element-interactions": "warn",
+    "jsx-a11y/no-autofocus": "warn",
+    "@typescript-eslint/consistent-type-imports": "warn",
+    "jsx-a11y/tabindex-no-positive": "warn",
+    "react/jsx-key": "warn",
+    "react/no-unescaped-entities": "warn",
+    "react/display-name": "warn",
+    "@typescript-eslint/no-unused-vars": "warn"
+  },
+  "ignorePatterns": ["**/dist/**"]
+}

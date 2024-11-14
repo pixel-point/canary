@@ -18,22 +18,22 @@ interface DropdownProps {
 }
 
 function Root({ children }: { children: React.ReactNode }) {
-  return <div className="flex items-center gap-6 justify-between">{children}</div>
+  return <div className="flex items-center justify-between gap-6">{children}</div>
 }
 
 function Left({ children }: { children: React.ReactNode }) {
-  return <div className="flex flex-grow gap-6 items-center">{children}</div>
+  return <div className="flex grow items-center gap-6">{children}</div>
 }
 
 function Right({ children }: { children: React.ReactNode }) {
-  return <div className="flex gap-6 items-center">{children}</div>
+  return <div className="flex items-center gap-6">{children}</div>
 }
 
 function Dropdown({ title, items, onChange, selectedValue }: DropdownProps) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center text-tertiary-background gap-1.5 hover:text-primary cursor-pointer ease-in-out duration-100">
-        {selectedValue && <span className="h-[4px] w-[4px] bg-primary rounded-full"></span>}
+      <DropdownMenuTrigger className="text-tertiary-background hover:text-primary flex cursor-pointer items-center gap-1.5 duration-100 ease-in-out">
+        {selectedValue && <span className="bg-primary size-[4px] rounded-full"></span>}
         <Text
           size={2}
           className={cn('text-primary/80', {
@@ -48,7 +48,7 @@ function Dropdown({ title, items, onChange, selectedValue }: DropdownProps) {
           {items.map((i, i_idx) => {
             return (
               <DropdownMenuItem className="cursor-pointer" onClick={() => onChange?.(i.value ?? i.name)} key={i_idx}>
-                <div className="w-4 mr-1">{Boolean(i.value) && selectedValue === i.value ? <CheckIcon /> : null}</div>
+                <div className="mr-1 w-4">{Boolean(i.value) && selectedValue === i.value ? <CheckIcon /> : null}</div>
                 {i.name}
               </DropdownMenuItem>
             )

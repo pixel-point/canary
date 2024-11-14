@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Input, Text } from '@harnessio/canary'
+import { Button, Icon, Input, Text } from '@harnessio/canary'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -53,7 +53,7 @@ export const CloneRepoForm: React.FC<CloneRepoFormProps> = ({ httpsUrl, sshUrl, 
                   Generate Clone Credential
                 </Button>
                 <div className="flex items-center">
-                  <Icon name="x-mark" size="15" className="text-tertiary-background" />
+                  <Icon name="x-mark" size={15} className="text-tertiary-background" />
                   <Text size={1} className="text-tertiary-background ml-1">
                     Please generate a clone credential if its your first time.
                   </Text>

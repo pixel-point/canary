@@ -77,9 +77,9 @@ function Root({ children, highlightTop = '#4786B8', highlightBottom = '#AD79D2',
   }, [])
 
   return (
-    <div className={cn('w-full h-full relative overflow-hidden flex place-content-center items-center', className)}>
-      <canvas ref={canvasRef} width="100%" height="100%" className="absolute inset-0 h-full w-full contrast-110" />
-      <div className="absolute z-10 inset-0 w-full h-full bg-black opacity-50" />
+    <div className={cn('relative flex h-full w-full place-content-center items-center overflow-hidden', className)}>
+      <canvas ref={canvasRef} width="100%" height="100%" className="contrast-110 absolute inset-0 size-full" />
+      <div className="absolute inset-0 z-10 size-full bg-black opacity-50" />
       {children}
     </div>
   )
@@ -91,7 +91,7 @@ interface ContentProps {
 }
 
 function Content({ children, className }: ContentProps) {
-  return <div className={cn('flex flex-col justify-center z-10 max-w-96 p-8', className)}>{children}</div>
+  return <div className={cn('z-10 flex max-w-96 flex-col justify-center p-8', className)}>{children}</div>
 }
 
 export { Root, Content }

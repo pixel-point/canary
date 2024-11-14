@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react'
+import { Plus } from 'lucide-react'
 import { Controller, useFieldArray } from '@harnessio/forms'
 import { Button, FormField, FormItem, Icon } from '@harnessio/canary'
 import { InputType } from './types'

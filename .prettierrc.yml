@@ -8,3 +8,4 @@ trailingComma: none
 bracketSpacing: true
 bracketSameLine: true
 arrowParens: avoid
+plugins: ['prettier-plugin-tailwindcss']

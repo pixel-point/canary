@@ -51,6 +51,7 @@ import { StepsPaletteItem } from '../components/pipeline-studio/step-palette/ste
 import { stepPaletteItems } from '../assets/stepPaletteItems'
 import { inputComponentFactory } from '../components/form-inputs/factory/factory'
 import { runStepFormDefinition } from '../components/steps/run-step'
+import { ArrowLeft } from 'lucide-react'
 
 MonacoGlobals.set({
   ILanguageFeaturesService,
@@ -118,7 +119,7 @@ const PipelineStudioToolbar = ({
   setView: (view: VisualYamlValue) => void
 }) => {
   return (
-    <Topbar.Root className={cx({ ['border-b-0 px-8 bg-transparent']: view === 'visual' })}>
+    <Topbar.Root className={cx({ ['border-b-0 bg-transparent px-8']: view === 'visual' })}>
       <Topbar.Left>
         <VisualYamlToggle view={view} setView={setView} isYamlValid={true} />
       </Topbar.Left>
@@ -141,10 +142,10 @@ const PipelineStudioPanel = (): JSX.Element => {
   return (
     <Tabs defaultValue="problems" variant="underline" className="h-full">
       <div className="flex flex-row justify-between border-b">
-        <TabsList className="bg-transparent ml-4">
+        <TabsList className="ml-4 bg-transparent">
           <TabsTrigger value="problems">
             Problems
-            <Badge className="rounded-full font-normal text-xs p-2 h-5 ml-2 bg-red-950 text-red-400">8</Badge>
+            <Badge className="ml-2 h-5 rounded-full bg-red-950 p-2 text-xs font-normal text-red-400">8</Badge>
           </TabsTrigger>
           {/* <TabsTrigger value="suggestions">Suggestions</TabsTrigger> */}
         </TabsList>
@@ -154,7 +155,7 @@ const PipelineStudioPanel = (): JSX.Element => {
           </Button>
         </div>
       </div>
-      <TabsContent value="problems" className="overflow-scroll h-full py-2">
+      <TabsContent value="problems" className="h-full overflow-scroll py-2">
         <Problems onClick={() => {}} problems={problemsMock} />
       </TabsContent>
       {/* <TabsContent value="suggestions">Suggestions placeholder</TabsContent> */}
@@ -163,6 +164,8 @@ const PipelineStudioPanel = (): JSX.Element => {
 }
 
 const StepFormPanel = (): JSX.Element => {
+  // Srdjan please fix this
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const formResolver = useMemo(() => useZodValidationResolver(runStepFormDefinition), [runStepFormDefinition])
 
   return (
@@ -183,7 +186,7 @@ const StepFormPanel = (): JSX.Element => {
           <StepForm.Header>
             {/* {<StepBreadcrumb title="Deploy to Dev" subTitle="Run" />} */}
             <StepForm.Title>
-              <Button className="px-2 mr-2" size="sm" variant="ghost" onClick={() => {}}>
+              <Button className="mr-2 px-2" size="sm" variant="ghost" onClick={() => {}}>
                 <ArrowLeft />
               </Button>
               Run Step

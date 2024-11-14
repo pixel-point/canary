@@ -5,27 +5,27 @@ import { cn } from '@/lib/utils'
 import { CanaryOutletFactory, CanaryOutletName } from '@/lib/CanaryOutletFactory'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-[4px] text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50 disabled:cursor-not-allowed',
+  'focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap rounded-[4px] text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50',
   {
     variants: {
       variant: {
-        default: 'bg-primary text-primary-foreground shadow hover:bg-primary/90',
-        destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
-        outline: 'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
-        secondary: 'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
-        tertiary: 'bg-tertiary text-secondary-foreground shadow-sm hover:bg-tertiary/80',
+        default: 'bg-primary text-primary-foreground hover:bg-primary/90 shadow',
+        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm',
+        outline: 'border-input bg-background hover:bg-accent hover:text-accent-foreground border shadow-sm',
+        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm',
+        tertiary: 'bg-tertiary text-secondary-foreground hover:bg-tertiary/80 shadow-sm',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
-        split: 'border flex items-center gap-1.5 p-0',
+        split: 'flex items-center gap-1.5 border p-0',
         'gradient-border': 'bg-background hover:bg-accent text-primary hover:text-accent-foreground'
       },
       size: {
         default: 'h-9 px-4 py-2',
         sm: 'h-8 px-3 py-0 text-sm font-normal',
-        xs: 'h-auto py-0.5 px-1.5 text-xs font-normal',
+        xs: 'h-auto px-1.5 py-0.5 text-xs font-normal',
         lg: 'h-10 px-8',
-        icon: 'h-9 w-9',
-        sm_icon: 'h-7 w-7',
+        icon: 'size-9',
+        sm_icon: 'size-7',
         xs_split: 'h-auto p-0 text-xs font-medium'
       },
       borderRadius: {
@@ -142,7 +142,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}>
         {variant === 'split' && dropdown ? (
           <>
-            <div className="flex pl-2.5 pr-1 py-0.5 items-center">{_children}</div>
+            <div className="flex items-center py-0.5 pl-2.5 pr-1">{_children}</div>
             {dropdown}
           </>
         ) : (

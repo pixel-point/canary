@@ -32,7 +32,7 @@ const headingVariants = cva('text-base', {
       both: ''
     },
     truncate: {
-      true: 'truncate text-ellipsis text-nowrap'
+      true: 'truncate text-nowrap'
     },
     weight: {
       normal: 'font-normal',

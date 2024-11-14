@@ -10,7 +10,7 @@ function Root({ className, children }: NodeGroupRootProps) {
   return (
     <div
       className={cn(
-        'relative grid items-center grid-cols-[26px_1fr] grid-rows-[auto_1fr] gap-x-3 gap-y-2 pb-8',
+        'relative grid grid-cols-[26px_1fr] grid-rows-[auto_1fr] items-center gap-x-3 gap-y-2 pb-8',
         className
       )}>
       {children}
@@ -31,12 +31,12 @@ function Icon({
     <div className="col-start-1 row-start-1 self-start">
       <div
         className={cn(
-          'relative z-20 h-6 w-6 rounded-full flex place-content-center place-items-center p-1 border border-tertiary-background/30 bg-background text-primary',
-          { 'border-none bg-transprent': simpleNodeIcon },
+          'border-tertiary-background/30 bg-background text-primary relative z-20 flex h-6 w-6 place-content-center place-items-center rounded-full border p-1',
+          { 'bg-transprent border-none': simpleNodeIcon },
           className
         )}>
         {simpleNodeIcon ? (
-          <div className="w-[4px] h-[4px] bg-primary rounded-[1px] shadow-sm shadow-primary/10" />
+          <div className="bg-primary shadow-primary/10 size-[4px] rounded-[1px] shadow-sm" />
         ) : (
           <>{children}</>
         )}
@@ -48,7 +48,7 @@ function Icon({
 function Title({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
     <div className="col-start-2 row-start-1">
-      <div className={cn('inline-flex gap-1.5 items-center', className)}>{children}</div>
+      <div className={cn('inline-flex items-center gap-1.5', className)}>{children}</div>
     </div>
   )
 }
@@ -61,7 +61,7 @@ function Connector({ first, last }: { first?: boolean; last?: boolean }) {
   return (
     <div
       className={cn(
-        'z-10 absolute left-[12px] top-0 bottom-0 w-[1px] border-l',
+        'absolute bottom-0 left-[12px] top-0 z-10 w-[1px] border-l',
         { 'top-3': first },
         { 'bottom-8': last }
       )}

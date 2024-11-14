@@ -70,8 +70,8 @@ function Root({ children, box, shaded, className }: RootProps) {
   return (
     <fieldset
       className={cn(
-        'flex flex-col gap-6 mb-8',
-        { 'border rounded-md px-5 py-3.5 pb-5': box, 'bg-primary/[0.02]': shaded },
+        'mb-8 flex flex-col gap-6',
+        { 'rounded-md border px-5 py-3.5 pb-5': box, 'bg-primary/[0.02]': shaded },
         className
       )}
       role="group"
@@ -83,7 +83,7 @@ function Root({ children, box, shaded, className }: RootProps) {
 
 function Legend({ children, className }: CompProps) {
   return (
-    <Text size={3} weight={'medium'} className={cn('mb-0', className)} as="p" role="legend">
+    <Text size={3} weight={'medium'} className={cn('mb-0', className)} as="p" role="heading">
       {children}
     </Text>
   )
@@ -107,9 +107,9 @@ function Item({ children, className }: CompProps) {
 
 function Label({ htmlFor, required, children, className }: LabelProps) {
   return (
-    <ShadLabel htmlFor={htmlFor} variant="sm" className={cn('font-normal text-primary/80', className)}>
+    <ShadLabel htmlFor={htmlFor} variant="sm" className={cn('text-primary/80 font-normal', className)}>
       {children}
-      {required && <span className="pl-0.5 align-top text-destructive">*</span>}
+      {required && <span className="text-destructive pl-0.5 align-top">*</span>}
     </ShadLabel>
   )
 }
@@ -149,7 +149,8 @@ function Message({ children, theme, className }: MessageProps) {
 
 function Option({ control, id, label, description, className }: OptionProps) {
   return (
-    <div className={cn('flex gap-x-4 items-start mt-2', className)} role="option" aria-labelledby={`${id}-label`}>
+    // eslint-disable-next-line jsx-a11y/role-has-required-aria-props
+    <div className={cn('mt-2 flex items-start gap-x-4', className)} role="option" aria-labelledby={`${id}-label`}>
       <div className="mt-0.5">{control}</div>
       <div className="flex flex-col gap-0">
         <Label htmlFor={id} className="font-medium">

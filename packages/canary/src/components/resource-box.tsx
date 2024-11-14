@@ -1,14 +1,15 @@
 import React from 'react'
-import { Icon, IconProps } from './icon'
+import type { IconProps } from './icon'
+import { Icon } from './icon'
 
 function Root({ children }: { children: React.ReactNode }) {
   return (
-    <div className="rounded-md border flex flex-col gap-5 py-3 pb-5 px-5 pr-4 h-[233px] bg-muted/25">{children}</div>
+    <div className="bg-muted/25 flex h-[233px] flex-col gap-5 rounded-md border px-5 py-3 pb-5 pr-4">{children}</div>
   )
 }
 
 function Header({ children }: { children: React.ReactNode }) {
-  return <div className="flex gap-4 items-center justify-between">{children}</div>
+  return <div className="flex items-center justify-between gap-4">{children}</div>
 }
 
 function HeaderTitle({ children }: { children: React.ReactNode }) {

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Icon, IconProps } from '../icon'
+import type { IconProps } from '../icon'
+import { Icon } from '../icon'
 
 interface PageProps {
   children: React.ReactNode
@@ -87,16 +88,16 @@ function Root({ highlightTop = '', highlightBottom = '', logo, logoSize = 84, ch
 
   return (
     <div
-      className="group w-full h-[220px] relative border-primary/5 border rounded-lg overflow-hidden cursor-pointer ease-in-out duration-150"
+      className="border-primary/5 group relative h-[220px] w-full cursor-pointer overflow-hidden rounded-lg border duration-150 ease-in-out"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}>
       <canvas
         ref={canvasRef}
         width="100%"
         height="100%"
-        className="absolute inset-0 h-full w-full brightness-110 group-hover:brightness-125 rounded-lg ease-in-out duration-150"
+        className="absolute inset-0 size-full rounded-lg brightness-110 duration-150 ease-in-out group-hover:brightness-125"
       />
-      <div className="absolute inset-[1px] bg-background/40 rounded-lg" />
+      <div className="bg-background/40 absolute inset-px rounded-lg" />
       <div className="absolute inset-0 flex items-center justify-center">
         {logo && <Icon name={logo} size={logoSize} />}
       </div>

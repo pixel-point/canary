@@ -16,12 +16,16 @@ export const SplitButton = React.forwardRef<HTMLButtonElement, SplitButtonProps>
     ref
   ) => {
     if (loading) {
-      return <Button disabled={true} loading={loading} children={children} variant={variant} {...others} ref={ref} />
+      return (
+        <Button disabled={true} loading={loading} variant={variant} {...others} ref={ref}>
+          {children}
+        </Button>
+      )
     }
 
     return (
       <Button
-        className="px-0 py-0 hover:bg-current pointer-events-none overflow-hidden"
+        className="pointer-events-none overflow-hidden p-0 hover:bg-current"
         asChild
         variant={variant}
         {...others}
@@ -31,15 +35,15 @@ export const SplitButton = React.forwardRef<HTMLButtonElement, SplitButtonProps>
             loading={loading}
             disabled={disabled}
             variant={variant}
-            children={children}
             onClick={onClick}
             {...others}
-            className="rounded-none border-none pointer-events-auto"
-          />
+            className="pointer-events-auto rounded-none border-none">
+            {children}
+          </Button>
           <Button
             disabled={disabled}
             asChild
-            className={cn(buttonVariants({ variant }), 'shadow-none rounded-none p-0 m-0 border-none h-full')}>
+            className={cn(buttonVariants({ variant }), 'm-0 h-full rounded-none border-none p-0 shadow-none')}>
             <span>|</span>
           </Button>
           <DropdownMenu>
@@ -48,7 +52,7 @@ export const SplitButton = React.forwardRef<HTMLButtonElement, SplitButtonProps>
                 variant={variant}
                 disabled={disabled}
                 {...others}
-                className="shadow-none rounded-none border-none pointer-events-auto px-2">
+                className="pointer-events-auto rounded-none border-none px-2 shadow-none">
                 {CanaryOutletFactory.getOutlet(CanaryOutletName.SPLIT_ICON, {
                   variant,
                   loading,

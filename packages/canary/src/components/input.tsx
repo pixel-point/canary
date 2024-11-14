@@ -13,6 +13,7 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(({ className, t
 
   return <input type={type} className={cn(commonClassName, specificClassNames, className)} ref={ref} {...props} />
 })
+BaseInput.displayName = 'BaseInput'
 
 export interface ExtendedInputProps extends BaseInputProps {
   left?: React.ReactNode
@@ -37,7 +38,7 @@ const ExtendedInput = React.forwardRef<HTMLInputElement, ExtendedInputProps>(
             className={cn(
               leftRightCommonClassName,
               'rounded-l-md',
-              leftStyle ? 'border-r bg-muted' : '-mr-3',
+              leftStyle ? 'bg-muted border-r' : '-mr-3',
               leftClassName
             )}>
             {left}
@@ -49,7 +50,7 @@ const ExtendedInput = React.forwardRef<HTMLInputElement, ExtendedInputProps>(
             className={cn(
               leftRightCommonClassName,
               'rounded-r-md',
-              rightStyle ? 'border-l bg-muted' : '-ml-3',
+              rightStyle ? 'bg-muted border-l' : '-ml-3',
               rightClassName
             )}>
             {right}
@@ -59,6 +60,7 @@ const ExtendedInput = React.forwardRef<HTMLInputElement, ExtendedInputProps>(
     )
   }
 )
+ExtendedInput.displayName = 'ExtendedInput'
 
 interface InputProps extends Omit<BaseInputProps, 'isExtended'>, ExtendedInputProps {}
 

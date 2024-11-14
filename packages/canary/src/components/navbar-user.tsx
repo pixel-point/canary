@@ -24,22 +24,22 @@ const Root: React.FC<{
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="group relative grid grid-rows-2 grid-cols-[auto_1fr] gap-x-3 items-center justify-start cursor-pointer">
-          <div className="absolute -inset-2 rounded-md group-hover:bg-primary/5 ease-in-out duration-100" />
+        <div className="group relative grid cursor-pointer grid-cols-[auto_1fr] grid-rows-2 items-center justify-start gap-x-3">
+          <div className="group-hover:bg-primary/5 absolute -inset-2 rounded-md duration-100 ease-in-out" />
           <div className="col-start-1 row-span-2">
-            <Avatar className="rounded-md overflow-hidden">
+            <Avatar className="overflow-hidden rounded-md">
               {url && <AvatarImage src={url} alt="user" />}
               {username && <AvatarFallback>{getInitials(username)}</AvatarFallback>}
             </Avatar>
           </div>
-          <p className="col-start-2 row-start-1 text-xs text-primary font-medium">{username}</p>
-          <p className="col-start-2 row-start-2 text-xs font-normal text-tertiary-background">
+          <p className="text-primary col-start-2 row-start-1 text-xs font-medium">{username}</p>
+          <p className="text-tertiary-background col-start-2 row-start-2 text-xs font-normal">
             {isAdmin ? 'Admin' : 'Account Member'}
           </p>
         </div>
       </DropdownMenuTrigger>
       {menuItems && (
-        <DropdownMenuContent align="end" className="w-[180px] mb-2">
+        <DropdownMenuContent align="end" className="mb-2 w-[180px]">
           {menuItems.map(itm => {
             return (
               <DropdownMenuItem asChild key={itm.key}>

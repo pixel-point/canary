@@ -6,7 +6,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { Icon } from './icon'
 
 const listItemVariants = cva(
-  'p-2 align-middle flex flex-row flex-1 gap-1 px-4 py-3 border-b flex-wrap justify-start items-center',
+  'flex flex-1 flex-row flex-wrap items-center justify-start gap-1 border-b p-2 px-4 py-3 align-middle',
   {
     variants: {
       disabled: {
@@ -21,16 +21,13 @@ const listItemVariants = cva(
   }
 )
 
-const listFieldVariants = cva(
-  'text-sm gap-1 flex flex-col flex-1 justify-start items-center justify-center items-stretch',
-  {
-    variants: {
-      right: {
-        true: 'items-end'
-      }
+const listFieldVariants = cva('flex flex-1 flex-col items-stretch justify-center gap-1 text-sm', {
+  variants: {
+    right: {
+      true: 'items-end'
     }
   }
-)
+})
 
 interface ListItemProps extends React.ComponentProps<'div'>, VariantProps<typeof listItemVariants> {
   thumbnail?: React.ReactNode
@@ -57,7 +54,7 @@ const List: React.FC<ListProps> = ({ className, children, onlyTopRounded, border
   <div
     className={cn(
       'w-full',
-      '[&>div:last-child]:border-0 border',
+      'border [&>div:last-child]:border-0',
       onlyTopRounded ? 'rounded-t-md' : 'rounded-md',
       borderBackground ? 'border-border-background' : '',
       className
@@ -88,7 +85,7 @@ const ListItem = ({
         className,
         isLast ? 'border-none' : 'border-b',
         isHeader ? 'bg-primary/[0.01]' : '',
-        disableHover ? '' : 'hover:bg-primary/5 ease-in-out duration-150 cursor-pointer'
+        disableHover ? '' : 'hover:bg-primary/5 cursor-pointer duration-150 ease-in-out'
       )}
       {...props}>
       {thumbnail && <div className="mr-2 flex items-center">{thumbnail}</div>}
@@ -107,7 +104,7 @@ const ListField = ({ className, title, description, label, secondary, right, ...
       <div
         className={cn(
           secondary ? 'text-xs' : 'text-sm', // Conditionally apply text-xs if secondary is true
-          'font-normal text-primary [&>em]:font-medium [&>em]:text-primary [&>em]:not-italic',
+          'text-primary [&>em]:text-primary font-normal [&>em]:font-medium [&>em]:not-italic',
           label && 'text-tertiary-background',
           className
         )}>
@@ -117,7 +114,7 @@ const ListField = ({ className, title, description, label, secondary, right, ...
     {description && (
       <div
         className={cn(
-          'flex gap-2 text-xs text-tertiary-background whitespace-nowrap overflow-hidden text-ellipsis',
+          'text-tertiary-background flex gap-2 overflow-hidden text-ellipsis whitespace-nowrap text-xs',
           className
         )}>
         {description}
