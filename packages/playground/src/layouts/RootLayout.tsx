@@ -4,6 +4,7 @@ import { Outlet, NavLink, useLocation, Link } from 'react-router-dom'
 import { MoreSubmenu } from '../components/more-submenu'
 import { navbarSubmenuData } from '../data/mockNavbarSubmenuData'
 import { TypesUser } from './types'
+import { ManageNavigationDialog } from '../components/manage-navigation-dialog'
 
 interface NavbarItem {
   id: number
@@ -209,6 +210,18 @@ export const RootLayout: React.FC<RootLayoutProps> = ({ currentUser }) => {
         </main>
       </div>
       <MoreSubmenu showMore={showMore} handleMore={handleMore} onPinItem={handlePinItem} pinnedItems={pinnedItems} />
+      <ManageNavigationDialog
+        isSubmitting={false}
+        submitted={false}
+        user={undefined}
+        onSave={() => {
+          console.log(1)
+        }}
+        onClose={() => {
+          console.log(1)
+        }}
+        handleUpdateUser={() => {}}
+      />
     </>
   )
 }

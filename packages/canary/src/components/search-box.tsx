@@ -25,6 +25,7 @@ interface SearchBoxProps {
   placeholder: string
   width?: 'full' | 'fixed'
   hasShortcut?: boolean
+  hasSearchIcon?: boolean
   shortcutLetter?: string
   shortcutModifier?: string
   textSize?: TextSize
@@ -46,6 +47,7 @@ const Root = ({
   onSearch,
   handleChange = noop,
   defaultValue,
+  hasSearchIcon = true,
   value,
   showOnFocus = false,
   className
@@ -96,11 +98,13 @@ const Root = ({
 
   return (
     <div className={cn('relative', width === 'full' ? 'w-full' : 'w-96', className)}>
-      <Icon
-        name="search"
-        size={12}
-        className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-tertiary-background"
-      />
+      {hasSearchIcon && (
+        <Icon
+          name="search"
+          size={12}
+          className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-tertiary-background"
+        />
+      )}
       {hasShortcut && (
         <div className="absolute right-2.5 top-1/2 transform -translate-y-1/2 text-tertiary-background flex gap-0.5 items-center shadow-border shadow-[0_0_0_1px] rounded-sm px-1.5 opacity-80 hover:opacity-100 ease-in-out duration-100 cursor-pointer">
           <Icon name="apple-shortcut" size={12} />
@@ -118,7 +122,7 @@ const Root = ({
         defaultValue={defaultValue}
         className={cn('h-8', textSizeClass)}
         style={{
-          paddingLeft: '1.75rem', // Equivalent to 'pl-7' in Tailwind (28px)
+          paddingLeft: hasSearchIcon ? '1.75rem' : undefined, // Equivalent to 'pl-7' in Tailwind (28px)
           paddingRight: hasShortcut ? '2.5rem' : undefined // Equivalent to 'pr-10' in Tailwind (40px) if `hasShortcut` is true
         }}
         // End of temporary fix
