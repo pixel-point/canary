@@ -13,6 +13,7 @@ export * from './components/layout/top-bar-widget'
 export * from './components/loaders/skeleton-list'
 export * from './components/repo-list'
 export * from './components/repo-clone/clone-repo-dialog'
+export * from './components/repo-import-form-component'
 
 export * from './components/no-data'
 export * from './components/pull-request/pull-request-list'
