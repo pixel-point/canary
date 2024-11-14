@@ -83,15 +83,15 @@ const filesListItems = [
 function Sidebar() {
   return (
     <div className="flex flex-col gap-5">
-      <div className="w-full grid grid-cols-[1fr] auto-cols-auto grid-flow-col gap-3 items-center">
+      <div className="grid w-full auto-cols-auto grid-flow-col grid-cols-[1fr] items-center gap-3">
         <BranchSelector size="sm" name="main" branchList={mockBranchList} selectBranch={noop} width="full" />
         <ButtonGroup.Root
           spacing="0"
-          className="shadow-border shadow-[inset_0_0_0_1px] rounded-md h-full overflow-hidden">
-          <Button size="sm" variant="ghost" className="rounded-none p-0 w-8">
+          className="shadow-border h-full overflow-hidden rounded-md shadow-[inset_0_0_0_1px]">
+          <Button size="sm" variant="ghost" className="w-8 rounded-none p-0">
             <Icon size={15} name="add-folder" className="text-primary/80" />
           </Button>
-          <Button size="sm" variant="ghost" borderRadius="0" className="border-l rounded-none p-0 w-8">
+          <Button size="sm" variant="ghost" borderRadius="0" className="w-8 rounded-none border-l p-0">
             <Icon size={15} name="add-file" className="text-primary/80" />
           </Button>
         </ButtonGroup.Root>

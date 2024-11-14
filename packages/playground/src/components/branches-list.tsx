@@ -63,7 +63,7 @@ export const BranchesList = ({ branches, spaceId, repoId, defaultBranch }: PageP
             <Icon name="vertical-ellipsis" size={14} className="text-tertiary-background" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="shadow-sm py-2 bg-primary-background border border-gray-800 rounded-[10px] w-[180px]">
+        <DropdownMenuContent className="bg-primary-background w-[180px] rounded-[10px] border border-gray-800 py-2 shadow-sm">
           <DropdownMenuGroup>
             <Link
               replace
@@ -101,8 +101,8 @@ export const BranchesList = ({ branches, spaceId, repoId, defaultBranch }: PageP
           {branches[0]?.checks?.done && branches[0]?.checks?.total && branches[0]?.checks?.status && (
             <TableHead>Check status</TableHead>
           )}
-          <TableHead className="text-center box-border">
-            <span className="w-[50%] px-1.5 border-r-2 border-gray-20 text-right">Behind</span>
+          <TableHead className="box-border text-center">
+            <span className="border-gray-20 w-[50%] border-r-2 px-1.5 text-right">Behind</span>
             <span className="w-[50%] px-1.5 text-left">Ahead</span>
           </TableHead>
           {/* since we don't have the data for pull request, we can change data to Commit to match the original gitness */}
@@ -132,9 +132,9 @@ export const BranchesList = ({ branches, spaceId, repoId, defaultBranch }: PageP
                 {/* user avatar and timestamp */}
                 <TableCell className="content-center">
                   <div className="flex items-center gap-1.5">
-                    <Avatar className="w-5 h-5">
+                    <Avatar className="h-5 w-5">
                       {branch.user.avatarUrl && <AvatarImage src={branch.user.avatarUrl} />}
-                      <AvatarFallback className="text-xs p-1 text-center">
+                      <AvatarFallback className="p-1 text-center text-xs">
                         {getInitials(branch.user.name, 2)}
                       </AvatarFallback>
                     </Avatar>
@@ -146,7 +146,7 @@ export const BranchesList = ({ branches, spaceId, repoId, defaultBranch }: PageP
                 {/* checkstatus: show in the playground, hide the check status column if the checks are null in the gitness without data */}
                 {branch?.checks?.done && branch?.checks?.total && branch?.checks?.status && (
                   <TableCell className="content-center">
-                    <div className="flex gap-1.5 items-center">
+                    <div className="flex items-center gap-1.5">
                       <Icon name="tick" size={11} className="text-success" />
                       <Text size={2} wrap="nowrap" truncate className="text-tertiary-background">
                         {branch?.checks?.done} / {branch?.checks?.total}
@@ -156,12 +156,12 @@ export const BranchesList = ({ branches, spaceId, repoId, defaultBranch }: PageP
                 )}
                 {/* calculated divergence bar & default branch */}
                 <TableCell className="content-center">
-                  <div className="flex gap-1.5 items-center content-center align-middle">
+                  <div className="flex content-center items-center gap-1.5 align-middle">
                     {branch.behindAhead.default ? (
                       <Badge
                         variant="outline"
                         size="xs"
-                        className="rounded-full font-normal text-xs p-2 h-5 text-tertiary-background text-center m-auto">
+                        className="text-tertiary-background m-auto h-5 rounded-full p-2 text-center text-xs font-normal">
                         Default
                       </Badge>
                     ) : (
@@ -172,7 +172,7 @@ export const BranchesList = ({ branches, spaceId, repoId, defaultBranch }: PageP
                 {/* change commit data instead: SHA */}
                 {branch.sha && (
                   <TableCell className="content-center">
-                    <div className="flex gap-1.5 items-center justify-center">
+                    <div className="flex items-center justify-center gap-1.5">
                       {/* <Icon name="open-pr" size={11} className="text-success" /> */}
                       <Text wrap="nowrap" size={1} truncate className="text-tertiary-background font-mono">
                         <CommitCopyActions sha={branch.sha} />

@@ -24,12 +24,12 @@ export const moreActionsDropdown = ({ member, onDelete }: moreActionsProps) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="shadow-sm py-2 bg-primary-background border border-gray-800 rounded-[10px] w-[180px]"
+        className="bg-primary-background w-[180px] rounded-[10px] border border-gray-800 py-2 shadow-sm"
         onCloseAutoFocus={event => event.preventDefault()} // Prevent focus on hidden content
       >
         <DropdownMenuGroup>
           <DropdownMenuItem
-            className="cursor-pointer text-red-400 hover:text-red-400 focus:text-red-400 px-3"
+            className="cursor-pointer px-3 text-red-400 hover:text-red-400 focus:text-red-400"
             onSelect={() => onDelete(member)}>
             Remove member
           </DropdownMenuItem>

@@ -174,16 +174,16 @@ const ExecutionLogs: React.FC = () => {
                 />
               )}
             </div>
-            <ScrollArea className="w-1/3 h-[calc(100vh-16rem)] pt-4">
+            <ScrollArea className="h-[calc(100vh-16rem)] w-1/3 pt-4">
               <ContactCard authorEmail={execution?.author_email || ''} authorName={execution?.author_name} />
-              <div className="flex flex-col gap-2 my-5">
-                <Text className="text-white text-base">{execution?.message}</Text>
-                <div className="flex gap-2 items-center">
+              <div className="my-5 flex flex-col gap-2">
+                <Text className="text-base text-white">{execution?.message}</Text>
+                <div className="flex items-center gap-2">
                   {execution?.event === 'manual' ? (
                     <Badge variant="secondary" className="bg-primary-foreground flex gap-1">
                       <Layout.Horizontal gap="space-x-1" className="flex items-center">
                         <Icon size={12} name={'tube-sign'} />
-                        <Text className="text-sm text-git pb-0.5">{execution?.source}</Text>
+                        <Text className="text-git pb-0.5 text-sm">{execution?.source}</Text>
                       </Layout.Horizontal>
                     </Badge>
                   ) : (
@@ -191,14 +191,14 @@ const ExecutionLogs: React.FC = () => {
                       <Badge variant="secondary" className="bg-primary-foreground flex gap-1">
                         <Layout.Horizontal gap="space-x-1" className="flex items-center">
                           <Icon size={12} name={'tube-sign'} />
-                          <Text className="text-sm text-git pb-0.5">{execution?.source}</Text>
+                          <Text className="text-git pb-0.5 text-sm">{execution?.source}</Text>
                         </Layout.Horizontal>
                       </Badge>
                       <span>to</span>
-                      <Badge variant="secondary" className="flex gap-1 bg-primary-foreground">
+                      <Badge variant="secondary" className="bg-primary-foreground flex gap-1">
                         <Layout.Horizontal gap="space-x-1" className="flex items-center">
                           <Icon size={12} name={'git-branch'} />
-                          <Text className="text-sm text-git pb-0.5">{execution?.target}</Text>
+                          <Text className="text-git pb-0.5 text-sm">{execution?.target}</Text>
                         </Layout.Horizontal>
                       </Badge>
                     </>
@@ -208,7 +208,7 @@ const ExecutionLogs: React.FC = () => {
               <Layout.Horizontal>
                 {execution?.status && (
                   <Layout.Vertical gap="space-y-1">
-                    <Text className="text-sm text-muted-foreground">Status</Text>
+                    <Text className="text-muted-foreground text-sm">Status</Text>
                     <ExecutionStatus.Badge
                       status={execution.status as ExecutionState}
                       minimal
@@ -218,7 +218,7 @@ const ExecutionLogs: React.FC = () => {
                 )}
                 {execution?.created && (
                   <Layout.Vertical gap="space-y-1">
-                    <Text className="text-sm text-muted-foreground">Started</Text>
+                    <Text className="text-muted-foreground text-sm">Started</Text>
                     <span className="text-white">{timeAgoFromEpochTime(execution.created)}</span>
                   </Layout.Vertical>
                 )}

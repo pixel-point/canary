@@ -30,7 +30,7 @@ export const RepoSummaryPanel = ({ ...props }: PageProps) => {
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <Text size={4} weight={'medium'} truncate>
           {title}
         </Text>
@@ -41,7 +41,7 @@ export const RepoSummaryPanel = ({ ...props }: PageProps) => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem className="flex gap-1.5 items-center">
+            <DropdownMenuItem className="flex items-center gap-1.5">
               <Icon name="plus" size={12} className="text-tertiary-background" />
               <Text>Add description</Text>
             </DropdownMenuItem>

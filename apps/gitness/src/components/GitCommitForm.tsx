@@ -196,7 +196,7 @@ export function GitCommitForm({
                       className="text-primary"
                       {...field}
                       placeholder="New Branch Name"
-                      left={<Icon name="branch" size={34} className="min-w-[12px] text-tertiary-background px-2" />}
+                      left={<Icon name="branch" size={34} className="text-tertiary-background min-w-[12px] px-2" />}
                       onChange={value => {
                         field.onChange(value)
 
@@ -224,7 +224,7 @@ export function GitCommitForm({
         </>
       )}
 
-      <div className="flex gap-3 justify-end">
+      <div className="flex justify-end gap-3">
         <Button type="button" onClick={onCancel} className="text-primary" variant="outline">
           Cancel
         </Button>

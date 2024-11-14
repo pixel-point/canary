@@ -72,8 +72,8 @@ const HeaderTitle = ({ ...props }: HeaderProps) => {
     const formattedTime = timeAgo(props?.pullReqMetadata?.merged || 0)
 
     return (
-      <div className="inline-flex gap-2 items-center w-full">
-        <Text className="items-center space-x-2 gap-2" weight="medium">
+      <div className="inline-flex w-full items-center gap-2">
+        <Text className="items-center gap-2 space-x-2" weight="medium">
           <Text>{`${props?.pullReqMetadata?.merger?.display_name} merged branch`}</Text>
           <Button variant="secondary" size="xs">
             <Icon name="branch" size={12} className="text-tertiary-background mr-1" />
@@ -90,7 +90,7 @@ const HeaderTitle = ({ ...props }: HeaderProps) => {
     )
   }
   return (
-    <div className="inline-flex gap-2 items-center">
+    <div className="inline-flex items-center gap-2">
       <Text weight="medium">
         {props.isDraft
           ? 'This pull request is still a work in progress'
@@ -239,7 +239,7 @@ const PullRequestPanel = ({
           />
         )}
       </StackedList.Item>
-      <StackedList.Item disableHover className="py-0 hover:bg-transparent cursor-default">
+      <StackedList.Item disableHover className="cursor-default py-0 hover:bg-transparent">
         <Accordion type="multiple" className="w-full">
           {!pullReqMetadata?.merged && (
             <PullRequestChangesSection

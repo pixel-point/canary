@@ -56,12 +56,12 @@ const PullRequestCheckSection = ({ checkData, checksInfo, spaceId, repoId }: Pul
             Show more
           </Text>
         </AccordionTrigger>
-        <AccordionContent className={cn('pl-6 flex flex-col', { 'pb-0': checkData.length === 1 })}>
+        <AccordionContent className={cn('flex flex-col pl-6', { 'pb-0': checkData.length === 1 })}>
           {checkData.map(check => {
             const time = timeDistance(check?.check?.created, check?.check?.updated)
 
             return (
-              <div className={cn('flex justify-between gap-2 items-center py-2.5 border-t')}>
+              <div className={cn('flex items-center justify-between gap-2 border-t py-2.5')}>
                 <div className="flex items-center gap-2">
                   {getStatusIcon(check?.check?.status as EnumCheckStatus)}
                   <Text size={1} color="primary" truncate className="max-w-[300px] overflow-hidden">

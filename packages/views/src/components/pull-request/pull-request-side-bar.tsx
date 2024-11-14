@@ -81,7 +81,7 @@ const PullRequestSideBar = (props: PullRequestSideBarProps) => {
               <Icon name="vertical-ellipsis" size={14} className="text-tertiary-background" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="rounded-[10px] w-[180px]">
+          <DropdownMenuContent className="w-[180px] rounded-[10px]">
             <DropdownMenuGroup>
               <DropdownMenuItem
                 className="cursor-pointer text-red-400 hover:text-red-400 focus:text-red-400"
@@ -99,9 +99,9 @@ const PullRequestSideBar = (props: PullRequestSideBarProps) => {
       )
     }
     return (
-      <div key={reviewer?.id} className="flex items-center space-x-2 mr-1">
+      <div key={reviewer?.id} className="mr-1 flex items-center space-x-2">
         <Avatar
-          className={cx('w-7 h-7 rounded-full', {
+          className={cx('h-7 w-7 rounded-full', {
             'p-0': updatedReviewDecision !== PullReqReviewDecision.changeReq
           })}>
           <AvatarFallback>
@@ -110,7 +110,7 @@ const PullRequestSideBar = (props: PullRequestSideBarProps) => {
             </Text>
           </AvatarFallback>
         </Avatar>
-        <div className="truncate reviewerName">{reviewer?.display_name}</div>
+        <div className="reviewerName truncate">{reviewer?.display_name}</div>
         <div className="flex-grow"></div>
 
         {updatedReviewDecision === PullReqReviewDecision.outdated ? (
@@ -151,13 +151,13 @@ const PullRequestSideBar = (props: PullRequestSideBarProps) => {
     const [isOpen, setIsOpen] = useState(false)
 
     return (
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <Text size={2} weight="medium">
           Reviewers
         </Text>
         <Popover open={isOpen} onOpenChange={setIsOpen}>
           <PopoverTrigger asChild>
-            <Button size="sm" variant="ghost" className="px-2 py-1 text-tertiary-background">
+            <Button size="sm" variant="ghost" className="text-tertiary-background px-2 py-1">
               <Icon name="vertical-ellipsis" size={12} />
             </Button>
           </PopoverTrigger>

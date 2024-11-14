@@ -21,11 +21,11 @@ export const PipelineStudioToolbarActions = (props: PipelineStudioToolbarActions
       </ToggleGroupItem>
       {showEdit && (
         <ToggleGroupItem value="edit" onClick={onEditClick} title="Edit">
-          <Icon name="edit-pen" className="w-5 h-5 text-foreground" />
+          <Icon name="edit-pen" className="text-foreground h-5 w-5" />
         </ToggleGroupItem>
       )}
       <ToggleGroupItem value="download" onClick={onDownloadClick} title="Download">
-        <Icon name="download" className="w-5 h-5 text-foreground" />
+        <Icon name="download" className="text-foreground h-5 w-5" />
       </ToggleGroupItem>
     </ToggleGroup>
   )

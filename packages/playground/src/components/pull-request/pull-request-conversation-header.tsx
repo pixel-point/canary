@@ -47,7 +47,7 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
   const stateObject = getPrState(is_draft, merged, state)
   return (
     <div className="flex flex-col gap-2 pb-8">
-      <div className="flex pt-1 pb-1 items-center">
+      <div className="flex items-center pb-1 pt-1">
         <Text size={5} weight={'medium'} className="text-primary">
           {original}
           &nbsp;&nbsp;
@@ -55,8 +55,8 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
         </Text>
       </div>
       <div className="">
-        <div className="flex space-x-2 text-tertiary-background ">
-          <div className="flex gap-2.5 items-center align-middle text-center">
+        <div className="text-tertiary-background flex space-x-2">
+          <div className="flex items-center gap-2.5 text-center align-middle">
             <Badge disableHover borderRadius="full" theme={stateObject.theme} className={`select-none justify-center`}>
               <Layout.Horizontal gap="space-x-1" className="flex items-center align-middle">
                 <Icon name={stateObject.icon as IconType} size={13} />
@@ -66,7 +66,7 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
             <div className="flex gap-2">
               <Text
                 size={2}
-                className="text-tertiary-background inline-flex flex-wrap gap-1 items-center"
+                className="text-tertiary-background inline-flex flex-wrap items-center gap-1"
                 weight="normal">
                 <span className="text-primary">{author?.display_name || author?.email || ''}</span>
                 <span>{merged ? 'merged' : ' wants to merge'}</span>

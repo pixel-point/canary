@@ -3,7 +3,7 @@ import { Button, Toggle, Icon } from '@harnessio/canary'
 
 const StepPaletteFiltersLayout = {
   Root: function Content({ children }: { children: React.ReactNode }) {
-    return <div className="flex flex-row gap-1 mt-3">{children}</div>
+    return <div className="mt-3 flex flex-row gap-1">{children}</div>
   }
 }
 

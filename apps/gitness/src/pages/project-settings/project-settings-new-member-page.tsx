@@ -118,7 +118,7 @@ export const CreateNewMemberPage = () => {
                 render={({ field }) => (
                   <DropdownMenu>
                     <DropdownMenuTrigger>
-                      <div className="flex justify-between border rounded-md items-center">
+                      <div className="flex items-center justify-between rounded-md border">
                         <Button variant="ghost">
                           <Text>
                             {selectedMember

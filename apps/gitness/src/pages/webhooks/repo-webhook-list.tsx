@@ -99,7 +99,7 @@ export default function RepoWebhooksListPage() {
             Webhooks
           </Text>
           <Spacer size={6} />
-          <div className="flex justify-between gap-5 items-center">
+          <div className="flex items-center justify-between gap-5">
             <div className="flex-1">
               <Filter />
             </div>

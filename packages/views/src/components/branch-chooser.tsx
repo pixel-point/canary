@@ -40,17 +40,17 @@ export const BranchSelector = ({ ...props }: PageProps) => {
         <Button
           variant="secondary"
           size={size}
-          className={cn(widthClasses[width], 'overflow-hidden flex gap-1.5 items-center px-3', {
+          className={cn(widthClasses[width], 'flex items-center gap-1.5 overflow-hidden px-3', {
             'bg-muted': !prefix,
             'bg-background': prefix,
             'border-border': prefix,
             'border-2': prefix
           })}>
-          {prefix ? null : <Icon name="branch" size={12} className="min-w-[12px] text-tertiary-background" />}
-          <Text as="p" align="left" className="w-full text-primary/90 truncate">
+          {prefix ? null : <Icon name="branch" size={12} className="text-tertiary-background min-w-[12px]" />}
+          <Text as="p" align="left" className="text-primary/90 w-full truncate">
             {prefix ? `${prefix}: ${name}` : name}
           </Text>
-          <Icon name="chevron-down" size={10} className="min-w-[10px] chevron-down ml-0 text-tertiary-background" />
+          <Icon name="chevron-down" size={10} className="chevron-down text-tertiary-background ml-0 min-w-[10px]" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">

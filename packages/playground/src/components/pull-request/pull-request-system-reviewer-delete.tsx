@@ -22,7 +22,7 @@ const PullRequestSystemReviewerDeleteItem: React.FC<PullRequestSystemReviewerDel
       header={[
         {
           avatar: (
-            <Avatar className="w-6 h-6 rounded-full p-0">
+            <Avatar className="h-6 w-6 rounded-full p-0">
               {/* <AvatarImage src={avatarUrl} /> */}
 
               <AvatarFallback>

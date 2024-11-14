@@ -15,14 +15,14 @@ interface BarProps {
 function Root({ ...props }: RootProps) {
   const { children } = props
 
-  return <div className="flex flex-col gap-1 justify-center w-[110px]">{children}</div>
+  return <div className="flex w-[110px] flex-col justify-center gap-1">{children}</div>
 }
 
 function Content({ ...props }: RootProps) {
   const { children } = props
 
   return (
-    <div className="flex leading-snug justify-center">
+    <div className="flex justify-center leading-snug">
       <Text truncate size={1} className="text-primary/70">
         {children}
       </Text>

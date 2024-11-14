@@ -153,8 +153,8 @@ const SettingsAccountGeneralPage: React.FC<SettingsAccountGeneralPageProps> = ({
           <FormFieldSet.Root>
             {/* PERSONAL INFORMATION */}
             <FormFieldSet.Legend className="flex justify-center">Personal information</FormFieldSet.Legend>
-            <FormFieldSet.ControlGroup className="w-auto flex flex-row gap-x-6 items-center justify-center">
-              <Avatar size="80" className="h-20 w-20 rounded-full bg-primary/[0.02] shadow-md">
+            <FormFieldSet.ControlGroup className="flex w-auto flex-row items-center justify-center gap-x-6">
+              <Avatar size="80" className="bg-primary/[0.02] h-20 w-20 rounded-full shadow-md">
                 <AvatarImage src="/images/anon.jpg" />
                 <AvatarFallback>
                   <Text size={5} weight="medium" color="tertiaryBackground">

@@ -22,7 +22,7 @@ export const ContactCard: React.FC<ContactCardProps> = ({ imgSrc, fallback, auth
       {initials && (
         <div className="flex flex-col">
           {authorName && <Text className="text-primary text-sm">{authorName}</Text>}
-          {authorEmail && <Text className="text-user leading-3 text-xs">{authorEmail}</Text>}
+          {authorEmail && <Text className="text-user text-xs leading-3">{authorEmail}</Text>}
         </div>
       )}
     </Layout.Horizontal>

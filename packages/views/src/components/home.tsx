@@ -66,7 +66,7 @@ export const Home: React.FC<HomeProps> = ({
                 {selectedProject
                   ? projects?.find(project => project.name === selectedProject)?.name
                   : 'Select your project...'}
-                <Icon name="chevron-down" size={12} className="chevron-down " />
+                <Icon name="chevron-down" size={12} className="chevron-down" />
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[200px] p-0">

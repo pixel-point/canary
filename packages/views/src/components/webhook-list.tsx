@@ -36,20 +36,20 @@ interface PageProps {
 
 const Title = ({ title, enabled }: { title: string; enabled: boolean }) => {
   return (
-    <div className="inline-flex gap-2 items-center">
+    <div className="inline-flex items-center gap-2">
       <Text truncate>{title}</Text>
       {enabled ? (
         // TODO: Update Badge component with standarized color variants
         <Badge
           variant="outline"
           size="xs"
-          className="rounded-full border-emerald-400/20 text-emerald-300 bg-emerald-400/10">
+          className="rounded-full border-emerald-400/20 bg-emerald-400/10 text-emerald-300">
           <Text size={0} className="text-inherit">
             {WebhookState.ENABLED}
           </Text>
         </Badge>
       ) : (
-        <Badge variant="outline" size="xs" className="rounded-full text-tertiary-background">
+        <Badge variant="outline" size="xs" className="text-tertiary-background rounded-full">
           <Text size={1} className="text-inherit">
             {WebhookState.DISABLED}
           </Text>
@@ -83,13 +83,13 @@ const Action = ({ id, openDeleteWebhookDialog }: { id: number; openDeleteWebhook
           </Link>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            className="cursor-pointer text-destructive"
+            className="text-destructive cursor-pointer"
             onClick={e => {
               e.stopPropagation()
               openDeleteWebhookDialog(id)
             }}>
             <DropdownMenuShortcut className="ml-0">
-              <Icon name="trash" className="mr-2 text-destructive" />
+              <Icon name="trash" className="text-destructive mr-2" />
             </DropdownMenuShortcut>
             Delete webhook
           </DropdownMenuItem>

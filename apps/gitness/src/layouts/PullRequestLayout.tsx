@@ -51,8 +51,8 @@ const PullRequestLayout: React.FC = () => {
               }}
             />
           )}
-          <div className="relative w-full grid grid-flow-col grid-cols-[auto_1fr] items-end">
-            <div className="inline-flex items-center text-muted-foreground h-[36px] gap-0 justify-start w-full">
+          <div className="relative grid w-full grid-flow-col grid-cols-[auto_1fr] items-end">
+            <div className="text-muted-foreground inline-flex h-[36px] w-full items-center justify-start gap-0">
               <NavLink to={`conversation`} className={({ isActive }) => getLinkClasses(isActive)}>
                 <Icon size={16} name="comments" />
                 Conversation
@@ -75,9 +75,9 @@ const PullRequestLayout: React.FC = () => {
                 </Badge>
               </NavLink>
             </div>
-            <div className="h-[36px] border-b border-border-background" />
-            <div className="absolute right-full w-[9999px] h-[36px] border-b border-border-background" />
-            <div className="absolute left-full w-[9999px] h-[36px] border-b border-border-background" />
+            <div className="border-border-background h-[36px] border-b" />
+            <div className="border-border-background absolute right-full h-[36px] w-[9999px] border-b" />
+            <div className="border-border-background absolute left-full h-[36px] w-[9999px] border-b" />
           </div>
           <Spacer size={8} />
           <Outlet />

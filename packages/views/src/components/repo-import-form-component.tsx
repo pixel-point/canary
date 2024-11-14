@@ -158,7 +158,7 @@ export function RepoImportForm({
               }
               id="authorization"
               label="Requires Authorization"
-              className="min-h-8 mt-0 flex items-center"
+              className="mt-0 flex min-h-8 items-center"
             />
 
             <FormFieldSet.Option
@@ -173,7 +173,7 @@ export function RepoImportForm({
               // id={`${event.id}`}
               id="pipelines"
               label="Import Pipelines"
-              className="min-h-8 mt-0 flex items-center"
+              className="mt-0 flex min-h-8 items-center"
             />
           </FormFieldSet.ControlGroup>
         </FormFieldSet.Root>

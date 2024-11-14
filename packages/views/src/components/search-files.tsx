@@ -63,14 +63,14 @@ export const SearchFiles: React.FC<SearchFilesProps> = ({ navigateToFile, filesL
           <SearchBox.Root
             width="full"
             placeholder="Search files..."
-            className="h-9 searchbox"
+            className="searchbox h-9"
             handleChange={handleInputChange}
             value={query}
           />
         </div>
       </PopoverAnchor>
       <PopoverContent
-        className="w-[600px] max-h-60 p-0 overflow-auto"
+        className="max-h-60 w-[600px] overflow-auto p-0"
         align="start"
         onOpenAutoFocus={event => {
           event.preventDefault()

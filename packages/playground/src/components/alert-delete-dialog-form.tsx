@@ -54,7 +54,7 @@ export const AlertDeleteDialogForm = ({
           </FormFieldSet.Message>
         )}
         {error && <FormFieldSet.Message theme={FormFieldSet.MessageTheme.ERROR}>{error}</FormFieldSet.Message>}
-        <ButtonGroup.Root className="justify-end mt-4">
+        <ButtonGroup.Root className="mt-4 justify-end">
           <Button variant="outline" onClick={onClose} disabled={isLoading}>
             Cancel
           </Button>

@@ -13,6 +13,7 @@
     "build-for-standalone": "NODE_ENV=production vite build --config vite.config.standalone.ts",
     "prepublishOnly": "pnpm build",
     "lint": "eslint ./src",
+    "pretty": "prettier --check ./src",
     "pre-commit": "lint-staged"
   },
   "private": false,

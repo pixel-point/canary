@@ -10,7 +10,7 @@ export const InputError = React.forwardRef<HTMLParagraphElement, React.HTMLAttri
     }
 
     return (
-      <p ref={ref} id={formMessageId} className={cn('text-sm font-medium text-destructive', className)} {...props}>
+      <p ref={ref} id={formMessageId} className={cn('text-destructive text-sm font-medium', className)} {...props}>
         {error.message}
       </p>
     )

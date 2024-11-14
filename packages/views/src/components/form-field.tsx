@@ -64,8 +64,8 @@ function Root({ children, box, shaded, className }: RootProps) {
   return (
     <fieldset
       className={cn(
-        'flex flex-col gap-2 mb-8',
-        { 'border rounded-md px-5 py-3.5 pb-5': box, 'bg-primary/[0.02]': shaded },
+        'mb-8 flex flex-col gap-2',
+        { 'rounded-md border px-5 py-3.5 pb-5': box, 'bg-primary/[0.02]': shaded },
         className
       )}>
       {children}
@@ -127,7 +127,7 @@ function Message({ children, theme, className }: MessageProps) {
 // Option component for form controls like radio buttons or checkboxes
 function Option({ control, id, label, description, className }: OptionProps) {
   return (
-    <div className={cn('flex gap-x-4 items-start mt-2', className)}>
+    <div className={cn('mt-2 flex items-start gap-x-4', className)}>
       <div className="mt-0.5">{control}</div>
       <div className="flex flex-col gap-0">
         <Label htmlFor={id}>{label}</Label>

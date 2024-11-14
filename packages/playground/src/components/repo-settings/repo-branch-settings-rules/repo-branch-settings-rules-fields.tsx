@@ -41,7 +41,7 @@ export const BranchSettingsRuleToggleField: React.FC<FieldProps> = ({ register, 
         label
         secondary
         title={
-          <div className="flex gap-1.5 items-center justify-end cursor-pointer">
+          <div className="flex cursor-pointer items-center justify-end gap-1.5">
             <Switch
               {...register!('state')}
               checked={watch!('state')}
@@ -106,7 +106,7 @@ export const BranchSettingsRuleTargetPatternsField: React.FC<FieldProps> = ({ se
   return (
     <FormFieldSet.ControlGroup>
       <FormFieldSet.Label htmlFor="target-patterns">Target Patterns</FormFieldSet.Label>
-      <div className="grid grid-rows-1 grid-cols-5">
+      <div className="grid grid-cols-5 grid-rows-1">
         <div className="col-span-4 mr-2">
           <Input
             id="pattern"
@@ -116,7 +116,7 @@ export const BranchSettingsRuleTargetPatternsField: React.FC<FieldProps> = ({ se
               <Button
                 variant="split"
                 type="button"
-                className="pl-0 pr-0 min-w-28"
+                className="min-w-28 pl-0 pr-0"
                 dropdown={
                   <DropdownMenu key="dropdown-menu">
                     <span>
@@ -224,7 +224,7 @@ export const BranchSettingsRuleBypassListField: React.FC<FieldProps & { bypassOp
 
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <div className=" flex justify-between border rounded-md items-center">
+          <div className="flex items-center justify-between rounded-md border">
             <Button variant="ghost w-full">
               <Text color={selectedBypassUsers.length ? 'primary' : 'tertiaryBackground'}>{triggerText}</Text>
             </Button>
@@ -317,7 +317,7 @@ export const BranchSettingsRuleListField: React.FC<{
 
           {/* Conditionally render the submenu if this rule has a submenu and is checked */}
           {rule.hasSubmenu && rules[index].checked && (
-            <div className="pl-8 mb-4">
+            <div className="mb-4 pl-8">
               {rule.submenuOptions.map(subOption => (
                 <FormFieldSet.Option
                   className="min-h-6"
@@ -337,10 +337,10 @@ export const BranchSettingsRuleListField: React.FC<{
           )}
 
           {rule.hasSelect && rules[index].checked && (
-            <div className="pl-8 mb-4 mt-2 w-full">
+            <div className="mb-4 mt-2 w-full pl-8">
               <DropdownMenu>
                 <DropdownMenuTrigger className="w-full">
-                  <div className="flex justify-between border rounded-md items-center">
+                  <div className="flex items-center justify-between rounded-md border">
                     <Button variant="ghost w-full">
                       <Text color={rules[index].selectOptions?.length ? 'primary' : 'tertiaryBackground'}>
                         {rules[index].selectOptions?.length
@@ -372,7 +372,7 @@ export const BranchSettingsRuleListField: React.FC<{
           )}
 
           {rule.hasInput && rules[index].checked && (
-            <div className="pl-8 mt-2">
+            <div className="mt-2 pl-8">
               <Input
                 id="name"
                 placeholder="Enter minimum number of reviewers"

@@ -48,7 +48,7 @@ export const FormAddAdminDialog: React.FC<FormRemoveUserDialogProps> = ({
             </Button>
           )}
           {removeSuccess ? (
-            <Button size="default" theme="success" className="self-start pointer-events-none flex gap-2">
+            <Button size="default" theme="success" className="pointer-events-none flex gap-2 self-start">
               Admin added
               <Icon name="tick" size={14} />
             </Button>

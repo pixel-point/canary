@@ -65,7 +65,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
           header={[
             {
               avatar: (
-                <Avatar className="w-6 h-6 rounded-full p-0">
+                <Avatar className="h-6 w-6 rounded-full p-0">
                   {/* <AvatarImage src={AvatarUrl} /> */}
 
                   <AvatarFallback>
@@ -101,7 +101,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
           header={[
             {
               avatar: (
-                <Avatar className="w-6 h-6 rounded-full p-0">
+                <Avatar className="h-6 w-6 rounded-full p-0">
                   {/* <AvatarImage src={AvatarUrl} /> */}
 
                   <AvatarFallback>
@@ -129,7 +129,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
           header={[
             {
               avatar: (
-                <Avatar className="w-6 h-6 rounded-full p-0">
+                <Avatar className="h-6 w-6 rounded-full p-0">
                   {/* <AvatarImage src={AvatarUrl} /> */}
 
                   <AvatarFallback>
@@ -163,7 +163,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
           header={[
             {
               avatar: (
-                <Avatar className="w-6 h-6 rounded-full p-0">
+                <Avatar className="h-6 w-6 rounded-full p-0">
                   {/* <AvatarImage src={AvatarUrl} /> */}
 
                   <AvatarFallback>

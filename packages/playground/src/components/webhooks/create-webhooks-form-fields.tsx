@@ -4,7 +4,7 @@ import { FormFieldSet, MessageTheme } from '../../index'
 import { WebhookEvent, WebhookFormFieldProps, WebhookTriggerEnum, TriggerEventsEnum } from './types'
 
 export const WebhookToggleField: React.FC<WebhookFormFieldProps> = ({ register, watch, setValue }) => (
-  <StackedList.Root className="border-none bg-tertiary/2" borderBackground>
+  <StackedList.Root className="bg-tertiary/2 border-none" borderBackground>
     <StackedList.Item disableHover isHeader>
       <StackedList.Field
         title="Enable the webhook"
@@ -14,7 +14,7 @@ export const WebhookToggleField: React.FC<WebhookFormFieldProps> = ({ register, 
         label
         secondary
         title={
-          <div className="flex gap-1.5 items-center justify-end cursor-pointer">
+          <div className="flex cursor-pointer items-center justify-end gap-1.5">
             <Switch
               {...register!('enabled')}
               checked={watch!('enabled')}

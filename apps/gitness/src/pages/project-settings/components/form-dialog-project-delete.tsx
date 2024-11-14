@@ -104,7 +104,7 @@ export const FormDialogProjectDelete = ({
                 </AlertDialogCancel>
               )}
               {isDeleteSuccess ? (
-                <Button size="default" theme="success" className="self-start pointer-events-none">
+                <Button size="default" theme="success" className="pointer-events-none self-start">
                   Project deleted&nbsp;&nbsp;
                   <Icon name="tick" size={14} />
                 </Button>

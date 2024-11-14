@@ -171,7 +171,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                     header={[
                       {
                         avatar: (
-                          <Avatar className="w-6 h-6 rounded-full p-0">
+                          <Avatar className="h-6 w-6 rounded-full p-0">
                             {/* <AvatarImage src={AvatarUrl} /> */}
 
                             <AvatarFallback>
@@ -188,8 +188,8 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                       }
                     ]}
                     content={
-                      <div className="flex flex-col   pt-2">
-                        <div className="flex items-center w-full px-4 pb-2 justify-between">
+                      <div className="flex flex-col pt-2">
+                        <div className="flex w-full items-center justify-between px-4 pb-2">
                           <Text size={3} color="primary">
                             {(payload?.code_comment as PayloadCodeComment)?.path}
                           </Text>
@@ -203,14 +203,14 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                               repoId={repoId}
                             />
                             {/* TODO: add on click or other menu options */}
-                            <Button size="sm" variant="ghost" className="rotate-90 px-2 py-1 ">
+                            <Button size="sm" variant="ghost" className="rotate-90 px-2 py-1">
                               <Icon name="vertical-ellipsis" size={12} />
                             </Button>
                           </div>
                         </div>
                         {startingLine ? (
                           <div className="bg-[--diff-hunk-lineNumber--]">
-                            <div className="w-full px-8 ml-16 py-1 font-mono ">{startingLine}</div>
+                            <div className="ml-16 w-full px-8 py-1 font-mono">{startingLine}</div>
                           </div>
                         ) : null}
 
@@ -229,7 +229,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                             return (
                               <PullRequestTimelineItem
                                 icon={
-                                  <Avatar className="w-6 h-6 rounded-full p-0">
+                                  <Avatar className="h-6 w-6 rounded-full p-0">
                                     {/* <AvatarImage src={AvatarUrl} /> */}
 
                                     <AvatarFallback>
@@ -284,7 +284,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                   header={[
                     {
                       avatar: (
-                        <Avatar className="w-6 h-6 rounded-full p-0">
+                        <Avatar className="h-6 w-6 rounded-full p-0">
                           {/* <AvatarImage src={AvatarUrl} /> */}
 
                           <AvatarFallback>
@@ -321,7 +321,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                         return (
                           <PullRequestTimelineItem
                             icon={
-                              <Avatar className="w-6 h-6 rounded-full p-0">
+                              <Avatar className="h-6 w-6 rounded-full p-0">
                                 {/* <AvatarImage src={AvatarUrl} /> */}
 
                                 <AvatarFallback>

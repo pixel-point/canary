@@ -4,7 +4,7 @@ import { EnumCiStatus, TypesExecution } from '@harnessio/code-service-client'
 
 const renderBranch = (branch: string): React.ReactElement => {
   return (
-    <div className="px-1.5 rounded-md flex gap-1 items-center bg-tertiary-background/10 font-mono">
+    <div className="bg-tertiary-background/10 flex items-center gap-1 rounded-md px-1.5 font-mono">
       <Icon name="branch" size={11} className="text-tertiary-background" />
       {branch}
     </div>
