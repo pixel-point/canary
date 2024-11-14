@@ -36,6 +36,7 @@ import VerticalEllipsis from '../icons/vertical-ellipsis.svg'
 import Clone from '../icons/clone.svg'
 import TriangleWarning from '../icons/triangle-warning.svg'
 import PendingClock from '../icons/pending-clock.svg'
+import PendingClockInverse from '../icons/pending-clock-inverse.svg'
 import Circle from '../icons/circle.svg'
 import AppleShortcut from '../icons/apple-shortcut.svg'
 import Edit from '../icons/edit.svg'
@@ -95,6 +96,7 @@ import GreenTick from '../icons/green-tick-nobg.svg'
 import CancelGrey from '../icons/cancel-grey.svg'
 import HarnessLogoText from '../icons/harness-logo-text.svg'
 import Account from '../icons/account.svg'
+import GridDots from '../icons/grid-dots.svg'
 // import Fork from '../icons/fork.svg'
 
 const IconNameMap = {
@@ -135,6 +137,7 @@ const IconNameMap = {
   clone: Clone,
   'triangle-warning': TriangleWarning,
   'pending-clock': PendingClock,
+  'pending-clock-inverse': PendingClockInverse,
   circle: Circle,
   'apple-shortcut': AppleShortcut,
   'edit-pen': Edit,
@@ -193,7 +196,8 @@ const IconNameMap = {
   'green-tick': GreenTick,
   'cancel-grey': CancelGrey,
   'harness-logo-text': HarnessLogoText,
-  account: Account
+  account: Account,
+  'grid-dots': GridDots
   // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 
