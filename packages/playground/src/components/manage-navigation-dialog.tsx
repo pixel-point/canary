@@ -152,7 +152,7 @@ const SearchDropdownMenuExtendedContent: React.FC<SearchDropdownMenuExtendedCont
             </div>
           ))
         ) : (
-          <Text className="p-2 text-center w-full text-gray-500">No results found</Text>
+          <Text className="px-2 py-4 block w-full text-foreground-5">No results found</Text>
         )}
       </div>
     </PopoverContent>
@@ -249,7 +249,7 @@ export const ManageNavigationDialog: React.FC<ManageNavigationDialogProps> = ({
                     <Text className="text-foreground-8 w-full text-left">{item.title}</Text>
                   </Button>
                   <Button
-                    className="hover:text-icons-2 absolute top-0.5 right-0.5"
+                    className="text-icons-4 hover:text-icons-2 absolute top-0.5 right-0.5"
                     size="sm_icon"
                     variant="custom"
                     onClick={() => removeFromPinnedItems(item)}>
@@ -259,7 +259,7 @@ export const ManageNavigationDialog: React.FC<ManageNavigationDialogProps> = ({
               ))}
             </ul>
           ) : (
-            <Text className="text-foreground-7 px-3" size={1}>
+            <Text className="text-foreground-5 block mt-3" size={1}>
               No pinned items
             </Text>
           )}
@@ -277,15 +277,15 @@ export const ManageNavigationDialog: React.FC<ManageNavigationDialogProps> = ({
                 {recentItems.map((item, index) => (
                   <li className="relative h-8 flex items-center" key={`recent-${item.title}-${index}`}>
                     <div className="w-full grow flex items-center gap-x-2">
-                      <Icon name="pending-clock-inverse" size={12} />
+                      <Icon className="text-icons-4" name="pending-clock-inverse" size={12} />
                       <Text className="text-foreground-8 w-full text-left">{item.title}</Text>
                     </div>
                     <Button
-                      className="hover:text-icons-2 absolute top-0.5 -right-2"
+                      className="text-icons-4 hover:text-icons-2 absolute top-0.5 -right-2"
                       size="sm_icon"
                       variant="custom"
                       onClick={() => addToPinnedItems(item)}>
-                      <Icon name="pin" size={12} />
+                      <Icon name="pin" size={10} />
                     </Button>
                   </li>
                 ))}
