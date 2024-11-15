@@ -1,4 +1,3 @@
-import React from 'react'
 import { cn } from '@/lib/utils'
 import { Text } from '../text'
 import noiseBg from './noise.png'
