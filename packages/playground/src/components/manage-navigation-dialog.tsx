@@ -117,17 +117,17 @@ const SearchDropdownMenuExtendedContent: React.FC<SearchDropdownMenuExtendedCont
 
   return (
     <PopoverContent
-      className="w-[368px] !p-0 border-borders-1 !rounded bg-background-2"
+      className="w-[368px] !p-0 border-borders-1 overflow-hidden !rounded bg-background-2"
       align="start"
       onOpenAutoFocus={event => event.preventDefault()}
       onCloseAutoFocus={event => event.preventDefault()}>
-      <div className="max-h-[360px] p-1 relative overflow-y-scroll">
+      <div className="max-h-[55vh] h-[410px] p-1 relative overflow-y-scroll">
         <span
-          className="absolute top-0 inset-x-0 w-full h-3 gradient-to-b from-background-2 to-red-500 pointer-events-none"
+          className="absolute top-0 inset-x-0 w-full h-3 bg-gradient-to-b from-background-2 to-transparent pointer-events-none"
           aria-hidden
         />
         <span
-          className="absolute bottom-0 inset-x-0 w-full h-3 gradient-to-t from-background-2 to-red-500 pointer-events-none"
+          className="absolute bottom-0 inset-x-0 w-full h-3 bg-gradient-to-t from-background-2 to-transparent pointer-events-none"
           aria-hidden
         />
         {filteredItems.length > 0 ? (
@@ -209,7 +209,7 @@ export const ManageNavigationDialog: React.FC<ManageNavigationDialogProps> = ({
 
   return (
     <AlertDialog open={true} onOpenChange={onClose}>
-      <AlertDialogContent className="max-h-[70vh] max-w-[410px] overflow-y-auto">
+      <AlertDialogContent className="max-h-[70vh] h-[574px] max-w-[410px] overflow-y-auto">
         <AlertDialogHeader>
           <AlertDialogTitle>Manage navigation</AlertDialogTitle>
         </AlertDialogHeader>
@@ -241,7 +241,7 @@ export const ManageNavigationDialog: React.FC<ManageNavigationDialogProps> = ({
             Pinned
           </Text>
           {pinnedItems.length > 0 ? (
-            <ul className="mt-[1.125rem] flex flex-col gap-y-0.5 -mx-3">
+            <ul className="mt-3.5 flex flex-col gap-y-0.5 -mx-3">
               {pinnedItems.map(item => (
                 <li className="relative" key={item.title}>
                   <Button className="w-full grow px-3 gap-x-2.5" variant="ghost">
@@ -273,7 +273,7 @@ export const ManageNavigationDialog: React.FC<ManageNavigationDialogProps> = ({
                   Clear all
                 </Button>
               </div>
-              <ul className="mt-[0.875rem] flex flex-col gap-y-0.5">
+              <ul className="mt-3.5 flex flex-col gap-y-0.5">
                 {recentItems.map((item, index) => (
                   <li className="relative h-8 flex items-center" key={`recent-${item.title}-${index}`}>
                     <div className="w-full grow flex items-center gap-x-2">
@@ -293,7 +293,7 @@ export const ManageNavigationDialog: React.FC<ManageNavigationDialogProps> = ({
             </>
           )}
         </div>
-        <AlertDialogFooter className="mt-6">
+        <AlertDialogFooter>
           <ButtonGroup.Root>
             {!submitted ? (
               <>
