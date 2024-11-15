@@ -13,15 +13,16 @@ import {
   ButtonGroup,
   StackedList
 } from '@harnessio/canary'
-import { FileProps, Summary } from '../components/repo-summary'
+import type { FileProps} from '../components/repo-summary';
+import { Summary } from '../components/repo-summary'
 import { mockBranchData } from '../data/mockBranchData'
 import { RepoSummaryPanel } from '../components/repo-summary-panel'
-import { BranchSelector } from '../components/branch-selector'
+import { BranchSelector } from '../components/branch-selector/branch-selector'
 import { mockFiles } from '../data/mockSummaryFiiles'
 import { SandboxLayout } from '..'
 import { PlaygroundSandboxLayoutSettings } from '../settings/sandbox-settings'
 import { CloneRepoDialog } from '../components/repo-clone/clone-repo-dialog'
-import { BranchProps } from '../types/branch'
+import type { BranchProps } from '../components/branch-selector/types'
 
 // TODO: Move LAYOUT_STATES and LayoutState type to a shared location (e.g., types/layouts.ts)
 // since these states are used across multiple pages and should be managed in a single place
@@ -65,24 +66,7 @@ const mockBranchList = {
   branches: {
     items: mockBranchData,
     viewAllUrl: '#'
-const mockBranchList = {
-  branches: {
-    items: mockBranchData,
-    viewAllUrl: '#'
   },
-  tags: {
-    items: [
-      {
-        name: 'v1.0.0'
-      },
-      {
-        name: 'v1.0.1'
-      },
-      {
-        name: 'v1.0.2'
-      }
-    ],
-    viewAllUrl: '#'
   tags: {
     items: [
       {
@@ -98,17 +82,13 @@ const mockBranchList = {
     viewAllUrl: '#'
   }
 }
-}
 
 function SandboxRepoSummaryPage() {
-  const [loadState, setLoadState] = useState<LayoutState | string>(LAYOUT_STATES.float)
-  const [selectedBranch, setSelectedBranch] = useState<BranchProps | { name: string }>(mockBranchList.branches.items[0])
   const [loadState, setLoadState] = useState<LayoutState | string>(LAYOUT_STATES.float)
   const [selectedBranch, setSelectedBranch] = useState<BranchProps | { name: string }>(mockBranchList.branches.items[0])
 
   return (
     <>
-      {loadState.includes(LAYOUT_STATES.sub) && (
       {loadState.includes(LAYOUT_STATES.sub) && (
         <SandboxLayout.LeftSubPanel hasHeader hasSubHeader>
           <SandboxLayout.Content>
@@ -127,9 +107,7 @@ function SandboxRepoSummaryPage() {
       )}
       <SandboxLayout.Main
         fullWidth={loadState.includes(LAYOUT_STATES.full)}
-        fullWidth={loadState.includes(LAYOUT_STATES.full)}
         hasLeftPanel
-        hasLeftSubPanel={loadState.includes(LAYOUT_STATES.sub)}
         hasLeftSubPanel={loadState.includes(LAYOUT_STATES.sub)}
         hasHeader
         hasSubHeader>
@@ -138,15 +116,6 @@ function SandboxRepoSummaryPage() {
             <SandboxLayout.Content>
               <ListActions.Root>
                 <ListActions.Left>
-                  <ButtonGroup.Root className="w-full">
-                    <BranchSelector
-                      className="w-full max-w-[8.5rem]"
-                      name={selectedBranch.name}
-                      branchList={mockBranchList.branches}
-                      tagList={mockBranchList.tags}
-                      selectBranch={setSelectedBranch}
-                    />
-                    <SearchBox.Root className="max-w-80" width="full" placeholder="Search" />
                   <ButtonGroup.Root className="w-full">
                     <BranchSelector
                       className="w-full max-w-[8.5rem]"
@@ -174,7 +143,6 @@ function SandboxRepoSummaryPage() {
               </ListActions.Root>
               <Spacer size={5} />
               <Summary
-                files={mockFiles as FileProps[]}
                 files={mockFiles as FileProps[]}
                 latestFile={pick(mockFiles[0], ['user', 'lastCommitMessage', 'timestamp', 'sha'])}
               />
