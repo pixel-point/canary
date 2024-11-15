@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-import { FC, useCallback } from 'react'
-=======
 import type { FC } from 'react'
-import React, { useCallback } from 'react'
->>>>>>> 45f591e1 (fix: updated common layout and navbar)
+import { useCallback } from 'react'
 import { Text } from '@harnessio/canary'
 import type { LivelogLine } from './types'
 import { formatDuration } from '../../utils/TimeUtils'
