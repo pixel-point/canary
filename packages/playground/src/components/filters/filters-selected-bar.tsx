@@ -22,7 +22,7 @@ import type {
 
 import { useDragAndDrop } from '../../hooks/useDragAndDrop'
 import { DndContext, closestCenter } from '@dnd-kit/core'
-import DateFilter from './filter-types/filter-data'
+import DateFilter from './filter-types/filter-date'
 import CheckboxFilter from './filter-types/filter-checkbox'
 import { format } from 'date-fns'
 
@@ -139,12 +139,20 @@ const FiltersSelectedBar = ({
         return filter.selectedValues
           .map(value => (filterOption as CheckboxFilterOption).options.find(opt => opt.value === value)?.label)
           .join(', ')
-      case 'date':
+      case 'date': {
         if (filter.selectedValues.length === 0) return ''
-        if (filter.selectedValues.length === 1) {
-          return format(new Date(filter.selectedValues[0]), 'PPP')
+
+        const formatDate = (dateString: string) => {
+          const date = new Date(dateString)
+          const currentYear = new Date().getFullYear()
+          return date.getFullYear() === currentYear ? format(date, 'MMM d') : format(date, 'MMM d, yyyy')
         }
-        return `${format(new Date(filter.selectedValues[0]), 'PPP')} - ${format(new Date(filter.selectedValues[1]), 'PPP')}`
+
+        if (filter.selectedValues.length === 1) {
+          return formatDate(filter.selectedValues[0])
+        }
+        return `${formatDate(filter.selectedValues[0])} - ${formatDate(filter.selectedValues[1])}`
+      }
       default:
         return ''
     }
@@ -282,7 +290,11 @@ const FiltersSelectedBar = ({
               <Icon className="chevron-down text-icons-1" name="chevron-down" size={10} />
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent className="w-[276px] p-0" align="start">
+            <DropdownMenuContent
+              className={cn('w-[276px] p-0', {
+                'w-max': filterOption.type === 'date'
+              })}
+              align="start">
               <div className="flex items-center justify-between px-3 pt-2.5">
                 <div className="flex items-center gap-x-2">
                   <span className="text-foreground-4 text-14">{filterOption.label}</span>
@@ -361,7 +373,7 @@ const FiltersSelectedBar = ({
                 </div>
               )}
 
-              <div className="px-2 py-1">
+              <div>
                 {filter.condition !== 'is_empty' &&
                   onUpdateFilter &&
                   renderFilterValues(

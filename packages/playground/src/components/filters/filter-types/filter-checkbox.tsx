@@ -9,7 +9,7 @@ interface CheckboxFilterProps {
 
 const CheckboxFilter = ({ filter, filterOption, onUpdateFilter }: CheckboxFilterProps) => {
   return (
-    <>
+    <div className="px-2 py-1">
       {filterOption.options.map(option => (
         <DropdownMenuCheckboxItem
           className="pl-[34px]"
@@ -26,7 +26,7 @@ const CheckboxFilter = ({ filter, filterOption, onUpdateFilter }: CheckboxFilter
           {option.label}
         </DropdownMenuCheckboxItem>
       ))}
-    </>
+    </div>
   )
 }
 

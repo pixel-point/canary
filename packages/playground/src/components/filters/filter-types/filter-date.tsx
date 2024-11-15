@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Calendar } from '@harnessio/canary'
 import { FilterValue } from '../types'
 
@@ -13,8 +13,9 @@ const DateFilter = ({ filter, onUpdateFilter }: DateFilterProps) => {
   )
 
   return (
-    <>
+    <div className="mt-2.5 px-2 pb-3 pt-1">
       <Calendar
+        className="p-0"
         mode="single"
         selected={date}
         onSelect={newDate => {
@@ -25,7 +26,7 @@ const DateFilter = ({ filter, onUpdateFilter }: DateFilterProps) => {
         }}
         initialFocus
       />
-    </>
+    </div>
   )
 }
 
