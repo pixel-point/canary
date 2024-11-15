@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-import { Icon, Text, Button, cn, IconProps } from '@harnessio/canary'
-=======
-import React from 'react'
 import type { IconProps } from '@harnessio/canary'
 import { Icon, Text, Button, cn } from '@harnessio/canary'
->>>>>>> 45f591e1 (fix: updated common layout and navbar)
 import { NavLink } from 'react-router-dom'
 
 export interface NoDataProps {

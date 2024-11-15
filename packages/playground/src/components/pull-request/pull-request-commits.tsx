@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 import { useMemo } from 'react'
-import { TypesCommit } from './interfaces'
-=======
-import React, { useMemo } from 'react'
 import type { TypesCommit } from './interfaces'
->>>>>>> 45f591e1 (fix: updated common layout and navbar)
 import { formatDate, getInitials } from '../../utils/utils'
 import { StackedList, Text, NodeGroup, Avatar, AvatarFallback } from '@harnessio/canary'
 import { CommitCopyActions } from '../commit-copy-actions'
