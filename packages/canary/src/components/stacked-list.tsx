@@ -3,10 +3,10 @@ import { Slot, Slottable } from '@radix-ui/react-slot'
 
 import { cn } from '@/lib/utils'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { NavArrowRight } from '@harnessio/icons-noir'
+import { Icon } from './icon'
 
 const listItemVariants = cva(
-  'align-middle flex flex-row flex-1 gap-1 px-4 pt-2.5 pb-[0.5625rem] border-b flex-wrap justify-start items-center',
+  'flex flex-1 flex-row flex-wrap items-center justify-start gap-1 border-b px-4 pb-[0.5625rem] pt-2.5 align-middle',
   {
     variants: {
       disabled: {
@@ -21,16 +21,13 @@ const listItemVariants = cva(
   }
 )
 
-const listFieldVariants = cva(
-  'text-sm gap-1 flex flex-col flex-1 justify-start items-center justify-center items-stretch',
-  {
-    variants: {
-      right: {
-        true: 'items-end'
-      }
+const listFieldVariants = cva('flex flex-1 flex-col items-stretch justify-center gap-1 text-sm', {
+  variants: {
+    right: {
+      true: 'items-end'
     }
   }
-)
+})
 
 interface ListItemProps extends React.ComponentProps<'div'>, VariantProps<typeof listItemVariants> {
   thumbnail?: React.ReactNode
@@ -58,10 +55,10 @@ const List: React.FC<ListProps> = ({ className, children, onlyTopRounded, border
   <div
     className={cn(
       'w-full',
-      '[&>div:last-child]:border-0 border',
-      '[&>.stacked-list-item:first-child]:rounded-t-md [&>*:first-child_>.stacked-list-item]:rounded-t-md',
+      'border [&>div:last-child]:border-0',
+      '[&>*:first-child_>.stacked-list-item]:rounded-t-md [&>.stacked-list-item:first-child]:rounded-t-md',
       {
-        '[&>.stacked-list-item:last-child]:rounded-b-md [&>*:last-child_>.stacked-list-item]:rounded-b-md':
+        '[&>*:last-child_>.stacked-list-item]:rounded-b-md [&>.stacked-list-item:last-child]:rounded-b-md':
           !onlyTopRounded
       },
       onlyTopRounded ? 'rounded-t-md' : 'rounded-md',
@@ -95,13 +92,13 @@ const ListItem = ({
         className,
         isLast ? 'border-none' : 'border-b',
         isHeader ? 'bg-primary/[0.01]' : '',
-        disableHover ? '' : 'hover:bg-tertiary-muted ease-in-out duration-150 cursor-pointer'
+        disableHover ? '' : 'hover:bg-tertiary-muted cursor-pointer duration-150 ease-in-out'
       )}
       {...props}>
       {thumbnail && <div className="mr-2 flex items-center">{thumbnail}</div>}
       <Slottable>{children}</Slottable>
       {actions && <div className="ml-2 flex items-center">{actions}</div>}
-      <NavArrowRight className="hidden" strokeWidth="1.5" />
+      <Icon name="chevron-right" className="hidden" />
     </Comp>
   )
 }
@@ -114,7 +111,7 @@ const ListField = ({ className, title, description, label, primary, secondary, r
       <div
         className={cn(
           primary ? 'text-16 leading-snug' : secondary ? 'text-xs' : 'text-sm', // Conditionally apply text-xs if secondary is true
-          'font-normal text-primary [&>em]:font-medium [&>em]:text-primary [&>em]:not-italic',
+          'text-primary [&>em]:text-primary font-normal [&>em]:font-medium [&>em]:not-italic',
           label && 'text-tertiary-background',
           className
         )}>
@@ -124,7 +121,7 @@ const ListField = ({ className, title, description, label, primary, secondary, r
     {description && (
       <div
         className={cn(
-          'flex gap-2 text-tertiary-background whitespace-nowrap overflow-hidden text-ellipsis',
+          'text-tertiary-background flex gap-2 overflow-hidden text-ellipsis whitespace-nowrap',
           primary ? 'text-sm' : 'text-xs',
           className
         )}>

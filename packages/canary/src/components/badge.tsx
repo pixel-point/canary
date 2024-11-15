@@ -43,29 +43,29 @@ const badgeVariants = cva(
       hover: {
         [BadgesHoverStates.ENABLED]: '',
         // variant
-        [BadgesHoverStates.DISABLED_DEFAULT]: 'hover:shadow-none hover:!bg-primary',
-        [BadgesHoverStates.DISABLED_SECONDARY]: 'hover:shadow-none hover:!bg-secondary',
-        [BadgesHoverStates.DISABLED_DESTRUCTIVE]: 'hover:shadow-none hover:!bg-destructive',
+        [BadgesHoverStates.DISABLED_DEFAULT]: 'hover:!bg-primary hover:shadow-none',
+        [BadgesHoverStates.DISABLED_SECONDARY]: 'hover:!bg-secondary hover:shadow-none',
+        [BadgesHoverStates.DISABLED_DESTRUCTIVE]: 'hover:!bg-destructive hover:shadow-none',
         [BadgesHoverStates.DISABLED_OUTLINE]: '',
         // theme
-        [BadgesHoverStates.DISABLED_DESTRUCTIVE_THEME]: 'hover:shadow-none hover:!bg-[var(--tag-background-red-01)]',
-        [BadgesHoverStates.DISABLED_WARNING_THEME]: 'hover:shadow-none hover:!bg-[var(--tag-background-amber-01)]',
-        [BadgesHoverStates.DISABLED_SUCCESS_THEME]: 'hover:shadow-none hover:!bg-[var(--tag-background-mint-01)]',
-        [BadgesHoverStates.DISABLED_EMPHASIS_THEME]: 'hover:shadow-none hover:!bg-[var(--tag-background-purple-01)]',
-        [BadgesHoverStates.DISABLED_MUTED_THEME]: 'hover:shadow-none hover:!bg-[var(--tag-background-gray-01)]'
+        [BadgesHoverStates.DISABLED_DESTRUCTIVE_THEME]: 'hover:!bg-[var(--tag-background-red-01)] hover:shadow-none',
+        [BadgesHoverStates.DISABLED_WARNING_THEME]: 'hover:!bg-[var(--tag-background-amber-01)] hover:shadow-none',
+        [BadgesHoverStates.DISABLED_SUCCESS_THEME]: 'hover:!bg-[var(--tag-background-mint-01)] hover:shadow-none',
+        [BadgesHoverStates.DISABLED_EMPHASIS_THEME]: 'hover:!bg-[var(--tag-background-purple-01)] hover:shadow-none',
+        [BadgesHoverStates.DISABLED_MUTED_THEME]: 'hover:!bg-[var(--tag-background-gray-01)] hover:shadow-none'
       },
       theme: {
         default: '',
         destructive:
-          'text-[var(--tag-foreground-red-01)] border-[var(--tag-border-red-01)] bg-[var(--tag-background-red-01)] hover:bg-[var(--tag-background-red-02)]',
+          'border-[var(--tag-border-red-01)] bg-[var(--tag-background-red-01)] text-[var(--tag-foreground-red-01)] hover:bg-[var(--tag-background-red-02)]',
         warning:
-          'text-[var(--tag-foreground-amber-01)] border-[var(--tag-border-amber-01)] bg-[var(--tag-background-amber-01)] hover:bg-[var(--tag-background-amber-02)]',
+          'border-[var(--tag-border-amber-01)] bg-[var(--tag-background-amber-01)] text-[var(--tag-foreground-amber-01)] hover:bg-[var(--tag-background-amber-02)]',
         success:
-          'text-[var(--tag-foreground-mint-01)] border-[var(--tag-border-mint-01)] bg-[var(--tag-background-mint-01)] hover:bg-[var(--tag-background-mint-02)]',
+          'border-[var(--tag-border-mint-01)] bg-[var(--tag-background-mint-01)] text-[var(--tag-foreground-mint-01)] hover:bg-[var(--tag-background-mint-02)]',
         emphasis:
-          'text-[var(--tag-foreground-purple-01)] border-[var(--tag-border-purple-01)] bg-[var(--tag-background-purple-01)] hover:bg-[var(--tag-background-purple-02)]',
+          'border-[var(--tag-border-purple-01)] bg-[var(--tag-background-purple-01)] text-[var(--tag-foreground-purple-01)] hover:bg-[var(--tag-background-purple-02)]',
         muted:
-          'text-[var(--tag-foreground-gray-01)] border-[var(--tag-border-gray-01)] bg-[var(--tag-background-gray-01)] hover:bg-[var(--tag-background-gray-02)]'
+          'border-[var(--tag-border-gray-01)] bg-[var(--tag-background-gray-01)] text-[var(--tag-foreground-gray-01)] hover:bg-[var(--tag-background-gray-02)]'
       }
     },
     compoundVariants: [

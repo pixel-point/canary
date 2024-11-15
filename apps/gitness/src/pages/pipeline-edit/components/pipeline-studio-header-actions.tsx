@@ -86,8 +86,8 @@ const PipelineStudioHeaderActions = (): JSX.Element => {
 
   return (
     <>
-      <div className="absolute right-0 top-0 w-fit z-50">
-        <div className="flex items-center gap-x-3 h-14 px-4">
+      <div className="absolute right-0 top-0 z-50 w-fit">
+        <div className="flex h-14 items-center gap-x-3 px-4">
           {/* <Button variant="ghost" size="sm" disabled={!isInitialized || fetchingPipelineFileContent}>
             Settings
           </Button> */}

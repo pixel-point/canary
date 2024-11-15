@@ -252,7 +252,7 @@ export const FileEditor: React.FC = () => {
           </ListActions.Root>
           <Spacer size={5} />
           <StackedList.Root onlyTopRounded borderBackground>
-            <StackedList.Item disableHover isHeader className="py-2.5 px-3">
+            <StackedList.Item disableHover isHeader className="px-3 py-2.5">
               <ToggleGroup
                 onValueChange={(value: ViewTypeValue) => {
                   if (value) {
@@ -262,15 +262,15 @@ export const FileEditor: React.FC = () => {
                 value={view}
                 type="single"
                 unselectable={'on'}
-                className={'bg-primary-foreground p-0.5 border border-primary/10 rounded-lg'}>
+                className={'bg-primary-foreground border-primary/10 rounded-lg border p-0.5'}>
                 <ToggleGroupItem
                   value={'contents'}
-                  className="h-7 border border-transparent text-xs font-medium data-[state=on]:border-primary/10 rounded-md disabled:opacity-100">
+                  className="data-[state=on]:border-primary/10 h-7 rounded-md border border-transparent text-xs font-medium disabled:opacity-100">
                   Contents
                 </ToggleGroupItem>
                 <ToggleGroupItem
                   value={'changes'}
-                  className="h-7 border border-transparent text-xs font-medium data-[state=on]:border-primary/10 rounded-md disabled:opacity-100">
+                  className="data-[state=on]:border-primary/10 h-7 rounded-md border border-transparent text-xs font-medium disabled:opacity-100">
                   Changes
                 </ToggleGroupItem>
               </ToggleGroup>

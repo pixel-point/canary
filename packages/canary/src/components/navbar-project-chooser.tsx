@@ -20,8 +20,8 @@ function Root({ avatarLink, productLink }: ProjectProps) {
   }
 
   return (
-    <div className="flex flex-col w-full items-start justify-items-start px-5 pb-5">
-      <div className="h-[55px] flex items-center gap-1.5">
+    <div className="flex w-full flex-col items-start justify-items-start px-5 pb-[1.375rem]">
+      <div className="flex h-[58px] items-center gap-1.5">
         {avatarLink}
         {productLink}
       </div>
@@ -33,10 +33,9 @@ function Root({ avatarLink, productLink }: ProjectProps) {
         shortcutModifier="cmd"
         onSearch={openSearchDialog}
         showOnFocus
-        className="rounded-sm"
       />
       <Dialog open={isSearchDialogOpen} onOpenChange={closeSearchDialog}>
-        <DialogContent className="max-w-[800px] h-[600px] bg-primary-background border-border">
+        <DialogContent className="h-[600px] max-w-[800px] border-border bg-primary-background">
           <DialogHeader>
             <DialogTitle>Search</DialogTitle>
             <DialogDescription>

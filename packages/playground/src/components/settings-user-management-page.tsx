@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react'
 import { Spacer, Text, Button } from '@harnessio/canary'
-import { SandboxLayout } from '..'
+import { SandboxLayout , Filter } from '..'
 import { UsersList } from './user-management/users-list'
 import { useNavigate } from 'react-router-dom'
 import { dialogStateReducer, initialDialogState } from './user-management/user-reducers/dialog-state-reducers'
@@ -9,9 +9,8 @@ import { FormDeleteUserDialog } from './user-management/form-user-delete-dialog'
 import { FormRemoveAdminDialog } from './user-management/form-admin-remove-dialog'
 import { FormResetPasswordDialog } from './user-management/form-user-reset-password'
 import { FormAddAdminDialog } from './user-management/form-admin-add-dialog'
-import { DialogActionType, DialogType } from './user-management/interfaces'
-import { UsersProps } from './user-management/interfaces'
-import { Filter } from '..'
+import type { UsersProps } from './user-management/interfaces';
+import { DialogActionType, DialogType  } from './user-management/interfaces'
 import { PaginationComponent } from './pagination'
 const sortOptions = [
   { name: 'Date', value: 'created' },
@@ -172,7 +171,7 @@ export function SettingsUserManagementPage({
           Users
         </Text>
         <Spacer size={6} />
-        <div className="flex justify-between gap-5 items-center">
+        <div className="flex items-center justify-between gap-5">
           <div className="flex-1">
             <Filter sortOptions={sortOptions} />
           </div>

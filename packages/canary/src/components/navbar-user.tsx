@@ -16,30 +16,30 @@ interface items {
 }
 
 const Root: React.FC<{
-  username?: string
-  isAdmin?: boolean
+  username: string
+  email?: string
   url?: string
   menuItems?: items[]
-}> = ({ username, isAdmin, url, menuItems }) => {
+}> = ({ username, email, url, menuItems }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="group relative grid grid-rows-2 grid-cols-[auto_1fr] gap-x-3 items-center justify-start cursor-pointer">
-          <div className="absolute -inset-2 rounded-md group-hover:bg-primary/5 ease-in-out duration-100" />
+        <div className="group relative grid cursor-pointer grid-cols-[auto_1fr] grid-rows-2 items-center justify-start gap-x-2.5">
+          <div className="absolute -inset-2 rounded duration-100 ease-in-out group-hover:bg-primary/5" />
           <div className="col-start-1 row-span-2">
-            <Avatar className="rounded-md overflow-hidden">
+            <Avatar className="overflow-hidden rounded-md" size="8">
               {url && <AvatarImage src={url} alt="user" />}
-              {username && <AvatarFallback>{getInitials(username)}</AvatarFallback>}
+              <AvatarFallback>{getInitials(username)}</AvatarFallback>
             </Avatar>
           </div>
-          <p className="col-start-2 row-start-1 text-xs text-primary font-medium">{username}</p>
-          <p className="col-start-2 row-start-2 text-xs font-normal text-tertiary-background">
-            {isAdmin ? 'Admin' : 'Account Member'}
-          </p>
+          <p className="col-start-2 row-start-1 text-13 font-medium leading-none text-foreground-1">{username}</p>
+          {!!email && (
+            <p className="col-start-2 row-start-2 mt-0.5 text-13 font-normal leading-none text-foreground-4">{email}</p>
+          )}
         </div>
       </DropdownMenuTrigger>
       {menuItems && (
-        <DropdownMenuContent align="end" className="w-[180px] mb-2">
+        <DropdownMenuContent align="end" className="mb-2 w-[180px]">
           {menuItems.map(itm => {
             return (
               <DropdownMenuItem asChild key={itm.key}>

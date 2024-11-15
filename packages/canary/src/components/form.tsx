@@ -1,17 +1,8 @@
 import * as React from 'react'
-import * as LabelPrimitive from '@radix-ui/react-label'
+import type * as LabelPrimitive from '@radix-ui/react-label'
 import { Slot } from '@radix-ui/react-slot'
-import {
-  Controller,
-  ControllerProps,
-  FieldPath,
-  FieldValues,
-  FormProvider,
-  useFormContext,
-  useForm,
-  UseFormReturn,
-  SubmitHandler
-} from 'react-hook-form'
+import type { ControllerProps, FieldPath, FieldValues, UseFormReturn, SubmitHandler } from 'react-hook-form'
+import { Controller, FormProvider, useFormContext, useForm } from 'react-hook-form'
 
 import { cn } from '@/lib/utils'
 import { Label } from '@/components/label'
@@ -78,7 +69,7 @@ const FormItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
 
     return (
       <FormItemContext.Provider value={{ id }}>
-        <div ref={ref} className={cn('space-y-2 w-full', className)} {...props} />
+        <div ref={ref} className={cn('w-full space-y-2', className)} {...props} />
       </FormItemContext.Provider>
     )
   }
@@ -117,7 +108,7 @@ const FormDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttribu
     const { formDescriptionId } = useFormField()
 
     return (
-      <p ref={ref} id={formDescriptionId} className={cn('text-[0.8rem] text-muted-foreground', className)} {...props} />
+      <p ref={ref} id={formDescriptionId} className={cn('text-muted-foreground text-[0.8rem]', className)} {...props} />
     )
   }
 )
@@ -136,7 +127,7 @@ const FormMessage = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<
       <p
         ref={ref}
         id={formMessageId}
-        className={cn('text-[0.8rem] font-medium text-destructive', className)}
+        className={cn('text-destructive text-[0.8rem] font-medium', className)}
         {...props}>
         {body}
       </p>

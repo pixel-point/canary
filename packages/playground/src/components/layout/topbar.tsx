@@ -17,7 +17,7 @@ const Topbar = {
     return (
       <div
         className={cx(
-          `w-full grid ${gridCols} px-5 h-[55px] gap-6 border-b items-center text-sm font-regular`,
+          `grid w-full ${gridCols} font-regular h-[55px] items-center gap-6 border-b px-5 text-sm`,
           className
         )}>
         {children}
@@ -26,15 +26,15 @@ const Topbar = {
   },
 
   Left: React.memo(function Header({ children }: { children: React.ReactNode }) {
-    return <div className="flex order-1 gap-3 items-center">{children}</div>
+    return <div className="order-1 flex items-center gap-3">{children}</div>
   }),
 
   Center: React.memo(function Center({ children }: { children: React.ReactNode }) {
-    return <div className="flex order-2 justify-center items-center">{children}</div>
+    return <div className="order-2 flex items-center justify-center">{children}</div>
   }),
 
   Right: React.memo(function Header({ children }: { children: React.ReactNode }) {
-    return <div className="flex order-3 gap-3 items-center">{children}</div>
+    return <div className="order-3 flex items-center gap-3">{children}</div>
   })
 }
 

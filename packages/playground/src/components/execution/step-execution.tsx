@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { Tabs, TabsContent, TabsList, TabsTrigger, Button, Text, ScrollArea, SearchBox } from '@harnessio/canary'
-import { Copy, Edit, Download } from '@harnessio/icons-noir'
+import { Tabs, TabsContent, TabsList, TabsTrigger, Button, Text, ScrollArea, SearchBox, Icon } from '@harnessio/canary'
 import ConsoleLogs from './console-logs'
 import { Layout } from '../layout/layout'
 import { ExecutionStatus } from './execution-status'
 import { getFormattedDuration } from '../../utils/TimeUtils'
-import { KeyValuePair, KeyValueTable } from './key-value-table'
-import { ExecutionState, LivelogLine } from './types'
+import type { KeyValuePair} from './key-value-table';
+import { KeyValueTable } from './key-value-table'
+import type { ExecutionState, LivelogLine } from './types'
 
 export interface StepProps {
   name?: string
@@ -42,23 +42,23 @@ const StepExecutionToolbar: React.FC<
       <SearchBox.Root
         width="full"
         placeholder="Find in logs"
-        className="h-9 searchbox"
+        className="searchbox h-9"
         handleChange={handleInputChange}
         value={query}
       />
       <div className="flex">
-        <Button variant="outline" size="icon" className="rounded-tr-none rounded-br-none border-r-0" onClick={onCopy}>
-          <Copy className="h-4 w-4" />
+        <Button variant="outline" size="icon" className="rounded-r-none border-r-0" onClick={onCopy}>
+          <Icon name="x-mark" className="size-4" />
         </Button>
         <Button variant="outline" size="icon" className="rounded-none" onClick={onEdit}>
-          <Edit className="h-4 w-4" />
+          <Icon name="x-mark" className="size-4" />
         </Button>
         <Button
           variant="outline"
           size="icon"
-          className="rounded-tl-none rounded-bl-none border-l-0"
+          className="rounded-l-none border-l-0"
           onClick={onDownload}>
-          <Download className="h-4 w-4" />
+          <Icon name="x-mark" className="size-4" />
         </Button>
       </div>
     </Layout.Horizontal>
@@ -66,7 +66,6 @@ const StepExecutionToolbar: React.FC<
 }
 
 export const StepExecution: React.FC<StepExecutionProps> = ({ step, logs, onEdit, onDownload, onCopy }) => {
-  if (!step) return null
   const inputTable = step?.inputs || []
   const outputTable = step?.outputs || []
   const [query, setQuery] = useState('')
@@ -74,16 +73,18 @@ export const StepExecution: React.FC<StepExecutionProps> = ({ step, logs, onEdit
     const value = event.target.value
     setQuery(value)
   }
+
+  if (!step) return null
   return (
     <Layout.Vertical>
-      <Layout.Horizontal className="flex justify-between items-center">
+      <Layout.Horizontal className="flex items-center justify-between">
         <Text className="text-lg">{step?.name}</Text>
         <ExecutionStatus.Badge
           status={step?.status}
           duration={getFormattedDuration(step?.started ?? 0, step?.stopped ?? 0)}
         />
       </Layout.Horizontal>
-      <Tabs defaultValue={StepExecutionTab.LOG} className="w-full h-full mt-2">
+      <Tabs defaultValue={StepExecutionTab.LOG} className="mt-2 size-full">
         <Layout.Vertical gap="space-y-3">
           <Layout.Horizontal className="flex justify-between">
             <TabsList className="w-fit">

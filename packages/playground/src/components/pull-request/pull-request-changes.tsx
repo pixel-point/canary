@@ -32,8 +32,8 @@ interface DataProps {
 }
 
 const LineTitle: React.FC<Omit<HeaderProps, 'title' | 'data' | 'lang'>> = ({ text, numAdditions, numDeletions }) => (
-  <div className="flex items-center gap-3 justify-between">
-    <div className="inline-flex gap-2 items-center">
+  <div className="flex items-center justify-between gap-3">
+    <div className="inline-flex items-center gap-2">
       <Text weight="medium">{text}</Text>
       <div
         onClick={e => {
@@ -52,9 +52,9 @@ const LineTitle: React.FC<Omit<HeaderProps, 'title' | 'data' | 'lang'>> = ({ tex
         </Badge>
       )}
     </div>
-    <div className="inline-flex gap-x-6 items-center">
-      <div title="coming soon" className="flex gap-2 items-center">
-        <Checkbox title="coming soon" checked className="w-4 h-4" />
+    <div className="inline-flex items-center gap-x-6">
+      <div title="coming soon" className="flex items-center gap-2">
+        <Checkbox title="coming soon" checked className="size-4" />
         {/* This would need to be dynamic text value if/when viewing functionality is hooked up */}
         <Text title="coming soon" size={2} className="text-primary/90">
           Viewed
@@ -77,10 +77,10 @@ const PullRequestAccordion: React.FC<{
     parseStartingLineIfOne(header?.data ?? '') !== null ? parseStartingLineIfOne(header?.data ?? '') : null
   return (
     <StackedList.Root>
-      <StackedList.Item disableHover isHeader className="p-0 hover:bg-transparent cursor-default">
+      <StackedList.Item disableHover isHeader className="cursor-default p-0 hover:bg-transparent">
         <Accordion type="multiple" className="w-full">
           <AccordionItem isLast value={header?.text ?? ''}>
-            <AccordionTrigger leftChevron className="text-left p-4">
+            <AccordionTrigger leftChevron className="p-4 text-left">
               <StackedList.Field
                 title={
                   <LineTitle
@@ -92,11 +92,11 @@ const PullRequestAccordion: React.FC<{
               />
             </AccordionTrigger>
             <AccordionContent>
-              <div className="flex border-t w-full">
+              <div className="flex w-full border-t">
                 <div className="bg-transparent">
                   {startingLine ? (
                     <div className="bg-[--diff-hunk-lineNumber--]">
-                      <div className="w-full px-2 ml-16 py-1 font-mono ">{startingLine}</div>
+                      <div className="ml-16 w-full px-2 py-1 font-mono">{startingLine}</div>
                     </div>
                   ) : null}
                   <PullRequestDiffViewer

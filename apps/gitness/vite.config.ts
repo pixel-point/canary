@@ -6,6 +6,7 @@ import monacoEditorPlugin from 'vite-plugin-monaco-editor'
 export default defineConfig({
   plugins: [
     react(),
+    // @ts-expect-error: @TODO: Fix  this. Should be removed, added to enable typecheck
     monacoEditorPlugin.default({ customWorkers: [{ entry: 'monaco-yaml/yaml.worker', label: 'yaml' }] })
   ],
   server: {

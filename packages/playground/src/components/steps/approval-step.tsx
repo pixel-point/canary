@@ -1,11 +1,14 @@
+import type {
+  IFormDefinition} from '@harnessio/forms';
 import {
-  IFormDefinition,
   arrayToObjectOutputTransformer,
   objectToArrayInputTransformer,
   unsetEmptyStringOutputTransformer
 } from '@harnessio/forms'
-import { InputConfigType, InputType } from '../form-inputs/types'
-import { APPROVAL_STEP_IDENTIFIER, IInputConfigWithConfig } from './types'
+import type { InputConfigType} from '../form-inputs/types';
+import { InputType } from '../form-inputs/types'
+import type { IInputConfigWithConfig } from './types';
+import { APPROVAL_STEP_IDENTIFIER } from './types'
 
 export const APPROVAL_STEP_DESCRIPTION = 'Approval step description.'
 

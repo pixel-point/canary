@@ -2,18 +2,18 @@ import React from 'react'
 
 function Root({ children }: { children: React.ReactNode }) {
   return (
-    <div className="w-full grid grid-cols-[1fr_auto] px-8 h-[55px] gap-6 border-b border-border-background items-center text-sm font-regular">
+    <div className="font-regular grid h-[55px] w-full grid-cols-[1fr_auto] items-center gap-6 border-b border-border-background px-8 text-sm">
       {children}
     </div>
   )
 }
 
 function Left({ children }: { children: React.ReactNode }) {
-  return <div className="flex order-1 gap-3">{children}</div>
+  return <div className="order-1 flex gap-3">{children}</div>
 }
 
 function Right({ children }: { children: React.ReactNode }) {
-  return <div className="flex order-2 gap-3">{children}</div>
+  return <div className="order-2 flex gap-3">{children}</div>
 }
 
 export { Root, Left, Right }

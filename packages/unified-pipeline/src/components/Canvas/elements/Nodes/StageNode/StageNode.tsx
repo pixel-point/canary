@@ -1,8 +1,8 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
 import { Handle, NodeProps, Position, Node } from 'reactflow'
+import { Icon } from '@harnessio/canary'
 import { set } from 'lodash-es'
-import { Plus } from '@harnessio/icons-noir'
 import { DefaultNodeProps, GroupOrientation, NodeType, PositionType } from '../../../types'
 import {
   getChildNodes,
@@ -234,7 +234,7 @@ const StageNodeInternal: React.FC<NodeProps<GroupNodeProps>> = props => {
           </div>
         )}
         {expanded && orientation === GroupOrientation.TB && (
-          <Plus className={cx('w-6 h-6 rounded-[4px] bg-studio-2/10')} />
+          <Icon name="plus" className={cx('w-6 h-6 rounded-[4px] bg-studio-2/10')} />
         )}
       </div>
       {/**

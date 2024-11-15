@@ -12,11 +12,11 @@ export const PipelineStudioPanel = (): JSX.Element => {
   return (
     <Tabs defaultValue="problems" variant="underline" className="h-full">
       <div className="flex flex-row justify-between border-b">
-        <TabsList className="bg-transparent ml-4">
+        <TabsList className="ml-4 bg-transparent">
           <TabsTrigger value="problems">
             Problems
             {problemsCount.all > 0 && (
-              <Badge className="rounded-full font-normal text-xs p-2 h-5 ml-2 bg-red-950 text-red-400">
+              <Badge className="ml-2 h-5 rounded-full bg-red-950 p-2 text-xs font-normal text-red-400">
                 {problemsCount.all}
               </Badge>
             )}
@@ -35,7 +35,7 @@ export const PipelineStudioPanel = (): JSX.Element => {
           </Button>
         </div>
       </div>
-      <TabsContent value="problems" className="overflow-scroll h-full py-2">
+      <TabsContent value="problems" className="h-full overflow-scroll py-2">
         <PipelineStudioProblemsPanel />
       </TabsContent>
       {/* <TabsContent value="suggestions">Suggestions placeholder</TabsContent> */}

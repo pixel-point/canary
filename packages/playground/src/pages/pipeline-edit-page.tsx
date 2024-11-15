@@ -14,10 +14,10 @@ import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger
+  TabsTrigger,
+  Icon
 } from '@harnessio/canary'
 import { type InlineAction } from '@harnessio/yaml-editor'
-import { ArrowLeft, Box, Search, Xmark } from '@harnessio/icons-noir'
 import { YamlEditor, MonacoGlobals } from '@harnessio/yaml-editor'
 import {
   RenderForm,
@@ -32,7 +32,8 @@ import { OutlineModel } from 'monaco-editor/esm/vs/editor/contrib/documentSymbol
 import { StandaloneServices } from 'monaco-editor/esm/vs/editor/standalone/browser/standaloneServices.js'
 import { Container } from '../components/layout/container'
 import { Topbar } from '../components/layout/topbar'
-import { VisualYamlToggle, VisualYamlValue } from '../components/pipeline-studio/visual-yaml-toggle'
+import type { VisualYamlValue } from '../components/pipeline-studio/visual-yaml-toggle';
+import { VisualYamlToggle } from '../components/pipeline-studio/visual-yaml-toggle'
 import { PipelineStudioToolbarActions } from '../components/pipeline-studio/pipeline-studio-toolbar-actions'
 import { PipelineStudioFooterBar } from '../components/pipeline-studio/pipeline-studio-footer-bar/pipeline-studio-footer-bar'
 import pipeline from '../assets/pipeline.yaml'
@@ -40,7 +41,8 @@ import pipeline from '../assets/pipeline.yaml'
 import { themes } from '../assets/monacoTheme'
 import { Problems } from '../components/pipeline-studio/problems'
 import { problemsMock } from '../assets/problemsMock'
-import { InlineActionArgsType, getInlineActions } from '../assets/inlineActions'
+import type { InlineActionArgsType} from '../assets/inlineActions';
+import { getInlineActions } from '../assets/inlineActions'
 import unifiedSchema from '../assets/unifiedSchema.json'
 import { StepForm } from '../components/pipeline-studio/step-form/step-form'
 import { StepFormSection } from '../components/pipeline-studio/step-form/step-form-section'
@@ -51,6 +53,7 @@ import { StepsPaletteItem } from '../components/pipeline-studio/step-palette/ste
 import { stepPaletteItems } from '../assets/stepPaletteItems'
 import { inputComponentFactory } from '../components/form-inputs/factory/factory'
 import { runStepFormDefinition } from '../components/steps/run-step'
+import { ArrowLeft } from 'lucide-react'
 
 MonacoGlobals.set({
   ILanguageFeaturesService,
@@ -96,7 +99,7 @@ const YamlView = (props: { setDrawerOpen: (open: 'stepform' | 'palette' | undefi
 
   return useMemo(
     () => (
-      <div className="flex h-full w-full">
+      <div className="flex size-full">
         <YamlEditor
           onYamlRevisionChange={() => {}}
           yamlRevision={yamlRevision}
@@ -118,7 +121,7 @@ const PipelineStudioToolbar = ({
   setView: (view: VisualYamlValue) => void
 }) => {
   return (
-    <Topbar.Root className={cx({ ['border-b-0 px-8 bg-transparent']: view === 'visual' })}>
+    <Topbar.Root className={cx({ ['border-b-0 bg-transparent px-8']: view === 'visual' })}>
       <Topbar.Left>
         <VisualYamlToggle view={view} setView={setView} isYamlValid={true} />
       </Topbar.Left>
@@ -141,20 +144,20 @@ const PipelineStudioPanel = (): JSX.Element => {
   return (
     <Tabs defaultValue="problems" variant="underline" className="h-full">
       <div className="flex flex-row justify-between border-b">
-        <TabsList className="bg-transparent ml-4">
+        <TabsList className="ml-4 bg-transparent">
           <TabsTrigger value="problems">
             Problems
-            <Badge className="rounded-full font-normal text-xs p-2 h-5 ml-2 bg-red-950 text-red-400">8</Badge>
+            <Badge className="ml-2 h-5 rounded-full bg-red-950 p-2 text-xs font-normal text-red-400">8</Badge>
           </TabsTrigger>
           {/* <TabsTrigger value="suggestions">Suggestions</TabsTrigger> */}
         </TabsList>
         <div>
           <Button onClick={() => {}} variant="ghost" size="sm" className="m-1 px-2">
-            <Xmark />
+            <Icon name="x-mark" />
           </Button>
         </div>
       </div>
-      <TabsContent value="problems" className="overflow-scroll h-full py-2">
+      <TabsContent value="problems" className="h-full overflow-scroll py-2">
         <Problems onClick={() => {}} problems={problemsMock} />
       </TabsContent>
       {/* <TabsContent value="suggestions">Suggestions placeholder</TabsContent> */}
@@ -163,6 +166,8 @@ const PipelineStudioPanel = (): JSX.Element => {
 }
 
 const StepFormPanel = (): JSX.Element => {
+  // Srdjan please fix this
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const formResolver = useMemo(() => useZodValidationResolver(runStepFormDefinition), [runStepFormDefinition])
 
   return (
@@ -183,7 +188,7 @@ const StepFormPanel = (): JSX.Element => {
           <StepForm.Header>
             {/* {<StepBreadcrumb title="Deploy to Dev" subTitle="Run" />} */}
             <StepForm.Title>
-              <Button className="px-2 mr-2" size="sm" variant="ghost" onClick={() => {}}>
+              <Button className="mr-2 px-2" size="sm" variant="ghost" onClick={() => {}}>
                 <ArrowLeft />
               </Button>
               Run Step
@@ -225,7 +230,7 @@ const StepPalettePanel = (): JSX.Element => {
       <StepsPalette.Header>
         {/* <StepBreadcrumb title="Deploy to Dev" subTitle="Add Step" /> */}
         <StepsPalette.Title>Add Step</StepsPalette.Title>
-        <Input placeholder="Search" left={<Search />} />
+        <Input placeholder="Search" left={<Icon name="x-mark" />} />
         <StepPaletteFilters />
       </StepsPalette.Header>
       <StepsPaletteContent.Root>
@@ -239,7 +244,7 @@ const StepPalettePanel = (): JSX.Element => {
               <StepsPaletteContent.SectionItem key={item.identifier}>
                 <StepsPaletteItem.Root onClick={() => {}}>
                   <StepsPaletteItem.Left>
-                    <Box size="36" />
+                    <Icon name="x-mark" />
                   </StepsPaletteItem.Left>
                   <StepsPaletteItem.Right>
                     <StepsPaletteItem.Header>

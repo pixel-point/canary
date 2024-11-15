@@ -139,6 +139,10 @@
     --border-04: var(--grey-12);
     --border-05: var(--grey-10);
     --border-06: var(--grey-30);
+    --border-07: var(--grey-90);
+    --border-08: var(--white);
+    --border-09: var(--grey-60);
+    --border-10: var(--grey-6);
     --border-danger: var(--red-65);
     --border-success: var(--green-65);
     /* Icons */
@@ -228,10 +232,10 @@
     --warning: var(--orange);
     --emphasis: var(--purple);
     --ai: var(--purple);
-    --ai-button-stop-1: 37 90% 91%;
-    --ai-button-stop-2: 349 67% 74%;
-    --ai-button-stop-3: 259 63% 75%;
-    --ai-button-stop-4: 197 100% 89%;
+    --ai-button-stop-1: 36 60% 95%;
+    --ai-button-stop-2: 335 58% 76%;
+    --ai-button-stop-3: 246 66% 72%;
+    --ai-button-stop-4: 188 97% 89%;
     /* New colors design variables */
     /* Text */
     --foreground-01: var(--white);
@@ -267,6 +271,10 @@
     --border-04: var(--grey-12);
     --border-05: var(--grey-10);
     --border-06: var(--grey-30);
+    --border-07: var(--grey-90);
+    --border-08: var(--white);
+    --border-09: var(--grey-60);
+    --border-10: var(--grey-6);
     --border-danger: var(--red-65);
     --border-success: var(--green-65);
     /* Icons */
@@ -323,50 +331,50 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-borders-1;
   }
 
   html {
-    @apply antialiased text-base;
+    @apply text-base antialiased;
   }
 
   body {
-    @apply bg-background text-foreground text-sm font-normal -tracking-[0.02em];
+    @apply bg-background-1 text-foreground-2 text-sm font-normal -tracking-[0.02em];
   }
 }
 
 /* Text utilities */
 .text-radial-gradient {
   /* remove hardcode colors */
-  @apply bg-gradient-radial from-[#CA9AF4]/70 to-[#CA9AF4]/0 bg-clip-text text-primary/70;
+  @apply bg-gradient-radial text-primary/70 from-[#CA9AF4]/70 to-[#CA9AF4]/0 bg-clip-text;
 }
 
 /* Card utilities */
 .card-auth {
-  @apply border-none w-[362px];
+  @apply w-[362px] border-none;
 }
 .card-auth-header {
-  @apply p-0 space-x-0 space-y-0;
+  @apply space-x-0 space-y-0 p-0;
 }
 .card-auth-content {
-  @apply py-6 w-full;
+  @apply w-full py-6;
 }
 
 /* Form utilities */
 .text-form-error {
-  @apply font-light text-destructive text-xs mt-2;
+  @apply text-destructive mt-2 text-xs font-light;
 }
 .form-input {
-  @apply font-light text-sm w-full mt-1 border-primary/10 bg-primary/5 rounded-[4px];
+  @apply border-primary/10 bg-primary/5 mt-1 w-full rounded-[4px] text-sm font-light;
   @apply placeholder:text-primary/50 !important;
 }
 
 /* Temporary studio controls override */
 .react-flow__panel {
-  @apply m-6 flex gap-[1px] left-auto right-0 !important;
+  @apply left-auto right-0 m-6 flex gap-[1px] !important;
 }
 .react-flow__controls-button {
-  @apply invert rounded-md !important;
+  @apply rounded-md invert !important;
 }
 
 .diff-widget-tooltip:hover::before {
@@ -620,4 +628,14 @@
 .diff-tailwindcss-wrapper .scrollbar-disable {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.sub-menu-icon-bg {
+  stop {
+    stop-color: hsla(0, 0%, 94%, 1);
+
+    & + stop {
+      stop-color: hsla(0, 0%, 61%, 1);
+    }
+  }
 }

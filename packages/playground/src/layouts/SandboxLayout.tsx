@@ -19,7 +19,7 @@ function LeftPanel({ children, className }: { children: React.ReactNode; classNa
   return (
     <nav
       className={cn(
-        'fixed left-0 top-0 bottom-0 z-50 w-[220px] border-r border-border-background overflow-y-auto',
+        'border-border-background fixed bottom-0 left-0 top-0 z-50 w-[220px] overflow-y-auto border-r',
         className
       )}
       aria-label="Left Navigation Panel">
@@ -45,7 +45,7 @@ function LeftSubPanel({
   return (
     <section
       className={cn(
-        'fixed left-[220px] top-0 bottom-0 z-40 w-[300px] border-r border-border-background overflow-y-auto',
+        'border-border-background fixed bottom-0 left-[220px] top-0 z-40 w-[300px] overflow-y-auto border-r',
         paddingTopClass,
         className
       )}
@@ -57,7 +57,7 @@ function LeftSubPanel({
 
 function Header({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <header className={cn('h-[55px] fixed top-0 left-[220px] right-0 z-40 bg-background', className)} role="banner">
+    <header className={cn('bg-background fixed left-[220px] right-0 top-0 z-40 h-[55px]', className)} role="banner">
       {children}
     </header>
   )
@@ -65,9 +65,7 @@ function Header({ children, className }: { children: React.ReactNode; className?
 
 function SubHeader({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <header
-      className={cn('h-[45px] fixed top-[55px] left-[220px] right-0 z-40 bg-background', className)}
-      role="secondarybanner">
+    <header className={cn('bg-background fixed left-[220px] right-0 top-[55px] z-40 h-[45px]', className)}>
       {children}
     </header>
   )
@@ -104,18 +102,15 @@ function Main({
 
   if (fullWidth) {
     return (
-      <section
-        role="region"
-        aria-label="Main Content"
-        className={cn('h-full', paddingLeftClass, paddingTopClass, className)}>
+      <section aria-label="Main Content" className={cn('h-full', paddingLeftClass, paddingTopClass, className)}>
         {children}
       </section>
     )
   }
 
   return (
-    <section role="region" aria-label="Main Content" className={cn('h-full', paddingLeftClass)}>
-      <div className={cn('h-full mx-auto max-w-[1200px]', paddingTopClass, className)}>{children}</div>
+    <section aria-label="Main Content" className={cn('h-full', paddingLeftClass)}>
+      <div className={cn('mx-auto h-full max-w-[1200px]', paddingTopClass, className)}>{children}</div>
     </section>
   )
 }

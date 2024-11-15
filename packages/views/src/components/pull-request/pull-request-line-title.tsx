@@ -12,7 +12,7 @@ interface LineDescriptionProps {
 
 export const LineTitle = ({ ...props }: LineTitleProps) => {
   return (
-    <div className="inline-flex gap-2 items-center">
+    <div className="inline-flex items-center gap-2">
       {props.icon}
       <Text weight="medium">{props.text}</Text>
     </div>
@@ -21,7 +21,7 @@ export const LineTitle = ({ ...props }: LineTitleProps) => {
 
 export const LineDescription = ({ ...props }: LineDescriptionProps) => {
   return (
-    <div className="ml-6 inline-flex gap-2 items-center">
+    <div className="ml-6 inline-flex items-center gap-2">
       <Text size={1} weight="normal" color={'tertiaryBackground'}>
         {props.text}
       </Text>

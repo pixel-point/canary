@@ -1,10 +1,11 @@
-import { DiffModeEnum, DiffFile, DiffView, DiffViewProps, SplitSide } from '@git-diff-view/react'
+import type { DiffViewProps} from '@git-diff-view/react';
+import { DiffModeEnum, DiffFile, DiffView, SplitSide } from '@git-diff-view/react'
 import { Card, Input, Text } from '@harnessio/canary'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { OverlayScrollbars } from 'overlayscrollbars'
 
 import { debounce } from 'lodash-es'
-import { DiffBlock } from 'diff2html/lib/types'
+import type { DiffBlock } from 'diff2html/lib/types'
 import constants from './constants'
 
 const TextArea = ({ onChange }: { onChange: (v: string) => void }) => {
@@ -218,14 +219,14 @@ const PullRequestDiffViewer = ({
       {diffFileInstance && !renderCustomContent && (
         <DiffView<string>
           ref={ref}
-          className="text-tertiary-background bg-tr w-full"
+          className="bg-tr w-full text-tertiary-background"
           //   renderWidgetLine={({ onClose }) => {
           //     console.log('render widget')
           //     return <></>
           //   }}
           renderWidgetLine={({ onClose, side, lineNumber }) => {
             return (
-              <div className="flex w-full absolute flex-col border px-[4px] py-[8px]">
+              <div className="absolute flex w-full flex-col border px-[4px] py-[8px]">
                 <TextArea onChange={v => (valRef.current = v)} />
                 <div className="m-[5px] mt-[0.8em] text-right">
                   <div className="inline-flex justify-end gap-x-[12px]">
@@ -267,10 +268,10 @@ const PullRequestDiffViewer = ({
           extendData={extend}
           renderExtendLine={({ data }) => (
             <div className="bg-background/50 px-6 py-[6px]">
-              <Card className="bg-transparent rounded-md">
-                <div className="flex flex-col px-4 py-4">
+              <Card className="rounded-md bg-transparent">
+                <div className="flex flex-col p-4">
                   <div className="flex items-center space-x-2">
-                    <div className='h-6 w-6 rounded-full bg-tertiary-background bg-[url("../images/user-avatar.svg")] bg-cover'></div>
+                    <div className='size-6 rounded-full bg-tertiary-background bg-[url("../images/user-avatar.svg")] bg-cover'></div>
                     <Text color="primary">adam </Text>
                     <Text size={1} color="tertiaryBackground">
                       4 hours ago
@@ -280,8 +281,8 @@ const PullRequestDiffViewer = ({
                     {data}
                   </Text>
                 </div>
-                <div className="flex items-center gap-3 border-t px-4 py-4">
-                  <div className='h-6 w-6 rounded-full bg-tertiary-background bg-[url("../images/user-avatar.svg")] bg-cover'></div>
+                <div className="flex items-center gap-3 border-t p-4">
+                  <div className='size-6 rounded-full bg-tertiary-background bg-[url("../images/user-avatar.svg")] bg-cover'></div>
                   <Input placeholder={'Reply here'} />
                 </div>
               </Card>
@@ -299,7 +300,7 @@ const PullRequestDiffViewer = ({
         />
       )}
       {renderCustomContent && (
-        <div className="pt-4 pl-6">
+        <div className="pl-6 pt-4">
           {fileDeleted
             ? 'This file was deleted.'
             : isDiffTooLarge || diffHasVeryLongLine

@@ -1,8 +1,7 @@
 import React from 'react'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Text } from '@harnessio/canary'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Text , Icon } from '@harnessio/canary'
 import { timeAgo } from '../../utils/utils'
-import { Icon } from '@harnessio/canary'
-import { KeysList } from './types'
+import type { KeysList } from './types'
 
 interface PageProps {
   publicKeys: KeysList[]
@@ -36,7 +35,7 @@ export const ProfileKeysList: React.FC<PageProps> = ({ publicKeys, openAlertDele
                 </div>
               </TableCell>
               <TableCell className="h-1">
-                <div className="h-full flex items-center">{timeAgo(new Date(key.created!).getTime())}</div>
+                <div className="flex h-full items-center">{timeAgo(new Date(key.created!).getTime())}</div>
               </TableCell>
               <TableCell className="h-1">
                 {/* <div className="h-full flex items-center">
@@ -45,7 +44,7 @@ export const ProfileKeysList: React.FC<PageProps> = ({ publicKeys, openAlertDele
               </TableCell>
               <TableCell className="content-center">
                 <div
-                  className="flex gap-1.5 items-center justify-end cursor-pointer"
+                  className="flex cursor-pointer items-center justify-end gap-1.5"
                   onClick={() => {
                     openAlertDeleteDialog({ identifier: key.identifier!, type: 'key' })
                   }}>
@@ -57,7 +56,7 @@ export const ProfileKeysList: React.FC<PageProps> = ({ publicKeys, openAlertDele
         ) : (
           <TableRow>
             <TableCell colSpan={4}>
-              <Text as="p" size={2} align="center" color={'tertiaryBackground'} className="text-center w-full">
+              <Text as="p" size={2} align="center" color={'tertiaryBackground'} className="w-full text-center">
                 There are no SSH keys associated with this account.
               </Text>
             </TableCell>

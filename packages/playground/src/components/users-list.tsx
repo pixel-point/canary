@@ -47,11 +47,11 @@ export const UsersList = ({ users }: PageProps) => {
             return (
               <TableRow key={index}>
                 {/* NAME */}
-                <TableCell className="content-center my-6">
+                <TableCell className="my-6 content-center">
                   <div className="flex items-center gap-4">
                     <Avatar size="10">
                       {user.avatarUrl && <AvatarImage src={user.avatarUrl} />}
-                      <AvatarFallback className="text-xs p-1 text-center">
+                      <AvatarFallback className="p-1 text-center text-xs">
                         {getInitials(user.display_name, 2)}
                       </AvatarFallback>
                     </Avatar>
@@ -61,7 +61,7 @@ export const UsersList = ({ users }: PageProps) => {
                         <Badge
                           variant="outline"
                           size="xs"
-                          className="rounded-full font-normal text-xs p-2 h-5 text-tertiary-background text-center m-auto bg-tertiary-background/10 ml-2">
+                          className="m-auto ml-2 h-5 rounded-full bg-tertiary-background/10 p-2 text-center text-xs font-normal text-tertiary-background">
                           {user.role}
                         </Badge>
                       )}
@@ -69,23 +69,23 @@ export const UsersList = ({ users }: PageProps) => {
                   </div>
                 </TableCell>
                 {/* ROLE */}
-                <TableCell className="content-center my-6">
-                  <div className="flex gap-1.5 items-center">
+                <TableCell className="my-6 content-center">
+                  <div className="flex items-center gap-1.5">
                     <Text size={2} wrap="nowrap" truncate className="text-tertiary-background">
                       {user.role}
                     </Text>
                   </div>
                 </TableCell>
                 {/* EMAIL */}
-                <TableCell className="content-center my-6">
+                <TableCell className="my-6 content-center">
                   <div className="flex gap-1.5">
                     <Text wrap="nowrap" size={1} truncate className="text-tertiary-background">
                       {user.email}
                     </Text>
                   </div>
                 </TableCell>
-                <TableCell className="content-center my-6">
-                  <div className="flex gap-1.5 items-center justify-end">
+                <TableCell className="my-6 content-center">
+                  <div className="flex items-center justify-end gap-1.5">
                     <Icon name="vertical-ellipsis" size={14} className="text-tertiary-background" />
                   </div>
                 </TableCell>

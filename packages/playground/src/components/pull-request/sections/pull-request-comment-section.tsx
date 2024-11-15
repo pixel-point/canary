@@ -1,7 +1,6 @@
 import React from 'react'
 import { AccordionItem, AccordionTrigger, Icon, StackedList, Text } from '@harnessio/canary'
 
-import { WarningTriangleSolid } from '@harnessio/icons-noir'
 import { LineDescription, LineTitle } from '../pull-request-line-title'
 interface PullRequestMergeSectionProps {
   commentsInfo: { header: string; content?: string | undefined; status: string }
@@ -19,7 +18,7 @@ const PullRequestCommentSection = ({ commentsInfo, handleAction }: PullRequestMe
                 commentsInfo.status === 'success' ? (
                   <Icon name="success" size={16} />
                 ) : (
-                  <WarningTriangleSolid className="text-destructive" />
+                  <Icon name="x-mark" className="text-destructive" />
                 )
               }
             />

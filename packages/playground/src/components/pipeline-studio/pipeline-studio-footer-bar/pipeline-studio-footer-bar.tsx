@@ -1,6 +1,4 @@
 import React from 'react'
-import { XmarkCircle, WarningTriangle, InfoCircle } from '@harnessio/icons-noir'
-
 import {
   Popover,
   PopoverContent,
@@ -9,7 +7,8 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
+  Icon
 } from '@harnessio/canary'
 import { PopoverCommitInfo } from '../popover-commit-info'
 
@@ -40,24 +39,24 @@ const PipelineStudioFooterBar: React.FC<PipelineStudioFooterBarProps> = (props: 
   return (
     <footer
       className={
-        'flex items-center justify-between font-normal leading-[15px] px-4 h-10 bg-grey-6 shrink-0 border-border border-t text-grey-60 not-italic border-[#1d1d20] text-[12px]'
+        'bg-grey-6 text-grey-60 flex h-10 shrink-0 items-center justify-between border-t border-[#1d1d20] px-4 text-[12px] font-normal not-italic leading-[15px]'
       }>
-      <div className="flex gap-2 items-center">
+      <div className="flex items-center gap-2">
         <div
           onClick={() => {
             props.togglePane?.()
           }}
-          className="flex gap-2 cursor-pointer hover:bg-primary/10 h-full px-2 py-1.5 rounded-md ease-in-out duration-150">
+          className="flex h-full cursor-pointer gap-2 rounded-md px-2 py-1.5 duration-150 ease-in-out hover:bg-primary/10">
           <div className="flex items-center gap-1.5">
-            <XmarkCircle className="text-tertiary-background" />
+            <Icon name="x-mark" className="text-tertiary-background" />
             <span className="text-[12px] text-primary">{props.problems.error}</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <WarningTriangle className="text-tertiary-background" />
+            <Icon name="x-mark" className="text-tertiary-background" />
             <span className="text-[12px] text-primary">{props.problems.warning}</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <InfoCircle className="text-tertiary-background" />
+            <Icon name="x-mark" className="text-tertiary-background" />
             <span className="text-[12px] text-primary">{props.problems.info}</span>
           </div>
         </div>
@@ -77,9 +76,9 @@ const PipelineStudioFooterBar: React.FC<PipelineStudioFooterBarProps> = (props: 
             </Select>
           </div> */}
           <div className={'flex items-baseline'}>
-            <span className="text-tertiary-background text-[12px]">Branch:</span>
+            <span className="text-[12px] text-tertiary-background">Branch:</span>
             <Select value={currentBranch} disabled={branchesLoading} onValueChange={onBranchChange}>
-              <SelectTrigger className="w-fit border-none px-1 text-primary text-[12px] focus:ring-[0px]">
+              <SelectTrigger className="w-fit border-none px-1 text-[12px] text-primary focus:ring-0">
                 <SelectValue placeholder={branchesLoading ? 'Loading...' : 'Select branch'} />
               </SelectTrigger>
               <SelectContent>{branches?.map(branch => <SelectItem value={branch}>{branch}</SelectItem>)}</SelectContent>
@@ -96,7 +95,7 @@ const PipelineStudioFooterBar: React.FC<PipelineStudioFooterBarProps> = (props: 
               <span className="text-primary">&nbsp;{authorName}&nbsp;</span>
             </div>
           </PopoverTrigger>
-          <PopoverContent side={'top'} className="w-80 mb-4 mr-4 p-0">
+          <PopoverContent side={'top'} className="mb-4 mr-4 w-80 p-0">
             <PopoverCommitInfo.Root>
               <PopoverCommitInfo.CommitInfo authorName={authorName} initials={authorInitials} commit={commitSha} />
               <PopoverCommitInfo.CommitMessage>{commitMessage}</PopoverCommitInfo.CommitMessage>

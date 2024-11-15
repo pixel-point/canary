@@ -1,12 +1,14 @@
 import React from 'react'
 import { Avatar, AvatarFallback, Button, Icon, Text } from '@harnessio/canary'
-import {
+import type {
   CommentItem,
-  CommentType,
   GeneralPayload,
   PayloadAuthor,
   TypesPullReq,
   TypesPullReqActivity
+} from './interfaces';
+import {
+  CommentType
 } from './interfaces'
 import PullRequestTimelineItem from './pull-request-timeline-item'
 import { getInitials } from '../../utils/utils'
@@ -65,7 +67,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
           header={[
             {
               avatar: (
-                <Avatar className="w-6 h-6 rounded-full p-0">
+                <Avatar className="size-6 rounded-full p-0">
                   {/* <AvatarImage src={AvatarUrl} /> */}
 
                   <AvatarFallback>
@@ -101,7 +103,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
           header={[
             {
               avatar: (
-                <Avatar className="w-6 h-6 rounded-full p-0">
+                <Avatar className="size-6 rounded-full p-0">
                   {/* <AvatarImage src={AvatarUrl} /> */}
 
                   <AvatarFallback>
@@ -129,7 +131,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
           header={[
             {
               avatar: (
-                <Avatar className="w-6 h-6 rounded-full p-0">
+                <Avatar className="size-6 rounded-full p-0">
                   {/* <AvatarImage src={AvatarUrl} /> */}
 
                   <AvatarFallback>
@@ -144,7 +146,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
               description: (
                 <Text color="tertiaryBackground">
                   deleted the
-                  <Button className="ml-1 mr-1" variant="secondary" size="xs">
+                  <Button className="mx-1" variant="secondary" size="xs">
                     {pullReqMetadata?.source_branch}
                   </Button>
                   branch
@@ -163,7 +165,7 @@ const PullRequestSystemComments: React.FC<SystemCommentProps> = ({ commentItems,
           header={[
             {
               avatar: (
-                <Avatar className="w-6 h-6 rounded-full p-0">
+                <Avatar className="size-6 rounded-full p-0">
                   {/* <AvatarImage src={AvatarUrl} /> */}
 
                   <AvatarFallback>

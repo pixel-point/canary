@@ -10,7 +10,7 @@ export enum MeterState {
 
 interface MeterRootProps {
   data?: {
-    id: string
+    id?: string
     state: MeterState
   }[]
   className?: string
@@ -28,10 +28,10 @@ function Root({ data = [], className }: MeterRootProps) {
   const bars = [...Array(emptyBarsCount).fill({ state: MeterState.Empty }), ...data]
 
   return (
-    <div className={cn('flex h-[19px] gap-[4px] items-stretch', className)}>
+    <div className={cn('flex h-[19px] items-stretch gap-[4px]', className)}>
       {bars.map((col, col_idx) => {
         const bgColor = stateToBgColor[col.state as MeterState]
-        return <div key={col_idx} className={cn('flex w-[5px] h-full rounded-[1px]', bgColor)} />
+        return <div key={col_idx} className={cn('flex h-full w-[5px] rounded-[1px]', bgColor)} />
       })}
     </div>
   )

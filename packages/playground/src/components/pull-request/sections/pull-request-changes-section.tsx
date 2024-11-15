@@ -1,4 +1,3 @@
-import { CheckCircleSolid } from '@harnessio/icons-noir'
 import React from 'react'
 import {
   AccordionContent,
@@ -13,7 +12,7 @@ import {
 import { LineDescription, LineTitle } from '../pull-request-line-title'
 import { isEmpty } from 'lodash-es'
 import cx from 'classnames'
-import {
+import type {
   TypesCodeOwnerEvaluation,
   TypesCodeOwnerEvaluationEntry,
   TypesOwnerEvaluation,
@@ -85,7 +84,7 @@ const AvatarItem: React.FC<AvatarItemProps> = ({ evaluations }: AvatarItemProps)
             evaluations.map(({ owner }, idx) => {
               if (idx < 2) {
                 return (
-                  <Avatar className={cx('w-6 h-6 rounded-full')}>
+                  <Avatar className={cx('h-6 w-6 rounded-full')}>
                     <AvatarFallback>
                       <Text size={1} color="tertiaryBackground">
                         {owner?.display_name && getInitials(owner?.display_name)}
@@ -173,16 +172,16 @@ const PullRequestChangesSection = ({
     }
     if (latestCodeOwnerApprovalArr && latestCodeOwnerApprovalArr?.length > 0 && reqCodeOwnerLatestApproval) {
       return (
-        <Text className="flex ml-2">
-          <CheckCircleSolid className="text-success" />
+        <Text className="ml-2 flex">
+          <Icon name="x-mark" className="text-success" />
           <Text className="pl-2 text-xs">{`Latest changes were approved by code owners`}</Text>
         </Text>
       )
     }
     if (codeOwnerApprovalEntries && codeOwnerApprovalEntries?.length > 0 && reqCodeOwnerApproval) {
       return (
-        <Text className="flex ml-2">
-          <CheckCircleSolid className="text-success" />
+        <Text className="ml-2 flex">
+          <Icon name="x-mark" className="text-success" />
           <Text className="pl-2 text-xs">{`Changes were approved by code owners`}</Text>
         </Text>
       )
@@ -233,7 +232,7 @@ const PullRequestChangesSection = ({
           title={<LineTitle text={changesInfo.header} icon={getStatusIcon(changesInfo.status)} />}
           description={<LineDescription text={changesInfo.content} />}
         />
-        {viewBtn && <Text className="text-xs px-2 py-1.5">Show more</Text>}
+        {viewBtn && <Text className="px-2 py-1.5 text-xs">Show more</Text>}
       </AccordionTrigger>
       <AccordionContent>
         <div>
@@ -241,24 +240,24 @@ const PullRequestChangesSection = ({
             (!isEmpty(approvedEvaluations) && minReqLatestApproval === 0 && minApproval && minApproval > 0) ||
             ((minApproval ?? 0) > 0 && minReqLatestApproval === undefined)) && (
             <div className="ml-4">
-              <div className="flex pt-2 border-t mt-3 ml-2 items-center justify-between">
+              <div className="ml-2 mt-3 flex items-center justify-between border-t pt-2">
                 {approvedEvaluations && minApproval && minApproval <= approvedEvaluations?.length ? (
-                  <Text className="flex ml-2">
-                    <CheckCircleSolid className="text-success" />
+                  <Text className="ml-2 flex">
+                    <Icon name="x-mark" className="text-success" />
                     <Text className="pl-2 text-xs">
                       {`Changes were approved by ${approvedEvaluations?.length} ${pluralize('reviewers', approvedEvaluations?.length)}`}
                     </Text>
                   </Text>
                 ) : (
-                  <div className="flex ml-2">
+                  <div className="ml-2 flex">
                     <Icon name="circle" className="text-warning" />
                     <Text className="pl-2 text-xs">
                       {`${(approvedEvaluations && approvedEvaluations.length) || ''}/${minApproval} approvals completed`}
                     </Text>
                   </div>
                 )}
-                <div className="border rounded-full bg-transparent">
-                  <Text className="text-xs text-tertiary-background px-2 py-1.5">required</Text>
+                <div className="rounded-full border bg-transparent">
+                  <Text className="px-2 py-1.5 text-xs text-tertiary-background">required</Text>
                 </div>
               </div>
             </div>
@@ -266,24 +265,24 @@ const PullRequestChangesSection = ({
 
           {(minReqLatestApproval ?? 0) > 0 && (
             <div className="ml-4">
-              <div className="flex pt-2 border-t mt-3 ml-2 items-center justify-between">
+              <div className="ml-2 mt-3 flex items-center justify-between border-t pt-2">
                 {latestApprovalArr !== undefined &&
                 minReqLatestApproval !== undefined &&
                 minReqLatestApproval <= latestApprovalArr?.length ? (
-                  <Text className="flex ml-2">
-                    <CheckCircleSolid className="text-success" />
+                  <Text className="ml-2 flex">
+                    <Icon name="x-mark" className="text-success" />
                     <Text className="pl-2 text-xs">{`Latest changes were approved by ${latestApprovalArr?.length || minReqLatestApproval || ''} ${pluralize('reviewer', latestApprovalArr?.length || minReqLatestApproval)}`}</Text>
                   </Text>
                 ) : (
-                  <div className="flex ml-2">
+                  <div className="ml-2 flex">
                     <Icon name="circle" className="text-warning" />
                     <Text className="pl-2 text-xs">
                       {`${latestApprovalArr?.length || minReqLatestApproval || ''} ${pluralize('approval', latestApprovalArr?.length || minReqLatestApproval)} pending on latest changes`}
                     </Text>
                   </div>
                 )}
-                <div className="border rounded-full bg-transparent">
-                  <Text className="text-xs text-tertiary-background px-2 py-1.5">required</Text>
+                <div className="rounded-full border bg-transparent">
+                  <Text className="px-2 py-1.5 text-xs text-tertiary-background">required</Text>
                 </div>
               </div>
             </div>
@@ -291,8 +290,8 @@ const PullRequestChangesSection = ({
 
           {!isEmpty(changeReqEvaluations) && (
             <div className="ml-4">
-              <div className="flex pt-2 border-t mt-3 ml-2 items-center justify-between">
-                <Text className="flex ml-2">
+              <div className="ml-2 mt-3 flex items-center justify-between border-t pt-2">
+                <Text className="ml-2 flex">
                   <Icon
                     name="triangle-warning"
                     className={cx('', {
@@ -303,8 +302,8 @@ const PullRequestChangesSection = ({
                   <Text className="pl-2 text-xs">{`${changeReqReviewer} requested changes to the pull request`}</Text>
                 </Text>
                 {reqNoChangeReq && (
-                  <div className="border rounded-full bg-transparent">
-                    <Text className="text-xs text-tertiary-background px-2 py-1.5">required</Text>
+                  <div className="rounded-full border bg-transparent">
+                    <Text className="px-2 py-1.5 text-xs text-tertiary-background">required</Text>
                   </div>
                 )}
               </div>
@@ -312,9 +311,9 @@ const PullRequestChangesSection = ({
           )}
           {!isEmpty(codeOwners) && !isEmpty(codeOwners.evaluation_entries) && (
             <div className="ml-4">
-              <div className="flex pt-2 border-t mt-3 ml-2 items-center justify-between">
+              <div className="ml-2 mt-3 flex items-center justify-between border-t pt-2">
                 {codeOwnerChangeReqEntries && codeOwnerChangeReqEntries?.length > 0 ? (
-                  <Text className="flex ml-2">
+                  <Text className="ml-2 flex">
                     <Icon
                       name="triangle-warning"
                       className={cx('', {
@@ -328,8 +327,8 @@ const PullRequestChangesSection = ({
                   renderCodeOwnerStatus()
                 )}
                 {(reqCodeOwnerApproval || reqCodeOwnerLatestApproval) && (
-                  <div className="border rounded-full bg-transparent">
-                    <Text className="text-xs text-tertiary-background px-2 py-1.5">required</Text>
+                  <div className="rounded-full border bg-transparent">
+                    <Text className="px-2 py-1.5 text-xs text-tertiary-background">required</Text>
                   </div>
                 )}
               </div>
@@ -338,11 +337,11 @@ const PullRequestChangesSection = ({
           {/* TODO: add codeowners table */}
           {codeOwners && !isEmpty(codeOwners?.evaluation_entries) && (
             <div className="ml-6 bg-inherit">
-              <StackedList.Root className="bg-inherit cursor-default border-transparent ml-2">
+              <StackedList.Root className="ml-2 cursor-default border-transparent bg-inherit">
                 <StackedList.Item
                   isHeader
                   disableHover
-                  className="cursor-default px-0 !bg-transparent text-tertiary-background">
+                  className="cursor-default !bg-transparent px-0 text-tertiary-background">
                   <StackedList.Field title={<HeaderItem header="Code" />} />
                   <StackedList.Field title={<HeaderItem header="Owners" />} />
                   <StackedList.Field title={<HeaderItem header="Changes requested by" />} />

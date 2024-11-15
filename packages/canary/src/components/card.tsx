@@ -7,7 +7,7 @@ const cardVariants = cva('rounded-lg border bg-card text-card-foreground shadow'
   variants: {
     variant: {
       default: '',
-      plain: 'bg-transparent border-none shadow-none'
+      plain: 'border-none bg-transparent shadow-none'
     }
   },
   defaultVariants: {
@@ -47,15 +47,17 @@ const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
 CardHeader.displayName = 'CardHeader'
 
 const CardTitle = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLHeadingElement>>(
-  ({ className, ...props }, ref) => (
-    <h3 ref={ref} className={cn('font-semibold leading-none tracking-tight', className)} {...props} />
+  ({ className, children, ...props }, ref) => (
+    <h3 ref={ref} className={cn('font-semibold leading-none tracking-tight', className)} {...props}>
+      {children}
+    </h3>
   )
 )
 CardTitle.displayName = 'CardTitle'
 
 const CardDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
   ({ className, ...props }, ref) => (
-    <p ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
+    <p ref={ref} className={cn('text-muted-foreground text-sm', className)} {...props} />
   )
 )
 CardDescription.displayName = 'CardDescription'

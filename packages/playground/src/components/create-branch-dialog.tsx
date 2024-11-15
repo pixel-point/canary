@@ -68,7 +68,7 @@ export function CreateBranchDialog({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-[500px]  bg-primary-background border-border">
+      <DialogContent className="max-w-[500px] border-border bg-primary-background">
         <DialogHeader>
           <DialogTitle>Create Branch</DialogTitle>
         </DialogHeader>
@@ -121,7 +121,7 @@ export function CreateBranchDialog({
               </Alert>
             ) : null}
 
-            <div className="flex gap-3 justify-end">
+            <div className="flex justify-end gap-3">
               <Button onClick={onClose} className="text-primary" variant="outline" loading={isSaving}>
                 Cancel
               </Button>

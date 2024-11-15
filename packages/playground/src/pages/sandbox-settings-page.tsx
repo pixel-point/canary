@@ -16,7 +16,7 @@ function SandboxSettingsPage() {
             Settings
           </Text>
           <Spacer size={6} />
-          <div className="flex flex-col gap-9 w-full">
+          <div className="flex w-full flex-col gap-9">
             <Section.Root>
               <Section.Content>
                 <Link to="account">

@@ -24,7 +24,7 @@ function BooleanInputInternal(props: InputProps<AnyFormikValue, BooleanInputConf
       <FormField
         name={path}
         render={({ field }) => (
-          <FormItem className="flex space-y-0 space-x-2 ">
+          <FormItem className="flex space-x-2 space-y-0">
             <FormControl>
               <Switch
                 disabled={readonly}

@@ -21,7 +21,7 @@ function MoreIcon({ iconName }: { iconName: IconProps['name'] }) {
   return (
     <div
       className={cn(
-        'relative flex place-content-center place-items-center h-8 w-8 bg-background rounded-md border border-primary/10 text-primary/80',
+        'bg-background border-primary/10 text-primary/80 relative flex h-8 w-8 place-content-center place-items-center rounded-md border',
         { 'text-success': iconName === 'pin' },
         { 'text-destructive': iconName === 'unpin' }
       )}>
@@ -35,7 +35,7 @@ export function MoreSubmenu({ showMore, handleMore, onPinItem, pinnedItems }: Mo
 
   return (
     <Sheet modal={false} open={showMore} onOpenChange={handleMore}>
-      <SheetContent side="left" className="p-0 w-[328px] h-screen left-[220px] top-0 bottom-0 z-40">
+      <SheetContent side="left" className="bottom-0 left-[220px] top-0 z-40 h-screen w-[328px] p-0">
         <Navbar.Root className="w-[328px]">
           <Navbar.Content>
             <Spacer size={8} />
@@ -58,8 +58,8 @@ export function MoreSubmenu({ showMore, handleMore, onPinItem, pinnedItems }: Mo
                       onClick={() => onPinItem(item)}
                       className={cn(
                         'cursor-pointer',
-                        { 'opacity-40 text-primary': isPinned },
-                        { 'opacity-100 text-primary': isHovered }
+                        { 'text-primary opacity-40': isPinned },
+                        { 'text-primary opacity-100': isHovered }
                       )}>
                       <Navbar.Item
                         text={item.title || ''}

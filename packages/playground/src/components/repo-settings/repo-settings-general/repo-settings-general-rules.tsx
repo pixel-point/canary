@@ -1,12 +1,13 @@
 import React from 'react'
-import { RuleDataType, ErrorTypes } from './types'
+import type { RuleDataType} from './types';
+import { ErrorTypes } from './types'
 import { Button, ListActions, SearchBox, Icon, Text, StackedList, Spacer } from '@harnessio/canary'
 import { RepoSettingsToolTip } from './repo-settings-general-tooltip'
 import { NoData } from '../../no-data'
 import { NavLink } from 'react-router-dom'
 const Title = ({ title, iconName }: { title?: string; iconName: 'green-tick' | 'cancel-grey' }) => {
   return (
-    <div className="flex gap-2 items-center">
+    <div className="flex items-center gap-2">
       {<Icon name={iconName} />}
       <Text truncate>{title}</Text>
     </div>
@@ -24,17 +25,17 @@ const Description = ({
 }) => {
   return (
     // <div className="pl-[24px]">
-    <Text color="tertiaryBackground" as="div" className="pl-[24px] gap-1 flex items-center">
+    <Text color="tertiaryBackground" as="div" className="flex items-center gap-1 pl-[24px]">
       {targetPatternsCount} target patterns <span className="text-2xl text-tertiary">|</span> {rulesAppliedCount} rules
       applied <span className="text-2xl text-tertiary">|</span>
       {bypassAllowed ? (
         <div>
-          <Icon name="tick" className="text-success inline" size={12} />
+          <Icon name="tick" className="inline text-success" size={12} />
           <span> bypass allowed</span>
         </div>
       ) : (
         <div>
-          <Icon name="x-mark" className="text-destructive inline" size={12} />
+          <Icon name="x-mark" className="inline text-destructive" size={12} />
           <span> bypass not allowed</span>
         </div>
       )}

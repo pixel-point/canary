@@ -13,7 +13,7 @@ import {
   Badge,
   Text
 } from '@harnessio/canary'
-import { FormRemoveUserDialogProps } from './interfaces'
+import type { FormRemoveUserDialogProps } from './interfaces'
 
 //Form Remove Admin Dialog
 export const FormRemoveAdminDialog: React.FC<FormRemoveUserDialogProps> = ({
@@ -48,7 +48,7 @@ export const FormRemoveAdminDialog: React.FC<FormRemoveUserDialogProps> = ({
             </Button>
           )}
           {removeSuccess ? (
-            <Button size="default" theme="success" className="self-start pointer-events-none flex gap-2">
+            <Button size="default" theme="success" className="pointer-events-none flex gap-2 self-start">
               Admin removed
               <Icon name="tick" size={14} />
             </Button>

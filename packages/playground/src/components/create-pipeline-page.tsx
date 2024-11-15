@@ -1,4 +1,7 @@
 import React from 'react'
+import type {
+  IconProps
+} from '@harnessio/canary';
 import {
   Spacer,
   Text,
@@ -9,15 +12,14 @@ import {
   SpotlightsBox,
   ButtonGroup,
   Input,
-  AIPrompt,
-  IconProps
+  AIPrompt
 } from '@harnessio/canary'
 import { Link } from 'react-router-dom'
 import noop from 'lodash-es/noop'
 import { SandboxLayout } from '../index'
 
 const SectionList = ({ children }: { children: React.ReactNode }) => (
-  <div className="flex flex-col gap-9 w-full">{children}</div>
+  <div className="flex w-full flex-col gap-9">{children}</div>
 )
 
 type Template = {
@@ -212,7 +214,7 @@ export function CreatePipelinePage({ onClickStartFromScratch = noop }: CreatePip
           }>
           <Input
             placeholder="Start by describing your project goals or key requirements..."
-            className="pl-4 border-none rounded-full flex-grow"
+            className="grow rounded-full border-none pl-4"
           />
         </AIPrompt>
         <Spacer size={6} />

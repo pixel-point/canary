@@ -22,7 +22,7 @@ import {
   DropdownMenuTrigger
 } from '@harnessio/canary'
 import { getInitials, timeAgo } from '../../utils/utils'
-import { UsersProps } from './interfaces'
+import type { UsersProps } from './interfaces'
 
 interface PageProps {
   users: UsersProps[]
@@ -45,7 +45,7 @@ export const UsersList = ({ users, onDelete, onEdit, onRemoveAdmin, onResetPassw
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          className="shadow-sm py-2 bg-primary-background border border-gray-800 rounded-[10px] w-[180px]"
+          className="w-[180px] rounded-[10px] border border-gray-800 bg-primary-background py-2 shadow-sm"
           onCloseAutoFocus={event => event.preventDefault()}>
           <DropdownMenuGroup>
             <DropdownMenuItem
@@ -114,11 +114,11 @@ export const UsersList = ({ users, onDelete, onEdit, onRemoveAdmin, onResetPassw
             return (
               <TableRow key={user.uid}>
                 {/* NAME */}
-                <TableCell className="content-center my-6">
+                <TableCell className="my-6 content-center">
                   <div className="flex items-center gap-4">
                     <Avatar size="10">
                       {user.avatarUrl && <AvatarImage src={user.avatarUrl} />}
-                      <AvatarFallback className="text-xs p-1 text-center">{getInitials(user.uid!, 2)}</AvatarFallback>
+                      <AvatarFallback className="p-1 text-center text-xs">{getInitials(user.uid!, 2)}</AvatarFallback>
                     </Avatar>
                     <Text size={2} weight="medium" wrap="nowrap" truncate className="text-primary">
                       {user.display_name}
@@ -126,7 +126,7 @@ export const UsersList = ({ users, onDelete, onEdit, onRemoveAdmin, onResetPassw
                         <Badge
                           variant="outline"
                           size="xs"
-                          className="rounded-full font-normal text-xs p-2 h-5 text-tertiary-background text-center m-auto bg-tertiary-background/10 ml-2">
+                          className="m-auto ml-2 h-5 rounded-full bg-tertiary-background/10 p-2 text-center text-xs font-normal text-tertiary-background">
                           Admin
                         </Badge>
                       )}
@@ -134,7 +134,7 @@ export const UsersList = ({ users, onDelete, onEdit, onRemoveAdmin, onResetPassw
                   </div>
                 </TableCell>
                 {/* EMAIL */}
-                <TableCell className="content-center my-6">
+                <TableCell className="my-6 content-center">
                   <div className="flex gap-1.5">
                     <Text wrap="nowrap" size={1} truncate className="text-tertiary-background">
                       {user.email}
@@ -143,7 +143,7 @@ export const UsersList = ({ users, onDelete, onEdit, onRemoveAdmin, onResetPassw
                 </TableCell>
 
                 {/* displayName */}
-                <TableCell className="content-center my-6">
+                <TableCell className="my-6 content-center">
                   <div className="flex gap-1.5">
                     <Text wrap="nowrap" size={1} truncate className="text-tertiary-background">
                       {user.display_name}
@@ -152,16 +152,16 @@ export const UsersList = ({ users, onDelete, onEdit, onRemoveAdmin, onResetPassw
                 </TableCell>
 
                 {/* TimeStamp */}
-                <TableCell className="content-center my-6">
-                  <div className="flex gap-1.5 items-center justify-end">
+                <TableCell className="my-6 content-center">
+                  <div className="flex items-center justify-end gap-1.5">
                     <Text wrap="nowrap" size={1} truncate className="text-tertiary-background">
                       {timeAgo(user.created)}
                     </Text>
                   </div>
                 </TableCell>
 
-                <TableCell className="content-center my-6">
-                  <div className="flex gap-1.5 items-center justify-end">
+                <TableCell className="my-6 content-center">
+                  <div className="flex items-center justify-end gap-1.5">
                     {/* <Icon name="vertical-ellipsis" size={14} className="text-tertiary-background" /> */}
                     {moreActionsTooltip({ user })}
                   </div>

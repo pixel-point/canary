@@ -13,7 +13,7 @@ export default function RunPipelineDialog({ onClose, open, ...rest }: RunPipelin
       onOpenChange={open => {
         if (!open) onClose()
       }}>
-      <DialogContent className="max-w-[500px] bg-primary-background border-border">
+      <DialogContent className="bg-primary-background border-border max-w-[500px]">
         <RunPipelineForm {...rest} requestClose={() => onClose()} />
       </DialogContent>
     </Dialog>

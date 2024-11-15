@@ -15,13 +15,15 @@ import {
   Textarea,
   Spacer
 } from '@harnessio/canary'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import type { SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
 import { FormFieldSet, SkeletonList } from '../../../index'
 import { MessageTheme } from '../../../components/form-field-set'
-import { RepoData, AccessLevel, RepoUpdateData, ErrorTypes } from './types'
+import type { RepoData, RepoUpdateData} from './types';
+import { AccessLevel, ErrorTypes } from './types'
 
 const formSchema = z.object({
   name: z.string().min(1, 'Name is required'),

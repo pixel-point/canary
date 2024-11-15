@@ -1,6 +1,5 @@
 import React from 'react'
-import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@harnessio/canary'
-import { InfoCircle } from '@harnessio/icons-noir'
+import { Button, Tooltip, TooltipContent, TooltipTrigger, Icon } from '@harnessio/canary'
 
 export interface InputLabelProps {
   label?: string
@@ -19,8 +18,8 @@ function InputLabel(props: InputLabelProps): JSX.Element {
       {description && (
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button size="sm" variant="icon" className="ml-2 h-5 p-1 cursor-default">
-              <InfoCircle />
+            <Button size="sm" variant="icon" className="ml-2 h-5 cursor-default p-1">
+              <Icon name="info-circle" />
             </Button>
           </TooltipTrigger>
           <TooltipContent>{description}</TooltipContent>

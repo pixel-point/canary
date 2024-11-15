@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import cx from 'classnames'
-import { Handle, Position, type NodeProps, Node, useReactFlow } from 'reactflow'
+import { Handle, Position, type NodeProps, Node } from 'reactflow'
+import { Icon } from '@harnessio/canary'
 import { set } from 'lodash-es'
-import { Computer, Plus } from '@harnessio/icons-noir'
 import useFlowStore from '../../../../../framework/FlowStore/FlowStore'
 import {
   DefaultNodeProps,
@@ -181,7 +181,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
       id: getIdFromName(name),
       data: {
         name,
-        icon: <Computer />,
+        icon: <Icon name="clone" />,
         path: '',
         positionType: PositionType.RELATIVE,
         expandable: true,
@@ -233,7 +233,8 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
             </div>
           </div>
         </div>
-        <Plus
+        <Icon
+          name="plus"
           className={cx(
             'rounded-full w-6 h-6 opacity-0 border border-studio-4/[0.6] bg-studio-1 text-studio-7 translate-y-6 hover:cursor-pointer',
             {

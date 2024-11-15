@@ -106,7 +106,7 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem
-              className="flex gap-1.5 items-center"
+              className="flex items-center gap-1.5"
               onSelect={() => {
                 const url = rawURL.replace('//', '/')
                 window.open(url, '_blank')
@@ -115,7 +115,7 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
               <Text>View Raw</Text>
             </DropdownMenuItem>
             <DropdownMenuItem
-              className="flex gap-1.5 items-center"
+              className="flex items-center gap-1.5"
               onSelect={() => {
                 setIsDeleteFileDialogOpen(true)
               }}>
@@ -166,7 +166,7 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
         isNew={false}
       />
       <StackedList.Root>
-        <StackedList.Item disableHover isHeader className="py-2.5 px-3">
+        <StackedList.Item disableHover isHeader className="px-3 py-2.5">
           {latestFile ? (
             <>
               <StackedList.Field title={<TopTitle file={latestFile} />} />
@@ -179,7 +179,7 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
       </StackedList.Root>
       <Spacer size={5} />
       <StackedList.Root onlyTopRounded borderBackground>
-        <StackedList.Item disableHover isHeader className="py-2.5 px-3">
+        <StackedList.Item disableHover isHeader className="px-3 py-2.5">
           <ToggleGroup
             onValueChange={(value: ViewTypeValue) => {
               if (value) {
@@ -189,22 +189,22 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
             value={view}
             type="single"
             unselectable={'on'}
-            className={'bg-primary-foreground p-0.5 border border-primary/10 rounded-lg'}>
+            className={'bg-primary-foreground border-primary/10 rounded-lg border p-0.5'}>
             {language === 'markdown' && (
               <ToggleGroupItem
                 value={'preview'}
-                className="h-7 border border-transparent text-xs font-medium data-[state=on]:border-primary/10 rounded-md disabled:opacity-100">
+                className="data-[state=on]:border-primary/10 h-7 rounded-md border border-transparent text-xs font-medium disabled:opacity-100">
                 Preview
               </ToggleGroupItem>
             )}
             <ToggleGroupItem
               value={'code'}
-              className="h-7 border border-transparent text-xs font-medium data-[state=on]:border-primary/10 rounded-md disabled:opacity-100">
+              className="data-[state=on]:border-primary/10 h-7 rounded-md border border-transparent text-xs font-medium disabled:opacity-100">
               Code
             </ToggleGroupItem>
             <ToggleGroupItem
               value={'blame'}
-              className="h-7 border text-xs font-medium border-transparent data-[state=on]:border-white/10 text-tertiary-background data-[state=on]:text-primary rounded-md">
+              className="text-tertiary-background data-[state=on]:text-primary h-7 rounded-md border border-transparent text-xs font-medium data-[state=on]:border-white/10">
               Blame
             </ToggleGroupItem>
           </ToggleGroup>
@@ -212,7 +212,7 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
         </StackedList.Item>
       </StackedList.Root>
       {language === 'markdown' && view === 'preview' ? (
-        <div className="px-2 py-2 border-l border-r border-b border-border-background">
+        <div className="border-border-background border-b border-l border-r px-2 py-2">
           <MarkdownViewer source={fileContent} />
         </div>
       ) : view === 'code' ? (

@@ -1,5 +1,7 @@
 import * as React from 'react'
 import ChevronDown from '../icons/chevron-down.svg'
+import ChevronRight from '../icons/chevron-right.svg'
+import ChevronUp from '../icons/chevron-up.svg'
 import Archive from '../icons/repositories-icon.svg'
 import Harness from '../icons/harness.svg'
 import Pipelines from '../icons/pipelines-icon.svg'
@@ -12,7 +14,7 @@ import Secrets from '../icons/secrets-icon.svg'
 import Connectors from '../icons/connectors-icon.svg'
 import Star from '../icons/star-icon.svg'
 import Pull from '../icons/pull-icon.svg'
-import Search from '../icons/search.svg'
+import Search from '../icons/search-icon.svg'
 import ArrowLong from '../icons/arrow-long.svg'
 import Success from '../icons/success.svg'
 import Fail from '../icons/fail.svg'
@@ -97,10 +99,49 @@ import CancelGrey from '../icons/cancel-grey.svg'
 import HarnessLogoText from '../icons/harness-logo-text.svg'
 import Account from '../icons/account.svg'
 import GridDots from '../icons/grid-dots.svg'
+import InfoCircle from '../icons/info-circle.svg'
+import Download from '../icons/download.svg'
+import Clock from '../icons/clock.svg'
+import FilterList from '../icons/filter-list.svg'
+import Play from '../icons/play-solid.svg'
+import Settings1 from '../icons/setting-1.svg'
+import Settings2 from '../icons/setting-2.svg'
+import Sparks from '../icons/sparks.svg'
+import HarnessLogoGradient from '../icons/logo-gradient.svg'
+import HarnessLogoGradientEllipse from '../icons/logo-gradient-ellipse.svg'
+import SubMenuEllipse from '../icons/sub-menu-ellipse.svg'
+import Close from '../icons/close.svg'
+import Notification from '../icons/notification-icon.svg'
+import Wrench from '../icons/wrench-icon.svg'
+import Hierarchy from '../icons/hierarchy-icon.svg'
+import Key from '../icons/key-icon.svg'
+import FileIcon from '../icons/file-icon.svg'
+import SidebarIcon from '../icons/sidebar-icon.svg'
+import Variable from '../icons/variable-icon.svg'
+import ClockIcon from '../icons/clock-icon.svg'
+import Eye from '../icons/eye-icon.svg'
+import Stack from '../icons/stack-icon.svg'
+import BookmarkIcon from '../icons/bookmark-icon.svg'
+import Webhook from '../icons/webhook-icon.svg'
+import User from '../icons/user-icon.svg'
+import Users from '../icons/users-icon.svg'
+import AccountIcon from '../icons/account-icon.svg'
+import FolderIcon from '../icons/folder-icon.svg'
+import Briefcase from '../icons/briefcase-icon.svg'
+import Shield from '../icons/shield-icon.svg'
+import Snow from '../icons/snow-icon.svg'
+import Ticket from '../icons/ticket-icon.svg'
 // import Fork from '../icons/fork.svg'
 
 const IconNameMap = {
   'chevron-down': ChevronDown,
+  'chevron-right': ChevronRight,
+  'chevron-up': ChevronUp,
+  'filter-list': FilterList,
+  'info-circle': InfoCircle,
+  play: Play,
+  download: Download,
+  clock: Clock,
   archive: Archive,
   harness: Harness,
   pipelines: Pipelines,
@@ -159,6 +200,7 @@ const IconNameMap = {
   'python-logo': PythonLogo,
   'python-and-node-logo': PythonAndNodeLogo,
   'ai-sparks': AISparks,
+  sparks: Sparks,
   'pr-open': PrOpen,
   'pr-review': PrReview,
   'pr-closed': PrClosed,
@@ -197,7 +239,33 @@ const IconNameMap = {
   'cancel-grey': CancelGrey,
   'harness-logo-text': HarnessLogoText,
   account: Account,
-  'grid-dots': GridDots
+  'grid-dots': GridDots,
+  'settings-1': Settings1,
+  'settings-2': Settings2,
+  'harness-gradient': HarnessLogoGradient,
+  'harness-gradient-ellipse': HarnessLogoGradientEllipse,
+  'sub-menu-ellipse': SubMenuEllipse,
+  close: Close,
+  notification: Notification,
+  wrench: Wrench,
+  hierarchy: Hierarchy,
+  key: Key,
+  'file-icon': FileIcon,
+  'sidebar-icon': SidebarIcon,
+  variable: Variable,
+  'clock-icon': ClockIcon,
+  eye: Eye,
+  stack: Stack,
+  'bookmark-icon': BookmarkIcon,
+  webhook: Webhook,
+  user: User,
+  users: Users,
+  'account-icon': AccountIcon,
+  'folder-icon': FolderIcon,
+  briefcase: Briefcase,
+  shield: Shield,
+  snow: Snow,
+  ticket: Ticket
   // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 

@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import { noop, pick } from 'lodash-es'
+import type {
+  IconProps
+} from '@harnessio/canary';
 import {
   Spacer,
   ListActions,
@@ -8,8 +11,7 @@ import {
   Text,
   Icon,
   ButtonGroup,
-  StackedList,
-  IconProps
+  StackedList
 } from '@harnessio/canary'
 import { Summary } from '../components/repo-summary'
 import { NoData } from '../components/no-data'

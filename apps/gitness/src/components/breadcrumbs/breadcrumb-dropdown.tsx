@@ -24,7 +24,7 @@ export const BreadcrumbDropdown = (props: BreadcrumbDropdownProps) => {
     <BreadcrumbItem>
       <DropdownMenu>
         <DropdownMenuTrigger className="group flex items-center gap-2 outline-none">
-          <BreadcrumbLink asChild className={'flex gap-x-1 items-center'}>
+          <BreadcrumbLink asChild className={'flex items-center gap-x-1'}>
             {selectedItem ? (
               <Link to={selectedItem.path}>
                 {selectedItem.label} <Icon name="chevron-down" size={10} />
@@ -43,7 +43,7 @@ export const BreadcrumbDropdown = (props: BreadcrumbDropdownProps) => {
               return (
                 <DropdownMenuItem asChild>
                   <Link to={item.path}>
-                    <div className="w-4 mr-1">{isSelected && <Icon name="tick" size={12} />}</div>
+                    <div className="mr-1 w-4">{isSelected && <Icon name="tick" size={12} />}</div>
                     {item.label}
                   </Link>
                 </DropdownMenuItem>

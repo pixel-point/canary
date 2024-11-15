@@ -1,6 +1,6 @@
 import { Reducer, useCallback, useRef, useState } from 'react'
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type NotFunction<A> = Exclude<A, Function>
 export type ThunkAction<S, A> = (dispatch: DispatchFunc<S, A>, getState: () => S) => void
 export type VariantAction<S, A> = NotFunction<A> | ThunkAction<S, A>

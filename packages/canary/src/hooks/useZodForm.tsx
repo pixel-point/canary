@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { useForm, UseFormProps } from 'react-hook-form'
+import type { z } from 'zod'
+import type { UseFormProps } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 
 /**
  * useZodForm takes a Zod schema and returns a form hook configured with that schema.

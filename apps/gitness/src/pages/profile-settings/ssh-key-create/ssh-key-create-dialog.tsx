@@ -11,7 +11,7 @@ interface SshKeyCreateDialogProps {
 export const SshKeyCreateDialog: React.FC<SshKeyCreateDialogProps> = ({ open, onClose, handleCreateSshKey, error }) => {
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-[500px]  bg-primary-background border-border">
+      <DialogContent className="bg-primary-background border-border max-w-[500px]">
         <DialogHeader>
           <DialogTitle className="text-left">New SSH key</DialogTitle>
         </DialogHeader>

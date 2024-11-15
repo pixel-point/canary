@@ -73,11 +73,11 @@ const PullRequestFilters = <T extends FilterOption>({
   setDateOrderSort
 }: PullRequestFilterProps<T>) => {
   return (
-    <div className="pb-2 grid grid-cols-[1fr_auto] items-center border-b">
+    <div className="grid grid-cols-[1fr_auto] items-center border-b pb-2">
       <Text size={4} weight="medium">
         Overview
       </Text>
-      <div className="flex gap-4 items-center">
+      <div className="flex items-center gap-4">
         <DropdownMenuComponent items={activityFilters} selectedItem={activityFilter} onItemSelect={setActivityFilter} />
         <DropdownMenuComponent items={dateFilters} selectedItem={dateOrderSort} onItemSelect={setDateOrderSort} />
       </div>

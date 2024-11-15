@@ -1,3 +1,4 @@
+import type { FormEventHandler, InputHTMLAttributes} from 'react';
 import React, { useEffect } from 'react'
 import { Input } from './input'
 import { Icon } from './icon'
@@ -30,10 +31,10 @@ interface SearchBoxProps {
   shortcutModifier?: string
   textSize?: TextSize
   onSearch?: () => void
-  handleChange?: React.ChangeEventHandler<HTMLInputElement>
+  handleChange?: FormEventHandler<HTMLInputElement>
   showOnFocus?: boolean // New prop to control dialog appearance on focus
-  defaultValue?: string
-  value?: string
+  defaultValue?: InputHTMLAttributes<HTMLInputElement>['defaultValue']
+  value?: InputHTMLAttributes<HTMLInputElement>['value']
   className?: string
 }
 
@@ -105,27 +106,22 @@ const Root = ({
           className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-tertiary-background"
         />
       )}
-      {hasShortcut && (
-        <div className="absolute right-2.5 top-1/2 transform -translate-y-1/2 text-tertiary-background flex gap-0.5 items-center shadow-border shadow-[0_0_0_1px] rounded-sm px-1.5 opacity-80 hover:opacity-100 ease-in-out duration-100 cursor-pointer">
+      {hasShortcut && !!shortcutLetter && (
+        <div className="absolute right-1.5 top-1/2 flex h-5 -translate-y-1/2 cursor-pointer items-center gap-0.5 rounded-sm border bg-background-3 px-1 text-foreground-2 duration-100 ease-in-out">
           <Icon name="apple-shortcut" size={12} />
-          <Text size={0} color="tertiaryBackground">
+          <Text size={0} className="text-inherit">
             {shortcutLetter}
           </Text>
         </div>
       )}
       <Input
         placeholder={placeholder}
-        // TODO: Restore the line and remove temp fix below
-        // className={cn('border-input-foreground pl-7', textSizeClass, { 'pr-10': hasShortcut })}
-
-        // Start of temporary fix
         defaultValue={defaultValue}
-        className={cn('h-8', textSizeClass)}
-        style={{
-          paddingLeft: hasSearchIcon ? '1.75rem' : undefined, // Equivalent to 'pl-7' in Tailwind (28px)
-          paddingRight: hasShortcut ? '2.5rem' : undefined // Equivalent to 'pr-10' in Tailwind (40px) if `hasShortcut` is true
-        }}
-        // End of temporary fix
+        className={cn('h-8', 
+          { 'pr-10': hasShortcut ,
+            'pl-7': hasSearchIcon,
+          },
+           textSizeClass)}
         onKeyDown={handleKeyDown}
         onFocus={handleFocus}
         onInput={handleChange}

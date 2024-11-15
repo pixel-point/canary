@@ -24,7 +24,7 @@ export const SkeletonList = ({ className }: SkeletonListProps) => {
   return (
     <div
       className={cn(
-        'relative w-full h-full transition-opacity duration-500 ease-in-out delay-500',
+        'relative h-full w-full transition-opacity delay-500 duration-500 ease-in-out',
         {
           'opacity-0': !visible
         },
@@ -36,13 +36,13 @@ export const SkeletonList = ({ className }: SkeletonListProps) => {
             <StackedList.Item key={itm_idx} isLast={listItems.length - 1 === itm_idx}>
               <StackedList.Field
                 // Randomized percentage width for title skeleton
-                title={<Skeleton className="h-4 mb-1.5" style={{ width: getRandomPercentageWidth(20, 60) }} />}
+                title={<Skeleton className="mb-1.5 h-4" style={{ width: getRandomPercentageWidth(20, 60) }} />}
                 // Randomized percentage width for description skeleton
                 description={<Skeleton className="h-4" style={{ width: getRandomPercentageWidth(30, 80) }} />}
               />
               <StackedList.Field
                 // Randomized pixel width for secondary title skeleton
-                title={<Skeleton className="h-4 mb-1.5" style={{ width: getRandomPixelWidth(80, 150) }} />}
+                title={<Skeleton className="mb-1.5 h-4" style={{ width: getRandomPixelWidth(80, 150) }} />}
                 // Randomized pixel width for secondary description skeleton
                 description={<Skeleton className="h-4" style={{ width: getRandomPixelWidth(150, 250) }} />}
                 right
@@ -52,7 +52,7 @@ export const SkeletonList = ({ className }: SkeletonListProps) => {
           ))}
         </StackedList.Root>
       )}
-      <div className="absolute z-10 bottom-0 w-full h-[50%] bg-gradient-to-b from-transparent to-background" />
+      <div className="absolute bottom-0 z-10 h-[50%] w-full bg-gradient-to-b from-transparent to-background" />
     </div>
   )
 }

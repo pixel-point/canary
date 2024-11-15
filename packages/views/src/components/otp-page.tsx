@@ -60,7 +60,7 @@ export function OTPPage({ handleResend, isLoading, handleFormSubmit }: PageProps
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
             <InputOTP maxLength={4}>
-              <InputOTPGroup id="otp" className="flex mx-auto" {...register('otp')}>
+              <InputOTPGroup id="otp" className="mx-auto flex" {...register('otp')}>
                 <InputOTPSlot index={0} size="lg" />
                 <InputOTPSlot index={1} size="lg" />
                 <InputOTPSlot index={2} size="lg" />

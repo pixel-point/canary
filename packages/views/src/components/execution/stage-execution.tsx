@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
-import { Button, Text } from '@harnessio/canary'
-import { NavArrowDown, NavArrowRight, NavArrowUp } from '@harnessio/icons-noir'
+import { Button, Text, Icon } from '@harnessio/canary'
 import { StepExecution, StepProps } from './step-execution'
 import { Layout } from '../layout/layout'
 import { LivelogLine } from './types'
@@ -38,19 +37,19 @@ const StepNavigation: React.FC<StepNavigationProps> = ({
   disableDown
 }) => {
   return (
-    <Layout.Horizontal gap="space-x-2" className="h-fit mt-12 pt-0.5">
+    <Layout.Horizontal gap="space-x-2" className="mt-12 h-fit pt-0.5">
       <Button
         asChild
         onClick={onClickUp}
         disabled={stepIndex === 0}
         variant="ghost"
         className={cx(
-          'w-4 h-4 p-2 rounded-sm bg-secondary',
+          'bg-secondary h-4 w-4 rounded-sm p-2',
           { ['cursor-pointer']: !disableUp },
           { ['cursor-not-allowed']: disableUp }
         )}>
         <div>
-          <NavArrowUp color="white" />
+          <Icon name="chevron-up" />
         </div>
       </Button>
 
@@ -60,12 +59,12 @@ const StepNavigation: React.FC<StepNavigationProps> = ({
         disabled={stepIndex === 0}
         variant="ghost"
         className={cx(
-          'w-4 h-4 p-2 rounded-sm bg-secondary',
+          'bg-secondary h-4 w-4 rounded-sm p-2',
           { ['cursor-pointer']: !disableDown },
           { ['cursor-not-allowed']: disableDown }
         )}>
         <div>
-          <NavArrowDown color="white" />
+          <Icon name="chevron-down" />
         </div>
       </Button>
     </Layout.Horizontal>
@@ -81,12 +80,9 @@ export const StageExecution: React.FC<StageExecutionProps> = ({
   onDownload,
   onCopy
 }): React.ReactElement => {
-  if (!stage || !stage?.steps) {
-    return <></>
-  }
   const [selectedStepIndex, setSelectedStepIndex] = useState<number>(0)
   const [step, setStep] = useState<StepProps>()
-  const stepCount = (stage.steps || []).length
+  const stepCount = (stage?.steps || []).length
   const stepMaxIndex = stepCount > 1 ? stepCount - 1 : 0
 
   useEffect(() => {
@@ -99,7 +95,11 @@ export const StageExecution: React.FC<StageExecutionProps> = ({
     if (stage && stage?.steps && stage.steps.length >= 0 && selectedStepIndex >= 0) {
       setStep(stage.steps[selectedStepIndex])
     }
-  }, [stage.steps, selectedStepIndex])
+  }, [stage?.steps, selectedStepIndex])
+
+  if (!stage || !stage?.steps) {
+    return <></>
+  }
 
   return (
     <Layout.Horizontal gap="space-x-0">
@@ -118,11 +118,11 @@ export const StageExecution: React.FC<StageExecutionProps> = ({
         disableUp={selectedStepIndex === 0}
         disableDown={stepCount - 1 === selectedStepIndex}
       />
-      <Layout.Vertical gap="space-y-2" className="p-4 flex-grow">
+      <Layout.Vertical gap="space-y-2" className="flex-grow p-4">
         {stage?.group ? (
           <Layout.Horizontal gap="space-x-1" className="flex items-center">
             <Text className="text-stage text-sm">{stage.group}</Text>
-            <NavArrowRight />
+            <Icon name="chevron-right" />
             <Text className="text-ring text-sm">{stage.name}</Text>
           </Layout.Horizontal>
         ) : (

@@ -16,18 +16,18 @@ function FolderItem({ children, key, value, isActive, content, chevronClass, lin
   return (
     <AccordionItem key={key} value={value || ''} className="border-none">
       <AccordionTrigger
-        className={cn('p-0 w-full group', 'text-tertiary-background')}
+        className={cn('group w-full p-0', 'text-tertiary-background')}
         leftChevron
         rotateChevron
         chevronClass={chevronClass || 'text-tertiary-background group-hover:text-primary'}>
         <div
-          className={cn(' w-full flex justify-start overflow-hidden transition-colors duration-200', {
+          className={cn('flex w-full justify-start overflow-hidden transition-colors duration-200', {
             'text-primary': isActive
           })}>
-          <div className="flex gap-2 items-center py-1 w-full">
-            <Icon name="folder" size={12} className="min-w-[12px] group-hover:text-primary ease-in-out duration-100" />
+          <div className="flex w-full items-center gap-2 py-1">
+            <Icon name="folder" size={12} className="min-w-[12px] duration-100 ease-in-out group-hover:text-primary" />
             <Link to={link}>
-              <Text as="p" size={2} className="text-inherit group-hover:text-primary ease-in-out duration-100 truncate">
+              <Text as="p" size={2} className="truncate text-inherit duration-100 ease-in-out group-hover:text-primary">
                 {children}
               </Text>
             </Link>
@@ -35,7 +35,7 @@ function FolderItem({ children, key, value, isActive, content, chevronClass, lin
         </div>
       </AccordionTrigger>
       {content && (
-        <AccordionContent className="pl-3 pb-0 flex gap-2 items-center overflow-hidden w-full">
+        <AccordionContent className="flex w-full items-center gap-2 overflow-hidden pb-0 pl-3">
           {content}
         </AccordionContent>
       )}
@@ -48,13 +48,13 @@ function FileItem({ children, key, isActive }: ItemProps) {
     <div
       key={key}
       className={cn(
-        'group flex gap-2 items-center justify-start py-1 pl-[22px] text-tertiary-background overflow-hidden',
+        'text-tertiary-background group flex items-center justify-start gap-2 overflow-hidden py-1 pl-[22px]',
         {
           'text-primary': isActive
         }
       )}>
-      <Icon name="file" size={12} className="min-w-[12px] group-hover:text-primary ease-in-out duration-100" />
-      <Text size={2} className="text-inherit group-hover:text-primary ease-in-out duration-100 truncate">
+      <Icon name="file" size={12} className="min-w-[12px] duration-100 ease-in-out group-hover:text-primary" />
+      <Text size={2} className="truncate text-inherit duration-100 ease-in-out group-hover:text-primary">
         {children}
       </Text>
     </div>

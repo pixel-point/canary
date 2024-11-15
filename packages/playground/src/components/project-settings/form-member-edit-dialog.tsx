@@ -19,10 +19,11 @@ import {
   ButtonGroup
 } from '@harnessio/canary'
 import { z } from 'zod'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import type { SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormFieldSet, MessageTheme } from '../..'
-import { FormEditDialogProps } from './interfaces'
+import type { FormEditDialogProps } from './interfaces'
 
 export const FormEditMemberDialog: React.FC<FormEditDialogProps> = ({
   member,
@@ -129,7 +130,7 @@ export const FormEditMemberDialog: React.FC<FormEditDialogProps> = ({
                       type="button"
                       size="sm"
                       theme="success"
-                      className="flex gap-2 pointer-events-none h-9">
+                      className="pointer-events-none flex h-9 gap-2">
                       Saved
                       <Icon name="tick" size={14} />
                     </Button>

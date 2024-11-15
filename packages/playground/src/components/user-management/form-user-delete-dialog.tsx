@@ -14,7 +14,7 @@ import {
   Text,
   Badge
 } from '@harnessio/canary'
-import { FormDeleterDialogProps } from './interfaces'
+import type { FormDeleterDialogProps } from './interfaces'
 
 //Form Delete Member Dialog
 export const FormDeleteUserDialog: React.FC<FormDeleterDialogProps> = ({
@@ -49,7 +49,7 @@ export const FormDeleteUserDialog: React.FC<FormDeleterDialogProps> = ({
             </Button>
           )}
           {deleteSuccess ? (
-            <Button size="default" theme="success" className="self-start pointer-events-none flex gap-2">
+            <Button size="default" theme="success" className="pointer-events-none flex gap-2 self-start">
               Users deleted
               <Icon name="tick" size={14} />
             </Button>

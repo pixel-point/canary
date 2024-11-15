@@ -1,5 +1,4 @@
 import React from 'react'
-import { Xmark } from '@harnessio/icons-noir' // TODO: Lose these!
 import { Icon as CanaryIcon } from '@harnessio/canary'
 import { ExecutionState } from './types'
 
@@ -20,12 +19,12 @@ const Badge: React.FC<ExecutionStatusProps & BadgeProps> = props => {
     case ExecutionState.PENDING:
       return minimal ? (
         <div className="flex items-center gap-1">
-          <div className="w-2 h-2 bg-muted rounded-full" />
+          <div className="bg-muted h-2 w-2 rounded-full" />
           <span className="text-muted">Pending</span>
         </div>
       ) : (
-        <div className="flex gap-1 items-center border-solid border border-muted px-1 py-0.5 rounded-md bg-muted/[0.1]">
-          <div className="flex gap-0.5 items-center">
+        <div className="border-muted bg-muted/[0.1] flex items-center gap-1 rounded-md border border-solid px-1 py-0.5">
+          <div className="flex items-center gap-0.5">
             <CanaryIcon size={12} name="pending-clock" />
             <span className="text-muted">Pending</span>
           </div>
@@ -35,13 +34,13 @@ const Badge: React.FC<ExecutionStatusProps & BadgeProps> = props => {
     case ExecutionState.RUNNING:
       return minimal ? (
         <div className="flex items-center gap-1">
-          <div className="w-2 h-2 bg-studio-3 rounded-full" />
+          <div className="bg-studio-3 h-2 w-2 rounded-full" />
           <span className="text-studio-3">Running</span>
         </div>
       ) : (
-        <div className="flex gap-1 items-center border-solid border border-studio-3/[0.12] px-1 py-0.5 rounded-md bg-studio-3/10">
-          <div className="flex gap-1 items-center">
-            <CanaryIcon size={16} name="running" className="animate-spin text-warning" />
+        <div className="border-studio-3/[0.12] bg-studio-3/10 flex items-center gap-1 rounded-md border border-solid px-1 py-0.5">
+          <div className="flex items-center gap-1">
+            <CanaryIcon size={16} name="running" className="text-warning animate-spin" />
             <span className="text-studio-3">Running</span>
           </div>
           {duration && <span className="text-studio-3">{duration}</span>}
@@ -52,13 +51,13 @@ const Badge: React.FC<ExecutionStatusProps & BadgeProps> = props => {
     case ExecutionState.FAILURE:
       return minimal ? (
         <div className="flex items-center gap-1">
-          <div className="w-2 h-2 bg-[#ED5E5E] rounded-full" />
+          <div className="h-2 w-2 rounded-full bg-[#ED5E5E]" />
           <span className="text-[#ED5E5E]">Failed</span>
         </div>
       ) : (
-        <div className="flex gap-1 items-center border-solid border border-[#F76E6E1F] px-1 py-0.5 rounded-md bg-[#F76E6E1A]/[0.1]">
-          <div className="flex gap-0.5 items-center">
-            <Xmark color="#ED5E5E" size="20" />
+        <div className="flex items-center gap-1 rounded-md border border-solid border-[#F76E6E1F] bg-[#F76E6E1A]/[0.1] px-1 py-0.5">
+          <div className="flex items-center gap-0.5">
+            <CanaryIcon name="fail" width={20} />
             <span className="text-[#ED5E5E]">Failed</span>
           </div>
           {duration && <span className="text-[#ED5E5E]">{duration}</span>}
@@ -67,12 +66,12 @@ const Badge: React.FC<ExecutionStatusProps & BadgeProps> = props => {
     case ExecutionState.SUCCESS:
       return minimal ? (
         <div className="flex items-center gap-1">
-          <div className="w-2 h-2 bg-success rounded-full" />
+          <div className="bg-success h-2 w-2 rounded-full" />
           <span className="text-success">Success</span>
         </div>
       ) : (
-        <div className="flex gap-1 items-center border-solid border border-success px-1 py-0.5 rounded-md bg-success/[0.1]">
-          <div className="flex gap-0.5 items-center">
+        <div className="border-success bg-success/[0.1] flex items-center gap-1 rounded-md border border-solid px-1 py-0.5">
+          <div className="flex items-center gap-0.5">
             <CanaryIcon size={12} name="success" />
             <span className="text-success">Success</span>
           </div>
@@ -98,7 +97,7 @@ const Icon: React.FC<ExecutionStatusProps> = props => {
     case ExecutionState.SUCCESS:
       return <CanaryIcon size={16} name="success" />
     case ExecutionState.RUNNING:
-      return <CanaryIcon size={20} name="running" className="animate-spin text-warning" />
+      return <CanaryIcon size={20} name="running" className="text-warning animate-spin" />
     case ExecutionState.SKIPPED:
     default:
       return <></>

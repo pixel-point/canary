@@ -2,8 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import cx from 'classnames'
 import type { NodeProps } from 'reactflow'
 import { Handle, Position, useReactFlow, Node } from 'reactflow'
-import { Plus, Computer } from '@harnessio/icons-noir'
-import { Skeleton, Text } from '@harnessio/canary'
+import { Skeleton, Text, Icon } from '@harnessio/canary'
 import {
   PositionType,
   type DefaultNodeProps,
@@ -56,7 +55,7 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
       id: 'new_node',
       data: {
         name: 'New node',
-        icon: <Computer />,
+        icon: <Icon name="clone" />,
         path: '',
         expandable: true,
         positionType: PositionType.RELATIVE,
@@ -124,7 +123,8 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
               e.stopPropagation()
               handleAddClick(data)
             }}>
-            <Plus
+            <Icon
+              name="plus"
               className={cx(
                 'rounded-full w-8 h-8 opacity-0 border border-studio-4/[0.6] hover:border-studio-4 bg-studio-1 text-studio-7 transform translate-x-[2px] translate-y-[2px]',
                 {

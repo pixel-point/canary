@@ -130,7 +130,7 @@ export function PipelineCreateForm({ onCancel, onSubmit }: PipelineCreateFormPro
         )}
       />
 
-      <div className="flex gap-3 justify-end">
+      <div className="flex justify-end gap-3">
         <Button type="button" onClick={onCancel} className="text-primary" variant="outline">
           Cancel
         </Button>

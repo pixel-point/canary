@@ -45,11 +45,11 @@ export const MembersList = ({ members, onDelete, onEdit }: PageProps) => {
         {members.map(member => (
           <TableRow key={member.uid}>
             {/* NAME */}
-            <TableCell className="content-center my-6">
+            <TableCell className="my-6 content-center">
               <div className="flex items-center gap-4">
                 <Avatar size="10">
                   {member.avatarUrl && <AvatarImage src={member.avatarUrl} />}
-                  <AvatarFallback className="text-xs p-1 text-center">
+                  <AvatarFallback className="p-1 text-center text-xs">
                     {getInitials(member.display_name, 2)}
                   </AvatarFallback>
                 </Avatar>
@@ -59,7 +59,7 @@ export const MembersList = ({ members, onDelete, onEdit }: PageProps) => {
               </div>
             </TableCell>
             {/* EMAIL */}
-            <TableCell className="content-center my-6">
+            <TableCell className="my-6 content-center">
               <div className="flex gap-1.5">
                 <Text wrap="nowrap" size={1} truncate className="text-tertiary-background">
                   {member.email}
@@ -67,44 +67,44 @@ export const MembersList = ({ members, onDelete, onEdit }: PageProps) => {
               </div>
             </TableCell>
             {/* ROLE */}
-            <TableCell className="content-center my-6">
+            <TableCell className="my-6 content-center">
               <Select
                 value={member.role}
                 onValueChange={newRole => onEdit({ ...member, role: transformValue(newRole) })}>
-                <SelectTrigger className="w-[150px] border-0 justify-start space-x-2" iconClassName="flex-shrink-0">
-                  <SelectValue className="flex-1 basis-[70%] grow-0" placeholder="Select Role">
+                <SelectTrigger className="w-[150px] justify-start space-x-2 border-0" iconClassName="flex-shrink-0">
+                  <SelectValue className="flex-1 grow-0 basis-[70%]" placeholder="Select Role">
                     {/* //the data from api call is lowerCase */}
                     {upperFirst(member.role)}
                   </SelectValue>
                 </SelectTrigger>
                 <SelectContent className="w-[300px]">
                   <SelectItem value="Owner">
-                    <Text className="text-left inline-block w-full">Owner</Text>
-                    <Text className="text-muted-foreground inline-block w-full mt-1.5">
+                    <Text className="inline-block w-full text-left">Owner</Text>
+                    <Text className="text-muted-foreground mt-1.5 inline-block w-full">
                       Admin-level access to all resources.
                     </Text>
                   </SelectItem>
                   <SelectItem value="Contributor">
-                    <Text className="text-left inline-block w-full">Contributor</Text>
-                    <Text className="text-muted-foreground inline-block w-full mt-1.5">
+                    <Text className="inline-block w-full text-left">Contributor</Text>
+                    <Text className="text-muted-foreground mt-1.5 inline-block w-full">
                       Can view, comment, and edit resources.
                     </Text>
                   </SelectItem>
                   <SelectItem value="Reader">
-                    <Text className="text-left inline-block w-full">Reader</Text>
-                    <Text className="text-muted-foreground inline-block w-full mt-1.5">Can view and comment.</Text>
+                    <Text className="inline-block w-full text-left">Reader</Text>
+                    <Text className="text-muted-foreground mt-1.5 inline-block w-full">Can view and comment.</Text>
                   </SelectItem>
                   <SelectItem value="Executor">
-                    <Text className="text-left inline-block w-full">Executor</Text>
-                    <Text className="text-muted-foreground inline-block w-full mt-1.5">
+                    <Text className="inline-block w-full text-left">Executor</Text>
+                    <Text className="text-muted-foreground mt-1.5 inline-block w-full">
                       Can view but cannot make changes or leave comments.
                     </Text>
                   </SelectItem>
                 </SelectContent>
               </Select>
             </TableCell>
-            <TableCell className="content-center my-6">
-              <div className="flex gap-1.5 items-center justify-end">{moreActionsDropdown({ member, onDelete })}</div>
+            <TableCell className="my-6 content-center">
+              <div className="flex items-center justify-end gap-1.5">{moreActionsDropdown({ member, onDelete })}</div>
             </TableCell>
           </TableRow>
         ))}

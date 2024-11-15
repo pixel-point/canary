@@ -158,7 +158,7 @@ export const transformFormOutput = (formOutput: RepoBranchSettingsFormFields): R
           require_resolve_all: rulesMap[BranchRuleId.COMMENTS]?.checked || false
         },
         merge: {
-          strategies_allowed: (rulesMap[BranchRuleId.MERGE]?.submenu as MergeStrategy[]) || [],
+          strategies_allowed: rulesMap[BranchRuleId.MERGE]?.submenu || [],
           delete_branch: rulesMap[BranchRuleId.DELETE_BRANCH]?.checked || false
         },
         status_checks: {

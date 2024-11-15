@@ -11,8 +11,7 @@ import {
 } from '@harnessio/canary'
 
 import { isEmpty } from 'lodash-es'
-import { WarningTriangleSolid, Clock, ChatBubble } from '@harnessio/icons-noir'
-import { EnumCheckStatus, TypeCheckData } from '../interfaces'
+import type { EnumCheckStatus, TypesPullReqCheck } from '../interfaces'
 import { ExecutionState } from '../../execution/types'
 import { timeDistance } from '../../../utils/utils'
 import { LineDescription, LineTitle } from '../pull-request-line-title'
@@ -22,7 +21,7 @@ interface ExecutionPayloadType {
   execution_number: number
 }
 interface PullRequestMergeSectionProps {
-  checkData: TypeCheckData[]
+  checkData: TypesPullReqCheck[]
   checksInfo: { header: string; content: string; status: EnumCheckStatus }
   spaceId?: string
   repoId?: string
@@ -34,12 +33,12 @@ const PullRequestCheckSection = ({ checkData, checksInfo, spaceId, repoId }: Pul
       // TODO: fix icons to use from nucleo
       case ExecutionState.PENDING:
       case ExecutionState.BLOCKED:
-        return <Clock />
+        return <Icon name="x-mark" />
       case ExecutionState.RUNNING:
-        return <ChatBubble className="text-warning" />
+        return <Icon name="x-mark" className="text-warning" />
       case ExecutionState.FAILURE:
       case ExecutionState.ERROR:
-        return <WarningTriangleSolid className="text-destructive" />
+        return <Icon name="x-mark" className="text-destructive" />
       default:
         return <Icon name="success" className="text-success" />
     }
@@ -57,12 +56,12 @@ const PullRequestCheckSection = ({ checkData, checksInfo, spaceId, repoId }: Pul
             Show more
           </Text>
         </AccordionTrigger>
-        <AccordionContent className={cn('pl-6 flex flex-col', { 'pb-0': checkData.length === 1 })}>
+        <AccordionContent className={cn('flex flex-col pl-6', { 'pb-0': checkData.length === 1 })}>
           {checkData.map(check => {
             const time = timeDistance(check.check.created, check.check.updated)
 
             return (
-              <div className={cn('flex justify-between gap-2 items-center py-2.5 border-t')}>
+              <div className={cn('flex items-center justify-between gap-2 border-t py-2.5')}>
                 <div className="flex items-center gap-2">
                   {getStatusIcon(check.check.status as EnumCheckStatus)}
                   <Text size={1} color="primary" truncate className="max-w-[300px] overflow-hidden">

@@ -1,9 +1,8 @@
 import React from 'react'
-import type { UseFormReturn } from '@harnessio/forms'
+import type { UseFormReturn , InputProps , AnyFormikValue } from '@harnessio/forms'
 import { InputType } from './types'
 import { FormControl, FormField, FormItem, Switch } from '@harnessio/canary'
-import { InputComponent, InputProps } from '@harnessio/forms'
-import type { AnyFormikValue } from '@harnessio/forms'
+import { InputComponent } from '@harnessio/forms'
 import InputLabel from './common/InputLabel'
 import InputWrapper from './common/InputWrapper'
 import { InputError } from './common/InputError'
@@ -24,7 +23,7 @@ function BooleanInputInternal(props: InputProps<AnyFormikValue, BooleanInputConf
       <FormField
         name={path}
         render={({ field }) => (
-          <FormItem className="flex space-y-0 space-x-2 ">
+          <FormItem className="flex space-x-2 space-y-0">
             <FormControl>
               <Switch
                 disabled={readonly}

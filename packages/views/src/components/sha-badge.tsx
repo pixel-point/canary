@@ -21,7 +21,7 @@ function Root({ ...props }: RootProps) {
   const { children } = props
 
   return (
-    <div className="grid grid-flow-col grid-col-[1fr_auto] border rounded-md overflow-hidden cursor-pointer">
+    <div className="grid-col-[1fr_auto] grid cursor-pointer grid-flow-col overflow-hidden rounded-md border">
       {children}
     </div>
   )
@@ -31,7 +31,7 @@ function Content({ ...props }: ContentProps) {
   const { children } = props
 
   return (
-    <div className="flex items-center px-2 py-0.5 bg-background hover:bg-muted/50">
+    <div className="bg-background hover:bg-muted/50 flex items-center px-2 py-0.5">
       <Text size={1} className="text-tertiary-background">
         {children}
       </Text>
@@ -45,7 +45,7 @@ function Icon({ ...props }: IconProps) {
   return (
     <div
       onClick={handleClick && handleClick}
-      className="flex items-center border-l px-1.5 py-0.5 bg-background hover:bg-muted/50">
+      className="bg-background hover:bg-muted/50 flex items-center border-l px-1.5 py-0.5">
       {children}
     </div>
   )

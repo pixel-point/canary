@@ -284,10 +284,10 @@ export default function PullRequestConversationPage() {
               }}
               commentsInfo={prPanelData?.commentsInfoData}
               ruleViolation={prPanelData.ruleViolation}
-              // @ts-expect-error remove "@ts-expect-error" once CodeServiceClient Response for useChecksPullReqQuery is fixed
               checks={pullReqChecksDecision?.data?.checks}
-              pullReqMetadata={pullReqMetadata}
               PRStateLoading={prPanelData?.PRStateLoading || prLoading}
+              // TODO: TypesPullReq is null for someone: vardan will look into why swagger is doing this
+              pullReqMetadata={pullReqMetadata ? pullReqMetadata : undefined}
               // TODO: add dry merge check into pr context
               conflictingFiles={prPanelData?.conflictingFiles}
               approvedEvaluations={approvedEvaluations}
@@ -349,7 +349,7 @@ export default function PullRequestConversationPage() {
                   updated: item?.updated
                 }
               })}
-              pullReqMetadata={pullReqMetadata}
+              pullReqMetadata={pullReqMetadata ? pullReqMetadata : undefined}
               activityFilter={activityFilter}
               dateOrderSort={dateOrderSort}
               handleSaveComment={handleSaveComment}

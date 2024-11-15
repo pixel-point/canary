@@ -136,7 +136,7 @@ export type EnumLabelColor =
   | 'violet'
   | 'yellow'
 
-export type EnumMergeMethod = 'merge' | 'rebase' | 'squash'
+export type EnumMergeMethod = 'fast-forward' | 'merge' | 'rebase' | 'squash'
 
 export type EnumPullReqState = 'closed' | 'merged' | 'open'
 
@@ -175,10 +175,10 @@ export interface TypesCheck {
   updated?: number
 }
 
-export interface TypeCheckData {
-  bypassable: boolean
-  required: boolean
-  check: TypesCheck
+export interface TypesPullReqCheck {
+  bypassable?: boolean
+  required?: boolean
+  check?: TypesCheck
 }
 
 export interface TypesCheckPayload {
@@ -370,6 +370,7 @@ export type EnumPullReqActivityType =
   | 'title-change'
   | 'reviewer-add'
   | 'label-modify'
+  | 'branch-restore'
 
 export type EnumPullReqActivityKind = 'change-comment' | 'comment' | 'system'
 export interface TypesPullReqActivityMetadata {

@@ -50,7 +50,7 @@ export const navItems = [
 function Sidebar() {
   return (
     <SandboxLayout.Content>
-      <Navbar.Root className="bg-transparent border-none">
+      <Navbar.Root className="border-none bg-transparent">
         <Navbar.Content>
           {navItems.map(group => (
             <Navbar.Group

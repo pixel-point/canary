@@ -13,13 +13,13 @@ export enum MeterState {
 interface Pipeline {
   id: string
   status?: ExecutionState
-  name: string
+  name?: string
   sha?: string
   description?: string
   version?: string
   timestamp?: string
   meter?: {
-    id: string
+    id?: string
     state: MeterState
   }[]
 }
@@ -31,7 +31,7 @@ interface PageProps {
 
 const Title = ({ status, title }: { status?: ExecutionState; title: string }) => {
   return (
-    <div className="flex gap-2 items-center">
+    <div className="flex items-center gap-2">
       {status && <ExecutionStatus.Icon status={status} />}
       <Text truncate>{title}</Text>
     </div>
@@ -40,22 +40,22 @@ const Title = ({ status, title }: { status?: ExecutionState; title: string }) =>
 
 const Description = ({ sha, description, version }: { sha: string; description: string; version: string }) => {
   return (
-    <div className="pl-[24px] inline-flex gap-2 items-center max-w-full overflow-hidden">
+    <div className="inline-flex max-w-full items-center gap-2 overflow-hidden pl-[24px]">
       {sha && (
-        <div className="px-1.5 rounded-md flex gap-1 items-center bg-tertiary-background/10">
+        <div className="bg-tertiary-background/10 flex items-center gap-1 rounded-md px-1.5">
           <Icon size={11} name={'tube-sign'} />
           {sha?.slice(0, 7)}
         </div>
       )}
       {description && (
-        <div className="break-words w-full overflow-hidden">
+        <div className="w-full overflow-hidden break-words">
           <Text size={1} color="tertiaryBackground">
             {description || ''}
           </Text>
         </div>
       )}
       {version && (
-        <div className="flex gap-1 items-center">
+        <div className="flex items-center gap-1">
           <Icon size={11} name={'signpost'} />
           {version}
         </div>
@@ -73,7 +73,7 @@ export const PipelineList = ({ pipelines, LinkComponent }: PageProps) => {
             <LinkComponent to={pipeline.id}>
               <StackedList.Item key={pipeline.name} isLast={pipelines.length - 1 === pipeline_idx}>
                 <StackedList.Field
-                  title={<Title status={pipeline.status} title={pipeline.name} />}
+                  title={<Title status={pipeline.status} title={pipeline.name || ''} />}
                   description={
                     <Description
                       sha={pipeline.sha || ''}

@@ -115,11 +115,11 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
         </Text>
         <Spacer size={2} />
         <Layout.Vertical>
-          <Text size={2} as="p" className="text-primary/80 ">
+          <Text size={2} as="p" className="text-primary/80">
             Choose two branches to see what's changed or to start a new pull request. If you need to, you can also
             compare across forks or learn more about diff comparisons.
           </Text>
-          <Layout.Horizontal className="items-center text-tertiary-background">
+          <Layout.Horizontal className="text-tertiary-background items-center">
             <Icon name="pull" size={16} className="text-tertiary-background" />
 
             <BranchSelector
@@ -132,7 +132,7 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
                 handleBranchSelection() // Call when target branch is selected
               }}
             />
-            <Icon name="arrow-long" size={14} className="rotate-180 text-tertiary-background" />
+            <Icon name="arrow-long" size={14} className="text-tertiary-background rotate-180" />
             <BranchSelector
               prefix="compare"
               size="default"
@@ -180,7 +180,7 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
           </Layout.Horizontal>
         </Layout.Vertical>
         <Spacer size={3} />
-        <Layout.Horizontal className="items-center px-3 py-3 bg-background border-border border-2 rounded-md justify-between">
+        <Layout.Horizontal className="bg-background border-border items-center justify-between rounded-md border-2 px-3 py-3">
           <div>
             <Layout.Horizontal className="py-2">
               {isBranchSelected ? (
@@ -274,15 +274,15 @@ interface HeaderProps {
 }
 
 const LineTitle: React.FC<Omit<HeaderProps, 'title' | 'data' | 'lang'>> = ({ text }) => (
-  <div className="flex items-center gap-3 justify-between">
-    <div className="inline-flex gap-2 items-center">
+  <div className="flex items-center justify-between gap-3">
+    <div className="inline-flex items-center gap-2">
       <Text weight="medium">{text}</Text>
       <Button size="sm" variant="ghost">
         <Icon name="clone" size={14} className="text-tertiary-background" />
       </Button>
     </div>
-    <div className="inline-flex gap-x-6 items-center">
-      <div className="flex gap-2 items-center">
+    <div className="inline-flex items-center gap-x-6">
+      <div className="flex items-center gap-2">
         <Icon name="ellipsis" size={12} />
       </div>
     </div>
@@ -298,18 +298,18 @@ const PullRequestAccordion: React.FC<{
     parseStartingLineIfOne(header?.data ?? '') !== null ? parseStartingLineIfOne(header?.data ?? '') : null
   return (
     <StackedList.Root>
-      <StackedList.Item disableHover isHeader className="p-0 hover:bg-transparent cursor-default">
+      <StackedList.Item disableHover isHeader className="cursor-default p-0 hover:bg-transparent">
         <Accordion type="multiple" className="w-full">
           <AccordionItem isLast value={header?.text ?? ''}>
-            <AccordionTrigger leftChevron className="text-left p-4">
+            <AccordionTrigger leftChevron className="p-4 text-left">
               <StackedList.Field title={<LineTitle text={header?.text ?? ''} />} />
             </AccordionTrigger>
             <AccordionContent>
-              <div className="flex border-t w-full">
-                <div className="bg-transparent w-full">
+              <div className="flex w-full border-t">
+                <div className="w-full bg-transparent">
                   {startingLine ? (
                     <div className="bg-[--diff-hunk-lineNumber--]">
-                      <div className="w-full px-2 ml-16 py-1 font-mono ">{startingLine}</div>
+                      <div className="ml-16 w-full px-2 py-1 font-mono">{startingLine}</div>
                     </div>
                   ) : null}
                   <PullRequestDiffViewer

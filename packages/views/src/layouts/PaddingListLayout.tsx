@@ -9,7 +9,7 @@ interface PaddingListLayoutProps {
 
 export const PaddingListLayout = ({ className, spaceTop = true, children }: PaddingListLayoutProps) => {
   return (
-    <div className={cn('pt-7 px-8 pb-16 max-w-full md:max-w-[1000px] 2xl:max-w-[1200px] mx-auto', className)}>
+    <div className={cn('mx-auto max-w-full px-8 pb-16 pt-7 md:max-w-[1000px] 2xl:max-w-[1200px]', className)}>
       {spaceTop && <Spacer size={8} />}
       {children}
     </div>

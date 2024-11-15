@@ -1,5 +1,4 @@
 import { AccordionContent, AccordionItem, AccordionTrigger, Icon, StackedList, Text } from '@harnessio/canary'
-import { Clock, WarningTriangleSolid } from '@harnessio/icons-noir'
 import React from 'react'
 import { LineTitle, LineDescription } from '../pull-request-line-title'
 import { isEmpty } from 'lodash-es'
@@ -35,13 +34,13 @@ const PullRequestMergeSection = ({
               icon={
                 unchecked ? (
                   // TODO: update icon for unchecked status
-                  <Clock className="text-warning" />
+                  <Icon name="clock" className="text-warning" />
                 ) : (
                   <>
                     {mergeable ? (
                       <Icon name="success" className="text-success" />
                     ) : (
-                      <WarningTriangleSolid className="text-destructive" />
+                      <Icon name="triangle-warning" className="text-destructive" />
                     )}
                   </>
                 )
@@ -52,7 +51,7 @@ const PullRequestMergeSection = ({
             unchecked ? (
               <LineDescription text={'Checking for ability to merge automatically...'} />
             ) : !mergeable ? (
-              <div className="ml-6 inline-flex gap-2 items-center">
+              <div className="ml-6 inline-flex items-center gap-2">
                 <Text size={1} weight="normal" color={'tertiaryBackground'}>
                   Use the
                   <span
@@ -62,7 +61,7 @@ const PullRequestMergeSection = ({
                     // }}
                     // className="pl-1 pr-1 text-blue-500 cursor-pointer">
 
-                    className="pl-1 pr-1 text-blue-500 ">
+                    className="pl-1 pr-1 text-blue-500">
                     {/* {getString('commandLine')} */}
                     command line
                   </span>
@@ -83,8 +82,8 @@ const PullRequestMergeSection = ({
       </AccordionTrigger>
       {!mergeable && !unchecked && (
         <AccordionContent>
-          <StackedList.Root className="bg-inherit ml-2 border-transparent">
-            <StackedList.Item className="px-0.5  pt-0.5 ml-2">
+          <StackedList.Root className="ml-2 border-transparent bg-inherit">
+            <StackedList.Item className="ml-2 px-0.5 pt-0.5">
               <Text
                 size={1}
                 weight="normal"
@@ -92,7 +91,7 @@ const PullRequestMergeSection = ({
             </StackedList.Item>
             {!isEmpty(conflictingFiles) &&
               conflictingFiles?.map((file, idx) => (
-                <StackedList.Item className="py-1 px-2 ml-2" key={`${file}-${idx}`}>
+                <StackedList.Item className="ml-2 px-2 py-1" key={`${file}-${idx}`}>
                   <Icon size={14} name="changes" />
                   <Text size={1} className="pl-1">
                     {file}

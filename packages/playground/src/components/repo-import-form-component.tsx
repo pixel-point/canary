@@ -10,7 +10,8 @@ import {
   SelectValue,
   Checkbox
 } from '@harnessio/canary'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import type { SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { FormFieldSet } from '../index'
@@ -158,7 +159,7 @@ export function RepoImportForm({
               }
               id="authorization"
               label="Requires Authorization"
-              className="min-h-8 mt-0 flex items-center"
+              className="mt-0 flex min-h-8 items-center"
             />
 
             <FormFieldSet.Option
@@ -173,7 +174,7 @@ export function RepoImportForm({
               // id={`${event.id}`}
               id="pipelines"
               label="Import Pipelines"
-              className="min-h-8 mt-0 flex items-center"
+              className="mt-0 flex min-h-8 items-center"
             />
           </FormFieldSet.ControlGroup>
         </FormFieldSet.Root>

@@ -63,7 +63,7 @@ export const CreateNewMemberPage = () => {
   })
 
   const { data: { body: usersData } = {} } = useListPrincipalsQuery({
-    // api call shows the array type but if we dont use the string type it will throw error
+    // @ts-expect-error - api call shows the array type but if we dont use the string type it will throw error
     queryParams: { page: 1, limit: 20, type: 'user' }
   })
 
@@ -118,7 +118,7 @@ export const CreateNewMemberPage = () => {
                 render={({ field }) => (
                   <DropdownMenu>
                     <DropdownMenuTrigger>
-                      <div className="flex justify-between border rounded-md items-center">
+                      <div className="flex items-center justify-between rounded-md border">
                         <Button variant="ghost">
                           <Text>
                             {selectedMember

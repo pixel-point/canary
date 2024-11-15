@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { XmarkCircle, WarningTriangle, InfoCircle, CheckCircle } from '@harnessio/icons-noir'
+import { Icon } from '@harnessio/canary'
 
 export type ProblemSeverity = 'error' | 'warning' | 'info'
 
@@ -16,11 +16,11 @@ export interface Problem<T = unknown> {
 const getProblemIcon = (severity: ProblemSeverity): React.ReactElement => {
   switch (severity) {
     case 'error':
-      return <XmarkCircle className="text-destructive-foreground" />
+      return <Icon name="fail" className="text-destructive-foreground" />
     case 'warning':
-      return <WarningTriangle className="text-orange" />
+      return <Icon name="triangle-warning" className="text-orange" />
     case 'info':
-      return <InfoCircle />
+      return <Icon name="info-circle" />
   }
 }
 
@@ -33,7 +33,7 @@ export interface ProblemsProps<T = unknown> {
 
 const ProblemsComponent = {
   Root: function Root({ children }: { children: React.ReactNode }) {
-    return <div className="text-[13px] text-neutral-400 leading-[15px] min-h-12 overflow-scroll">{children}</div>
+    return <div className="min-h-12 overflow-scroll text-[13px] leading-[15px] text-neutral-400">{children}</div>
   },
 
   Row: function Root({
@@ -49,7 +49,7 @@ const ProblemsComponent = {
     return (
       <div
         onClick={onClick}
-        className={`flex flex-1 items-center width-100 text-nowrap gap-2 py-0.5 cursor-pointer ${rowClasses}`}>
+        className={`width-100 flex flex-1 cursor-pointer items-center gap-2 text-nowrap py-0.5 ${rowClasses}`}>
         {children}
       </div>
     )
@@ -61,7 +61,7 @@ const ProblemsComponent = {
 
   Message: function Root({ message }: { message: string }) {
     return (
-      <div className="flex overflow-hidden items-center">
+      <div className="flex items-center overflow-hidden">
         <span className="truncate">{message}</span>
       </div>
     )
@@ -76,7 +76,7 @@ const ProblemsComponent = {
     }
   }) {
     return (
-      <div className="text-nowrap pr-2 text-grey-60">
+      <div className="text-grey-60 text-nowrap pr-2">
         [{position.row}, {position.column}]
       </div>
     )
@@ -117,8 +117,8 @@ const Problems = <T,>(props: ProblemsProps<T>): React.ReactElement => {
 
 function NoProblemsFound(): JSX.Element {
   return (
-    <div className="flex items-center pl-4 gap-2">
-      <CheckCircle className="text-green-600" /> No problems found
+    <div className="flex items-center gap-2 pl-4">
+      <Icon name="success" className="text-green-600" /> No problems found
     </div>
   )
 }

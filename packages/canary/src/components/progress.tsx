@@ -28,7 +28,7 @@ const progressVariants = cva('', {
       variant: 'divergence',
       rounded: 'default',
       size: 'default',
-      className: 'rounded-none h-[3px]'
+      className: 'h-[3px] rounded-none'
     }
   ],
   defaultVariants: {

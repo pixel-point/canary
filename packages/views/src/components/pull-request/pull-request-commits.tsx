@@ -43,10 +43,10 @@ export const PullRequestCommits = ({ ...props }: CommitProps) => {
                     <StackedList.Field
                       title={
                         <div className="flex flex-col">
-                          <div className="truncate max-w-[500px]">{commit.title}</div>
+                          <div className="max-w-[500px] truncate">{commit.title}</div>
                           <div className="flex items-center pt-1">
-                            <div className="h-5 w-5 rounded-full bg-tertiary-background bg-cover">
-                              <Avatar className="w-5 h-5 rounded-full p-0">
+                            <div className="bg-tertiary-background h-5 w-5 rounded-full bg-cover">
+                              <Avatar className="h-5 w-5 rounded-full p-0">
                                 <AvatarFallback>
                                   <Text size={1} color="tertiaryBackground">
                                     {/* TODO: fix fallback string */}
@@ -55,7 +55,7 @@ export const PullRequestCommits = ({ ...props }: CommitProps) => {
                                 </AvatarFallback>
                               </Avatar>
                             </div>
-                            <Text className="pl-2 text-xs text-tertiary-background">{`${commit.author?.identity?.name} commited on ${date}`}</Text>
+                            <Text className="text-tertiary-background pl-2 text-xs">{`${commit.author?.identity?.name} commited on ${date}`}</Text>
                           </div>
                         </div>
                       }

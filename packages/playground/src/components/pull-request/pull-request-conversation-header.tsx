@@ -18,7 +18,7 @@ import React, { useMemo } from 'react'
 import { Badge, Button, Icon, Text } from '@harnessio/canary'
 import { Layout } from '../layout/layout'
 import { getPrState } from './utils'
-import { IconType } from './interfaces'
+import type { IconType } from './interfaces'
 import { timeAgo } from '../../utils/utils'
 
 interface PullRequestTitleProps {
@@ -47,16 +47,16 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
   const stateObject = getPrState(is_draft, merged, state)
   return (
     <div className="flex flex-col gap-2 pb-8">
-      <div className="flex pt-1 pb-1 items-center">
+      <div className="flex items-center py-1">
         <Text size={5} weight={'medium'} className="text-primary">
           {original}
           &nbsp;&nbsp;
-          <span className="text-tertiary-background font-normal">#{number}</span>
+          <span className="font-normal text-tertiary-background">#{number}</span>
         </Text>
       </div>
       <div className="">
-        <div className="flex space-x-2 text-tertiary-background ">
-          <div className="flex gap-2.5 items-center align-middle text-center">
+        <div className="flex space-x-2 text-tertiary-background">
+          <div className="flex items-center gap-2.5 text-center align-middle">
             <Badge disableHover borderRadius="full" theme={stateObject.theme} className={`select-none justify-center`}>
               <Layout.Horizontal gap="space-x-1" className="flex items-center align-middle">
                 <Icon name={stateObject.icon as IconType} size={13} />
@@ -66,7 +66,7 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
             <div className="flex gap-2">
               <Text
                 size={2}
-                className="text-tertiary-background inline-flex flex-wrap gap-1 items-center"
+                className="inline-flex flex-wrap items-center gap-1 text-tertiary-background"
                 weight="normal">
                 <span className="text-primary">{author?.display_name || author?.email || ''}</span>
                 <span>{merged ? 'merged' : ' wants to merge'}</span>
@@ -75,12 +75,12 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
                 </span>
                 <span>into</span>
                 <Button variant="secondary" size="xs">
-                  <Icon name="branch" size={12} className="text-tertiary-background mr-1" />
+                  <Icon name="branch" size={12} className="mr-1 text-tertiary-background" />
                   {target_branch}
                 </Button>
                 <span>from</span>
                 <Button variant="secondary" size="xs">
-                  <Icon name="branch" size={12} className="text-tertiary-background mr-1" />
+                  <Icon name="branch" size={12} className="mr-1 text-tertiary-background" />
                   {source_branch}
                 </Button>
                 <span>&nbsp;|&nbsp;</span>

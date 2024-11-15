@@ -26,20 +26,26 @@ interface PullRequestProps {
 interface PageProps {
   pullRequests?: PullRequestProps[]
   LinkComponent: React.ComponentType<{ to: string; children: React.ReactNode }>
+  closed_prs?: number
+  open_prs?: number
 }
 
 const HeaderTitle = ({
   setHeaderFilter,
-  headerFilter
+  headerFilter,
+  closed_prs,
+  open_prs
 }: {
   setHeaderFilter: (state: string) => void
   headerFilter: string
+  closed_prs?: number
+  open_prs?: number
 }) => {
   return (
-    <div className="flex gap-4 items-center">
+    <div className="flex items-center gap-4">
       <div
         onClick={() => setHeaderFilter('open')}
-        className={cx('flex gap-2 items-center', {
+        className={cx('flex items-center gap-2', {
           'text-white': headerFilter === 'open',
           'text-tertiary-background': headerFilter === 'closed'
         })}>
@@ -52,24 +58,24 @@ const HeaderTitle = ({
           })}
           size={2}
           truncate>
-          122 Open
+          {open_prs} Open
         </Text>
       </div>
       <div
         onClick={() => setHeaderFilter('closed')}
-        className={cx('flex gap-2 items-center', {
+        className={cx('flex items-center gap-2', {
           'text-white': headerFilter === 'closed',
           'text-tertiary-background': headerFilter === 'open'
         })}>
         <Icon size={12} name="tick" />
         <Text
-          className={cx('flex gap-2 items-center', {
+          className={cx('flex items-center gap-2', {
             'text-white': headerFilter === 'closed',
             'text-tertiary-background': headerFilter === 'open'
           })}
           size={2}
           truncate>
-          8,128 Closed
+          {closed_prs} Closed
         </Text>
       </div>
     </div>
@@ -102,8 +108,8 @@ const Title = ({
   labels: { text: string; color: string }[]
 }) => {
   return (
-    <div className="flex gap-2 items-center">
-      <div className="flex gap-2 flex-wrap justify-start">
+    <div className="flex items-center gap-2">
+      <div className="flex flex-wrap justify-start gap-2">
         <Icon
           size={16}
           className={cx({
@@ -123,7 +129,7 @@ const Title = ({
             const { border, text, bg } = colorMapping[l.color] || { border: '', text: '' }
             return (
               <Badge key={l_idx} variant="outline" size={'sm'} borderRadius="full" className={cn(border, text, bg)}>
-                <p className="truncate max-w-[376px]">{l.text}</p>
+                <p className="max-w-[376px] truncate">{l.text}</p>
               </Badge>
             )
           })}
@@ -149,8 +155,8 @@ const Description = ({
   timestamp: string
 }) => {
   return (
-    <div className="pl-[24px] inline-flex gap-2 items-center max-w-full overflow-hidden">
-      {number && <div className="flex gap-1 items-center ">#{number}</div>}
+    <div className="inline-flex max-w-full items-center gap-2 overflow-hidden pl-[24px]">
+      {number && <div className="flex items-center gap-1">#{number}</div>}
       {author && timestamp && (
         <Text size={1} color="tertiaryBackground">
           opened {timestamp} by {author}
@@ -171,7 +177,7 @@ const Description = ({
         </div>
       )} */}
       {source_branch && (
-        <div className="flex gap-1 items-center">
+        <div className="flex items-center gap-1">
           <Icon size={11} name={'signpost'} />
           <Text size={1} color="tertiaryBackground">
             {source_branch}
@@ -184,7 +190,7 @@ const Description = ({
 
 const Comments = ({ comments }: { comments: number }) => {
   return (
-    <div className="flex gap-1.5 items-center">
+    <div className="flex items-center gap-1.5">
       <Icon size={16} name={'comments'} />
       <Text size={1} className="text-primary">
         {comments}
@@ -193,7 +199,7 @@ const Comments = ({ comments }: { comments: number }) => {
   )
 }
 
-export function PullRequestList({ pullRequests, LinkComponent }: PageProps) {
+export function PullRequestList({ pullRequests, LinkComponent, open_prs, closed_prs }: PageProps) {
   const [headerFilter, setHeaderFilter] = useState('open')
   const filteredData = useMemo(
     () =>
@@ -210,7 +216,14 @@ export function PullRequestList({ pullRequests, LinkComponent }: PageProps) {
         <StackedList.Root>
           <StackedList.Item isHeader disableHover>
             <StackedList.Field
-              title={<HeaderTitle headerFilter={headerFilter} setHeaderFilter={setHeaderFilter} />}></StackedList.Field>
+              title={
+                <HeaderTitle
+                  headerFilter={headerFilter}
+                  setHeaderFilter={setHeaderFilter}
+                  open_prs={open_prs}
+                  closed_prs={closed_prs}
+                />
+              }></StackedList.Field>
           </StackedList.Item>
           {filteredData?.map((pullRequest, pullRequest_idx) => (
             <LinkComponent to={pullRequest.number?.toString() || ''}>
