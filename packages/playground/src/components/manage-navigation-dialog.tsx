@@ -13,9 +13,10 @@ import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-  cn
+  cn,
+  ScrollArea
 } from '@harnessio/canary'
-import { NavbarItem } from '../layouts/RootLayout'
+import type { NavbarItem } from '../layouts/RootLayout'
 
 const mockRecentItems: NavbarItem[] = [
   {
@@ -52,7 +53,7 @@ interface NavigationCategory {
 
 const mockNavigationCategories: NavigationCategory[] = [
   {
-    id: 1,
+    id: 200,
     title: 'System Administration',
     items: [
       'Certificates',
@@ -70,7 +71,7 @@ const mockNavigationCategories: NavigationCategory[] = [
     }))
   },
   {
-    id: 1,
+    id: 201,
     title: 'DevOps Modernization',
     items: mockRecentItems
   }
@@ -92,70 +93,118 @@ const filterItems = (categories: NavigationCategory[], query: string): Navigatio
 
 interface SearchDropdownMenuExtendedContentProps {
   navigationCategories: NavigationCategory[]
-  searchQuery: string
-  setSearchDialogOpen: (open: boolean) => void
   addToPinnedItems: (item: NavbarItem) => void
 }
 
-const SearchDropdownMenuExtendedContent: React.FC<SearchDropdownMenuExtendedContentProps> = ({
+const SearchDropdownMenuExtendedContent = ({
   navigationCategories,
-  searchQuery,
-  setSearchDialogOpen,
   addToPinnedItems
-}) => {
+}: SearchDropdownMenuExtendedContentProps) => {
   const [filteredItems, setFilteredItems] = useState<NavigationCategory[]>([])
+  const [searchQuery, setSearchQuery] = useState('')
+  const [isSearchDialogOpen, setSearchDialogOpen] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const popoverRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const filtered = filterItems(navigationCategories, searchQuery)
     setFilteredItems(filtered)
   }, [navigationCategories, searchQuery])
 
+  const handleSearchChange = (event: React.ChangeEvent) => {
+    event.preventDefault()
+    const query = (event.target as HTMLInputElement).value
+    setSearchQuery(query)
+    setSearchDialogOpen(query.trim().length > 0)
+  }
+
   const handleItemClick = (item: NavbarItem) => {
     addToPinnedItems(item)
     setSearchDialogOpen(false)
   }
 
+  useEffect(() => {
+    const handleTabKey = (e: KeyboardEvent) => {
+      if (e.key.toLowerCase() === 'tab') {
+        const isShift = e.shiftKey
+        const activeElement = document.activeElement
+
+        if (popoverRef.current) {
+          const focusableElements = popoverRef.current.querySelectorAll<HTMLElement>('button:not([disabled])')
+          const firstFocusableElement = focusableElements[0]
+
+          if (!isShift && activeElement === inputRef.current) {
+            e.preventDefault()
+            firstFocusableElement && firstFocusableElement.focus()
+          }
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handleTabKey)
+
+    return () => {
+      window.removeEventListener('keydown', handleTabKey)
+    }
+  }, [])
+
+  const isEmptySearch = filteredItems.length === 0
+
   return (
-    <PopoverContent
-      className="w-[368px] !p-0 border-borders-1 overflow-hidden !rounded bg-background-2"
-      align="start"
-      onOpenAutoFocus={event => event.preventDefault()}
-      onCloseAutoFocus={event => event.preventDefault()}>
-      <div className="max-h-[55vh] h-[410px] p-1 relative overflow-y-scroll">
-        <span
-          className="absolute top-0 inset-x-0 w-full h-3 bg-gradient-to-b from-background-2 to-transparent pointer-events-none"
-          aria-hidden
+    <Popover open={isSearchDialogOpen} onOpenChange={setSearchDialogOpen}>
+      <PopoverTrigger asChild>
+        <SearchBox.Root
+          className="w-full"
+          ref={inputRef}
+          placeholder="Add menu element"
+          value={searchQuery}
+          handleChange={handleSearchChange}
+          showOnFocus
+          hasSearchIcon={false}
         />
-        <span
-          className="absolute bottom-0 inset-x-0 w-full h-3 bg-gradient-to-t from-background-2 to-transparent pointer-events-none"
-          aria-hidden
-        />
-        {filteredItems.length > 0 ? (
-          filteredItems.map((category, index) => (
-            <div className={cn(index > 0 ? 'mt-0.5 border-t border-borders-4 pt-2' : 'pt-1')} key={category.id}>
-              <Text className="px-2 leading-none inline-block text-foreground-7" size={1}>
-                {category.title}
-              </Text>
-              <div className="flex mt-2.5 flex-col">
-                {category.items.map(item => (
-                  <Button
-                    className="cursor-pointer h-9 hover:bg-background-4 py-2.5 px-2 rounded-sm"
-                    variant="ghost"
-                    key={item.id}
-                    onClick={() => handleItemClick(item)}>
-                    <div className="flex items-center w-full gap-x-2">
-                      <Text className="text-foreground-2 leading-none truncate">{item.title}</Text>
-                    </div>
-                  </Button>
-                ))}
+      </PopoverTrigger>
+      <PopoverContent
+        className="border-borders-1 bg-background-2 w-[368px] overflow-hidden !rounded !p-0"
+        ref={popoverRef}
+        align="start"
+        onOpenAutoFocus={e => e.preventDefault()}
+        onCloseAutoFocus={e => e.preventDefault()}>
+        <ScrollArea className={cn('relative p-1', isEmptySearch ? 'h-fit' : 'h-[410px] max-h-[50vh]')}>
+          <span
+            className="from-background-2 pointer-events-none absolute inset-x-0 top-0 h-3 w-full bg-gradient-to-b to-transparent"
+            aria-hidden
+          />
+          <span
+            className="from-background-2 pointer-events-none absolute inset-x-0 bottom-0 h-3 w-full bg-gradient-to-t to-transparent"
+            aria-hidden
+          />
+          {isEmptySearch ? (
+            <Text className="text-foreground-5 block w-full px-2 py-4">No results found</Text>
+          ) : (
+            filteredItems.map((category, index) => (
+              <div className={cn(index > 0 ? 'border-borders-4 mt-0.5 border-t pt-2' : 'pt-1')} key={category.id}>
+                <Text className="text-foreground-7 inline-block px-2 leading-none" size={1}>
+                  {category.title}
+                </Text>
+                <div className="mt-2.5 flex flex-col">
+                  {category.items.map(item => (
+                    <Button
+                      className="hover:bg-background-4 h-9 cursor-pointer rounded-sm px-2"
+                      variant="ghost"
+                      key={item.id}
+                      onClick={() => handleItemClick(item)}>
+                      <div className="flex w-full items-center gap-x-2">
+                        <Text className="text-foreground-2 truncate leading-tight">{item.title}</Text>
+                      </div>
+                    </Button>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))
-        ) : (
-          <Text className="px-2 py-4 block w-full text-foreground-5">No results found</Text>
-        )}
-      </div>
-    </PopoverContent>
+            ))
+          )}
+        </ScrollArea>
+      </PopoverContent>
+    </Popover>
   )
 }
 
@@ -170,7 +219,7 @@ interface ManageNavigationDialogProps {
   submitted: boolean
 }
 
-export const ManageNavigationDialog: React.FC<ManageNavigationDialogProps> = ({
+export const ManageNavigationDialog = ({
   pinnedItems,
   updatePinnedItems,
   recentItems = mockRecentItems,
@@ -179,20 +228,10 @@ export const ManageNavigationDialog: React.FC<ManageNavigationDialogProps> = ({
   onClose,
   isSubmitting,
   submitted
-}) => {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [isSearchDialogOpen, setSearchDialogOpen] = useState(false)
-  const triggerRef = useRef<HTMLDivElement>(null)
-
+}: ManageNavigationDialogProps) => {
   // Form edit submit handler
   const onSubmit = () => {
     onSave()
-  }
-
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const query = event.target.value
-    setSearchQuery(query)
-    setSearchDialogOpen(query.trim().length > 0)
   }
 
   const addToPinnedItems = (item: NavbarItem) => {
@@ -209,90 +248,73 @@ export const ManageNavigationDialog: React.FC<ManageNavigationDialogProps> = ({
 
   return (
     <AlertDialog open={true} onOpenChange={onClose}>
-      <AlertDialogContent className="max-h-[70vh] h-[574px] max-w-[410px] overflow-y-auto">
+      <AlertDialogContent className="h-[574px] max-h-[70vh] max-w-[410px] overflow-y-auto">
         <AlertDialogHeader>
-          <AlertDialogTitle>Manage navigation</AlertDialogTitle>
+          <AlertDialogTitle className="mb-4">Manage navigation</AlertDialogTitle>
+          <SearchDropdownMenuExtendedContent
+            navigationCategories={mockNavigationCategories}
+            addToPinnedItems={addToPinnedItems}
+          />
         </AlertDialogHeader>
-        <div className="relative">
-          <Popover open={isSearchDialogOpen} onOpenChange={setSearchDialogOpen}>
-            <PopoverTrigger asChild>
-              {/* TODO: can we set ref to the input? */}
-              <div ref={triggerRef}>
-                <SearchBox.Root
-                  className="w-full mt-2"
-                  placeholder="Add menu element"
-                  value={searchQuery}
-                  handleChange={handleSearchChange}
-                  showOnFocus
-                  hasSearchIcon={false}
-                />
-              </div>
-            </PopoverTrigger>
-            <SearchDropdownMenuExtendedContent
-              navigationCategories={mockNavigationCategories}
-              searchQuery={searchQuery}
-              setSearchDialogOpen={setSearchDialogOpen}
-              addToPinnedItems={addToPinnedItems}
-            />
-          </Popover>
-        </div>
-        <div className="mt-6">
-          <Text className="text-foreground-7 leading-none inline-block" size={1}>
-            Pinned
-          </Text>
-          {pinnedItems.length > 0 ? (
-            <ul className="mt-3.5 flex flex-col gap-y-0.5 -mx-3">
-              {pinnedItems.map(item => (
-                <li className="relative" key={item.title}>
-                  <Button className="w-full grow px-3 gap-x-2.5" variant="ghost">
-                    <Icon name="grid-dots" size={16} />
-                    <Text className="text-foreground-8 w-full text-left">{item.title}</Text>
-                  </Button>
-                  <Button
-                    className="text-icons-4 hover:text-icons-2 absolute top-0.5 right-0.5"
-                    size="sm_icon"
-                    variant="custom"
-                    onClick={() => removeFromPinnedItems(item)}>
-                    <Icon name="x-mark" size={12} />
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <Text className="text-foreground-5 block mt-3" size={1}>
-              No pinned items
+        <ScrollArea className="-mx-5 -mb-5 mt-2" type="always">
+          <div className="px-5">
+            <Text className="text-foreground-7 inline-block leading-none" size={1}>
+              Pinned
             </Text>
-          )}
-          {recentItems.length > 0 && (
-            <>
-              <div className="flex justify-between items-center mt-4">
-                <Text className="text-foreground-7 leading-none inline-block" size={1}>
-                  Recent
-                </Text>
-                <Button className="-mr-1.5" variant="link_accent" size="xs" onClick={handleClearRecent}>
-                  Clear all
-                </Button>
-              </div>
-              <ul className="mt-3.5 flex flex-col gap-y-0.5">
-                {recentItems.map((item, index) => (
-                  <li className="relative h-8 flex items-center" key={`recent-${item.title}-${index}`}>
-                    <div className="w-full grow flex items-center gap-x-2">
-                      <Icon className="text-icons-4" name="pending-clock-inverse" size={12} />
+            {pinnedItems.length > 0 ? (
+              <ul className="-mx-3 mt-3.5 flex flex-col gap-y-0.5">
+                {pinnedItems.map(item => (
+                  <li className="relative" key={item.title}>
+                    <Button className="w-full grow gap-x-2.5 px-3" variant="ghost">
+                      <Icon name="grid-dots" size={16} />
                       <Text className="text-foreground-8 w-full text-left">{item.title}</Text>
-                    </div>
+                    </Button>
                     <Button
-                      className="text-icons-4 hover:text-icons-2 absolute top-0.5 -right-2"
+                      className="text-icons-4 hover:text-icons-2 absolute right-0.5 top-0.5"
                       size="sm_icon"
                       variant="custom"
-                      onClick={() => addToPinnedItems(item)}>
-                      <Icon name="pin" size={10} />
+                      onClick={() => removeFromPinnedItems(item)}>
+                      <Icon name="x-mark" size={12} />
                     </Button>
                   </li>
                 ))}
               </ul>
-            </>
-          )}
-        </div>
+            ) : (
+              <Text className="text-foreground-5 mt-3 block" size={1}>
+                No pinned items
+              </Text>
+            )}
+            {recentItems.length > 0 && (
+              <>
+                <div className="mt-4 flex items-center justify-between">
+                  <Text className="text-foreground-7 inline-block leading-none" size={1}>
+                    Recent
+                  </Text>
+                  <Button className="-mr-1.5" variant="link_accent" size="xs" onClick={handleClearRecent}>
+                    Clear all
+                  </Button>
+                </div>
+                <ul className="mt-3.5 flex flex-col gap-y-0.5 pb-5">
+                  {recentItems.map((item, index) => (
+                    <li className="relative flex h-8 items-center" key={`recent-${item.title}-${index}`}>
+                      <div className="flex w-full grow items-center gap-x-2">
+                        <Icon className="text-icons-4" name="pending-clock-inverse" size={12} />
+                        <Text className="text-foreground-8 w-full text-left">{item.title}</Text>
+                      </div>
+                      <Button
+                        className="text-icons-4 hover:text-icons-2 absolute -right-2 top-0.5"
+                        size="sm_icon"
+                        variant="custom"
+                        onClick={() => addToPinnedItems(item)}>
+                        <Icon name="pin" size={10} />
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </div>
+        </ScrollArea>
         <AlertDialogFooter>
           <ButtonGroup.Root>
             {!submitted ? (

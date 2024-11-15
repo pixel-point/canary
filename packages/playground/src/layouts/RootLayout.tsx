@@ -19,7 +19,7 @@ interface RootLayoutProps {
   currentUser: TypesUser | undefined
 }
 
-export const RootLayout: React.FC<RootLayoutProps> = ({ currentUser }) => {
+export const RootLayout: React.FC = ({ currentUser }) => {
   const [showMore, setShowMore] = useState(false)
   const [showSystemAdmin, setShowSystemAdmin] = useState(false)
 
@@ -36,13 +36,13 @@ export const RootLayout: React.FC<RootLayoutProps> = ({ currentUser }) => {
   // const handlePinItem = (item: NavbarItem) => {
   //   setPinnedItems(prevPinnedItems => {
   //     const isPinned = prevPinnedItems.some(pinned => pinned.id === item.id)
-  //
+
   //     if (isPinned) {
   //       return prevPinnedItems.filter(pinned => pinned.id !== item.id)
   //     }
-  //
+
   //     const itemToPin = navbarSubmenuData.flatMap(group => group.items).find(i => i.id === item.id)
-  //
+
   //     if (itemToPin) {
   //       return [
   //         {
@@ -55,7 +55,7 @@ export const RootLayout: React.FC<RootLayoutProps> = ({ currentUser }) => {
   //         ...prevPinnedItems
   //       ]
   //     }
-  //
+
   //     return prevPinnedItems
   //   })
   // }
@@ -84,6 +84,8 @@ export const RootLayout: React.FC<RootLayoutProps> = ({ currentUser }) => {
           updatePinnedItems={() => {}}
           onSave={() => {}}
           onClose={() => {}}
+          recentItems={[]}
+          handleClearRecent={() => {}}
         />
       )}
     </>
