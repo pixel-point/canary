@@ -19,7 +19,7 @@ interface RootLayoutProps {
   currentUser: TypesUser | undefined
 }
 
-export const RootLayout: React.FC = ({ currentUser }) => {
+export const RootLayout = ({ currentUser }: RootLayoutProps) => {
   const [showMore, setShowMore] = useState(false)
   const [showSystemAdmin, setShowSystemAdmin] = useState(false)
 
@@ -80,11 +80,11 @@ export const RootLayout: React.FC = ({ currentUser }) => {
         <ManageNavigationDialog
           isSubmitting={false}
           submitted={false}
-          pinnedItems={[]}
-          updatePinnedItems={() => {}}
+          // pinnedItems={[]}
+          // updatePinnedItems={() => {}}
           onSave={() => {}}
           onClose={() => {}}
-          recentItems={[]}
+          // recentItems={[]}
           handleClearRecent={() => {}}
         />
       )}

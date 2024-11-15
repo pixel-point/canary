@@ -18,32 +18,21 @@ import {
 } from '@harnessio/canary'
 import type { NavbarItem } from '../layouts/RootLayout'
 
-const mockRecentItems: NavbarItem[] = [
-  {
-    id: 1,
-    title: 'Repositories',
+const mockPinnedItems: NavbarItem[] = ['Repositories', 'Pipelines', 'Executions', 'Connectors'].map((title, index) => ({
+  id: 10 + index,
+  title,
+  iconName: 'grid-dots',
+  description: title
+}))
+
+const mockRecentItems: NavbarItem[] = ['Chaos Engineering', 'Environment', 'Secrets', 'Featured Flags'].map(
+  (title, index) => ({
+    id: 20 + index,
+    title,
     iconName: 'grid-dots',
-    description: 'Repositories'
-  },
-  {
-    id: 2,
-    title: 'Pipelines',
-    iconName: 'grid-dots',
-    description: 'Pipelines'
-  },
-  {
-    id: 3,
-    title: 'Executions',
-    iconName: 'grid-dots',
-    description: 'Executions'
-  },
-  {
-    id: 4,
-    title: 'Featured Flags',
-    iconName: 'grid-dots',
-    description: 'Featured Flags'
-  }
-]
+    description: title
+  })
+)
 
 interface NavigationCategory {
   id: number
@@ -74,6 +63,11 @@ const mockNavigationCategories: NavigationCategory[] = [
     id: 201,
     title: 'DevOps Modernization',
     items: mockRecentItems
+  },
+  {
+    id: 202,
+    title: 'Security',
+    items: mockPinnedItems
   }
 ]
 
@@ -209,8 +203,8 @@ const SearchDropdownMenuExtendedContent = ({
 }
 
 interface ManageNavigationDialogProps {
-  pinnedItems: NavbarItem[]
-  updatePinnedItems: (items: NavbarItem[]) => void
+  // pinnedItems: NavbarItem[]
+  // updatePinnedItems: (items: NavbarItem[]) => void
   recentItems: NavbarItem[]
   handleClearRecent: () => void
   onSave: () => void
@@ -220,8 +214,8 @@ interface ManageNavigationDialogProps {
 }
 
 export const ManageNavigationDialog = ({
-  pinnedItems,
-  updatePinnedItems,
+  // pinnedItems,
+  // updatePinnedItems,
   recentItems = mockRecentItems,
   handleClearRecent,
   onSave,
@@ -229,9 +223,15 @@ export const ManageNavigationDialog = ({
   isSubmitting,
   submitted
 }: ManageNavigationDialogProps) => {
+  const [pinnedItems, setPinnedItems] = useState<NavbarItem[]>(mockPinnedItems)
+
   // Form edit submit handler
   const onSubmit = () => {
     onSave()
+  }
+
+  const updatePinnedItems = (items: NavbarItem[]) => {
+    setPinnedItems(items)
   }
 
   const addToPinnedItems = (item: NavbarItem) => {
