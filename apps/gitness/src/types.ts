@@ -14,7 +14,8 @@ export enum SSEEvent {
   EXECUTION_COMPLETED = 'execution_completed',
   EXECUTION_CANCELED = 'execution_canceled',
   EXECUTION_RUNNING = 'execution_running',
-  PULLREQ_UPDATED = 'pullreq_updated'
+  PULLREQ_UPDATED = 'pullreq_updated',
+  REPO_IMPORTED = 'repository_import_completed'
 }
 
 export interface CreateFormType {

@@ -1,7 +1,13 @@
+import { useCallback, useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { parseAsInteger, useQueryState } from 'nuqs'
 import { Button, Spacer, Text } from '@harnessio/canary'
-import { useListReposQuery, RepoRepositoryOutput, ListReposQueryQueryParams } from '@harnessio/code-service-client'
+import {
+  useListReposQuery,
+  RepoRepositoryOutput,
+  ListReposQueryQueryParams,
+  ListReposOkResponse
+} from '@harnessio/code-service-client'
 import {
   SkeletonList,
   Filter,
@@ -16,6 +22,8 @@ import { timeAgoFromEpochTime } from '../pipeline-edit/utils/time-utils'
 import { PageResponseHeader } from '../../types'
 import { useDebouncedQueryState } from '../../hooks/useDebouncedQueryState'
 import { RepoList } from '@harnessio/views'
+import useSpaceSSE from '../../framework/hooks/useSpaceSSE'
+import { SSEEvent } from '../../types'
 
 const sortOptions = [
   { name: 'Created', value: 'created' },
@@ -26,7 +34,7 @@ const sortOptions = [
 const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => <Link to={to}>{children}</Link>
 
 export default function ReposListPage() {
-  const space = useGetSpaceURLParam()
+  const space = useGetSpaceURLParam() ?? ''
   const navigate = useNavigate()
 
   /* Query and Pagination */
@@ -38,7 +46,8 @@ export default function ReposListPage() {
     isFetching,
     data: { body: repositories, headers } = {},
     isError,
-    error
+    error,
+    refetch
   } = useListReposQuery(
     {
       queryParams: { sort, query, page },
@@ -46,6 +55,28 @@ export default function ReposListPage() {
     },
     { retry: false }
   )
+
+  const isRepoStillImporting: boolean = useMemo(() => {
+    return repositories?.some(repository => repository.importing) ?? false
+  }, [repositories])
+
+  const onEvent = useCallback(
+    (_eventRepos: ListReposOkResponse) => {
+      if (repositories?.some(repository => repository.importing)) {
+        refetch()
+      }
+    },
+    [repositories]
+  )
+
+  const events = useMemo(() => [SSEEvent.REPO_IMPORTED], [])
+
+  useSpaceSSE({
+    space,
+    events,
+    onEvent,
+    shouldRun: isRepoStillImporting
+  })
 
   const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '')
 
@@ -106,7 +137,8 @@ export default function ReposListPage() {
             stars: 0,
             forks: repo.num_forks,
             pulls: repo.num_pulls,
-            timestamp: (repo.updated && timeAgoFromEpochTime(repo.updated)) || ''
+            timestamp: (repo.updated && timeAgoFromEpochTime(repo.updated)) || '',
+            importing: repo.importing
           }
         })}
       />
