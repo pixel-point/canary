@@ -1,4 +1,3 @@
-import React from 'react'
 import { FilterOption, FilterValue, SortOption, SortValue } from './types'
 
 import {
@@ -68,25 +67,23 @@ const FilterTrigger = <T extends FilterValue | SortValue>({
         <span className="text-foreground-2 hover:text-foreground-1 text-14 flex items-center gap-x-1">
           {label}
           {activeFilters.length > 0 && (
-            <span className="text-foreground-2 bg-background-2 border-borders-5 flex h-[18px] items-center rounded border px-1">
+            <span className="text-foreground-2 bg-background-2 text-11 border-borders-5 flex h-[18px] min-w-[17px] items-center justify-center rounded border px-1">
               {activeFilters.length}
             </span>
           )}
         </span>
-        <Icon name="chevron-down" size={6} className="chevron-down" />
+        <Icon className="chevron-down text-icons-4" name="chevron-fill-down" size={6} />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-[224px] p-0" align="end">
-        <div className="border-borders-2 relative flex items-center justify-between border-b px-3 py-2.5">
-          <DropdownMenuItem className="hover:bg-transparent focus:bg-transparent" asChild>
-            <Input
-              type="text"
-              placeholder={inputPlaceholder}
-              value={searchQueries.menu[type] || ''}
-              onChange={e => onSearchChange(type, e.target.value, 'menu')}
-              onKeyDown={e => e.stopPropagation()}
-              onClick={e => e.preventDefault()}
-            />
-          </DropdownMenuItem>
+        <div className="border-borders-4 relative flex items-center justify-between border-b px-3 py-2.5">
+          <Input
+            type="text"
+            placeholder={inputPlaceholder}
+            value={searchQueries.menu[type] || ''}
+            onChange={e => onSearchChange(type, e.target.value, 'menu')}
+            onKeyDown={e => e.stopPropagation()}
+            onClick={e => e.preventDefault()}
+          />
 
           {searchQueries.menu[type] && (
             <DropdownMenuItem className="absolute right-3 hover:bg-transparent focus:bg-transparent" asChild>
@@ -96,7 +93,7 @@ const FilterTrigger = <T extends FilterValue | SortValue>({
                   e.preventDefault()
                   onSearchChange(type, '', 'menu')
                 }}>
-                <Icon className="rotate-45 transform" name="plus" size={12} />
+                <Icon className="rotate-45" name="plus" size={12} />
               </button>
             </DropdownMenuItem>
           )}
@@ -111,12 +108,12 @@ const FilterTrigger = <T extends FilterValue | SortValue>({
 
           {filteredBySearchOptions.length === 0 && (
             <div className="flex items-center justify-center p-4">
-              <span className="text-foreground-2 text-1 leading-none">No results</span>
+              <span className="text-foreground-2 text-14 leading-none">No results</span>
             </div>
           )}
         </div>
 
-        <div className="border-borders-2 border-t p-1">
+        <div className="border-borders-4 border-t p-1">
           <DropdownMenuItem asChild>
             <button className="w-full" onClick={onReset}>
               {buttonLabel}

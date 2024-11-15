@@ -15,7 +15,7 @@ const DropdownMenuTrigger = React.forwardRef<
   <DropdownMenuPrimitive.Trigger
     ref={ref}
     className={cn(
-      '[&>svg.chevron-down]:duration-100 [&>svg.chevron-down]:ease-in-out [&>svg.chevron-down]:data-[state=open]:rotate-180',
+      'ring-offset-background outline-none focus:ring-2 focus:ring-offset-2 [&>svg.chevron-down]:duration-100 [&>svg.chevron-down]:ease-in-out [&>svg.chevron-down]:data-[state=open]:rotate-180',
       { 'flex cursor-pointer items-center border-l border-inherit px-2.5 py-0.5 outline-none': insideSplitButton },
       className
     )}
@@ -97,7 +97,7 @@ const DropdownMenuItem = React.forwardRef<
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={cn(
-      'text-foreground-2 focus:bg-background-4 focus:text-primary relative flex cursor-pointer select-none items-center rounded-sm px-2 py-[7px] text-sm outline-none transition-colors',
+      'text-foreground-8 focus:bg-background-4 focus:text-primary relative flex cursor-pointer select-none items-center rounded-sm px-2 py-[7px] text-sm outline-none transition-colors',
       'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       inset && 'pl-8',
       className

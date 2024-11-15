@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -153,9 +152,9 @@ const FiltersSelectedBar = ({
 
   return (
     <div className="flex items-center gap-x-2">
-      {activeSorts.length > 0 && (
+      {!!activeSorts.length && (
         <DropdownMenu>
-          <DropdownMenuTrigger className="bg-background-3 flex h-8 items-center gap-x-3 rounded px-2.5">
+          <DropdownMenuTrigger className="bg-background-3 hover:bg-background-8 flex h-8 items-center gap-x-3 rounded px-2.5 transition-colors duration-200">
             <div className="flex items-center gap-x-1">
               <Icon
                 className={cn('text-icons-1', getSortTriggerLabel().isDescending && 'rotate-180')}
@@ -197,7 +196,7 @@ const FiltersSelectedBar = ({
                     Add sort
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="min-w-[224px] p-0" align="start">
-                    <div className="border-borders-2 relative flex items-center justify-between border-b px-3 py-2.5">
+                    <div className="border-borders-4 relative flex items-center justify-between border-b px-3 py-2.5">
                       <DropdownMenuItem className="hover:bg-transparent focus:bg-transparent" asChild>
                         <Input
                           type="text"
@@ -272,15 +271,15 @@ const FiltersSelectedBar = ({
 
         return (
           <DropdownMenu key={filter.type}>
-            <DropdownMenuTrigger className="bg-background-3 flex h-8 items-center gap-x-3 rounded px-2.5">
+            <DropdownMenuTrigger className="bg-background-3 hover:bg-background-8 flex h-8 items-center gap-x-3 rounded pl-2.5 pr-2 transition-colors duration-200">
               <div className="text-13">
                 <span className="text-foreground-1">
                   {filterOption.label}
-                  {filter.selectedValues.length > 0 && ': '}
+                  {!!filter.selectedValues.length && ': '}
                 </span>
                 <span className="text-foreground-4">{getFilterDisplayValue(filterOption, filter)}</span>
               </div>
-              <Icon name="chevron-down" size={10} className="chevron-down" />
+              <Icon className="chevron-down text-icons-1" name="chevron-down" size={10} />
             </DropdownMenuTrigger>
 
             <DropdownMenuContent className="w-[276px] p-0" align="start">
@@ -289,9 +288,9 @@ const FiltersSelectedBar = ({
                   <span className="text-foreground-4 text-14">{filterOption.label}</span>
 
                   <DropdownMenu>
-                    <DropdownMenuTrigger className="bg-background-3 text-foreground-2 text-14 flex h-[18px] items-center gap-x-2 rounded pl-1.5 pr-1">
+                    <DropdownMenuTrigger className="bg-background-3 text-foreground-2 text-14 flex h-[18px] items-center gap-x-1 rounded pl-1.5 pr-1">
                       {filterOption.conditions?.find(c => c.value === filter.condition)?.label}
-                      <Icon className="chevron-down text-icons-1" name="chevron-down" size={12} />
+                      <Icon className="chevron-down text-icons-1" name="chevron-down" size={10} />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="start">
                       {filterOption.conditions?.map(condition => (
@@ -308,9 +307,15 @@ const FiltersSelectedBar = ({
 
               {filter.condition !== 'is_empty' && filterOption.type === 'checkbox' && (
                 <div className="border-borders-1 border-b px-3 py-2.5">
-                  <div className="border-border-2 focus-within:border-borders-3 flex min-h-8 justify-between gap-x-1 rounded border px-2.5 py-[3px] outline-none transition-colors duration-200 focus-within:border">
+                  <div
+                    className={cn(
+                      'border-border-2 focus-within:border-borders-3 flex min-h-8 justify-between gap-x-1 rounded border px-2.5 py-[3px] outline-none transition-colors duration-200 focus-within:border',
+                      {
+                        'px-1': !!filter.selectedValues.length
+                      }
+                    )}>
                     <div className="flex flex-1 flex-wrap items-center gap-1">
-                      {filter.selectedValues.length > 0 &&
+                      {!!filter.selectedValues.length &&
                         filter.selectedValues.map(value => {
                           const label = filterOption.options?.find(opt => opt.value === value)?.label
                           return (
@@ -322,7 +327,7 @@ const FiltersSelectedBar = ({
                                   const newValues = filter.selectedValues.filter(v => v !== value)
                                   onUpdateFilter?.(filter.type, newValues)
                                 }}>
-                                ×
+                                <Icon className="rotate-45" name="plus" size={10} />
                               </button>
                             </div>
                           )
@@ -342,9 +347,9 @@ const FiltersSelectedBar = ({
                         />
                       </DropdownMenuItem>
                     </div>
-                    {(filter.selectedValues.length > 0 || searchQueries.filters[filter.type]) && (
+                    {(!!filter.selectedValues.length || searchQueries.filters[filter.type]) && (
                       <button
-                        className="text-foreground-4 hover:text-foreground-1 flex py-1.5 transition-colors duration-200"
+                        className="text-foreground-4 hover:text-foreground-1 flex p-1.5 transition-colors duration-200"
                         onClick={() => {
                           onUpdateFilter?.(filter.type, [])
                           onSearchChange(filter.type, '', 'filters')
@@ -356,7 +361,7 @@ const FiltersSelectedBar = ({
                 </div>
               )}
 
-              <div className="p-1">
+              <div className="px-2 py-1">
                 {filter.condition !== 'is_empty' &&
                   onUpdateFilter &&
                   renderFilterValues(
@@ -377,9 +382,9 @@ const FiltersSelectedBar = ({
         )
       })}
 
-      {(activeFilters.length > 0 || activeSorts.length > 0) && (
+      {(!!activeFilters.length || !!activeSorts.length) && (
         <button
-          className="text-14 text-foreground-4 hover:text-foreground-danger ml-2.5 flex items-center gap-x-1.5 transition-colors duration-200"
+          className="text-14 text-foreground-4 hover:text-foreground-danger ring-offset-background ml-2.5 flex items-center gap-x-1.5 outline-none ring-offset-2 transition-colors duration-200 focus:ring-2"
           onClick={onResetAll}>
           <Icon className="rotate-45" name="plus" size={12} />
           Reset

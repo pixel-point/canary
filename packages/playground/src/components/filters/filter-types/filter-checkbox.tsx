@@ -1,4 +1,3 @@
-import React from 'react'
 import { DropdownMenuCheckboxItem } from '@harnessio/canary'
 import { CheckboxFilterOption, FilterValue } from '../types'
 
@@ -13,7 +12,7 @@ const CheckboxFilter = ({ filter, filterOption, onUpdateFilter }: CheckboxFilter
     <>
       {filterOption.options.map(option => (
         <DropdownMenuCheckboxItem
-          key={option.value}
+          className="pl-[34px]"
           checked={filter.selectedValues.includes(option.value)}
           onSelect={event => {
             event?.preventDefault()
@@ -22,7 +21,8 @@ const CheckboxFilter = ({ filter, filterOption, onUpdateFilter }: CheckboxFilter
               ? filter.selectedValues.filter(v => v !== option.value)
               : [...filter.selectedValues, option.value]
             onUpdateFilter(filter.type, newValues)
-          }}>
+          }}
+          key={option.value}>
           {option.label}
         </DropdownMenuCheckboxItem>
       ))}
