@@ -1,4 +1,5 @@
-import { WebhookEvent, WebhookTriggerEnum } from './types'
+import type { WebhookEvent} from './types';
+import { WebhookTriggerEnum } from './types'
 
 export const branchEvents: WebhookEvent[] = [
   { id: WebhookTriggerEnum.BRANCH_CREATED, event: 'Branch created' },

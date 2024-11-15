@@ -1,4 +1,7 @@
 import React from 'react'
+import type {
+  IconProps
+} from '@harnessio/canary';
 import {
   Spacer,
   Text,
@@ -9,8 +12,7 @@ import {
   SpotlightsBox,
   ButtonGroup,
   Input,
-  AIPrompt,
-  IconProps
+  AIPrompt
 } from '@harnessio/canary'
 import { Link } from 'react-router-dom'
 import noop from 'lodash-es/noop'
@@ -103,7 +105,7 @@ const ResourceSection = ({ title, items }: ResourceSectionData) => (
         </Text>
       </ResourceBox.HeaderTitle>
       <ResourceBox.HeaderLink>
-        <Button variant="ghost" size="sm_icon" asChild className="bg-primary/5 rounded-full">
+        <Button variant="ghost" size="sm_icon" asChild className="rounded-full bg-primary/5">
           <Link to="/#">
             <Icon name="circle-arrow-top-right" size={12} className="text-tertiary-background" />
           </Link>
@@ -190,7 +192,7 @@ export function CreatePipelinePage({ onClickStartFromScratch = noop }: CreatePip
           Create your pipeline
         </Text>
         <Spacer size={3} />
-        <Text as="p" size={2} weight="normal" className="text-primary/80 max-w-[50%]">
+        <Text as="p" size={2} weight="normal" className="max-w-[50%] text-primary/80">
           It's very simple to start using Playground. Allow our AI to create your pipeline based on the code base or
           start from a clean state.
         </Text>
@@ -212,7 +214,7 @@ export function CreatePipelinePage({ onClickStartFromScratch = noop }: CreatePip
           }>
           <Input
             placeholder="Start by describing your project goals or key requirements..."
-            className="flex-grow rounded-full border-none pl-4"
+            className="grow rounded-full border-none pl-4"
           />
         </AIPrompt>
         <Spacer size={6} />

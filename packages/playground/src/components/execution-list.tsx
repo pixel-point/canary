@@ -1,6 +1,6 @@
 import { Icon, StackedList, Text } from '@harnessio/canary'
 import React from 'react'
-import { ExecutionState } from './execution/types'
+import type { ExecutionState } from './execution/types'
 import { ExecutionStatus } from './execution/execution-status'
 
 export interface Execution {
@@ -39,7 +39,7 @@ const Description = ({ sha, description, version }: { sha: string; description: 
         </div>
       )}
       {sha && (
-        <div className="bg-tertiary-background/10 flex items-center gap-1 rounded-md px-1.5 font-mono">
+        <div className="flex items-center gap-1 rounded-md bg-tertiary-background/10 px-1.5 font-mono">
           <Icon size={11} name={'tube-sign'} />
           {sha}
         </div>

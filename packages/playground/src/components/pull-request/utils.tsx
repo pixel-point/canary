@@ -1,12 +1,13 @@
 import { useMemo } from 'react'
-import {
+import type {
   CommentItem,
   EnumPullReqReviewDecision,
-  PRCommentFilterType,
-  PullReqReviewDecision,
   TypesPullReqActivity,
   TypesRuleViolations,
-  TypesViolation,
+  TypesViolation} from './interfaces';
+import {
+  PRCommentFilterType,
+  PullReqReviewDecision,
   orderSortDate
 } from './interfaces'
 import type * as Diff2Html from 'diff2html'

@@ -5,9 +5,8 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger
-} from '@harnessio/canary'
-import { Icon, Text, Button, ButtonGroup } from '@harnessio/canary'
-import { CompareFormFields } from '../../layouts/SandboxPullRequestCompareLayout'
+, Icon, Text, Button, ButtonGroup } from '@harnessio/canary'
+import type { CompareFormFields } from '../../layouts/SandboxPullRequestCompareLayout'
 
 interface PullRequestCompareButtonProps {
   isSubmitted: boolean

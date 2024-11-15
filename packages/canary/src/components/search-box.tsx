@@ -1,4 +1,5 @@
-import React, { FormEventHandler, InputHTMLAttributes, useEffect } from 'react'
+import type { FormEventHandler, InputHTMLAttributes} from 'react';
+import React, { useEffect } from 'react'
 import { Input } from './input'
 import { Icon } from './icon'
 import { Text } from './text'
@@ -96,15 +97,9 @@ const Root = ({
 
   return (
     <div className={cn('relative', width === 'full' ? 'w-full' : 'w-96', className)}>
-      <Icon
-        name="search"
-        size={12}
-        className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-icon-1"
-      />
+      <Icon name="search" size={12} className="text-icon-1 absolute left-2.5 top-1/2 -translate-y-1/2" />
       {hasShortcut && !!shortcutLetter && (
-        <div
-          className="absolute h-5 right-1.5 top-1/2 transform -translate-y-1/2 bg-background-3 text-foreground-2 flex gap-0.5 items-center rounded-sm border px-1 ease-in-out duration-100 cursor-pointer"
-        >
+        <div className="absolute right-1.5 top-1/2 flex h-5 -translate-y-1/2 cursor-pointer items-center gap-0.5 rounded-sm border bg-background-3 px-1 text-foreground-2 duration-100 ease-in-out">
           <Icon name="apple-shortcut" size={12} />
           <Text size={0} className="text-inherit">
             {shortcutLetter}
@@ -114,11 +109,7 @@ const Root = ({
       <Input
         placeholder={placeholder}
         defaultValue={defaultValue}
-        className={cn(
-          'h-8 pl-7',
-          {'pr-10':  hasShortcut},
-          textSizeClass
-        )}
+        className={cn('h-8 pl-7', { 'pr-10': hasShortcut }, textSizeClass)}
         onKeyDown={handleKeyDown}
         onFocus={handleFocus}
         onInput={handleChange}

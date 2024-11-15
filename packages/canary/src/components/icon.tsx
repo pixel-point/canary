@@ -116,7 +116,7 @@ import Key from '../icons/key-icon.svg'
 import FileIcon from '../icons/file-icon.svg'
 import SidebarIcon from '../icons/sidebar-icon.svg'
 import Variable from '../icons/variable-icon.svg'
-import Clock from '../icons/clock-icon.svg'
+import ClockIcon from '../icons/clock-icon.svg'
 import Eye from '../icons/eye-icon.svg'
 import Stack from '../icons/stack-icon.svg'
 import BookmarkIcon from '../icons/bookmark-icon.svg'
@@ -249,7 +249,7 @@ const IconNameMap = {
   'file-icon': FileIcon,
   'sidebar-icon': SidebarIcon,
   variable: Variable,
-  clock: Clock,
+  'clock-icon': ClockIcon,
   eye: Eye,
   stack: Stack,
   'bookmark-icon': BookmarkIcon,
@@ -261,7 +261,7 @@ const IconNameMap = {
   briefcase: Briefcase,
   shield: Shield,
   snow: Snow,
-  ticket: Ticket,
+  ticket: Ticket
   // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 

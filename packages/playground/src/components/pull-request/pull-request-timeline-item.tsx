@@ -84,7 +84,7 @@ const PullRequestTimelineItem: React.FC<TimelineItemProps> = ({
             {content}
             {/* TODO: will have to eventually implement a commenting and reply system similiar to gitness */}
             {!hideReply && (
-              <div className="flex items-center gap-3 border-t px-4 py-4">
+              <div className="flex items-center gap-3 border-t p-4">
                 {header.length > 0 && header[0].avatar}
                 <Input
                   value={comment}

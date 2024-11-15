@@ -12,16 +12,18 @@ import {
   StackedList,
   Text
 } from '@harnessio/canary'
-import {
-  MergeCheckStatus,
-  PullRequestState,
+import type {
   TypesPullReq,
   TypesPullReqCheck,
   EnumCheckStatus,
   PullRequestChangesSectionProps,
   PullRequestAction,
-  PullRequestFilterOption,
   TypesRuleViolations
+} from './interfaces';
+import {
+  MergeCheckStatus,
+  PullRequestState,
+  PullRequestFilterOption
 } from './interfaces'
 import PullRequestCheckSection from './sections/pull-request-check-section'
 import PullRequestCommentSection from './sections/pull-request-comment-section'
@@ -76,12 +78,12 @@ const HeaderTitle = ({ ...props }: HeaderProps) => {
         <Text className="items-center gap-2 space-x-2" weight="medium">
           <Text>{`${props?.pullReqMetadata?.merger?.display_name} merged branch`}</Text>
           <Button variant="secondary" size="xs">
-            <Icon name="branch" size={12} className="text-tertiary-background mr-1" />
+            <Icon name="branch" size={12} className="mr-1 text-tertiary-background" />
             {props?.pullReqMetadata?.source_branch}
           </Button>
           <Text>{'into'}</Text>
           <Button variant="secondary" size="xs">
-            <Icon name="branch" size={12} className="text-tertiary-background mr-1" />
+            <Icon name="branch" size={12} className="mr-1 text-tertiary-background" />
             {props?.pullReqMetadata?.target_branch}
           </Button>
           <Text>{formattedTime}</Text>

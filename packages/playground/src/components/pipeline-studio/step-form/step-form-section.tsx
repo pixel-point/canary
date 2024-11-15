@@ -2,7 +2,7 @@ import React from 'react'
 
 const StepFormSection = {
   Root: function Root({ children }: { children: React.ReactNode }) {
-    return <div className="flex flex-grow flex-col overflow-scroll">{children}</div>
+    return <div className="flex grow flex-col overflow-scroll">{children}</div>
   },
 
   Header: function Header({ children }: { children: React.ReactNode }) {
@@ -10,11 +10,11 @@ const StepFormSection = {
   },
 
   Title: function Title({ children }: { children: React.ReactNode }) {
-    return <div className="text-accent-foreground my-3 text-lg">{children}</div>
+    return <div className="my-3 text-lg text-accent-foreground">{children}</div>
   },
 
   Description: function Title({ children }: { children: React.ReactNode }) {
-    return <div className="text-muted-foreground mt-3">{children}</div>
+    return <div className="mt-3 text-muted-foreground">{children}</div>
   },
 
   Form: function Title({ children }: { children: React.ReactNode }) {

@@ -1,4 +1,5 @@
-import { Rule, BranchRulesAction, BranchRulesActionType, MergeStrategy } from '../types'
+import type { Rule, BranchRulesAction, MergeStrategy } from '../types';
+import { BranchRulesActionType } from '../types'
 
 export const branchSettingsReducer = (state: Rule[], action: BranchRulesAction): Rule[] => {
   switch (action.type) {

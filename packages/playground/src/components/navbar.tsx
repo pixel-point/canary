@@ -1,17 +1,22 @@
 import React, { useMemo, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { Navbar as NavbarComp, Icon, NavbarProjectChooser, NavbarUser, IconProps, Button, Text } from '@harnessio/canary'
-import { TypesUser } from '../layouts/types'
+import type {
+  IconProps} from '@harnessio/canary';
+import {
+  Navbar as NavbarComp,
+  Icon,
+  NavbarProjectChooser,
+  NavbarUser,
+  Button,
+  Text
+} from '@harnessio/canary'
+import type { TypesUser } from '../layouts/types'
 
 const NavBarLink = (item: NavbarItem | NavbarItemStatic) => {
   return (
     <NavLink to={item.to || ''}>
       {({ isActive }) => (
-        <NavbarComp.Item
-          text={item.title}
-          icon={<Icon name={item.iconName} size={12} />}
-          active={isActive}
-        />
+        <NavbarComp.Item text={item.title} icon={<Icon name={item.iconName} size={12} />} active={isActive} />
       )}
     </NavLink>
   )
@@ -89,20 +94,14 @@ const initialPinnedMenuItems: NavbarItem[] = [
 ]
 
 interface NavbarProps {
-  showMore: boolean,
-  showSystemAdmin: boolean,
-  handleMore: () => void,
-  handleSystemAdmin: () => void,
+  showMore: boolean
+  showSystemAdmin: boolean
+  handleMore: () => void
+  handleSystemAdmin: () => void
   currentUser: TypesUser | undefined
 }
 
-export const Navbar = ({
-  showMore,
-  showSystemAdmin,
-  handleMore,
-  handleSystemAdmin,
-  currentUser
-}: NavbarProps) => {
+export const Navbar = ({ showMore, showSystemAdmin, handleMore, handleSystemAdmin, currentUser }: NavbarProps) => {
   const location = useLocation()
   const [pinnedItems, setPinnedItems] = useState<NavbarItem[]>(initialPinnedMenuItems)
 
@@ -113,7 +112,7 @@ export const Navbar = ({
   if (!showNavbar) return null
 
   return (
-    <NavbarComp.Root className="max-md:hidden fixed top-0 left-0 bottom-0 z-50">
+    <NavbarComp.Root className="fixed inset-y-0 left-0 z-50 max-md:hidden">
       <NavbarComp.Header>
         <NavbarProjectChooser.Root
           avatarLink={
@@ -132,24 +131,15 @@ export const Navbar = ({
       <NavbarComp.Content>
         <NavbarComp.Group>
           {primaryMenuItems.map((item, idx) => (
-            <NavBarLink
-              key={idx}
-              {...item}
-            />
+            <NavBarLink key={idx} {...item} />
           ))}
           <button onClick={() => (!showMore ? handleMore() : null)}>
             <NavbarComp.Item text="More" icon={<Icon name="ellipsis" size={12} />} />
           </button>
         </NavbarComp.Group>
-        <NavbarComp.Group
-          title="Recent"
-          topBorder
-        >
+        <NavbarComp.Group title="Recent" topBorder>
           {pinnedItems.map(item => (
-            <NavBarLink
-              key={item.id}
-              {...item}
-            />
+            <NavBarLink key={item.id} {...item} />
           ))}
         </NavbarComp.Group>
         <NavbarComp.Group topBorder>
@@ -162,48 +152,33 @@ export const Navbar = ({
           </button>
         </NavbarComp.Group>
 
-        <div className="max-w-[160px] mx-auto mb-11 mt-auto flex flex-col items-center text-center gap-2.5">
-          <div className="flex flex-col gap-1 items-center">
+        <div className="mx-auto mb-11 mt-auto flex max-w-[160px] flex-col items-center gap-2.5 text-center">
+          <div className="flex flex-col items-center gap-1">
             <div className="relative mb-2">
-              <div className="absolute left-2 bottom-2 w-[42px] h-[42px] z-[-1]">
+              <div className="absolute bottom-2 left-2 z-[-1] size-[42px]">
                 <Icon
                   className="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 mix-blend-plus-lighter blur-[15px]"
                   name="harness-gradient-ellipse"
                   size={102}
                 />
               </div>
-              <Icon
-                name="harness-gradient"
-                size={44}
-              />
+              <Icon name="harness-gradient" size={44} />
             </div>
-            <Text
-              className="leading-none"
-              size="1"
-              weight="medium"
-            >
+            <Text className="leading-none" size="1" weight="medium">
               AI Assistant
             </Text>
-            <Text
-              className="text-foreground-5 leading-4"
-              size="0"
-            >
+            <Text className="leading-4 text-foreground-5" size={0}>
               Create, analyze or debug your pipelines faster.
             </Text>
           </div>
           <Button
-            className="text-12 font-medium bg-background-7"
-            borderRadius='full'
-            size='sm'
-            padding='sm'
-            variant='gradient-border'
-            gradientType='ai-button'
-          >
-            <Icon
-              className="mr-1.5"
-              name="sparks"
-              size={12}
-            />
+            className="bg-background-7 text-12 font-medium"
+            borderRadius="full"
+            size="sm"
+            padding="sm"
+            variant="gradient-border"
+            gradientType="ai-button">
+            <Icon className="mr-1.5" name="sparks" size={12} />
             Make with AI
           </Button>
         </div>

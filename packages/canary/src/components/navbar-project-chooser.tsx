@@ -20,8 +20,8 @@ function Root({ avatarLink, productLink }: ProjectProps) {
   }
 
   return (
-    <div className="flex flex-col w-full items-start justify-items-start px-5 pb-[1.375rem]">
-      <div className="h-[58px] flex items-center gap-1.5">
+    <div className="flex w-full flex-col items-start justify-items-start px-5 pb-[1.375rem]">
+      <div className="flex h-[58px] items-center gap-1.5">
         {avatarLink}
         {productLink}
       </div>
@@ -35,7 +35,7 @@ function Root({ avatarLink, productLink }: ProjectProps) {
         showOnFocus
       />
       <Dialog open={isSearchDialogOpen} onOpenChange={closeSearchDialog}>
-        <DialogContent className="bg-primary-background border-border h-[600px] max-w-[800px]">
+        <DialogContent className="h-[600px] max-w-[800px] border-border bg-primary-background">
           <DialogHeader>
             <DialogTitle>Search</DialogTitle>
             <DialogDescription>

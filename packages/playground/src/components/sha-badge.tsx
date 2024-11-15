@@ -31,7 +31,7 @@ function Content({ ...props }: ContentProps) {
   const { children } = props
 
   return (
-    <div className="bg-background hover:bg-muted/50 flex items-center px-2 py-0.5">
+    <div className="flex items-center bg-background px-2 py-0.5 hover:bg-muted/50">
       <Text size={1} className="text-tertiary-background">
         {children}
       </Text>
@@ -45,7 +45,7 @@ function Icon({ ...props }: IconProps) {
   return (
     <div
       onClick={handleClick && handleClick}
-      className="bg-background hover:bg-muted/50 flex items-center border-l px-1.5 py-0.5">
+      className="flex items-center border-l bg-background px-1.5 py-0.5 hover:bg-muted/50">
       {children}
     </div>
   )

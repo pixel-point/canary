@@ -104,7 +104,7 @@
     --diff-add-widget-color--: hsl(0, 0%, 100%);
     --diff-empty-content--: var(--background);
     --diff-hunk-content-color--: hsl(0, 0%, 100%);
-     /* New colors design variables */
+    /* New colors design variables */
     /* Text */
     --foreground-01: var(--white);
     --foreground-02: var(--grey-80);

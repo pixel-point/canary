@@ -10,20 +10,19 @@ import {
   Tabs,
   TabsContent,
   TabsList
-} from '@harnessio/canary'
-import { Icon, Spacer, Text } from '@harnessio/canary'
+, Icon, Spacer, Text } from '@harnessio/canary'
 import { z } from 'zod'
 import PullRequestCompareForm from '../components/pull-request/pull-request-compare-form'
 import TabTriggerItem from '../components/TabsTriggerItem'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import PullRequestCompareButton from '../components/pull-request/pull-request-compare-button'
-import { TypesCommit } from '../components/pull-request/interfaces'
+import type { TypesCommit } from '../components/pull-request/interfaces'
 import PullRequestDiffViewer from '../components/pull-request/pull-request-diff-viewer'
 import { DiffModeEnum } from '@git-diff-view/react'
 import { parseStartingLineIfOne } from '../components/pull-request/utils'
 import { useDiffConfig } from '../components/pull-request/hooks/useDiffConfig'
-import { TypesDiffStats } from './types'
+import type { TypesDiffStats } from './types'
 
 export const formSchema = z.object({
   title: z.string().min(1, { message: 'Please provide a pull request title' }),
@@ -119,7 +118,7 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
             Choose two branches to see what's changed or to start a new pull request. If you need to, you can also
             compare across forks or learn more about diff comparisons.
           </Text>
-          <Layout.Horizontal className="text-tertiary-background items-center">
+          <Layout.Horizontal className="items-center text-tertiary-background">
             <Icon name="pull" size={16} className="text-tertiary-background" />
 
             <BranchSelector
@@ -132,7 +131,7 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
                 handleBranchSelection() // Call when target branch is selected
               }}
             />
-            <Icon name="arrow-long" size={14} className="text-tertiary-background rotate-180" />
+            <Icon name="arrow-long" size={14} className="rotate-180 text-tertiary-background" />
             <BranchSelector
               prefix="compare"
               size="default"
@@ -180,7 +179,7 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
           </Layout.Horizontal>
         </Layout.Vertical>
         <Spacer size={3} />
-        <Layout.Horizontal className="bg-background border-border items-center justify-between rounded-md border-2 px-3 py-3">
+        <Layout.Horizontal className="items-center justify-between rounded-md border-2 border-border bg-background p-3">
           <div>
             <Layout.Horizontal className="py-2">
               {isBranchSelected ? (

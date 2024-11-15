@@ -1,4 +1,4 @@
-import { IconProps } from '@harnessio/canary'
+import type { IconProps } from '@harnessio/canary'
 
 export const systemAdminMenuData: {
   groupId: number
@@ -25,7 +25,7 @@ export const systemAdminMenuData: {
         iconName: 'notification',
         title: 'Notifications',
         to: '/admin/notifications'
-      },
+      }
     ]
   },
   {
@@ -82,7 +82,7 @@ export const systemAdminMenuData: {
       },
       {
         id: 10,
-        iconName: 'clock',
+        iconName: 'clock-icon',
         title: 'SLO Downtime',
         to: '/admin/slo-downtime'
       },
@@ -183,5 +183,5 @@ export const systemAdminMenuData: {
         to: '/admin/external-tickets'
       }
     ]
-  },
+  }
 ]

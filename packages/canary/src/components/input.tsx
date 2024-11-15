@@ -29,18 +29,7 @@ const containerClassName =
 const leftRightCommonClassName = 'flex items-center text-muted-foreground'
 
 const ExtendedInput = React.forwardRef<HTMLInputElement, ExtendedInputProps>(
-  ({
-     className,
-     type,
-     left,
-     leftStyle,
-     leftClassName,
-     right,
-     rightStyle,
-     rightClassName,
-     ...props
-   },
-   ref) => {
+  ({ className, type, left, leftStyle, leftClassName, right, rightStyle, rightClassName, ...props }, ref) => {
     return (
       <div className={cn(containerClassName, className)}>
         {left && (
@@ -48,7 +37,7 @@ const ExtendedInput = React.forwardRef<HTMLInputElement, ExtendedInputProps>(
             className={cn(
               leftRightCommonClassName,
               'rounded-l',
-              leftStyle ? 'border-r bg-muted' : '-mr-3',
+              leftStyle ? 'bg-muted border-r' : '-mr-3',
               leftClassName
             )}>
             {left}
@@ -60,7 +49,7 @@ const ExtendedInput = React.forwardRef<HTMLInputElement, ExtendedInputProps>(
             className={cn(
               leftRightCommonClassName,
               'rounded-r',
-              rightStyle ? 'border-l bg-muted' : '-ml-3',
+              rightStyle ? 'bg-muted border-l' : '-ml-3',
               rightClassName
             )}>
             {right}

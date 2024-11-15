@@ -24,22 +24,17 @@ const Root: React.FC<{
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="group relative grid grid-rows-2 grid-cols-[auto_1fr] gap-x-2.5 items-center justify-start cursor-pointer">
-          <div className="absolute -inset-2 rounded group-hover:bg-primary/5 ease-in-out duration-100" />
+        <div className="group relative grid cursor-pointer grid-cols-[auto_1fr] grid-rows-2 items-center justify-start gap-x-2.5">
+          <div className="absolute -inset-2 rounded duration-100 ease-in-out group-hover:bg-primary/5" />
           <div className="col-start-1 row-span-2">
-            <Avatar
-              className="rounded-md overflow-hidden"
-              size='8'
-            >
+            <Avatar className="overflow-hidden rounded-md" size="8">
               {url && <AvatarImage src={url} alt="user" />}
               <AvatarFallback>{getInitials(username)}</AvatarFallback>
             </Avatar>
           </div>
-          <p className="col-start-2 row-start-1 text-13 leading-none text-foreground-1 font-medium">{username}</p>
+          <p className="col-start-2 row-start-1 text-13 font-medium leading-none text-foreground-1">{username}</p>
           {!!email && (
-            <p className="col-start-2 row-start-2 text-13 leading-none font-normal text-foreground-4 mt-0.5">
-              {email}
-            </p>
+            <p className="col-start-2 row-start-2 mt-0.5 text-13 font-normal leading-none text-foreground-4">{email}</p>
           )}
         </div>
       </DropdownMenuTrigger>

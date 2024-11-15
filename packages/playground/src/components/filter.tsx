@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { isEmpty } from 'lodash-es'
 import { ListActions, SearchBox } from '@harnessio/canary'
-import { DropdownItemProps } from '@harnessio/canary/dist/components/list-actions'
+import type { DropdownItemProps } from '@harnessio/canary/dist/components/list-actions'
 import { useCommonFilter } from '../hooks/useCommonFilter'
 
 interface FilterProps {

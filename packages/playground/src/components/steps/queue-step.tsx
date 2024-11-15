@@ -1,6 +1,9 @@
-import { IFormDefinition, unsetEmptyStringOutputTransformer } from '@harnessio/forms'
-import { InputConfigType, InputType } from '../form-inputs/types'
-import { IInputConfigWithConfig, QUEUE_STEP_IDENTIFIER } from './types'
+import type { IFormDefinition} from '@harnessio/forms';
+import { unsetEmptyStringOutputTransformer } from '@harnessio/forms'
+import type { InputConfigType} from '../form-inputs/types';
+import { InputType } from '../form-inputs/types'
+import type { IInputConfigWithConfig} from './types';
+import { QUEUE_STEP_IDENTIFIER } from './types'
 
 export const QUEUE_STEP_DESCRIPTION = 'Queue step description.'
 

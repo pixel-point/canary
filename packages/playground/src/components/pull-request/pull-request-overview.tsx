@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { Avatar, AvatarFallback, Button, Icon, Text } from '@harnessio/canary'
-import {
+import type {
   CommentItem,
   EnumPullReqActivityType,
   GeneralPayload,
@@ -8,9 +8,11 @@ import {
   PayloadAuthor,
   PayloadCodeComment,
   PayloadCreated,
-  PRCommentFilterType,
   TypesPullReq,
   TypesPullReqActivity
+} from './interfaces';
+import {
+  PRCommentFilterType
 } from './interfaces'
 import { isCodeComment, isComment, isSystemComment, parseStartingLineIfOne } from './utils'
 import PullRequestTimelineItem from './pull-request-timeline-item'
@@ -171,7 +173,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                     header={[
                       {
                         avatar: (
-                          <Avatar className="h-6 w-6 rounded-full p-0">
+                          <Avatar className="size-6 rounded-full p-0">
                             {/* <AvatarImage src={AvatarUrl} /> */}
 
                             <AvatarFallback>
@@ -229,7 +231,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                             return (
                               <PullRequestTimelineItem
                                 icon={
-                                  <Avatar className="h-6 w-6 rounded-full p-0">
+                                  <Avatar className="size-6 rounded-full p-0">
                                     {/* <AvatarImage src={AvatarUrl} /> */}
 
                                     <AvatarFallback>
@@ -284,7 +286,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                   header={[
                     {
                       avatar: (
-                        <Avatar className="h-6 w-6 rounded-full p-0">
+                        <Avatar className="size-6 rounded-full p-0">
                           {/* <AvatarImage src={AvatarUrl} /> */}
 
                           <AvatarFallback>
@@ -321,7 +323,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                         return (
                           <PullRequestTimelineItem
                             icon={
-                              <Avatar className="h-6 w-6 rounded-full p-0">
+                              <Avatar className="size-6 rounded-full p-0">
                                 {/* <AvatarImage src={AvatarUrl} /> */}
 
                                 <AvatarFallback>

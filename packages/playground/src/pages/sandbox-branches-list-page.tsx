@@ -8,7 +8,7 @@ import PlaygroundBranchesSettings from '../settings/branches-settings'
 import { mockBranchData } from '../data/mockBranchData'
 import { CreateBranchDialog, SandboxLayout } from '..'
 import { noop } from 'lodash-es'
-import { BranchProps } from '../types/branch'
+import type { BranchProps } from '../types/branch'
 
 const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
 const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]

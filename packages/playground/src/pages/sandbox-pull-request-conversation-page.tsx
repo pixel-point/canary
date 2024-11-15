@@ -24,7 +24,7 @@ import { PullRequestSideBar } from '../components/pull-request/pull-request-side
 import { processReviewDecision, useActivityFilters, useDateFilters } from '../components/pull-request/utils'
 import { mockCodeOwnerData } from '../data/mockCodeOwner'
 import { mockPullRequestActions } from '../data/mockPullRequestActions'
-import { TypesPullReqActivity } from '../components/pull-request/interfaces'
+import type { TypesPullReqActivity } from '../components/pull-request/interfaces'
 import { SandboxLayout } from '..'
 import { noop } from 'lodash-es'
 // Mock useMutate hook
@@ -230,7 +230,7 @@ export default function SandboxPullRequestConversationPage() {
         </SandboxLayout.Column>
 
         <SandboxLayout.Column>
-          <SandboxLayout.Content className="pl-0 pr-0">
+          <SandboxLayout.Content className="px-0">
             <PullRequestSideBar
               addReviewers={noop}
               usersList={undefined}

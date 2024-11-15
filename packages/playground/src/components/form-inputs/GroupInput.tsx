@@ -7,8 +7,8 @@
 
 import React, { useEffect, useState } from 'react'
 import { get } from 'lodash-es'
-import { InputComponent, InputProps, RenderInputs, useFormContext } from '@harnessio/forms'
-import type { AnyFormikValue } from '@harnessio/forms'
+import { InputComponent, RenderInputs, useFormContext } from '@harnessio/forms'
+import type { AnyFormikValue , InputProps} from '@harnessio/forms'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Icon } from '@harnessio/canary'
 import { InputType } from './types'
 import InputLabel from './common/InputLabel'
@@ -38,7 +38,7 @@ function GroupInputInternal(props: InputProps<AnyFormikValue>): JSX.Element {
     <Accordion
       type="single"
       collapsible
-      className="bg-muted/30 w-full px-3"
+      className="w-full bg-muted/30 px-3"
       // onValueChange={value => setIsOpen(!!value)}
     >
       <AccordionItem value={'group'} className="border-b-0">

@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react'
 import { Spacer, Text, Button } from '@harnessio/canary'
-import { SandboxLayout } from '..'
+import { SandboxLayout , Filter } from '..'
 import { UsersList } from './user-management/users-list'
 import { useNavigate } from 'react-router-dom'
 import { dialogStateReducer, initialDialogState } from './user-management/user-reducers/dialog-state-reducers'
@@ -9,9 +9,8 @@ import { FormDeleteUserDialog } from './user-management/form-user-delete-dialog'
 import { FormRemoveAdminDialog } from './user-management/form-admin-remove-dialog'
 import { FormResetPasswordDialog } from './user-management/form-user-reset-password'
 import { FormAddAdminDialog } from './user-management/form-admin-add-dialog'
-import { DialogActionType, DialogType } from './user-management/interfaces'
-import { UsersProps } from './user-management/interfaces'
-import { Filter } from '..'
+import type { UsersProps } from './user-management/interfaces';
+import { DialogActionType, DialogType  } from './user-management/interfaces'
 import { PaginationComponent } from './pagination'
 const sortOptions = [
   { name: 'Date', value: 'created' },

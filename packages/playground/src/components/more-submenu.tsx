@@ -10,30 +10,15 @@ interface MoreSubmenuProps {
 
 export function MoreSubmenu({ showMore, handleMore }: MoreSubmenuProps) {
   return (
-    <Sheet
-      modal={false}
-      open={showMore}
-      onOpenChange={handleMore}
-    >
-      <SheetContent side="left" className="p-0 w-[328px] h-screen left-[220px] top-0 bottom-0 z-40 bg-transparent">
-        <Navbar.Root
-          className="w-[328px]"
-          isSubMenu
-        >
+    <Sheet modal={false} open={showMore} onOpenChange={handleMore}>
+      <SheetContent side="left" className="inset-y-0 left-[220px] z-40 h-screen w-[328px] bg-transparent p-0">
+        <Navbar.Root className="w-[328px]" isSubMenu>
           <Navbar.Content>
             <Spacer size={9} />
             {navbarSubmenuData.map((group, group_idx) => (
-              <Navbar.Group
-                key={group.groupId}
-                topBorder={group_idx > 0}
-                title={group.title}
-                isSubMenu
-              >
+              <Navbar.Group key={group.groupId} topBorder={group_idx > 0} title={group.title} isSubMenu>
                 {group.items.map(item => (
-                  <NavLink
-                    key={item.id}
-                    to={item.to || ''}
-                  >
+                  <NavLink key={item.id} to={item.to || ''}>
                     {({ isActive }) => (
                       <Navbar.Item
                         text={item.title || ''}

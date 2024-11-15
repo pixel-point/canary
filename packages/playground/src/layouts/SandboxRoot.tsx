@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { SandboxLayout } from '../index'
 import { Link, NavLink, Outlet } from 'react-router-dom'
-import { Icon, IconProps, Navbar, NavbarProjectChooser, NavbarUser } from '@harnessio/canary'
+import type { IconProps} from '@harnessio/canary';
+import { Icon, Navbar, NavbarProjectChooser, NavbarUser } from '@harnessio/canary'
 import { MoreSubmenu } from '../components/more-submenu'
 import { navbarSubmenuData } from '../data/mockNavbarSubmenuData'
-import { TypesUser } from './types'
+import type { TypesUser } from './types'
 
 interface NavbarItem {
   id: number
@@ -162,7 +163,7 @@ export const SandboxRoot: React.FC<SandboxRootProps> = ({ currentUser, currentSp
           {currentUser?.admin && (
             <Navbar.Content>
               <Navbar.Group>
-                <NavLink to={`/users`} className="hover:bg-primary/5 rounded-md p-2">
+                <NavLink to={`/users`} className="rounded-md p-2 hover:bg-primary/5">
                   {({ isActive }) => (
                     <Navbar.Item text="User Management" icon={<Icon name="account" size={12} />} active={isActive} />
                   )}

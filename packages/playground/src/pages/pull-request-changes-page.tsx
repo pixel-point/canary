@@ -139,7 +139,7 @@ const FilterSortViewDropdowns: React.FC<FilterViewProps> = ({ active }) => {
                     mockApprovalItems[index].items.map(itm => (
                       <DropdownMenuItem key={itm.id}>
                         <RadioGroup className="flex items-start gap-2">
-                          <RadioGroupItem value="false" className="text-tertiary-background mt-1 h-3 w-3" />
+                          <RadioGroupItem value="false" className="mt-1 size-3 text-tertiary-background" />
                           <div className="flex flex-col">
                             <Text truncate size={1} color="primary">
                               {itm.title}

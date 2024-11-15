@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { MoreSubmenu } from '../components/more-submenu'
-import { TypesUser } from './types'
+import type { TypesUser } from './types'
 import { Navbar } from '../components/navbar'
 import { SystemAdminMenu } from '../components/system-admin-menu'
 
@@ -52,7 +52,7 @@ export const RootLayout: React.FC<RootLayoutProps> = ({ currentUser }) => {
 
   return (
     <>
-      <div className="grid md:grid-cols-[220px_minmax(900px,_1fr)] min-w-screen">
+      <div className="min-w-screen grid md:grid-cols-[220px_minmax(900px,_1fr)]">
         <Navbar
           showMore={showMore}
           showSystemAdmin={showSystemAdmin}
@@ -60,7 +60,7 @@ export const RootLayout: React.FC<RootLayoutProps> = ({ currentUser }) => {
           handleSystemAdmin={handleSystemAdmin}
           currentUser={currentUser}
         />
-        <main className="col-start-2 min-h-screen box-border overflow-y-scroll overflow-x-hidden">
+        <main className="col-start-2 box-border min-h-screen overflow-x-hidden overflow-y-scroll">
           <Outlet />
         </main>
       </div>
