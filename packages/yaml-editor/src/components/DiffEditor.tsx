@@ -52,7 +52,7 @@ export function CodeDiffEditor<T>(props: DiffEditorProps<T>): JSX.Element {
   return (
     <>
       <DiffEditor
-        className="border-l border-r border-b border-border-background"
+        className="border-border-background border-b border-l border-r"
         language={language}
         theme={theme}
         original={original}

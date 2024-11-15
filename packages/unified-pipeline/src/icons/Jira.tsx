@@ -1,14 +1,7 @@
-import * as React from "react";
-import { SVGProps } from "react";
+import * as React from 'react'
+import { SVGProps } from 'react'
 const Jira = (props: SVGProps<SVGSVGElement>) => (
-  <svg
-    width={24}
-    height={24}
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    {...props}
-  >
+  <svg width={24} height={24} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
     <rect y={-0.00012207} width={24} height={24} rx={4} fill="#0C66E4" />
     <path
       d="M19.3524 4.00012H11.6313C11.6313 5.91922 13.1934 7.48128 15.1125 7.48128H16.5407V8.8425C16.5407 10.7616 18.1027 12.3236 20.0218 12.3236V4.66957C20.0218 4.29022 19.7094 4.00012 19.3524 4.00012Z"
@@ -29,8 +22,7 @@ const Jira = (props: SVGProps<SVGSVGElement>) => (
         y1={7.85462}
         x2={12.7519}
         y2={11.2398}
-        gradientUnits="userSpaceOnUse"
-      >
+        gradientUnits="userSpaceOnUse">
         <stop offset={0.15} stopColor="white" stopOpacity={0.4} />
         <stop offset={0.29} stopColor="white" stopOpacity={0.47} />
         <stop offset={0.56} stopColor="white" stopOpacity={0.66} />
@@ -43,8 +35,7 @@ const Jira = (props: SVGProps<SVGSVGElement>) => (
         y1={11.7207}
         x2={8.63824}
         y2={15.4138}
-        gradientUnits="userSpaceOnUse"
-      >
+        gradientUnits="userSpaceOnUse">
         <stop offset={0.15} stopColor="white" stopOpacity={0.4} />
         <stop offset={0.29} stopColor="white" stopOpacity={0.47} />
         <stop offset={0.56} stopColor="white" stopOpacity={0.66} />
@@ -53,5 +44,5 @@ const Jira = (props: SVGProps<SVGSVGElement>) => (
       </linearGradient>
     </defs>
   </svg>
-);
-export default Jira;
+)
+export default Jira

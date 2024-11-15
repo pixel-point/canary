@@ -7,6 +7,7 @@
     "build:css": "npx tailwindcss -i ./src/styles.css -o ./public/styles.css",
     "build": "vite build",
     "build:watch": "vite build --watch",
+    "pretty": "prettier --check ./src",
     "typed-scss": "typed-scss-modules src --watch",
     "prepublishOnly": "pnpm build"
   },

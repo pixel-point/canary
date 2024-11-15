@@ -76,7 +76,7 @@ export function CodeEditor<T>(props: CodeEditorProps<T>): JSX.Element {
   return (
     <>
       <Editor
-        className="border-l border-r border-b border-border-background"
+        className="border-border-background border-b border-l border-r"
         height={'75vh'}
         onChange={(value, data) => {
           currentRevisionRef.current = { code: value ?? '', revisionId: data.versionId }

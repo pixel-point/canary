@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "webpack-dev-server": "webpack-dev-server",
-    "dev": "pnpm run webpack-dev-server -- --env mode=development"
+    "dev": "pnpm run webpack-dev-server -- --env mode=development",
+    "pretty": "prettier --check ./src"
   },
   "dependencies": {
     "@harnessio/yaml-editor": "workspace:*",

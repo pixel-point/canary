@@ -17,7 +17,8 @@
     "watch:build": "watch 'pnpm build-yalc' ./src",
     "build-yalc": "pnpm build && pnpm yalc-push",
     "yalc-push": "yalc push",
-    "prepublishOnly": "pnpm build"
+    "prepublishOnly": "pnpm build",
+    "pretty": "prettier --check ./src"
   },
   "dependencies": {},
   "peerDependencies": {

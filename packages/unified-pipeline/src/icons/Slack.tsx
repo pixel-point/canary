@@ -1,14 +1,7 @@
-import * as React from "react";
-import { SVGProps } from "react";
+import * as React from 'react'
+import { SVGProps } from 'react'
 const Slack = (props: SVGProps<SVGSVGElement>) => (
-  <svg
-    width={24}
-    height={24}
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    {...props}
-  >
+  <svg width={24} height={24} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
     <rect y={-0.00012207} width={24} height={24} rx={4} fill="white" />
     <g clipPath="url(#clip0_3618_13694)">
       <path
@@ -30,14 +23,9 @@ const Slack = (props: SVGProps<SVGSVGElement>) => (
     </g>
     <defs>
       <clipPath id="clip0_3618_13694">
-        <rect
-          width={14.4}
-          height={14.4}
-          fill="white"
-          transform="translate(4.80005 4.79993)"
-        />
+        <rect width={14.4} height={14.4} fill="white" transform="translate(4.80005 4.79993)" />
       </clipPath>
     </defs>
   </svg>
-);
-export default Slack;
+)
+export default Slack
