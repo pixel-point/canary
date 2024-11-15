@@ -1,12 +1,14 @@
-import React from 'react'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
+  Icon,
+  Text,
+  Button,
+  ButtonGroup
 } from '@harnessio/canary'
-import { Icon, Text, Button, ButtonGroup } from '@harnessio/canary'
 import { CompareFormFields } from '../../layouts/SandboxPullRequestCompareLayout'
 
 interface PullRequestCompareButtonProps {

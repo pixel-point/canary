@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import { memo, useEffect, useMemo, useState } from 'react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@harnessio/canary'
 import { useEmitCodeCommentStatus } from './hooks/useEmitCodeCommentStatus'
 import { CodeCommentState, CommentItem, TypesPullReq, TypesPullReqActivity } from './interfaces'
@@ -15,7 +15,7 @@ interface StatusButtonProps {
   onChange: (value: string) => void
 }
 
-const StatusButton: React.FC<StatusButtonProps> = React.memo(({ codeCommentStatus, onChange }) => (
+const StatusButton: React.FC<StatusButtonProps> = memo(({ codeCommentStatus, onChange }) => (
   <Select onValueChange={onChange}>
     <SelectTrigger>
       <SelectValue className="py-2" placeholder={codeCommentStatus} />
@@ -26,6 +26,7 @@ const StatusButton: React.FC<StatusButtonProps> = React.memo(({ codeCommentStatu
     </SelectContent>
   </Select>
 ))
+StatusButton.displayName = 'StatusButton'
 
 export const PullRequestStatusSelect: React.FC<CodeCommentStatusSelectProps> = ({
   repoId,

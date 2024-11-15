@@ -2,7 +2,7 @@ import { RepoSettingsGeneralPage } from '../components/repo-settings/repo-settin
 import { mockRepoData } from './mocks/repo-settings/mockRepoData'
 import { noop } from 'lodash-es'
 import { branchRules } from './mocks/repo-settings/mockRulesData'
-import React from 'react'
+
 export const RepoSettingsGeneralPlaygroundContainer = () => {
   const loadingStates = {
     isLoadingRepoData: false,

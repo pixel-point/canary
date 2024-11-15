@@ -63,7 +63,7 @@ const PipelineStudioStepPalette = (props: PipelineStudioStepFormProps): JSX.Elem
           <StepsPaletteContent.SectionHeader>Groups</StepsPaletteContent.SectionHeader>
 
           {harnessStepGroups.map(harnessStepGroup => (
-            <StepsPaletteContent.SectionItem>
+            <StepsPaletteContent.SectionItem key={harnessStepGroup.identifier}>
               <StepsPaletteItem.Root
                 onClick={() => {
                   if (addStepIntention) {
@@ -94,7 +94,7 @@ const PipelineStudioStepPalette = (props: PipelineStudioStepFormProps): JSX.Elem
           <StepsPaletteContent.SectionHeader>Harness</StepsPaletteContent.SectionHeader>
 
           {harnessSteps.map(harnessStep => (
-            <StepsPaletteContent.SectionItem>
+            <StepsPaletteContent.SectionItem key={harnessStep.identifier}>
               <StepsPaletteItem.Root
                 onClick={() => {
                   setCurrentStepFormDefinition({

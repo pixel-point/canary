@@ -1,6 +1,6 @@
 import { DiffModeEnum, DiffFile, DiffView, DiffViewProps, SplitSide } from '@git-diff-view/react'
 import { Card, Input, Text } from '@harnessio/canary'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { OverlayScrollbars } from 'overlayscrollbars'
 
 import { debounce } from 'lodash-es'

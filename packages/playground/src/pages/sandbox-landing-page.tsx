@@ -1,4 +1,3 @@
-import React from 'react'
 import { SandboxLayout } from '../index'
 import LandingPage from './landing-page'
 

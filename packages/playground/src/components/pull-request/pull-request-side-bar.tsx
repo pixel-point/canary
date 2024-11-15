@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import cx from 'classnames'
 import {
   Button,
@@ -111,7 +111,7 @@ const PullRequestSideBar = (props: PullRequestSideBarProps) => {
           </AvatarFallback>
         </Avatar>
         <div className="reviewerName truncate">{reviewer?.display_name}</div>
-        <div className="flex-grow"></div>
+        <div className="grow"></div>
 
         {updatedReviewDecision === PullReqReviewDecision.outdated ? (
           <Icon name="x-mark" className="text-warning" />

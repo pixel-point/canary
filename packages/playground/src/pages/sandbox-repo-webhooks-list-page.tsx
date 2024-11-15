@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Spacer, ListActions, Button, SearchBox, Text } from '@harnessio/canary'
 import { NoData } from '../components/no-data'
 import { NoSearchResults } from '../components/no-search-results'

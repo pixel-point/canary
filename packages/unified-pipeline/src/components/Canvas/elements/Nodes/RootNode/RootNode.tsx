@@ -1,4 +1,3 @@
-import React from 'react'
 import { Handle, NodeProps, Position } from 'reactflow'
 import { Icon } from '@harnessio/canary'
 import { DefaultNodeProps, ExpandNodeProps } from '../../../types'
@@ -12,8 +11,8 @@ export default function RootNode({ data, xPos, yPos, zIndex }: NodeProps<RootNod
   const { sourcePosition = Position.Right } = data
   return (
     <>
-      <div className="w-10 h-10 rounded-full flex justify-center items-center bg-studio-1">
-        <Icon name="play" className="hover:cursor-pointer text-success" />
+      <div className="flex size-10 items-center justify-center rounded-full bg-studio-1">
+        <Icon name="play" className="text-success hover:cursor-pointer" />
       </div>
       <Handle position={sourcePosition} type="source" />
       {enableDiagnostics?.Node && (

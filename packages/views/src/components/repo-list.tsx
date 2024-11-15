@@ -1,5 +1,4 @@
 import { Badge, Icon, StackedList } from '@harnessio/canary'
-import React from 'react'
 
 export interface Repo {
   id: number
@@ -51,14 +50,14 @@ export function RepoList({ repos, LinkComponent }: PageProps) {
         <StackedList.Root>
           {repos.map((repo, repo_idx) =>
             repo.importing ? (
-              <StackedList.Item key={repo.name} isLast={repos.length - 1 === repo_idx}>
+              <StackedList.Item key={repo.id} isLast={repos.length - 1 === repo_idx}>
                 <StackedList.Field
                   description="Importing Repository..."
                   title={<Title title={repo.name ?? ''} isPrivate={repo.private} />}
                 />
               </StackedList.Item>
             ) : (
-              <LinkComponent to={repo.name ?? '/'}>
+              <LinkComponent key={repo.id} to={repo.name ?? '/'}>
                 <StackedList.Item key={repo.name} isLast={repos.length - 1 === repo_idx}>
                   <StackedList.Field
                     description={repo.description}

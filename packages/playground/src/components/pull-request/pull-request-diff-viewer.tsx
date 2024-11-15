@@ -1,6 +1,6 @@
 import { DiffModeEnum, DiffFile, DiffView, DiffViewProps, SplitSide } from '@git-diff-view/react'
 import { Card, Input, Text } from '@harnessio/canary'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { OverlayScrollbars } from 'overlayscrollbars'
 
 import { debounce } from 'lodash-es'
@@ -218,7 +218,7 @@ const PullRequestDiffViewer = ({
       {diffFileInstance && !renderCustomContent && (
         <DiffView<string>
           ref={ref}
-          className="text-tertiary-background bg-tr w-full"
+          className="bg-tr text-tertiary-background w-full"
           //   renderWidgetLine={({ onClose }) => {
           //     console.log('render widget')
           //     return <></>
@@ -268,9 +268,9 @@ const PullRequestDiffViewer = ({
           renderExtendLine={({ data }) => (
             <div className="bg-background/50 px-6 py-[6px]">
               <Card className="rounded-md bg-transparent">
-                <div className="flex flex-col px-4 py-4">
+                <div className="flex flex-col p-4">
                   <div className="flex items-center space-x-2">
-                    <div className='bg-tertiary-background h-6 w-6 rounded-full bg-[url("../images/user-avatar.svg")] bg-cover'></div>
+                    <div className='bg-tertiary-background size-6 rounded-full bg-[url("../images/user-avatar.svg")] bg-cover'></div>
                     <Text color="primary">adam </Text>
                     <Text size={1} color="tertiaryBackground">
                       4 hours ago
@@ -280,8 +280,8 @@ const PullRequestDiffViewer = ({
                     {data}
                   </Text>
                 </div>
-                <div className="flex items-center gap-3 border-t px-4 py-4">
-                  <div className='bg-tertiary-background h-6 w-6 rounded-full bg-[url("../images/user-avatar.svg")] bg-cover'></div>
+                <div className="flex items-center gap-3 border-t p-4">
+                  <div className='bg-tertiary-background size-6 rounded-full bg-[url("../images/user-avatar.svg")] bg-cover'></div>
                   <Input placeholder={'Reply here'} />
                 </div>
               </Card>

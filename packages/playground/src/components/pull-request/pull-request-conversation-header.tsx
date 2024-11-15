@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { Badge, Button, Icon, Text } from '@harnessio/canary'
 import { Layout } from '../layout/layout'
 import { getPrState } from './utils'
@@ -47,7 +47,7 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
   const stateObject = getPrState(is_draft, merged, state)
   return (
     <div className="flex flex-col gap-2 pb-8">
-      <div className="flex items-center pb-1 pt-1">
+      <div className="flex items-center py-1">
         <Text size={5} weight={'medium'} className="text-primary">
           {original}
           &nbsp;&nbsp;

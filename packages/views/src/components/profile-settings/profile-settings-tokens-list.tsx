@@ -1,4 +1,3 @@
-import React from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Text } from '@harnessio/canary'
 import { Icon } from '@harnessio/canary'
 import { timeAgo } from '../../utils/utils'
@@ -38,6 +37,8 @@ export const ProfileTokensList: React.FC<PageProps> = ({ tokens, openAlertDelete
               <TableCell>{timeAgo(new Date(token.issued_at!).getTime())}</TableCell>
               <TableCell className="content-center">
                 <div
+                  role="button"
+                  tabIndex={0}
                   className="flex cursor-pointer items-center justify-end gap-1.5"
                   onClick={() => {
                     openAlertDeleteDialog({ identifier: token.identifier!, type: 'token' })

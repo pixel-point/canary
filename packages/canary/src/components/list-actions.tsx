@@ -1,4 +1,3 @@
-import React from 'react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './dropdown-menu'
 import { Text } from './text'
 import { Icon } from './icon'

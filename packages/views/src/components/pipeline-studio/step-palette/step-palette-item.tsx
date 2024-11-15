@@ -1,5 +1,3 @@
-import React from 'react'
-
 const StepsPaletteItem = {
   Root: function Root({ children, ...rest }: React.PropsWithChildren<React.HTMLAttributes<HTMLDivElement>>) {
     return (

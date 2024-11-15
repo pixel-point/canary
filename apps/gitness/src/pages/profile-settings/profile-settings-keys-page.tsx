@@ -1,4 +1,3 @@
-import React from 'react'
 import { parseAsInteger, useQueryState } from 'nuqs'
 import { Spacer, Text, Button } from '@harnessio/canary'
 import {

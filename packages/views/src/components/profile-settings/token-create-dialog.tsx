@@ -1,6 +1,6 @@
 import { TokenCreateForm } from './token-create-form'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@harnessio/canary'
-import React from 'react'
+
 interface TokenCreateDialogProps {
   open: boolean
   onClose: () => void

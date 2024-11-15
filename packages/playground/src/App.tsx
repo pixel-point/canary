@@ -1,4 +1,3 @@
-import React from 'react'
 import { noop } from 'lodash-es'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import { TooltipProvider } from '@harnessio/canary'

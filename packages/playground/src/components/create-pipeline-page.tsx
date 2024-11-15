@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Spacer,
   Text,
@@ -64,7 +63,7 @@ const TemplateSection = () => {
       />
       <Section.Content>
         {templates.map((template, index) => (
-          <Link to={template.href || '#'}>
+          <Link key={template.href} to={template.href || '#'}>
             <SpotlightsBox.Root
               key={index}
               logo={template.logoName}
@@ -191,8 +190,8 @@ export function CreatePipelinePage({ onClickStartFromScratch = noop }: CreatePip
         </Text>
         <Spacer size={3} />
         <Text as="p" size={2} weight="normal" className="text-primary/80 max-w-[50%]">
-          It's very simple to start using Playground. Allow our AI to create your pipeline based on the code base or
-          start from a clean state.
+          It&apos;s very simple to start using Playground. Allow our AI to create your pipeline based on the code base
+          or start from a clean state.
         </Text>
         <Spacer size={8} />
         <AIPrompt
@@ -212,7 +211,7 @@ export function CreatePipelinePage({ onClickStartFromScratch = noop }: CreatePip
           }>
           <Input
             placeholder="Start by describing your project goals or key requirements..."
-            className="flex-grow rounded-full border-none pl-4"
+            className="grow rounded-full border-none pl-4"
           />
         </AIPrompt>
         <Spacer size={6} />

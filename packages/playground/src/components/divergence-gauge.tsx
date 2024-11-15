@@ -1,6 +1,4 @@
-import React from 'react'
-import { Progress, Text } from '@harnessio/canary'
-import { cn } from '@harnessio/canary'
+import { Progress, Text, cn } from '@harnessio/canary'
 
 interface GaugeProps {
   behindAhead: {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { noop } from 'lodash-es'
 import { Home } from '../components/home'
 import PlaygroundLandingSettings from '../settings/landing-settings'

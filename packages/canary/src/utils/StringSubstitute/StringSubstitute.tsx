@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import { Fragment } from 'react'
 
 type SubstituteVars = Record<string, any> // eslint-disable-line @typescript-eslint/no-explicit-any
 const MATCH_ELSE_KEY = '___'

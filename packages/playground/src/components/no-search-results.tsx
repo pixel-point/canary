@@ -1,4 +1,3 @@
-import React from 'react'
 import { NoData, NoDataProps } from './no-data'
 
 interface NoSearchResultsProps extends Omit<NoDataProps, 'iconSize'> {
@@ -14,7 +13,7 @@ export const NoSearchResults: React.FC<NoSearchResultsProps> = ({
   secondaryButton
 }: NoSearchResultsProps) => {
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center rounded-md border py-20 pb-24">
+    <div className="flex size-full flex-col items-center justify-center rounded-md border py-20 pb-24">
       <NoData
         iconName={iconName}
         iconSize={iconSize}

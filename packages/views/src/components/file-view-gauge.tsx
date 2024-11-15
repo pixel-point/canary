@@ -1,4 +1,3 @@
-import React from 'react'
 import { Progress, Text } from '@harnessio/canary'
 
 interface RootProps {

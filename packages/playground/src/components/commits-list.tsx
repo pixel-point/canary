@@ -1,5 +1,4 @@
 import { NodeGroup, StackedList, Text } from '@harnessio/canary'
-import React from 'react'
 
 interface Repo {
   id: string
@@ -31,7 +30,7 @@ export default function RepoList({ repos, LinkComponent }: PageProps) {
           <NodeGroup.Content>
             <StackedList.Root>
               {repos.map((repo, repo_idx) => (
-                <LinkComponent to={repo.name}>
+                <LinkComponent key={repo.id} to={repo.name}>
                   <StackedList.Item key={repo.name} isLast={repos.length - 1 === repo_idx}>
                     <StackedList.Field description={repo.description} title={<Title title={repo.name} />} />
                     <StackedList.Field
@@ -62,7 +61,7 @@ export default function RepoList({ repos, LinkComponent }: PageProps) {
           <NodeGroup.Content>
             <StackedList.Root>
               {repos.map((repo, repo_idx) => (
-                <LinkComponent to={repo.name}>
+                <LinkComponent key={repo.id} to={repo.name}>
                   <StackedList.Item key={repo.name} isLast={repos.length - 1 === repo_idx}>
                     <StackedList.Field description={repo.description} title={<Title title={repo.name} />} />
                     <StackedList.Field
@@ -93,7 +92,7 @@ export default function RepoList({ repos, LinkComponent }: PageProps) {
           <NodeGroup.Content>
             <StackedList.Root>
               {repos.map((repo, repo_idx) => (
-                <LinkComponent to={repo.name}>
+                <LinkComponent key={repo.id} to={repo.name}>
                   <StackedList.Item key={repo.name} isLast={repos.length - 1 === repo_idx}>
                     <StackedList.Field description={repo.description} title={<Title title={repo.name} />} />
                     <StackedList.Field

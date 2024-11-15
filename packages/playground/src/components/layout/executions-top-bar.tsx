@@ -1,4 +1,3 @@
-import React from 'react'
 import { Topbar, Button, ButtonGroup } from '@harnessio/canary'
 
 export const ExecutionsTopBar: React.FC = () => {

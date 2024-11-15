@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { TypesCommit } from './interfaces'
 import { formatDate, getInitials } from '../../utils/utils'
 import { StackedList, Text, NodeGroup, Avatar, AvatarFallback } from '@harnessio/canary'
@@ -29,7 +29,7 @@ export const PullRequestCommits = ({ ...props }: CommitProps) => {
   return (
     <>
       {entries.map(([date, commitData], node_idx) => (
-        <NodeGroup.Root>
+        <NodeGroup.Root key={date}>
           <NodeGroup.Icon simpleNodeIcon />
           <NodeGroup.Title>{date && <Text color="tertiaryBackground">Commits on {date}</Text>}</NodeGroup.Title>
           <NodeGroup.Content>
@@ -38,15 +38,15 @@ export const PullRequestCommits = ({ ...props }: CommitProps) => {
                 {commitData.map((commit, repo_idx) => (
                   <StackedList.Item
                     className="hover:bg-transparent"
-                    key={commit.title}
+                    key={commit.sha}
                     isLast={commitData.length - 1 === repo_idx}>
                     <StackedList.Field
                       title={
                         <div className="flex flex-col">
                           <div className="max-w-[500px] truncate">{commit.title}</div>
                           <div className="flex items-center pt-1">
-                            <div className="bg-tertiary-background h-5 w-5 rounded-full bg-cover">
-                              <Avatar className="h-5 w-5 rounded-full p-0">
+                            <div className="bg-tertiary-background size-5 rounded-full bg-cover">
+                              <Avatar className="size-5 rounded-full p-0">
                                 <AvatarFallback>
                                   <Text size={1} color="tertiaryBackground">
                                     {/* TODO: fix fallback string */}

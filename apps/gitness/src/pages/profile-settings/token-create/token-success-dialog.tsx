@@ -1,4 +1,3 @@
-import React from 'react'
 import { TokenSuccessForm } from './token-success-form'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@harnessio/canary'
 

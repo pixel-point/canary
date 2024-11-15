@@ -1,6 +1,6 @@
-import React, { useMemo, useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import * as monaco from 'monaco-editor'
-import { useMonaco, loader, DiffEditor, MonacoDiffEditor, Monaco } from '@monaco-editor/react'
+import { useMonaco, loader, DiffEditor, MonacoDiffEditor } from '@monaco-editor/react'
 import { useTheme } from '../hooks/useTheme'
 import { ThemeDefinition } from '../types/themes'
 
@@ -26,7 +26,7 @@ const defaultOptions: monaco.editor.IStandaloneDiffEditorConstructionOptions = {
   }
 }
 
-export interface DiffEditorProps<T> {
+export interface DiffEditorProps<_> {
   original: string
   modified: string
   language: string
@@ -52,7 +52,7 @@ export function CodeDiffEditor<T>(props: DiffEditorProps<T>): JSX.Element {
   return (
     <>
       <DiffEditor
-        className="border-border-background border-b border-l border-r"
+        className="border-border-background border-x border-b"
         language={language}
         theme={theme}
         original={original}

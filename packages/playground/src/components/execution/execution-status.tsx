@@ -1,4 +1,3 @@
-import React from 'react'
 import { Icon as CanaryIcon } from '@harnessio/canary'
 import { ExecutionState } from './types'
 
@@ -19,7 +18,7 @@ const Badge: React.FC<ExecutionStatusProps & BadgeProps> = props => {
     case ExecutionState.PENDING:
       return minimal ? (
         <div className="flex items-center gap-1">
-          <div className="bg-muted h-2 w-2 rounded-full" />
+          <div className="bg-muted size-2 rounded-full" />
           <span className="text-muted">Pending</span>
         </div>
       ) : (
@@ -34,7 +33,7 @@ const Badge: React.FC<ExecutionStatusProps & BadgeProps> = props => {
     case ExecutionState.RUNNING:
       return minimal ? (
         <div className="flex items-center gap-1">
-          <div className="bg-studio-3 h-2 w-2 rounded-full" />
+          <div className="bg-studio-3 size-2 rounded-full" />
           <span className="text-studio-3">Running</span>
         </div>
       ) : (
@@ -51,13 +50,13 @@ const Badge: React.FC<ExecutionStatusProps & BadgeProps> = props => {
     case ExecutionState.FAILURE:
       return minimal ? (
         <div className="flex items-center gap-1">
-          <div className="h-2 w-2 rounded-full bg-[#ED5E5E]" />
+          <div className="size-2 rounded-full bg-[#ED5E5E]" />
           <span className="text-[#ED5E5E]">Failed</span>
         </div>
       ) : (
         <div className="flex items-center gap-1 rounded-md border border-solid border-[#F76E6E1F] bg-[#F76E6E1A]/[0.1] px-1 py-0.5">
           <div className="flex items-center gap-0.5">
-            <CanaryIcon name="x-mark" color="#ED5E5E" size="20" />
+            <CanaryIcon name="x-mark" color="#ED5E5E" size={20} />
             <span className="text-[#ED5E5E]">Failed</span>
           </div>
           {duration && <span className="text-[#ED5E5E]">{duration}</span>}
@@ -66,7 +65,7 @@ const Badge: React.FC<ExecutionStatusProps & BadgeProps> = props => {
     case ExecutionState.SUCCESS:
       return minimal ? (
         <div className="flex items-center gap-1">
-          <div className="bg-success h-2 w-2 rounded-full" />
+          <div className="bg-success size-2 rounded-full" />
           <span className="text-success">Success</span>
         </div>
       ) : (

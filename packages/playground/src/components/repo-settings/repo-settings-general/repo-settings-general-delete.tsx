@@ -1,4 +1,3 @@
-import React from 'react'
 import { Text, ButtonGroup, Button, Spacer } from '@harnessio/canary'
 import { ErrorTypes } from './types'
 
@@ -12,7 +11,7 @@ export const RepoSettingsGeneralDelete: React.FC<{
       <Text size={4} weight="medium">
         Delete Repository
       </Text>
-      <Text size={2} as="p" className="text-primary/80 max-w-[100%]">
+      <Text size={2} as="p" className="text-primary/80 max-w-full">
         This will permanently delete this repository, and everything contained in it.{' '}
       </Text>
 

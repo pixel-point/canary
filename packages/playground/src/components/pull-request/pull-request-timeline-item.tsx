@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect, memo, useState } from 'react'
 import { Button, Card, Input, NodeGroup, Text } from '@harnessio/canary'
 import cx from 'classnames'
 interface TimelineItemProps {
@@ -28,7 +28,7 @@ interface ItemHeaderProps {
 }
 
 // Use React.memo for performance optimization if appropriate
-const ItemHeader: React.FC<ItemHeaderProps> = React.memo(({ avatar, name, description, selectStatus }) => (
+const ItemHeader: React.FC<ItemHeaderProps> = memo(({ avatar, name, description, selectStatus }) => (
   <div className="inline-flex w-full items-center justify-between gap-1.5">
     <div className="inline-flex items-center gap-1.5">
       {avatar && <div>{avatar}</div>}
@@ -52,6 +52,7 @@ const ItemHeader: React.FC<ItemHeaderProps> = React.memo(({ avatar, name, descri
     )}
   </div>
 ))
+ItemHeader.displayName = 'ItemHeader'
 
 const PullRequestTimelineItem: React.FC<TimelineItemProps> = ({
   header,
@@ -66,7 +67,7 @@ const PullRequestTimelineItem: React.FC<TimelineItemProps> = ({
   titleClassName
   // currentUser
 }) => {
-  const [comment, setComment] = React.useState<string>('')
+  const [comment, setComment] = useState<string>('')
   useEffect(() => {
     setComment('')
   }, [handleSaveComment])
@@ -84,7 +85,7 @@ const PullRequestTimelineItem: React.FC<TimelineItemProps> = ({
             {content}
             {/* TODO: will have to eventually implement a commenting and reply system similiar to gitness */}
             {!hideReply && (
-              <div className="flex items-center gap-3 border-t px-4 py-4">
+              <div className="flex items-center gap-3 border-t p-4">
                 {header.length > 0 && header[0].avatar}
                 <Input
                   value={comment}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {
   Input,
   Textarea,
@@ -238,6 +238,7 @@ export const BranchSettingsRuleBypassListField: React.FC<FieldProps & { bypassOp
             bypassOptions.map(option => {
               return (
                 <DropdownMenuCheckboxItem
+                  key={option.id}
                   onCheckedChange={() => handleCheckboxChange(option.id)}
                   checked={selectedBypassUsers.includes(option.id)}
                   onSelect={event => event.preventDefault()}>

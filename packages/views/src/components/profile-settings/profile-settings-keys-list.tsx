@@ -1,4 +1,3 @@
-import React from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Text } from '@harnessio/canary'
 import { timeAgo } from '../../utils/utils'
 import { Icon } from '@harnessio/canary'
@@ -45,6 +44,8 @@ export const ProfileKeysList: React.FC<PageProps> = ({ publicKeys, openAlertDele
               </TableCell>
               <TableCell className="content-center">
                 <div
+                  role="button"
+                  tabIndex={0}
                   className="flex cursor-pointer items-center justify-end gap-1.5"
                   onClick={() => {
                     openAlertDeleteDialog({ identifier: key.identifier!, type: 'key' })

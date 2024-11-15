@@ -1,5 +1,3 @@
-import React from 'react'
-
 import {
   Spacer,
   AlertDialog,
@@ -38,7 +36,7 @@ export const FormDeleteUserDialog: React.FC<FormDeleterDialogProps> = ({
             ?
           </AlertDialogTitle>
           <AlertDialogDescription>
-            This will permanently delete the user "{user?.display_name}" from the system.
+            This will permanently delete the user &quot;{user?.display_name}&quot; from the system.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <Spacer size={3} />

@@ -1,4 +1,3 @@
-import React from 'react'
 import cx from 'classnames'
 import { capitalize } from 'lodash-es'
 import { Icon } from '@harnessio/canary'
@@ -41,7 +40,7 @@ export default function PlusEdge(props: EdgeProps<PlusEdgeProps>) {
     targetPosition
   })
 
-  const addNewNode = (event: React.MouseEvent) => {
+  const _addNewNode = (event: React.MouseEvent) => {
     event.preventDefault()
     event.stopPropagation()
     if (data?.targetPosition) {

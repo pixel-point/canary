@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { SandboxLayout } from '../index'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import { Icon, IconProps, Navbar, NavbarProjectChooser, NavbarUser } from '@harnessio/canary'
@@ -133,7 +133,7 @@ export const SandboxRoot: React.FC<SandboxRootProps> = ({ currentUser, currentSp
                   {({ isActive }) => <Navbar.Item key={idx} text={item.text} icon={item.icon} active={isActive} />}
                 </NavLink>
               ))}
-              <div onClick={() => (!showMore ? handleMore() : null)}>
+              <div role="button" tabIndex={0} onClick={() => (!showMore ? handleMore() : null)}>
                 <Navbar.Item text="More" icon={<Icon name="ellipsis" size={12} />} />
               </div>
             </Navbar.Group>

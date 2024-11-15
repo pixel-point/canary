@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Input } from './input'
 import { Icon } from './icon'
 import { Text } from './text'

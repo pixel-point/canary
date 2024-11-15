@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { mockOverviewRealData } from '../data/mockOverviewRealData'
 // import { mockOverviewData } from '../data/mockOverviewData'
 import { mockReviewers } from '../data/mockReviewer'
@@ -230,7 +230,7 @@ export default function SandboxPullRequestConversationPage() {
         </SandboxLayout.Column>
 
         <SandboxLayout.Column>
-          <SandboxLayout.Content className="pl-0 pr-0">
+          <SandboxLayout.Content className="px-0">
             <PullRequestSideBar
               addReviewers={noop}
               usersList={undefined}

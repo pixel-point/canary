@@ -1,4 +1,3 @@
-import React from 'react'
 import { noop } from 'lodash-es'
 import { Tabs, TabsList, TabsTrigger } from '@harnessio/canary'
 import { NavLink, Outlet, useParams } from 'react-router-dom'

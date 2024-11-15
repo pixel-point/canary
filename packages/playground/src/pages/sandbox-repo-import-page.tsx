@@ -1,4 +1,3 @@
-import React from 'react'
 import { RepoImportForm, ImportRepoFormType } from '../components/repo-import-form-component'
 import { Text, Spacer } from '@harnessio/canary'
 import { SandboxLayout } from '../index'

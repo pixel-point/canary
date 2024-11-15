@@ -1,4 +1,3 @@
-import React from 'react'
 import { Text } from './text'
 
 function Root({ children }: { children: React.ReactNode }) {

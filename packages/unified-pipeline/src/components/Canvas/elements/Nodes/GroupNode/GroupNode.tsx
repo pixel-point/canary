@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import cx from 'classnames'
 import { Handle, Position, type NodeProps, Node } from 'reactflow'
 import { Icon } from '@harnessio/canary'
@@ -175,7 +175,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
     })
   }, [nodes, edges, nodeId, memberNodes, orientation])
 
-  const addChildNode = useCallback((): void => {
+  const _addChildNode = useCallback((): void => {
     const name = `New stage ${memberNodeCount}`
     const newNode: Node = {
       id: getIdFromName(name),
@@ -216,7 +216,7 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
           'flex flex-col items-center justify-between text-xs font-medium leading-3 box-border text-left p-2.5 rounded-lg bg-studio-6 border border-studio-5 border-dashed',
           { 'justify-center': !isExpanded }
         )}>
-        <div className="flex items-center justify-between w-full box-border">
+        <div className="box-border flex w-full items-center justify-between">
           <div className="flex items-center">
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <Expand
@@ -225,10 +225,10 @@ export default function GroupNode(props: NodeProps<GroupNodeProps>) {
                   event.stopPropagation()
                   handleNodeExpandCollapse()
                 }}
-                className={'w-6 h-6 rounded-[4px] hover:cursor-pointer bg-studio-2/10'}
+                className={'size-6 rounded-[4px] bg-studio-2/10 hover:cursor-pointer'}
               />
               &nbsp;
-              <span className="text-studio-8 text-xs text-nowrap">{name}</span>
+              <span className="text-nowrap text-xs text-studio-8">{name}</span>
               {memberNodeCount > 0 && <span className="text-xs text-studio-2">&nbsp;({memberNodeCount})</span>}
             </div>
           </div>

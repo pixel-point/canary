@@ -1,5 +1,5 @@
-import React from 'react'
 import { cn } from '@harnessio/canary'
+import { memo } from 'react'
 
 const Container = {
   Root: function Root({
@@ -34,12 +34,12 @@ const Container = {
     )
   },
 
-  Sidebar: React.memo(function Header({ children }: { children: React.ReactNode }) {
+  Sidebar: memo(function Header({ children }: { children: React.ReactNode }) {
     return <div className="flex h-screen">{children}</div>
   }),
 
   Main: function Main({ children }: { children: React.ReactNode }) {
-    return <div className="col-start-2 grid h-full w-full grid-rows-[auto_1fr_auto]">{children}</div>
+    return <div className="col-start-2 grid size-full grid-rows-[auto_1fr_auto]">{children}</div>
   },
 
   Topbar: function Topbar({ children }: { children: React.ReactNode }) {
@@ -47,12 +47,12 @@ const Container = {
   },
 
   Content: function Content({ children }: { children: React.ReactNode }) {
-    return <div className="flex h-full w-full overflow-y-auto">{children}</div>
+    return <div className="flex size-full overflow-y-auto">{children}</div>
   },
 
   CenteredContent: function CenteredContent({ children }: { children: React.ReactNode }) {
     return (
-      <div className="row-start-2 flex h-full w-full place-content-center items-center overflow-y-auto">{children}</div>
+      <div className="row-start-2 flex size-full place-content-center items-center overflow-y-auto">{children}</div>
     )
   },
 

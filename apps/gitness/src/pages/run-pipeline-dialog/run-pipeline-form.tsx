@@ -119,7 +119,7 @@ export default function RunPipelineForm({
 
   if (loading || listBranchesLoading) {
     // TODO
-    return <>'Loading...'</>
+    return 'Loading...'
   }
 
   return (

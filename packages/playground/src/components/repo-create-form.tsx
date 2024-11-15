@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { SandboxLayout } from '..'
+import { useEffect } from 'react'
+import { SandboxLayout, FormFieldSet } from '..'
 import {
   Alert,
   AlertDescription,
@@ -21,7 +21,6 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
-import { FormFieldSet } from '../index'
 import { MessageTheme } from './form-field-set'
 
 // Define the form schema with optional fields for gitignore and license
@@ -107,7 +106,7 @@ const RepoCreatePageForm: React.FC<RepoCreatePageFormProps> = ({
             Create a new repository
           </Text>
           <Spacer size={3} />
-          <Text size={2} as="p" className="text-primary/80 max-w-[100%]">
+          <Text size={2} as="p" className="text-primary/80 max-w-full">
             A repository contains all project files, including the revision history. Already have a project repository
             elsewhere? Import a repository.
           </Text>
@@ -211,7 +210,7 @@ const RepoCreatePageForm: React.FC<RepoCreatePageFormProps> = ({
                   </SelectContent>
                 </Select>
                 <FormFieldSet.Caption>
-                  A license tells others what they can and can't do with your code.
+                  A license tells others what they can and can&apos;t do with your code.
                 </FormFieldSet.Caption>
                 {errors.license && (
                   <FormFieldSet.Message theme={MessageTheme.ERROR}>

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Moon, Sun } from 'lucide-react'
 
 import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@harnessio/canary'

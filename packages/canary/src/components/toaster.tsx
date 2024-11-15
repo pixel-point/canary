@@ -1,4 +1,3 @@
-import React from 'react'
 import { Toast, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport } from '@/components/toast'
 import { useToast } from '@/components/use-toast'
 

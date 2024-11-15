@@ -1,9 +1,7 @@
-import React from 'react'
-
 const StepsPaletteItem = {
   Root: function Root({ children, ...rest }: React.PropsWithChildren<React.HTMLAttributes<HTMLDivElement>>) {
     return (
-      <div className="flex h-full w-full cursor-pointer flex-row gap-2" {...rest}>
+      <div className="flex size-full cursor-pointer flex-row gap-2" {...rest}>
         {children}
       </div>
     )
@@ -12,7 +10,7 @@ const StepsPaletteItem = {
     return <div className="text-accent-foreground">{children}</div>
   },
   Right: function Right({ children }: { children: React.ReactNode }) {
-    return <div className="flex flex-grow flex-col">{children}</div>
+    return <div className="flex grow flex-col">{children}</div>
   },
   Header: function Header({ children }: { children: React.ReactNode }) {
     return <div className="flex flex-row justify-between">{children}</div>

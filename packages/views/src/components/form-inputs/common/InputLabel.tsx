@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button, Tooltip, TooltipContent, TooltipTrigger, Icon } from '@harnessio/canary'
 
 export interface InputLabelProps {

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { Avatar, AvatarFallback, Button, Icon, Text } from '@harnessio/canary'
 import {
   CommentItem,
@@ -143,6 +143,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
             if (isSystemComment(commentItems)) {
               return (
                 <PullRequestSystemComments
+                  key={index}
                   commentItems={commentItems}
                   isLast={activityBlocks.length - 1 === index}
                   pullReqMetadata={pullReqMetadata}
@@ -171,7 +172,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                     header={[
                       {
                         avatar: (
-                          <Avatar className="h-6 w-6 rounded-full p-0">
+                          <Avatar className="size-6 rounded-full p-0">
                             {/* <AvatarImage src={AvatarUrl} /> */}
 
                             <AvatarFallback>
@@ -229,7 +230,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                             return (
                               <PullRequestTimelineItem
                                 icon={
-                                  <Avatar className="h-6 w-6 rounded-full p-0">
+                                  <Avatar className="size-6 rounded-full p-0">
                                     {/* <AvatarImage src={AvatarUrl} /> */}
 
                                     <AvatarFallback>
@@ -284,7 +285,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                   header={[
                     {
                       avatar: (
-                        <Avatar className="h-6 w-6 rounded-full p-0">
+                        <Avatar className="size-6 rounded-full p-0">
                           {/* <AvatarImage src={AvatarUrl} /> */}
 
                           <AvatarFallback>
@@ -321,7 +322,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
                         return (
                           <PullRequestTimelineItem
                             icon={
-                              <Avatar className="h-6 w-6 rounded-full p-0">
+                              <Avatar className="size-6 rounded-full p-0">
                                 {/* <AvatarImage src={AvatarUrl} /> */}
 
                                 <AvatarFallback>

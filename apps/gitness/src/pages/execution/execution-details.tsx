@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { TypesExecution, TypesStage, useFindExecutionQuery, useViewLogsQuery } from '@harnessio/code-service-client'
 import { Badge, Icon, ScrollArea, Separator, Text } from '@harnessio/canary'

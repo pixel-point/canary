@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { noop, pick } from 'lodash-es'
 import {
   Spacer,
@@ -167,9 +167,9 @@ function RepoSummaryPage() {
                     Welcome
                   </Text>
                   <Text className="text-primary/80">
-                    Below you will find some basic information about how to work with this project. If you've spotted a
-                    bug, a copywriting mistake or just want to suggest some better solution, please, refer to the
-                    contribution section.
+                    Below you will find some basic information about how to work with this project. If you&apos;ve
+                    spotted a bug, a copywriting mistake or just want to suggest some better solution, please, refer to
+                    the contribution section.
                   </Text>
                   <Text className="text-primary/80">
                     Hello there! This repo is a home to Pixel Point, a web agency that designs and develops world-class

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -112,7 +112,7 @@ export function SettingsAccountGeneralPage() {
             {/* PERSONAL INFORMATION */}
             <FormFieldSet.Legend>Personal information</FormFieldSet.Legend>
             <FormFieldSet.ControlGroup className="flex w-auto flex-row items-center justify-start gap-x-6">
-              <Avatar size="80" className="bg-primary/[0.02] h-20 w-20 rounded-full shadow-md">
+              <Avatar size="80" className="bg-primary/[0.02] size-20 rounded-full shadow-md">
                 <AvatarImage src="/images/anon.jpg" />
                 <AvatarFallback>
                   <Text size={5} weight="medium" color="tertiaryBackground">

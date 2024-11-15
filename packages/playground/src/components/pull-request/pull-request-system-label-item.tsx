@@ -1,4 +1,3 @@
-import React from 'react'
 import PullRequestTimelineItem from './pull-request-timeline-item'
 import { Avatar, AvatarFallback, Icon, Text } from '@harnessio/canary'
 import { getInitials } from '../../utils/utils'
@@ -16,7 +15,7 @@ const PullRequestSystemLabelItem: React.FC<PullRequestSystemLabelItemProps> = ({
       header={[
         {
           avatar: (
-            <Avatar className="h-6 w-6 rounded-full p-0">
+            <Avatar className="size-6 rounded-full p-0">
               {/* <AvatarImage src={avatarUrl} /> */}
 
               <AvatarFallback>

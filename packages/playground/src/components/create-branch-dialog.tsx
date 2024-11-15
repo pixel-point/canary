@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Alert,
   AlertTitle,
@@ -68,7 +67,7 @@ export function CreateBranchDialog({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="bg-primary-background border-border max-w-[500px]">
+      <DialogContent className="border-border bg-primary-background max-w-[500px]">
         <DialogHeader>
           <DialogTitle>Create Branch</DialogTitle>
         </DialogHeader>
@@ -106,7 +105,12 @@ export function CreateBranchDialog({
                     </FormControl>
                     <SelectContent>
                       {branches?.map(
-                        branch => branch?.name && <SelectItem value={branch?.name as string}>{branch?.name}</SelectItem>
+                        branch =>
+                          branch?.name && (
+                            <SelectItem key={branch.name} value={branch?.name as string}>
+                              {branch?.name}
+                            </SelectItem>
+                          )
                       )}
                     </SelectContent>
                   </Select>

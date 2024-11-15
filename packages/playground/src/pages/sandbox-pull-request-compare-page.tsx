@@ -1,4 +1,3 @@
-import React from 'react'
 import { noop } from 'lodash-es'
 import { SandboxPullRequestCompare } from '../layouts/SandboxPullRequestCompareLayout'
 import { mockCommitData } from '../data/mockCommitData'

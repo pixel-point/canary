@@ -1,5 +1,3 @@
-import type React from 'react'
-
 export enum CanaryOutletName {
   BUTTON_SPINNER = 1,
   SPLIT_ICON = 2

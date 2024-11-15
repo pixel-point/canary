@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { BranchesList } from '../components/branches-list'
 import { SkeletonList } from '../components/loaders/skeleton-list'
 import { NoData } from '../components/no-data'

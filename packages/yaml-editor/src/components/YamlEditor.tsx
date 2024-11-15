@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import * as monaco from 'monaco-editor'
-import Editor, { Monaco, useMonaco } from '@monaco-editor/react'
-import { loader } from '@monaco-editor/react'
+import Editor, { Monaco, useMonaco, loader } from '@monaco-editor/react'
 import { PathSelector } from '../types/selectors'
 import { InlineAction } from '../types/inline-actions'
 import { useTheme } from '../hooks/useTheme'
@@ -59,7 +58,7 @@ export function YamlEditor<T>(props: YamlEditorProps<T>): JSX.Element {
 
   useEffect(() => {
     if (editorRef.current) {
-      if (!yamlRevision.revisionId || yamlRevision.revisionId > currentRevisionRef.current?.revisionId!) {
+      if (!yamlRevision.revisionId || yamlRevision.revisionId > Number(currentRevisionRef.current?.revisionId)) {
         // editorRef.current?.setValue(yamlRevision.yaml)
 
         const model = editorRef.current.getModel()

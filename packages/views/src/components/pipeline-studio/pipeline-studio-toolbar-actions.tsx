@@ -1,4 +1,3 @@
-import React from 'react'
 import { ToggleGroup, ToggleGroupItem, Icon } from '@harnessio/canary'
 import { CopyButton } from '../copy-button'
 

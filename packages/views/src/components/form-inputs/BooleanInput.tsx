@@ -1,4 +1,3 @@
-import React from 'react'
 import type { UseFormReturn } from '@harnessio/forms'
 import { InputType } from './types'
 import { FormControl, FormField, FormItem, Switch } from '@harnessio/canary'

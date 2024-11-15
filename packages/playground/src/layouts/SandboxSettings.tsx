@@ -1,4 +1,3 @@
-import React from 'react'
 import { Outlet, useMatch } from 'react-router-dom'
 import { SandboxLayout } from '../index'
 import {

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button, Toggle, Icon } from '@harnessio/canary'
 
 const StepPaletteFiltersLayout = {

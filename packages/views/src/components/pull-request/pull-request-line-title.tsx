@@ -1,5 +1,4 @@
 import { Text } from '@harnessio/canary'
-import React from 'react'
 
 interface LineTitleProps {
   text?: string

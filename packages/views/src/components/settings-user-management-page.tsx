@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import { useReducer } from 'react'
 import { Spacer, Text, Button } from '@harnessio/canary'
 import { SandboxLayout } from '..'
 import { UsersList } from './user-management/users-list'

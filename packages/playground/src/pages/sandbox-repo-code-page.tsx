@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { noop, pick } from 'lodash-es'
 import { Spacer, ListActions, Button, Text, Icon, ButtonGroup } from '@harnessio/canary'
 import { Summary } from '../components/repo-summary'
@@ -99,57 +99,57 @@ function Sidebar() {
       <SearchFiles navigateToFile={noop} filesList={filesListItems} />
       <FileExplorer.Root onValueChange={noop} value={[]}>
         {/* 2 nested levels of identical data for demo purposes */}
-        {sidebarItems.map(itm =>
-          itm.type === 'file' ? (
-            <Link to="#">
-              <FileExplorer.FileItem key={itm.id.toString()} link="">
-                {itm.name}
+        {sidebarItems.map(item =>
+          item.type === 'file' ? (
+            <Link to="#" key={item.id}>
+              <FileExplorer.FileItem key={item.id.toString()} link="">
+                {item.name}
               </FileExplorer.FileItem>
             </Link>
           ) : (
             <FileExplorer.FolderItem
-              key={itm.id.toString()}
-              value={itm.id.toString()}
+              key={item.id.toString()}
+              value={item.id.toString()}
               link=""
-              // isActive={itm_idx === 3}
+              // isActive={item_idx === 3}
               content={
                 <FileExplorer.Root onValueChange={noop} value={[]}>
-                  {sidebarItems.map(itm =>
-                    itm.type === 'file' ? (
-                      <Link to="#">
-                        <FileExplorer.FileItem key={itm.id.toString()} link="">
-                          {itm.name}
+                  {sidebarItems.map(item =>
+                    item.type === 'file' ? (
+                      <Link to="#" key={item.id}>
+                        <FileExplorer.FileItem key={item.id.toString()} link="">
+                          {item.name}
                         </FileExplorer.FileItem>
                       </Link>
                     ) : (
                       <FileExplorer.FolderItem
-                        key={itm.id.toString()}
-                        value={itm.id.toString()}
+                        key={item.id.toString()}
+                        value={item.id.toString()}
                         link=""
                         content={
                           <FileExplorer.Root onValueChange={noop} value={[]}>
-                            {sidebarItems.map(itm =>
-                              itm.type === 'file' ? (
-                                <Link to="#">
-                                  <FileExplorer.FileItem key={itm.id.toString()} link="">
-                                    {itm.name}
+                            {sidebarItems.map(item =>
+                              item.type === 'file' ? (
+                                <Link to="#" key={item.id}>
+                                  <FileExplorer.FileItem key={item.id.toString()} link="">
+                                    {item.name}
                                   </FileExplorer.FileItem>
                                 </Link>
                               ) : (
-                                <FileExplorer.FolderItem key={itm.id.toString()} value={itm.id.toString()} link="">
-                                  {itm.name}
+                                <FileExplorer.FolderItem key={item.id.toString()} value={item.id.toString()} link="">
+                                  {item.name}
                                 </FileExplorer.FolderItem>
                               )
                             )}
                           </FileExplorer.Root>
                         }>
-                        {itm.name}
+                        {item.name}
                       </FileExplorer.FolderItem>
                     )
                   )}
                 </FileExplorer.Root>
               }>
-              {itm.name}
+              {item.name}
             </FileExplorer.FolderItem>
           )
         )}

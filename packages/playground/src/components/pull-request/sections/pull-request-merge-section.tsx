@@ -1,5 +1,5 @@
 import { AccordionContent, AccordionItem, AccordionTrigger, Icon, StackedList, Text } from '@harnessio/canary'
-import React from 'react'
+
 import { LineTitle, LineDescription } from '../pull-request-line-title'
 import { isEmpty } from 'lodash-es'
 interface PullRequestMergeSectionProps {
@@ -61,7 +61,7 @@ const PullRequestMergeSection = ({
                     // }}
                     // className="pl-1 pr-1 text-blue-500 cursor-pointer">
 
-                    className="pl-1 pr-1 text-blue-500">
+                    className="px-1 text-blue-500">
                     {/* {getString('commandLine')} */}
                     command line
                   </span>

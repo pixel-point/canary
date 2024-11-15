@@ -1,4 +1,3 @@
-import React from 'react'
 import { Text } from '@harnessio/canary'
 
 interface RootProps {
@@ -45,6 +44,8 @@ function Icon({ ...props }: IconProps) {
   return (
     <div
       onClick={handleClick && handleClick}
+      role="button"
+      tabIndex={0}
       className="bg-background hover:bg-muted/50 flex items-center border-l px-1.5 py-0.5">
       {children}
     </div>

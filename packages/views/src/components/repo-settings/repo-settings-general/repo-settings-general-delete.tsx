@@ -1,4 +1,3 @@
-import React from 'react'
 import { Text, ButtonGroup, Button, Spacer } from '@harnessio/canary'
 import { ErrorTypes } from './types'
 

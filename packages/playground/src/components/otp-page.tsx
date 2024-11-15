@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Card,
   CardContent,
@@ -11,7 +10,9 @@ import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
-  ButtonGroup
+  ButtonGroup,
+  cn,
+  buttonVariants
 } from '@harnessio/canary'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -76,10 +77,10 @@ export function OTPPage({ handleResend, isLoading, handleFormSubmit }: PageProps
           </form>
           <Spacer size={4} />
           <Text size={1} color="tertiaryBackground" weight="normal" align="center" className="block">
-            Didn't receive the code?{' '}
-            <a className="text-primary" onClick={handleResend}>
+            Didn&apos;t receive the code?{' '}
+            <Button className={cn('text-primary', buttonVariants({ variant: 'link' }))} onClick={handleResend}>
               Resend
-            </a>
+            </Button>
           </Text>
         </CardContent>
       </Card>

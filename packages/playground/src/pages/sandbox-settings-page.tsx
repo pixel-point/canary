@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Section, Spacer, SpotlightsBox, Text } from '@harnessio/canary'
 import { SandboxLayout } from '..'
 import { PlaygroundSandboxLayoutSettings } from '../settings/sandbox-settings'

@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Table,
   TableBody,
@@ -104,7 +103,7 @@ export const KeyValueTable: React.FC<KeyValueTableProps> = ({
               <Accordion type="single" collapsible defaultValue={item.name}>
                 <AccordionItem value={item.name} className="border-0">
                   <AccordionTrigger
-                    className="flex w-full gap-1 py-2.5 pl-4 pr-4 data-[state=closed]:border-b data-[state=open]:border-b-0"
+                    className="flex w-full gap-1 px-4 py-2.5 data-[state=closed]:border-b data-[state=open]:border-b-0"
                     leftChevron>
                     <Text size={2} weight="normal" className={specTitleStyle}>
                       {item.name}

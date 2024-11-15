@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Button,
   Icon,
@@ -116,7 +115,7 @@ export const BranchesList = ({ branches, spaceId, repoId, defaultBranch }: PageP
         {branches &&
           branches.map(branch => {
             return (
-              <TableRow>
+              <TableRow key={branch.id}>
                 {/* branch name */}
                 <TableCell className="content-center">
                   <div className="flex items-center gap-1.5">
@@ -132,7 +131,7 @@ export const BranchesList = ({ branches, spaceId, repoId, defaultBranch }: PageP
                 {/* user avatar and timestamp */}
                 <TableCell className="content-center">
                   <div className="flex items-center gap-1.5">
-                    <Avatar className="h-5 w-5">
+                    <Avatar className="size-5">
                       {branch.user.avatarUrl && <AvatarImage src={branch.user.avatarUrl} />}
                       <AvatarFallback className="p-1 text-center text-xs">
                         {getInitials(branch.user.name, 2)}

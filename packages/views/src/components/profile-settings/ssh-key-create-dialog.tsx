@@ -1,6 +1,5 @@
 import { SshKeyCreateForm } from './ssh-key-create-form'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@harnessio/canary'
-import React from 'react'
 
 interface SshKeyCreateDialogProps {
   open: boolean

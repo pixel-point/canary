@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Navbar, Sheet, SheetContent, Icon, Text, Spacer, cn, IconProps } from '@harnessio/canary'
 import { navbarSubmenuData } from '../data/mockNavbarSubmenuData'
 
@@ -35,7 +35,7 @@ export function MoreSubmenu({ showMore, handleMore, onPinItem, pinnedItems }: Mo
 
   return (
     <Sheet modal={false} open={showMore} onOpenChange={handleMore}>
-      <SheetContent side="left" className="bottom-0 left-[220px] top-0 z-40 h-screen w-[328px] p-0">
+      <SheetContent side="left" className="inset-y-0 left-[220px] z-40 h-screen w-[328px] p-0">
         <Navbar.Root className="w-[328px]">
           <Navbar.Content>
             <Spacer size={8} />
@@ -52,6 +52,8 @@ export function MoreSubmenu({ showMore, handleMore, onPinItem, pinnedItems }: Mo
 
                   return (
                     <div
+                      role="button"
+                      tabIndex={0}
                       key={`${group.groupId}-${item.id}`}
                       onMouseEnter={() => setHoveredItemId(item.id)}
                       onMouseLeave={() => setHoveredItemId(null)}

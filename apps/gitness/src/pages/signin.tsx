@@ -1,4 +1,3 @@
-import React from 'react'
 import { SignInPage, DataProps } from '@harnessio/views'
 import { getUser, useOnLoginMutation } from '@harnessio/code-service-client'
 import { useNavigate } from 'react-router-dom'

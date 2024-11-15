@@ -1,5 +1,4 @@
 import { Icon } from '@harnessio/canary'
-import React from 'react'
 
 export const mockOverviewData = [
   {

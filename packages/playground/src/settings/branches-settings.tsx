@@ -1,4 +1,3 @@
-import React from 'react'
 import PlaygroundSettingsMenu from './menu'
 
 interface SettingsProps {

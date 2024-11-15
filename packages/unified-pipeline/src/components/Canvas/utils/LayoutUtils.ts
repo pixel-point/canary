@@ -1,5 +1,5 @@
 import { Node, Edge, Position } from 'reactflow'
-import dagre from 'dagre'
+import * as dagre from 'dagre'
 import { getChildNodes, getLayoutableNodes, getNonLayoutableNodes, partitionNodesByParallelism } from './NodeUtils'
 import {
   NODE_HORIZONTAL_MARGIN,

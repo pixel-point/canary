@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useParams, useNavigate, Outlet } from 'react-router-dom'
 import { BranchSelector, SandboxLayout, BranchListProps, SearchFiles } from '@harnessio/views'
 import { Button, ButtonGroup, Icon } from '@harnessio/canary'

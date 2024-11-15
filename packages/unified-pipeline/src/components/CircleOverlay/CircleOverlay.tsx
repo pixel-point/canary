@@ -1,5 +1,3 @@
-import React from 'react'
-
 export interface Position {
   x: number
   y: number
@@ -26,7 +24,7 @@ const CircleOverlay = (props: CircleOverlayInterface) => {
       {circles.map((circle, index) => (
         <div
           key={index}
-          className={`w-[${circle.size}] h-[${circle.size}] absolute translate-x-[-50%] translate-y-[-50%] rounded-full bg-white/[${circle.opacity}]`}
+          className={`w-[${circle.size}] h-[${circle.size}] bg-white/[ absolute translate-x-[-50%] translate-y-[-50%] rounded-full${circle.opacity}]`}
           style={
             {
               top: props.position.y,

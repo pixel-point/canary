@@ -1,4 +1,3 @@
-import React from 'react'
 import { Tree, TreeViewElement } from '@harnessio/canary'
 import { renderTree } from './utils'
 

@@ -8,6 +8,7 @@
     "build": "vite build",
     "build:watch": "vite build --watch",
     "pretty": "prettier --check ./src",
+    "lint": "eslint ./src",
     "typed-scss": "typed-scss-modules src --watch",
     "prepublishOnly": "pnpm build"
   },

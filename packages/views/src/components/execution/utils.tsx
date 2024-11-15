@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { File, Folder, type TreeViewElement } from '@harnessio/canary'
 import type { ExecutionTreeProps } from './execution-tree'
 

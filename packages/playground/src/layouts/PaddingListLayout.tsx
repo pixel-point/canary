@@ -1,4 +1,3 @@
-import React from 'react'
 import { cn, Spacer } from '@harnessio/canary'
 
 interface PaddingListLayoutProps {

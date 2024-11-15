@@ -1,6 +1,6 @@
 import { CloneRepoForm } from './clone-repo-form'
 import { Tabs, TabsList, TabsTrigger, Popover, PopoverContent, PopoverTrigger, Button, Text } from '@harnessio/canary'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 export interface CloneRepoDialogProps {
   sshUrl: string

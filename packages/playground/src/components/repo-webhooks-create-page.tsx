@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Button, ButtonGroup, useZodForm, Text, Spacer } from '@harnessio/canary'
 import { SubmitHandler } from 'react-hook-form'
 import {

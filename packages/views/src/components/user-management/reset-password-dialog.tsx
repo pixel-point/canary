@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   AlertDialog,
   AlertDialogTrigger,
@@ -33,7 +32,7 @@ export const ResetPasswordDialog = ({
           <AlertDialogDescription>
             <Text as="div" color="tertiaryBackground" className="mb-4">
               Your password has been generated. Please make sure to copy and store your password somewhere safe, you
-              won't be able to see it again.
+              won&apos;t be able to see it again.
             </Text>
             <Input id="identifier" value={password} readOnly right={<CopyButton name={password} />} />
           </AlertDialogDescription>

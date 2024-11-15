@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { stringify } from 'yaml'
 import cx from 'classnames'
 import { noop } from 'lodash-es'
@@ -97,7 +97,7 @@ const YamlView = (props: { setDrawerOpen: (open: 'stepform' | 'palette' | undefi
 
   return useMemo(
     () => (
-      <div className="flex h-full w-full">
+      <div className="flex size-full">
         <YamlEditor
           onYamlRevisionChange={() => {}}
           yamlRevision={yamlRevision}
@@ -232,8 +232,8 @@ const StepPalettePanel = (): JSX.Element => {
         <StepPaletteFilters />
       </StepsPalette.Header>
       <StepsPaletteContent.Root>
-        {['Buld', 'Deploy'].map(section => (
-          <StepsPaletteContent.Section>
+        {['Buld', 'Deploy'].map((section, index) => (
+          <StepsPaletteContent.Section key={index}>
             <StepsPaletteContent.SectionHeader>
               <div>{section}</div>
               <div>See all &gt; </div>
