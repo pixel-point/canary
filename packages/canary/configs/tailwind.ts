@@ -203,10 +203,10 @@ export default {
       addUtilities({
         '.tabnav-active': {
           boxShadow:
-            'inset 0 1px 0 0 var(--border-background), inset 1px 0 0 0 var(--border-background), inset -1px 0 0 0 var(--border-background)'
+            'inset 0 1px 0 0 hsl(var(--border-background)), inset 1px 0 0 0 hsl(var(--border-background)), inset -1px 0 0 0 hsl(var(--border-background))'
         },
         '.tabnav-inactive': {
-          boxShadow: 'inset 0 -1px 0 0 var(--border-background)'
+          boxShadow: 'inset 0 -1px 0 0 hsl(var(--border-background))'
         }
       })
     }
