@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { useEffect } from 'react'
-=======
-import React, { useEffect } from 'react'
->>>>>>> 45f591e1 (fix: updated common layout and navbar)
 import { SandboxLayout, FormFieldSet } from '..'
 import {
   Alert,

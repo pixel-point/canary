@@ -9,12 +9,8 @@ import { FormDeleteUserDialog } from './user-management/form-user-delete-dialog'
 import { FormRemoveAdminDialog } from './user-management/form-admin-remove-dialog'
 import { FormResetPasswordDialog } from './user-management/form-user-reset-password'
 import { FormAddAdminDialog } from './user-management/form-admin-add-dialog'
-<<<<<<< HEAD
-import { DialogActionType, DialogType, UsersProps } from './user-management/interfaces'
-=======
 import type { UsersProps } from './user-management/interfaces'
 import { DialogActionType, DialogType } from './user-management/interfaces'
->>>>>>> 45f591e1 (fix: updated common layout and navbar)
 import { PaginationComponent } from './pagination'
 const sortOptions = [
   { name: 'Date', value: 'created' },

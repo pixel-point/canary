@@ -9,11 +9,7 @@ import {
   Button,
   ButtonGroup
 } from '@harnessio/canary'
-<<<<<<< HEAD
-import { CompareFormFields } from '../../layouts/SandboxPullRequestCompareLayout'
-=======
 import type { CompareFormFields } from '../../layouts/SandboxPullRequestCompareLayout'
->>>>>>> 45f591e1 (fix: updated common layout and navbar)
 
 interface PullRequestCompareButtonProps {
   isSubmitted: boolean

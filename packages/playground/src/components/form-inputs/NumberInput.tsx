@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-import React from 'react'
->>>>>>> 45f591e1 (fix: updated common layout and navbar)
 import { FormControl, FormField, FormItem, Input } from '@harnessio/canary'
 import { InputType } from './types'
 import { InputComponent } from '@harnessio/forms'

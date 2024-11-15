@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-import { useForm, SubmitHandler } from 'react-hook-form'
-=======
-import React from 'react'
 import type { SubmitHandler } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
->>>>>>> 45f591e1 (fix: updated common layout and navbar)
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, ButtonGroup, Input, Spacer, Text, Icon } from '@harnessio/canary'

@@ -1,19 +1,6 @@
-<<<<<<< HEAD
 import { useCallback } from 'react'
-import {
-  Controller,
-  useFieldArray,
-  InputComponent,
-  InputProps,
-  AnyFormikValue,
-  IInputDefinition,
-  RenderInputs
-} from '@harnessio/forms'
-=======
-import React, { useCallback } from 'react'
 import type { InputProps, AnyFormikValue, IInputDefinition } from '@harnessio/forms'
 import { Controller, useFieldArray, InputComponent, RenderInputs } from '@harnessio/forms'
->>>>>>> 45f591e1 (fix: updated common layout and navbar)
 import { Button, FormField, FormItem, Icon } from '@harnessio/canary'
 import InputLabel from './common/InputLabel'
 import InputWrapper from './common/InputWrapper'
