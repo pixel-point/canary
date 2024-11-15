@@ -2,19 +2,10 @@ import { useRef } from 'react'
 import { FormFieldSet } from '../..'
 import { RepoSettingsGeneralForm } from './repo-settings-general/repo-settings-general-form'
 import { RepoSettingsGeneralRules } from './repo-settings-general/repo-settings-general-rules'
-<<<<<<< HEAD
-import {
-  RepoSettingsSecurityForm,
-  RepoSettingsSecurityFormFields
-} from './repo-settings-general/repo-settings-general-security'
-import { RepoSettingsGeneralDelete } from './repo-settings-general/repo-settings-general-delete'
-import { RepoData, RepoUpdateData, ErrorTypes, RuleDataType } from './repo-settings-general/types'
-=======
 import type { RepoSettingsSecurityFormFields } from './repo-settings-general/repo-settings-general-security'
 import { RepoSettingsSecurityForm } from './repo-settings-general/repo-settings-general-security'
 import { RepoSettingsGeneralDelete } from './repo-settings-general/repo-settings-general-delete'
 import type { RepoData, RepoUpdateData, ErrorTypes, RuleDataType } from './repo-settings-general/types'
->>>>>>> 45f591e1 (fix: updated common layout and navbar)
 
 interface ILoadingStates {
   isLoadingRepoData: boolean

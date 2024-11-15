@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-import type React from 'react'
->>>>>>> 45f591e1 (fix: updated common layout and navbar)
 import { useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { isEmpty } from 'lodash-es'
