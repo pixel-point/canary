@@ -8,12 +8,12 @@ interface FiltersProps {
   sortOptions: SortOption[]
   activeFilters: FilterValue[]
   activeSorts: SortValue[]
-  onFilterChange: (filter: Omit<FilterValue, 'condition' | 'selectedValues'>) => void
-  onSortChange: (sort: SortValue) => void
-  onResetFilters: () => void
-  onResetSort: () => void
+  handleFilterChange: (filter: Omit<FilterValue, 'condition' | 'selectedValues'>) => void
+  handleSortChange: (sort: SortValue) => void
+  handleResetFilters: () => void
+  handleResetSorts: () => void
   searchQueries: FilterSearchQueries
-  onSearchChange: (type: string, query: string, searchType: keyof FilterSearchQueries) => void
+  handleSearchChange: (type: string, query: string, searchType: keyof FilterSearchQueries) => void
 }
 
 const Filters = ({
@@ -23,12 +23,12 @@ const Filters = ({
   sortOptions,
   activeFilters,
   activeSorts,
-  onFilterChange,
-  onSortChange,
-  onResetFilters,
-  onResetSort,
+  handleFilterChange,
+  handleSortChange,
+  handleResetFilters,
+  handleResetSorts,
   searchQueries,
-  onSearchChange
+  handleSearchChange
 }: FiltersProps) => {
   return (
     <div className="flex items-center gap-x-5">
@@ -36,10 +36,10 @@ const Filters = ({
         <FilterTrigger
           type="filter"
           activeFilters={activeFilters}
-          onChange={onFilterChange}
-          onReset={onResetFilters}
+          onChange={handleFilterChange}
+          onReset={handleResetFilters}
           searchQueries={searchQueries}
-          onSearchChange={onSearchChange}
+          onSearchChange={handleSearchChange}
           options={filterOptions}
         />
       )}
@@ -48,10 +48,10 @@ const Filters = ({
         <FilterTrigger
           type="sort"
           activeFilters={activeSorts}
-          onChange={onSortChange}
-          onReset={onResetSort}
+          onChange={handleSortChange}
+          onReset={handleResetSorts}
           searchQueries={searchQueries}
-          onSearchChange={onSearchChange}
+          onSearchChange={handleSearchChange}
           options={sortOptions}
         />
       )}

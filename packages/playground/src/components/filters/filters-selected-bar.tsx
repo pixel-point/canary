@@ -59,17 +59,17 @@ interface FiltersSelectedBarProps {
   sortDirections: SortDirection[]
   activeFilters: FilterValue[]
   activeSorts: SortValue[]
-  onRemoveFilter: (type: string) => void
-  onUpdateFilter: (type: string, selectedValues: string[]) => void
-  onUpdateCondition: (type: string, condition: string) => void
-  onUpdateSort: (index: number, sort: SortValue) => void
-  onRemoveSort: (index: number) => void
-  onSortChange: (sort: SortValue) => void
-  onResetSorts: () => void
-  onReorderSorts: (sorts: SortValue[]) => void
-  onResetAll: () => void
+  handleRemoveFilter: (type: string) => void
+  handleUpdateFilter: (type: string, selectedValues: string[]) => void
+  handleUpdateCondition: (type: string, condition: string) => void
+  handleUpdateSort: (index: number, sort: SortValue) => void
+  handleRemoveSort: (index: number) => void
+  handleSortChange: (sort: SortValue) => void
+  handleResetSorts: () => void
+  handleReorderSorts: (sorts: SortValue[]) => void
+  handleResetAll: () => void
   searchQueries: FilterSearchQueries
-  onSearchChange: (type: string, query: string, searchType: keyof FilterSearchQueries) => void
+  handleSearchChange: (type: string, query: string, searchType: keyof FilterSearchQueries) => void
 }
 
 const FiltersSelectedBar = ({
@@ -78,20 +78,19 @@ const FiltersSelectedBar = ({
   sortDirections,
   activeFilters,
   activeSorts,
-  onUpdateFilter,
-  onUpdateCondition,
-  onUpdateSort,
-  onRemoveSort,
-  onSortChange,
-  onResetSorts,
-  onReorderSorts,
-  onResetAll,
+  handleResetSorts,
+  handleUpdateFilter,
+  handleUpdateCondition,
+  handleUpdateSort,
+  handleRemoveSort,
+  handleReorderSorts,
+  handleResetAll,
   searchQueries,
-  onSearchChange
+  handleSearchChange
 }: FiltersSelectedBarProps) => {
   const { handleDragEnd, getItemId } = useDragAndDrop({
     items: activeSorts,
-    onReorder: onReorderSorts
+    onReorder: handleReorderSorts
   })
 
   if (activeFilters.length === 0 && activeSorts.length === 0) return null
@@ -190,8 +189,8 @@ const FiltersSelectedBar = ({
                       id={getItemId(index)}
                       sort={sort}
                       index={index}
-                      onUpdateSort={onUpdateSort}
-                      onRemoveSort={onRemoveSort}
+                      onUpdateSort={handleUpdateSort}
+                      onRemoveSort={handleRemoveSort}
                       sortOptions={sortOptions}
                       sortDirections={sortDirections}
                     />
@@ -214,7 +213,7 @@ const FiltersSelectedBar = ({
                           type="text"
                           placeholder="Sort by..."
                           value={searchQueries.menu.sort || ''}
-                          onChange={e => onSearchChange('sort', e.target.value, 'menu')}
+                          onChange={e => handleSearchChange('sort', e.target.value, 'menu')}
                           onKeyDown={e => e.stopPropagation()}
                           onClick={e => e.preventDefault()}
                         />
@@ -228,7 +227,7 @@ const FiltersSelectedBar = ({
                             className="text-foreground-4 hover:text-foreground-1 flex transition-colors duration-200"
                             onClick={e => {
                               e.preventDefault()
-                              onSearchChange('sort', '', 'menu')
+                              handleSearchChange('sort', '', 'menu')
                             }}>
                             <Icon className="rotate-45" name="plus" size={12} />
                           </button>
@@ -244,7 +243,7 @@ const FiltersSelectedBar = ({
                         )
                         .map(option => (
                           <DropdownMenuItem
-                            onSelect={() => onSortChange?.({ type: option.value, direction: 'desc' })}
+                            onSelect={() => handleUpdateSort(0, { type: option.value, direction: 'desc' })}
                             key={option.value}>
                             {option.label}
                           </DropdownMenuItem>
@@ -265,7 +264,7 @@ const FiltersSelectedBar = ({
                 asChild>
                 <button
                   className="text-14 text-foreground-4 hover:text-foreground-danger flex items-center gap-x-1.5 transition-colors duration-200"
-                  onClick={onResetSorts}>
+                  onClick={handleResetSorts}>
                   <Icon name="trash" size={12} />
                   Delete sort
                 </button>
@@ -311,7 +310,7 @@ const FiltersSelectedBar = ({
                     <DropdownMenuContent align="start">
                       {filterOption.conditions?.map(condition => (
                         <DropdownMenuItem
-                          onSelect={() => onUpdateCondition?.(filter.type, condition.value)}
+                          onSelect={() => handleUpdateCondition(filter.type, condition.value)}
                           key={condition.value}>
                           {condition.label}
                         </DropdownMenuItem>
@@ -341,7 +340,7 @@ const FiltersSelectedBar = ({
                                 className="text-icons-1 hover:text-foreground-1 transition-colors duration-200"
                                 onClick={() => {
                                   const newValues = filter.selectedValues.filter(v => v !== value)
-                                  onUpdateFilter?.(filter.type, newValues)
+                                  handleUpdateFilter(filter.type, newValues)
                                 }}>
                                 <Icon className="rotate-45" name="plus" size={10} />
                               </button>
@@ -355,7 +354,7 @@ const FiltersSelectedBar = ({
                           type="text"
                           placeholder={filter.selectedValues.length > 0 ? '' : 'Select one or more options...'}
                           value={searchQueries.filters[filter.type] || ''}
-                          onChange={e => onSearchChange(filter.type, e.target.value, 'filters')}
+                          onChange={e => handleSearchChange(filter.type, e.target.value, 'filters')}
                           onClick={e => {
                             e.preventDefault()
                           }}
@@ -367,8 +366,8 @@ const FiltersSelectedBar = ({
                       <button
                         className="text-foreground-4 hover:text-foreground-1 flex p-1.5 transition-colors duration-200"
                         onClick={() => {
-                          onUpdateFilter?.(filter.type, [])
-                          onSearchChange(filter.type, '', 'filters')
+                          handleUpdateFilter(filter.type, [])
+                          handleSearchChange(filter.type, '', 'filters')
                         }}>
                         <Icon className="rotate-45" name="plus" size={12} />
                       </button>
@@ -379,11 +378,11 @@ const FiltersSelectedBar = ({
 
               <div>
                 {filter.condition !== 'is_empty' &&
-                  onUpdateFilter &&
+                  handleUpdateFilter &&
                   renderFilterValues(
                     filter,
                     filterOption,
-                    onUpdateFilter,
+                    handleUpdateFilter,
                     filterOption.type === 'checkbox' ? getFilteredOptions(filterOption, filter) : undefined
                   )}
 
@@ -401,7 +400,7 @@ const FiltersSelectedBar = ({
       {(!!activeFilters.length || !!activeSorts.length) && (
         <button
           className="text-14 text-foreground-4 hover:text-foreground-danger ring-offset-background ml-2.5 flex items-center gap-x-1.5 outline-none ring-offset-2 transition-colors duration-200 focus:ring-2"
-          onClick={onResetAll}>
+          onClick={handleResetAll}>
           <Icon className="rotate-45" name="plus" size={12} />
           Reset
         </button>
