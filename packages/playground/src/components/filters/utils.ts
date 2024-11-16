@@ -8,6 +8,22 @@ import {
   FilterSearchQueries
 } from './types'
 
+/**
+ * Gets the label and icon for the sort trigger button
+ *
+ * @param {SortValue[]} activeSorts - Array of currently active sorts
+ * @param {SortOption[]} sortOptions - Array of available sort options
+ * @returns {{ label: string, icon: string, isDescending?: boolean }} Object containing:
+ *   - label: Display text for the trigger
+ *   - icon: Icon name to display
+ *   - isDescending: Whether the sort is in descending order (for single sort)
+ *
+ * @description
+ * Returns different configurations based on number of active sorts:
+ * - No sorts: Empty label with default icon
+ * - Single sort: Sort option label with direction indicator
+ * - Multiple sorts: Count of active sorts with default icon
+ */
 export const getSortTriggerLabel = (activeSorts: SortValue[], sortOptions: SortOption[]) => {
   if (activeSorts.length === 0) return { label: '', icon: 'circle-arrows-updown' as const }
 
@@ -29,6 +45,20 @@ export const getSortTriggerLabel = (activeSorts: SortValue[], sortOptions: SortO
   }
 }
 
+/**
+ * Formats the display value for a filter based on its type and selected values
+ *
+ * @param {FilterOption} filterOption - The filter option configuration
+ * @param {FilterValue} filter - The current filter state
+ * @returns {string} Formatted display value for the filter
+ *
+ * @description
+ * Handles different filter types:
+ * - Checkbox: Joins selected option labels with commas
+ * - Calendar: Formats dates based on whether they're in current year
+ *   - Single date: "MMM d" or "MMM d, yyyy"
+ *   - Date range: "MMM d - MMM d" or "MMM d, yyyy - MMM d, yyyy"
+ */
 export const getFilterDisplayValue = (filterOption: FilterOption, filter: FilterValue): string => {
   switch (filterOption.type) {
     case 'checkbox':
@@ -59,6 +89,21 @@ export const getFilterDisplayValue = (filterOption: FilterOption, filter: Filter
   }
 }
 
+/**
+ * Filters options based on search query for a specific filter type
+ *
+ * @param {FilterOption} filterOption - The filter option configuration
+ * @param {FilterValue} filter - The current filter state
+ * @param {FilterSearchQueries} searchQueries - Object containing search queries for different filters
+ * @returns {Array} Filtered array of options based on search query
+ *
+ * @description
+ * Currently supports:
+ * - Checkbox filters: Filters options based on label matching search query
+ * - Other filter types: Returns empty array
+ *
+ * Search is case-insensitive and matches partial strings
+ */
 export const getFilteredOptions = (
   filterOption: FilterOption,
   filter: FilterValue,
