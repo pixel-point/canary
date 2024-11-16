@@ -3,7 +3,16 @@ import { parse } from 'yaml'
 import { omit } from 'lodash-es'
 import { inputComponentFactory, InputType } from '@harnessio/views'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Spacer, DialogHeader, DialogTitle, DialogDescription, DialogFooter, Button } from '@harnessio/canary'
+import {
+  Spacer,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  Button,
+  Alert,
+  AlertDescription
+} from '@harnessio/canary'
 import {
   IInputDefinition,
   RenderForm,
@@ -16,7 +25,8 @@ import {
   findPipeline,
   getContent,
   useCreateExecutionMutation,
-  useListBranchesQuery
+  useListBranchesQuery,
+  UsererrorError
 } from '@harnessio/code-service-client'
 import { PipelineParams } from '../pipeline-edit/context/PipelineStudioDataProvider'
 import { decodeGitContent, normalizeGitRef } from '../../utils/git-utils'
@@ -43,6 +53,7 @@ export default function RunPipelineForm({
 
   const [loading, setLoading] = useState(true)
   const [pipeline, setPipeline] = useState<Record<string, unknown>>({})
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const repoRef = useGetRepoRef()
   const { data: branches, isLoading: listBranchesLoading } = useListBranchesQuery({
@@ -52,28 +63,38 @@ export default function RunPipelineForm({
 
   useEffect(() => {
     findPipeline({ pipeline_identifier: pipelineId ?? pipelineIdFromParams, repo_ref: repoRef })
-      .then(({ body: pipelineData }) => {
-        getContent({
-          path: pipelineData?.config_path ?? '',
-          repo_ref: repoRef,
-          queryParams: {
-            git_ref: normalizeGitRef(branch ?? pipelineData?.default_branch) ?? '',
-            include_commit: true
-          }
-        }).then(({ body: pipelineFileContent }) => {
-          try {
-            const pipelineObj = parse(decodeGitContent(pipelineFileContent?.content?.data))
-            setPipeline(pipelineObj)
-          } catch (ex) {
-            // TODO: toast
-            console.error(ex)
-          }
-          setLoading(false)
-        })
-      })
-      .catch(ex => {
-        // TODO: toast
-        console.log(ex)
+      .then(
+        ({ body: pipelineData }) => {
+          getContent({
+            path: pipelineData?.config_path ?? '',
+            repo_ref: repoRef,
+            queryParams: {
+              git_ref: normalizeGitRef(branch ?? pipelineData?.default_branch) ?? '',
+              include_commit: true
+            }
+          })
+            .then(
+              ({ body: pipelineFileContent }) => {
+                try {
+                  const pipelineObj = parse(decodeGitContent(pipelineFileContent?.content?.data))
+                  setPipeline(pipelineObj)
+                } catch (ex: unknown) {
+                  setErrorMessage((ex as UsererrorError)?.message || null)
+                }
+              },
+              ex => {
+                setErrorMessage(ex.message)
+              }
+            )
+            .finally(() => {
+              setLoading(false)
+            })
+        },
+        ex => {
+          setErrorMessage(ex.message)
+        }
+      )
+      .finally(() => {
         setLoading(false)
       })
   }, [pipelineId, repoRef])
@@ -105,16 +126,27 @@ export default function RunPipelineForm({
       queryParams: { branch: branch },
       body: inputsValues
     })
-      .then(response => {
-        requestClose()
-        const executionId = response.body.number
-        navigate(`${toExecutions}/${executionId}`)
-        // TODO: toast here ?
+      .then(
+        response => {
+          requestClose()
+          const executionId = response.body.number
+          navigate(`${toExecutions}/${executionId}`)
+        },
+        ex => {
+          setErrorMessage(ex.message)
+        }
+      )
+      .finally(() => {
+        setLoading(false)
       })
-      .catch(error => {
-        console.error(error)
-        // TODO: error toast here ?
-      })
+  }
+
+  if (errorMessage) {
+    return (
+      <Alert variant="destructive" className="my-8">
+        <AlertDescription>{errorMessage}</AlertDescription>
+      </Alert>
+    )
   }
 
   if (loading || listBranchesLoading) {
