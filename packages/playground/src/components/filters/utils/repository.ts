@@ -1,3 +1,6 @@
+// TODO: requires optimization and refactoring:
+// - functions must work with any data
+// - functions must be pure
 import { formatDistanceToNow } from 'date-fns'
 import type { Repository } from '../../../types/repository'
 import type { FilterValue, SortValue } from '../types'

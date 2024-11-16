@@ -1,3 +1,4 @@
+// TODO: requires optimization and refactoring this component
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,7 +27,6 @@ import DateFilter from './variants/filter-date'
 import CheckboxFilter from './variants/filter-checkbox'
 import { format } from 'date-fns'
 
-// TODO: requires optimization and refactoring
 const renderFilterValues = (
   filter: FilterValue,
   filterOption: FilterOption,
