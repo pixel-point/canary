@@ -298,7 +298,13 @@ function SandboxRepoListPage() {
             {...filterHandlers}
           />
           <Spacer size={5} />
-          <RepoList repos={reposWithFormattedDates} LinkComponent={LinkComponent} />
+
+          <RepoList
+            repos={reposWithFormattedDates}
+            LinkComponent={LinkComponent}
+            handleResetFilters={filterHandlers.handleResetFilters}
+            hasActiveFilters={filterHandlers.activeFilters.length > 0}
+          />
           <Spacer size={8} />
           {loadState === 'data-loaded' && (
             <ListPagination.Root>
@@ -339,6 +345,7 @@ function SandboxRepoListPage() {
               </Pagination>
             </ListPagination.Root>
           )}
+
           <PlaygroundSandboxLayoutSettings loadState={loadState} setLoadState={setLoadState} />
         </SandboxLayout.Content>
       </SandboxLayout.Main>
