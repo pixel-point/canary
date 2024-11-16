@@ -20,16 +20,11 @@ import { mockRepos } from '../data/mockReposData'
 import { SandboxLayout } from '../index'
 import { PlaygroundSandboxLayoutSettings } from '../settings/sandbox-settings'
 import { Filters, FiltersSelectedBar } from '../components/filters'
-import type { SortDirection } from '../components/filters/types'
 import useFilters from '../components/filters/use-filters'
 
 import { getFilteredRepos, getFormattedReposWithDate, getSortedRepos } from '../components/filters/utils/repository'
 import { FILTER_OPTIONS, SORT_OPTIONS } from '../components/filters/constants/filter-and-sort-repo'
-
-const SORT_DIRECTIONS: SortDirection[] = [
-  { label: 'Ascending', value: 'asc' },
-  { label: 'Descending', value: 'desc' }
-]
+import { SORT_DIRECTIONS } from '../components/filters/constants/sort'
 
 function SandboxRepoListPage() {
   const [loadState, setLoadState] = useState('float')

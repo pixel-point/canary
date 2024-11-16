@@ -1,4 +1,4 @@
-import type { FilterOption, SortOption, SortDirection } from '../types'
+import type { FilterOption, SortOption } from '../types'
 import { BASIC_CONDITIONS, RANGE_CONDITIONS } from './conditions'
 
 /**
@@ -10,14 +10,6 @@ export const SORT_OPTIONS: SortOption[] = [
   { label: 'Forks', value: 'forks' },
   { label: 'Pull Requests', value: 'pulls' },
   { label: 'Title', value: 'title' }
-]
-
-/**
- * Available sort directions
- */
-export const SORT_DIRECTIONS: SortDirection[] = [
-  { label: 'Ascending', value: 'asc' },
-  { label: 'Descending', value: 'desc' }
 ]
 
 /**
