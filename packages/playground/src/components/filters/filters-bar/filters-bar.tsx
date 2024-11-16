@@ -14,6 +14,7 @@ interface FiltersBarProps {
   sortDirections: SortDirection[]
 
   handleUpdateFilter: (type: string, selectedValues: string[]) => void
+  handleRemoveFilter: (type: string) => void
   handleUpdateCondition: (type: string, condition: string) => void
   handleUpdateSort: (index: number, sort: SortValue) => void
   handleRemoveSort: (index: number) => void
@@ -34,6 +35,7 @@ const FiltersBar = ({
   handleResetSorts,
   handleSortChange,
   handleUpdateFilter,
+  handleRemoveFilter,
   handleUpdateCondition,
   handleUpdateSort,
   handleRemoveSort,
@@ -69,6 +71,7 @@ const FiltersBar = ({
             filter={filter}
             filterOptions={filterOptions}
             handleUpdateFilter={handleUpdateFilter}
+            handleRemoveFilter={handleRemoveFilter}
             handleUpdateCondition={handleUpdateCondition}
             handleSearchChange={handleSearchChange}
             searchQueries={searchQueries}

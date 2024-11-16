@@ -45,6 +45,7 @@ interface FiltersProps {
   filter: FilterValue
   filterOptions: FilterOption[]
   handleUpdateFilter: ((type: string, selectedValues: string[]) => void) | undefined
+  handleRemoveFilter: ((type: string) => void) | undefined
   handleUpdateCondition: ((type: string, condition: string) => void) | undefined
   handleSearchChange: ((type: string, value: string, searchType: 'filters') => void) | undefined
   searchQueries: FilterSearchQueries
@@ -55,6 +56,7 @@ const Filters = ({
   filterOptions,
   handleUpdateFilter,
   handleUpdateCondition,
+  handleRemoveFilter,
   handleSearchChange,
   searchQueries
 }: FiltersProps) => {
@@ -79,30 +81,52 @@ const Filters = ({
           'w-max': filterOption.type === 'calendar'
         })}
         align="start">
-        <div className="flex items-center justify-between px-3 pt-2.5">
-          <div className="flex items-center gap-x-2">
-            <span className="text-foreground-4 text-14">{filterOption.label}</span>
+        <div className="flex items-center justify-between px-3 py-2.5">
+          <div className="flex w-full items-center justify-between gap-x-2">
+            <div className="flex items-center gap-x-2">
+              <span className="text-foreground-4 text-14">{filterOption.label}</span>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger className="bg-background-3 text-foreground-2 text-14 flex h-[18px] items-center gap-x-1 rounded pl-1.5 pr-1">
+                  {filterOption.conditions?.find(c => c.value === filter.condition)?.label}
+                  <Icon className="chevron-down text-icons-1" name="chevron-down" size={10} />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start">
+                  {filterOption.conditions?.map(condition => (
+                    <DropdownMenuItem
+                      onSelect={() => handleUpdateCondition?.(filter.type, condition.value)}
+                      key={condition.value}>
+                      {condition.label}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
 
             <DropdownMenu>
-              <DropdownMenuTrigger className="bg-background-3 text-foreground-2 text-14 flex h-[18px] items-center gap-x-1 rounded pl-1.5 pr-1">
-                {filterOption.conditions?.find(c => c.value === filter.condition)?.label}
-                <Icon className="chevron-down text-icons-1" name="chevron-down" size={10} />
+              <DropdownMenuTrigger className="group flex h-[18px] items-center px-1">
+                <Icon
+                  className="text-icons-1 group-hover:text-foreground-1 transition-colors duration-200"
+                  name="more-dots-fill"
+                  size={12}
+                />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start">
-                {filterOption.conditions?.map(condition => (
-                  <DropdownMenuItem
-                    onSelect={() => handleUpdateCondition?.(filter.type, condition.value)}
-                    key={condition.value}>
-                    {condition.label}
-                  </DropdownMenuItem>
-                ))}
+                <DropdownMenuItem
+                  className="focus:text-foreground-danger focus:bg-transparent focus:outline-none"
+                  onSelect={() => handleRemoveFilter?.(filter.type)}>
+                  <button className="text-14 text-foreground-4 hover:text-foreground-danger flex items-center gap-x-1.5 transition-colors duration-200">
+                    <Icon name="trash" size={12} />
+                    Delete filter
+                  </button>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
         </div>
 
         {filter.condition !== 'is_empty' && filterOption.type === 'checkbox' && (
-          <div className="border-borders-1 border-b px-3 py-2.5">
+          <div className="border-borders-1 border-b px-3 pb-2.5">
             <div
               className={cn(
                 'border-border-2 focus-within:border-borders-3 flex min-h-8 justify-between gap-x-1 rounded border px-2.5 py-[3px] outline-none transition-colors duration-200 focus-within:border',

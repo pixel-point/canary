@@ -8,6 +8,7 @@ import Harness from '../icons/harness.svg'
 import Pipelines from '../icons/pipelines-icon.svg'
 import FeaturedFlags from '../icons/featured-flags-icon.svg'
 import Ellipsis from '../icons/more-dots-icon.svg'
+import MoreDotsFill from '../icons/more-dots-fill-icon.svg'
 import Repositories from '../icons/repositories-icon.svg'
 import ChaosEngineering from '../icons/chaos-engineering-icon.svg'
 import Environment from '../icons/environment-icon.svg'
@@ -271,7 +272,8 @@ const IconNameMap = {
   'grid-dots': GridDots,
   'circle-arrow-top': CircleArrowTop,
   'circle-arrows-updown': CircleArrowsUpDown,
-  'chevron-fill-down': ChevronFillDown
+  'chevron-fill-down': ChevronFillDown,
+  'more-dots-fill': MoreDotsFill
   // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 
