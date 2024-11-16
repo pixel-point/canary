@@ -59,15 +59,15 @@ interface FiltersSelectedBarProps {
   sortDirections: SortDirection[]
   activeFilters: FilterValue[]
   activeSorts: SortValue[]
-  onRemoveFilter?: (type: string) => void
-  onUpdateFilter?: (type: string, selectedValues: string[]) => void
-  onUpdateCondition?: (type: string, condition: string) => void
-  onUpdateSort?: (index: number, sort: SortValue) => void
-  onRemoveSort?: (index: number) => void
-  onSortChange?: (sort: SortValue) => void
-  onResetSorts?: () => void
-  onReorderSorts?: (sorts: SortValue[]) => void
-  onResetAll?: () => void
+  onRemoveFilter: (type: string) => void
+  onUpdateFilter: (type: string, selectedValues: string[]) => void
+  onUpdateCondition: (type: string, condition: string) => void
+  onUpdateSort: (index: number, sort: SortValue) => void
+  onRemoveSort: (index: number) => void
+  onSortChange: (sort: SortValue) => void
+  onResetSorts: () => void
+  onReorderSorts: (sorts: SortValue[]) => void
+  onResetAll: () => void
   searchQueries: FilterSearchQueries
   onSearchChange: (type: string, query: string, searchType: keyof FilterSearchQueries) => void
 }
