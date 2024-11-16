@@ -36,7 +36,7 @@ interface UseDragAndDropProps<T> {
  * )
  * ```
  */
-export const useDragAndDrop = <T extends { type: string }>({ items, onReorder }: UseDragAndDropProps<T>) => {
+const useDragAndDrop = <T extends { type: string }>({ items, onReorder }: UseDragAndDropProps<T>) => {
   /**
    * Handles the end of a drag operation
    * Calculates new positions and calls onReorder with updated items array
@@ -76,3 +76,5 @@ export const useDragAndDrop = <T extends { type: string }>({ items, onReorder }:
     getItemId
   }
 }
+
+export default useDragAndDrop

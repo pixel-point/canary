@@ -5,10 +5,10 @@ interface FilterOptionBase {
   conditions?: FilterCondition[]
 }
 
-type FilterOption = CheckboxFilterOption | DateFilterOption
+type FilterOption = CalendarFilterOption | CheckboxFilterOption
 
-interface DateFilterOption extends FilterOptionBase {
-  type: 'date'
+interface CalendarFilterOption extends FilterOptionBase {
+  type: 'calendar'
 }
 
 interface CheckboxFilterOption extends FilterOptionBase {
@@ -52,7 +52,7 @@ interface FilterSearchQueries {
 
 export type {
   FilterOption,
-  DateFilterOption,
+  CalendarFilterOption,
   CheckboxFilterOption,
   FilterCondition,
   FilterValue,

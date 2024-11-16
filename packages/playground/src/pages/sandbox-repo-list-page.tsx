@@ -21,7 +21,7 @@ import { SandboxLayout } from '../index'
 import { PlaygroundSandboxLayoutSettings } from '../settings/sandbox-settings'
 import {
   Filters,
-  FiltersSelectedBar,
+  FiltersBar,
   type FilterCondition,
   type FilterOption,
   type SortDirection,
@@ -62,7 +62,7 @@ const FILTER_OPTIONS: FilterOption[] = [
   {
     label: 'Created time',
     value: 'created_time',
-    type: 'date',
+    type: 'calendar',
     conditions: RANGE_CONDITIONS
   }
 ]
@@ -291,7 +291,7 @@ function SandboxRepoListPage() {
             </ListActions.Right>
           </ListActions.Root>
           {(filterHandlers.activeFilters.length > 0 || filterHandlers.activeSorts.length > 0) && <Spacer size={2} />}
-          <FiltersSelectedBar
+          <FiltersBar
             filterOptions={FILTER_OPTIONS}
             sortOptions={SORT_OPTIONS}
             sortDirections={SORT_DIRECTIONS}

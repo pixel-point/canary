@@ -72,16 +72,6 @@ const useFilters = () => {
     )
   }
 
-  /**
-   * Removes a filter from the active filters list
-   * @param type - The type of filter to remove (e.g., 'type', 'language')
-   *
-   * Filters out the specified filter type while keeping all others
-   */
-  const handleRemoveFilter = (type: string) => {
-    setActiveFilters(prevFilters => prevFilters.filter(filter => filter.type !== type))
-  }
-
   const handleResetFilters = () => {
     setActiveFilters([])
   }
@@ -164,7 +154,6 @@ const useFilters = () => {
     handleFilterChange,
     handleUpdateFilter,
     handleUpdateCondition,
-    handleRemoveFilter,
     handleSortChange,
     handleUpdateSort,
     handleRemoveSort,

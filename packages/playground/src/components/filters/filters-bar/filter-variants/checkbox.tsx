@@ -1,5 +1,5 @@
 import { DropdownMenuCheckboxItem } from '@harnessio/canary'
-import { CheckboxFilterOption, FilterValue } from '../types'
+import { CheckboxFilterOption, FilterValue } from '../../types'
 
 interface CheckboxFilterProps {
   filter: FilterValue
@@ -7,7 +7,7 @@ interface CheckboxFilterProps {
   onUpdateFilter: (type: string, selectedValues: string[]) => void
 }
 
-const CheckboxFilter = ({ filter, filterOption, onUpdateFilter }: CheckboxFilterProps) => {
+const Checkbox = ({ filter, filterOption, onUpdateFilter }: CheckboxFilterProps) => {
   return (
     <div className="px-2 py-1">
       {filterOption.options.map(option => (
@@ -30,4 +30,4 @@ const CheckboxFilter = ({ filter, filterOption, onUpdateFilter }: CheckboxFilter
   )
 }
 
-export default CheckboxFilter
+export default Checkbox
