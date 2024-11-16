@@ -20,10 +20,10 @@ import type {
   SortValue
 } from './types'
 
-import { useDragAndDrop } from '../../hooks/useDragAndDrop'
+import { useDragAndDrop } from '../../hooks/use-drag-and-drop'
 import { DndContext, closestCenter } from '@dnd-kit/core'
-import DateFilter from './filter-types/filter-date'
-import CheckboxFilter from './filter-types/filter-checkbox'
+import DateFilter from './variants/filter-date'
+import CheckboxFilter from './variants/filter-checkbox'
 import { format } from 'date-fns'
 
 // TODO: requires optimization and refactoring
@@ -118,8 +118,7 @@ const FiltersSelectedBar = ({
   }
 
   const filteredBySearchSortOptions = sortOptions.filter(
-    option =>
-      !searchQueries.menu['sort'] || option.label.toLowerCase().includes(searchQueries.menu['sort'].toLowerCase())
+    option => !searchQueries.menu.sort || option.label.toLowerCase().includes(searchQueries.menu.sort.toLowerCase())
   )
 
   const getFilteredOptions = (filterOption: FilterOption, filter: FilterValue) => {
@@ -137,7 +136,12 @@ const FiltersSelectedBar = ({
     switch (filterOption.type) {
       case 'checkbox':
         return filter.selectedValues
-          .map(value => (filterOption as CheckboxFilterOption).options.find(opt => opt.value === value)?.label)
+          .map(
+            value =>
+              (filterOption as CheckboxFilterOption).options.find(
+                (opt: { label: string; value: string }) => opt.value === value
+              )?.label
+          )
           .join(', ')
       case 'date': {
         if (filter.selectedValues.length === 0) return ''
@@ -209,7 +213,7 @@ const FiltersSelectedBar = ({
                         <Input
                           type="text"
                           placeholder="Sort by..."
-                          value={searchQueries.menu['sort'] || ''}
+                          value={searchQueries.menu.sort || ''}
                           onChange={e => onSearchChange('sort', e.target.value, 'menu')}
                           onKeyDown={e => e.stopPropagation()}
                           onClick={e => e.preventDefault()}
@@ -236,7 +240,7 @@ const FiltersSelectedBar = ({
                         .filter(
                           option =>
                             !activeSorts.some(sort => sort.type === option.value) &&
-                            option.label.toLowerCase().includes(searchQueries.menu['sort']?.toLowerCase() || '')
+                            option.label.toLowerCase().includes((searchQueries.menu.sort || '').toLowerCase())
                         )
                         .map(option => (
                           <DropdownMenuItem

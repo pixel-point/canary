@@ -20,38 +20,11 @@ import { mockRepos } from '../data/mockReposData'
 import { SandboxLayout } from '../index'
 import { PlaygroundSandboxLayoutSettings } from '../settings/sandbox-settings'
 import { Filters, FiltersSelectedBar } from '../components/filters'
-import type { FilterOption, SortDirection, SortOption } from '../components/filters/types'
-import { useFilterAndSort } from '../hooks/useFilterAndSort'
-import { formatDistanceToNow } from 'date-fns'
-import { TYPE_CONDITIONS, DATE_CONDITIONS } from '../components/filters/constants'
+import type { SortDirection } from '../components/filters/types'
+import useFilters from '../components/filters/use-filters'
 
-const FILTER_OPTIONS: FilterOption[] = [
-  {
-    label: 'Type',
-    value: 'type',
-    type: 'checkbox',
-    conditions: TYPE_CONDITIONS,
-    options: [
-      { label: 'Public', value: 'public' },
-      { label: 'Private', value: 'private' },
-      { label: 'Fork', value: 'fork' }
-    ]
-  },
-  {
-    label: 'Created time',
-    value: 'created_time',
-    type: 'date',
-    conditions: DATE_CONDITIONS
-  }
-]
-
-const SORT_OPTIONS: SortOption[] = [
-  { label: 'Last updated', value: 'updated' },
-  { label: 'Stars', value: 'stars' },
-  { label: 'Forks', value: 'forks' },
-  { label: 'Pull Requests', value: 'pulls' },
-  { label: 'Title', value: 'title' }
-]
+import { getFilteredRepos, getFormattedReposWithDate, getSortedRepos } from '../components/filters/utils/repository'
+import { FILTER_OPTIONS, SORT_OPTIONS } from '../components/filters/constants/filter-and-sort-repo'
 
 const SORT_DIRECTIONS: SortDirection[] = [
   { label: 'Ascending', value: 'asc' },
@@ -77,174 +50,15 @@ function SandboxRepoListPage() {
     handleResetAll,
     searchQueries,
     handleSearchChange
-  } = useFilterAndSort()
+  } = useFilters()
+
+  const filteredRepos = getFilteredRepos(mockRepos, activeFilters)
+  const sortedRepos = getSortedRepos(filteredRepos, activeSorts)
+  const reposWithFormattedDates = getFormattedReposWithDate(sortedRepos)
 
   const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => (
     <Link to={`/repos/${to}`}>{children}</Link>
   )
-
-  /**
-   * Filters repositories based on active filters
-   *
-   * @param repo - Repository object to filter
-   * @returns boolean - Whether the repository matches all active filters
-   *
-   * Filter logic:
-   * - If no active filters, returns all repositories
-   * - Applies all active filters (AND condition)
-   * - For type filter:
-   *   - Handles 'private', 'public', and 'fork' types
-   *   - Supports 'is' and 'is not' conditions
-   *   - Ignores empty filters or is_empty/is_not_empty conditions
-   */
-  const filteredRepos = mockRepos.filter(repo => {
-    if (activeFilters.length === 0) return true
-
-    return activeFilters.every(filter => {
-      switch (filter.type) {
-        case 'type': {
-          // Skip empty/not empty conditions for type filter
-          if (filter.condition === 'is_empty' || filter.condition === 'is_not_empty') {
-            return true
-          }
-
-          // Skip if no values selected
-          if (filter.selectedValues.length === 0) {
-            return true
-          }
-
-          // Determine repository types
-          const isPrivate = repo.private
-          const isPublic = !repo.private
-          const isFork = repo.forks > 0
-
-          // Check if repo matches any of the selected type values
-          const matchesType = filter.selectedValues.some(value => {
-            switch (value) {
-              case 'private':
-                return isPrivate
-              case 'public':
-                return isPublic
-              case 'fork':
-                return isFork
-              default:
-                return false
-            }
-          })
-
-          // Apply condition (is/is not)
-          return filter.condition === 'is' ? matchesType : !matchesType
-        }
-
-        case 'created_time': {
-          // Skip if no values selected
-          if (filter.selectedValues.length === 0) {
-            return true
-          }
-
-          // Handle empty conditions
-          if (filter.condition === 'is_empty') {
-            return !repo.createdAt
-          }
-          if (filter.condition === 'is_not_empty') {
-            return !!repo.createdAt
-          }
-
-          const createdDate = new Date(repo.createdAt)
-          const selectedDate = new Date(filter.selectedValues[0])
-
-          // Reset time parts for date-only comparison
-          createdDate.setHours(0, 0, 0, 0)
-          selectedDate.setHours(0, 0, 0, 0)
-
-          switch (filter.condition) {
-            case 'is':
-              return createdDate.getTime() === selectedDate.getTime()
-
-            case 'is_before':
-              return createdDate.getTime() < selectedDate.getTime()
-
-            case 'is_after':
-              return createdDate.getTime() > selectedDate.getTime()
-
-            case 'is_between': {
-              if (filter.selectedValues.length !== 2) return true
-              const endDate = new Date(filter.selectedValues[1])
-              endDate.setHours(0, 0, 0, 0)
-              return createdDate.getTime() >= selectedDate.getTime() && createdDate.getTime() <= endDate.getTime()
-            }
-
-            default:
-              return true
-          }
-        }
-
-        default:
-          return true
-      }
-    })
-  })
-
-  /**
-   * Sorts filtered repositories based on active sorts
-   *
-   * @param a - First repository to compare
-   * @param b - Second repository to compare
-   * @returns number - Comparison result (-1, 0, 1)
-   *
-   * Sort logic:
-   * - Applies multiple sorts in priority order (first sort has highest priority)
-   * - For equal values, moves to next sort criteria
-   * - Supports following sort types:
-   *   - updated: by timestamp
-   *   - stars: by number of stars
-   *   - forks: by number of forks
-   *   - pulls: by number of pull requests
-   *   - title: alphabetically by name
-   * - Each sort supports ascending/descending direction
-   */
-  const sortedRepos = [...filteredRepos].sort((a, b) => {
-    // Iterate through sorts in priority order
-    for (const sort of activeSorts) {
-      const direction = sort.direction === 'asc' ? 1 : -1
-      let comparison = 0
-
-      switch (sort.type) {
-        case 'updated':
-          comparison = (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) * direction
-          break
-        case 'stars':
-          comparison = (b.stars - a.stars) * direction
-          break
-        case 'forks':
-          comparison = (b.forks - a.forks) * direction
-          break
-        case 'pulls':
-          comparison = (b.pulls - a.pulls) * direction
-          break
-        case 'title':
-          comparison = a.name.localeCompare(b.name) * direction
-          break
-        default:
-          comparison = 0
-      }
-
-      // If items are different by current sort criteria, return result
-      if (comparison !== 0) {
-        return comparison
-      }
-    }
-
-    return 0
-  })
-
-  const reposWithFormattedDates = sortedRepos.map(repo => ({
-    ...repo,
-    timestamp: formatDistanceToNow(new Date(repo.createdAt), {
-      addSuffix: true,
-      includeSeconds: true
-    }).replace('about ', '')
-  }))
 
   return (
     <>

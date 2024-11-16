@@ -50,6 +50,11 @@ interface FilterSearchQueries {
   menu: Record<string, string>
 }
 
+interface ConditionOption {
+  label: string
+  value: string
+}
+
 export type {
   FilterOption,
   DateFilterOption,
@@ -59,5 +64,6 @@ export type {
   SortOption,
   SortDirection,
   SortValue,
-  FilterSearchQueries
+  FilterSearchQueries,
+  ConditionOption
 }

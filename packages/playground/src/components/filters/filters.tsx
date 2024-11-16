@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { FilterOption, FilterSearchQueries, FilterValue, SortOption, SortValue } from './types'
 import FilterTrigger from './filter-trigger'
 
@@ -10,7 +8,7 @@ interface FiltersProps {
   sortOptions: SortOption[]
   activeFilters: FilterValue[]
   activeSorts: SortValue[]
-  onFilterChange: (filter: FilterValue) => void
+  onFilterChange: (filter: Omit<FilterValue, 'condition' | 'selectedValues'>) => void
   onSortChange: (sort: SortValue) => void
   onResetFilters: () => void
   onResetSort: () => void

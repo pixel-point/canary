@@ -1,13 +1,13 @@
 import { useCallback, useState } from 'react'
 
-import { FilterValue, SortValue, FilterSearchQueries } from '../components/filters/types'
+import { FilterValue, SortValue, FilterSearchQueries } from './types'
 
-export const useFilterAndSort = () => {
+const useFilters = () => {
   const [activeFilters, setActiveFilters] = useState<FilterValue[]>([])
   const [activeSorts, setActiveSorts] = useState<SortValue[]>([])
   const [searchQueries, setSearchQueries] = useState<FilterSearchQueries>({
-    filters: {},
-    menu: {}
+    filters: {} as Record<string, string>,
+    menu: {} as Record<string, string>
   })
 
   // FILTERS
@@ -20,7 +20,7 @@ export const useFilterAndSort = () => {
    *
    * Only adds the filter if one with the same type doesn't already exist
    */
-  const handleFilterChange = (newFilter: FilterValue) => {
+  const handleFilterChange = (newFilter: Omit<FilterValue, 'condition' | 'selectedValues'>) => {
     setActiveFilters(prevFilters => {
       if (!prevFilters.find(f => f.type === newFilter.type)) {
         return [
@@ -123,9 +123,9 @@ export const useFilterAndSort = () => {
     setActiveSorts(activeSorts.filter((_, i) => i !== index))
   }
 
-  const handleReorderSorts = useCallback((newSorts: SortValue[]) => {
+  const handleReorderSorts = (newSorts: SortValue[]) => {
     setActiveSorts(newSorts)
-  }, [])
+  }
 
   const handleResetSorts = () => {
     setActiveSorts([])
@@ -147,12 +147,12 @@ export const useFilterAndSort = () => {
     }))
   }
 
-  const clearSearchQuery = (filterType: string, searchType: keyof FilterSearchQueries) => {
+  const clearSearchQuery = (type: string, searchType: keyof FilterSearchQueries) => {
     setSearchQueries(prev => ({
       ...prev,
       [searchType]: {
         ...prev[searchType],
-        [filterType]: ''
+        [type]: ''
       }
     }))
   }
@@ -176,3 +176,5 @@ export const useFilterAndSort = () => {
     clearSearchQuery
   }
 }
+
+export default useFilters

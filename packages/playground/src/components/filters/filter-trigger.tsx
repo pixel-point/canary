@@ -1,4 +1,4 @@
-import { FilterOption, FilterValue, SortOption, SortValue } from './types'
+import { FilterOption, FilterValue, SortOption, SortValue, FilterSearchQueries } from './types'
 
 import {
   DropdownMenu,
@@ -8,21 +8,30 @@ import {
   Icon,
   Input
 } from '@harnessio/canary'
-import { FilterSearchQueries } from './types'
 
-interface BaseProps {
-  searchQueries: FilterSearchQueries
-  onSearchChange: (type: string, query: string, searchType: keyof FilterSearchQueries) => void
-  options: FilterOption[] | SortOption[]
-}
-
-interface FilterTriggerProps<T extends FilterValue | SortValue> extends BaseProps {
+interface BaseFilterTriggerProps {
   type: 'filter' | 'sort'
-  activeFilters: T[]
-  onChange: (value: T) => void
+  searchQueries: FilterSearchQueries
   onReset: () => void
-  options: FilterOption[] | SortOption[]
 }
+
+interface FilterTriggerFilterProps extends BaseFilterTriggerProps {
+  type: 'filter'
+  activeFilters: FilterValue[]
+  options: FilterOption[]
+  onChange: (filter: Omit<FilterValue, 'condition' | 'selectedValues'>) => void
+  onSearchChange: (type: string, query: string, searchType: keyof FilterSearchQueries) => void
+}
+
+interface FilterTriggerSortProps extends BaseFilterTriggerProps {
+  type: 'sort'
+  activeFilters: SortValue[]
+  options: SortOption[]
+  onChange: (sort: SortValue) => void
+  onSearchChange: (type: string, query: string, searchType: keyof FilterSearchQueries) => void
+}
+
+type FilterTriggerProps = FilterTriggerFilterProps | FilterTriggerSortProps
 
 const LABELS = {
   filter: {
@@ -37,7 +46,7 @@ const LABELS = {
   }
 }
 
-const FilterTrigger = <T extends FilterValue | SortValue>({
+const FilterTrigger = ({
   type,
   activeFilters,
   onChange,
@@ -45,16 +54,32 @@ const FilterTrigger = <T extends FilterValue | SortValue>({
   searchQueries,
   onSearchChange,
   options
-}: FilterTriggerProps<T>) => {
+}: FilterTriggerProps) => {
   const { label, inputPlaceholder, buttonLabel } = LABELS[type]
 
-  const onChangeOption = (option: FilterOption | SortOption) => {
-    const value =
-      type === 'filter'
-        ? ({ type: option.value, selectedValues: [], condition: 'is' } as FilterValue)
-        : ({ type: option.value, direction: 'desc' } as SortValue)
+  const isFilterOption = (option: FilterOption | SortOption): option is FilterOption => {
+    return 'type' in option && (option as FilterOption).type !== undefined
+  }
 
-    onChange(value as T)
+  const isSortOption = (option: FilterOption | SortOption): option is SortOption => {
+    return !('type' in option)
+  }
+
+  const onChangeOption = (option: FilterOption | SortOption) => {
+    if (type === 'filter') {
+      if (isFilterOption(option)) {
+        onChange({
+          type: option.value
+        })
+      }
+    } else {
+      if (isSortOption(option)) {
+        onChange({
+          type: option.value,
+          direction: 'desc'
+        })
+      }
+    }
   }
 
   const filteredBySearchOptions = options.filter(

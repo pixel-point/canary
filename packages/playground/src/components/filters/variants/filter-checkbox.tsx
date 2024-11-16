@@ -4,7 +4,7 @@ import { CheckboxFilterOption, FilterValue } from '../types'
 interface CheckboxFilterProps {
   filter: FilterValue
   filterOption: CheckboxFilterOption
-  onUpdateFilter: (type: string, values: string[]) => void
+  onUpdateFilter: (type: string, selectedValues: string[]) => void
 }
 
 const CheckboxFilter = ({ filter, filterOption, onUpdateFilter }: CheckboxFilterProps) => {

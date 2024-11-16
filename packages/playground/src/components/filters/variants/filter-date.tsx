@@ -4,7 +4,7 @@ import { FilterValue } from '../types'
 
 interface DateFilterProps {
   filter: FilterValue
-  onUpdateFilter: (type: string, values: string[]) => void
+  onUpdateFilter: (type: string, selectedValues: string[]) => void
 }
 
 const DateFilter = ({ filter, onUpdateFilter }: DateFilterProps) => {
