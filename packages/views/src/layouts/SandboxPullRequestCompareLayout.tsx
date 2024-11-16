@@ -253,7 +253,7 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
           </Layout.Vertical>
         ) : (
           <NoData
-            title={'Compare and review about anything'}
+            title={'Compare and review just about anything'}
             description={['Branches, tags, commit ranges, and time ranges. In the same repository and across forks.']}
           />
         )}

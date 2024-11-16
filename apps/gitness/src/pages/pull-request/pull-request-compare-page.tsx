@@ -191,6 +191,7 @@ export const CreatePullRequest = () => {
   }
   useEffect(() => {
     // useMergeCheckMutation
+    setApiError(null)
     mergeCheck({ queryParams: {}, repo_ref: repoRef, range: diffApiPath })
       .then(({ body: value }) => {
         setMergeabilty(value?.mergeable)

@@ -32,7 +32,7 @@ interface GitCommitFormProps {
   violation: boolean
   bypassable: boolean
   defaultBranch?: string
-  isNew: boolean
+  isFileNameRequired: boolean
 }
 
 export enum CommitToGitRefOption {
@@ -77,7 +77,7 @@ export function GitCommitForm({
   violation,
   bypassable,
   defaultBranch,
-  isNew
+  isFileNameRequired
 }: GitCommitFormProps) {
   const { setAllStates } = useRuleViolationCheck()
   const form = useZodForm({
@@ -87,12 +87,29 @@ export function GitCommitForm({
       message: '',
       description: '',
       newBranchName: '',
-      fileName: isNew ? '' : undefined
+      fileName: isFileNameRequired ? '' : undefined
     }
   }) as UseFormReturn<GitCommitFormType>
 
   return (
     <Form className="space-y-6" form={form} onSubmit={onSubmit}>
+      <div className="grid gap-2">
+        {isFileNameRequired && (
+          <FormField
+            control={form.control}
+            name="fileName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-primary">File Name</FormLabel>
+                <FormControl>
+                  <Input className="text-primary" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+      </div>
       <div className="grid gap-2">
         <FormField
           control={form.control}
@@ -121,21 +138,6 @@ export function GitCommitForm({
           </FormItem>
         )}
       />
-
-      {isNew && (
-        <FormField
-          control={form.control}
-          name="fileName"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Textarea className="text-primary" {...field} placeholder="Name your file" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      )}
 
       <FormField
         control={form.control}
