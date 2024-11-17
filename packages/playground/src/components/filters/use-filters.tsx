@@ -20,14 +20,17 @@ const useFilters = () => {
    *
    * Only adds the filter if one with the same type doesn't already exist
    */
-  const handleFilterChange = (newFilter: Omit<FilterValue, 'condition' | 'selectedValues'>) => {
+  const handleFilterChange = (
+    newFilter: Omit<FilterValue, 'condition' | 'selectedValues'>,
+    defaultCondition = 'is'
+  ) => {
     setActiveFilters(prevFilters => {
       if (!prevFilters.find(f => f.type === newFilter.type)) {
         return [
           ...prevFilters,
           {
             ...newFilter,
-            condition: 'is',
+            condition: defaultCondition,
             selectedValues: []
           }
         ]

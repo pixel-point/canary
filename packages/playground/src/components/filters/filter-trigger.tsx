@@ -19,7 +19,7 @@ interface FilterTriggerFilterProps extends BaseFilterTriggerProps {
   type: 'filter'
   activeFilters: FilterValue[]
   options: FilterOption[]
-  onChange: (filter: Omit<FilterValue, 'condition' | 'selectedValues'>) => void
+  onChange: (filter: Omit<FilterValue, 'condition' | 'selectedValues'>, defaultCondition?: string) => void
   onSearchChange: (type: string, query: string, searchType: keyof FilterSearchQueries) => void
 }
 
@@ -68,9 +68,12 @@ const FilterTrigger = ({
   const onChangeOption = (option: FilterOption | SortOption) => {
     if (type === 'filter') {
       if (isFilterOption(option)) {
-        onChange({
-          type: option.value
-        })
+        onChange(
+          {
+            type: option.value
+          },
+          option.conditions?.[0].value
+        )
       }
     } else {
       if (isSortOption(option)) {

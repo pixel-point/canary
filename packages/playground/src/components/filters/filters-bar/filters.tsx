@@ -13,6 +13,7 @@ import type { FilterValue, FilterOption, FilterSearchQueries, CheckboxFilterOpti
 import Calendar from './filter-variants/calendar'
 import Checkbox from './filter-variants/checkbox'
 import Text from './filter-variants/text'
+import Number from './filter-variants/number'
 import { getFilterDisplayValue, getFilteredOptions } from '../utils'
 
 const renderFilterValues = (
@@ -39,6 +40,8 @@ const renderFilterValues = (
       return <Calendar filter={filter} onUpdateFilter={onUpdateFilter} />
     case 'text':
       return <Text filter={filter} onUpdateFilter={onUpdateFilter} />
+    case 'number':
+      return <Number filter={filter} onUpdateFilter={onUpdateFilter} />
     default:
       return null
   }
@@ -69,7 +72,7 @@ const Filters = ({
   return (
     <DropdownMenu key={filter.type}>
       <DropdownMenuTrigger className="bg-background-3 hover:bg-background-8 flex h-8 items-center gap-x-3 rounded pl-2.5 pr-2 transition-colors duration-200">
-        <div className="text-13">
+        <div className="text-13 flex items-center gap-x-1.5">
           <span className="text-foreground-1">
             {filterOption.label}
             {!!filter.selectedValues.length && ': '}

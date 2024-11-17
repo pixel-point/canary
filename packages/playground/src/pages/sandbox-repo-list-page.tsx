@@ -58,6 +58,17 @@ const TEXT_CONDITIONS: FilterCondition[] = [
   { label: 'is not empty', value: 'is_not_empty' }
 ]
 
+const NUMBER_CONDITIONS: FilterCondition[] = [
+  { label: '=', value: 'equals' },
+  { label: '≠', value: 'not_equals' },
+  { label: '>', value: 'greater' },
+  { label: '<', value: 'less' },
+  { label: '≥', value: 'greater_equals' },
+  { label: '≤', value: 'less_equals' },
+  { label: 'Is empty', value: 'is_empty' },
+  { label: 'Is not empty', value: 'is_not_empty' }
+]
+
 const FILTER_OPTIONS: FilterOption[] = [
   {
     label: 'Type',
@@ -81,6 +92,12 @@ const FILTER_OPTIONS: FilterOption[] = [
     value: 'name',
     type: 'text',
     conditions: TEXT_CONDITIONS
+  },
+  {
+    label: 'Stars',
+    value: 'stars',
+    type: 'number',
+    conditions: NUMBER_CONDITIONS
   }
 ]
 
@@ -231,6 +248,39 @@ function SandboxRepoListPage() {
               return name.startsWith(value)
             case 'ends_with':
               return name.endsWith(value)
+            default:
+              return true
+          }
+        }
+
+        case 'stars': {
+          if (filter.condition === 'is_empty') {
+            return !repo.stars
+          }
+          if (filter.condition === 'is_not_empty') {
+            return !!repo.stars
+          }
+
+          if (filter.selectedValues.length === 0) {
+            return true
+          }
+
+          const filterValue = Number(filter.selectedValues[0])
+          const repoValue = repo.stars || 0
+
+          switch (filter.condition) {
+            case 'equals':
+              return repoValue === filterValue
+            case 'not_equals':
+              return repoValue !== filterValue
+            case 'greater':
+              return repoValue > filterValue
+            case 'less':
+              return repoValue < filterValue
+            case 'greater_equals':
+              return repoValue >= filterValue
+            case 'less_equals':
+              return repoValue <= filterValue
             default:
               return true
           }

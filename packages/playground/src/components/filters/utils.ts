@@ -84,6 +84,12 @@ export const getFilterDisplayValue = (filterOption: FilterOption, filter: Filter
       }
       return `${formatDate(filter.selectedValues[0])} - ${formatDate(filter.selectedValues[1])}`
     }
+    case 'text': {
+      return filter.selectedValues.join(', ')
+    }
+    case 'number': {
+      return filter.selectedValues.join(', ')
+    }
     default:
       return ''
   }
