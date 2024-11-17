@@ -12,6 +12,7 @@ import type { FilterValue, FilterOption, FilterSearchQueries, CheckboxFilterOpti
 
 import Calendar from './filter-variants/calendar'
 import Checkbox from './filter-variants/checkbox'
+import Text from './filter-variants/text'
 import { getFilterDisplayValue, getFilteredOptions } from '../utils'
 
 const renderFilterValues = (
@@ -36,6 +37,8 @@ const renderFilterValues = (
       )
     case 'calendar':
       return <Calendar filter={filter} onUpdateFilter={onUpdateFilter} />
+    case 'text':
+      return <Text filter={filter} onUpdateFilter={onUpdateFilter} />
     default:
       return null
   }

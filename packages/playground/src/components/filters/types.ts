@@ -5,7 +5,7 @@ interface FilterOptionBase {
   conditions?: FilterCondition[]
 }
 
-type FilterOption = CalendarFilterOption | CheckboxFilterOption
+type FilterOption = CalendarFilterOption | CheckboxFilterOption | TextFilterOption
 
 interface CalendarFilterOption extends FilterOptionBase {
   type: 'calendar'
@@ -17,6 +17,10 @@ interface CheckboxFilterOption extends FilterOptionBase {
     label: string
     value: string
   }>
+}
+
+interface TextFilterOption extends FilterOptionBase {
+  type: 'text'
 }
 
 interface FilterCondition {

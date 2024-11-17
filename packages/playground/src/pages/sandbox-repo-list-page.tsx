@@ -47,6 +47,17 @@ export const RANGE_CONDITIONS: FilterCondition[] = [
   { label: 'is not empty', value: 'is_not_empty' }
 ]
 
+const TEXT_CONDITIONS: FilterCondition[] = [
+  { label: 'is', value: 'is' },
+  { label: 'is not', value: 'is_not' },
+  { label: 'contains', value: 'contains' },
+  { label: 'does not contain', value: 'does_not_contain' },
+  { label: 'starts with', value: 'starts_with' },
+  { label: 'ends with', value: 'ends_with' },
+  { label: 'is empty', value: 'is_empty' },
+  { label: 'is not empty', value: 'is_not_empty' }
+]
+
 const FILTER_OPTIONS: FilterOption[] = [
   {
     label: 'Type',
@@ -64,6 +75,12 @@ const FILTER_OPTIONS: FilterOption[] = [
     value: 'created_time',
     type: 'calendar',
     conditions: RANGE_CONDITIONS
+  },
+  {
+    label: 'Name',
+    value: 'name',
+    type: 'text',
+    conditions: TEXT_CONDITIONS
   }
 ]
 
@@ -180,6 +197,40 @@ function SandboxRepoListPage() {
               return createdDate.getTime() >= selectedDate.getTime() && createdDate.getTime() <= endDate.getTime()
             }
 
+            default:
+              return true
+          }
+        }
+
+        case 'name': {
+          if (filter.condition === 'is_empty') {
+            return !repo.name
+          }
+          if (filter.condition === 'is_not_empty') {
+            return !!repo.name
+          }
+
+          // Skip if no values selected
+          if (filter.selectedValues.length === 0) {
+            return true
+          }
+
+          const value = filter.selectedValues[0].toLowerCase()
+          const name = repo.name.toLowerCase()
+
+          switch (filter.condition) {
+            case 'is':
+              return name === value
+            case 'is_not':
+              return name !== value
+            case 'contains':
+              return name.includes(value)
+            case 'does_not_contain':
+              return !name.includes(value)
+            case 'starts_with':
+              return name.startsWith(value)
+            case 'ends_with':
+              return name.endsWith(value)
             default:
               return true
           }
