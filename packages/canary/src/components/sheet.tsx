@@ -16,22 +16,32 @@ const SheetPortal = SheetPrimitive.Portal
 
 interface SheetOverlayProps extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay> {
   modal?: boolean
+  handleClose?: () => void
 }
 
 const SheetOverlay = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Overlay>, SheetOverlayProps>(
-  ({ className, modal, ...props }, ref) =>
-    modal ? (
-      <SheetPrimitive.Overlay
-        className={cn(
-          'bg-background-7/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50',
-          className
-        )}
-        {...props}
-        ref={ref}
+  ({ className, modal, handleClose, ...props }, ref) => {
+    if (modal) {
+      return (
+        <SheetPrimitive.Overlay
+          className={cn(
+            'bg-background-7/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50',
+            className
+          )}
+          {...props}
+          ref={ref}
+        />
+      )
+    }
+
+    return (
+      <div
+        aria-hidden="true"
+        className={cn('bg-background-7/50 fixed left-0 top-0 h-full w-full', className)}
+        onClick={handleClose}
       />
-    ) : (
-      <div className={cn('bg-background-7/50 fixed left-0 top-0 h-full w-full', className)} />
     )
+  }
 )
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
 
@@ -78,13 +88,13 @@ const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Con
     ref
   ) => (
     <SheetPortal>
-      <SheetOverlay modal={modal} className={overlayClassName} />
+      <SheetOverlay modal={modal} className={overlayClassName} handleClose={handleClose ?? props.onClick} />
       <SheetPrimitive.Content ref={ref} className={cn(sheetVariants({ side }), className)} {...props}>
         {children}
         {!hideCloseButton && (
           <SheetPrimitive.Close
             asChild
-            className="absolute right-1.5 top-3 flex items-center justify-center transition-colors disabled:pointer-events-none">
+            className="absolute right-[0.1875rem] top-2 flex items-center justify-center transition-colors disabled:pointer-events-none">
             <Button className="text-icons-4 hover:text-icons-2" variant="custom" size="icon" onClick={handleClose}>
               <Icon name="close" size={16} />
               <span className="sr-only">Close</span>

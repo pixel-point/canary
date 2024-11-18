@@ -3,7 +3,6 @@ import ChevronDown from '../icons/chevron-down.svg'
 import ChevronRight from '../icons/chevron-right.svg'
 import ChevronUp from '../icons/chevron-up.svg'
 import Checkbox from '../icons/checkbox.svg'
-import Archive from '../icons/repositories-icon.svg'
 import Harness from '../icons/harness.svg'
 import Pipelines from '../icons/pipelines-icon.svg'
 import FeaturedFlags from '../icons/featured-flags-icon.svg'
@@ -135,6 +134,7 @@ import GridDots from '../icons/grid-dots.svg'
 import CircleArrowTop from '../icons/circle-arrow-top.svg'
 import CircleArrowsUpDown from '../icons/circle-arrows-updown.svg'
 import ChevronFillDown from '../icons/chevron-fill-down.svg'
+import Execution from '../icons/execution-icon.svg'
 // import Fork from '../icons/fork.svg'
 
 const IconNameMap = {
@@ -147,7 +147,6 @@ const IconNameMap = {
   download: Download,
   clock: Clock,
   checkbox: Checkbox,
-  archive: Archive,
   harness: Harness,
   pipelines: Pipelines,
   'featured-flags': FeaturedFlags,
@@ -273,7 +272,8 @@ const IconNameMap = {
   'circle-arrow-top': CircleArrowTop,
   'circle-arrows-updown': CircleArrowsUpDown,
   'chevron-fill-down': ChevronFillDown,
-  'more-dots-fill': MoreDotsFill
+  'more-dots-fill': MoreDotsFill,
+  execution: Execution
   // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 
