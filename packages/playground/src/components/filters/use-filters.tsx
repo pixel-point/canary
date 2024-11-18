@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 
-import { FilterValue, SortValue, FilterSearchQueries } from './types'
+import { FilterValue, SortValue, FilterSearchQueries, FilterAction } from './types'
 
 const useFilters = () => {
   const [activeFilters, setActiveFilters] = useState<FilterValue[]>([])
@@ -9,6 +9,7 @@ const useFilters = () => {
     filters: {} as Record<string, string>,
     menu: {} as Record<string, string>
   })
+  const [filterToOpen, setFilterToOpen] = useState<FilterAction | null>(null)
 
   // FILTERS
   /**
@@ -25,6 +26,9 @@ const useFilters = () => {
     defaultCondition = 'is'
   ) => {
     setActiveFilters(prevFilters => {
+      // Indicate which filter should be opened
+      setFilterToOpen({ type: newFilter.type, kind: 'filter' })
+
       if (!prevFilters.find(f => f.type === newFilter.type)) {
         return [
           ...prevFilters,
@@ -99,6 +103,9 @@ const useFilters = () => {
    * Only adds the sort if one with the same type doesn't already exist
    */
   const handleSortChange = (newSort: SortValue) => {
+    // Indicate which filter should be opened
+    setFilterToOpen({ type: newSort.type, kind: 'sort' })
+
     if (!activeSorts.find(sort => sort.type === newSort.type)) {
       setActiveSorts([...activeSorts, newSort])
     }
@@ -160,6 +167,11 @@ const useFilters = () => {
     }))
   }
 
+  // Clear the filter to open
+  const clearFilterToOpen = () => {
+    setFilterToOpen(null)
+  }
+
   return {
     activeFilters,
     activeSorts,
@@ -176,7 +188,9 @@ const useFilters = () => {
     handleReorderSorts,
     handleResetAll,
     handleSearchChange,
-    clearSearchQuery
+    clearSearchQuery,
+    filterToOpen,
+    clearFilterToOpen
   }
 }
 

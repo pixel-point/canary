@@ -1,3 +1,10 @@
+type FilterActionKind = 'filter' | 'sort'
+
+interface FilterAction {
+  type: string
+  kind: FilterActionKind
+}
+
 interface FilterOptionBase {
   label: string
   value: string
@@ -59,6 +66,7 @@ interface FilterSearchQueries {
 }
 
 export type {
+  FilterAction,
   FilterOption,
   CalendarFilterOption,
   CheckboxFilterOption,
