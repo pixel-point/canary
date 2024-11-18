@@ -1,8 +1,6 @@
 import { useEffect } from 'react'
 import { SandboxLayout, FormFieldSet } from '..'
 import {
-  Alert,
-  AlertDescription,
   Button,
   ButtonGroup,
   Input,
@@ -17,6 +15,7 @@ import {
   Text,
   Textarea
 } from '@harnessio/canary'
+import { Alert } from '@harnessio/ui/components'
 import type { SubmitHandler } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -222,9 +221,9 @@ const RepoCreatePageForm: React.FC<RepoCreatePageFormProps> = ({
             </FormFieldSet.Root>
 
             {apiError && (
-              <Alert variant="destructive" className="mb-8">
-                <AlertDescription>{apiError?.toString()}</AlertDescription>
-              </Alert>
+              <Alert.Container variant="destructive" className="mb-8">
+                <Alert.Description>{apiError?.toString()}</Alert.Description>
+              </Alert.Container>
             )}
 
             {/* SUBMIT BUTTONS */}

@@ -8,10 +8,30 @@ import PlaygroundBranchesSettings from '../settings/branches-settings'
 import { mockBranchData } from '../data/mockBranchData'
 import { CreateBranchDialog, SandboxLayout } from '..'
 import { noop } from 'lodash-es'
-import type { BranchProps } from '../types/branch'
 
 const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
 const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]
+
+type BranchProps = {
+  id: number
+  name: string
+  sha: string
+  timestamp: string
+  user: {
+    name: string
+    avatarUrl?: string
+  }
+  checks: {
+    done?: number
+    total?: number
+    status?: number
+  }
+  behindAhead: {
+    behind?: number
+    ahead?: number
+    default?: boolean
+  }
+}
 
 export default function SandboxBranchesListPage() {
   const [loadState, setLoadState] = useState('data-loaded')

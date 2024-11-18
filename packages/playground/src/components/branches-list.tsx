@@ -24,7 +24,27 @@ import { CopyButton } from './copy-button'
 import { DivergenceGauge } from './divergence-gauge'
 import { CommitCopyActions } from './commit-copy-actions'
 import { Link } from 'react-router-dom'
-import type { BranchProps } from '../types/branch'
+
+interface BranchProps {
+  id: number
+  name: string
+  sha: string
+  timestamp: string
+  user: {
+    name: string
+    avatarUrl?: string
+  }
+  checks?: {
+    done?: number
+    total?: number
+    status?: number
+  }
+  behindAhead: {
+    behind?: number
+    ahead?: number
+    default?: boolean
+  }
+}
 
 interface PageProps {
   branches: BranchProps[]
