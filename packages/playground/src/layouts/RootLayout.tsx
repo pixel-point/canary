@@ -1,15 +1,16 @@
-import { useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Outlet, useLocation } from 'react-router-dom'
 import { MoreSubmenu } from '../components/more-submenu'
 import type { TypesUser } from './types'
 import { Navbar } from '../components/navbar'
-import { SystemAdminMenu } from '../components/system-admin-menu'
+import { SettingsMenu } from '../components/settings-menu'
 
 interface RootLayoutProps {
   currentUser: TypesUser | undefined
 }
 
 export const RootLayout: React.FC<RootLayoutProps> = ({ currentUser }) => {
+  const location = useLocation()
   const [showMore, setShowMore] = useState(false)
   const [showSystemAdmin, setShowSystemAdmin] = useState(false)
 
@@ -22,6 +23,11 @@ export const RootLayout: React.FC<RootLayoutProps> = ({ currentUser }) => {
     setShowMore(false)
     setShowSystemAdmin(prevState => !prevState)
   }
+
+  useEffect(() => {
+    setShowMore(false)
+    setShowSystemAdmin(false)
+  }, [location])
 
   // const handlePinItem = (item: NavbarItem) => {
   //   setPinnedItems(prevPinnedItems => {
@@ -65,7 +71,7 @@ export const RootLayout: React.FC<RootLayoutProps> = ({ currentUser }) => {
         </main>
       </div>
       <MoreSubmenu showMore={showMore} handleMore={handleMore} />
-      <SystemAdminMenu showSystemAdmin={showSystemAdmin} handleSystemAdmin={handleSystemAdmin} />
+      <SettingsMenu showSystemAdmin={showSystemAdmin} handleSystemAdmin={handleSystemAdmin} />
     </>
   )
 }
