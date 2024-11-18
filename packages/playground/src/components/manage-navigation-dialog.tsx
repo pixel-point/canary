@@ -258,7 +258,7 @@ export const ManageNavigationDialog = ({
             addToPinnedItems={addToPinnedItems}
           />
         </AlertDialogHeader>
-        <ScrollArea className="-mx-5 -mb-5 mt-2">
+        <ScrollArea className="-mx-5 -mb-5 mt-1">
           <div className="px-5 pr-6">
             <Text className="text-foreground-7 inline-block leading-none" size={1}>
               Pinned
@@ -268,7 +268,7 @@ export const ManageNavigationDialog = ({
                 {pinnedItems.map(item => (
                   <li className="relative" key={item.title}>
                     <Button className="w-full grow gap-x-2.5 px-3" variant="ghost">
-                      <Icon name="grid-dots" size={16} />
+                      <Icon className="w-3" name="grid-dots" size={16} />
                       <Text className="text-foreground-8 w-full text-left">{item.title}</Text>
                     </Button>
                     <Button
@@ -296,11 +296,11 @@ export const ManageNavigationDialog = ({
                     Clear all
                   </Button>
                 </div>
-                <ul className="mt-3.5 flex flex-col gap-y-0.5 pb-5">
+                <ul className="mt-3 flex flex-col gap-y-0.5 pb-5">
                   {recentItems.map((item, index) => (
                     <li className="relative flex h-8 items-center" key={`recent-${item.title}-${index}`}>
-                      <div className="flex w-full grow items-center gap-x-2">
-                        <Icon className="text-icons-4" name="pending-clock-inverse" size={12} />
+                      <div className="flex w-full grow items-center gap-x-2.5">
+                        <Icon className="text-icons-4 w-3" name="pending-clock-inverse" size={12} />
                         <Text className="text-foreground-8 w-full text-left">{item.title}</Text>
                       </div>
                       <Button
