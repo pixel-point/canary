@@ -1,6 +1,14 @@
 import { Icon } from '@harnessio/canary'
 
-import type { FilterValue, FilterOption, SortDirection, FilterSearchQueries, SortOption, SortValue } from '../types'
+import type {
+  FilterValue,
+  FilterOption,
+  FilterSearchQueries,
+  SortOption,
+  SortValue,
+  FilterAction,
+  SortDirection
+} from '../types'
 
 import Sorts from './sorts'
 import Filters from './filters'
@@ -24,6 +32,8 @@ interface FiltersBarProps {
   handleResetAll: () => void
   searchQueries: FilterSearchQueries
   handleSearchChange: (type: string, query: string, searchType: keyof FilterSearchQueries) => void
+  filterToOpen: FilterAction | null
+  clearFilterToOpen: () => void
 }
 
 const FiltersBar = ({
@@ -42,7 +52,9 @@ const FiltersBar = ({
   handleReorderSorts,
   handleResetAll,
   searchQueries,
-  handleSearchChange
+  handleSearchChange,
+  filterToOpen,
+  clearFilterToOpen
 }: FiltersBarProps) => {
   if (activeFilters.length === 0 && activeSorts.length === 0) return null
 
@@ -60,6 +72,8 @@ const FiltersBar = ({
           searchQueries={searchQueries}
           handleSearchChange={handleSearchChange}
           handleReorderSorts={handleReorderSorts}
+          filterToOpen={filterToOpen}
+          onOpen={clearFilterToOpen}
         />
       )}
 
@@ -75,6 +89,8 @@ const FiltersBar = ({
             handleUpdateCondition={handleUpdateCondition}
             handleSearchChange={handleSearchChange}
             searchQueries={searchQueries}
+            filterToOpen={filterToOpen}
+            onOpen={clearFilterToOpen}
             key={filter.type}
           />
         )

@@ -8,13 +8,14 @@ import {
   DropdownMenuTrigger
 } from '@harnessio/canary'
 
-import type { FilterValue, FilterOption, FilterSearchQueries, CheckboxFilterOption } from '../types'
+import type { FilterValue, FilterOption, FilterSearchQueries, CheckboxFilterOption, FilterAction } from '../types'
 
 import Calendar from './filter-variants/calendar'
 import Checkbox from './filter-variants/checkbox'
 import Text from './filter-variants/text'
 import Number from './filter-variants/number'
 import { getFilterDisplayValue, getFilteredOptions } from '../utils'
+import { useEffect, useState } from 'react'
 
 const renderFilterValues = (
   filter: FilterValue,
@@ -55,6 +56,8 @@ interface FiltersProps {
   handleUpdateCondition: ((type: string, condition: string) => void) | undefined
   handleSearchChange: ((type: string, value: string, searchType: 'filters') => void) | undefined
   searchQueries: FilterSearchQueries
+  filterToOpen: FilterAction | null
+  onOpen?: () => void
 }
 
 const Filters = ({
@@ -64,13 +67,24 @@ const Filters = ({
   handleUpdateCondition,
   handleRemoveFilter,
   handleSearchChange,
-  searchQueries
+  searchQueries,
+  filterToOpen,
+  onOpen
 }: FiltersProps) => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  useEffect(() => {
+    if (filterToOpen?.type === filter.type && filterToOpen?.kind === 'filter' && !isOpen) {
+      setIsOpen(true)
+      onOpen?.()
+    }
+  }, [filterToOpen, filter.type, isOpen, onOpen])
+
   const filterOption = filterOptions.find(opt => opt.value === filter.type)
   if (!filterOption) return null
 
   return (
-    <DropdownMenu key={filter.type}>
+    <DropdownMenu key={filter.type} open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger className="bg-background-3 hover:bg-background-8 flex h-8 items-center gap-x-3 rounded pl-2.5 pr-2 transition-colors duration-200">
         <div className="text-13 flex items-center gap-x-1.5">
           <span className="text-foreground-1">

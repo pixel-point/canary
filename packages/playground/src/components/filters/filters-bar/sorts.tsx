@@ -10,12 +10,13 @@ import {
 
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import type { SortDirection, FilterSearchQueries, SortOption, SortValue } from '../types'
+import type { SortDirection, FilterSearchQueries, SortOption, SortValue, FilterAction } from '../types'
 
 import useDragAndDrop from '../../../hooks/use-drag-and-drop'
 import { DndContext, closestCenter } from '@dnd-kit/core'
 
 import { getSortTriggerLabel } from '../utils'
+import { useState, useEffect } from 'react'
 
 interface SortableItemProps {
   id: string
@@ -116,6 +117,8 @@ interface SortsProps {
   searchQueries: FilterSearchQueries
   handleSearchChange: (type: string, query: string, searchType: keyof FilterSearchQueries) => void
   sortDirections: SortDirection[]
+  filterToOpen: FilterAction | null
+  onOpen?: () => void
 }
 
 const Sorts = ({
@@ -128,19 +131,30 @@ const Sorts = ({
   handleReorderSorts,
   searchQueries,
   handleSearchChange,
-  sortDirections
+  sortDirections,
+  filterToOpen,
+  onOpen
 }: SortsProps) => {
   const { handleDragEnd, getItemId } = useDragAndDrop({
     items: activeSorts,
     onReorder: handleReorderSorts
   })
 
+  const [isOpen, setIsOpen] = useState(false)
+
+  useEffect(() => {
+    if (filterToOpen?.kind === 'sort' && !isOpen) {
+      setIsOpen(true)
+      onOpen?.()
+    }
+  }, [filterToOpen, isOpen, onOpen])
+
   const filteredBySearchSortOptions = sortOptions.filter(
     option => !searchQueries.menu.sort || option.label.toLowerCase().includes(searchQueries.menu.sort.toLowerCase())
   )
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger className="bg-background-3 hover:bg-background-8 flex h-8 items-center gap-x-3 rounded px-2.5 transition-colors duration-200">
         <div className="flex items-center gap-x-1">
           <Icon
