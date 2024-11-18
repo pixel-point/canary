@@ -82,9 +82,9 @@ const Tabs = React.forwardRef<React.ElementRef<typeof TabsPrimitive.Root>, TabsP
         {variant === 'tabnav' ? (
           <div className="relative grid w-full grid-flow-col grid-cols-[auto_1fr] items-end">
             {children}
-            <div className="border-border-background h-[36px] border-b" />
-            <div className="border-border-background absolute right-full h-[36px] w-[9999px] border-b" />
-            <div className="border-border-background absolute left-full h-[36px] w-[9999px] border-b" />
+            <div className="h-[36px] border-b border-border-background" />
+            <div className="absolute right-full h-[36px] w-[9999px] border-b border-border-background" />
+            <div className="absolute left-full h-[36px] w-[9999px] border-b border-border-background" />
           </div>
         ) : (
           children
