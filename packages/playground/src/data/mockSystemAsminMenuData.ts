@@ -1,6 +1,6 @@
 import type { IconProps } from '@harnessio/canary'
 
-export const systemAdminMenuData: {
+export const settingsMenuData: {
   groupId: number
   title: string
   items: {
@@ -17,7 +17,7 @@ export const systemAdminMenuData: {
       {
         id: 0,
         iconName: 'settings-2',
-        title: 'Default Settings',
+        title: 'Settings',
         to: '/admin/default-settings'
       },
       {
@@ -30,7 +30,7 @@ export const systemAdminMenuData: {
   },
   {
     groupId: 1,
-    title: 'Project-level Resources',
+    title: 'Resources',
     items: [
       {
         id: 2,

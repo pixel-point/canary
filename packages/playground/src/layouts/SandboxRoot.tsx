@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom'
 import { Navbar } from '../components/navbar'
 import { MoreSubmenu } from '../components/more-submenu'
 import type { TypesUser } from './types'
-import { SystemAdminMenu } from '../components/system-admin-menu'
+import { SettingsMenu } from '../components/settings-menu'
 
 interface SandboxRootProps {
   currentUser: TypesUser | undefined
@@ -37,7 +37,7 @@ export const SandboxRoot: React.FC<SandboxRootProps> = ({ currentUser }) => {
       </SandboxLayout.LeftPanel>
       <Outlet />
       <MoreSubmenu showMore={showMore} handleMore={handleMore} />
-      <SystemAdminMenu showSystemAdmin={showSystemAdmin} handleSystemAdmin={handleSystemAdmin} />
+      <SettingsMenu showSystemAdmin={showSystemAdmin} handleSystemAdmin={handleSystemAdmin} />
     </SandboxLayout.Root>
   )
 }
