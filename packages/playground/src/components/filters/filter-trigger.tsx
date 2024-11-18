@@ -143,7 +143,7 @@ const FilterTrigger = ({
 
         <div className="border-borders-4 border-t p-1">
           <DropdownMenuItem asChild>
-            <button className="w-full" onClick={onReset}>
+            <button className="w-full font-medium" onClick={onReset}>
               {buttonLabel}
             </button>
           </DropdownMenuItem>
