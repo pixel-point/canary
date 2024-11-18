@@ -1,7 +1,7 @@
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import type { IconProps } from '@harnessio/canary'
-import { Navbar as NavbarComp, Icon, NavbarProjectChooser, NavbarUser, Button, Text, Spacer } from '@harnessio/canary'
+import { Navbar as NavbarComp, Icon, NavbarProjectChooser, NavbarUser, Button, Text } from '@harnessio/canary'
 import type { TypesUser } from '../layouts/types'
 
 const NavBarLink = (item: NavbarItem | NavbarItemStatic) => {
@@ -27,7 +27,7 @@ interface NavbarItem {
 type NavbarItemStatic = Pick<NavbarItem, 'title' | 'iconName' | 'to'>
 
 const adminMenuItem: Omit<NavbarItemStatic, 'to'> = {
-  title: 'System Administration',
+  title: 'Settings',
   iconName: 'settings-1'
 }
 
@@ -44,7 +44,7 @@ const primaryMenuItems: NavbarItemStatic[] = [
   },
   {
     title: 'Executions',
-    iconName: 'cog-6',
+    iconName: 'execution',
     to: '/executions'
   },
   {
@@ -72,7 +72,7 @@ const initialPinnedMenuItems: NavbarItem[] = [
   {
     id: 13,
     title: 'Secrets',
-    iconName: 'secrets',
+    iconName: 'key',
     description: 'Store your secrets securely',
     to: '/secrets'
   },
@@ -155,7 +155,7 @@ export const Navbar = ({ showMore, showSystemAdmin, handleMore, handleSystemAdmi
             <Text className="leading-none" size={1} weight="medium">
               AI Assistant
             </Text>
-            <Text className="text-foreground-5 leading-4" size={0}>
+            <Text className="text-foreground-5 leading-[1.0625rem]" size={0}>
               Create, analyze or debug your pipelines faster.
             </Text>
           </div>
@@ -174,7 +174,7 @@ export const Navbar = ({ showMore, showSystemAdmin, handleMore, handleSystemAdmi
 
       <NavbarComp.Footer>
         <NavbarUser.Root
-          username={currentUser?.display_name || currentUser?.uid}
+          username={currentUser?.display_name || currentUser?.uid || ''}
           email={currentUser?.email}
           url={currentUser?.url}
           menuItems={[
