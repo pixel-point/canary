@@ -14,8 +14,8 @@ function Root({ className, children, isSubMenu = false }: NavbarRootProps) {
   return (
     <div
       className={cn(
-        'border-border-5 bg-background-7 grid h-screen w-[220px] select-none grid-rows-[auto_1fr_auto] overflow-y-auto border-r',
-        { 'bg-background-7/70 backdrop-blur-[20px]': isSubMenu },
+        'border-borders-5 bg-background-7 grid h-screen w-[220px] select-none grid-rows-[auto_1fr_auto] overflow-y-auto border-r',
+        { 'bg-background-7/70 backdrop-blur-[10px]': isSubMenu },
         className
       )}>
       {!isSubMenu && (
@@ -54,7 +54,6 @@ function Root({ className, children, isSubMenu = false }: NavbarRootProps) {
           />
         </>
       )}
-      {isSubMenu && <div className="bg-background-7/50 fixed left-0 top-0 size-full" />}
       {children}
     </div>
   )
@@ -73,18 +72,19 @@ interface GroupProps {
   title?: string
   topBorder?: boolean
   isSubMenu?: boolean
+  titleClassName?: string
 }
 
-function Group({ children, title, topBorder, isSubMenu = false }: GroupProps) {
+function Group({ children, title, topBorder, isSubMenu = false, titleClassName }: GroupProps) {
   return (
     <div
       className={cn(
         'flex w-full flex-col overflow-x-hidden px-5',
-        { 'border-border-8 border-t pt-2.5': topBorder },
+        { 'border-borders-5 border-t pt-2.5': topBorder },
         isSubMenu ? 'pb-2.5' : 'gap-1.5 pb-3'
       )}>
       {title && (
-        <div className={cn('text-foreground-7 mt-1.5', isSubMenu ? 'mb-3' : 'mb-2.5')}>
+        <div className={cn('text-foreground-7 mt-1.5', isSubMenu ? 'mb-3' : 'mb-2.5', titleClassName)}>
           <p className="text-xs font-normal">{title}</p>
         </div>
       )}
@@ -120,9 +120,9 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
         />
         <div className="z-10 col-start-1 row-span-full flex items-center">
           {icon ? (
-            <div className="border-border-1 sub-menu-icon-bg bg-background-2 relative flex size-8 place-content-center place-items-center rounded border">
+            <div className="sub-menu-icon-bg relative flex size-8 place-content-center place-items-center rounded border border-borders-1 bg-background-2">
               <Icon
-                className="text-foreground-3 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-foreground-3"
                 name="sub-menu-ellipse"
                 size={18}
               />
@@ -193,7 +193,9 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
 }
 
 function Footer({ children }: { children: React.ReactNode }) {
-  return <div className="border-border-8 sticky bottom-0 z-20 grid h-[72px] items-center border-t px-4">{children}</div>
+  return (
+    <div className="sticky bottom-0 z-20 grid h-[72px] items-center border-t border-borders-5 px-4">{children}</div>
+  )
 }
 
 export { Root, Header, Content, Group, Item, Footer }
