@@ -6,12 +6,12 @@ export interface BaseInputProps extends React.InputHTMLAttributes<HTMLInputEleme
 }
 
 const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(({ className, type, isExtended, ...props }, ref) => {
-  const commonClassName = 'bg-transparent px-3 py-1 text-foreground-1'
+  const commonClassName = 'bg-transparent text-foreground-1 px-2.5 py-1'
   const specificClassNames = isExtended
     ? 'border-none grow focus-visible:outline-none'
-    : 'flex h-9 w-full rounded border border-input text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-foreground-4 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
+    : 'flex h-8 w-full rounded border border-border-2 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-foreground-4 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
 
-  return <input type={type} className={cn(commonClassName, specificClassNames, className)} ref={ref} {...props} />
+  return <input className={cn(commonClassName, specificClassNames, className)} type={type} ref={ref} {...props} />
 })
 BaseInput.displayName = 'BaseInput'
 

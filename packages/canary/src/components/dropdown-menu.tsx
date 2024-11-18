@@ -1,7 +1,8 @@
 import * as React from 'react'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
-import { CheckIcon, ChevronRightIcon, DotFilledIcon } from '@radix-ui/react-icons'
+import { ChevronRightIcon, DotFilledIcon } from '@radix-ui/react-icons'
 import { cn } from '@/lib/utils'
+import { Icon } from './icon'
 
 const DropdownMenu = DropdownMenuPrimitive.Root
 
@@ -14,7 +15,7 @@ const DropdownMenuTrigger = React.forwardRef<
   <DropdownMenuPrimitive.Trigger
     ref={ref}
     className={cn(
-      '[&>svg.chevron-down]:duration-100 [&>svg.chevron-down]:ease-in-out [&>svg.chevron-down]:data-[state=open]:rotate-180',
+      'ring-offset-background outline-none focus:ring-2 focus:ring-offset-2 [&>svg.chevron-down]:duration-100 [&>svg.chevron-down]:ease-in-out [&>svg.chevron-down]:data-[state=open]:rotate-180',
       { 'flex cursor-pointer items-center border-l border-inherit px-2.5 py-0.5 outline-none': insideSplitButton },
       className
     )}
@@ -96,7 +97,7 @@ const DropdownMenuItem = React.forwardRef<
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={cn(
-      'text-foreground-2 focus:bg-background-4 focus:text-primary relative flex cursor-default select-none items-center rounded-sm px-2 py-[7px] text-sm outline-none transition-colors',
+      'text-foreground-8 focus:bg-background-4 focus:text-primary relative flex cursor-pointer select-none items-center rounded-sm px-2 py-[7px] text-sm outline-none transition-colors',
       'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       inset && 'pl-8',
       className
@@ -113,17 +114,17 @@ const DropdownMenuCheckboxItem = React.forwardRef<
   <DropdownMenuPrimitive.CheckboxItem
     ref={ref}
     className={cn(
-      'focus:bg-accent focus:text-accent-foreground relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'focus:bg-accent focus:text-accent-foreground group relative flex cursor-pointer select-none items-center rounded-sm py-2 pl-8 pr-2 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       className
     )}
     checked={checked}
     {...props}>
-    <span className="absolute left-2 flex size-3.5 items-center justify-center">
-      <DropdownMenuPrimitive.ItemIndicator>
-        <CheckIcon className="size-4" />
+    <span className="border-borders-9 group-data-[state=checked]:border-icons-2 absolute left-2 flex h-4 w-4 items-center justify-center rounded-sm border">
+      <DropdownMenuPrimitive.ItemIndicator className="bg-icons-2 flex h-full w-full items-center justify-center">
+        <Icon className="text-icons-5 h-[7px]" name="checkbox" />
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
-    {children}
+    <span className="text-14 text-foreground-8">{children}</span>
   </DropdownMenuPrimitive.CheckboxItem>
 ))
 DropdownMenuCheckboxItem.displayName = DropdownMenuPrimitive.CheckboxItem.displayName
