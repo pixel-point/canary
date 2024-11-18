@@ -163,39 +163,41 @@ const SearchDropdownMenuExtendedContent = ({
         align="start"
         onOpenAutoFocus={e => e.preventDefault()}
         onCloseAutoFocus={e => e.preventDefault()}>
-        <ScrollArea className={cn('relative p-1', isEmptySearch ? 'h-fit' : 'h-[410px] max-h-[50vh]')}>
-          <span
-            className="from-background-2 pointer-events-none absolute inset-x-0 top-0 h-3 w-full bg-gradient-to-b to-transparent"
-            aria-hidden
-          />
-          <span
-            className="from-background-2 pointer-events-none absolute inset-x-0 bottom-0 h-3 w-full bg-gradient-to-t to-transparent"
-            aria-hidden
-          />
-          {isEmptySearch ? (
-            <Text className="text-foreground-5 block w-full px-2 py-4">No results found</Text>
-          ) : (
-            filteredItems.map((category, index) => (
-              <div className={cn(index > 0 ? 'border-borders-4 mt-0.5 border-t pt-2' : 'pt-1')} key={category.id}>
-                <Text className="text-foreground-7 inline-block px-2 leading-none" size={1}>
-                  {category.title}
-                </Text>
-                <div className="mt-2.5 flex flex-col">
-                  {category.items.map(item => (
-                    <Button
-                      className="hover:bg-background-4 h-9 cursor-pointer rounded-sm px-2"
-                      variant="ghost"
-                      key={item.id}
-                      onClick={() => handleItemClick(item)}>
-                      <div className="flex w-full items-center gap-x-2">
-                        <Text className="text-foreground-2 truncate leading-tight">{item.title}</Text>
-                      </div>
-                    </Button>
-                  ))}
+        <ScrollArea className={cn('relative', isEmptySearch ? 'h-fit' : 'h-[410px] max-h-[50vh]')}>
+          <div className="pb-2 pl-1 pr-3 pt-1">
+            <span
+              className="from-background-2 pointer-events-none absolute inset-x-0 top-0 h-3 w-full bg-gradient-to-b to-transparent"
+              aria-hidden
+            />
+            <span
+              className="from-background-2 pointer-events-none absolute inset-x-0 bottom-0 h-3 w-full bg-gradient-to-t to-transparent"
+              aria-hidden
+            />
+            {isEmptySearch ? (
+              <Text className="text-foreground-5 block w-full px-2 py-4">No results found</Text>
+            ) : (
+              filteredItems.map((category, index) => (
+                <div className={cn(index > 0 ? 'border-borders-4 mt-0.5 border-t pt-2' : 'pt-1')} key={category.id}>
+                  <Text className="text-foreground-7 inline-block px-2 leading-none" size={1}>
+                    {category.title}
+                  </Text>
+                  <div className="mt-2.5 flex flex-col">
+                    {category.items.map(item => (
+                      <Button
+                        className="hover:bg-background-4 h-9 cursor-pointer rounded-sm px-2 focus-visible:ring-offset-0"
+                        variant="ghost"
+                        key={item.id}
+                        onClick={() => handleItemClick(item)}>
+                        <div className="flex w-full items-center gap-x-2">
+                          <Text className="text-foreground-2 truncate leading-tight">{item.title}</Text>
+                        </div>
+                      </Button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))
-          )}
+              ))
+            )}
+          </div>
         </ScrollArea>
       </PopoverContent>
     </Popover>
@@ -256,8 +258,8 @@ export const ManageNavigationDialog = ({
             addToPinnedItems={addToPinnedItems}
           />
         </AlertDialogHeader>
-        <ScrollArea className="-mx-5 -mb-5 mt-2" type="always">
-          <div className="px-5">
+        <ScrollArea className="-mx-5 -mb-5 mt-2">
+          <div className="px-5 pr-6">
             <Text className="text-foreground-7 inline-block leading-none" size={1}>
               Pinned
             </Text>
