@@ -29,6 +29,7 @@ interface FiltersBarProps {
     | 'clearFilterToOpen'
     | 'handleSaveFilters'
     | 'handleClearSavedFilters'
+    | 'hasUnsavedChanges'
   >
 }
 
@@ -54,7 +55,8 @@ const FiltersBar = ({
     filterToOpen,
     clearFilterToOpen,
     handleSaveFilters,
-    handleClearSavedFilters
+    handleClearSavedFilters,
+    hasUnsavedChanges
   }
 }: FiltersBarProps) => {
   if (activeFilters.length === 0 && activeSorts.length === 0) return null
@@ -125,11 +127,13 @@ const FiltersBar = ({
             </button>
           </div>
 
-          <button
-            className="text-14 text-foreground-4 hover:text-foreground-1 flex items-center gap-x-1.5"
-            onClick={handleSaveFilters}>
-            Save
-          </button>
+          {hasUnsavedChanges && (
+            <button
+              className="text-14 text-foreground-4 hover:text-foreground-1 flex items-center gap-x-1.5"
+              onClick={handleSaveFilters}>
+              Save
+            </button>
+          )}
         </div>
       )}
     </div>

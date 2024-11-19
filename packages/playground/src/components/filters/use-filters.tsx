@@ -41,6 +41,7 @@ export interface UseFiltersReturn {
   // Save and clear saved filters
   handleSaveFilters: () => void
   handleClearSavedFilters: () => void
+  hasUnsavedChanges: boolean
 }
 
 const STORAGE_KEY = 'filters'
@@ -48,26 +49,75 @@ const STORAGE_KEY = 'filters'
 const useFilters = ({ pageSlug }: { pageSlug: string }): UseFiltersReturn => {
   const [activeFilters, setActiveFilters] = useState<FilterValue[]>([])
   const [activeSorts, setActiveSorts] = useState<SortValue[]>([])
+  const [savedState, setSavedState] = useState<SavedFilters | null>(null)
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
   const [searchQueries, setSearchQueries] = useState<FilterSearchQueries>({
     filters: {} as Record<string, string>,
     menu: {} as Record<string, string>
   })
   const [filterToOpen, setFilterToOpen] = useState<FilterAction | null>(null)
 
+  /**
+   * Load saved filters from localStorage when component mounts or pageSlug changes
+   * This effect handles the initial state setup for filters on the current page
+   */
   useEffect(() => {
     const savedFiltersString = localStorage.getItem(STORAGE_KEY)
     if (savedFiltersString) {
       try {
+        // Parse saved filters for all pages
         const savedFilters = JSON.parse(savedFiltersString) as Record<string, SavedFilters>
+
+        // If there are saved filters for current page
         if (savedFilters[pageSlug]) {
+          // Restore saved state
           setActiveFilters(savedFilters[pageSlug].activeFilters)
           setActiveSorts(savedFilters[pageSlug].activeSorts)
+          setSavedState(savedFilters[pageSlug])
+          setHasUnsavedChanges(false)
+        } else {
+          // No saved filters for this page - reset to initial state
+          setSavedState(null)
+          setHasUnsavedChanges(false)
         }
       } catch (error) {
         console.error('Error loading saved filters:', error)
       }
     }
   }, [pageSlug])
+
+  /**
+   * Track changes in filters and sorts to determine if there are unsaved changes
+   * This effect controls the visibility of the Save button
+   */
+  useEffect(() => {
+    // If no saved state exists, show Save button if there are any active filters/sorts
+    if (!savedState) {
+      setHasUnsavedChanges(activeFilters.length > 0 || activeSorts.length > 0)
+      return
+    }
+
+    // Normalize current state - convert empty arrays to [] for consistent comparison
+    const currentState = {
+      activeFilters: activeFilters.length ? activeFilters : [],
+      activeSorts: activeSorts.length ? activeSorts : []
+    }
+
+    // Normalize saved state similarly
+    const savedStateNormalized = {
+      activeFilters: savedState.activeFilters.length ? savedState.activeFilters : [],
+      activeSorts: savedState.activeSorts.length ? savedState.activeSorts : []
+    }
+
+    // Show Save button only if:
+    // 1. Current state is different from saved state AND
+    // 2. There are actually some filters/sorts active
+    const isChanged =
+      JSON.stringify(currentState) !== JSON.stringify(savedStateNormalized) &&
+      (currentState.activeFilters.length > 0 || currentState.activeSorts.length > 0)
+
+    setHasUnsavedChanges(isChanged)
+  }, [activeFilters, activeSorts, savedState])
 
   // FILTERS
   /**
@@ -230,38 +280,52 @@ const useFilters = ({ pageSlug }: { pageSlug: string }): UseFiltersReturn => {
     setFilterToOpen(null)
   }
 
-  // Save filters for the current page
+  /**
+   * Save current filters and sorts to localStorage for the current page
+   * This preserves filter state between page reloads
+   */
   const handleSaveFilters = useCallback(() => {
     try {
+      // Get existing saved filters for all pages
       const savedFiltersString = localStorage.getItem(STORAGE_KEY)
       const savedFilters = savedFiltersString ? JSON.parse(savedFiltersString) : {}
 
-      // Update only filters for the current page
-      savedFilters[pageSlug] = {
+      // Create new state to save
+      const newSavedState = {
         activeFilters,
         activeSorts
       }
 
+      // Update saved filters for current page
+      savedFilters[pageSlug] = newSavedState
       localStorage.setItem(STORAGE_KEY, JSON.stringify(savedFilters))
+
+      // Update local state to reflect saved changes
+      setSavedState(newSavedState)
+      setHasUnsavedChanges(false)
     } catch (error) {
       console.error('Error saving filters:', error)
     }
   }, [pageSlug, activeFilters, activeSorts])
 
-  // Clear saved filters only for the current page
+  /**
+   * Clear saved filters for the current page only
+   * This removes saved state from localStorage and resets all filters
+   */
   const handleClearSavedFilters = useCallback(() => {
     try {
       const savedFiltersString = localStorage.getItem(STORAGE_KEY)
       if (savedFiltersString) {
         const savedFilters = JSON.parse(savedFiltersString)
-
-        // Remove filters only for the current page
+        // Remove saved filters for current page if they exist
         if (savedFilters[pageSlug]) {
           delete savedFilters[pageSlug]
           localStorage.setItem(STORAGE_KEY, JSON.stringify(savedFilters))
         }
       }
-      // Reset the current filters
+      // Reset local state
+      setSavedState(null)
+      setHasUnsavedChanges(false)
       handleResetAll()
     } catch (error) {
       console.error('Error clearing saved filters:', error)
@@ -289,7 +353,8 @@ const useFilters = ({ pageSlug }: { pageSlug: string }): UseFiltersReturn => {
     filterToOpen,
     clearFilterToOpen,
     handleSaveFilters,
-    handleClearSavedFilters
+    handleClearSavedFilters,
+    hasUnsavedChanges
   }
 }
 
