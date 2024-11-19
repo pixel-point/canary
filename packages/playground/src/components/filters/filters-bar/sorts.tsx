@@ -49,7 +49,7 @@ const SortableItem = ({
   }
 
   return (
-    <div ref={setNodeRef} style={style} className={cn('relative', isDragging && 'z-10')}>
+    <div className={cn('relative', isDragging && 'z-10')} ref={setNodeRef} style={style}>
       <div className="flex items-center justify-between gap-x-2">
         <div className="flex items-center gap-x-2">
           <div
@@ -156,7 +156,7 @@ const Sorts = ({
 
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
-      <DropdownMenuTrigger className="bg-background-3 hover:bg-background-8 flex h-8 items-center gap-x-3 rounded px-2.5 transition-colors duration-200">
+      <DropdownMenuTrigger className="bg-background-3 hover:bg-background-8 flex h-8 items-center gap-x-3 whitespace-nowrap rounded px-2.5 transition-colors duration-200">
         <div className="flex items-center gap-x-1">
           <Icon
             className={cn('text-icons-1', getSortTriggerLabel(activeSorts, sortOptions).isDescending && 'rotate-180')}

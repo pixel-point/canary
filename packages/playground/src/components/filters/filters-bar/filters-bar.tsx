@@ -27,6 +27,8 @@ interface FiltersBarProps {
     | 'handleSearchChange'
     | 'filterToOpen'
     | 'clearFilterToOpen'
+    | 'handleSaveFilters'
+    | 'handleClearSavedFilters'
   >
 }
 
@@ -50,7 +52,9 @@ const FiltersBar = ({
     searchQueries,
     handleSearchChange,
     filterToOpen,
-    clearFilterToOpen
+    clearFilterToOpen,
+    handleSaveFilters,
+    handleClearSavedFilters
   }
 }: FiltersBarProps) => {
   if (activeFilters.length === 0 && activeSorts.length === 0) return null
@@ -92,28 +96,39 @@ const FiltersBar = ({
       ))}
 
       {(!!activeFilters.length || !!activeSorts.length) && (
-        <div className="ml-2.5 flex items-center gap-x-4">
-          <FilterTrigger
-            type="filter"
-            customLabel={
-              <div className="text-foreground-4 hover:text-foreground-1 flex items-center gap-x-1.5 transition-colors duration-200">
-                <Icon name="plus" size={10} />
-                <span>Add filter</span>
-              </div>
-            }
-            hideCount
-            dropdownAlign="start"
-            activeFilters={activeFilters}
-            onChange={handleFilterChange}
-            searchQueries={searchQueries}
-            onSearchChange={handleSearchChange}
-            options={filterOptions}
-          />
+        <div className="ml-2.5 flex w-full items-center justify-between gap-x-4">
+          <div className="flex items-center gap-x-4">
+            <FilterTrigger
+              type="filter"
+              customLabel={
+                <div className="text-foreground-4 hover:text-foreground-1 flex items-center gap-x-1.5 transition-colors duration-200">
+                  <Icon name="plus" size={10} />
+                  <span>Add filter</span>
+                </div>
+              }
+              hideCount
+              dropdownAlign="start"
+              activeFilters={activeFilters}
+              onChange={handleFilterChange}
+              searchQueries={searchQueries}
+              onSearchChange={handleSearchChange}
+              options={filterOptions}
+            />
+            <button
+              className="text-14 text-foreground-4 hover:text-foreground-danger ring-offset-background flex items-center gap-x-1.5 outline-none ring-offset-2 transition-colors duration-200 focus:ring-2"
+              onClick={() => {
+                handleResetAll()
+                handleClearSavedFilters()
+              }}>
+              <Icon className="rotate-45" name="plus" size={12} />
+              Reset
+            </button>
+          </div>
+
           <button
-            className="text-14 text-foreground-4 hover:text-foreground-danger ring-offset-background flex items-center gap-x-1.5 outline-none ring-offset-2 transition-colors duration-200 focus:ring-2"
-            onClick={handleResetAll}>
-            <Icon className="rotate-45" name="plus" size={12} />
-            Reset
+            className="text-14 text-foreground-4 hover:text-foreground-1 flex items-center gap-x-1.5"
+            onClick={handleSaveFilters}>
+            Save
           </button>
         </div>
       )}

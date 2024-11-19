@@ -121,7 +121,13 @@ function SandboxRepoListPage() {
     <Link to={`/repos/${to}`}>{children}</Link>
   )
 
-  const filterHandlers = useFilters()
+  /**
+   * Initialize filters with page-specific storage
+   * @param pageSlug - Unique identifier for the page to store/retrieve filters from localStorage
+   * Each page can have its own saved filters that persist between sessions
+   * Example: 'sandbox-repo-list-page' will only load/save filters for this specific page
+   */
+  const filterHandlers = useFilters({ pageSlug: 'sandbox-repo-list-page' })
 
   /**
    * Filters repositories based on active filters
@@ -399,7 +405,6 @@ function SandboxRepoListPage() {
             filterHandlers={filterHandlers}
           />
           <Spacer size={5} />
-
           <RepoList
             repos={reposWithFormattedDates}
             LinkComponent={LinkComponent}

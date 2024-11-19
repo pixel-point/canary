@@ -1,6 +1,11 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { FilterValue, SortValue, FilterSearchQueries, FilterAction } from './types'
+
+interface SavedFilters {
+  activeFilters: FilterValue[]
+  activeSorts: SortValue[]
+}
 
 export interface UseFiltersReturn {
   // State values
@@ -32,9 +37,15 @@ export interface UseFiltersReturn {
 
   // Filter opening control
   clearFilterToOpen: () => void
+
+  // Save and clear saved filters
+  handleSaveFilters: () => void
+  handleClearSavedFilters: () => void
 }
 
-const useFilters = (): UseFiltersReturn => {
+const STORAGE_KEY = 'filters'
+
+const useFilters = ({ pageSlug }: { pageSlug: string }): UseFiltersReturn => {
   const [activeFilters, setActiveFilters] = useState<FilterValue[]>([])
   const [activeSorts, setActiveSorts] = useState<SortValue[]>([])
   const [searchQueries, setSearchQueries] = useState<FilterSearchQueries>({
@@ -42,6 +53,21 @@ const useFilters = (): UseFiltersReturn => {
     menu: {} as Record<string, string>
   })
   const [filterToOpen, setFilterToOpen] = useState<FilterAction | null>(null)
+
+  useEffect(() => {
+    const savedFiltersString = localStorage.getItem(STORAGE_KEY)
+    if (savedFiltersString) {
+      try {
+        const savedFilters = JSON.parse(savedFiltersString) as Record<string, SavedFilters>
+        if (savedFilters[pageSlug]) {
+          setActiveFilters(savedFilters[pageSlug].activeFilters)
+          setActiveSorts(savedFilters[pageSlug].activeSorts)
+        }
+      } catch (error) {
+        console.error('Error loading saved filters:', error)
+      }
+    }
+  }, [pageSlug])
 
   // FILTERS
   /**
@@ -204,6 +230,45 @@ const useFilters = (): UseFiltersReturn => {
     setFilterToOpen(null)
   }
 
+  // Save filters for the current page
+  const handleSaveFilters = useCallback(() => {
+    try {
+      const savedFiltersString = localStorage.getItem(STORAGE_KEY)
+      const savedFilters = savedFiltersString ? JSON.parse(savedFiltersString) : {}
+
+      // Update only filters for the current page
+      savedFilters[pageSlug] = {
+        activeFilters,
+        activeSorts
+      }
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(savedFilters))
+    } catch (error) {
+      console.error('Error saving filters:', error)
+    }
+  }, [pageSlug, activeFilters, activeSorts])
+
+  // Clear saved filters only for the current page
+  const handleClearSavedFilters = useCallback(() => {
+    try {
+      const savedFiltersString = localStorage.getItem(STORAGE_KEY)
+      if (savedFiltersString) {
+        const savedFilters = JSON.parse(savedFiltersString)
+
+        // Remove filters only for the current page
+        if (savedFilters[pageSlug]) {
+          delete savedFilters[pageSlug]
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(savedFilters))
+        }
+      }
+      // Reset the current filters
+      handleResetAll()
+    } catch (error) {
+      console.error('Error clearing saved filters:', error)
+      handleResetAll()
+    }
+  }, [pageSlug, handleResetAll])
+
   return {
     activeFilters,
     activeSorts,
@@ -222,7 +287,9 @@ const useFilters = (): UseFiltersReturn => {
     handleSearchChange,
     clearSearchQuery,
     filterToOpen,
-    clearFilterToOpen
+    clearFilterToOpen,
+    handleSaveFilters,
+    handleClearSavedFilters
   }
 }
 

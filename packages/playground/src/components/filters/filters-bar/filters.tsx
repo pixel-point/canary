@@ -82,7 +82,7 @@ const Filters = ({
 
   return (
     <DropdownMenu key={filter.type} open={isOpen} onOpenChange={setIsOpen}>
-      <DropdownMenuTrigger className="bg-background-3 hover:bg-background-8 flex h-8 items-center gap-x-3 rounded pl-2.5 pr-2 transition-colors duration-200">
+      <DropdownMenuTrigger className="bg-background-3 hover:bg-background-8 flex h-8 items-center gap-x-3 whitespace-nowrap rounded pl-2.5 pr-2 transition-colors duration-200">
         <div className="text-13 flex items-center gap-x-1.5">
           <span className="text-foreground-1">
             {filterOption.label}
