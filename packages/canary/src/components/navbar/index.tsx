@@ -63,8 +63,8 @@ function Header({ children }: { children: React.ReactNode }) {
   return <div className="sticky top-0 z-20 grid items-center">{children}</div>
 }
 
-function Content({ children }: { children: React.ReactNode }) {
-  return <div className="flex min-w-0 flex-col">{children}</div>
+function Content({ children, className }: { children: React.ReactNode; className?: string }) {
+  return <div className={cn('flex min-w-0 flex-col', className)}>{children}</div>
 }
 
 interface GroupProps {

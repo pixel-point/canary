@@ -5,10 +5,11 @@ import ChevronUp from '../icons/chevron-up.svg'
 import Checkbox from '../icons/checkbox.svg'
 import Harness from '../icons/harness.svg'
 import Pipelines from '../icons/pipelines-icon.svg'
-import FeaturedFlags from '../icons/featured-flags-icon.svg'
+import PipelinesGradient from '../icons/pipelines-gradient.svg'
 import Ellipsis from '../icons/more-dots-icon.svg'
 import MoreDotsFill from '../icons/more-dots-fill-icon.svg'
 import Repositories from '../icons/repositories-icon.svg'
+import RepositoriesGradient from '../icons/repositories-gradient.svg'
 import ChaosEngineering from '../icons/chaos-engineering-icon.svg'
 import Environment from '../icons/environment-icon.svg'
 import Secrets from '../icons/secrets-icon.svg'
@@ -81,8 +82,6 @@ import Pin from '../icons/pin.svg'
 import Unpin from '../icons/unpin.svg'
 import Rocket from '../icons/rocket.svg'
 import Plug from '../icons/plug.svg'
-import Flag from '../icons/flag.svg'
-import FilterOrganization from '../icons/filter-organization.svg'
 import ShieldLock from '../icons/shield-lock.svg'
 import MoreFolder from '../icons/more-folder.svg'
 import Bookmark from '../icons/bookmark.svg'
@@ -136,6 +135,18 @@ import CircleArrowTop from '../icons/circle-arrow-top.svg'
 import CircleArrowsUpDown from '../icons/circle-arrows-updown.svg'
 import ChevronFillDown from '../icons/chevron-fill-down.svg'
 import Execution from '../icons/execution-icon.svg'
+import ExecutionGradient from '../icons/execution-gradient.svg'
+import Paint from '../icons/paint-icon.svg'
+import Navigation from '../icons/navigation-icon.svg'
+import LogOut from '../icons/log-out-icon.svg'
+import DatabaseGradient from '../icons/database-gradient.svg'
+import Database from '../icons/database-icon.svg'
+import Artifacts from '../icons/artifacts.svg'
+import ArtifactsGradient from '../icons/artifacts-gradient.svg'
+import InfrastructureGradient from '../icons/infrastructure-gradient.svg'
+import Infrastructure from '../icons/infrastructure-icon.svg'
+import FlagGradient from '../icons/flag-gradient.svg'
+import Flag from '../icons/flag-icon.svg'
 // import Fork from '../icons/fork.svg'
 
 const IconNameMap = {
@@ -150,9 +161,10 @@ const IconNameMap = {
   checkbox: Checkbox,
   harness: Harness,
   pipelines: Pipelines,
-  'featured-flags': FeaturedFlags,
+  'pipelines-gradient': PipelinesGradient,
   ellipsis: Ellipsis,
   repositories: Repositories,
+  'repositories-gradient': RepositoriesGradient,
   'chaos-engineering': ChaosEngineering,
   environment: Environment,
   secrets: Secrets,
@@ -226,8 +238,6 @@ const IconNameMap = {
   unpin: Unpin,
   rocket: Rocket,
   plug: Plug,
-  flag: Flag,
-  'filter-organization': FilterOrganization,
   'shield-lock': ShieldLock,
   'more-folder': MoreFolder,
   bookmark: Bookmark,
@@ -275,7 +285,19 @@ const IconNameMap = {
   'circle-arrows-updown': CircleArrowsUpDown,
   'chevron-fill-down': ChevronFillDown,
   'more-dots-fill': MoreDotsFill,
-  execution: Execution
+  execution: Execution,
+  'execution-gradient': ExecutionGradient,
+  paint: Paint,
+  navigation: Navigation,
+  logOut: LogOut,
+  'database-gradient': DatabaseGradient,
+  database: Database,
+  'artifacts-gradient': ArtifactsGradient,
+  artifacts: Artifacts,
+  'infrastructure-gradient': InfrastructureGradient,
+  infrastructure: Infrastructure,
+  'flag-gradient': FlagGradient,
+  flag: Flag
   // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 

@@ -216,20 +216,9 @@ const SearchDropdownMenuExtendedContent = ({
   )
 }
 
-interface ManageNavigationDialogProps {
-  // pinnedItems: NavbarItem[]
-  // updatePinnedItems: (items: NavbarItem[]) => void
-  recentItems: NavbarItem[]
-  handleClearRecent: () => void
-  onSave: () => void
-  onClose: () => void
-  isSubmitting: boolean
-  submitted: boolean
-}
-
 interface DraggableItemProps {
   id: string
-  children: (props: { attributes: any; listeners: any; setNodeRef: any; isDragging: boolean }) => React.ReactNode
+  children: (props: { attributes: any; listeners: any }) => React.ReactNode
   tag: 'button' | 'div' | 'li'
 }
 
@@ -245,14 +234,27 @@ const DraggableItem = ({ id, children, tag: Tag = 'div' }: DraggableItemProps) =
   }
   return (
     <Tag className={cn('relative', isDragging && 'z-10')} ref={setNodeRef} style={style}>
-      {children({ attributes, listeners, setNodeRef, isDragging })}
+      {children({ attributes, listeners })}
     </Tag>
   )
+}
+
+interface ManageNavigationDialogProps {
+  // pinnedItems: NavbarItem[]
+  // updatePinnedItems: (items: NavbarItem[]) => void
+  showManageNavigationDialog: boolean
+  recentItems: NavbarItem[]
+  handleClearRecent: () => void
+  onSave: () => void
+  onClose: () => void
+  isSubmitting: boolean
+  submitted: boolean
 }
 
 export const ManageNavigationDialog = ({
   // pinnedItems,
   // updatePinnedItems,
+  showManageNavigationDialog,
   recentItems = mockRecentItems,
   handleClearRecent,
   onSave,
@@ -270,6 +272,7 @@ export const ManageNavigationDialog = ({
   // Form edit submit handler
   const onSubmit = () => {
     onSave()
+    onClose()
   }
 
   const updatePinnedItems = (items: NavbarItem[]) => {
@@ -289,7 +292,7 @@ export const ManageNavigationDialog = ({
   }
 
   return (
-    <AlertDialog open={true} onOpenChange={onClose}>
+    <AlertDialog open={showManageNavigationDialog} onOpenChange={onClose} modal={false}>
       <AlertDialogContent className="h-[574px] max-h-[70vh] max-w-[410px] overflow-y-auto">
         <AlertDialogHeader>
           <AlertDialogTitle className="mb-4">Manage navigation</AlertDialogTitle>

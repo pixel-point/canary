@@ -13,49 +13,56 @@ export const navbarSubmenuData: {
 }[] = [
   {
     groupId: 0,
-    title: 'DevOps Modernization',
+    title: 'Devops',
     items: [
       {
         id: 0,
-        iconName: 'rocket',
-        title: 'Continuous Delivery & GitOps',
-        description: 'App to production with no scripts.',
-        to: '/continuous-delivery-gitops'
+        iconName: 'repositories-gradient',
+        title: 'Repositories',
+        description: 'Integrated & familiar git experience.',
+        to: '/repos'
       },
       {
         id: 1,
-        iconName: 'plug',
-        title: 'Continuous Integration',
+        iconName: 'pipelines-gradient',
+        title: 'Pipelines',
         description: 'Up to 4X faster than other solutions.',
-        to: '/continuous-integration'
+        to: '/pipelines'
       },
       {
         id: 2,
-        iconName: 'flag',
-        title: 'Feature Flags',
+        iconName: 'execution-gradient',
+        title: 'Executions',
         description: 'Optimize feature rollout velocity.',
-        to: '/feature-flags'
+        to: '/executions'
       },
       {
         id: 3,
-        iconName: 'filter-organization',
-        title: 'Infrastructure as Code Management',
+        iconName: 'database-gradient',
+        title: 'Databases',
         description: 'Manage all your infrastructure.',
-        to: '/infrastructure-as-code'
+        to: '/databases'
       },
       {
         id: 4,
-        iconName: 'chaos-engineering',
-        title: 'Chaos Engineering',
+        iconName: 'artifacts-gradient',
+        title: 'Artifacts',
         description: 'Validate service resilience.',
-        to: '/chaos-engineering'
+        to: '/sandbox/executions/artifacts'
       },
       {
         id: 5,
         iconName: 'shield-lock',
-        title: 'Service Reliability Management',
-        description: 'SLO configuration and service reliability.',
-        to: '/service-reliability'
+        title: 'Infrastructure',
+        description: 'Manage all your infrastructure.',
+        to: '/infrastructure'
+      },
+      {
+        id: 6,
+        iconName: 'flag-gradient',
+        title: 'Feature Flags',
+        description: 'Optimize feature rollout velocity.',
+        to: '/feature-flags'
       }
     ]
   },
@@ -64,21 +71,21 @@ export const navbarSubmenuData: {
     title: 'Developer Experience',
     items: [
       {
-        id: 6,
+        id: 7,
         iconName: 'more-folder',
         title: 'Internal Developer Portal',
         description: 'Built for developers, onboard in minutes.',
         to: '/internal-developer-portal'
       },
       {
-        id: 7,
+        id: 8,
         iconName: 'bookmark',
         title: 'Code Repository',
         description: 'Integrated & familiar git experience.',
         to: '/code-repository'
       },
       {
-        id: 8,
+        id: 9,
         iconName: 'search-content',
         title: 'Software Engineering Insights',
         description: 'Actionable insights on SDLC.',
@@ -91,14 +98,14 @@ export const navbarSubmenuData: {
     title: 'Secure Software Delivery',
     items: [
       {
-        id: 9,
+        id: 10,
         iconName: 'chain',
         title: 'Software Supply Chain Assurance',
         description: 'Artifact integrity and governance.',
         to: '/software-supply-chain-assurance'
       },
       {
-        id: 10,
+        id: 11,
         iconName: 'shield-tick',
         title: 'Security Testing Orchestration',
         description: 'Shift left security testing.',
@@ -111,7 +118,7 @@ export const navbarSubmenuData: {
     title: 'Cloud Cost Optimization',
     items: [
       {
-        id: 11,
+        id: 12,
         iconName: 'cloud-mining',
         title: 'Cloud Cost Management',
         description: 'Intelligent cost management.',

@@ -3,17 +3,17 @@ import { navbarSubmenuData } from '../data/mockNavbarSubmenuData'
 import { NavLink } from 'react-router-dom'
 
 interface MoreSubmenuProps {
-  showMore: boolean
-  handleMore: () => void
+  showMoreMenu: boolean
+  handleMoreMenu: () => void
 }
 
-export function MoreSubmenu({ showMore, handleMore }: MoreSubmenuProps) {
+export function MoreSubmenu({ showMoreMenu, handleMoreMenu }: MoreSubmenuProps) {
   return (
-    <Sheet modal={false} open={showMore}>
+    <Sheet modal={false} open={showMoreMenu}>
       <SheetContent
         className="inset-y-0 left-[220px] z-40 h-screen w-[328px] bg-transparent p-0"
         side="left"
-        onClick={handleMore}
+        onClick={handleMoreMenu}
         modal={false}>
         <SheetTitle className="sr-only">More Menu</SheetTitle>
         <Navbar.Root className="w-[328px]" isSubMenu>
