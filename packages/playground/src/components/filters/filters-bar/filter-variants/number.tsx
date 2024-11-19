@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { Input, Icon, DropdownMenuItem } from '@harnessio/canary'
 import { FilterValue } from '../../types'
+import { UseFiltersReturn } from '../../use-filters'
 
 interface NumberFilterProps {
   filter: FilterValue
-  onUpdateFilter: (type: string, selectedValues: string[]) => void
+  onUpdateFilter: UseFiltersReturn['handleUpdateFilter']
 }
 
 const Number = ({ filter, onUpdateFilter }: NumberFilterProps) => {

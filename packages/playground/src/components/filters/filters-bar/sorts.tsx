@@ -17,13 +17,14 @@ import { DndContext, closestCenter } from '@dnd-kit/core'
 
 import { getSortTriggerLabel } from '../utils'
 import { useState, useEffect } from 'react'
+import { UseFiltersReturn } from '../use-filters'
 
 interface SortableItemProps {
   id: string
   sort: SortValue
   index: number
-  onUpdateSort?: (index: number, sort: SortValue) => void
-  onRemoveSort?: (index: number) => void
+  onUpdateSort: UseFiltersReturn['handleUpdateSort']
+  onRemoveSort: UseFiltersReturn['handleRemoveSort']
   sortOptions: SortOption[]
   sortDirections: SortDirection[]
 }
@@ -109,13 +110,13 @@ const SortableItem = ({
 interface SortsProps {
   activeSorts: SortValue[]
   sortOptions: SortOption[]
-  handleUpdateSort: (index: number, sort: SortValue) => void
-  handleSortChange: (sort: SortValue) => void
-  handleRemoveSort: (index: number) => void
-  handleResetSorts: () => void
-  handleReorderSorts: (sorts: SortValue[]) => void
+  handleUpdateSort: UseFiltersReturn['handleUpdateSort']
+  handleSortChange: UseFiltersReturn['handleSortChange']
+  handleRemoveSort: UseFiltersReturn['handleRemoveSort']
+  handleResetSorts: UseFiltersReturn['handleResetSorts']
+  handleReorderSorts: UseFiltersReturn['handleReorderSorts']
   searchQueries: FilterSearchQueries
-  handleSearchChange: (type: string, query: string, searchType: keyof FilterSearchQueries) => void
+  handleSearchChange: UseFiltersReturn['handleSearchChange']
   sortDirections: SortDirection[]
   filterToOpen: FilterAction | null
   onOpen?: () => void

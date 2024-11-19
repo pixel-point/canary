@@ -2,7 +2,39 @@ import { useCallback, useState } from 'react'
 
 import { FilterValue, SortValue, FilterSearchQueries, FilterAction } from './types'
 
-const useFilters = () => {
+export interface UseFiltersReturn {
+  // State values
+  activeFilters: FilterValue[]
+  activeSorts: SortValue[]
+  searchQueries: FilterSearchQueries
+  filterToOpen: FilterAction | null
+
+  // Filter methods
+  handleFilterChange: (newFilter: Omit<FilterValue, 'condition' | 'selectedValues'>, defaultCondition?: string) => void
+  handleUpdateFilter: (type: string, selectedValues: string[]) => void
+  handleUpdateCondition: (type: string, condition: string) => void
+  handleRemoveFilter: (type: string) => void
+  handleResetFilters: () => void
+
+  // Sort methods
+  handleSortChange: (newSort: SortValue) => void
+  handleUpdateSort: (index: number, updatedSort: SortValue) => void
+  handleRemoveSort: (index: number) => void
+  handleReorderSorts: (newSorts: SortValue[]) => void
+  handleResetSorts: () => void
+
+  // Common methods
+  handleResetAll: () => void
+
+  // Search methods
+  handleSearchChange: (type: string, query: string, searchType: keyof FilterSearchQueries) => void
+  clearSearchQuery: (type: string, searchType: keyof FilterSearchQueries) => void
+
+  // Filter opening control
+  clearFilterToOpen: () => void
+}
+
+const useFilters = (): UseFiltersReturn => {
   const [activeFilters, setActiveFilters] = useState<FilterValue[]>([])
   const [activeSorts, setActiveSorts] = useState<SortValue[]>([])
   const [searchQueries, setSearchQueries] = useState<FilterSearchQueries>({

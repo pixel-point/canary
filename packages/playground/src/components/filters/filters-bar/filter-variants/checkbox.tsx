@@ -1,10 +1,11 @@
 import { DropdownMenuCheckboxItem } from '@harnessio/canary'
 import { CheckboxFilterOption, FilterValue } from '../../types'
+import { UseFiltersReturn } from '../../use-filters'
 
 interface CheckboxFilterProps {
   filter: FilterValue
   filterOption: CheckboxFilterOption
-  onUpdateFilter: (type: string, selectedValues: string[]) => void
+  onUpdateFilter: UseFiltersReturn['handleUpdateFilter']
 }
 
 const Checkbox = ({ filter, filterOption, onUpdateFilter }: CheckboxFilterProps) => {

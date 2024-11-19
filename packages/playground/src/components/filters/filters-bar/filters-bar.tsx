@@ -1,60 +1,54 @@
 import { Icon } from '@harnessio/canary'
-
-import type {
-  FilterValue,
-  FilterOption,
-  FilterSearchQueries,
-  SortOption,
-  SortValue,
-  FilterAction,
-  SortDirection
-} from '../types'
-
+import { FilterOption, SortOption, SortDirection } from '../types'
+import { UseFiltersReturn } from '../use-filters'
 import Sorts from './sorts'
 import Filters from './filters'
 
 interface FiltersBarProps {
-  activeFilters: FilterValue[]
   filterOptions: FilterOption[]
-
-  activeSorts: SortValue[]
   sortOptions: SortOption[]
   sortDirections: SortDirection[]
-
-  handleUpdateFilter: (type: string, selectedValues: string[]) => void
-  handleRemoveFilter: (type: string) => void
-  handleUpdateCondition: (type: string, condition: string) => void
-  handleUpdateSort: (index: number, sort: SortValue) => void
-  handleRemoveSort: (index: number) => void
-  handleSortChange: (sort: SortValue) => void
-  handleResetSorts: () => void
-  handleReorderSorts: (sorts: SortValue[]) => void
-  handleResetAll: () => void
-  searchQueries: FilterSearchQueries
-  handleSearchChange: (type: string, query: string, searchType: keyof FilterSearchQueries) => void
-  filterToOpen: FilterAction | null
-  clearFilterToOpen: () => void
+  filterHandlers: Pick<
+    UseFiltersReturn,
+    | 'activeFilters'
+    | 'activeSorts'
+    | 'handleUpdateFilter'
+    | 'handleRemoveFilter'
+    | 'handleUpdateCondition'
+    | 'handleUpdateSort'
+    | 'handleRemoveSort'
+    | 'handleSortChange'
+    | 'handleResetSorts'
+    | 'handleReorderSorts'
+    | 'handleResetAll'
+    | 'searchQueries'
+    | 'handleSearchChange'
+    | 'filterToOpen'
+    | 'clearFilterToOpen'
+  >
 }
 
 const FiltersBar = ({
-  activeFilters,
   filterOptions,
-  activeSorts,
   sortOptions,
   sortDirections,
-  handleResetSorts,
-  handleSortChange,
-  handleUpdateFilter,
-  handleRemoveFilter,
-  handleUpdateCondition,
-  handleUpdateSort,
-  handleRemoveSort,
-  handleReorderSorts,
-  handleResetAll,
-  searchQueries,
-  handleSearchChange,
-  filterToOpen,
-  clearFilterToOpen
+  filterHandlers: {
+    activeFilters,
+    activeSorts,
+    handleUpdateFilter,
+    handleRemoveFilter,
+    handleUpdateCondition,
+    handleUpdateSort,
+    handleRemoveSort,
+    handleSortChange,
+    handleResetSorts,
+    handleReorderSorts,
+    handleResetAll,
+    searchQueries,
+    handleSearchChange,
+    filterToOpen,
+    clearFilterToOpen
+  }
 }: FiltersBarProps) => {
   if (activeFilters.length === 0 && activeSorts.length === 0) return null
 
@@ -79,22 +73,20 @@ const FiltersBar = ({
 
       {activeFilters.length > 0 && activeSorts.length > 0 && <div className="bg-borders-1 h-7 w-px" />}
 
-      {activeFilters.map(filter => {
-        return (
-          <Filters
-            filter={filter}
-            filterOptions={filterOptions}
-            handleUpdateFilter={handleUpdateFilter}
-            handleRemoveFilter={handleRemoveFilter}
-            handleUpdateCondition={handleUpdateCondition}
-            handleSearchChange={handleSearchChange}
-            searchQueries={searchQueries}
-            filterToOpen={filterToOpen}
-            onOpen={clearFilterToOpen}
-            key={filter.type}
-          />
-        )
-      })}
+      {activeFilters.map(filter => (
+        <Filters
+          key={filter.type}
+          filter={filter}
+          filterOptions={filterOptions}
+          handleUpdateFilter={handleUpdateFilter}
+          handleRemoveFilter={handleRemoveFilter}
+          handleUpdateCondition={handleUpdateCondition}
+          handleSearchChange={handleSearchChange}
+          searchQueries={searchQueries}
+          filterToOpen={filterToOpen}
+          onOpen={clearFilterToOpen}
+        />
+      ))}
 
       {(!!activeFilters.length || !!activeSorts.length) && (
         <button

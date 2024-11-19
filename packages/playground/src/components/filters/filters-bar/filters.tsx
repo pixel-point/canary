@@ -16,11 +16,12 @@ import Text from './filter-variants/text'
 import Number from './filter-variants/number'
 import { getFilterDisplayValue, getFilteredOptions } from '../utils'
 import { useEffect, useState } from 'react'
+import { UseFiltersReturn } from '../use-filters'
 
 const renderFilterValues = (
   filter: FilterValue,
   filterOption: FilterOption,
-  onUpdateFilter: ((type: string, selectedValues: string[]) => void) | undefined,
+  onUpdateFilter: UseFiltersReturn['handleUpdateFilter'],
   filteredOptions?: CheckboxFilterOption['options']
 ) => {
   if (!onUpdateFilter) return null
@@ -51,10 +52,10 @@ const renderFilterValues = (
 interface FiltersProps {
   filter: FilterValue
   filterOptions: FilterOption[]
-  handleUpdateFilter: ((type: string, selectedValues: string[]) => void) | undefined
-  handleRemoveFilter: ((type: string) => void) | undefined
-  handleUpdateCondition: ((type: string, condition: string) => void) | undefined
-  handleSearchChange: ((type: string, value: string, searchType: 'filters') => void) | undefined
+  handleUpdateFilter: UseFiltersReturn['handleUpdateFilter']
+  handleRemoveFilter: UseFiltersReturn['handleRemoveFilter']
+  handleUpdateCondition: UseFiltersReturn['handleUpdateCondition']
+  handleSearchChange: UseFiltersReturn['handleSearchChange']
   searchQueries: FilterSearchQueries
   filterToOpen: FilterAction | null
   onOpen?: () => void

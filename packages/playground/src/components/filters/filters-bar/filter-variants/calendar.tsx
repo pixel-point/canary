@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { Calendar as UICalendar, type CalendarDateRange } from '@harnessio/canary'
 import { FilterValue } from '../../types'
+import { UseFiltersReturn } from '../../use-filters'
 
 interface CalendarProps {
   filter: FilterValue
-  onUpdateFilter: (type: string, selectedValues: string[]) => void
+  onUpdateFilter: UseFiltersReturn['handleUpdateFilter']
 }
 
 const Calendar = ({ filter, onUpdateFilter }: CalendarProps) => {

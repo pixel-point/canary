@@ -1,4 +1,5 @@
-import { FilterOption, FilterValue, SortOption, SortValue, FilterSearchQueries } from './types'
+import { FilterOption, SortOption } from './types'
+import { UseFiltersReturn } from './use-filters'
 
 import {
   DropdownMenu,
@@ -11,24 +12,27 @@ import {
 
 interface BaseFilterTriggerProps {
   type: 'filter' | 'sort'
-  searchQueries: FilterSearchQueries
-  onReset: () => void
+  options: FilterOption[] | SortOption[]
 }
 
 interface FilterTriggerFilterProps extends BaseFilterTriggerProps {
   type: 'filter'
-  activeFilters: FilterValue[]
   options: FilterOption[]
-  onChange: (filter: Omit<FilterValue, 'condition' | 'selectedValues'>, defaultCondition?: string) => void
-  onSearchChange: (type: string, query: string, searchType: keyof FilterSearchQueries) => void
+  activeFilters: UseFiltersReturn['activeFilters']
+  onChange: UseFiltersReturn['handleFilterChange']
+  onReset: UseFiltersReturn['handleResetFilters']
+  searchQueries: UseFiltersReturn['searchQueries']
+  onSearchChange: UseFiltersReturn['handleSearchChange']
 }
 
 interface FilterTriggerSortProps extends BaseFilterTriggerProps {
   type: 'sort'
-  activeFilters: SortValue[]
   options: SortOption[]
-  onChange: (sort: SortValue) => void
-  onSearchChange: (type: string, query: string, searchType: keyof FilterSearchQueries) => void
+  activeFilters: UseFiltersReturn['activeSorts']
+  onChange: UseFiltersReturn['handleSortChange']
+  onReset: UseFiltersReturn['handleResetSorts']
+  searchQueries: UseFiltersReturn['searchQueries']
+  onSearchChange: UseFiltersReturn['handleSearchChange']
 }
 
 type FilterTriggerProps = FilterTriggerFilterProps | FilterTriggerSortProps

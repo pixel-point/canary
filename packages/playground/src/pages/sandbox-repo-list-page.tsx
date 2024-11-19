@@ -387,7 +387,7 @@ function SandboxRepoListPage() {
               <SearchBox.Root placeholder="Search repositories" />
             </ListActions.Left>
             <ListActions.Right>
-              <Filters filterOptions={FILTER_OPTIONS} sortOptions={SORT_OPTIONS} {...filterHandlers} />
+              <Filters filterOptions={FILTER_OPTIONS} sortOptions={SORT_OPTIONS} filterHandlers={filterHandlers} />
               <Button variant="default">New repository</Button>
             </ListActions.Right>
           </ListActions.Root>
@@ -396,7 +396,7 @@ function SandboxRepoListPage() {
             filterOptions={FILTER_OPTIONS}
             sortOptions={SORT_OPTIONS}
             sortDirections={SORT_DIRECTIONS}
-            {...filterHandlers}
+            filterHandlers={filterHandlers}
           />
           <Spacer size={5} />
 
