@@ -1,6 +1,7 @@
 import { cn, DropdownMenuCheckboxItem, DropdownMenuItem, Icon, Input } from '@harnessio/canary'
 import { CheckboxFilterOption, FilterValue } from '../../types'
 import { UseFiltersReturn } from '../../use-filters'
+import { getFilteredOptions } from '../../utils'
 
 interface CheckboxFilterProps {
   filter: FilterValue
@@ -11,6 +12,8 @@ interface CheckboxFilterProps {
 }
 
 const Checkbox = ({ filter, filterOption, onUpdateFilter, searchQueries, handleSearchChange }: CheckboxFilterProps) => {
+  const filteredOptions = getFilteredOptions(filterOption, filter, searchQueries)
+
   return (
     <>
       {filter.condition !== 'is_empty' && (
@@ -57,7 +60,7 @@ const Checkbox = ({ filter, filterOption, onUpdateFilter, searchQueries, handleS
             </div>
             {(!!filter.selectedValues.length || searchQueries.filters[filter.type]) && (
               <button
-                className="text-foreground-4 hover:text-foreground-1 -mr-2.5 flex p-1.5 transition-colors duration-200"
+                className="text-foreground-4 hover:text-foreground-1 flex p-1.5 transition-colors duration-200"
                 onClick={() => {
                   onUpdateFilter(filter.type, [])
                   handleSearchChange?.(filter.type, '', 'filters')
@@ -69,9 +72,9 @@ const Checkbox = ({ filter, filterOption, onUpdateFilter, searchQueries, handleS
         </div>
       )}
 
-      {!!filterOption.options.length && (
+      {!!filteredOptions.length && (
         <div className="px-2 py-1">
-          {filterOption.options.map(option => (
+          {filteredOptions.map(option => (
             <DropdownMenuCheckboxItem
               className="pl-[34px]"
               checked={filter.selectedValues.includes(option.value)}

@@ -144,15 +144,7 @@ const Filters = ({
 
         <div>
           {filter.condition !== 'is_empty' &&
-            handleUpdateFilter &&
-            renderFilterValues(
-              filter,
-              filterOption,
-              handleUpdateFilter,
-              searchQueries,
-              handleSearchChange,
-              filterOption.type === 'checkbox' ? getFilteredOptions(filterOption, filter, searchQueries) : undefined
-            )}
+            renderFilterValues(filter, filterOption, handleUpdateFilter, searchQueries, handleSearchChange)}
 
           {filterOption.type === 'checkbox' && getFilteredOptions(filterOption, filter, searchQueries).length === 0 && (
             <div className="flex items-center justify-center p-4">
