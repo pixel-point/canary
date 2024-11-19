@@ -13,6 +13,9 @@ import {
 interface BaseFilterTriggerProps {
   type: 'filter' | 'sort'
   options: FilterOption[] | SortOption[]
+  customLabel?: React.ReactNode | string
+  hideCount?: boolean
+  dropdownAlign?: 'start' | 'end'
 }
 
 interface FilterTriggerFilterProps extends BaseFilterTriggerProps {
@@ -20,7 +23,7 @@ interface FilterTriggerFilterProps extends BaseFilterTriggerProps {
   options: FilterOption[]
   activeFilters: UseFiltersReturn['activeFilters']
   onChange: UseFiltersReturn['handleFilterChange']
-  onReset: UseFiltersReturn['handleResetFilters']
+  onReset?: UseFiltersReturn['handleResetFilters']
   searchQueries: UseFiltersReturn['searchQueries']
   onSearchChange: UseFiltersReturn['handleSearchChange']
 }
@@ -39,12 +42,12 @@ type FilterTriggerProps = FilterTriggerFilterProps | FilterTriggerSortProps
 
 const LABELS = {
   filter: {
-    label: 'Filter',
+    defaultLabel: 'Filter',
     inputPlaceholder: 'Filter by...',
     buttonLabel: 'Reset filters'
   },
   sort: {
-    label: 'Sort',
+    defaultLabel: 'Sort',
     inputPlaceholder: 'Sort by...',
     buttonLabel: 'Reset sort'
   }
@@ -53,13 +56,17 @@ const LABELS = {
 const FilterTrigger = ({
   type,
   activeFilters,
+  customLabel,
+  hideCount,
+  dropdownAlign = 'end',
   onChange,
   onReset,
   searchQueries,
   onSearchChange,
   options
 }: FilterTriggerProps) => {
-  const { label, inputPlaceholder, buttonLabel } = LABELS[type]
+  const { defaultLabel, inputPlaceholder, buttonLabel } = LABELS[type]
+  const displayLabel = customLabel || defaultLabel
 
   const isFilterOption = (option: FilterOption | SortOption): option is FilterOption => {
     return 'type' in option && (option as FilterOption).type !== undefined
@@ -97,16 +104,16 @@ const FilterTrigger = ({
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center gap-x-1.5">
         <span className="text-foreground-2 hover:text-foreground-1 text-14 flex items-center gap-x-1">
-          {label}
-          {activeFilters.length > 0 && (
+          {displayLabel}
+          {!hideCount && activeFilters.length > 0 && (
             <span className="text-foreground-2 bg-background-2 text-11 border-borders-5 flex h-[18px] min-w-[17px] items-center justify-center rounded border px-1">
               {activeFilters.length}
             </span>
           )}
         </span>
-        <Icon className="chevron-down text-icons-4" name="chevron-fill-down" size={6} />
+        {!customLabel && <Icon className="chevron-down text-icons-4" name="chevron-fill-down" size={6} />}
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="min-w-[224px] p-0" align="end">
+      <DropdownMenuContent className="min-w-[224px] p-0" align={dropdownAlign}>
         <div className="border-borders-4 relative flex items-center justify-between border-b px-3 py-2.5">
           <Input
             type="text"
@@ -145,13 +152,15 @@ const FilterTrigger = ({
           )}
         </div>
 
-        <div className="border-borders-4 border-t p-1">
-          <DropdownMenuItem asChild>
-            <button className="w-full font-medium" onClick={onReset}>
-              {buttonLabel}
-            </button>
-          </DropdownMenuItem>
-        </div>
+        {onReset && (
+          <div className="border-borders-4 border-t p-1">
+            <DropdownMenuItem asChild>
+              <button className="w-full font-medium" onClick={onReset}>
+                {buttonLabel}
+              </button>
+            </DropdownMenuItem>
+          </div>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   )

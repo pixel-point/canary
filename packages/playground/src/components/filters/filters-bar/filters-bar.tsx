@@ -3,6 +3,7 @@ import { FilterOption, SortOption, SortDirection } from '../types'
 import { UseFiltersReturn } from '../use-filters'
 import Sorts from './sorts'
 import Filters from './filters'
+import FilterTrigger from '../filter-trigger'
 
 interface FiltersBarProps {
   filterOptions: FilterOption[]
@@ -14,6 +15,7 @@ interface FiltersBarProps {
     | 'activeSorts'
     | 'handleUpdateFilter'
     | 'handleRemoveFilter'
+    | 'handleFilterChange'
     | 'handleUpdateCondition'
     | 'handleUpdateSort'
     | 'handleRemoveSort'
@@ -38,6 +40,7 @@ const FiltersBar = ({
     handleUpdateFilter,
     handleRemoveFilter,
     handleUpdateCondition,
+    handleFilterChange,
     handleUpdateSort,
     handleRemoveSort,
     handleSortChange,
@@ -89,12 +92,30 @@ const FiltersBar = ({
       ))}
 
       {(!!activeFilters.length || !!activeSorts.length) && (
-        <button
-          className="text-14 text-foreground-4 hover:text-foreground-danger ring-offset-background ml-2.5 flex items-center gap-x-1.5 outline-none ring-offset-2 transition-colors duration-200 focus:ring-2"
-          onClick={handleResetAll}>
-          <Icon className="rotate-45" name="plus" size={12} />
-          Reset
-        </button>
+        <div className="ml-2.5 flex items-center gap-x-4">
+          <FilterTrigger
+            type="filter"
+            customLabel={
+              <div className="text-foreground-4 hover:text-foreground-1 flex items-center gap-x-1.5 transition-colors duration-200">
+                <Icon name="plus" size={10} />
+                <span>Add filter</span>
+              </div>
+            }
+            hideCount
+            dropdownAlign="start"
+            activeFilters={activeFilters}
+            onChange={handleFilterChange}
+            searchQueries={searchQueries}
+            onSearchChange={handleSearchChange}
+            options={filterOptions}
+          />
+          <button
+            className="text-14 text-foreground-4 hover:text-foreground-danger ring-offset-background flex items-center gap-x-1.5 outline-none ring-offset-2 transition-colors duration-200 focus:ring-2"
+            onClick={handleResetAll}>
+            <Icon className="rotate-45" name="plus" size={12} />
+            Reset
+          </button>
+        </div>
       )}
     </div>
   )
