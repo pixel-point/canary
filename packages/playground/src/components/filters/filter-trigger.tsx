@@ -125,16 +125,16 @@ const FilterTrigger = ({
           />
 
           {searchQueries.menu[type] && (
-            <DropdownMenuItem className="absolute right-3 hover:bg-transparent focus:bg-transparent" asChild>
+            <div className="absolute right-3">
               <button
-                className="text-foreground-4 hover:text-foreground-1 flex transition-colors duration-200"
+                className="text-foreground-4 hover:text-foreground-1 flex p-1.5 transition-colors duration-200"
                 onClick={e => {
                   e.preventDefault()
                   onSearchChange(type, '', 'menu')
                 }}>
                 <Icon className="rotate-45" name="plus" size={12} />
               </button>
-            </DropdownMenuItem>
+            </div>
           )}
         </div>
 
