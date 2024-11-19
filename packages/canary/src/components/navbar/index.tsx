@@ -63,8 +63,8 @@ function Header({ children }: { children: React.ReactNode }) {
   return <div className="sticky top-0 z-20 grid items-center">{children}</div>
 }
 
-function Content({ children }: { children: React.ReactNode }) {
-  return <div className="flex min-w-0 flex-col">{children}</div>
+function Content({ children, className }: { children: React.ReactNode; className?: string }) {
+  return <div className={cn('flex min-w-0 flex-col', className)}>{children}</div>
 }
 
 interface GroupProps {
@@ -108,7 +108,7 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
     return (
       <div
         className={cn(
-          'group relative grid cursor-pointer select-none grid-cols-[auto_1fr] items-center gap-3 py-2',
+          'group relative grid cursor-pointer select-none grid-cols-[auto_1fr] items-center gap-3 pb-[0.6875rem] pt-[0.5625rem]',
           { 'gap-0': !icon },
           className
         )}>
@@ -118,7 +118,7 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
             { 'bg-background-4': active }
           )}
         />
-        <div className="z-10 col-start-1 row-span-full flex items-center">
+        <div className="z-10 col-start-1 row-span-full mt-px flex items-center">
           {icon ? (
             <div className="sub-menu-icon-bg relative flex size-8 place-content-center place-items-center rounded border border-borders-1 bg-background-2">
               <Icon
@@ -143,15 +143,7 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
             {text}
           </Text>
           {!!description && (
-            <Text
-              size={0}
-              truncate
-              className={cn(
-                'text-foreground-5 group-hover:text-foreground-3 z-10 w-full truncate leading-[1.125rem] duration-0 ease-in-out',
-                {
-                  'text-foreground-3': active
-                }
-              )}>
+            <Text className="z-10 w-full truncate leading-4 text-foreground-4 duration-0 ease-in-out" size={1} truncate>
               {description}
             </Text>
           )}
@@ -165,7 +157,7 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
       {icon && (
         <div
           className={cn(
-            'text-icons-4 group-hover:text-icons-2 relative z-10 mt-[3px] flex h-3 w-3 min-w-3 items-center duration-100 ease-in-out',
+            'text-icons-4 group-hover:text-icons-2 relative z-10 mt-1 flex h-3 w-3 min-w-3 items-center duration-100 ease-in-out',
             { 'text-icons-2': active }
           )}>
           {active && (

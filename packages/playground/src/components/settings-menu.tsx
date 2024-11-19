@@ -1,25 +1,26 @@
 import { Icon, Navbar, Sheet, SheetContent, Spacer, SheetTitle } from '@harnessio/canary'
 import { NavLink } from 'react-router-dom'
-import { settingsMenuData } from '../data/mockSystemAsminMenuData'
+import { MenuGroup } from './navbar/types'
 
 interface SystemAdminMenuProps {
-  showSystemAdmin: boolean
-  handleSystemAdmin: () => void
+  showSettingMenu: boolean
+  handleSettingsMenu: () => void
+  items: MenuGroup[]
 }
 
-export const SettingsMenu = ({ showSystemAdmin, handleSystemAdmin }: SystemAdminMenuProps) => {
+export const SettingsMenu = ({ showSettingMenu, handleSettingsMenu, items }: SystemAdminMenuProps) => {
   return (
-    <Sheet modal={false} open={showSystemAdmin}>
+    <Sheet modal={false} open={showSettingMenu}>
       <SheetContent
         className="inset-y-0 left-[220px] z-40 h-screen w-[364px] bg-transparent p-0"
         side="left"
-        onClick={handleSystemAdmin}
+        onClick={handleSettingsMenu}
         modal={false}>
         <SheetTitle className="sr-only">System Administration menu</SheetTitle>
         <Navbar.Root className="w-[364px]" isSubMenu>
           <Navbar.Content>
             <Spacer size={9} />
-            {settingsMenuData.map((group, group_idx) => (
+            {items.map((group, group_idx) => (
               <Navbar.Group key={group.groupId} topBorder={group_idx > 0} title={group.title} titleClassName="mb-1.5">
                 <div className="grid grid-cols-2 gap-x-6 gap-y-[0.6875rem]">
                   {group.items.map(item => (
