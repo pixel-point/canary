@@ -15,7 +15,7 @@ const DropdownMenuTrigger = React.forwardRef<
   <DropdownMenuPrimitive.Trigger
     ref={ref}
     className={cn(
-      'ring-offset-background outline-none focus:ring-2 focus:ring-offset-2 [&>svg.chevron-down]:duration-100 [&>svg.chevron-down]:ease-in-out [&>svg.chevron-down]:data-[state=open]:rotate-180',
+      'ring-offset-background group outline-none focus:ring-2 focus:ring-offset-2 [&>svg.chevron-down]:duration-100 [&>svg.chevron-down]:ease-in-out [&>svg.chevron-down]:data-[state=open]:rotate-180',
       { 'flex cursor-pointer items-center border-l border-inherit px-2.5 py-0.5 outline-none': insideSplitButton },
       className
     )}
@@ -82,6 +82,7 @@ const DropdownMenuContent = React.forwardRef<
         'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
         className
       )}
+      onCloseAutoFocus={e => e.preventDefault()}
       {...props}
     />
   </DropdownMenuPrimitive.Portal>
@@ -97,7 +98,8 @@ const DropdownMenuItem = React.forwardRef<
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={cn(
-      'text-foreground-8 focus:bg-background-4 focus:text-primary relative flex cursor-pointer select-none items-center rounded-sm px-2 py-[7px] text-sm outline-none transition-colors',
+      'text-foreground-8 focus:bg-background-4 focus:text-primary relative flex cursor-pointer select-none items-center rounded px-2 py-[7px] text-sm outline-none transition-colors',
+      'data-[highlighted]:bg-background-4',
       'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       inset && 'pl-8',
       className
@@ -119,9 +121,9 @@ const DropdownMenuCheckboxItem = React.forwardRef<
     )}
     checked={checked}
     {...props}>
-    <span className="border-borders-9 group-data-[state=checked]:border-icons-2 absolute left-2 flex h-4 w-4 items-center justify-center rounded-sm border">
-      <DropdownMenuPrimitive.ItemIndicator className="bg-icons-2 flex h-full w-full items-center justify-center">
-        <Icon className="text-icons-5 h-[7px]" name="checkbox" />
+    <span className="absolute left-2 flex size-4 items-center justify-center rounded-sm border border-borders-9 group-data-[state=checked]:border-icons-2">
+      <DropdownMenuPrimitive.ItemIndicator className="flex size-full items-center justify-center bg-icons-2">
+        <Icon className="h-[7px] text-icons-5" name="checkbox" />
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
     <span className="text-14 text-foreground-8">{children}</span>

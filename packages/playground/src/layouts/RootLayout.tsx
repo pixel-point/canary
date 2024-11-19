@@ -1,9 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { MoreSubmenu } from '../components/more-submenu'
 import type { TypesUser } from './types'
 import { Navbar } from '../components/navbar'
 import { SettingsMenu } from '../components/settings-menu'
+import { navbarMenuData } from '../data/mockNavbarMenuData'
+import { MenuGroupType, MenuGroupTypes, NavbarItemType } from '../components/navbar/types'
+import { pinnedMenuItemsData, recentMenuItemsData } from '../data/mockPinnedAndRecentMenuData'
 
 interface RootLayoutProps {
   currentUser: TypesUser | undefined
@@ -11,67 +14,121 @@ interface RootLayoutProps {
 
 export const RootLayout: React.FC<RootLayoutProps> = ({ currentUser }) => {
   const location = useLocation()
-  const [showMore, setShowMore] = useState(false)
-  const [showSystemAdmin, setShowSystemAdmin] = useState(false)
+  const [recentMenuItems, setRecentMenuItems] = useState<NavbarItemType[]>(recentMenuItemsData)
+  const [pinnedMenuItems, setPinnedMenuItems] = useState<NavbarItemType[]>(pinnedMenuItemsData)
+  const [showMoreMenu, setShowMoreMenu] = useState(false)
+  const [showSettingMenu, setShowSettingMenu] = useState(false)
+  const [showCustomNav, setShowCustomNav] = useState(false)
 
-  const handleMore = () => {
-    setShowSystemAdmin(false)
-    setShowMore(prevState => !prevState)
-  }
+  /**
+   * Map mock data menu by type to Settings and More
+   */
+  const { moreMenu, settingsMenu } = useMemo(() => {
+    return navbarMenuData.reduce<{
+      moreMenu: MenuGroupType[]
+      settingsMenu: MenuGroupType[]
+    }>(
+      (acc, item) => {
+        if (item.type === MenuGroupTypes.SETTINGS) {
+          acc.settingsMenu.push(item)
+        } else {
+          acc.moreMenu.push(item)
+        }
 
-  const handleSystemAdmin = () => {
-    setShowMore(false)
-    setShowSystemAdmin(prevState => !prevState)
-  }
+        return acc
+      },
+      {
+        moreMenu: [],
+        settingsMenu: []
+      }
+    )
+  }, [])
 
+  // TODO: add log out func
+  const handleLogOut = useCallback(() => {}, [])
+
+  /**
+   * Toggle show more menu
+   */
+  const handleMoreMenu = useCallback(() => {
+    setShowSettingMenu(false)
+    setShowMoreMenu(prevState => !prevState)
+  }, [])
+
+  /**
+   * Toggle system settings menu
+   */
+  const handleSettingsMenu = useCallback(() => {
+    setShowMoreMenu(false)
+    setShowSettingMenu(prevState => !prevState)
+  }, [])
+
+  /**
+   * Toggle custom navigation modal
+   */
+  const handleCustomNav = useCallback(() => {
+    setShowCustomNav(prevState => !prevState)
+  }, [])
+
+  /**
+   * Close all menu when location changed
+   */
   useEffect(() => {
-    setShowMore(false)
-    setShowSystemAdmin(false)
+    setShowMoreMenu(false)
+    setShowSettingMenu(false)
+    setShowCustomNav(false)
   }, [location])
 
-  // const handlePinItem = (item: NavbarItem) => {
-  //   setPinnedItems(prevPinnedItems => {
-  //     const isPinned = prevPinnedItems.some(pinned => pinned.id === item.id)
-  //
-  //     if (isPinned) {
-  //       return prevPinnedItems.filter(pinned => pinned.id !== item.id)
-  //     }
-  //
-  //     const itemToPin = navbarSubmenuData.flatMap(group => group.items).find(i => i.id === item.id)
-  //
-  //     if (itemToPin) {
-  //       return [
-  //         {
-  //           id: itemToPin.id,
-  //           title: itemToPin.title,
-  //           iconName: itemToPin.iconName,
-  //           description: itemToPin.description,
-  //           to: itemToPin.to || ''
-  //         },
-  //         ...prevPinnedItems
-  //       ]
-  //     }
-  //
-  //     return prevPinnedItems
-  //   })
-  // }
+  /**
+   * Remove recent menu item
+   */
+  const handleRemoveRecentMenuItem = useCallback((item: NavbarItemType) => {
+    setRecentMenuItems(prevState => prevState.filter(prevStateItem => prevStateItem.id !== item.id))
+  }, [])
+
+  /**
+   * Change pinned menu items
+   */
+  const handleChangePinnedMenuItem = useCallback(
+    (item: NavbarItemType) => {
+      setPinnedMenuItems(prevState => {
+        const isPinned = prevState.some(pinned => pinned.id === item.id)
+
+        if (isPinned) {
+          return prevState.filter(pinned => pinned.id !== item.id)
+        }
+
+        // If pin item, remove it from recent
+        handleRemoveRecentMenuItem(item)
+
+        return [...prevState, item]
+      })
+    },
+    [handleRemoveRecentMenuItem]
+  )
 
   return (
     <>
       <div className="min-w-screen grid md:grid-cols-[220px_minmax(900px,_1fr)]">
         <Navbar
-          showMore={showMore}
-          showSystemAdmin={showSystemAdmin}
-          handleMore={handleMore}
-          handleSystemAdmin={handleSystemAdmin}
+          showMoreMenu={showMoreMenu}
+          showSettingMenu={showSettingMenu}
+          handleMoreMenu={handleMoreMenu}
+          handleSettingsMenu={handleSettingsMenu}
           currentUser={currentUser}
+          handleCustomNav={handleCustomNav}
+          handleLogOut={handleLogOut}
+          recentMenuItems={recentMenuItems}
+          pinnedMenuItems={pinnedMenuItems}
+          handleChangePinnedMenuItem={handleChangePinnedMenuItem}
+          handleRemoveRecentMenuItem={handleRemoveRecentMenuItem}
         />
         <main className="col-start-2 box-border min-h-screen overflow-x-hidden overflow-y-scroll">
           <Outlet />
         </main>
       </div>
-      <MoreSubmenu showMore={showMore} handleMore={handleMore} />
-      <SettingsMenu showSystemAdmin={showSystemAdmin} handleSystemAdmin={handleSystemAdmin} />
+      <MoreSubmenu showMoreMenu={showMoreMenu} handleMoreMenu={handleMoreMenu} items={moreMenu} />
+      <SettingsMenu showSettingMenu={showSettingMenu} handleSettingsMenu={handleSettingsMenu} items={settingsMenu} />
     </>
   )
 }
