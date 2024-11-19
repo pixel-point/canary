@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import {
   AlertDialog,
   AlertDialogContent,
@@ -17,6 +17,10 @@ import {
   ScrollArea
 } from '@harnessio/canary'
 import type { IconProps } from '@harnessio/canary'
+import useDragAndDrop from '../hooks/use-drag-and-drop'
+import { SortableContext, useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+import { DndContext, closestCenter } from '@dnd-kit/core'
 
 export interface NavbarItem {
   id: number
@@ -223,6 +227,29 @@ interface ManageNavigationDialogProps {
   submitted: boolean
 }
 
+interface DraggableItemProps {
+  id: string
+  children: (props: { attributes: any; listeners: any; setNodeRef: any; isDragging: boolean }) => React.ReactNode
+  tag: 'button' | 'div' | 'li'
+}
+
+const DraggableItem = ({ id, children, tag: Tag = 'div' }: DraggableItemProps) => {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id
+  })
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1
+  }
+  return (
+    <Tag className={cn('relative', isDragging && 'z-10')} ref={setNodeRef} style={style}>
+      {children({ attributes, listeners, setNodeRef, isDragging })}
+    </Tag>
+  )
+}
+
 export const ManageNavigationDialog = ({
   // pinnedItems,
   // updatePinnedItems,
@@ -234,6 +261,11 @@ export const ManageNavigationDialog = ({
   submitted
 }: ManageNavigationDialogProps) => {
   const [pinnedItems, setPinnedItems] = useState<NavbarItem[]>(mockPinnedItems)
+
+  const { handleDragEnd, getItemId } = useDragAndDrop({
+    items: pinnedItems,
+    onReorder: setPinnedItems
+  })
 
   // Form edit submit handler
   const onSubmit = () => {
@@ -271,28 +303,40 @@ export const ManageNavigationDialog = ({
             <Text className="text-foreground-7 inline-block leading-none" size={1}>
               Pinned
             </Text>
-            {pinnedItems.length > 0 ? (
-              <ul className="-mx-3 mt-3.5 flex flex-col gap-y-0.5">
-                {pinnedItems.map(item => (
-                  <li className="relative" key={item.title}>
-                    <Button className="w-full grow gap-x-2.5 px-3" variant="ghost">
-                      <Icon className="w-3" name="grid-dots" size={16} />
-                      <Text className="text-foreground-8 w-full text-left">{item.title}</Text>
-                    </Button>
-                    <Button
-                      className="text-icons-4 hover:text-icons-2 absolute right-0.5 top-0.5"
-                      size="sm_icon"
-                      variant="custom"
-                      onClick={() => removeFromPinnedItems(item)}>
-                      <Icon name="x-mark" size={12} />
-                    </Button>
-                  </li>
-                ))}
-              </ul>
-            ) : (
+            {!pinnedItems.length ? (
               <Text className="text-foreground-5 mt-3 block" size={1}>
                 No pinned items
               </Text>
+            ) : (
+              <DndContext onDragEnd={handleDragEnd} collisionDetection={closestCenter}>
+                <SortableContext items={pinnedItems.map((_, index) => getItemId(index))}>
+                  <ul className="-mx-3 mt-3.5 flex flex-col gap-y-0.5">
+                    {pinnedItems.map((item, index) => (
+                      <DraggableItem id={getItemId(index)} tag="li" key={item.title}>
+                        {({ attributes, listeners }) => (
+                          <>
+                            <Button
+                              className="w-full grow cursor-grab gap-x-2.5 rounded p-1 px-3 active:cursor-grabbing"
+                              variant="ghost"
+                              {...attributes}
+                              {...listeners}>
+                              <Icon className="w-3" name="grid-dots" size={16} />
+                              <Text className="text-foreground-8 w-full text-left">{item.title}</Text>
+                            </Button>
+                            <Button
+                              className="text-icons-4 hover:text-icons-2 absolute right-0.5 top-0.5 z-20"
+                              size="sm_icon"
+                              variant="custom"
+                              onClick={() => removeFromPinnedItems(item)}>
+                              <Icon name="x-mark" size={12} />
+                            </Button>
+                          </>
+                        )}
+                      </DraggableItem>
+                    ))}
+                  </ul>
+                </SortableContext>
+              </DndContext>
             )}
             {recentItems.length > 0 && (
               <>
