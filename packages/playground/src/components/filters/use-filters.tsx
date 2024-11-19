@@ -263,16 +263,18 @@ const useFilters = ({
   }
 
   /**
-   * Save current filters and sorts to localStorage for the current page
-   * This preserves filter state between page reloads
+   * Saves current filter state using provided onSave callback
+   * Parent component is responsible for implementing the actual save logic
+   * (e.g. localStorage, API call, cookies etc.)
    */
   const handleSaveFilters = useCallback(() => {
     onSave?.()
   }, [onSave])
 
   /**
-   * Clear saved filters for the current page only
-   * This removes saved state from localStorage and resets all filters
+   * Clears saved filter state using provided onClear callback
+   * Parent component is responsible for implementing the actual clear logic
+   * and resetting filters to initial state
    */
   const handleClearSavedFilters = useCallback(() => {
     onClear?.()
