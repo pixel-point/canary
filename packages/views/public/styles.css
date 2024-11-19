@@ -2472,6 +2472,10 @@ body {
   height: 72px;
 }
 
+.h-\[7px\] {
+  height: 7px;
+}
+
 .h-\[var\(--radix-navigation-menu-viewport-height\)\] {
   height: var(--radix-navigation-menu-viewport-height);
 }
@@ -3261,6 +3265,10 @@ body {
   border-color: hsl(var(--border-05));
 }
 
+.border-borders-9 {
+  border-color: hsl(var(--border-09));
+}
+
 .border-borders-danger\/30 {
   border-color: hsl(var(--border-danger) / 0.3);
 }
@@ -3428,6 +3436,10 @@ body {
 
 .bg-foreground {
   background-color: hsl(var(--foreground));
+}
+
+.bg-icons-2 {
+  background-color: hsl(var(--icon-02));
 }
 
 .bg-muted {
@@ -3787,6 +3799,10 @@ body {
   font-size: 0.8125rem;
 }
 
+.text-14 {
+  font-size: 0.875rem;
+}
+
 .text-16 {
   font-size: 1rem;
 }
@@ -3975,6 +3991,10 @@ body {
   color: hsl(var(--foreground-07));
 }
 
+.text-foreground-8 {
+  color: hsl(var(--foreground-08));
+}
+
 .text-foreground-9 {
   color: hsl(var(--foreground-09));
 }
@@ -3993,6 +4013,10 @@ body {
 
 .text-icons-4 {
   color: hsl(var(--icon-04));
+}
+
+.text-icons-5 {
+  color: hsl(var(--icon-05));
 }
 
 .text-inherit {
@@ -6012,6 +6036,10 @@ body {
 .group[data-state="open"] .group-data-\[state\=open\]\:rotate-180 {
   --tw-rotate: 180deg;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.group[data-state="checked"] .group-data-\[state\=checked\]\:border-icons-2 {
+  border-color: hsl(var(--icon-02));
 }
 
 .dark\:border-destructive:is(.dark *) {
@@ -8392,6 +8420,10 @@ body{
   height: 77px;
 }
 
+.h-\[7px\]{
+  height: 7px;
+}
+
 .h-\[calc\(100vh-23rem\)\]{
   height: calc(100vh - 23rem);
 }
@@ -9629,6 +9661,10 @@ body{
   border-color: hsl(var(--border-05));
 }
 
+.border-borders-9{
+  border-color: hsl(var(--border-09));
+}
+
 .border-borders-danger\/30{
   border-color: hsl(var(--border-danger) / 0.3);
 }
@@ -9878,6 +9914,10 @@ body{
 
 .bg-foreground{
   background-color: hsl(var(--foreground));
+}
+
+.bg-icons-2{
+  background-color: hsl(var(--icon-02));
 }
 
 .bg-inherit{
@@ -10527,6 +10567,10 @@ body{
   font-size: 0.8125rem;
 }
 
+.text-14{
+  font-size: 0.875rem;
+}
+
 .text-16{
   font-size: 1rem;
 }
@@ -10783,6 +10827,10 @@ body{
   color: hsl(var(--foreground-07));
 }
 
+.text-foreground-8{
+  color: hsl(var(--foreground-08));
+}
+
 .text-foreground-9{
   color: hsl(var(--foreground-09));
 }
@@ -10806,6 +10854,10 @@ body{
 
 .text-icons-4{
   color: hsl(var(--icon-04));
+}
+
+.text-icons-5{
+  color: hsl(var(--icon-05));
 }
 
 .text-inherit{
@@ -12774,6 +12826,10 @@ mark {
 .group[data-state="open"] .group-data-\[state\=open\]\:rotate-180{
   --tw-rotate: 180deg;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.group[data-state="checked"] .group-data-\[state\=checked\]\:border-icons-2{
+  border-color: hsl(var(--icon-02));
 }
 
 .dark\:-rotate-90:is(.dark *){

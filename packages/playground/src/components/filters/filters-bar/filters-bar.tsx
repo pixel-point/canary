@@ -77,7 +77,7 @@ const FiltersBar = ({
         />
       )}
 
-      {activeFilters.length > 0 && activeSorts.length > 0 && <div className="bg-borders-1 h-7 w-px" />}
+      {activeFilters.length > 0 && activeSorts.length > 0 && <div className="h-7 w-px bg-borders-1" />}
 
       {activeFilters.map(filter => {
         return (
@@ -98,7 +98,7 @@ const FiltersBar = ({
 
       {(!!activeFilters.length || !!activeSorts.length) && (
         <button
-          className="text-14 text-foreground-4 hover:text-foreground-danger ring-offset-background ml-2.5 flex items-center gap-x-1.5 outline-none ring-offset-2 transition-colors duration-200 focus:ring-2"
+          className="ml-2.5 flex items-center gap-x-1.5 text-14 text-foreground-4 outline-none ring-offset-2 ring-offset-background transition-colors duration-200 hover:text-foreground-danger focus:ring-2"
           onClick={handleResetAll}>
           <Icon className="rotate-45" name="plus" size={12} />
           Reset

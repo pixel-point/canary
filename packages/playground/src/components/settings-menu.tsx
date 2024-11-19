@@ -3,17 +3,17 @@ import { NavLink } from 'react-router-dom'
 import { settingsMenuData } from '../data/mockSystemAsminMenuData'
 
 interface SystemAdminMenuProps {
-  showSystemAdmin: boolean
-  handleSystemAdmin: () => void
+  showSettingMenu: boolean
+  handleSettingsMenu: () => void
 }
 
-export const SettingsMenu = ({ showSystemAdmin, handleSystemAdmin }: SystemAdminMenuProps) => {
+export const SettingsMenu = ({ showSettingMenu, handleSettingsMenu }: SystemAdminMenuProps) => {
   return (
-    <Sheet modal={false} open={showSystemAdmin}>
+    <Sheet modal={false} open={showSettingMenu}>
       <SheetContent
         className="inset-y-0 left-[220px] z-40 h-screen w-[364px] bg-transparent p-0"
         side="left"
-        onClick={handleSystemAdmin}
+        onClick={handleSettingsMenu}
         modal={false}>
         <SheetTitle className="sr-only">System Administration menu</SheetTitle>
         <Navbar.Root className="w-[364px]" isSubMenu>
