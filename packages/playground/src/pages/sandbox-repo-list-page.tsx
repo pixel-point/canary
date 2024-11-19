@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { RepoList } from '../components/repo-list'
 import {
   Text,
@@ -25,7 +25,9 @@ import {
   type FilterCondition,
   type FilterOption,
   type SortDirection,
-  type SortOption
+  type SortOption,
+  type FilterValue,
+  type SortValue
 } from '../components/filters'
 
 import useFilters from '../components/filters/use-filters'
@@ -117,17 +119,104 @@ const SORT_DIRECTIONS: SortDirection[] = [
 function SandboxRepoListPage() {
   const [loadState, setLoadState] = useState('float')
 
+  // State for storing saved filters and sorts
+  // null means no saved state exists
+  const [savedState, setSavedState] = useState<{
+    filters: FilterValue[]
+    sorts: SortValue[]
+  } | null>(null)
+  // Controls visibility of the Save button
+  // true when current filters/sorts differ from saved state
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
+
+  /**
+   * Load previously saved filters from localStorage when component mounts
+   * This restores the last saved filter configuration for this page
+   */
+  useEffect(() => {
+    try {
+      const savedFiltersString = localStorage.getItem('sandbox-repo-filters')
+      if (savedFiltersString) {
+        const savedFilters = JSON.parse(savedFiltersString)
+        setSavedState(savedFilters)
+      }
+    } catch (error) {
+      console.error('Error loading saved filters:', error)
+    }
+  }, [])
+
+  /**
+   * Initialize filters hook with handlers for managing filter state
+   */
+  const filterHandlers = useFilters({
+    // Pass saved state to initialize filters
+    initialState: savedState ?? undefined,
+    /**
+     * Called whenever filters or sorts change
+     * Determines if current state differs from saved state to show/hide Save button
+     */
+    onStateChange: state => {
+      // If no saved state exists, show Save button if any filters/sorts are active
+      if (!savedState) {
+        setHasUnsavedChanges(state.filters.length > 0 || state.sorts.length > 0)
+        return
+      }
+
+      // Compare current state with saved state
+      // Show Save button only if:
+      // 1. States are different AND
+      // 2. There are actually some filters/sorts active
+      const isChanged =
+        JSON.stringify(state) !== JSON.stringify(savedState) && (state.filters.length > 0 || state.sorts.length > 0)
+
+      setHasUnsavedChanges(isChanged)
+    },
+    // Controls Save button visibility
+    hasUnsavedChanges,
+    /**
+     * Called when Save button is clicked
+     * Saves current filters and sorts to localStorage
+     */
+    onSave: () => {
+      try {
+        // Create state object to save
+        const stateToSave = {
+          filters: filterHandlers.activeFilters,
+          sorts: filterHandlers.activeSorts
+        }
+        // Save to localStorage
+        localStorage.setItem('sandbox-repo-filters', JSON.stringify(stateToSave))
+        // Update saved state
+        setSavedState(stateToSave)
+        // Hide Save button
+        setHasUnsavedChanges(false)
+      } catch (error) {
+        console.error('Error saving filters:', error)
+      }
+    },
+    /**
+     * Called when Clear button is clicked
+     * Removes saved filters from localStorage and resets all filters
+     */
+    onClear: () => {
+      try {
+        // Remove saved filters from localStorage
+        localStorage.removeItem('sandbox-repo-filters')
+        // Reset saved state
+        setSavedState(null)
+        // Hide Save button
+        setHasUnsavedChanges(false)
+        // Reset all filters
+        filterHandlers.handleResetAll()
+      } catch (error) {
+        console.error('Error clearing saved filters:', error)
+      }
+    }
+  })
+
   const LinkComponent = ({ to, children }: { to: string; children: React.ReactNode }) => (
     <Link to={`/repos/${to}`}>{children}</Link>
   )
-
-  /**
-   * Initialize filters with page-specific storage
-   * @param pageSlug - Unique identifier for the page to store/retrieve filters from localStorage
-   * Each page can have its own saved filters that persist between sessions
-   * Example: 'sandbox-repo-list-page' will only load/save filters for this specific page
-   */
-  const filterHandlers = useFilters({ pageSlug: 'sandbox-repo-list-page' })
 
   /**
    * Filters repositories based on active filters
