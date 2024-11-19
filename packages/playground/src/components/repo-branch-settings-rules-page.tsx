@@ -19,9 +19,6 @@ import type {
   RepoBranchSettingsFormFields,
   BypassUsersList,
   MergeStrategy
-} from './repo-settings/repo-branch-settings-rules/types';
-import {
-  BranchRulesActionType
 } from './repo-settings/repo-branch-settings-rules/types'
 import { BranchRulesActionType } from './repo-settings/repo-branch-settings-rules/types'
 import { NavLink } from 'react-router-dom'
