@@ -1,4 +1,3 @@
-import React from 'react'
 import PullRequestTimelineItem from './pull-request-timeline-item'
 import { Avatar, AvatarFallback, Icon, Text } from '@harnessio/canary'
 import { MarkdownViewer } from '../markdown-viewer'

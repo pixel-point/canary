@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import * as monaco from 'monaco-editor'
 import Editor, { Monaco, useMonaco, loader } from '@monaco-editor/react'
 import { useTheme } from '../hooks/useTheme'
@@ -30,7 +30,7 @@ const defaultOptions: monaco.editor.IStandaloneEditorConstructionOptions = {
   scrollBeyondLastLine: false
 }
 
-export interface BlameEditorProps<T> {
+export interface BlameEditorProps<_> {
   code: string
   language: string
   themeConfig?: { rootElementSelector?: string; defaultTheme?: string; themes?: ThemeDefinition[] }
@@ -146,7 +146,7 @@ export function BlameEditor<T>(props: BlameEditorProps<T>): JSX.Element {
         const config = { attributes: true }
 
         const callback: MutationCallback = mutationList => {
-          for (const mutation of mutationList) {
+          for (const _ of mutationList) {
             const left = parseInt(getComputedStyle(scrollableEl).left)
             setLineNumbersDelta(left)
           }
@@ -179,7 +179,7 @@ export function BlameEditor<T>(props: BlameEditorProps<T>): JSX.Element {
       />
       <Editor
         height={'75vh'}
-        className={`monaco-editor-${instanceId.current} border-l border-r border-b border-border-background`}
+        className={`monaco-editor-${instanceId.current} border-border-background border-x border-b`}
         language={language}
         theme={theme}
         options={defaultOptions}

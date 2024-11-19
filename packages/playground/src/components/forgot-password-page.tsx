@@ -1,6 +1,5 @@
-import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle, Button, Input, Label, Icon, Text, Spacer } from '@harnessio/canary'
-import type { SubmitHandler} from 'react-hook-form';
+import type { SubmitHandler } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -74,7 +73,7 @@ export function ForgotPasswordPage({ isLoading, onSubmit }: PageProps) {
           </form>
           <Spacer size={4} />
           <Text size={1} color="tertiaryBackground" weight="normal" align="center" className="block">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link className="text-primary" to="/signup">
               Sign up
             </Link>

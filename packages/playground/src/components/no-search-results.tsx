@@ -1,5 +1,5 @@
 import React from 'react'
-import type { NoDataProps } from './no-data';
+import type { NoDataProps } from './no-data'
 import { NoData } from './no-data'
 
 interface NoSearchResultsProps extends Omit<NoDataProps, 'iconSize'> {

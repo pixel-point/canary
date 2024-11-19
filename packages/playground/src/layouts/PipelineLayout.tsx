@@ -1,4 +1,3 @@
-import React from 'react'
 import { Outlet } from 'react-router-dom'
 import { noop } from 'lodash-es'
 import { TopBarWidget } from '../components/layout/top-bar-widget'

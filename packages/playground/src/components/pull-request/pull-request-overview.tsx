@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { Avatar, AvatarFallback, Button, Icon, Text } from '@harnessio/canary'
 import type {
   CommentItem,
@@ -14,6 +14,7 @@ import type {
 import {
   PRCommentFilterType
 } from './interfaces'
+import { PRCommentFilterType } from './interfaces'
 import { isCodeComment, isComment, isSystemComment, parseStartingLineIfOne } from './utils'
 import PullRequestTimelineItem from './pull-request-timeline-item'
 import PullRequestSystemComments from './pull-request-system-comments'
@@ -145,6 +146,7 @@ const PullRequestOverview: React.FC<PullRequestOverviewProps> = ({
             if (isSystemComment(commentItems)) {
               return (
                 <PullRequestSystemComments
+                  key={index}
                   commentItems={commentItems}
                   isLast={activityBlocks.length - 1 === index}
                   pullReqMetadata={pullReqMetadata}

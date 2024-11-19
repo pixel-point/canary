@@ -1,5 +1,3 @@
-import React from 'react'
-
 const StepsPalette = {
   Root: function Root({ children }: { children: React.ReactNode }) {
     return <div className="flex h-full flex-col overflow-hidden">{children}</div>

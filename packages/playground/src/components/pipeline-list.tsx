@@ -1,5 +1,4 @@
 import { Icon, StackedList, Meter, Text } from '@harnessio/canary'
-import React from 'react'
 import type { ExecutionState } from './execution/types'
 import { ExecutionStatus } from './execution/execution-status'
 
@@ -42,7 +41,7 @@ const Description = ({ sha, description, version }: { sha: string; description: 
   return (
     <div className="inline-flex max-w-full items-center gap-2 overflow-hidden pl-[24px]">
       {sha && (
-        <div className="flex items-center gap-1 rounded-md bg-tertiary-background/10 px-1.5">
+        <div className="bg-tertiary-background/10 flex items-center gap-1 rounded-md px-1.5">
           <Icon size={11} name={'tube-sign'} />
           {sha?.slice(0, 7)}
         </div>
@@ -70,7 +69,7 @@ export const PipelineList = ({ pipelines, LinkComponent }: PageProps) => {
       {pipelines && pipelines.length > 0 && (
         <StackedList.Root>
           {pipelines.map((pipeline, pipeline_idx) => (
-            <LinkComponent to={pipeline.id}>
+            <LinkComponent key={pipeline.id} to={pipeline.id}>
               <StackedList.Item key={pipeline.name} isLast={pipelines.length - 1 === pipeline_idx}>
                 <StackedList.Field
                   title={<Title status={pipeline.status} title={pipeline.name ?? ''} />}

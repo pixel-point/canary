@@ -1,4 +1,3 @@
-import React from 'react'
 import { Icon, Text, Button, cn, IconProps } from '@harnessio/canary'
 import { NavLink } from 'react-router-dom'
 

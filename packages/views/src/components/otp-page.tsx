@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Card,
   CardContent,
@@ -76,8 +75,8 @@ export function OTPPage({ handleResend, isLoading, handleFormSubmit }: PageProps
           </form>
           <Spacer size={4} />
           <Text size={1} color="tertiaryBackground" weight="normal" align="center" className="block">
-            Didn't receive the code?{' '}
-            <a className="text-primary" onClick={handleResend}>
+            Didn&apos;t receive the code?{' '}
+            <a href="/" className="text-primary" onClick={handleResend}>
               Resend
             </a>
           </Text>

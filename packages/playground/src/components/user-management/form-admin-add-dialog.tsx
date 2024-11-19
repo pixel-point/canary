@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Spacer,
   AlertDialog,
@@ -37,7 +36,7 @@ export const FormAddAdminDialog: React.FC<FormRemoveUserDialogProps> = ({
             as an admin?
           </AlertDialogTitle>
           <AlertDialogDescription>
-            This will add an admin tag for "{user?.display_name}" ({user?.uid}).
+            This will add an admin tag for &quot;{user?.display_name}&quot; ({user?.uid}).
           </AlertDialogDescription>
         </AlertDialogHeader>
         <Spacer size={3} />
@@ -58,7 +57,7 @@ export const FormAddAdminDialog: React.FC<FormRemoveUserDialogProps> = ({
               theme="error"
               className="self-start"
               onClick={() => {
-                updateUserAdmin(user?.uid, true)
+                updateUserAdmin(user?.uid as string, true)
                 onRemove()
               }}
               disabled={isRemoving || removeSuccess}>

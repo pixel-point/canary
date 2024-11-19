@@ -1,5 +1,5 @@
 import { Button, Icon } from '@harnessio/canary'
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import copy from 'clipboard-copy'
 
 export const CopyButton = ({ name, className }: { name: string; className?: string }) => {

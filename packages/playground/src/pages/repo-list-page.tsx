@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { noop } from 'lodash-es'
 import { RepoList } from '../components/repo-list'
 import { PaginationComponent } from '../components/pagination'

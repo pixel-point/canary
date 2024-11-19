@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState, createContext, useContext } from 'react'
 import type { editor } from 'monaco-editor'
 export interface YamlEditorContextInterface {
   markers: editor.IMarker[]
@@ -8,7 +8,7 @@ export interface YamlEditorContextInterface {
   updateCursorPosition: (position: { column: number; lineNumber: number }) => void
 }
 
-export const YamlEditorContext = React.createContext<YamlEditorContextInterface>({
+export const YamlEditorContext = createContext<YamlEditorContextInterface>({
   markers: [],
   setMarkers: () => undefined,
   editor: null,
@@ -16,7 +16,7 @@ export const YamlEditorContext = React.createContext<YamlEditorContextInterface>
   updateCursorPosition: (_position: { column: number; lineNumber: number }) => undefined
 })
 
-export function YamlEditorContextProvider({ children }: React.PropsWithChildren<{}>): React.ReactElement {
+export function YamlEditorContextProvider({ children }: React.PropsWithChildren): React.ReactElement {
   const [markers, setMarkers] = useState<editor.IMarker[]>([])
   const [monacoEditor, setMonacoEditor] = useState<editor.IStandaloneCodeEditor | null>(null)
 
@@ -43,5 +43,5 @@ export function YamlEditorContextProvider({ children }: React.PropsWithChildren<
 }
 
 export function useYamlEditorContext(): YamlEditorContextInterface {
-  return React.useContext(YamlEditorContext)
+  return useContext(YamlEditorContext)
 }

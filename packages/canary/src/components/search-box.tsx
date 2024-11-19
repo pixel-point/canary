@@ -1,4 +1,4 @@
-import React, { useEffect, forwardRef } from 'react'
+import { useEffect, forwardRef } from 'react'
 import type { InputHTMLAttributes, ForwardedRef, ChangeEventHandler } from 'react'
 import { Input } from './input'
 import { Icon } from './icon'
@@ -32,7 +32,7 @@ interface SearchBoxProps {
   textSize?: TextSize
   onSearch?: () => void
   handleChange?: ChangeEventHandler<HTMLInputElement>
-  showOnFocus?: boolean
+  showOnFocus?: boolean // New prop to control dialog appearance on focus
   defaultValue?: InputHTMLAttributes<HTMLInputElement>['defaultValue']
   value?: InputHTMLAttributes<HTMLInputElement>['value']
   className?: string
@@ -104,11 +104,7 @@ const Root = forwardRef<HTMLInputElement, SearchBoxProps>(
     return (
       <div className={cn('relative', width === 'full' ? 'w-full' : 'w-96', className)}>
         {hasSearchIcon && (
-          <Icon
-            className="text-tertiary-background absolute left-2.5 top-1/2 -translate-y-1/2 transform"
-            name="search"
-            size={12}
-          />
+          <Icon name="search" size={12} className="text-icons-1 absolute left-2.5 top-1/2 -translate-y-1/2" />
         )}
         {hasShortcut && !!shortcutLetter && (
           <div className="bg-background-3 text-foreground-2 absolute right-1.5 top-1/2 flex h-5 -translate-y-1/2 cursor-pointer items-center gap-0.5 rounded-sm border px-1 duration-100 ease-in-out">
@@ -133,6 +129,6 @@ const Root = forwardRef<HTMLInputElement, SearchBoxProps>(
   }
 )
 
-Root.displayName = 'Root' // Это нужно для отладки при использовании forwardRef
+Root.displayName = 'Root'
 
 export { Root }

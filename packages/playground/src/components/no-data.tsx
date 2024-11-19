@@ -1,5 +1,4 @@
-import React from 'react'
-import type { IconProps } from '@harnessio/canary';
+import type { IconProps } from '@harnessio/canary'
 import { Icon, Text, Button, cn } from '@harnessio/canary'
 import { NavLink } from 'react-router-dom'
 
@@ -14,6 +13,7 @@ export interface NoDataProps {
     | 'no-data-webhooks'
     | 'no-data-branches'
     | 'no-data-members'
+    | 'no-repository'
   iconSize?: number
   description: string[]
   primaryButton?: {

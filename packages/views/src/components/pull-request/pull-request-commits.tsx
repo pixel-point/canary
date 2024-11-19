@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { TypesCommit } from './interfaces'
 import { formatDate, getInitials } from '../../utils/utils'
 import { StackedList, Text, NodeGroup, Avatar, AvatarFallback } from '@harnessio/canary'
@@ -29,7 +29,7 @@ export const PullRequestCommits = ({ ...props }: CommitProps) => {
   return (
     <>
       {entries.map(([date, commitData], node_idx) => (
-        <NodeGroup.Root>
+        <NodeGroup.Root key={date}>
           <NodeGroup.Icon simpleNodeIcon />
           <NodeGroup.Title>{date && <Text color="tertiaryBackground">Commits on {date}</Text>}</NodeGroup.Title>
           <NodeGroup.Content>

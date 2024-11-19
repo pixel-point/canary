@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Text, Spacer, ListActions, SearchBox } from '@harnessio/canary'
 import { ExecutionList } from '../components/execution-list'

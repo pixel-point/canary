@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger, Button, Text, ScrollArea, SearchBox, Icon } from '@harnessio/canary'
 import ConsoleLogs from './console-logs'
 import { Layout } from '../layout/layout'

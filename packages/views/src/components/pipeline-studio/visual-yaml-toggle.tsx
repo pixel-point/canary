@@ -1,4 +1,3 @@
-import React from 'react'
 import { ToggleGroup, ToggleGroupItem, Icon } from '@harnessio/canary'
 
 export type VisualYamlValue = 'visual' | 'yaml'

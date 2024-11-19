@@ -5,10 +5,7 @@ import { BARRIER_STEP_DESCRIPTION, barrierStepFormDefinition } from './barrier-s
 import { QUEUE_STEP_DESCRIPTION, queueStepFormDefinition } from './queue-step'
 import { RUN_STEP_DESCRIPTION, runStepFormDefinition } from './run-step'
 import { RUN_TEST_STEP_DESCRIPTION, runTestStepFormDefinition } from './run-test-step'
-import type {
-  HARNESS_STEP_IDENTIFIER,
-  HarnessStep,
-  HarnessStepGroup} from './types';
+import type { HARNESS_STEP_IDENTIFIER, HarnessStep, HarnessStepGroup } from './types'
 import {
   ACTION_STEP_IDENTIFIER,
   APPROVAL_STEP_IDENTIFIER,

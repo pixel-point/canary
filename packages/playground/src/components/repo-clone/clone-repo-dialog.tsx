@@ -1,6 +1,6 @@
 import { CloneRepoForm } from './clone-repo-form'
 import { Tabs, TabsList, TabsTrigger, Popover, PopoverContent, PopoverTrigger, Button, Text } from '@harnessio/canary'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 export interface CloneRepoDialogProps {
   sshUrl: string
@@ -16,7 +16,7 @@ export const CloneRepoDialog: React.FC<CloneRepoDialogProps> = ({ httpsUrl, sshU
       <PopoverTrigger asChild>
         <Button variant="default">Clone repository</Button>
       </PopoverTrigger>
-      <PopoverContent className="min-w-[400px] border-border bg-primary-background" side="bottom" align="end">
+      <PopoverContent className="border-border bg-primary-background min-w-[400px]" side="bottom" align="end">
         <Text className="mb-2 text-left text-lg">Git clone URL</Text>
         <Tabs variant="underline" value={currentTab} onValueChange={setCurrentTab} className="mb-2">
           <TabsList>

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '@harnessio/canary'
 
 export const PopoverCommitInfo = {

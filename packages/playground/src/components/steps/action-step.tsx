@@ -1,14 +1,13 @@
-import type {
-  IFormDefinition} from '@harnessio/forms';
+import type { IFormDefinition } from '@harnessio/forms'
 import {
   arrayToObjectOutputTransformer,
   objectToArrayInputTransformer,
   unsetEmptyArrayOutputTransformer,
   unsetEmptyStringOutputTransformer
 } from '@harnessio/forms'
-import type { InputConfigType} from '../form-inputs/types';
+import type { InputConfigType } from '../form-inputs/types'
 import { InputType } from '../form-inputs/types'
-import type { IInputConfigWithConfig } from './types';
+import type { IInputConfigWithConfig } from './types'
 import { ACTION_STEP_IDENTIFIER } from './types'
 
 export const ACTION_STEP_DESCRIPTION = 'Action step description.'

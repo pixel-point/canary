@@ -5,7 +5,7 @@
  * https://polyformproject.org/wp-content/uploads/2020/06/PolyForm-Shield-1.0.0.txt.
  */
 
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { get } from 'lodash-es'
 import { InputComponent, InputProps, RenderInputs, useFormContext } from '@harnessio/forms'
 import type { AnyFormikValue } from '@harnessio/forms'

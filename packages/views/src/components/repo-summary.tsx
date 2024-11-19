@@ -14,7 +14,7 @@ import {
   TableRow,
   Text
 } from '@harnessio/canary'
-import React from 'react'
+
 import { getInitials } from '../utils/utils'
 import { useNavigate } from 'react-router-dom'
 import { CommitCopyActions } from './commit-copy-actions'

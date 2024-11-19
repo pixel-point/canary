@@ -1,4 +1,3 @@
-import React from 'react'
 import { AccordionItem, AccordionTrigger, Icon, StackedList, Text } from '@harnessio/canary'
 
 import { LineDescription, LineTitle } from '../pull-request-line-title'

@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "webpack-dev-server": "webpack-dev-server",
-    "dev": "pnpm run webpack-dev-server -- --env mode=development"
+    "dev": "pnpm run webpack-dev-server -- --env mode=development",
+    "pretty": "prettier --check ./src",
+    "lint": "eslint ./src"
   },
   "dependencies": {
     "@harnessio/yaml-editor": "workspace:*",
@@ -15,12 +17,6 @@
     "react-dom": "^18.3.1",
     "ts-loader": "^9.5.1",
     "typescript": "^4.9.5"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "devDependencies": {
     "@babel/core": "^7.24.7",

@@ -9,7 +9,7 @@
     "watch:css": "pnpm build:css --watch",
     "build": "pnpm build:css && vite build",
     "build:css": "npx tailwindcss -i ./src/styles.css -o ./public/styles.css",
-    "lint": "eslint .",
+    "lint": "eslint ./src",
     "pretty": "prettier --check ./src",
     "preview": "vite preview",
     "preinstall": "npx only-allow pnpm",

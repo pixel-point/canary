@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Card,
   CardContent,
@@ -73,7 +72,7 @@ export function SignUpPage({ isLoading, handleSignUp, error }: PageProps) {
             <Spacer size={2} />
 
             <Text size={2} color="tertiaryBackground">
-              Let's start your journery with us today.
+              Let&apos;s start your journery with us today.
             </Text>
           </CardTitle>
         </CardHeader>
@@ -175,8 +174,14 @@ export function SignUpPage({ isLoading, handleSignUp, error }: PageProps) {
       </Card>
       <Dock.Root>
         <Text size={1} color="tertiaryBackground">
-          By joining, you agree to <a className="text-primary">Terms of Service</a> and{' '}
-          <a className="text-primary">Privacy Policy</a>
+          By joining, you agree to{' '}
+          <a href="/" className="text-primary">
+            Terms of Service
+          </a>{' '}
+          and{' '}
+          <a href="/" className="text-primary">
+            Privacy Policy
+          </a>
         </Text>
       </Dock.Root>
     </Floating1ColumnLayout>

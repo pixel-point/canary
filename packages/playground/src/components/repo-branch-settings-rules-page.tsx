@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react'
+import { useReducer, useEffect } from 'react'
 import { Button, ButtonGroup, useZodForm, Spacer, Text } from '@harnessio/canary'
 import type { SubmitHandler } from 'react-hook-form'
 import {
@@ -23,6 +23,7 @@ import type {
 import {
   BranchRulesActionType
 } from './repo-settings/repo-branch-settings-rules/types'
+import { BranchRulesActionType } from './repo-settings/repo-branch-settings-rules/types'
 import { NavLink } from 'react-router-dom'
 
 type BranchSettingsErrors = {

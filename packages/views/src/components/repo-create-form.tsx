@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { SandboxLayout } from '..'
 import {
   Alert,
@@ -211,7 +211,7 @@ const RepoCreatePageForm: React.FC<RepoCreatePageFormProps> = ({
                   </SelectContent>
                 </Select>
                 <FormFieldSet.Caption>
-                  A license tells others what they can and can't do with your code.
+                  A license tells others what they can and can&apos;t do with your code.
                 </FormFieldSet.Caption>
                 {errors.license && (
                   <FormFieldSet.Message theme={MessageTheme.ERROR}>

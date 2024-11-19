@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Spacer, ListActions, SearchBox, Button, Text } from '@harnessio/canary'
 import { ExecutionList } from '../components/execution-list'
 import { PaginationComponent } from '../components/pagination'

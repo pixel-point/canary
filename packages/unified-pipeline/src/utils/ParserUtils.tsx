@@ -1,4 +1,3 @@
-import React from 'react'
 import { get, has } from 'lodash-es'
 import { Node } from '../components/Canvas/types'
 import { StageCategory } from '../components/PipelineConfigPanel/types'
@@ -143,7 +142,7 @@ const getChildNodes = (stage: Record<string, any>): Node[] => {
   return childNodes
 }
 
-function getIconAndDisplayName(step: Record<string, any>, stepIndex: number, isV0yaml?: boolean) {
+function getIconAndDisplayName(step: Record<string, any>, stepIndex: number, _?: boolean) {
   return {
     name: getNameBasedOnStep(step, stepIndex),
     icon: (
@@ -219,7 +218,7 @@ export const parseV0PipelineYaml = ({
 
 const getChildNodesOfV0Stage = (stage: Record<string, any>): Node[] => {
   const steps = get(stage, V0_STEPS_PATH_PREFIX, [])
-  let childNodes: Node[] = []
+  const childNodes: Node[] = []
   if (Array.isArray(steps) && steps.length > 0) {
     steps.forEach((stepOrParallel: Record<string, any>, stepIndex: number) => {
       if (has(stepOrParallel, PARALLEL_PATH_PREFIX)) {
@@ -253,7 +252,7 @@ export const parseV0ParallelSteps = ({
   pathPrefix?: string
   isParallel?: boolean
 }): Node[] => {
-  let childNodes: Node[] = []
+  const childNodes: Node[] = []
   const steps = get(yamlObject, PARALLEL_PATH_PREFIX, [])
   if (Array.isArray(steps) && steps.length > 0) {
     steps.forEach((step: Record<string, any>, stepIndex: number) => {

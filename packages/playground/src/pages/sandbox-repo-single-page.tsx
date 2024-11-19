@@ -1,4 +1,3 @@
-import React from 'react'
 import { Tabs, TabsList, TabsTrigger } from '@harnessio/canary'
 import { SandboxLayout } from '..'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'

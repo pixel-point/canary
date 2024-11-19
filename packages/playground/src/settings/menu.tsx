@@ -8,7 +8,6 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator
 } from '@harnessio/canary'
-import React from 'react'
 
 interface PlaygroundSettingsOption {
   key: string

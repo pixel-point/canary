@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Spacer, ListActions, Button, SearchBox, Text } from '@harnessio/canary'
 import { PipelineList } from '../components/pipeline-list'
 import { PaddingListLayout } from '../layouts/PaddingListLayout'

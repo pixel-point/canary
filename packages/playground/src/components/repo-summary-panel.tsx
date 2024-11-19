@@ -1,7 +1,4 @@
-import React from 'react'
-import type {
-  IconProps
-} from '@harnessio/canary';
+import type { IconProps } from '@harnessio/canary'
 import {
   Text,
   Icon,

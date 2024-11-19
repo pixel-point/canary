@@ -1,4 +1,3 @@
-import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle, Button, Input, Label, Icon, Text, Spacer } from '@harnessio/canary'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -93,7 +92,7 @@ export function SignInPage({ handleSignIn, isLoading }: PageProps) {
           </form>
           <Spacer size={4} />
           <Text size={1} color="tertiaryBackground" weight="normal" align="center" className="block">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link to="/signup" className="text-primary">
               Sign up
             </Link>
@@ -102,8 +101,14 @@ export function SignInPage({ handleSignIn, isLoading }: PageProps) {
       </Card>
 
       <Text size={1} color="tertiaryBackground">
-        By joining, you agree to <a className="text-primary">Terms of Service</a> and{' '}
-        <a className="text-primary">Privacy Policy</a>
+        By joining, you agree to{' '}
+        <a href="/" className="text-primary">
+          Terms of Service
+        </a>
+        &nbsp; and &nbsp;
+        <a href="/" className="text-primary">
+          Privacy Policy
+        </a>
       </Text>
     </Floating1ColumnLayout>
   )

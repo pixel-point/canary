@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useEffect, useMemo } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { useYamlEditorContext } from '@harnessio/yaml-editor'
 import { countProblems, monacoMarkers2Problems } from '../utils/problems-utils'
@@ -168,5 +168,5 @@ const PipelineStudioDataProvider = ({ children }: React.PropsWithChildren) => {
 export default PipelineStudioDataProvider
 
 export const usePipelineDataContext = () => {
-  return React.useContext(PipelineStudioDataContext)
+  return useContext(PipelineStudioDataContext)
 }

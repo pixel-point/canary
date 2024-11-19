@@ -1,4 +1,3 @@
-import React from 'react'
 import { InputType } from './types'
 import { InputComponent } from '@harnessio/forms'
 import type { AnyFormikValue } from '@harnessio/forms'

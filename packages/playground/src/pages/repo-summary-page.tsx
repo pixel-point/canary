@@ -1,23 +1,12 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { noop, pick } from 'lodash-es'
-import type {
-  IconProps
-} from '@harnessio/canary';
-import {
-  Spacer,
-  ListActions,
-  Button,
-  SearchBox,
-  Text,
-  Icon,
-  ButtonGroup,
-  StackedList
-} from '@harnessio/canary'
+import type { IconProps } from '@harnessio/canary'
+import { Spacer, ListActions, Button, SearchBox, Text, Icon, ButtonGroup, StackedList } from '@harnessio/canary'
 import { Summary } from '../components/repo-summary'
 import { NoData } from '../components/no-data'
 import { NoSearchResults } from '../components/no-search-results'
 import { RepoSummaryPanel } from '../components/repo-summary-panel'
-import { BranchSelector } from '../components/branch-selector'
+import { BranchSelector } from '../components/branch-selector/branch-selector'
 import { SkeletonList } from '../components/loaders/skeleton-list'
 import { PlaygroundListSettings } from '../settings/list-settings'
 import { FullWidth2ColumnLayout } from '../layouts/FullWidth2ColumnLayout'
@@ -169,9 +158,9 @@ function RepoSummaryPage() {
                     Welcome
                   </Text>
                   <Text className="text-primary/80">
-                    Below you will find some basic information about how to work with this project. If you've spotted a
-                    bug, a copywriting mistake or just want to suggest some better solution, please, refer to the
-                    contribution section.
+                    Below you will find some basic information about how to work with this project. If you&apos;ve
+                    spotted a bug, a copywriting mistake or just want to suggest some better solution, please, refer to
+                    the contribution section.
                   </Text>
                   <Text className="text-primary/80">
                     Hello there! This repo is a home to Pixel Point, a web agency that designs and develops world-class

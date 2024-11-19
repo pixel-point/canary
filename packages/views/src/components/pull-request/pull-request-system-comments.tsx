@@ -1,4 +1,3 @@
-import React from 'react'
 import { Avatar, AvatarFallback, Button, Icon, Text } from '@harnessio/canary'
 import {
   CommentItem,

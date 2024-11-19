@@ -17,7 +17,9 @@
     "watch:build": "watch 'pnpm build-yalc' ./src",
     "build-yalc": "pnpm build && pnpm yalc-push",
     "yalc-push": "yalc push",
-    "prepublishOnly": "pnpm build"
+    "prepublishOnly": "pnpm build",
+    "pretty": "prettier --check ./src",
+    "lint": "eslint ./src"
   },
   "dependencies": {},
   "peerDependencies": {
@@ -26,12 +28,6 @@
     "monaco-yaml": "5.2.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "devDependencies": {
     "watch": "^1.0.2",

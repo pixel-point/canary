@@ -1,4 +1,3 @@
-import type React from 'react';
 import { useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { isEmpty } from 'lodash-es'

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button, Icon, Input, Text } from '@harnessio/canary'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'

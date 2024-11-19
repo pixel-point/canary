@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import cx from 'classnames'
 import { Button, Text, Icon } from '@harnessio/canary'
-import type { StepProps } from './step-execution';
+import type { StepProps } from './step-execution'
 import { StepExecution } from './step-execution'
 import { Layout } from '../layout/layout'
 import type { LivelogLine } from './types'
@@ -122,9 +122,9 @@ export const StageExecution: React.FC<StageExecutionProps> = ({
       <Layout.Vertical gap="space-y-2" className="grow p-4">
         {stage?.group ? (
           <Layout.Horizontal gap="space-x-1" className="flex items-center">
-            <Text className="text-sm text-stage">{stage.group}</Text>
+            <Text className="text-stage text-sm">{stage.group}</Text>
             <Icon name="x-mark" />
-            <Text className="text-sm text-ring">{stage.name}</Text>
+            <Text className="text-ring text-sm">{stage.name}</Text>
           </Layout.Horizontal>
         ) : (
           <Text>{stage.name}</Text>

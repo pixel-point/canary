@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import cx from 'classnames'
 import type { NodeProps } from 'reactflow'
 import { Handle, Position, useReactFlow, Node } from 'reactflow'
@@ -24,7 +24,7 @@ export interface AtomicNodeProps extends DefaultNodeProps, ExpandNodeProps, Dele
    */
 }
 
-export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex }: NodeProps<AtomicNodeProps>) {
+export default function AtomicNode({ isConnectable, data, xPos, yPos, zIndex }: NodeProps<AtomicNodeProps>) {
   const { deleteElements, getEdges, addNodes } = useReactFlow()
   const { handleAddClick, selectedNodePath } = useInteractionContext()
   const { icon, name, readonly, groupId, path } = data
@@ -34,7 +34,7 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
   const [status] = useState(Status.DONE)
   const [showPlus, setShowPlus] = useState<boolean>(false)
 
-  const handleNodeDelete = useCallback(
+  const _handleNodeDelete = useCallback(
     (nodeId: string) => {
       deleteElements({ nodes: [{ id: nodeId }] })
       const [edge1, edge2, ..._rest] = fetchNodeConnections(nodeId, getEdges())
@@ -50,7 +50,7 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
     [deleteElements]
   )
 
-  const addChildNode = useCallback((): void => {
+  const _addChildNode = useCallback((): void => {
     const newNode: Node = {
       id: 'new_node',
       data: {
@@ -77,18 +77,18 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
       <Handle type="target" position={Position.Left} isConnectable={isConnectable} />
       {status === Status.QUEUED ? (
         <div>
-          <div className="border p-px rounded-md gradient-border-glow">
+          <div className="gradient-border-glow rounded-md border p-px">
             <div
               style={{
                 width,
                 height
               }}
-              className="content-layer p-2.5 rounded-md">
+              className="content-layer rounded-md p-2.5">
               <div className="flex flex-col gap-3">
-                <Skeleton className="w-6 h-6" />
+                <Skeleton className="size-6" />
                 <div className="flex flex-col gap-1">
-                  <Skeleton className="w-[115px] h-[5px]" />
-                  <Skeleton className="w-[79px] h-[5px]" />
+                  <Skeleton className="h-[5px] w-[115px]" />
+                  <Skeleton className="h-[5px] w-[79px]" />
                 </div>
               </div>
             </div>
@@ -106,11 +106,11 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
               width,
               minHeight: height
             }}
-            className="content-layer p-2.5 rounded-md space-y-2.5">
+            className="content-layer space-y-2.5 rounded-md p-2.5">
             {icon}
-            <Text className="text-[11px] text-white font-normal leading-4 line-clamp-2">{name}</Text>
+            <Text className="line-clamp-2 text-[11px] font-normal leading-4 text-white">{name}</Text>
             {enableDiagnostics?.Node && (
-              <span className="text-tiny text-red">{getNodeDiagnostics({ xPos, yPos, zIndex })}</span>
+              <span className="text-red text-tiny">{getNodeDiagnostics({ xPos, yPos, zIndex })}</span>
             )}
           </div>
         </div>
@@ -118,7 +118,9 @@ export default function AtomicNode({ isConnectable, data, id, xPos, yPos, zIndex
       <Handle type="source" position={Position.Right} isConnectable={isConnectable}>
         {status !== Status.QUEUED && (
           <div
-            className="hover:cursor-pointer w-8 h-8 -translate-x-4 -translate-y-4 flex items-center justify-center"
+            role="button"
+            tabIndex={0}
+            className="flex size-8 -translate-x-4 -translate-y-4 items-center justify-center hover:cursor-pointer"
             onClick={e => {
               e.stopPropagation()
               handleAddClick(data)

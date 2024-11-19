@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import { forwardRef } from 'react'
 import type { SubmitHandler, FieldErrors, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
 import { z } from 'zod'
 import { Input, Textarea, Text } from '@harnessio/canary'
@@ -61,5 +61,7 @@ const PullRequestCompareForm = forwardRef<HTMLFormElement, PullRequestFormProps>
     )
   }
 )
+
+PullRequestCompareForm.displayName = 'PullRequestCompareForm'
 
 export default PullRequestCompareForm

@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
 import { Handle, NodeProps, Position, Node } from 'reactflow'
 import { Icon } from '@harnessio/canary'
@@ -23,6 +23,8 @@ import useFlowStore from '../../../../../framework/FlowStore/FlowStore'
 import { GroupNodeProps } from '../GroupNode/GroupNode'
 
 const StageNode = memo((props: NodeProps<GroupNodeProps>) => <StageNodeInternal {...props} />)
+
+StageNode.displayName = 'StageNode'
 
 const StageNodeInternal: React.FC<NodeProps<GroupNodeProps>> = props => {
   const { nodes, edges, deleteElements, updateNodes, addEdges, addNodes } = useFlowStore()
@@ -174,7 +176,7 @@ const StageNodeInternal: React.FC<NodeProps<GroupNodeProps>> = props => {
     })
   }, [nodes, edges, nodeId])
 
-  const handleNodeDelete = useCallback(
+  const _handleNodeDelete = useCallback(
     (nodeId: string) => {
       deleteElements([nodeId])
       const [edge1, edge2, ..._rest] = fetchNodeConnections(nodeId, edges)
@@ -211,7 +213,7 @@ const StageNodeInternal: React.FC<NodeProps<GroupNodeProps>> = props => {
           { 'justify-center': !isExpanded },
           { 'w-[337px] h-[77px]': showZeroState }
         )}>
-        <div className="flex items-center justify-between w-full box-border">
+        <div className="box-border flex w-full items-center justify-between">
           <div className="flex items-center">
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <Expand
@@ -220,19 +222,15 @@ const StageNodeInternal: React.FC<NodeProps<GroupNodeProps>> = props => {
                   event.stopPropagation()
                   handleNodeExpandCollapse()
                 }}
-                className={'w-6 h-6 rounded-[4px] hover:cursor-pointer bg-studio-2/10'}
+                className={'size-6 rounded-[4px] bg-studio-2/10 hover:cursor-pointer'}
               />
               &nbsp;
-              <span className="text-studio-8 text-xs text-nowrap">{name}</span>
+              <span className="text-nowrap text-xs text-studio-8">{name}</span>
               {memberCount > 0 && <span className="text-xs text-studio-2">&nbsp;({memberCount})</span>}
             </div>
           </div>
         </div>
-        {memberCount === 0 && (
-          <div className="text-studio-2" onClick={() => {}}>
-            + Add your first step
-          </div>
-        )}
+        {memberCount === 0 && <div className="text-studio-2">+ Add your first step</div>}
         {expanded && orientation === GroupOrientation.TB && (
           <Icon name="plus" className={cx('w-6 h-6 rounded-[4px] bg-studio-2/10')} />
         )}

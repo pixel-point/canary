@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import {
   Button,
   ButtonGroup,
@@ -10,7 +10,7 @@ import {
   SelectValue,
   Checkbox
 } from '@harnessio/canary'
-import type { SubmitHandler } from 'react-hook-form';
+import type { SubmitHandler } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'

@@ -1,5 +1,5 @@
 import { Button, Spacer, SpotlightsBG, Text } from '@harnessio/canary'
-import React from 'react'
+
 import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function WIP() {
@@ -18,7 +18,7 @@ export default function WIP() {
         </Text>
         <Spacer size={1} />
         <Text size={3} align="center" className="text-tertiary-background">
-          We're working on {location.pathname || 'this page.'}
+          We&apos;re working on {location.pathname || 'this page.'}
         </Text>
         <Spacer size={6} />
         <Button variant="default" className="justify-self-center" onClick={handleGoBack}>

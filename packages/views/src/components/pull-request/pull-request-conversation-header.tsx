@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { Badge, Button, Icon, Text } from '@harnessio/canary'
 import { Layout } from '../layout/layout'
 import { getPrState } from './utils'

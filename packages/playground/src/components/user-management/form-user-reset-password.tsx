@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {
   AlertDialog,
   AlertDialogTrigger,
@@ -48,7 +48,7 @@ export const FormResetPasswordDialog: React.FC<FormResetPasswordsDialogProps> = 
             {isConfirm ? (
               <Text as="div" color="tertiaryBackground" className="mb-4">
                 Your password has been generated. Please make sure to copy and store your password somewhere safe, you
-                won't be able to see it again.
+                won&apos;t be able to see it again.
               </Text>
             ) : (
               <Text as="div" color="tertiaryBackground" className="mb-4">

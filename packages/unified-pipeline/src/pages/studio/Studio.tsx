@@ -1,4 +1,3 @@
-import React from 'react'
 import { Node as ReactFlowNode } from 'reactflow'
 import { PipelineStudio } from '../../components/PipelineStudio/PipelineStudio'
 import pipelineYamlSingleStage from '../../assets/mockPipelines/yamls/pipeline_w_single_stage.yaml'
@@ -8,7 +7,7 @@ import pipelineYamlParallelGroupAndStage from '../../assets/mockPipelines/yamls/
 import demoPipeline from '../../assets/mockPipelines/yamls/demo_pipeline.yaml'
 import { getNodesFromPipelineYaml } from '../../utils/PipelineYamlUtils'
 
-export const Studio: React.FC<{}> = () => {
+export const Studio: React.FC = () => {
   return (
     <PipelineStudio
       nodes={getNodesFromPipelineYaml(pipelineYamlSingleStage)}
@@ -19,7 +18,7 @@ export const Studio: React.FC<{}> = () => {
   )
 }
 
-export const StudioParallel: React.FC<{}> = () => {
+export const StudioParallel: React.FC = () => {
   return (
     <PipelineStudio
       nodes={getNodesFromPipelineYaml(pipelineYamlParallelGroup)}
@@ -30,7 +29,7 @@ export const StudioParallel: React.FC<{}> = () => {
   )
 }
 
-export const StudioMixed: React.FC<{}> = () => {
+export const StudioMixed: React.FC = () => {
   return (
     <PipelineStudio
       nodes={getNodesFromPipelineYaml(pipelineYamlParallelGroupAndStage)}
@@ -41,7 +40,7 @@ export const StudioMixed: React.FC<{}> = () => {
   )
 }
 
-export const StudioDemo: React.FC<{}> = () => {
+export const StudioDemo: React.FC = () => {
   return (
     <PipelineStudio
       nodes={getNodesFromPipelineYaml(demoPipeline)}

@@ -1,7 +1,6 @@
-import React from 'react'
 import { FormControl, FormField, FormItem, Input } from '@harnessio/canary'
 import { InputComponent } from '@harnessio/forms'
-import type { AnyFormikValue , InputProps } from '@harnessio/forms'
+import type { AnyFormikValue, InputProps } from '@harnessio/forms'
 import InputLabel from './common/InputLabel'
 import InputWrapper from './common/InputWrapper'
 import { InputError } from './common/InputError'

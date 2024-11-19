@@ -1,5 +1,4 @@
-import React from 'react'
-import type { IconProps} from '@harnessio/canary';
+import type { IconProps } from '@harnessio/canary'
 import { Badge, Icon, TabsTrigger, Text } from '@harnessio/canary'
 import { Layout } from './layout/layout'
 

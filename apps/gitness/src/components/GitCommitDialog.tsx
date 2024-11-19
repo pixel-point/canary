@@ -68,7 +68,7 @@ export default function GitCommitDialog({
 
   const onSubmit = async (formValues: GitCommitFormType) => {
     const { message, description, commitToGitRef, newBranchName, fileName } = formValues
-    const path = oldResourcePath ?? (isNew ? resourcePath + '/' + fileName : resourcePath)
+    const path = oldResourcePath ?? (isNew && resourcePath.length < 1 ? '/' + fileName : resourcePath)
     const data: OpenapiCommitFilesRequest = {
       actions: [
         {
@@ -112,7 +112,7 @@ export default function GitCommitDialog({
   const dryRun = async (commitToGitRef: CommitToGitRefOption, fileName?: string) => {
     resetViolation()
     setDisableCTA(false)
-    const path = oldResourcePath ?? (isNew ? resourcePath + '/' + fileName : resourcePath)
+    const path = oldResourcePath ?? (isNew && resourcePath.length < 1 ? '/' + fileName : resourcePath)
     if (commitToGitRef === CommitToGitRefOption.DIRECTLY) {
       try {
         const data: OpenapiCommitFilesRequest = {
@@ -173,7 +173,7 @@ export default function GitCommitDialog({
             violation={violation}
             bypassable={bypassable}
             defaultBranch={defaultBranch || 'Master'}
-            isNew={isNew}
+            isFileNameRequired={isNew && resourcePath?.length < 1}
           />
         </DialogDescription>
       </DialogContent>

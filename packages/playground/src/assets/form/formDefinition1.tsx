@@ -1,6 +1,6 @@
 import * as zod from 'zod'
 import type { IFormDefinition, IInputDefinition } from '@harnessio/forms'
-import type { InputConfigType} from '../../components/form-inputs/types';
+import type { InputConfigType } from '../../components/form-inputs/types'
 import { InputType } from '../../components/form-inputs/types'
 
 function delay(ms: number) {

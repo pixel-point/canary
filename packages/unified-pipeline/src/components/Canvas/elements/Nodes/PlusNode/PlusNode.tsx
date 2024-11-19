@@ -1,4 +1,3 @@
-import React from 'react'
 import { Handle, NodeProps, Position, useReactFlow } from 'reactflow'
 import { capitalize } from 'lodash-es'
 import { Icon } from '@harnessio/canary'
@@ -14,7 +13,7 @@ export default function PlusNode({ data, xPos, yPos, zIndex }: NodeProps<PlusNod
   const { getNodes, setNodes } = useReactFlow()
   const { enableDiagnostics } = useCanvasStore()
 
-  const addNewNode = (event: React.MouseEvent): void => {
+  const _addNewNode = (event: React.MouseEvent): void => {
     event.preventDefault()
     event.stopPropagation()
 
@@ -39,7 +38,7 @@ export default function PlusNode({ data, xPos, yPos, zIndex }: NodeProps<PlusNod
   return (
     <>
       <Handle position={targetPosition} type="target" />
-      <div className="w-5 h-5 rounded-full flex justify-center items-center border border-studio-4/[0.6] bg-studio-1">
+      <div className="flex size-5 items-center justify-center rounded-full border border-studio-4/[0.6] bg-studio-1">
         <Icon name="plus" className="hover:cursor-pointer" />
       </div>
       {enableDiagnostics?.Node && (

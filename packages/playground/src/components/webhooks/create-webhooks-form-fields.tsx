@@ -1,7 +1,6 @@
-import React from 'react'
 import { Input, Textarea, Checkbox, StackedList, Switch, RadioGroup, RadioGroupItem } from '@harnessio/canary'
 import { FormFieldSet, MessageTheme } from '../../index'
-import type { WebhookEvent, WebhookFormFieldProps, WebhookTriggerEnum} from './types';
+import type { WebhookEvent, WebhookFormFieldProps, WebhookTriggerEnum } from './types'
 import { TriggerEventsEnum } from './types'
 
 export const WebhookToggleField: React.FC<WebhookFormFieldProps> = ({ register, watch, setValue }) => (

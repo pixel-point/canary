@@ -41,7 +41,7 @@ export const BreadcrumbDropdown = (props: BreadcrumbDropdownProps) => {
             {items.map(item => {
               const isSelected = item.value === selectedItem?.value
               return (
-                <DropdownMenuItem asChild>
+                <DropdownMenuItem key={item.value} asChild>
                   <Link to={item.path}>
                     <div className="mr-1 w-4">{isSelected && <Icon name="tick" size={12} />}</div>
                     {item.label}

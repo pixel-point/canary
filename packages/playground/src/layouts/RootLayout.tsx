@@ -1,25 +1,17 @@
-import React, { useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Outlet, useLocation } from 'react-router-dom'
 import { MoreSubmenu } from '../components/more-submenu'
 import { TypesUser } from './types'
-import { ManageNavigationDialog } from '../components/manage-navigation-dialog'
-
-export interface NavbarItem {
-  id: number
-  title: string
-  iconName: IconProps['name']
-  description: string
-  to?: string
-}
 import { Navbar } from '../components/navbar'
-import { SystemAdminMenu } from '../components/system-admin-menu'
-import { IconProps } from '@harnessio/canary'
+import { SettingsMenu } from '../components/settings-menu'
+import { ManageNavigationDialog } from '../components/manage-navigation-dialog'
 
 interface RootLayoutProps {
   currentUser: TypesUser | undefined
 }
 
 export const RootLayout = ({ currentUser }: RootLayoutProps) => {
+  const location = useLocation()
   const [showMore, setShowMore] = useState(false)
   const [showSystemAdmin, setShowSystemAdmin] = useState(false)
 
@@ -33,16 +25,21 @@ export const RootLayout = ({ currentUser }: RootLayoutProps) => {
     setShowSystemAdmin(prevState => !prevState)
   }
 
+  useEffect(() => {
+    setShowMore(false)
+    setShowSystemAdmin(false)
+  }, [location])
+
   // const handlePinItem = (item: NavbarItem) => {
   //   setPinnedItems(prevPinnedItems => {
   //     const isPinned = prevPinnedItems.some(pinned => pinned.id === item.id)
-
+  //
   //     if (isPinned) {
   //       return prevPinnedItems.filter(pinned => pinned.id !== item.id)
   //     }
-
+  //
   //     const itemToPin = navbarSubmenuData.flatMap(group => group.items).find(i => i.id === item.id)
-
+  //
   //     if (itemToPin) {
   //       return [
   //         {
@@ -55,7 +52,7 @@ export const RootLayout = ({ currentUser }: RootLayoutProps) => {
   //         ...prevPinnedItems
   //       ]
   //     }
-
+  //
   //     return prevPinnedItems
   //   })
   // }
@@ -75,7 +72,7 @@ export const RootLayout = ({ currentUser }: RootLayoutProps) => {
         </main>
       </div>
       <MoreSubmenu showMore={showMore} handleMore={handleMore} />
-      <SystemAdminMenu showSystemAdmin={showSystemAdmin} handleSystemAdmin={handleSystemAdmin} />
+      <SettingsMenu showSystemAdmin={showSystemAdmin} handleSystemAdmin={handleSystemAdmin} />
       {location.pathname === '/repos' && (
         <ManageNavigationDialog
           isSubmitting={false}

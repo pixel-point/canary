@@ -1,5 +1,4 @@
 import { Badge, Icon, StackedList } from '@harnessio/canary'
-import React from 'react'
 
 export interface Repo {
   id: number
@@ -10,6 +9,7 @@ export interface Repo {
   timestamp?: string
   description?: string
   stars?: number
+  importing?: boolean
 }
 
 export interface PageProps {
@@ -48,27 +48,36 @@ export function RepoList({ repos, LinkComponent }: PageProps) {
     <>
       {repos && repos.length > 0 && (
         <StackedList.Root>
-          {repos.map((repo, repo_idx) => (
-            <LinkComponent to={repo.name ?? '/'}>
-              <StackedList.Item key={repo.name} isLast={repos.length - 1 === repo_idx}>
+          {repos.map((repo, repo_idx) =>
+            repo.importing ? (
+              <StackedList.Item key={repo.id} isLast={repos.length - 1 === repo_idx}>
                 <StackedList.Field
-                  description={repo.description}
+                  description="Importing Repository..."
                   title={<Title title={repo.name ?? ''} isPrivate={repo.private} />}
                 />
-                <StackedList.Field
-                  title={
-                    <>
-                      Updated <em>{repo.timestamp}</em>
-                    </>
-                  }
-                  description={<Stats stars={repo.stars} forks={repo.forks ?? 0} pulls={repo.pulls ?? 0} />}
-                  right
-                  label
-                  secondary
-                />
               </StackedList.Item>
-            </LinkComponent>
-          ))}
+            ) : (
+              <LinkComponent key={repo.id} to={repo.name ?? '/'}>
+                <StackedList.Item key={repo.name} isLast={repos.length - 1 === repo_idx}>
+                  <StackedList.Field
+                    description={repo.description}
+                    title={<Title title={repo.name ?? ''} isPrivate={repo.private} />}
+                  />
+                  <StackedList.Field
+                    title={
+                      <>
+                        Updated <em>{repo.timestamp}</em>
+                      </>
+                    }
+                    description={<Stats stars={repo.stars} forks={repo.forks ?? 0} pulls={repo.pulls ?? 0} />}
+                    right
+                    label
+                    secondary
+                  />
+                </StackedList.Item>
+              </LinkComponent>
+            )
+          )}
         </StackedList.Root>
       )}
     </>

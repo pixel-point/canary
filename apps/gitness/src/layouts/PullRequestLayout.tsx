@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { NavLink, Outlet, useParams } from 'react-router-dom'
 import { Badge, Icon, Spacer } from '@harnessio/canary'
 import { SandboxLayout, PullRequestHeader } from '@harnessio/views'

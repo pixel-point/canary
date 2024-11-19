@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Avatar, AvatarFallback, Text, Button, Textarea } from '@harnessio/canary'
 import { getInitials } from '../../utils/utils'
 interface PullRequestCommentBoxProps {

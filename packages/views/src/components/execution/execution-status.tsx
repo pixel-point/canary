@@ -1,4 +1,3 @@
-import React from 'react'
 import { Icon as CanaryIcon } from '@harnessio/canary'
 import { ExecutionState } from './types'
 

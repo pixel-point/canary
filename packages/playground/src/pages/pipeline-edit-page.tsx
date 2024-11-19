@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { stringify } from 'yaml'
 import cx from 'classnames'
 import { noop } from 'lodash-es'
@@ -32,7 +32,7 @@ import { OutlineModel } from 'monaco-editor/esm/vs/editor/contrib/documentSymbol
 import { StandaloneServices } from 'monaco-editor/esm/vs/editor/standalone/browser/standaloneServices.js'
 import { Container } from '../components/layout/container'
 import { Topbar } from '../components/layout/topbar'
-import type { VisualYamlValue } from '../components/pipeline-studio/visual-yaml-toggle';
+import type { VisualYamlValue } from '../components/pipeline-studio/visual-yaml-toggle'
 import { VisualYamlToggle } from '../components/pipeline-studio/visual-yaml-toggle'
 import { PipelineStudioToolbarActions } from '../components/pipeline-studio/pipeline-studio-toolbar-actions'
 import { PipelineStudioFooterBar } from '../components/pipeline-studio/pipeline-studio-footer-bar/pipeline-studio-footer-bar'
@@ -41,7 +41,7 @@ import pipeline from '../assets/pipeline.yaml'
 import { themes } from '../assets/monacoTheme'
 import { Problems } from '../components/pipeline-studio/problems'
 import { problemsMock } from '../assets/problemsMock'
-import type { InlineActionArgsType} from '../assets/inlineActions';
+import type { InlineActionArgsType } from '../assets/inlineActions'
 import { getInlineActions } from '../assets/inlineActions'
 import unifiedSchema from '../assets/unifiedSchema.json'
 import { StepForm } from '../components/pipeline-studio/step-form/step-form'
@@ -234,8 +234,8 @@ const StepPalettePanel = (): JSX.Element => {
         <StepPaletteFilters />
       </StepsPalette.Header>
       <StepsPaletteContent.Root>
-        {['Buld', 'Deploy'].map(section => (
-          <StepsPaletteContent.Section>
+        {['Buld', 'Deploy'].map((section, index) => (
+          <StepsPaletteContent.Section key={index}>
             <StepsPaletteContent.SectionHeader>
               <div>{section}</div>
               <div>See all &gt; </div>

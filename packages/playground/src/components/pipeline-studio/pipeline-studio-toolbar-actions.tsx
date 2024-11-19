@@ -1,4 +1,3 @@
-import React from 'react'
 import { ToggleGroup, ToggleGroupItem, Icon } from '@harnessio/canary'
 import { CopyButton } from '../copy-button'
 
@@ -21,11 +20,11 @@ export const PipelineStudioToolbarActions = (props: PipelineStudioToolbarActions
       </ToggleGroupItem>
       {showEdit && (
         <ToggleGroupItem value="edit" onClick={onEditClick} title="Edit">
-          <Icon name="edit-pen" className="size-5 text-foreground" />
+          <Icon name="edit-pen" className="text-foreground size-5" />
         </ToggleGroupItem>
       )}
       <ToggleGroupItem value="download" onClick={onDownloadClick} title="Download">
-        <Icon name="download" className="size-5 text-foreground" />
+        <Icon name="download" className="text-foreground size-5" />
       </ToggleGroupItem>
     </ToggleGroup>
   )

@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import { memo, useCallback, useEffect, useState } from 'react'
 import type { Edge, Node } from 'reactflow'
 import { Canvas } from '../Canvas/Canvas'
 import type { Graph } from '../../components/Canvas/types'

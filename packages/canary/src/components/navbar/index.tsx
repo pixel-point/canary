@@ -1,8 +1,8 @@
-import React from 'react'
 import { cn } from '@/lib/utils'
 import { Text } from '../text'
 import noiseBg from './noise.png'
 import { Icon } from '@/components/icon'
+import { isSafari } from '@/utils/isSafari'
 
 interface NavbarRootProps {
   className?: string
@@ -14,8 +14,8 @@ function Root({ className, children, isSubMenu = false }: NavbarRootProps) {
   return (
     <div
       className={cn(
-        'border-border-5 bg-background-7 grid h-screen w-[220px] select-none grid-rows-[auto_1fr_auto] overflow-y-auto border-r',
-        { 'bg-background-7/70': isSubMenu },
+        'border-borders-5 bg-background-7 grid h-screen w-[220px] select-none grid-rows-[auto_1fr_auto] overflow-y-auto border-r',
+        { 'bg-background-7/70 backdrop-blur-[10px]': isSubMenu },
         className
       )}>
       {!isSubMenu && (
@@ -46,7 +46,10 @@ function Root({ className, children, isSubMenu = false }: NavbarRootProps) {
             }}
           />
           <div
-            className={`absolute left-0 top-0 z-[-1] size-full bg-repeat opacity-20 mix-blend-overlay`}
+            className={cn(
+              `absolute left-0 top-0 z-[-1] size-full bg-repeat opacity-20 mix-blend-overlay`,
+              isSafari() ? 'opacity-5' : 'opacity-20'
+            )}
             style={{ backgroundImage: `url(${noiseBg})` }}
           />
         </>
@@ -69,18 +72,19 @@ interface GroupProps {
   title?: string
   topBorder?: boolean
   isSubMenu?: boolean
+  titleClassName?: string
 }
 
-function Group({ children, title, topBorder, isSubMenu = false }: GroupProps) {
+function Group({ children, title, topBorder, isSubMenu = false, titleClassName }: GroupProps) {
   return (
     <div
       className={cn(
-        'flex w-full flex-col overflow-x-hidden px-5 pb-3',
-        { 'border-border-8 border-t pt-2.5': topBorder },
+        'flex w-full flex-col overflow-x-hidden px-5',
+        { 'border-borders-5 border-t pt-2.5': topBorder },
         isSubMenu ? 'pb-2.5' : 'gap-1.5 pb-3'
       )}>
       {title && (
-        <div className={cn('text-foreground-7 mt-1.5', isSubMenu ? 'mb-3' : 'mb-2')}>
+        <div className={cn('text-foreground-7 mt-1.5', isSubMenu ? 'mb-3' : 'mb-2.5', titleClassName)}>
           <p className="text-xs font-normal">{title}</p>
         </div>
       )}
@@ -116,9 +120,9 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
         />
         <div className="z-10 col-start-1 row-span-full flex items-center">
           {icon ? (
-            <div className="border-border-1 sub-menu-icon-bg relative flex size-8 place-content-center place-items-center rounded border bg-background-2">
+            <div className="sub-menu-icon-bg border-borders-1 bg-background-2 relative flex size-8 place-content-center place-items-center rounded border">
               <Icon
-                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-foreground-3"
+                className="text-foreground-3 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
                 name="sub-menu-ellipse"
                 size={18}
               />
@@ -157,25 +161,29 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
   }
 
   return (
-    <div
-      className={cn(
-        'group flex cursor-pointer select-none items-baseline gap-2.5 py-1',
-        { 'gap-0': !icon },
-        className
-      )}>
+    <div className={cn('group flex cursor-pointer select-none gap-2.5 py-1', { 'gap-0': !icon }, className)}>
       {icon && (
         <div
           className={cn(
-            'text-icons-4 group-hover:text-icons-2 z-10 flex h-5 w-3 min-w-3 items-center duration-100 ease-in-out',
+            'text-icons-4 group-hover:text-icons-2 relative z-10 mt-[3px] flex h-3 w-3 min-w-3 items-center duration-100 ease-in-out',
             { 'text-icons-2': active }
           )}>
+          {active && (
+            <span
+              className="absolute left-1/2 top-1/2 z-[-1] size-7 -translate-x-1/2 -translate-y-1/2"
+              style={{
+                background:
+                  'radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.11) 17.63%, rgba(255, 255, 255, 0.07) 40.23%, rgba(255, 255, 255, 0.03) 61.54%, rgba(255, 255, 255, 0.01) 80%, rgba(255, 255, 255, 0.00) 100%)'
+              }}
+            />
+          )}
           {icon}
         </div>
       )}
       <Text
         size={2}
         weight="medium"
-        className={cn('text-foreground-3 group-hover:text-foreground-1 z-10 duration-100 ease-in-out', {
+        className={cn('text-foreground-3 group-hover:text-foreground-1 z-10 text-left duration-100 ease-in-out', {
           'text-foreground-1': active
         })}>
         {text}
@@ -185,7 +193,9 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
 }
 
 function Footer({ children }: { children: React.ReactNode }) {
-  return <div className="border-border-8 sticky bottom-0 z-20 grid h-[72px] items-center border-t px-4">{children}</div>
+  return (
+    <div className="border-borders-5 sticky bottom-0 z-20 grid h-[72px] items-center border-t px-4">{children}</div>
+  )
 }
 
 export { Root, Header, Content, Group, Item, Footer }

@@ -1,5 +1,4 @@
-import React from 'react'
-import type { SubmitHandler } from 'react-hook-form';
+import type { SubmitHandler } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -63,8 +62,8 @@ function SettingsCreateNewUserForm({
                 <FormFieldSet.Label htmlFor="memberName" required>
                   User ID
                 </FormFieldSet.Label>
-                <Icon name="x-mark" className="ml-3 text-tertiary-background" />
-                <Text size={1} className="ml-1 text-tertiary-background">
+                <Icon name="x-mark" className="text-tertiary-background ml-3" />
+                <Text size={1} className="text-tertiary-background ml-1">
                   User ID cannot be changed once created
                 </Text>
               </span>

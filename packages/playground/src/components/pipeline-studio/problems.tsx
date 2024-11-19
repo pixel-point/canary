@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Icon } from '@harnessio/canary'
 import { CheckCircle } from 'lucide-react'
 
@@ -34,7 +34,7 @@ export interface ProblemsProps<T = unknown> {
 
 const ProblemsComponent = {
   Root: function Root({ children }: { children: React.ReactNode }) {
-    return <div className="min-h-12 overflow-scroll text-[13px] leading-[15px] text-neutral-400">{children}</div>
+    return <div className="min-h-12 overflow-scroll text-xs leading-[15px] text-neutral-400">{children}</div>
   },
 
   Row: function Root({
@@ -49,6 +49,8 @@ const ProblemsComponent = {
     const rowClasses = selected ? 'bg-neutral-800 text-neutral-200' : ''
     return (
       <div
+        role="button"
+        tabIndex={0}
         onClick={onClick}
         className={`width-100 flex flex-1 cursor-pointer items-center gap-2 text-nowrap py-0.5 ${rowClasses}`}>
         {children}

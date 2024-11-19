@@ -1,5 +1,5 @@
 import { Icon, StackedList, Text } from '@harnessio/canary'
-import React from 'react'
+
 import { ExecutionState } from './execution/types'
 import { ExecutionStatus } from './execution/execution-status'
 
@@ -68,7 +68,7 @@ export const ExecutionList = ({ executions, LinkComponent }: PageProps) => {
       {executions && executions.length > 0 && (
         <StackedList.Root>
           {executions.map((execution, execution_idx) => (
-            <LinkComponent to={execution.id}>
+            <LinkComponent key={execution.id} to={execution.id}>
               <StackedList.Item key={execution.name} isLast={executions.length - 1 === execution_idx}>
                 <StackedList.Field
                   title={<Title status={execution.status} title={execution.name || ''} />}

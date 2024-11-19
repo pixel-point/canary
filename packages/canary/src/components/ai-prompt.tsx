@@ -1,5 +1,3 @@
-import React from 'react'
-
 interface PageProps {
   placeholder: string
   children: React.ReactNode

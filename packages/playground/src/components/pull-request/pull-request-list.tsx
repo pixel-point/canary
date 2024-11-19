@@ -1,5 +1,5 @@
 import { Badge, cn, Icon, StackedList, Text } from '@harnessio/canary'
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import cx from 'classnames'
 import { getPrState } from './utils'
 import type { IconType } from './interfaces'
@@ -38,6 +38,8 @@ const HeaderTitle = ({
   return (
     <div className="flex items-center gap-4">
       <div
+        role="button"
+        tabIndex={0}
         onClick={() => setHeaderFilter('open')}
         className={cx('flex items-center gap-2', {
           'text-white': headerFilter === 'open',
@@ -56,6 +58,8 @@ const HeaderTitle = ({
         </Text>
       </div>
       <div
+        role="button"
+        tabIndex={0}
         onClick={() => setHeaderFilter('closed')}
         className={cx('flex items-center gap-2', {
           'text-white': headerFilter === 'closed',
@@ -213,7 +217,7 @@ export function PullRequestList({ pullRequests, LinkComponent }: PageProps) {
               title={<HeaderTitle headerFilter={headerFilter} setHeaderFilter={setHeaderFilter} />}></StackedList.Field>
           </StackedList.Item>
           {filteredData?.map((pullRequest, pullRequest_idx) => (
-            <LinkComponent to={pullRequest.number?.toString() || ''}>
+            <LinkComponent key={pullRequest.sha} to={pullRequest.number?.toString() || ''}>
               <StackedList.Item
                 key={`${pullRequest.name}-${pullRequest_idx}`}
                 isLast={filteredData.length - 1 === pullRequest_idx}>

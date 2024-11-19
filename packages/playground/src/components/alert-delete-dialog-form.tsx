@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button, Input, ButtonGroup } from '@harnessio/canary'
 import { FormFieldSet } from '../index'
 import { useForm } from 'react-hook-form'

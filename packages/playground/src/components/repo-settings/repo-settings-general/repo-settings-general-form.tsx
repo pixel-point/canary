@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Button,
   ButtonGroup,
@@ -15,14 +15,14 @@ import {
   Textarea,
   Spacer
 } from '@harnessio/canary'
-import type { SubmitHandler } from 'react-hook-form';
+import type { SubmitHandler } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
 import { FormFieldSet, SkeletonList } from '../../../index'
 import { MessageTheme } from '../../../components/form-field-set'
-import type { RepoData, RepoUpdateData} from './types';
+import type { RepoData, RepoUpdateData } from './types'
 import { AccessLevel, ErrorTypes } from './types'
 
 const formSchema = z.object({

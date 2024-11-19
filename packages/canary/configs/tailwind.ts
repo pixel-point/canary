@@ -148,7 +148,7 @@ export default {
           alert: 'hsl(var(--icon-alert))',
           success: 'hsl(var(--icon-success))',
           accent: 'hsl(var(--icon-accent))'
-        },
+        }
       },
       boxShadow: {
         1: '0px 8px 16px rgba(0, 0, 0, 0.30)',

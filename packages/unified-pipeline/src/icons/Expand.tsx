@@ -1,4 +1,4 @@
-import React, { SVGProps } from 'react'
+import { SVGProps } from 'react'
 
 const Expand = (props: SVGProps<SVGSVGElement>): React.ReactElement => (
   <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill={props.color} {...props}>

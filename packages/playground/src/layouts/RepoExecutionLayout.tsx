@@ -11,7 +11,7 @@ import {
   TabsTrigger,
   Topbar
 } from '@harnessio/canary'
-import React from 'react'
+
 import { NavLink, Outlet, useParams } from 'react-router-dom'
 
 const RepoExecutionLayout: React.FC = () => {

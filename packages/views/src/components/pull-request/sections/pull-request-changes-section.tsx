@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   AccordionContent,
   AccordionItem,
@@ -84,7 +83,7 @@ const AvatarItem: React.FC<AvatarItemProps> = ({ evaluations }: AvatarItemProps)
             evaluations.map(({ owner }, idx) => {
               if (idx < 2) {
                 return (
-                  <Avatar className={cx('h-6 w-6 rounded-full')}>
+                  <Avatar key={owner?.id} className={cx('h-6 w-6 rounded-full')}>
                     <AvatarFallback>
                       <Text size={1} color="tertiaryBackground">
                         {owner?.display_name && getInitials(owner?.display_name)}
@@ -95,7 +94,7 @@ const AvatarItem: React.FC<AvatarItemProps> = ({ evaluations }: AvatarItemProps)
               }
               if (idx === 2 && evaluations.length && evaluations.length > 2) {
                 // TODO: do popover with all the names
-                return <Text size={0}>{`+${evaluations.length - 2}`}</Text>
+                return <Text key={owner?.id} size={0}>{`+${evaluations.length - 2}`}</Text>
               }
               return null
             })}
@@ -356,7 +355,7 @@ const PullRequestChangesSection = ({
                     evaluation => evaluation.review_decision === 'approved'
                   )
                   return (
-                    <StackedList.Item disableHover className="px-0 pb-0">
+                    <StackedList.Item key={entry.pattern} disableHover className="px-0 pb-0">
                       <StackedList.Field title={entry?.pattern} />
                       {entry?.owner_evaluations && <AvatarItem evaluations={entry?.owner_evaluations} />}
                       {changeReqEvaluations && <AvatarItem evaluations={changeReqEvaluations} />}

@@ -1,4 +1,4 @@
-import type { WebhookEvent} from './types';
+import type { WebhookEvent } from './types'
 import { WebhookTriggerEnum } from './types'
 
 export const branchEvents: WebhookEvent[] = [

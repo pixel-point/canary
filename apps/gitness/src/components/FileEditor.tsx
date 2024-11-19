@@ -210,30 +210,28 @@ export const FileEditor: React.FC = () => {
                     </>
                   )
                 })}
-                {!isNew && (
-                  <BreadcrumbItem>
-                    <Input
-                      id="fileName"
-                      value={fileName}
-                      size={20}
-                      onInput={(event: ChangeEvent<HTMLInputElement>) => {
-                        setFileName(event.currentTarget.value)
-                      }}
-                      ref={_ref => (inputRef.current = _ref)}
-                      onBlur={rebuildPaths}
-                      onFocus={({ target }) => {
-                        const value = (parentPath ? parentPath + FILE_SEPERATOR : '') + fileName
-                        setFileName(value)
-                        setParentPath('')
-                        setTimeout(() => {
-                          target.setSelectionRange(value.length, value.length)
-                          target.scrollLeft = Number.MAX_SAFE_INTEGER
-                        }, 0)
-                      }}
-                      placeholder="Name your file..."
-                    />
-                  </BreadcrumbItem>
-                )}
+                <BreadcrumbItem>
+                  <Input
+                    id="fileName"
+                    value={fileName}
+                    size={20}
+                    onInput={(event: ChangeEvent<HTMLInputElement>) => {
+                      setFileName(event.currentTarget.value)
+                    }}
+                    ref={_ref => (inputRef.current = _ref)}
+                    onBlur={rebuildPaths}
+                    onFocus={({ target }) => {
+                      const value = (parentPath ? parentPath + FILE_SEPERATOR : '') + fileName
+                      setFileName(value)
+                      setParentPath('')
+                      setTimeout(() => {
+                        target.setSelectionRange(value.length, value.length)
+                        target.scrollLeft = Number.MAX_SAFE_INTEGER
+                      }, 0)
+                    }}
+                    placeholder="Name your file..."
+                  />
+                </BreadcrumbItem>
               </ButtonGroup.Root>
             </ListActions.Left>
             <ListActions.Right>

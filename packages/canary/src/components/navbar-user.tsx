@@ -1,4 +1,3 @@
-import React from 'react'
 import { getInitials } from '@/utils/StringUtils'
 import {
   Avatar,

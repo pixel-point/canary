@@ -1,5 +1,5 @@
 import { Navbar, Icon, NavbarProjectChooser, NavbarUser, IconProps } from '@harnessio/canary'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Outlet, NavLink, useLocation, Link } from 'react-router-dom'
 import { MoreSubmenu } from '../components/more-submenu'
 import { navbarSubmenuData } from '../data/mockNavbarSubmenuData'
@@ -133,7 +133,7 @@ export const RootLayout: React.FC<RootLayoutProps> = ({ currentUser }) => {
                     {({ isActive }) => <Navbar.Item key={idx} text={item.text} icon={item.icon} active={isActive} />}
                   </NavLink>
                 ))}
-                <div onClick={() => (!showMore ? handleMore() : null)}>
+                <div role="button" tabIndex={0} onClick={() => (!showMore ? handleMore() : null)}>
                   <Navbar.Item text="More" icon={<Icon name="ellipsis" size={12} />} />
                 </div>
               </Navbar.Group>

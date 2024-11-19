@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   AccordionContent,
   AccordionItem,
@@ -61,7 +60,7 @@ const PullRequestCheckSection = ({ checkData, checksInfo, spaceId, repoId }: Pul
             const time = timeDistance(check.check.created, check.check.updated)
 
             return (
-              <div className={cn('flex items-center justify-between gap-2 border-t py-2.5')}>
+              <div key={time} className={cn('flex items-center justify-between gap-2 border-t py-2.5')}>
                 <div className="flex items-center gap-2">
                   {getStatusIcon(check.check.status as EnumCheckStatus)}
                   <Text size={1} color="primary" truncate className="max-w-[300px] overflow-hidden">

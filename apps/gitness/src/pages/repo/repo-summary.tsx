@@ -10,7 +10,9 @@ import {
   ListActions,
   Spacer,
   StackedList,
-  Text
+  Text,
+  ToggleGroup,
+  ToggleGroupItem
 } from '@harnessio/canary'
 import {
   RepoSummaryPanel,
@@ -275,6 +277,24 @@ export const RepoSummaryList: React.FC = () => {
               <StackedList.Root>
                 <StackedList.Item isHeader disableHover>
                   <StackedList.Field title={<Text color="tertiaryBackground">README.md</Text>} />
+                  <StackedList.Field
+                    right
+                    title={
+                      <ToggleGroup type="single" variant="compact" size="sm">
+                        <ToggleGroupItem
+                          value="edit"
+                          onClick={() =>
+                            navigate(
+                              `/spaces/${spaceId}/repos/${repoId}/code/edit/${gitRef || selectedBranch}/~/README.md`
+                            )
+                          }
+                          title="Edit"
+                          size="sm">
+                          <Icon name="edit-pen" className="text-foreground size-5" />
+                        </ToggleGroupItem>
+                      </ToggleGroup>
+                    }
+                  />
                 </StackedList.Item>
                 <StackedList.Item disableHover>
                   <MarkdownViewer source={decodedReadmeContent || ''} />
@@ -312,6 +332,7 @@ export const RepoSummaryList: React.FC = () => {
                     iconName: 'open-pr'
                   }
                 ]}
+                description={repository?.description}
               />
             </SandboxLayout.Content>
           </SandboxLayout.Column>

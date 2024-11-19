@@ -1,5 +1,4 @@
-import React from 'react'
-import { Navbar, Sheet, SheetContent, Icon, Spacer } from '@harnessio/canary'
+import { Navbar, Sheet, SheetContent, Icon, Spacer, SheetTitle } from '@harnessio/canary'
 import { navbarSubmenuData } from '../data/mockNavbarSubmenuData'
 import { NavLink } from 'react-router-dom'
 
@@ -10,8 +9,13 @@ interface MoreSubmenuProps {
 
 export function MoreSubmenu({ showMore, handleMore }: MoreSubmenuProps) {
   return (
-    <Sheet modal={false} open={showMore} onOpenChange={handleMore}>
-      <SheetContent side="left" className="inset-y-0 left-[220px] z-40 h-screen w-[328px] bg-transparent p-0">
+    <Sheet modal={false} open={showMore}>
+      <SheetContent
+        className="inset-y-0 left-[220px] z-40 h-screen w-[328px] bg-transparent p-0"
+        side="left"
+        onClick={handleMore}
+        modal={false}>
+        <SheetTitle className="sr-only">More Menu</SheetTitle>
         <Navbar.Root className="w-[328px]" isSubMenu>
           <Navbar.Content>
             <Spacer size={9} />

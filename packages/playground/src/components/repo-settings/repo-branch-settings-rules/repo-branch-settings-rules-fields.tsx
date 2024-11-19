@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {
   Input,
   Textarea,
@@ -20,16 +20,8 @@ import {
 } from '@harnessio/canary'
 import { FormFieldSet, MessageTheme } from '../../../index'
 import { branchRules } from './repo-branch-settings-rules-data'
-import type {
-  FieldProps,
-  Rule,
-  Dispatch,
-  BypassUsersList,
-  MergeStrategy} from './types';
-import {
-  BranchRulesActionType,
-  PatternsButtonType
-} from './types'
+import type { FieldProps, Rule, Dispatch, BypassUsersList, MergeStrategy } from './types'
+import { BranchRulesActionType, PatternsButtonType } from './types'
 
 export const BranchSettingsRuleToggleField: React.FC<FieldProps> = ({ register, watch, setValue }) => (
   <StackedList.Root className="border-none">
@@ -239,6 +231,7 @@ export const BranchSettingsRuleBypassListField: React.FC<FieldProps & { bypassOp
             bypassOptions.map(option => {
               return (
                 <DropdownMenuCheckboxItem
+                  key={option.id}
                   onCheckedChange={() => handleCheckboxChange(option.id)}
                   checked={selectedBypassUsers.includes(option.id)}
                   onSelect={event => event.preventDefault()}>

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Input, Textarea, Checkbox, StackedList, Switch, RadioGroup, RadioGroupItem } from '@harnessio/canary'
 import { FormFieldSet, MessageTheme } from '../../index'
 import { WebhookEvent, WebhookFormFieldProps, WebhookTriggerEnum, TriggerEventsEnum } from './types'

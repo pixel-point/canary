@@ -4,12 +4,9 @@ import type {
   EnumPullReqReviewDecision,
   TypesPullReqActivity,
   TypesRuleViolations,
-  TypesViolation} from './interfaces';
-import {
-  PRCommentFilterType,
-  PullReqReviewDecision,
-  orderSortDate
+  TypesViolation
 } from './interfaces'
+import { PRCommentFilterType, PullReqReviewDecision, orderSortDate } from './interfaces'
 import type * as Diff2Html from 'diff2html'
 import HoganJsUtils from 'diff2html/lib/hoganjs-utils'
 

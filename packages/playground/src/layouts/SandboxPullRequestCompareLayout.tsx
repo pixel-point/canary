@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { BranchSelector, Layout, NoData, PullRequestCommits, SandboxLayout } from '..'
 import {
   Accordion,
@@ -9,8 +9,11 @@ import {
   StackedList,
   Tabs,
   TabsContent,
-  TabsList
-, Icon, Spacer, Text } from '@harnessio/canary'
+  TabsList,
+  Icon,
+  Spacer,
+  Text
+} from '@harnessio/canary'
 import { z } from 'zod'
 import PullRequestCompareForm from '../components/pull-request/pull-request-compare-form'
 import TabTriggerItem from '../components/TabsTriggerItem'
@@ -115,10 +118,10 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
         <Spacer size={2} />
         <Layout.Vertical>
           <Text size={2} as="p" className="text-primary/80">
-            Choose two branches to see what's changed or to start a new pull request. If you need to, you can also
+            Choose two branches to see what&apos;s changed or to start a new pull request. If you need to, you can also
             compare across forks or learn more about diff comparisons.
           </Text>
-          <Layout.Horizontal className="items-center text-tertiary-background">
+          <Layout.Horizontal className="text-tertiary-background items-center">
             <Icon name="pull" size={16} className="text-tertiary-background" />
 
             <BranchSelector
@@ -131,7 +134,7 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
                 handleBranchSelection() // Call when target branch is selected
               }}
             />
-            <Icon name="arrow-long" size={14} className="rotate-180 text-tertiary-background" />
+            <Icon name="arrow-long" size={14} className="text-tertiary-background rotate-180" />
             <BranchSelector
               prefix="compare"
               size="default"
@@ -160,13 +163,13 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
                           <Icon name={'x-mark'} size={12} className="text-tertiary-background" />
 
                           <Text size={0} className="text-tertiary-background">
-                            Head branch doesn't contain any new commits.
+                            Head branch doesn&apos;t contain any new commits.
                           </Text>
                         </>
                       ) : (
                         <>
                           <Icon name="fail" size={12} />
-                          <Text className="text-destructive">Can't be merged.</Text>
+                          <Text className="text-destructive">Can&apos;t be merged.</Text>
                           <Text size={0} className="text-tertiary-background">
                             You can still create the pull request.
                           </Text>
@@ -179,7 +182,7 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
           </Layout.Horizontal>
         </Layout.Vertical>
         <Spacer size={3} />
-        <Layout.Horizontal className="items-center justify-between rounded-md border-2 border-border bg-background p-3">
+        <Layout.Horizontal className="border-border bg-background items-center justify-between rounded-md border-2 p-3">
           <div>
             <Layout.Horizontal className="py-2">
               {isBranchSelected ? (

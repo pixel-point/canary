@@ -2,11 +2,12 @@ import * as React from 'react'
 import ChevronDown from '../icons/chevron-down.svg'
 import ChevronRight from '../icons/chevron-right.svg'
 import ChevronUp from '../icons/chevron-up.svg'
-import Archive from '../icons/repositories-icon.svg'
+import Checkbox from '../icons/checkbox.svg'
 import Harness from '../icons/harness.svg'
 import Pipelines from '../icons/pipelines-icon.svg'
 import FeaturedFlags from '../icons/featured-flags-icon.svg'
 import Ellipsis from '../icons/more-dots-icon.svg'
+import MoreDotsFill from '../icons/more-dots-fill-icon.svg'
 import Repositories from '../icons/repositories-icon.svg'
 import ChaosEngineering from '../icons/chaos-engineering-icon.svg'
 import Environment from '../icons/environment-icon.svg'
@@ -98,7 +99,6 @@ import GreenTick from '../icons/green-tick-nobg.svg'
 import CancelGrey from '../icons/cancel-grey.svg'
 import HarnessLogoText from '../icons/harness-logo-text.svg'
 import Account from '../icons/account.svg'
-import GridDots from '../icons/grid-dots.svg'
 import InfoCircle from '../icons/info-circle.svg'
 import Download from '../icons/download.svg'
 import Clock from '../icons/clock.svg'
@@ -131,6 +131,11 @@ import Briefcase from '../icons/briefcase-icon.svg'
 import Shield from '../icons/shield-icon.svg'
 import Snow from '../icons/snow-icon.svg'
 import Ticket from '../icons/ticket-icon.svg'
+import GridDots from '../icons/grid-dots.svg'
+import CircleArrowTop from '../icons/circle-arrow-top.svg'
+import CircleArrowsUpDown from '../icons/circle-arrows-updown.svg'
+import ChevronFillDown from '../icons/chevron-fill-down.svg'
+import Execution from '../icons/execution-icon.svg'
 // import Fork from '../icons/fork.svg'
 
 const IconNameMap = {
@@ -142,7 +147,7 @@ const IconNameMap = {
   play: Play,
   download: Download,
   clock: Clock,
-  archive: Archive,
+  checkbox: Checkbox,
   harness: Harness,
   pipelines: Pipelines,
   'featured-flags': FeaturedFlags,
@@ -239,7 +244,6 @@ const IconNameMap = {
   'cancel-grey': CancelGrey,
   'harness-logo-text': HarnessLogoText,
   account: Account,
-  'grid-dots': GridDots,
   'settings-1': Settings1,
   'settings-2': Settings2,
   'harness-gradient': HarnessLogoGradient,
@@ -265,7 +269,13 @@ const IconNameMap = {
   briefcase: Briefcase,
   shield: Shield,
   snow: Snow,
-  ticket: Ticket
+  ticket: Ticket,
+  'grid-dots': GridDots,
+  'circle-arrow-top': CircleArrowTop,
+  'circle-arrows-updown': CircleArrowsUpDown,
+  'chevron-fill-down': ChevronFillDown,
+  'more-dots-fill': MoreDotsFill,
+  execution: Execution
   // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 

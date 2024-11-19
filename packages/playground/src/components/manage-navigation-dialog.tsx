@@ -16,7 +16,15 @@ import {
   cn,
   ScrollArea
 } from '@harnessio/canary'
-import type { NavbarItem } from '../layouts/RootLayout'
+import type { IconProps } from '@harnessio/canary'
+
+export interface NavbarItem {
+  id: number
+  title: string
+  iconName: IconProps['name']
+  description: string
+  to?: string
+}
 
 const mockPinnedItems: NavbarItem[] = ['Repositories', 'Pipelines', 'Executions', 'Connectors'].map((title, index) => ({
   id: 10 + index,

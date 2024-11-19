@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Spacer,
   AlertDialog,
@@ -37,7 +36,7 @@ export const FormRemoveAdminDialog: React.FC<FormRemoveUserDialogProps> = ({
             as an admin?
           </AlertDialogTitle>
           <AlertDialogDescription>
-            This will permanently remove a admin tag for "{user?.display_name}" ({user?.uid}).
+            This will permanently remove a admin tag for &quot;{user?.display_name}&quot; ({user?.uid}).
           </AlertDialogDescription>
         </AlertDialogHeader>
         <Spacer size={3} />

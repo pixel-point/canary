@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Spacer, Text, Button } from '@harnessio/canary'
-import { FormFieldSet, SandboxLayout , DeleteTokenAlertDialog } from '..'
+import { FormFieldSet, SandboxLayout, DeleteTokenAlertDialog } from '..'
 import { ProfileKeysList } from '../components/profile-settings/profile-settings-keys-list'
 import { ProfileTokensList } from '../components/profile-settings/profile-settings-tokens-list'
 import { mockKeys } from './mocks/profile-settings/mockKeyList'

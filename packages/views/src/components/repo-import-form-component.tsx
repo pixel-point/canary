@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import {
   Button,
   ButtonGroup,
@@ -26,16 +26,18 @@ const importRepoFormSchema = z.object({
   repository: z.string().min(1, { message: 'Please select a repository' })
 })
 
-export type ImportRepoFormType = z.infer<typeof importRepoFormSchema>
+export type RepoImportFormType = z.infer<typeof importRepoFormSchema>
 
 export function RepoImportForm({
   isLoading = false,
   onCancel,
-  onSubmit
+  onSubmit,
+  error
 }: {
   isLoading?: boolean
   onCancel: () => void
-  onSubmit: (data: ImportRepoFormType) => void
+  onSubmit: (data: RepoImportFormType) => void
+  error?: string
 }) {
   const {
     register,
@@ -44,7 +46,7 @@ export function RepoImportForm({
     watch,
     reset,
     formState: { errors }
-  } = useForm<ImportRepoFormType>({
+  } = useForm<RepoImportFormType>({
     resolver: zodResolver(importRepoFormSchema),
     mode: 'onChange',
     defaultValues: {
@@ -79,11 +81,11 @@ export function RepoImportForm({
     setValue('identifier', repositoryValue)
   }, [repositoryValue, setValue])
 
-  const handleSelectChange = (fieldName: keyof ImportRepoFormType, value: string) => {
+  const handleSelectChange = (fieldName: keyof RepoImportFormType, value: string) => {
     setValue(fieldName, value, { shouldValidate: true })
   }
 
-  const handleFormSubmit: SubmitHandler<ImportRepoFormType> = data => {
+  const handleFormSubmit: SubmitHandler<RepoImportFormType> = data => {
     onSubmit(data)
     reset()
   }
@@ -101,7 +103,7 @@ export function RepoImportForm({
               <SelectContent>
                 {providerOptions.map(providerOption => {
                   return (
-                    <SelectItem key={providerOption} value={providerOption}>
+                    <SelectItem key={providerOption} value={providerOption} disabled={providerOption !== 'Github'}>
                       {providerOption}
                     </SelectItem>
                   )
@@ -219,6 +221,14 @@ export function RepoImportForm({
             )}
           </FormFieldSet.ControlGroup>
         </FormFieldSet.Root>
+
+        {error && (
+          <FormFieldSet.Root>
+            <FormFieldSet.ControlGroup>
+              <FormFieldSet.Message theme={FormFieldSet.MessageTheme.ERROR}>{error}</FormFieldSet.Message>
+            </FormFieldSet.ControlGroup>
+          </FormFieldSet.Root>
+        )}
 
         {/* SUBMIT BUTTONS */}
         <FormFieldSet.Root>

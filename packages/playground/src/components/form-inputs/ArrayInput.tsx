@@ -1,7 +1,7 @@
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { Plus } from 'lucide-react'
-import type { InputProps , AnyFormikValue, IInputDefinition } from '@harnessio/forms';
-import { Controller, useFieldArray , InputComponent , RenderInputs } from '@harnessio/forms'
+import type { InputProps, AnyFormikValue, IInputDefinition } from '@harnessio/forms'
+import { Controller, useFieldArray, InputComponent, RenderInputs } from '@harnessio/forms'
 import { Button, FormField, FormItem, Icon } from '@harnessio/canary'
 import { InputType } from './types'
 import InputLabel from './common/InputLabel'

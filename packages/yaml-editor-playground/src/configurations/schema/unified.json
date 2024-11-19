@@ -739,16 +739,7 @@
         },
         "type": {
           "description": "Type defines the input type.",
-          "enum": [
-            "string",
-            "number",
-            "boolean",
-            "array",
-            "duration",
-            "choice",
-            "environment",
-            "secret"
-          ],
+          "enum": ["string", "number", "boolean", "array", "duration", "choice", "environment", "secret"],
           "type": "string"
         }
       },

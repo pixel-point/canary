@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { noop } from 'lodash-es'
 import { Text, Spacer, ListActions, SearchBox } from '@harnessio/canary'

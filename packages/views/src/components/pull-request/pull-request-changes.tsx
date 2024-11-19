@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Accordion,
   AccordionContent,
@@ -36,6 +35,8 @@ const LineTitle: React.FC<Omit<HeaderProps, 'title' | 'data' | 'lang'>> = ({ tex
     <div className="inline-flex items-center gap-2">
       <Text weight="medium">{text}</Text>
       <div
+        role="button"
+        tabIndex={0}
         onClick={e => {
           e.preventDefault()
         }}>

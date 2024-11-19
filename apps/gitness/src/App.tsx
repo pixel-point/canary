@@ -60,6 +60,7 @@ import PipelineLayout from './layouts/PipelineStudioLayout'
 import { CreateNewUserContainer } from './pages/user-management/create-new-user-container'
 import { CreateNewMemberPage } from './pages/project-settings/project-settings-new-member-page'
 import { PipelineCreate } from './pages/pipeline-create/pipeline-create'
+import { RepoImportContainer } from './pages/repo/repo-import-container'
 
 const BASE_URL_PREFIX = `${window.apiUrl || ''}/api/v1`
 
@@ -357,6 +358,10 @@ export default function App() {
             {
               path: ':spaceId/repos/create',
               element: <CreateRepo />
+            },
+            {
+              path: ':spaceId/repos/import',
+              element: <RepoImportContainer />
             }
           ]
         },

@@ -1,5 +1,3 @@
-import React from 'react'
-
 interface DockProps {
   children: React.ReactNode
 }

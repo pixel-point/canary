@@ -1,4 +1,4 @@
-import React, { RefObject, useEffect, useMemo, useState } from 'react'
+import { RefObject, useEffect, useMemo, useState } from 'react'
 import * as monaco from 'monaco-editor'
 import { getOutlineModel, processOutlineModel } from '../utils/outline-model-to-path'
 

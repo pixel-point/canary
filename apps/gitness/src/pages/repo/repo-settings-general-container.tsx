@@ -195,7 +195,7 @@ export const RepoSettingsGeneralPageContainer = () => {
       onSuccess: ({ body: newData }) => {
         setRepoData(prevState => ({
           ...prevState,
-          defaultBranch: newData.identifier || prevState.defaultBranch
+          defaultBranch: newData.default_branch || prevState.defaultBranch
         }))
         setApiError(null)
       },

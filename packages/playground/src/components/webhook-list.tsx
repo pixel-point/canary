@@ -12,7 +12,7 @@ import {
   StackedList,
   Text
 } from '@harnessio/canary'
-import React from 'react'
+
 import { Link } from 'react-router-dom'
 
 export enum WebhookState {
@@ -105,7 +105,7 @@ export const WebhooksList = ({ webhooks, LinkComponent, openDeleteWebhookDialog 
       {webhooks && webhooks.length > 0 && (
         <StackedList.Root>
           {webhooks.map((webhook, webhook_idx) => (
-            <LinkComponent to={`create/${webhook.id.toString()}`}>
+            <LinkComponent key={webhook.id} to={`create/${webhook.id.toString()}`}>
               <StackedList.Item key={webhook.display_name} isLast={webhooks.length - 1 === webhook_idx}>
                 <StackedList.Field
                   title={<Title title={webhook.display_name} enabled={webhook.enabled} />}

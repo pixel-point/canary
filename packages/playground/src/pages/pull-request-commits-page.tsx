@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { PullRequestCommits } from '../components/pull-request/pull-request-commits'
 import { mockCommitData } from '../data/mockCommitData'
 import {

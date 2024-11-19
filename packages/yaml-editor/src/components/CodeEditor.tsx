@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import * as monaco from 'monaco-editor'
 import Editor, { Monaco, useMonaco, loader } from '@monaco-editor/react'
 import { useTheme } from '../hooks/useTheme'
@@ -20,7 +20,7 @@ const defaultOptions: monaco.editor.IStandaloneEditorConstructionOptions = {
   minimap: { enabled: false }
 }
 
-export interface CodeEditorProps<T> {
+export interface CodeEditorProps<_> {
   codeRevision: CodeRevision
   onCodeRevisionChange: (codeRevision: CodeRevision | undefined, ev: monaco.editor.IModelContentChangedEvent) => void
   language: string
@@ -51,7 +51,7 @@ export function CodeEditor<T>(props: CodeEditorProps<T>): JSX.Element {
 
   useEffect(() => {
     if (editorRef.current) {
-      if (!codeRevision.revisionId || codeRevision.revisionId > currentRevisionRef.current?.revisionId!) {
+      if (!codeRevision.revisionId || codeRevision.revisionId > Number(currentRevisionRef.current?.revisionId)) {
         const model = editorRef.current.getModel()
         if (model) {
           editorRef.current.pushUndoStop()
@@ -76,7 +76,7 @@ export function CodeEditor<T>(props: CodeEditorProps<T>): JSX.Element {
   return (
     <>
       <Editor
-        className="border-l border-r border-b border-border-background"
+        className="border-border-background border-x border-b"
         height={'75vh'}
         onChange={(value, data) => {
           currentRevisionRef.current = { code: value ?? '', revisionId: data.versionId }

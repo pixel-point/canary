@@ -1,5 +1,4 @@
-import React from 'react'
-import { Progress, Text , cn } from '@harnessio/canary'
+import { Progress, Text, cn } from '@harnessio/canary'
 
 interface GaugeProps {
   behindAhead: {
@@ -21,7 +20,7 @@ export const DivergenceGauge = ({ behindAhead, className }: GaugeProps) => {
         <Text as="p" size={1} truncate color="tertiaryBackground" className="leading-none">
           {behindAhead.behind ?? 0}
         </Text>
-        <div className="h-full border-r border-tertiary-background/30" />
+        <div className="border-tertiary-background/30 h-full border-r" />
         <Text as="p" size={1} truncate color="tertiaryBackground" className="place-self-start leading-none">
           {behindAhead.ahead ?? 0}
         </Text>

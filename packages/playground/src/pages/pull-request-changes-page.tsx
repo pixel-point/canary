@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import PlaygroundPullRequestChangesSettings from '../settings/pull-request-changes-settings'
 import { SkeletonList } from '../components/loaders/skeleton-list'
 import { NoData } from '../components/no-data'
@@ -139,7 +139,7 @@ const FilterSortViewDropdowns: React.FC<FilterViewProps> = ({ active }) => {
                     mockApprovalItems[index].items.map(itm => (
                       <DropdownMenuItem key={itm.id}>
                         <RadioGroup className="flex items-start gap-2">
-                          <RadioGroupItem value="false" className="mt-1 size-3 text-tertiary-background" />
+                          <RadioGroupItem value="false" className="text-tertiary-background mt-1 size-3" />
                           <div className="flex flex-col">
                             <Text truncate size={1} color="primary">
                               {itm.title}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import cx from 'classnames'
 import {
   Button,
@@ -22,7 +22,7 @@ import {
   CommandGroup,
   CommandItem
 } from '@harnessio/canary'
-import type { EnumPullReqReviewDecision} from './interfaces';
+import type { EnumPullReqReviewDecision } from './interfaces'
 import { PullReqReviewDecision } from './interfaces'
 import { getInitials } from '../../utils/utils'
 
@@ -158,7 +158,7 @@ const PullRequestSideBar = (props: PullRequestSideBarProps) => {
         </Text>
         <Popover open={isOpen} onOpenChange={setIsOpen}>
           <PopoverTrigger asChild>
-            <Button size="sm" variant="ghost" className="px-2 py-1 text-tertiary-background">
+            <Button size="sm" variant="ghost" className="text-tertiary-background px-2 py-1">
               <Icon name="vertical-ellipsis" size={12} />
             </Button>
           </PopoverTrigger>

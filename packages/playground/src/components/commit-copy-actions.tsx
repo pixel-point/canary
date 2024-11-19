@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Text, Icon, cn } from '@harnessio/canary'
 import copy from 'clipboard-copy'
 import { ShaBadge } from '..'

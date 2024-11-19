@@ -1,5 +1,5 @@
 import { AccordionContent, AccordionItem, AccordionTrigger, Icon, StackedList, Text } from '@harnessio/canary'
-import React from 'react'
+
 import { LineTitle, LineDescription } from '../pull-request-line-title'
 import { isEmpty } from 'lodash-es'
 interface PullRequestMergeSectionProps {

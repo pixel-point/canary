@@ -1,5 +1,4 @@
-import type {
-  IFormDefinition} from '@harnessio/forms';
+import type { IFormDefinition } from '@harnessio/forms'
 import {
   arrayToObjectOutputTransformer,
   objectToArrayInputTransformer,
@@ -8,9 +7,9 @@ import {
   unsetEmptyArrayOutputTransformer,
   unsetEmptyStringOutputTransformer
 } from '@harnessio/forms'
-import type { InputConfigType} from '../form-inputs/types';
+import type { InputConfigType } from '../form-inputs/types'
 import { InputType } from '../form-inputs/types'
-import type { IInputConfigWithConfig} from './types';
+import type { IInputConfigWithConfig } from './types'
 import { RUN_STEP_IDENTIFIER } from './types'
 import { getContainerPartial } from './partials/container-partial'
 

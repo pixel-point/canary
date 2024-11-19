@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   FormControl,
   FormField,
@@ -10,7 +9,7 @@ import {
   SelectValue
 } from '@harnessio/canary'
 import { InputComponent } from '@harnessio/forms'
-import type { AnyFormikValue , InputProps } from '@harnessio/forms'
+import type { AnyFormikValue, InputProps } from '@harnessio/forms'
 import InputLabel from './common/InputLabel'
 import InputWrapper from './common/InputWrapper'
 import { InputError } from './common/InputError'
@@ -50,7 +49,11 @@ function SelectInputInternal(props: InputProps<AnyFormikValue, SelectInputConfig
                 </SelectTrigger>
                 <SelectContent>
                   {inputConfig?.options.map(item => {
-                    return <SelectItem value={item.value}>{item.label}</SelectItem>
+                    return (
+                      <SelectItem key={item.value} value={item.value}>
+                        {item.label}
+                      </SelectItem>
+                    )
                   })}
                 </SelectContent>
               </Select>

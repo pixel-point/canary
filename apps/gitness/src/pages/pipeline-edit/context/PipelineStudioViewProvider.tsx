@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import { PipelineStudioView } from '../types/types'
 
 export enum StepDrawer {
@@ -53,5 +53,5 @@ const PipelineStudioViewProvider = ({ children }: React.PropsWithChildren) => {
 export default PipelineStudioViewProvider
 
 export const usePipelineViewContext = () => {
-  return React.useContext(PipelineStudioViewContext)
+  return useContext(PipelineStudioViewContext)
 }

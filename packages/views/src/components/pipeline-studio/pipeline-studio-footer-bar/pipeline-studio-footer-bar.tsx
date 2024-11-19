@@ -1,4 +1,3 @@
-import React from 'react'
 import { Icon } from '@harnessio/canary'
 
 import {
@@ -44,6 +43,8 @@ const PipelineStudioFooterBar: React.FC<PipelineStudioFooterBarProps> = (props: 
       }>
       <div className="flex items-center gap-2">
         <div
+          role="button"
+          tabIndex={0}
           onClick={() => {
             props.togglePane?.()
           }}
@@ -82,7 +83,13 @@ const PipelineStudioFooterBar: React.FC<PipelineStudioFooterBarProps> = (props: 
               <SelectTrigger className="text-primary w-fit border-none px-1 text-[12px] focus:ring-[0px]">
                 <SelectValue placeholder={branchesLoading ? 'Loading...' : 'Select branch'} />
               </SelectTrigger>
-              <SelectContent>{branches?.map(branch => <SelectItem value={branch}>{branch}</SelectItem>)}</SelectContent>
+              <SelectContent>
+                {branches?.map(branch => (
+                  <SelectItem key={branch} value={branch}>
+                    {branch}
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
           </div>
         </div>

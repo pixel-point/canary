@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   Accordion,
   Button,
@@ -25,6 +25,7 @@ import {
   PullRequestState,
   PullRequestFilterOption
 } from './interfaces'
+import { MergeCheckStatus, PullRequestState, PullRequestFilterOption } from './interfaces'
 import PullRequestCheckSection from './sections/pull-request-check-section'
 import PullRequestCommentSection from './sections/pull-request-comment-section'
 import PullRequestChangesSection from './sections/pull-request-changes-section'

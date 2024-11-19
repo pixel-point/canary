@@ -1,5 +1,4 @@
 import { SpotlightsBG, Text } from '@harnessio/canary'
-import React from 'react'
 
 export default function Signup() {
   return (

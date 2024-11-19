@@ -1,5 +1,4 @@
-import React from 'react'
-import { Badge, Icon, Separator, Text , ScrollArea } from '@harnessio/canary'
+import { Badge, Icon, Separator, Text, ScrollArea } from '@harnessio/canary'
 import moment from 'moment'
 import { noop } from 'lodash-es'
 import { StageExecution } from './stage-execution'
@@ -42,24 +41,24 @@ export const ExecutionDetails: React.FC<ExecutionProps> = (): React.ReactElement
         <div className="my-5 flex flex-col gap-2">
           <Text className="text-base text-white">{execution.message}</Text>
           <div className="flex items-center gap-2">
-            <Badge variant="secondary" className="flex gap-1 bg-primary-foreground">
+            <Badge variant="secondary" className="bg-primary-foreground flex gap-1">
               <Layout.Horizontal gap="space-x-1" className="flex items-center">
                 <Icon size={12} name={'tube-sign'} />
-                <Text className="pb-0.5 text-sm text-git">{execution.source}</Text>
+                <Text className="text-git pb-0.5 text-sm">{execution.source}</Text>
               </Layout.Horizontal>
             </Badge>
             <span>to</span>
-            <Badge variant="secondary" className="flex gap-1 bg-primary-foreground">
+            <Badge variant="secondary" className="bg-primary-foreground flex gap-1">
               <Layout.Horizontal gap="space-x-1" className="flex items-center">
                 <Icon size={12} name={'git-branch'} />
-                <Text className="pb-0.5 text-sm text-git">{execution.target}</Text>
+                <Text className="text-git pb-0.5 text-sm">{execution.target}</Text>
               </Layout.Horizontal>
             </Badge>
           </div>
         </div>
         <Layout.Horizontal>
           <Layout.Vertical gap="space-y-1">
-            <Text className="text-sm text-muted-foreground">Status</Text>
+            <Text className="text-muted-foreground text-sm">Status</Text>
             <ExecutionStatus.Badge
               status={execution.status as ExecutionState}
               minimal
@@ -67,7 +66,7 @@ export const ExecutionDetails: React.FC<ExecutionProps> = (): React.ReactElement
             />
           </Layout.Vertical>
           <Layout.Vertical gap="space-y-1">
-            <Text className="text-sm text-muted-foreground">Created</Text>
+            <Text className="text-muted-foreground text-sm">Created</Text>
             <span className="text-white">{moment(execution.created).fromNow()}</span>
           </Layout.Vertical>
         </Layout.Horizontal>

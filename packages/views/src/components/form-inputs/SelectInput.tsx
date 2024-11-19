@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   FormControl,
   FormField,
@@ -50,7 +49,11 @@ function SelectInputInternal(props: InputProps<AnyFormikValue, SelectInputConfig
                 </SelectTrigger>
                 <SelectContent>
                   {inputConfig?.options.map(item => {
-                    return <SelectItem value={item.value}>{item.label}</SelectItem>
+                    return (
+                      <SelectItem key={item.value} value={item.value}>
+                        {item.label}
+                      </SelectItem>
+                    )
                   })}
                 </SelectContent>
               </Select>

@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   AlertDialog,
   AlertDialogTrigger,
@@ -36,7 +35,7 @@ export const FormDeleteMemberDialog: React.FC<FormDeleteMemberDialogProps> = ({
             ?
           </AlertDialogTitle>
           <AlertDialogDescription className="text-left">
-            This will permanently delete "{member.display_name}" in the project.
+            This will permanently delete &quot;{member.display_name}&quot; in the project.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <Spacer size={3} />
