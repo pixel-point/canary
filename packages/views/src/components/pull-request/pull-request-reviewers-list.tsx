@@ -37,7 +37,7 @@ const ReviewersList: React.FC<ReviewersListProps> = ({
         />
       ))
     ) : (
-      <Text size={2} weight="medium" color="tertiaryBackground">
+      <Text size={2} weight="medium" color="foreground">
         No reviewers
       </Text>
     )}

@@ -27,7 +27,6 @@ const PullRequestSideBar = (props: PullRequestSideBarProps) => {
     reviewers = [],
     pullRequestMetadata,
     processReviewDecision,
-    refetchReviewers,
     handleDelete,
     addReviewers,
     currentUserId
@@ -36,12 +35,7 @@ const PullRequestSideBar = (props: PullRequestSideBarProps) => {
   return (
     <div>
       <div className="flex flex-col gap-3">
-        <ReviewersHeader
-          currentUserId={currentUserId}
-          usersList={usersList}
-          addReviewers={addReviewers}
-          refetchReviewers={refetchReviewers}
-        />
+        <ReviewersHeader currentUserId={currentUserId} usersList={usersList} addReviewers={addReviewers} />
         <ReviewersList
           reviewers={reviewers}
           pullRequestMetadata={pullRequestMetadata}

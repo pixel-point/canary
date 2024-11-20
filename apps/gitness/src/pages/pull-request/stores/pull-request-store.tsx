@@ -77,7 +77,7 @@ export const usePullRequestDataStore = create<PullRequestDataState>((set, get) =
         .then(({ body: res }) => {
           set(
             produce(draft => {
-              if (res?.rule_violations?.length && res?.rule_violations?.length > 0) {
+              if (res?.rule_violations?.length) {
                 draft.prPanelData = {
                   ruleViolation: true,
                   ruleViolationArr: { data: { rule_violations: res.rule_violations } },
@@ -144,9 +144,9 @@ export const usePullRequestDataStore = create<PullRequestDataState>((set, get) =
               } else if (err.status === 400) {
                 refetchPullReq()
               } else if (
-                err.message === codeOwnersNotFoundMessage ||
-                err.message === codeOwnersNotFoundMessage2 ||
-                err.message === codeOwnersNotFoundMessage3 ||
+                [codeOwnersNotFoundMessage, codeOwnersNotFoundMessage2, codeOwnersNotFoundMessage3].includes(
+                  err.message
+                ) ||
                 err.status === 423 // resource locked (merge / dry-run already ongoing)
               ) {
                 return
@@ -178,7 +178,7 @@ export const usePullRequestDataStore = create<PullRequestDataState>((set, get) =
     reqCodeOwnerLatestApproval: false,
     minReqLatestApproval: 0,
     resolvedCommentArr: undefined,
-    PRStateLoading: false,
+    PRStateLoading: true,
     ruleViolation: false,
     commentsLoading: false,
     commentsInfoData: {

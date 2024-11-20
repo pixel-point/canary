@@ -1,32 +1,8 @@
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuShortcut,
-  Button,
-  Icon,
-  Avatar,
-  AvatarFallback,
-  Text
-} from '@harnessio/canary'
+import { Icon, Avatar, AvatarFallback, Text } from '@harnessio/canary'
 import cx from 'classnames'
-import { EnumPullReqReviewDecision, PullReqReviewDecision } from './interfaces'
+import { PullReqReviewDecision, ReviewerItemProps } from './interfaces'
 import { getInitials } from '../../utils/utils'
-
-interface ReviewerItemProps {
-  reviewer?: { display_name?: string; id?: number }
-  reviewDecision?: EnumPullReqReviewDecision
-  sha?: string
-  sourceSHA?: string
-  processReviewDecision: (
-    review_decision: EnumPullReqReviewDecision,
-    reviewedSHA?: string,
-    sourceSHA?: string
-  ) => EnumPullReqReviewDecision | PullReqReviewDecision.outdated
-  handleDelete: (id: number) => void
-}
+import PullRequestReviewersTooltip from './pull-request-reviewers-tooltip'
 
 const ReviewerItem = ({
   reviewer,
@@ -37,38 +13,19 @@ const ReviewerItem = ({
   handleDelete
 }: ReviewerItemProps) => {
   const updatedReviewDecision = reviewDecision && processReviewDecision(reviewDecision, sha, sourceSHA)
-  const moreActionsTooltip = (
-    reviewer:
-      | {
-          display_name?: string
-          id?: number
-        }
-      | undefined
-  ) => {
-    return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="xs">
-            <Icon name="vertical-ellipsis" size={14} className="text-tertiary-background" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-[180px] rounded-[10px]">
-          <DropdownMenuGroup>
-            <DropdownMenuItem
-              className="cursor-pointer text-red-400 hover:text-red-400 focus:text-red-400"
-              onSelect={() => {
-                handleDelete?.(reviewer?.id ?? 0)
-                // TODO: handle error if cant delete reviewers
-              }}>
-              <DropdownMenuShortcut className="ml-0">
-                <Icon name="trash" className="mr-2 text-red-400" />
-              </DropdownMenuShortcut>
-              Delete Reviewer
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    )
+  const getReviewDecisionIcon = (decision: PullReqReviewDecision) => {
+    switch (decision) {
+      case PullReqReviewDecision.outdated:
+        return <Icon name="comments" className="text-warning" />
+      case PullReqReviewDecision.approved:
+        return <Icon name="success" className="text-success" />
+      case PullReqReviewDecision.changeReq:
+        return <Icon name="triangle-warning" className="text-destructive" />
+      case PullReqReviewDecision.pending:
+        return <Icon name="clock" />
+      default:
+        return null
+    }
   }
   return (
     <div key={reviewer?.id} className="mr-1 flex items-center space-x-2">
@@ -83,18 +40,10 @@ const ReviewerItem = ({
         </AvatarFallback>
       </Avatar>
       <div className="truncate">{reviewer?.display_name}</div>
-      <div className="grow"></div>
+      <div className="grow" />
 
-      {updatedReviewDecision === PullReqReviewDecision.outdated ? (
-        <Icon name="comments" className="text-warning" />
-      ) : updatedReviewDecision === PullReqReviewDecision.approved ? (
-        <Icon name="success" className="text-success" />
-      ) : updatedReviewDecision === PullReqReviewDecision.changeReq ? (
-        <Icon name="triangle-warning" className="text-destructive" />
-      ) : updatedReviewDecision === PullReqReviewDecision.pending ? (
-        <Icon name="clock" />
-      ) : null}
-      {moreActionsTooltip(reviewer)}
+      {updatedReviewDecision && getReviewDecisionIcon(updatedReviewDecision as PullReqReviewDecision)}
+      <PullRequestReviewersTooltip reviewer={reviewer} handleDelete={handleDelete} />
     </div>
   )
 }
