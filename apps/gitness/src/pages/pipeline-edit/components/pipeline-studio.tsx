@@ -23,7 +23,7 @@ export default function PipelineEdit() {
     state: { problemsCount, pipelineFileContent, fetchingPipelineFileContent, currentBranch, isDirty },
     clearAddStepIntention,
     clearEditStepIntention,
-    setCurrentStepFormDefinition,
+    setFormStep,
     setCurrentBranch
   } = usePipelineDataContext()
 
@@ -74,7 +74,7 @@ export default function PipelineEdit() {
               setStepDrawerOpen(StepDrawer.None)
               clearAddStepIntention()
               clearEditStepIntention()
-              setCurrentStepFormDefinition(null)
+              setFormStep(null)
             }}
           />
         )
@@ -85,7 +85,7 @@ export default function PipelineEdit() {
               setStepDrawerOpen(StepDrawer.None)
               clearAddStepIntention()
               clearEditStepIntention()
-              setCurrentStepFormDefinition(null)
+              setFormStep(null)
             }}
           />
         )
@@ -103,7 +103,7 @@ export default function PipelineEdit() {
             setStepDrawerOpen(StepDrawer.None)
             clearAddStepIntention()
             clearEditStepIntention()
-            setCurrentStepFormDefinition(null)
+            setFormStep(null)
           }
         }}>
         <SheetContent onOpenAutoFocus={e => e.preventDefault()} hideCloseButton={true} className="p-0 sm:max-w-lg">

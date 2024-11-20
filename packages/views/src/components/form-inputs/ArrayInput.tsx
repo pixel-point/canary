@@ -1,10 +1,15 @@
 import { useCallback } from 'react'
-import { Controller, useFieldArray } from '@harnessio/forms'
+import {
+  Controller,
+  useFieldArray,
+  InputComponent,
+  InputProps,
+  AnyFormikValue,
+  IInputDefinition,
+  RenderInputs
+} from '@harnessio/forms'
 import { Button, FormField, FormItem, Icon } from '@harnessio/canary'
 import { InputType } from './types'
-import { InputComponent, InputProps } from '@harnessio/forms'
-import { AnyFormikValue, IInputDefinition } from '@harnessio/forms'
-import { RenderInputs } from '@harnessio/forms'
 import InputLabel from './common/InputLabel'
 import InputWrapper from './common/InputWrapper'
 import { InputError } from './common/InputError'
@@ -71,7 +76,7 @@ function ArrayInputInternal(props: InputProps<AnyFormikValue, ArrayInputConfig>)
                   </div>
                   <div>
                     <Button size="sm" onClick={() => append(input.default ?? undefined)} className="mt-2">
-                      Add <Icon name="plus" />
+                      Add
                     </Button>
                   </div>
                 </div>
