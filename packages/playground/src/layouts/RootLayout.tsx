@@ -4,7 +4,7 @@ import { MoreSubmenu } from '../components/more-submenu'
 import { TypesUser } from './types'
 import { Navbar } from '../components/navbar'
 import { SettingsMenu } from '../components/settings-menu'
-import { ManageNavigationDialog } from '../components/manage-navigation-dialog'
+import { ManageNavigation } from '../components/manage-navigation'
 
 interface RootLayoutProps {
   currentUser: TypesUser | undefined
@@ -96,16 +96,14 @@ export const RootLayout = ({ currentUser }: RootLayoutProps) => {
       </div>
       <MoreSubmenu showMoreMenu={showMoreMenu} handleMoreMenu={handleMoreMenu} />
       <SettingsMenu showSettingMenu={showSettingMenu} handleSettingsMenu={handleSettingsMenu} />
-      <ManageNavigationDialog
+      <ManageNavigation
         isSubmitting={false}
         submitted={false}
-        // pinnedItems={[]}
-        // updatePinnedItems={() => {}}
         onSave={() => {}}
-        showManageNavigationDialog={showCustomNav}
+        showManageNavigation={showCustomNav}
         onClose={handleCustomNav}
-        // recentItems={[]}
         handleClearRecent={() => {}}
+        // recentItems={[]}
       />
     </>
   )

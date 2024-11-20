@@ -31,11 +31,13 @@ interface SearchBoxProps {
   shortcutModifier?: string
   textSize?: TextSize
   onSearch?: () => void
+  onFocus?: () => void
   handleChange?: ChangeEventHandler<HTMLInputElement>
   showOnFocus?: boolean // New prop to control dialog appearance on focus
   defaultValue?: InputHTMLAttributes<HTMLInputElement>['defaultValue']
   value?: InputHTMLAttributes<HTMLInputElement>['value']
   className?: string
+  inputClassName?: string
 }
 
 const Root = forwardRef<HTMLInputElement, SearchBoxProps>(
@@ -48,12 +50,14 @@ const Root = forwardRef<HTMLInputElement, SearchBoxProps>(
       shortcutLetter,
       shortcutModifier,
       onSearch,
+      onFocus,
       handleChange = noop,
       defaultValue,
       hasSearchIcon = true,
       value,
       showOnFocus = false,
-      className
+      className,
+      inputClassName = 'h-8'
     },
     ref: ForwardedRef<HTMLInputElement>
   ) => {
@@ -73,6 +77,9 @@ const Root = forwardRef<HTMLInputElement, SearchBoxProps>(
     }
 
     const handleFocus = () => {
+      if (onFocus) {
+        onFocus()
+      }
       if (showOnFocus) {
         handleSearch()
       }
@@ -118,7 +125,7 @@ const Root = forwardRef<HTMLInputElement, SearchBoxProps>(
           ref={ref}
           placeholder={placeholder}
           defaultValue={defaultValue}
-          className={cn('h-8', { 'pr-10': hasShortcut, 'pl-7': hasSearchIcon }, textSizeClass)}
+          className={cn(inputClassName, { 'pr-10': hasShortcut, 'pl-7': hasSearchIcon }, textSizeClass)}
           onKeyDown={handleKeyDown}
           onFocus={handleFocus}
           onInput={handleChange}

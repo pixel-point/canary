@@ -40,7 +40,6 @@ import VerticalEllipsis from '../icons/vertical-ellipsis.svg'
 import Clone from '../icons/clone.svg'
 import TriangleWarning from '../icons/triangle-warning.svg'
 import PendingClock from '../icons/pending-clock.svg'
-import PendingClockInverse from '../icons/pending-clock-inverse.svg'
 import Circle from '../icons/circle.svg'
 import AppleShortcut from '../icons/apple-shortcut.svg'
 import Edit from '../icons/edit.svg'
@@ -195,7 +194,6 @@ const IconNameMap = {
   clone: Clone,
   'triangle-warning': TriangleWarning,
   'pending-clock': PendingClock,
-  'pending-clock-inverse': PendingClockInverse,
   circle: Circle,
   'apple-shortcut': AppleShortcut,
   'edit-pen': Edit,
