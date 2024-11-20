@@ -33,6 +33,15 @@ const filterRecentItems = (pinnedItems: NavbarItem[], recentItems: NavbarItem[])
   return recentItems.filter(item => !pinnedItems.some(pinnedItem => pinnedItem.id === item.id))
 }
 
+const filterMenuData = (menuData: MenuGroup[], pinnedItems: NavbarItem[]): MenuGroup[] => {
+  return menuData
+    .map(group => ({
+      ...group,
+      items: group.items.filter(item => !pinnedItems.some(pinnedItem => pinnedItem.id === item.id))
+    }))
+    .filter(group => group.items.length > 0) // Убираем группы без элементов
+}
+
 export const ManageNavigation = ({
   pinnedItems,
   recentItems,
@@ -87,12 +96,13 @@ export const ManageNavigation = ({
 
   return (
     <AlertDialog open={showManageNavigation} onOpenChange={handleCancel}>
-      <AlertDialogContent
-        className="h-[574px] max-h-[70vh] max-w-[410px] overflow-y-auto"
-        onOverlayClick={handleCancel}>
+      <AlertDialogContent className="h-[574px] max-h-[70vh] max-w-[410px]" onOverlayClick={handleCancel}>
         <AlertDialogHeader>
           <AlertDialogTitle className="mb-4">Manage navigation</AlertDialogTitle>
-          <ManageNavigationSearch navbarMenuData={navbarMenuData} addToPinnedItems={addToPinnedItems} />
+          <ManageNavigationSearch
+            navbarMenuData={filterMenuData(navbarMenuData, currentPinnedItems)}
+            addToPinnedItems={addToPinnedItems}
+          />
         </AlertDialogHeader>
         <ScrollArea className="-mx-5 -mb-5 mt-1">
           <div className="px-5">
