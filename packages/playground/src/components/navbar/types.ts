@@ -1,11 +1,23 @@
 import { IconProps } from '@harnessio/canary'
 
+export enum MenuGroupTypes {
+  GENERAL = 'general',
+  SETTINGS = 'settings'
+}
+
+export interface MenuGroup {
+  groupId: number | string
+  title: string
+  type: MenuGroupTypes
+  items: NavbarItem[]
+}
+
 export interface NavbarItem {
-  id: number
+  id: number | string
   title: string
   iconName: IconProps['name']
-  description: string
-  to?: string
+  description?: string
+  to: string
 }
 
 export type NavbarItemStatic = Pick<NavbarItem, 'title' | 'iconName' | 'to'>

@@ -1,13 +1,15 @@
 import { Navbar, Sheet, SheetContent, Icon, Spacer, SheetTitle } from '@harnessio/canary'
-import { navbarSubmenuData } from '../data/mockNavbarSubmenuData'
+import { navbarMenuData } from '../data/mockNavbarMenuData'
 import { NavLink } from 'react-router-dom'
+import { MenuGroup } from './navbar/types'
 
 interface MoreSubmenuProps {
   showMoreMenu: boolean
   handleMoreMenu: () => void
+  items: MenuGroup[]
 }
 
-export function MoreSubmenu({ showMoreMenu, handleMoreMenu }: MoreSubmenuProps) {
+export function MoreSubmenu({ showMoreMenu, handleMoreMenu, items }: MoreSubmenuProps) {
   return (
     <Sheet modal={false} open={showMoreMenu}>
       <SheetContent
@@ -19,7 +21,7 @@ export function MoreSubmenu({ showMoreMenu, handleMoreMenu }: MoreSubmenuProps) 
         <Navbar.Root className="w-[328px]" isSubMenu>
           <Navbar.Content>
             <Spacer size={9} />
-            {navbarSubmenuData.map((group, group_idx) => (
+            {items.map((group, group_idx) => (
               <Navbar.Group key={group.groupId} topBorder={group_idx > 0} title={group.title} isSubMenu>
                 {group.items.map(item => (
                   <NavLink key={item.id} to={item.to || ''}>

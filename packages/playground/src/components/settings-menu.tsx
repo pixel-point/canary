@@ -1,13 +1,14 @@
 import { Icon, Navbar, Sheet, SheetContent, Spacer, SheetTitle } from '@harnessio/canary'
 import { NavLink } from 'react-router-dom'
-import { settingsMenuData } from '../data/mockSystemAsminMenuData'
+import { MenuGroup } from './navbar/types'
 
 interface SystemAdminMenuProps {
   showSettingMenu: boolean
   handleSettingsMenu: () => void
+  items: MenuGroup[]
 }
 
-export const SettingsMenu = ({ showSettingMenu, handleSettingsMenu }: SystemAdminMenuProps) => {
+export const SettingsMenu = ({ showSettingMenu, handleSettingsMenu, items }: SystemAdminMenuProps) => {
   return (
     <Sheet modal={false} open={showSettingMenu}>
       <SheetContent
@@ -19,7 +20,7 @@ export const SettingsMenu = ({ showSettingMenu, handleSettingsMenu }: SystemAdmi
         <Navbar.Root className="w-[364px]" isSubMenu>
           <Navbar.Content>
             <Spacer size={9} />
-            {settingsMenuData.map((group, group_idx) => (
+            {items.map((group, group_idx) => (
               <Navbar.Group key={group.groupId} topBorder={group_idx > 0} title={group.title} titleClassName="mb-1.5">
                 <div className="grid grid-cols-2 gap-x-6 gap-y-[0.6875rem]">
                   {group.items.map(item => (

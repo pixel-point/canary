@@ -1,8 +1,8 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Navbar as NavbarComp, Icon, NavbarProjectChooser } from '@harnessio/canary'
 import type { TypesUser } from '../../layouts/types'
-import { adminMenuItem, initialPinnedMenuItems, primaryMenuItems } from './data'
+import { adminMenuItem } from './data'
 import { NavBarLink } from './navbar-link'
 import { NavbarItem } from './types'
 import { NavbarAi } from './navbar-ai'
@@ -11,6 +11,8 @@ import { NavbarUser } from './navbar-user'
 const hideNavbarPaths = ['/signin', '/signup']
 
 interface NavbarProps {
+  recentMenuItems: NavbarItem[]
+  pinnedMenuItems: NavbarItem[]
   showMoreMenu: boolean
   showSettingMenu: boolean
   handleMoreMenu: () => void
@@ -21,6 +23,8 @@ interface NavbarProps {
 }
 
 export const Navbar = ({
+  recentMenuItems,
+  pinnedMenuItems,
   showMoreMenu,
   showSettingMenu,
   handleMoreMenu,
@@ -30,7 +34,6 @@ export const Navbar = ({
   handleLogOut
 }: NavbarProps) => {
   const location = useLocation()
-  const [pinnedItems, setPinnedItems] = useState<NavbarItem[]>(initialPinnedMenuItems)
 
   const showNavbar = useMemo(() => {
     return !hideNavbarPaths.includes(location.pathname)
@@ -45,7 +48,7 @@ export const Navbar = ({
           logo={
             <Link className="flex items-center gap-1.5" to="/">
               <Icon name="harness" size={18} className="text-foreground-1" />
-              <Icon name="harness-logo-text" width={65} height={15} className="mb-0.5 text-foreground-1" />
+              <Icon name="harness-logo-text" width={65} height={15} className="text-foreground-1 mb-0.5" />
             </Link>
           }
         />
@@ -54,7 +57,7 @@ export const Navbar = ({
       <NavbarComp.Content className="overflow-hidden">
         <div className="mb-[1.375rem] overflow-y-scroll">
           <NavbarComp.Group>
-            {primaryMenuItems.map((item, idx) => (
+            {pinnedMenuItems.map((item, idx) => (
               <NavBarLink key={idx} {...item} />
             ))}
             <button onClick={handleMoreMenu}>
@@ -63,7 +66,7 @@ export const Navbar = ({
           </NavbarComp.Group>
 
           <NavbarComp.Group title="Recent" topBorder>
-            {pinnedItems.map(item => (
+            {recentMenuItems.map(item => (
               <NavBarLink key={item.id} {...item} />
             ))}
           </NavbarComp.Group>

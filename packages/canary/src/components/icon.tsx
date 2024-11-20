@@ -10,7 +10,6 @@ import Ellipsis from '../icons/more-dots-icon.svg'
 import MoreDotsFill from '../icons/more-dots-fill-icon.svg'
 import Repositories from '../icons/repositories-icon.svg'
 import RepositoriesGradient from '../icons/repositories-gradient.svg'
-import ChaosEngineering from '../icons/chaos-engineering-icon.svg'
 import Environment from '../icons/environment-icon.svg'
 import Secrets from '../icons/secrets-icon.svg'
 import Connectors from '../icons/connectors-icon.svg'
@@ -82,12 +81,6 @@ import Unpin from '../icons/unpin.svg'
 import Rocket from '../icons/rocket.svg'
 import Plug from '../icons/plug.svg'
 import ShieldLock from '../icons/shield-lock.svg'
-import MoreFolder from '../icons/more-folder.svg'
-import Bookmark from '../icons/bookmark.svg'
-import SearchContent from '../icons/search-content.svg'
-import Chain from '../icons/chain.svg'
-import ShieldTick from '../icons/shield-tick.svg'
-import CloudMining from '../icons/cloud-mining.svg'
 import PRMerged from '../icons/pr-merged.svg'
 import Run from '../icons/run.svg'
 import RunTest from '../icons/run-test.svg'
@@ -146,6 +139,24 @@ import InfrastructureGradient from '../icons/infrastructure-gradient.svg'
 import Infrastructure from '../icons/infrastructure-icon.svg'
 import FlagGradient from '../icons/flag-gradient.svg'
 import Flag from '../icons/flag-icon.svg'
+import DevPortalGradient from '../icons/dev-portal-gradient.svg'
+import DevPortal from '../icons/dev-portal-icon.svg'
+import DevEnvs from '../icons/dev-envs-icon.svg'
+import DevEnvsGradient from '../icons/dev-envs-gradient.svg'
+import DevInsightsGradient from '../icons/dev-insights-gradient.svg'
+import DevInsights from '../icons/dev-insights-icon.svg'
+import SecurityTestsGradient from '../icons/security-tests-gradient.svg'
+import SecurityTests from '../icons/security-tests-icon.svg'
+import SupplyChainGradient from '../icons/supply-chain-gradient.svg'
+import SupplyChain from '../icons/supply-chain-icon.svg'
+import CloudCostsGradient from '../icons/cloud-costs-gradient.svg'
+import CloudCosts from '../icons/cloud-costs-icon.svg'
+import IncidentsGradient from '../icons/incidents-gradient.svg'
+import Incidents from '../icons/incidents-icon.svg'
+import ChaosEngineeringGradient from '../icons/chaos-engineering-gradient.svg'
+import ChaosEngineering from '../icons/chaos-engineering-icon.svg'
+import DashboardsGradient from '../icons/dashboards-gradient.svg'
+import Dashboards from '../icons/dashboards-icon.svg'
 // import Fork from '../icons/fork.svg'
 
 const IconNameMap = {
@@ -164,7 +175,6 @@ const IconNameMap = {
   ellipsis: Ellipsis,
   repositories: Repositories,
   'repositories-gradient': RepositoriesGradient,
-  'chaos-engineering': ChaosEngineering,
   environment: Environment,
   secrets: Secrets,
   connectors: Connectors,
@@ -237,12 +247,6 @@ const IconNameMap = {
   rocket: Rocket,
   plug: Plug,
   'shield-lock': ShieldLock,
-  'more-folder': MoreFolder,
-  bookmark: Bookmark,
-  'search-content': SearchContent,
-  chain: Chain,
-  'shield-tick': ShieldTick,
-  'cloud-mining': CloudMining,
   'pr-merged': PRMerged,
   run: Run,
   'run-test': RunTest,
@@ -295,7 +299,25 @@ const IconNameMap = {
   'infrastructure-gradient': InfrastructureGradient,
   infrastructure: Infrastructure,
   'flag-gradient': FlagGradient,
-  flag: Flag
+  flag: Flag,
+  'dev-portal-gradient': DevPortalGradient,
+  'dev-portal': DevPortal,
+  'dev-envs-gradient': DevEnvsGradient,
+  'dev-envs': DevEnvs,
+  'dev-insights-gradient': DevInsightsGradient,
+  'dev-insights': DevInsights,
+  'security-tests-gradient': SecurityTestsGradient,
+  'security-tests': SecurityTests,
+  'supply-chain-gradient': SupplyChainGradient,
+  'supply-chain': SupplyChain,
+  'cloud-costs-gradient': CloudCostsGradient,
+  'cloud-costs': CloudCosts,
+  'incidents-gradient': IncidentsGradient,
+  incidents: Incidents,
+  'chaos-engineering-gradient': ChaosEngineeringGradient,
+  'chaos-engineering': ChaosEngineering,
+  'dashboards-gradient': DashboardsGradient,
+  dashboards: Dashboards
   // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 

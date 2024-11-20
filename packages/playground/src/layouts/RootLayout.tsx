@@ -1,10 +1,13 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { MoreSubmenu } from '../components/more-submenu'
 import { TypesUser } from './types'
 import { Navbar } from '../components/navbar'
 import { SettingsMenu } from '../components/settings-menu'
 import { ManageNavigation } from '../components/manage-navigation'
+import { navbarMenuData } from '../data/mockNavbarMenuData'
+import { MenuGroup, MenuGroupTypes, NavbarItem } from '../components/navbar/types'
+import { pinnedMenuItemsData, recentMenuItemsData } from '../data/mockPinnedAndRecentMenuData'
 
 interface RootLayoutProps {
   currentUser: TypesUser | undefined
@@ -12,9 +15,35 @@ interface RootLayoutProps {
 
 export const RootLayout = ({ currentUser }: RootLayoutProps) => {
   const location = useLocation()
+  const [recentMenuItems, setRecentMenuItems] = useState<NavbarItem[]>(recentMenuItemsData)
+  const [pinnedMenuItems, setPinnedMenuItems] = useState<NavbarItem[]>(pinnedMenuItemsData)
   const [showMoreMenu, setShowMoreMenu] = useState(false)
   const [showSettingMenu, setShowSettingMenu] = useState(false)
   const [showCustomNav, setShowCustomNav] = useState(false)
+
+  /**
+   * Map mock data menu by type to Settings and More
+   */
+  const { moreMenu, settingsMenu } = useMemo(() => {
+    return navbarMenuData.reduce<{
+      moreMenu: MenuGroup[]
+      settingsMenu: MenuGroup[]
+    }>(
+      (acc, item) => {
+        if (item.type === MenuGroupTypes.SETTINGS) {
+          acc.settingsMenu.push(item)
+        } else {
+          acc.moreMenu.push(item)
+        }
+
+        return acc
+      },
+      {
+        moreMenu: [],
+        settingsMenu: []
+      }
+    )
+  }, [])
 
   // TODO: add log out func
   const handleLogOut = useCallback(() => {}, [])
@@ -89,21 +118,24 @@ export const RootLayout = ({ currentUser }: RootLayoutProps) => {
           currentUser={currentUser}
           handleCustomNav={handleCustomNav}
           handleLogOut={handleLogOut}
+          recentMenuItems={recentMenuItems}
+          pinnedMenuItems={pinnedMenuItems}
         />
         <main className="col-start-2 box-border min-h-screen overflow-x-hidden overflow-y-scroll">
           <Outlet />
         </main>
       </div>
-      <MoreSubmenu showMoreMenu={showMoreMenu} handleMoreMenu={handleMoreMenu} />
-      <SettingsMenu showSettingMenu={showSettingMenu} handleSettingsMenu={handleSettingsMenu} />
+      <MoreSubmenu showMoreMenu={showMoreMenu} handleMoreMenu={handleMoreMenu} items={moreMenu} />
+      <SettingsMenu showSettingMenu={showSettingMenu} handleSettingsMenu={handleSettingsMenu} items={settingsMenu} />
       <ManageNavigation
+        pinnedItems={pinnedMenuItems}
+        recentItems={recentMenuItems}
+        navbarMenuData={navbarMenuData}
+        showManageNavigation={showCustomNav}
         isSubmitting={false}
         submitted={false}
         onSave={() => {}}
-        showManageNavigation={showCustomNav}
         onClose={handleCustomNav}
-        handleClearRecent={() => {}}
-        // recentItems={[]}
       />
     </>
   )

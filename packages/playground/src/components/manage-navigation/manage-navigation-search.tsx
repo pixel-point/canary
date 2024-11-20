@@ -1,10 +1,9 @@
 import { Button, cn, Popover, PopoverContent, PopoverTrigger, ScrollArea, SearchBox, Text } from '@harnessio/canary'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { NavbarItem } from '../navbar/types'
+import { MenuGroup, NavbarItem } from '../navbar/types'
 import { debounce } from '../../utils/debaunce'
-import { NavigationCategory } from '.'
 
-const filterItems = (categories: NavigationCategory[], query: string): NavigationCategory[] => {
+const filterItems = (categories: MenuGroup[], query: string): MenuGroup[] => {
   if (!query.trim()) return categories
 
   return categories
@@ -19,12 +18,12 @@ const filterItems = (categories: NavigationCategory[], query: string): Navigatio
 }
 
 interface ManageNavigationSearchProps {
-  navigationCategories: NavigationCategory[]
+  navbarMenuData: MenuGroup[]
   addToPinnedItems: (item: NavbarItem) => void
 }
 
-export const ManageNavigationSearch = ({ navigationCategories, addToPinnedItems }: ManageNavigationSearchProps) => {
-  const [filteredItems, setFilteredItems] = useState<NavigationCategory[]>(navigationCategories)
+export const ManageNavigationSearch = ({ navbarMenuData, addToPinnedItems }: ManageNavigationSearchProps) => {
+  const [filteredItems, setFilteredItems] = useState<MenuGroup[]>(navbarMenuData)
   const [searchQuery, setSearchQuery] = useState('')
   const [isSearchDialogOpen, setSearchDialogOpen] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -32,10 +31,10 @@ export const ManageNavigationSearch = ({ navigationCategories, addToPinnedItems 
 
   const debouncedSearch = useCallback(
     debounce((query: string) => {
-      const filtered = filterItems(navigationCategories, query)
+      const filtered = filterItems(navbarMenuData, query)
       setFilteredItems(filtered)
     }, 300),
-    [navigationCategories]
+    [navbarMenuData]
   )
 
   const handleSearchChange = (event: React.ChangeEvent) => {
@@ -54,7 +53,7 @@ export const ManageNavigationSearch = ({ navigationCategories, addToPinnedItems 
   const handleInputFocus = () => {
     setSearchDialogOpen(true)
     if (searchQuery === '') {
-      setFilteredItems(navigationCategories)
+      setFilteredItems(navbarMenuData)
     }
   }
 
@@ -120,7 +119,9 @@ export const ManageNavigationSearch = ({ navigationCategories, addToPinnedItems 
               <Text className="text-foreground-5 block w-full px-2 py-4">No results found</Text>
             ) : (
               filteredItems.map((category, index) => (
-                <div className={cn(index > 0 ? 'border-borders-4 mt-0.5 border-t pt-2' : 'pt-1')} key={category.id}>
+                <div
+                  className={cn(index > 0 ? 'border-borders-4 mt-0.5 border-t pt-2' : 'pt-1')}
+                  key={category.groupId}>
                   <Text className="text-foreground-7 inline-block px-2 leading-none" size={1}>
                     {category.title}
                   </Text>

@@ -15,68 +15,15 @@ import useDragAndDrop from '../../hooks/use-drag-and-drop'
 import { SortableContext } from '@dnd-kit/sortable'
 import { DndContext, closestCenter } from '@dnd-kit/core'
 import { ManageNavigationSearch } from './manage-navigation-search'
-import { NavbarItem } from '../navbar/types'
+import { MenuGroup, NavbarItem } from '../navbar/types'
 import { DraggableItem } from './draggable-item'
-
-const mockPinnedItems: NavbarItem[] = ['Repositories', 'Pipelines', 'Executions', 'Connectors'].map((title, index) => ({
-  id: 10 + index,
-  title,
-  iconName: 'grid-dots',
-  description: title
-}))
-
-const mockRecentItems: NavbarItem[] = ['Chaos Engineering', 'Environment', 'Secrets', 'Featured Flags'].map(
-  (title, index) => ({
-    id: 20 + index,
-    title,
-    iconName: 'grid-dots',
-    description: title
-  })
-)
-
-export interface NavigationCategory {
-  id: number
-  title: string
-  items: NavbarItem[]
-}
-
-const mockNavigationCategories: NavigationCategory[] = [
-  {
-    id: 200,
-    title: 'System Administration',
-    items: [
-      'Certificates',
-      'Connectors',
-      'Default Settings',
-      'Delegates',
-      'Discovery',
-      'Environments',
-      'External Tickets'
-    ].map((title, index) => ({
-      id: index + 100,
-      title,
-      iconName: 'grid-dots',
-      description: title
-    }))
-  },
-  {
-    id: 201,
-    title: 'DevOps Modernization',
-    items: mockRecentItems
-  },
-  {
-    id: 202,
-    title: 'Security',
-    items: mockPinnedItems
-  }
-]
 
 interface ManageNavigationProps {
   pinnedItems: NavbarItem[]
+  navbarMenuData: MenuGroup[]
   showManageNavigation: boolean
   recentItems: NavbarItem[]
-  handleClearRecent: () => void
-  onSave: () => void
+  onSave: (recentItems: NavbarItem[], currentPinnedItems: NavbarItem[]) => void
   onClose: () => void
   isSubmitting: boolean
   submitted: boolean
@@ -87,10 +34,10 @@ const filterRecentItems = (pinnedItems: NavbarItem[], recentItems: NavbarItem[])
 }
 
 export const ManageNavigation = ({
-  pinnedItems = mockPinnedItems,
+  pinnedItems,
+  recentItems,
+  navbarMenuData,
   showManageNavigation,
-  recentItems = mockRecentItems,
-  handleClearRecent,
   onSave,
   onClose,
   isSubmitting,
@@ -112,8 +59,12 @@ export const ManageNavigation = ({
     onClose()
   }
 
+  const handleClearRecent = () => {
+    setCurrentFilteredRecentItems([])
+  }
+
   const onSubmit = () => {
-    onSave()
+    onSave(currentFilteredRecentItems, currentPinnedItems)
     onClose()
   }
 
@@ -139,7 +90,7 @@ export const ManageNavigation = ({
       <AlertDialogContent className="h-[574px] max-h-[70vh] max-w-[410px] overflow-y-auto">
         <AlertDialogHeader>
           <AlertDialogTitle className="mb-4">Manage navigation</AlertDialogTitle>
-          <ManageNavigationSearch navigationCategories={mockNavigationCategories} addToPinnedItems={addToPinnedItems} />
+          <ManageNavigationSearch navbarMenuData={navbarMenuData} addToPinnedItems={addToPinnedItems} />
         </AlertDialogHeader>
         <ScrollArea className="-mx-5 -mb-5 mt-1">
           <div className="px-5">
