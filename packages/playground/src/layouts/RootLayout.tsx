@@ -49,6 +49,14 @@ export const RootLayout = ({ currentUser }: RootLayoutProps) => {
   const handleLogOut = useCallback(() => {}, [])
 
   /**
+   * Handle save recent and pinned items
+   */
+  const handleSave = (recentItems: NavbarItem[], currentPinnedItems: NavbarItem[]) => {
+    setRecentMenuItems(recentItems)
+    setPinnedMenuItems(currentPinnedItems)
+  }
+
+  /**
    * Toggle show more menu
    */
   const handleMoreMenu = useCallback(() => {
@@ -134,7 +142,7 @@ export const RootLayout = ({ currentUser }: RootLayoutProps) => {
         showManageNavigation={showCustomNav}
         isSubmitting={false}
         submitted={false}
-        onSave={() => {}}
+        onSave={handleSave}
         onClose={handleCustomNav}
       />
     </>

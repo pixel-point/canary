@@ -74,7 +74,7 @@ export const ManageNavigation = ({
   }
 
   const addToPinnedItems = (item: NavbarItem) => {
-    const isAlreadyPinned = pinnedItems.some(pinnedItem => pinnedItem.id === item.id)
+    const isAlreadyPinned = currentPinnedItems.some(pinnedItem => pinnedItem.id === item.id)
 
     if (!isAlreadyPinned) {
       updatePinnedItems([...currentPinnedItems, item])
@@ -87,7 +87,7 @@ export const ManageNavigation = ({
 
   return (
     <AlertDialog open={showManageNavigation} onOpenChange={onClose}>
-      <AlertDialogContent className="h-[574px] max-h-[70vh] max-w-[410px] overflow-y-auto">
+      <AlertDialogContent className="h-[574px] max-h-[70vh] max-w-[410px] overflow-y-auto" onOverlayClick={onClose}>
         <AlertDialogHeader>
           <AlertDialogTitle className="mb-4">Manage navigation</AlertDialogTitle>
           <ManageNavigationSearch navbarMenuData={navbarMenuData} addToPinnedItems={addToPinnedItems} />

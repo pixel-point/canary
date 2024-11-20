@@ -10,10 +10,14 @@ const AlertDialogTrigger = AlertDialogPrimitive.Trigger
 
 const AlertDialogPortal = AlertDialogPrimitive.Portal
 
+interface AlertDialogOverlayProps extends React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Overlay> {
+  onClick?: () => void
+}
+
 const AlertDialogOverlay = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Overlay>,
-  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Overlay>
->(({ className, ...props }, ref) => (
+  AlertDialogOverlayProps
+>(({ className, onClick, ...props }, ref) => (
   <AlertDialogPrimitive.Overlay
     className={cn(
       'bg-background-7/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50',
@@ -21,14 +25,19 @@ const AlertDialogOverlay = React.forwardRef<
     )}
     {...props}
     ref={ref}
+    onClick={onClick}
   />
 ))
 AlertDialogOverlay.displayName = AlertDialogPrimitive.Overlay.displayName
 
+interface AlertDialogContentProps extends React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content> {
+  onOverlayClick?: () => void
+}
+
 const AlertDialogContent = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>
->(({ className = 'max-w-lg', children, ...props }, ref) => {
+  AlertDialogContentProps
+>(({ className = 'max-w-lg', children, onOverlayClick, ...props }, ref) => {
   const mainContent: React.ReactNode[] = []
   let footer: React.ReactNode = null
 
@@ -42,7 +51,7 @@ const AlertDialogContent = React.forwardRef<
 
   return (
     <AlertDialogPortal>
-      <AlertDialogOverlay />
+      <AlertDialogOverlay onClick={onOverlayClick} />
       <AlertDialogPrimitive.Content
         ref={ref}
         className={cn(
