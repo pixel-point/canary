@@ -56,6 +56,7 @@ export const ManageNavigation = ({
   const [currentFilteredRecentItems, setCurrentFilteredRecentItems] = useState<NavbarItem[]>(
     filterRecentItems(pinnedItems, recentItems)
   )
+  const [isRecentCleared, setIsRecentCleared] = useState(false)
 
   const { handleDragEnd, getItemId } = useDragAndDrop({
     items: currentPinnedItems,
@@ -70,6 +71,7 @@ export const ManageNavigation = ({
 
   const handleClearRecent = () => {
     setCurrentFilteredRecentItems([])
+    setIsRecentCleared(true)
   }
 
   const onSubmit = () => {
@@ -79,7 +81,16 @@ export const ManageNavigation = ({
 
   const updatePinnedItems = (items: NavbarItem[]) => {
     setCurrentPinnedItems(items)
-    setCurrentFilteredRecentItems(filterRecentItems(items, recentItems))
+    setCurrentFilteredRecentItems(prevRecentItems => {
+      if (isRecentCleared) {
+        const unpinnedItems = currentPinnedItems
+          .filter(item => !items.some(newItem => newItem.id === item.id))
+          .filter(item => recentItems.some(recentItem => recentItem.id === item.id))
+        return [...prevRecentItems, ...unpinnedItems]
+      } else {
+        return filterRecentItems(items, recentItems)
+      }
+    })
   }
 
   const addToPinnedItems = (item: NavbarItem) => {
@@ -115,7 +126,7 @@ export const ManageNavigation = ({
               </Text>
             ) : (
               <DndContext onDragEnd={handleDragEnd} collisionDetection={closestCenter}>
-                <SortableContext items={pinnedItems.map((_, index) => getItemId(index))}>
+                <SortableContext items={currentPinnedItems.map((_, index) => getItemId(index))}>
                   <ul className="-mx-3 mt-3.5 flex flex-col gap-y-0.5">
                     {currentPinnedItems.map((item, index) => (
                       <DraggableItem id={getItemId(index)} tag="li" key={item.title}>
