@@ -86,8 +86,10 @@ export const ManageNavigation = ({
   }
 
   return (
-    <AlertDialog open={showManageNavigation} onOpenChange={onClose}>
-      <AlertDialogContent className="h-[574px] max-h-[70vh] max-w-[410px] overflow-y-auto" onOverlayClick={onClose}>
+    <AlertDialog open={showManageNavigation} onOpenChange={handleCancel}>
+      <AlertDialogContent
+        className="h-[574px] max-h-[70vh] max-w-[410px] overflow-y-auto"
+        onOverlayClick={handleCancel}>
         <AlertDialogHeader>
           <AlertDialogTitle className="mb-4">Manage navigation</AlertDialogTitle>
           <ManageNavigationSearch navbarMenuData={navbarMenuData} addToPinnedItems={addToPinnedItems} />
@@ -114,15 +116,15 @@ export const ManageNavigation = ({
                               variant="ghost"
                               {...attributes}
                               {...listeners}>
-                              <Icon className="w-3" name="grid-dots" size={16} />
+                              <Icon className="w-3.5" name="grid-dots" size={14} />
                               <Text className="w-full text-left text-[inherit]">{item.title}</Text>
                             </Button>
                             <Button
-                              className="text-icons-4 hover:text-icons-2 absolute right-0.5 top-0.5 z-20"
+                              className="text-icons-4 hover:text-icons-2 absolute right-1 top-0.5 z-20"
                               size="sm_icon"
                               variant="custom"
                               onClick={() => removeFromPinnedItems(item)}>
-                              <Icon name="x-mark" size={12} />
+                              <Icon className="w-3.5" name="x-mark" size={14} />
                             </Button>
                           </>
                         )}
@@ -146,7 +148,7 @@ export const ManageNavigation = ({
                   {currentFilteredRecentItems.map((item, index) => (
                     <li className="relative flex h-8 items-center" key={`recent-${item.id}-${index}`}>
                       <div className="flex w-full grow items-center gap-x-2.5">
-                        <Icon className="text-icons-4 w-3" name="clock-icon" size={12} />
+                        <Icon className="text-icons-4" name="clock-icon" size={14} />
                         <Text className="text-foreground-8 w-full text-left">{item.title}</Text>
                       </div>
                       <Button
@@ -154,7 +156,7 @@ export const ManageNavigation = ({
                         size="sm_icon"
                         variant="custom"
                         onClick={() => addToPinnedItems(item)}>
-                        <Icon name="pin" size={10} />
+                        <Icon name="pin" size={14} />
                       </Button>
                     </li>
                   ))}
