@@ -12,7 +12,8 @@ import {
   TypesCommit,
   useRawDiffQuery,
   mergeCheck,
-  useDiffStatsQuery
+  useDiffStatsQuery,
+  useGetPullReqByBranchesQuery
 } from '@harnessio/code-service-client'
 import { PathParams } from '../../RouteDefinitions'
 import { changesInfoAtom, DiffFileEntry, DiffViewerExchangeState, FormFields } from './types/types'
@@ -36,6 +37,7 @@ export const CreatePullRequest = () => {
   const repoRef = useGetRepoRef()
   const [selectedTargetBranch, setSelectedTargetBranch] = useState<string>(diffTargetBranch ? diffTargetBranch : 'main')
   const [selectedSourceBranch, setSelectedSourceBranch] = useState<string>(diffSourceBranch ? diffSourceBranch : 'main')
+  const [prBranchCombinationExists, setPrBranchCombinationExists] = useState<number | null>(null)
   const commitSHA = '' // TODO: when you implement commit filter will need commitSHA
   const defaultCommitRange = compact(commitSHA?.split(/~1\.\.\.|\.\.\./g))
   const [
@@ -211,6 +213,24 @@ export const CreatePullRequest = () => {
     { enabled: !!repoRef && !!diffApiPath }
   )
 
+  const { data: { body: pullReqData } = {} } = useGetPullReqByBranchesQuery({
+    repo_ref: repoRef,
+    source_branch: selectedSourceBranch || repoMetadata?.default_branch || '',
+    target_branch: selectedTargetBranch,
+    queryParams: {
+      include_checks: true,
+      include_rules: true
+    }
+  })
+
+  useEffect(() => {
+    if (pullReqData) {
+      setPrBranchCombinationExists(pullReqData.number || null)
+    } else {
+      setPrBranchCombinationExists(null)
+    }
+  }, [pullReqData])
+
   const { data: { body: commitData } = {} } = useListCommitsQuery({
     repo_ref: repoRef,
 
@@ -255,6 +275,7 @@ export const CreatePullRequest = () => {
         }))}
         targetBranch={selectedTargetBranch}
         sourceBranch={selectedSourceBranch}
+        prBranchCombinationExists={prBranchCombinationExists}
         diffData={
           diffs?.map(item => ({
             text: item.filePath,

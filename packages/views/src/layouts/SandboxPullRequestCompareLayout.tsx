@@ -24,6 +24,7 @@ import { DiffModeEnum } from '@git-diff-view/react'
 import { parseStartingLineIfOne } from '../components/pull-request/utils'
 import { useDiffConfig } from '../components/pull-request/hooks/useDiffConfig'
 import { TypesDiffStats } from './types'
+import { useNavigate } from 'react-router-dom'
 
 export const formSchema = z.object({
   title: z.string().min(1, { message: 'Please provide a pull request title' }),
@@ -49,6 +50,7 @@ interface SandboxPullRequestCompareProps {
   diffStats: TypesDiffStats
   isBranchSelected: boolean
   setIsBranchSelected: (val: boolean) => void
+  prBranchCombinationExists: number | null
 }
 
 const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
@@ -67,10 +69,12 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
   diffData,
   diffStats,
   setIsBranchSelected,
-  isBranchSelected
+  isBranchSelected,
+  prBranchCombinationExists
 }) => {
   const formRef = useRef<HTMLFormElement>(null) // Create a ref for the form
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -202,6 +206,25 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
             onFormSubmit={onFormSubmit}
           />
         </Layout.Horizontal>
+        {prBranchCombinationExists && (
+          <>
+            <Spacer size={3} />
+            <Layout.Horizontal className="bg-background border-border items-center justify-between rounded-md border-2 px-3 py-3">
+              <div>
+                <Layout.Horizontal className="py-2">
+                  <>
+                    <Text size={1}>PR for this combination of branches already exists.</Text>
+                  </>
+                </Layout.Horizontal>
+              </div>
+              {/* <ButtonGroup.Root> */}
+              <Button onClick={() => navigate(`../${prBranchCombinationExists}/conversation`)}>
+                View Pull Request
+              </Button>
+              {/* </ButtonGroup.Root> */}
+            </Layout.Horizontal>
+          </>
+        )}
         <Spacer size={10} />
         {isBranchSelected ? (
           <Layout.Vertical>
