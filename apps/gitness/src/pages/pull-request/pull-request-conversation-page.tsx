@@ -39,21 +39,27 @@ import {
 } from './utils'
 import { useParams } from 'react-router-dom'
 import { PathParams } from '../../RouteDefinitions'
-import { usePullRequestData } from './context/pull-request-data-provider'
 import { isEmpty } from 'lodash-es'
 import { CodeOwnerReqDecision } from '../../types'
 import { useAppContext } from '../../framework/context/AppContext'
+import { usePullRequestDataStore } from './stores/pull-request-store'
 
 export default function PullRequestConversationPage() {
   const {
-    refetchActivities,
-    refetchPullReq,
     pullReqMetadata,
-    pullReqChecksDecision,
-    prPanelData,
+    refetchPullReq,
+    refetchActivities,
     setRuleViolationArr,
-    loading: prLoading
-  } = usePullRequestData()
+    prPanelData,
+    pullReqChecksDecision
+  } = usePullRequestDataStore(state => ({
+    pullReqMetadata: state.pullReqMetadata,
+    refetchPullReq: state.refetchPullReq,
+    refetchActivities: state.refetchActivities,
+    setRuleViolationArr: state.setRuleViolationArr,
+    prPanelData: state.prPanelData,
+    pullReqChecksDecision: state.pullReqChecksDecision
+  }))
   const { currentUser: currentUserData } = useAppContext()
   const [checkboxBypass, setCheckboxBypass] = useState(false)
   const { spaceId, repoId } = useParams<PathParams>()
@@ -83,7 +89,6 @@ export default function PullRequestConversationPage() {
     queryParams: {}
   })
   const [changesLoading, setChangesLoading] = useState(true)
-
   const [activities, setActivities] = useState(activityData)
   const approvedEvaluations = reviewers?.filter(evaluation => evaluation.review_decision === 'approved')
   const latestApprovalArr = approvedEvaluations?.filter(
@@ -260,7 +265,7 @@ export default function PullRequestConversationPage() {
       }
     }
   ]
-  if (prLoading || prPanelData?.PRStateLoading || changesLoading) {
+  if (prPanelData?.PRStateLoading || changesLoading) {
     return <SkeletonList />
   }
   return (
@@ -285,7 +290,7 @@ export default function PullRequestConversationPage() {
               commentsInfo={prPanelData?.commentsInfoData}
               ruleViolation={prPanelData.ruleViolation}
               checks={pullReqChecksDecision?.data?.checks}
-              PRStateLoading={prPanelData?.PRStateLoading || prLoading}
+              PRStateLoading={prPanelData?.PRStateLoading}
               // TODO: TypesPullReq is null for someone: vardan will look into why swagger is doing this
               pullReqMetadata={pullReqMetadata ? pullReqMetadata : undefined}
               // TODO: add dry merge check into pr context
@@ -361,7 +366,7 @@ export default function PullRequestConversationPage() {
           </SandboxLayout.Content>
         </SandboxLayout.Column>
         <SandboxLayout.Column>
-          <SandboxLayout.Content className="pl-0 pr-0">
+          <SandboxLayout.Content className="px-0">
             <PullRequestSideBar
               addReviewers={handleAddReviewer}
               usersList={principals?.map(user => ({ id: user.id, display_name: user.display_name, uid: user.uid }))}
