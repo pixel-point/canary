@@ -48,6 +48,19 @@ export const RootLayout = ({ currentUser }: RootLayoutProps) => {
   // TODO: add log out func
   const handleLogOut = useCallback(() => {}, [])
 
+  const handlePinItem = useCallback((item: NavbarItem) => {
+    setPinnedMenuItems(prevItems => [item, ...prevItems])
+    setRecentMenuItems(prevItems => prevItems.filter(recent => recent.id !== item.id))
+  }, [])
+
+  const handleUnpinItem = useCallback((item: NavbarItem) => {
+    setPinnedMenuItems(prevItems => prevItems.filter(pinned => pinned.id !== item.id))
+  }, [])
+
+  const handleRemoveRecentItem = useCallback((item: NavbarItem) => {
+    setRecentMenuItems(prevItems => prevItems.filter(recent => recent.id !== item.id))
+  }, [])
+
   /**
    * Handle save recent and pinned items
    */
@@ -128,6 +141,9 @@ export const RootLayout = ({ currentUser }: RootLayoutProps) => {
           handleLogOut={handleLogOut}
           recentMenuItems={recentMenuItems}
           pinnedMenuItems={pinnedMenuItems}
+          handlePinItem={handlePinItem}
+          handleUnpinItem={handleUnpinItem}
+          handleRemoveRecentItem={handleRemoveRecentItem}
         />
         <main className="col-start-2 box-border min-h-screen overflow-x-hidden overflow-y-scroll">
           <Outlet />

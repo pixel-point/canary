@@ -20,6 +20,9 @@ interface NavbarProps {
   currentUser: TypesUser | undefined
   handleCustomNav: () => void
   handleLogOut: () => void
+  handlePinItem: (item: NavbarItem) => void
+  handleUnpinItem: (item: NavbarItem) => void
+  handleRemoveRecentItem: (item: NavbarItem) => void
 }
 
 export const Navbar = ({
@@ -31,7 +34,10 @@ export const Navbar = ({
   handleSettingsMenu,
   currentUser,
   handleCustomNav,
-  handleLogOut
+  handleLogOut,
+  handlePinItem,
+  handleUnpinItem,
+  handleRemoveRecentItem
 }: NavbarProps) => {
   const location = useLocation()
 
@@ -58,7 +64,13 @@ export const Navbar = ({
         <div className="mb-[1.375rem] overflow-y-scroll">
           <NavbarComp.Group>
             {pinnedMenuItems.map((item, idx) => (
-              <NavBarLink key={idx} {...item} />
+              <NavBarLink
+                key={idx}
+                item={item}
+                isPinned
+                handleUnpinItem={handleUnpinItem}
+                handleCustomNav={handleCustomNav}
+              />
             ))}
             <button onClick={handleMoreMenu}>
               <NavbarComp.Item text="More" icon={<Icon name="ellipsis" size={12} />} active={showMoreMenu} />
@@ -67,7 +79,13 @@ export const Navbar = ({
 
           <NavbarComp.Group title="Recent" topBorder>
             {recentMenuItems.map(item => (
-              <NavBarLink key={item.id} {...item} />
+              <NavBarLink
+                key={item.id}
+                item={item}
+                isRecent
+                handlePinItem={handlePinItem}
+                handleRemoveRecentItem={handleRemoveRecentItem}
+              />
             ))}
           </NavbarComp.Group>
 
