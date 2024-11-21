@@ -11,6 +11,7 @@ import type {
   TypesPullReq,
   TypesPullReqActivity
 } from './interfaces'
+
 import { PRCommentFilterType } from './interfaces'
 import { isCodeComment, isComment, isSystemComment, parseStartingLineIfOne } from './utils'
 import PullRequestTimelineItem from './pull-request-timeline-item'

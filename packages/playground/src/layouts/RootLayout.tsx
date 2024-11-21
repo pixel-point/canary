@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { MoreSubmenu } from '../components/more-submenu'
-import type { TypesUser } from './types'
+import { TypesUser } from './types'
 import { Navbar } from '../components/navbar'
 import { SettingsMenu } from '../components/settings-menu'
+import { ManageNavigation } from '../components/manage-navigation'
 import { navbarMenuData } from '../data/mockNavbarMenuData'
 import { MenuGroupType, MenuGroupTypes, NavbarItemType } from '../components/navbar/types'
 import { pinnedMenuItemsData, recentMenuItemsData } from '../data/mockPinnedAndRecentMenuData'
@@ -12,7 +13,7 @@ interface RootLayoutProps {
   currentUser: TypesUser | undefined
 }
 
-export const RootLayout: React.FC<RootLayoutProps> = ({ currentUser }) => {
+export const RootLayout = ({ currentUser }: RootLayoutProps) => {
   const location = useLocation()
   const [recentMenuItems, setRecentMenuItems] = useState<NavbarItemType[]>(recentMenuItemsData)
   const [pinnedMenuItems, setPinnedMenuItems] = useState<NavbarItemType[]>(pinnedMenuItemsData)
@@ -80,6 +81,14 @@ export const RootLayout: React.FC<RootLayoutProps> = ({ currentUser }) => {
   }, [location])
 
   /**
+   * Handle save recent and pinned items
+   */
+  const handleSave = (recentItems: NavbarItemType[], currentPinnedItems: NavbarItemType[]) => {
+    setRecentMenuItems(recentItems)
+    setPinnedMenuItems(currentPinnedItems)
+  }
+
+  /**
    * Remove recent menu item
    */
   const handleRemoveRecentMenuItem = useCallback((item: NavbarItemType) => {
@@ -129,6 +138,16 @@ export const RootLayout: React.FC<RootLayoutProps> = ({ currentUser }) => {
       </div>
       <MoreSubmenu showMoreMenu={showMoreMenu} handleMoreMenu={handleMoreMenu} items={moreMenu} />
       <SettingsMenu showSettingMenu={showSettingMenu} handleSettingsMenu={handleSettingsMenu} items={settingsMenu} />
+      <ManageNavigation
+        pinnedItems={pinnedMenuItems}
+        recentItems={recentMenuItems}
+        navbarMenuData={navbarMenuData}
+        showManageNavigation={showCustomNav}
+        isSubmitting={false}
+        submitted={false}
+        onSave={handleSave}
+        onClose={handleCustomNav}
+      />
     </>
   )
 }

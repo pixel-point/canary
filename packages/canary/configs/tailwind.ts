@@ -150,6 +150,9 @@ export default {
           accent: 'hsl(var(--icon-accent))'
         }
       },
+      letterSpacing: {
+        tight: '-0.02em'
+      },
       boxShadow: {
         1: '0px 8px 16px rgba(0, 0, 0, 0.30)',
         2: '0px 8px 8px rgba(0, 0, 0, 0.60)',

@@ -60,7 +60,7 @@ const SortableItem = ({
           </div>
 
           <DropdownMenu>
-            <DropdownMenuTrigger className="border-borders-1 text-foreground-8 text-14 flex h-6 items-center gap-x-1.5 rounded border pl-2.5 pr-1.5">
+            <DropdownMenuTrigger className="border-borders-1 text-14 text-foreground-8 flex h-6 items-center gap-x-1.5 rounded border pl-2.5 pr-1.5">
               {sortOptions.find(opt => opt.value === sort.type)?.label}
               <Icon className="chevron-down text-icons-1" name="chevron-down" size={10} />
             </DropdownMenuTrigger>
@@ -76,7 +76,7 @@ const SortableItem = ({
           </DropdownMenu>
 
           <DropdownMenu>
-            <DropdownMenuTrigger className="border-borders-1 text-foreground-8 text-14 flex h-6 items-center gap-x-1.5 rounded border pl-2.5 pr-1.5">
+            <DropdownMenuTrigger className="border-borders-1 text-14 text-foreground-8 flex h-6 items-center gap-x-1.5 rounded border pl-2.5 pr-1.5">
               {sortDirections.find(dir => dir.value === sort.direction)?.label}
               <Icon className="chevron-down text-icons-1" name="chevron-down" size={10} />
             </DropdownMenuTrigger>
@@ -240,7 +240,7 @@ const Sorts = ({
 
                   {filteredBySearchSortOptions.length === 0 && (
                     <div className="flex items-center justify-center p-4">
-                      <span className="text-foreground-2 text-1 leading-none">No results</span>
+                      <span className="text-1 text-foreground-2 leading-none">No results</span>
                     </div>
                   )}
                 </div>

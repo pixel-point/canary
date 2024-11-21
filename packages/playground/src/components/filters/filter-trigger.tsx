@@ -147,7 +147,7 @@ const FilterTrigger = ({
 
           {filteredBySearchOptions.length === 0 && (
             <div className="flex items-center justify-center p-4">
-              <span className="text-foreground-2 text-14 leading-none">No results</span>
+              <span className="text-14 text-foreground-2 leading-none">No results</span>
             </div>
           )}
         </div>

@@ -19,7 +19,7 @@ export const NavbarUser = ({ currentUser, handleCustomNav, handleLogOut }: Navba
       const handleClick = () => {
         switch (key) {
           case UserMenuKeys.CUSTOM_NAV:
-            return handleCustomNav
+            return handleCustomNav()
           case UserMenuKeys.LOG_OUT:
             return handleLogOut
           default:

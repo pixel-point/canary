@@ -101,10 +101,10 @@ const Filters = ({
         <div className="flex items-center justify-between px-3 py-2.5">
           <div className="flex w-full items-center justify-between gap-x-2">
             <div className="flex items-center gap-x-2">
-              <span className="text-foreground-4 text-14">{filterOption.label}</span>
+              <span className="text-14 text-foreground-4">{filterOption.label}</span>
 
               <DropdownMenu>
-                <DropdownMenuTrigger className="bg-background-3 text-foreground-2 text-14 flex h-[18px] items-center gap-x-1 rounded pl-1.5 pr-1">
+                <DropdownMenuTrigger className="bg-background-3 text-14 text-foreground-2 flex h-[18px] items-center gap-x-1 rounded pl-1.5 pr-1">
                   {filterOption.conditions?.find(c => c.value === filter.condition)?.label}
                   <Icon className="chevron-down text-icons-1" name="chevron-down" size={10} />
                 </DropdownMenuTrigger>
@@ -148,7 +148,7 @@ const Filters = ({
 
           {filterOption.type === 'checkbox' && getFilteredOptions(filterOption, filter, searchQueries).length === 0 && (
             <div className="flex items-center justify-center p-4">
-              <span className="text-foreground-2 text-1 leading-none">No results</span>
+              <span className="text-1 text-foreground-2 leading-none">No results</span>
             </div>
           )}
         </div>
