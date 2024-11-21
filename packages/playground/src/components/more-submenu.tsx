@@ -1,12 +1,12 @@
 import { Navbar, Sheet, SheetContent, Icon, Spacer, SheetTitle } from '@harnessio/canary'
 import { navbarMenuData } from '../data/mockNavbarMenuData'
 import { NavLink } from 'react-router-dom'
-import { MenuGroup } from './navbar/types'
+import { MenuGroupType } from './navbar/types'
 
 interface MoreSubmenuProps {
   showMoreMenu: boolean
   handleMoreMenu: () => void
-  items: MenuGroup[]
+  items: MenuGroupType[]
 }
 
 export function MoreSubmenu({ showMoreMenu, handleMoreMenu, items }: MoreSubmenuProps) {

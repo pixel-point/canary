@@ -1,11 +1,11 @@
-import { NavbarItemStatic, UserMenuItem, UserMenuKeys } from './types'
+import { NavbarItemType, UserMenuItemType, UserMenuKeys } from './types'
 
-export const adminMenuItem: Omit<NavbarItemStatic, 'to'> = {
+export const adminMenuItem: Pick<NavbarItemType, 'title' | 'iconName'> = {
   title: 'Settings',
   iconName: 'settings-1'
 }
 
-export const userMenuItems: UserMenuItem[] = [
+export const userMenuItems: UserMenuItemType[] = [
   {
     key: UserMenuKeys.ACCOUNT,
     iconName: 'user',

@@ -3,16 +3,16 @@ import { Link, useLocation } from 'react-router-dom'
 import { Navbar as NavbarComp, Icon, NavbarProjectChooser } from '@harnessio/canary'
 import type { TypesUser } from '../../layouts/types'
 import { adminMenuItem } from './data'
-import { NavBarLink } from './navbar-link'
-import { NavbarItem } from './types'
+import { NavbarItem } from './navbar-item'
+import { NavbarItemType } from './types'
 import { NavbarAi } from './navbar-ai'
 import { NavbarUser } from './navbar-user'
 
 const hideNavbarPaths = ['/signin', '/signup']
 
 interface NavbarProps {
-  recentMenuItems: NavbarItem[]
-  pinnedMenuItems: NavbarItem[]
+  recentMenuItems: NavbarItemType[]
+  pinnedMenuItems: NavbarItemType[]
   showMoreMenu: boolean
   showSettingMenu: boolean
   handleMoreMenu: () => void
@@ -20,6 +20,8 @@ interface NavbarProps {
   currentUser: TypesUser | undefined
   handleCustomNav: () => void
   handleLogOut: () => void
+  handleChangePinnedMenuItem: (item: NavbarItemType) => void
+  handleRemoveRecentMenuItem: (item: NavbarItemType) => void
 }
 
 export const Navbar = ({
@@ -31,7 +33,9 @@ export const Navbar = ({
   handleSettingsMenu,
   currentUser,
   handleCustomNav,
-  handleLogOut
+  handleLogOut,
+  handleChangePinnedMenuItem,
+  handleRemoveRecentMenuItem
 }: NavbarProps) => {
   const location = useLocation()
 
@@ -58,18 +62,33 @@ export const Navbar = ({
         <div className="mb-[1.375rem] overflow-y-scroll">
           <NavbarComp.Group>
             {pinnedMenuItems.map((item, idx) => (
-              <NavBarLink key={idx} {...item} />
+              <NavbarItem
+                key={idx}
+                item={item}
+                handleChangePinnedMenuItem={handleChangePinnedMenuItem}
+                handleRemoveRecentMenuItem={handleRemoveRecentMenuItem}
+                handleCustomNav={handleCustomNav}
+              />
             ))}
             <button onClick={handleMoreMenu}>
               <NavbarComp.Item text="More" icon={<Icon name="ellipsis" size={12} />} active={showMoreMenu} />
             </button>
           </NavbarComp.Group>
 
-          <NavbarComp.Group title="Recent" topBorder>
-            {recentMenuItems.map(item => (
-              <NavBarLink key={item.id} {...item} />
-            ))}
-          </NavbarComp.Group>
+          {!!recentMenuItems.length && (
+            <NavbarComp.Group title="Recent" topBorder>
+              {recentMenuItems.map(item => (
+                <NavbarItem
+                  key={item.id}
+                  item={item}
+                  isRecent
+                  handleChangePinnedMenuItem={handleChangePinnedMenuItem}
+                  handleRemoveRecentMenuItem={handleRemoveRecentMenuItem}
+                  handleCustomNav={handleCustomNav}
+                />
+              ))}
+            </NavbarComp.Group>
+          )}
 
           <NavbarComp.Group topBorder>
             <button onClick={handleSettingsMenu}>

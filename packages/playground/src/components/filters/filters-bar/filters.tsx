@@ -1,12 +1,4 @@
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  Input,
-  Icon,
-  cn,
-  DropdownMenuTrigger
-} from '@harnessio/canary'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, Icon, cn, DropdownMenuTrigger } from '@harnessio/canary'
 
 import type { FilterValue, FilterOption, FilterSearchQueries, CheckboxFilterOption, FilterAction } from '../types'
 
@@ -16,11 +8,14 @@ import Text from './filter-variants/text'
 import Number from './filter-variants/number'
 import { getFilterDisplayValue, getFilteredOptions } from '../utils'
 import { useEffect, useState } from 'react'
+import { UseFiltersReturn } from '../use-filters'
 
 const renderFilterValues = (
   filter: FilterValue,
   filterOption: FilterOption,
-  onUpdateFilter: ((type: string, selectedValues: string[]) => void) | undefined,
+  onUpdateFilter: UseFiltersReturn['handleUpdateFilter'],
+  searchQueries: FilterSearchQueries,
+  handleSearchChange: UseFiltersReturn['handleSearchChange'],
   filteredOptions?: CheckboxFilterOption['options']
 ) => {
   if (!onUpdateFilter) return null
@@ -35,6 +30,8 @@ const renderFilterValues = (
             options: filteredOptions || (filterOption as CheckboxFilterOption).options
           }}
           onUpdateFilter={onUpdateFilter}
+          searchQueries={searchQueries}
+          handleSearchChange={handleSearchChange}
         />
       )
     case 'calendar':
@@ -51,10 +48,10 @@ const renderFilterValues = (
 interface FiltersProps {
   filter: FilterValue
   filterOptions: FilterOption[]
-  handleUpdateFilter: ((type: string, selectedValues: string[]) => void) | undefined
-  handleRemoveFilter: ((type: string) => void) | undefined
-  handleUpdateCondition: ((type: string, condition: string) => void) | undefined
-  handleSearchChange: ((type: string, value: string, searchType: 'filters') => void) | undefined
+  handleUpdateFilter: UseFiltersReturn['handleUpdateFilter']
+  handleRemoveFilter: UseFiltersReturn['handleRemoveFilter']
+  handleUpdateCondition: UseFiltersReturn['handleUpdateCondition']
+  handleSearchChange: UseFiltersReturn['handleSearchChange']
   searchQueries: FilterSearchQueries
   filterToOpen: FilterAction | null
   onOpen?: () => void
@@ -85,8 +82,8 @@ const Filters = ({
 
   return (
     <DropdownMenu key={filter.type} open={isOpen} onOpenChange={setIsOpen}>
-      <DropdownMenuTrigger className="flex h-8 items-center gap-x-3 rounded bg-background-3 pl-2.5 pr-2 transition-colors duration-200 hover:bg-background-8">
-        <div className="flex items-center gap-x-1.5 text-13">
+      <DropdownMenuTrigger className="bg-background-3 hover:bg-background-8 flex h-8 items-center gap-x-3 whitespace-nowrap rounded pl-2.5 pr-2 transition-colors duration-200">
+        <div className="text-13 flex items-center gap-x-1.5">
           <span className="text-foreground-1">
             {filterOption.label}
             {!!filter.selectedValues.length && ': '}
@@ -107,7 +104,7 @@ const Filters = ({
               <span className="text-14 text-foreground-4">{filterOption.label}</span>
 
               <DropdownMenu>
-                <DropdownMenuTrigger className="flex h-[18px] items-center gap-x-1 rounded bg-background-3 pl-1.5 pr-1 text-14 text-foreground-2">
+                <DropdownMenuTrigger className="bg-background-3 text-14 text-foreground-2 flex h-[18px] items-center gap-x-1 rounded pl-1.5 pr-1">
                   {filterOption.conditions?.find(c => c.value === filter.condition)?.label}
                   <Icon className="chevron-down text-icons-1" name="chevron-down" size={10} />
                 </DropdownMenuTrigger>
@@ -126,16 +123,16 @@ const Filters = ({
             <DropdownMenu>
               <DropdownMenuTrigger className="group flex h-[18px] items-center px-1">
                 <Icon
-                  className="text-icons-1 transition-colors duration-200 group-hover:text-foreground-1"
+                  className="text-icons-1 group-hover:text-foreground-1 transition-colors duration-200"
                   name="more-dots-fill"
                   size={12}
                 />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start">
                 <DropdownMenuItem
-                  className="focus:bg-transparent focus:text-foreground-danger focus:outline-none"
+                  className="focus:text-foreground-danger focus:bg-transparent focus:outline-none"
                   onSelect={() => handleRemoveFilter?.(filter.type)}>
-                  <button className="flex items-center gap-x-1.5 text-14 text-foreground-4 transition-colors duration-200 hover:text-foreground-danger">
+                  <button className="text-14 text-foreground-4 hover:text-foreground-danger flex items-center gap-x-1.5 transition-colors duration-200">
                     <Icon name="trash" size={12} />
                     Delete filter
                   </button>
@@ -145,75 +142,13 @@ const Filters = ({
           </div>
         </div>
 
-        {filter.condition !== 'is_empty' && filterOption.type === 'checkbox' && (
-          <div className="border-b border-borders-1 px-3 pb-2.5">
-            <div
-              className={cn(
-                'border-border-2 focus-within:border-borders-3 flex min-h-8 justify-between gap-x-1 rounded border px-2.5 py-[3px] outline-none transition-colors duration-200 focus-within:border',
-                {
-                  'px-1': !!filter.selectedValues.length
-                }
-              )}>
-              <div className="flex flex-1 flex-wrap items-center gap-1">
-                {!!filter.selectedValues.length &&
-                  filter.selectedValues.map(value => {
-                    const label = filterOption.options?.find(opt => opt.value === value)?.label
-                    return (
-                      <div className="flex h-6 items-center gap-x-1.5 rounded bg-background-8 px-2" key={value}>
-                        <span className="text-14 text-foreground-8">{label}</span>
-                        <button
-                          className="text-icons-1 transition-colors duration-200 hover:text-foreground-1"
-                          onClick={() => {
-                            const newValues = filter.selectedValues.filter(v => v !== value)
-                            handleUpdateFilter?.(filter.type, newValues)
-                          }}>
-                          <Icon className="rotate-45" name="plus" size={10} />
-                        </button>
-                      </div>
-                    )
-                  })}
-
-                <DropdownMenuItem className="p-0 focus:bg-transparent" asChild>
-                  <Input
-                    className="h-6 flex-1 border-none outline-none hover:border-none focus:border-none focus-visible:ring-0"
-                    type="text"
-                    placeholder={filter.selectedValues.length > 0 ? '' : 'Select one or more options...'}
-                    value={searchQueries.filters[filter.type] || ''}
-                    onChange={e => handleSearchChange?.(filter.type, e.target.value, 'filters')}
-                    onClick={e => {
-                      e.preventDefault()
-                    }}
-                    onKeyDown={e => e.stopPropagation()}
-                  />
-                </DropdownMenuItem>
-              </div>
-              {(!!filter.selectedValues.length || searchQueries.filters[filter.type]) && (
-                <button
-                  className="flex p-1.5 text-foreground-4 transition-colors duration-200 hover:text-foreground-1"
-                  onClick={() => {
-                    handleUpdateFilter?.(filter.type, [])
-                    handleSearchChange?.(filter.type, '', 'filters')
-                  }}>
-                  <Icon className="rotate-45" name="plus" size={12} />
-                </button>
-              )}
-            </div>
-          </div>
-        )}
-
         <div>
           {filter.condition !== 'is_empty' &&
-            handleUpdateFilter &&
-            renderFilterValues(
-              filter,
-              filterOption,
-              handleUpdateFilter,
-              filterOption.type === 'checkbox' ? getFilteredOptions(filterOption, filter, searchQueries) : undefined
-            )}
+            renderFilterValues(filter, filterOption, handleUpdateFilter, searchQueries, handleSearchChange)}
 
           {filterOption.type === 'checkbox' && getFilteredOptions(filterOption, filter, searchQueries).length === 0 && (
             <div className="flex items-center justify-center p-4">
-              <span className="text-1 leading-none text-foreground-2">No results</span>
+              <span className="text-1 text-foreground-2 leading-none">No results</span>
             </div>
           )}
         </div>

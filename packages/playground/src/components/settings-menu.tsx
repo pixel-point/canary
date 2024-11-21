@@ -1,11 +1,11 @@
 import { Icon, Navbar, Sheet, SheetContent, Spacer, SheetTitle } from '@harnessio/canary'
 import { NavLink } from 'react-router-dom'
-import { MenuGroup } from './navbar/types'
+import { MenuGroupType } from './navbar/types'
 
 interface SystemAdminMenuProps {
   showSettingMenu: boolean
   handleSettingsMenu: () => void
-  items: MenuGroup[]
+  items: MenuGroupType[]
 }
 
 export const SettingsMenu = ({ showSettingMenu, handleSettingsMenu, items }: SystemAdminMenuProps) => {

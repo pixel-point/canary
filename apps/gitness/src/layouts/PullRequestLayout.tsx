@@ -76,8 +76,8 @@ const PullRequestLayout: React.FC = () => {
               </NavLink>
             </div>
             <div className="border-border-background h-[36px] border-b" />
-            <div className="border-border-background absolute right-full h-[36px] w-[9999px] border-b" />
-            <div className="border-border-background absolute left-full h-[36px] w-[9999px] border-b" />
+            <div className="border-border-background absolute right-full h-[36px] w-0 border-b" />
+            <div className="border-border-background absolute left-full h-[36px] w-0 border-b" />
           </div>
           <Spacer size={8} />
           <Outlet />

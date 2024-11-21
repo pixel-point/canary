@@ -6,7 +6,7 @@ import { Navbar } from '../components/navbar'
 import { SettingsMenu } from '../components/settings-menu'
 import { ManageNavigation } from '../components/manage-navigation'
 import { navbarMenuData } from '../data/mockNavbarMenuData'
-import { MenuGroup, MenuGroupTypes, NavbarItem } from '../components/navbar/types'
+import { MenuGroupType, MenuGroupTypes, NavbarItemType } from '../components/navbar/types'
 import { pinnedMenuItemsData, recentMenuItemsData } from '../data/mockPinnedAndRecentMenuData'
 
 interface RootLayoutProps {
@@ -15,8 +15,8 @@ interface RootLayoutProps {
 
 export const RootLayout = ({ currentUser }: RootLayoutProps) => {
   const location = useLocation()
-  const [recentMenuItems, setRecentMenuItems] = useState<NavbarItem[]>(recentMenuItemsData)
-  const [pinnedMenuItems, setPinnedMenuItems] = useState<NavbarItem[]>(pinnedMenuItemsData)
+  const [recentMenuItems, setRecentMenuItems] = useState<NavbarItemType[]>(recentMenuItemsData)
+  const [pinnedMenuItems, setPinnedMenuItems] = useState<NavbarItemType[]>(pinnedMenuItemsData)
   const [showMoreMenu, setShowMoreMenu] = useState(false)
   const [showSettingMenu, setShowSettingMenu] = useState(false)
   const [showCustomNav, setShowCustomNav] = useState(false)
@@ -26,8 +26,8 @@ export const RootLayout = ({ currentUser }: RootLayoutProps) => {
    */
   const { moreMenu, settingsMenu } = useMemo(() => {
     return navbarMenuData.reduce<{
-      moreMenu: MenuGroup[]
-      settingsMenu: MenuGroup[]
+      moreMenu: MenuGroupType[]
+      settingsMenu: MenuGroupType[]
     }>(
       (acc, item) => {
         if (item.type === MenuGroupTypes.SETTINGS) {
@@ -47,14 +47,6 @@ export const RootLayout = ({ currentUser }: RootLayoutProps) => {
 
   // TODO: add log out func
   const handleLogOut = useCallback(() => {}, [])
-
-  /**
-   * Handle save recent and pinned items
-   */
-  const handleSave = (recentItems: NavbarItem[], currentPinnedItems: NavbarItem[]) => {
-    setRecentMenuItems(recentItems)
-    setPinnedMenuItems(currentPinnedItems)
-  }
 
   /**
    * Toggle show more menu
@@ -88,32 +80,41 @@ export const RootLayout = ({ currentUser }: RootLayoutProps) => {
     setShowCustomNav(false)
   }, [location])
 
-  // const handlePinItem = (item: NavbarItem) => {
-  //   setPinnedItems(prevPinnedItems => {
-  //     const isPinned = prevPinnedItems.some(pinned => pinned.id === item.id)
-  //
-  //     if (isPinned) {
-  //       return prevPinnedItems.filter(pinned => pinned.id !== item.id)
-  //     }
-  //
-  //     const itemToPin = navbarSubmenuData.flatMap(group => group.items).find(i => i.id === item.id)
-  //
-  //     if (itemToPin) {
-  //       return [
-  //         {
-  //           id: itemToPin.id,
-  //           title: itemToPin.title,
-  //           iconName: itemToPin.iconName,
-  //           description: itemToPin.description,
-  //           to: itemToPin.to || ''
-  //         },
-  //         ...prevPinnedItems
-  //       ]
-  //     }
-  //
-  //     return prevPinnedItems
-  //   })
-  // }
+  /**
+   * Handle save recent and pinned items
+   */
+  const handleSave = (recentItems: NavbarItemType[], currentPinnedItems: NavbarItemType[]) => {
+    setRecentMenuItems(recentItems)
+    setPinnedMenuItems(currentPinnedItems)
+  }
+
+  /**
+   * Remove recent menu item
+   */
+  const handleRemoveRecentMenuItem = useCallback((item: NavbarItemType) => {
+    setRecentMenuItems(prevState => prevState.filter(prevStateItem => prevStateItem.id !== item.id))
+  }, [])
+
+  /**
+   * Change pinned menu items
+   */
+  const handleChangePinnedMenuItem = useCallback(
+    (item: NavbarItemType) => {
+      setPinnedMenuItems(prevState => {
+        const isPinned = prevState.some(pinned => pinned.id === item.id)
+
+        if (isPinned) {
+          return prevState.filter(pinned => pinned.id !== item.id)
+        }
+
+        // If pin item, remove it from recent
+        handleRemoveRecentMenuItem(item)
+
+        return [...prevState, item]
+      })
+    },
+    [handleRemoveRecentMenuItem]
+  )
 
   return (
     <>
@@ -128,6 +129,8 @@ export const RootLayout = ({ currentUser }: RootLayoutProps) => {
           handleLogOut={handleLogOut}
           recentMenuItems={recentMenuItems}
           pinnedMenuItems={pinnedMenuItems}
+          handleChangePinnedMenuItem={handleChangePinnedMenuItem}
+          handleRemoveRecentMenuItem={handleRemoveRecentMenuItem}
         />
         <main className="col-start-2 box-border min-h-screen overflow-x-hidden overflow-y-scroll">
           <Outlet />

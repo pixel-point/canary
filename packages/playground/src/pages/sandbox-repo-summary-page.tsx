@@ -6,12 +6,11 @@ import type { FileProps } from '../components/repo-summary'
 import { Summary } from '../components/repo-summary'
 import { mockBranchData } from '../data/mockBranchData'
 import { RepoSummaryPanel } from '../components/repo-summary-panel'
-import { BranchSelector } from '../components/branch-selector/branch-selector'
+import { BranchSelector, type BranchSelectorBranchProps } from '../components/branch-selector'
 import { mockFiles } from '../data/mockSummaryFiiles'
 import { SandboxLayout } from '..'
 import { PlaygroundSandboxLayoutSettings } from '../settings/sandbox-settings'
 import { CloneRepoDialog } from '../components/repo-clone/clone-repo-dialog'
-import type { BranchProps } from '../components/branch-selector/types'
 
 // TODO: Move LAYOUT_STATES and LayoutState type to a shared location (e.g., types/layouts.ts)
 // since these states are used across multiple pages and should be managed in a single place
@@ -74,7 +73,9 @@ const mockBranchList = {
 
 function SandboxRepoSummaryPage() {
   const [loadState, setLoadState] = useState<LayoutState | string>(LAYOUT_STATES.float)
-  const [selectedBranch, setSelectedBranch] = useState<BranchProps | { name: string }>(mockBranchList.branches.items[0])
+  const [selectedBranch, setSelectedBranch] = useState<BranchSelectorBranchProps | { name: string }>(
+    mockBranchList.branches.items[0]
+  )
 
   return (
     <>

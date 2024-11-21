@@ -14,6 +14,11 @@ export enum orderSortDate {
   DESC = 'desc'
 }
 
+export enum CodeCommentState {
+  ACTIVE = 'active',
+  RESOLVED = 'resolved'
+}
+
 export enum PRCommentFilterType {
   SHOW_EVERYTHING = 'showEverything',
   ALL_COMMENTS = 'allComments',

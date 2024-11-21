@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { DropdownMenuItem, Icon, Input } from '@harnessio/canary'
 import { FilterValue } from '../../types'
+import { UseFiltersReturn } from '../../use-filters'
 
 interface TextFilterProps {
   filter: FilterValue
-  onUpdateFilter: (type: string, selectedValues: string[]) => void
+  onUpdateFilter: UseFiltersReturn['handleUpdateFilter']
 }
 
 const Text = ({ filter, onUpdateFilter }: TextFilterProps) => {

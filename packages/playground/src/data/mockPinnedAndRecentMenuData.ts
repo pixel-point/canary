@@ -1,6 +1,6 @@
-import { NavbarItem } from '../components/navbar/types'
+import { NavbarItemType } from '../components/navbar/types'
 
-export const pinnedMenuItemsData: NavbarItem[] = [
+export const pinnedMenuItemsData: NavbarItemType[] = [
   {
     id: 0,
     iconName: 'repositories-gradient',
@@ -24,7 +24,7 @@ export const pinnedMenuItemsData: NavbarItem[] = [
   }
 ]
 
-export const recentMenuItemsData: NavbarItem[] = [
+export const recentMenuItemsData: NavbarItemType[] = [
   {
     id: 13,
     iconName: 'incidents-gradient',

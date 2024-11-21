@@ -133,7 +133,7 @@ import Navigation from '../icons/navigation-icon.svg'
 import LogOut from '../icons/log-out-icon.svg'
 import DatabaseGradient from '../icons/database-gradient.svg'
 import Database from '../icons/database-icon.svg'
-import Artifacts from '../icons/artifacts.svg'
+import Artifacts from '../icons/artifacts-icon.svg'
 import ArtifactsGradient from '../icons/artifacts-gradient.svg'
 import InfrastructureGradient from '../icons/infrastructure-gradient.svg'
 import Infrastructure from '../icons/infrastructure-icon.svg'
@@ -157,6 +157,7 @@ import ChaosEngineeringGradient from '../icons/chaos-engineering-gradient.svg'
 import ChaosEngineering from '../icons/chaos-engineering-icon.svg'
 import DashboardsGradient from '../icons/dashboards-gradient.svg'
 import Dashboards from '../icons/dashboards-icon.svg'
+import MenuDots from '../icons/menu-dots-icon.svg'
 // import Fork from '../icons/fork.svg'
 
 const IconNameMap = {
@@ -317,7 +318,8 @@ const IconNameMap = {
   'chaos-engineering-gradient': ChaosEngineeringGradient,
   'chaos-engineering': ChaosEngineering,
   'dashboards-gradient': DashboardsGradient,
-  dashboards: Dashboards
+  dashboards: Dashboards,
+  'menu-dots': MenuDots
   // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 

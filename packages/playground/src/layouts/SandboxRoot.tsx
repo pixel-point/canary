@@ -5,7 +5,7 @@ import { Navbar } from '../components/navbar'
 import { MoreSubmenu } from '../components/more-submenu'
 import type { TypesUser } from './types'
 import { SettingsMenu } from '../components/settings-menu'
-import { MenuGroup, MenuGroupTypes, NavbarItem } from '../components/navbar/types'
+import { MenuGroupType, MenuGroupTypes, NavbarItemType } from '../components/navbar/types'
 import { pinnedMenuItemsData, recentMenuItemsData } from '../data/mockPinnedAndRecentMenuData'
 import { navbarMenuData } from '../data/mockNavbarMenuData'
 
@@ -15,8 +15,8 @@ interface SandboxRootProps {
 
 export const SandboxRoot: React.FC<SandboxRootProps> = ({ currentUser }) => {
   const location = useLocation()
-  const [recentMenuItems, setRecentMenuItems] = useState<NavbarItem[]>(recentMenuItemsData)
-  const [pinnedMenuItems, setPinnedMenuItems] = useState<NavbarItem[]>(pinnedMenuItemsData)
+  const [recentMenuItems, setRecentMenuItems] = useState<NavbarItemType[]>(recentMenuItemsData)
+  const [pinnedMenuItems, setPinnedMenuItems] = useState<NavbarItemType[]>(pinnedMenuItemsData)
   const [showMoreMenu, setShowMoreMenu] = useState(false)
   const [showSettingMenu, setShowSettingMenu] = useState(false)
   const [showCustomNav, setShowCustomNav] = useState(false)
@@ -26,8 +26,8 @@ export const SandboxRoot: React.FC<SandboxRootProps> = ({ currentUser }) => {
    */
   const { moreMenu, settingsMenu } = useMemo(() => {
     return navbarMenuData.reduce<{
-      moreMenu: MenuGroup[]
-      settingsMenu: MenuGroup[]
+      moreMenu: MenuGroupType[]
+      settingsMenu: MenuGroupType[]
     }>(
       (acc, item) => {
         if (item.type === MenuGroupTypes.SETTINGS) {
@@ -80,6 +80,34 @@ export const SandboxRoot: React.FC<SandboxRootProps> = ({ currentUser }) => {
     setShowCustomNav(false)
   }, [location])
 
+  /**
+   * Remove recent menu item
+   */
+  const handleRemoveRecentMenuItem = useCallback((item: NavbarItemType) => {
+    setRecentMenuItems(prevState => prevState.filter(prevStateItem => prevStateItem.id !== item.id))
+  }, [])
+
+  /**
+   * Change pinned menu items
+   */
+  const handleChangePinnedMenuItem = useCallback(
+    (item: NavbarItemType) => {
+      setPinnedMenuItems(prevState => {
+        const isPinned = prevState.some(pinned => pinned.id === item.id)
+
+        if (isPinned) {
+          return prevState.filter(pinned => pinned.id !== item.id)
+        }
+
+        // If pin item, remove it from recent
+        handleRemoveRecentMenuItem(item)
+
+        return [...prevState, item]
+      })
+    },
+    [handleRemoveRecentMenuItem]
+  )
+
   return (
     <SandboxLayout.Root>
       <SandboxLayout.LeftPanel>
@@ -93,6 +121,8 @@ export const SandboxRoot: React.FC<SandboxRootProps> = ({ currentUser }) => {
           handleLogOut={handleLogOut}
           recentMenuItems={recentMenuItems}
           pinnedMenuItems={pinnedMenuItems}
+          handleChangePinnedMenuItem={handleChangePinnedMenuItem}
+          handleRemoveRecentMenuItem={handleRemoveRecentMenuItem}
         />
       </SandboxLayout.LeftPanel>
       <Outlet />

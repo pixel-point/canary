@@ -1,6 +1,6 @@
-import { MenuGroup, MenuGroupTypes } from '../components/navbar/types'
+import { MenuGroupType, MenuGroupTypes } from '../components/navbar/types'
 
-export const navbarMenuData: MenuGroup[] = [
+export const navbarMenuData: MenuGroupType[] = [
   {
     groupId: 0,
     title: 'Devops',
@@ -43,7 +43,7 @@ export const navbarMenuData: MenuGroup[] = [
       },
       {
         id: 5,
-        iconName: 'shield-lock',
+        iconName: 'infrastructure-gradient',
         title: 'Infrastructure',
         description: 'Manage all your infrastructure.',
         to: '/infrastructure'
