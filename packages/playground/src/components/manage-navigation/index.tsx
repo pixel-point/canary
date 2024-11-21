@@ -39,7 +39,7 @@ const filterMenuData = (menuData: MenuGroup[], pinnedItems: NavbarItem[]): MenuG
       ...group,
       items: group.items.filter(item => !pinnedItems.some(pinnedItem => pinnedItem.id === item.id))
     }))
-    .filter(group => group.items.length > 0) // Убираем группы без элементов
+    .filter(group => group.items.length > 0)
 }
 
 export const ManageNavigation = ({

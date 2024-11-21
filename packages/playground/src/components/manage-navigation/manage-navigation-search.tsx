@@ -6,15 +6,16 @@ import { debounce } from '../../utils/debaunce'
 const filterItems = (categories: MenuGroup[], query: string): MenuGroup[] => {
   if (!query.trim()) return categories
 
-  return categories
-    .map(category => {
-      const filteredItems = category.items.filter(item => item.title.toLowerCase().includes(query.toLowerCase()))
-      return {
+  return categories.reduce<MenuGroup[]>((acc, category) => {
+    const filteredItems = category.items.filter(item => item.title.toLowerCase().includes(query.toLowerCase()))
+    if (filteredItems.length > 0) {
+      acc.push({
         ...category,
         items: filteredItems
-      }
-    })
-    .filter(category => category.items.length > 0)
+      })
+    }
+    return acc
+  }, [])
 }
 
 interface ManageNavigationSearchProps {
@@ -90,7 +91,7 @@ export const ManageNavigationSearch = ({ navbarMenuData, addToPinnedItems }: Man
       <PopoverTrigger asChild>
         <SearchBox.Root
           className="w-full"
-          inputClassName="h-9"
+          inputClassName="h-9 placeholder:text-foreground-5"
           ref={inputRef}
           placeholder="Add menu element"
           value={searchQuery}
@@ -106,7 +107,7 @@ export const ManageNavigationSearch = ({ navbarMenuData, addToPinnedItems }: Man
         onWheel={e => e.stopPropagation()}
         onOpenAutoFocus={e => e.preventDefault()}
         onCloseAutoFocus={e => e.preventDefault()}>
-        <ScrollArea className={cn('relative max-h-[50vh]', countFilteredItems > 11 ? 'h-[410px]' : '')}>
+        <ScrollArea className={cn('relative max-h-[50vh]', countFilteredItems > 10 && 'h-[404px]')}>
           <div className="px-1 pb-2 pt-1">
             <span
               className="from-background-2 pointer-events-none absolute inset-x-0 top-0 h-3 w-full bg-gradient-to-b to-transparent"
