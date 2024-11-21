@@ -11,13 +11,13 @@ import {
   BACKGROUND_STEP_IDENTIFIER,
   BARRIER_STEP_IDENTIFIER,
   GROUP_IDENTIFIER,
-  HARNESS_STEP_IDENTIFIER,
-  HarnessStep,
-  HarnessStepGroup,
   PARALLEL_IDENTIFIER,
   QUEUE_STEP_IDENTIFIER,
   RUN_STEP_IDENTIFIER,
-  RUN_TEST_STEP_IDENTIFIER
+  RUN_TEST_STEP_IDENTIFIER,
+  type HARNESS_STEP_IDENTIFIER,
+  type HarnessStep,
+  type HarnessStepGroup
 } from './types'
 
 export const harnessSteps: HarnessStep[] = [

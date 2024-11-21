@@ -1,8 +1,9 @@
+import { Icon } from '@/components/icon'
 import { cn } from '@/lib/utils'
+import { isSafari } from '@/utils/isSafari'
+
 import { Text } from '../text'
 import noiseBg from './noise.png'
-import { Icon } from '@/components/icon'
-import { isSafari } from '@/utils/isSafari'
 
 interface NavbarRootProps {
   className?: string
@@ -17,7 +18,8 @@ function Root({ className, children, isSubMenu = false }: NavbarRootProps) {
         'border-borders-5 bg-background-7 grid h-screen w-[220px] select-none grid-rows-[auto_1fr_auto] overflow-y-auto border-r',
         { 'bg-background-7/70 backdrop-blur-[10px]': isSubMenu },
         className
-      )}>
+      )}
+    >
       {!isSubMenu && (
         <>
           <div
@@ -63,8 +65,8 @@ function Header({ children }: { children: React.ReactNode }) {
   return <div className="sticky top-0 z-20 grid items-center">{children}</div>
 }
 
-function Content({ children }: { children: React.ReactNode }) {
-  return <div className="flex min-w-0 flex-col">{children}</div>
+function Content({ children, className }: { children: React.ReactNode; className?: string }) {
+  return <div className={cn('flex min-w-0 flex-col', className)}>{children}</div>
 }
 
 interface GroupProps {
@@ -82,7 +84,8 @@ function Group({ children, title, topBorder, isSubMenu = false, titleClassName }
         'flex w-full flex-col overflow-x-hidden px-5',
         { 'border-borders-5 border-t pt-2.5': topBorder },
         isSubMenu ? 'pb-2.5' : 'gap-1.5 pb-3'
-      )}>
+      )}
+    >
       {title && (
         <div className={cn('text-foreground-7 mt-1.5', isSubMenu ? 'mb-3' : 'mb-2.5', titleClassName)}>
           <p className="text-xs font-normal">{title}</p>
@@ -108,21 +111,22 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
     return (
       <div
         className={cn(
-          'group relative grid cursor-pointer select-none grid-cols-[auto_1fr] items-center gap-3 py-2',
+          'group relative grid cursor-pointer select-none grid-cols-[auto_1fr] items-center gap-3 pb-[0.6875rem] pt-[0.5625rem]',
           { 'gap-0': !icon },
           className
-        )}>
+        )}
+      >
         <div
           className={cn(
             'group-hover:bg-background-4 absolute -inset-x-3 z-0 h-full w-auto rounded-[10px] bg-transparent',
             { 'bg-background-4': active }
           )}
         />
-        <div className="z-10 col-start-1 row-span-full flex items-center">
+        <div className="z-10 col-start-1 row-span-full mt-px flex items-center">
           {icon ? (
-            <div className="sub-menu-icon-bg border-borders-1 bg-background-2 relative flex size-8 place-content-center place-items-center rounded border">
+            <div className="sub-menu-icon-bg relative flex size-8 place-content-center place-items-center rounded border border-borders-1 bg-background-2">
               <Icon
-                className="text-foreground-3 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-foreground-3"
                 name="sub-menu-ellipse"
                 size={18}
               />
@@ -139,19 +143,12 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
             weight="medium"
             className={cn('text-foreground-2 group-hover:text-foreground-1 z-10 w-full duration-0 ease-in-out', {
               'text-foreground-1': active
-            })}>
+            })}
+          >
             {text}
           </Text>
           {!!description && (
-            <Text
-              size={0}
-              truncate
-              className={cn(
-                'text-foreground-5 group-hover:text-foreground-3 z-10 w-full truncate leading-[1.125rem] duration-0 ease-in-out',
-                {
-                  'text-foreground-3': active
-                }
-              )}>
+            <Text className="z-10 w-full truncate leading-4 text-foreground-4 duration-0 ease-in-out" size={1} truncate>
               {description}
             </Text>
           )}
@@ -165,9 +162,10 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
       {icon && (
         <div
           className={cn(
-            'text-icons-4 group-hover:text-icons-2 relative z-10 mt-[3px] flex h-3 w-3 min-w-3 items-center duration-100 ease-in-out',
+            'text-icons-4 group-hover:text-icons-2 relative z-10 mt-1 flex h-3 w-3 min-w-3 items-center duration-100 ease-in-out',
             { 'text-icons-2': active }
-          )}>
+          )}
+        >
           {active && (
             <span
               className="absolute left-1/2 top-1/2 z-[-1] size-7 -translate-x-1/2 -translate-y-1/2"
@@ -185,7 +183,8 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
         weight="medium"
         className={cn('text-foreground-3 group-hover:text-foreground-1 z-10 text-left duration-100 ease-in-out', {
           'text-foreground-1': active
-        })}>
+        })}
+      >
         {text}
       </Text>
     </div>
@@ -194,7 +193,7 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
 
 function Footer({ children }: { children: React.ReactNode }) {
   return (
-    <div className="border-borders-5 sticky bottom-0 z-20 grid h-[72px] items-center border-t px-4">{children}</div>
+    <div className="sticky bottom-0 z-20 grid h-[72px] items-center border-t border-borders-5 px-4">{children}</div>
   )
 }
 

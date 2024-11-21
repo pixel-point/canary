@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { Input, Icon, DropdownMenuItem } from '@harnessio/canary'
+
+import { DropdownMenuItem, Icon, Input } from '@harnessio/canary'
+
 import { FilterValue } from '../../types'
 import { UseFiltersReturn } from '../../use-filters'
 
@@ -59,11 +61,12 @@ const Number = ({ filter, onUpdateFilter }: NumberFilterProps) => {
 
         {value && (
           <button
-            className="text-icons-1 hover:text-foreground-1 absolute right-3 transition-colors duration-200"
+            className="absolute right-3 text-icons-1 transition-colors duration-200 hover:text-foreground-1"
             onClick={e => {
               e.stopPropagation()
               handleClear()
-            }}>
+            }}
+          >
             <Icon className="rotate-45" name="plus" size={10} />
           </button>
         )}

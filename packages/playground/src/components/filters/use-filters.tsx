@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import { FilterValue, SortValue, FilterSearchQueries, FilterAction } from './types'
+import { FilterAction, FilterSearchQueries, FilterValue, SortValue } from './types'
 
 export interface UseFiltersReturn {
   // State values

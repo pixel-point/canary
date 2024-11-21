@@ -131,6 +131,9 @@
     --background-08: var(--grey-12);
     --background-09: var(--grey-15);
     --background-10: var(--grey-94);
+    --background-11: var(--grey-40);
+    --background-12: var(--grey-20);
+    --background-13: var(--grey-30);
     --background-danger: var(--red-65) / 0.1; /* red65/10 */
     --background-success: 154 13% 10% / 0.4;
     /* Borders */
@@ -155,6 +158,8 @@
     --icon-06: var(--grey-30);
     --icon-07: var(--grey-40);
     --icon-08: var(--grey-90);
+    --icon-09: var(--grey-70);
+    --icon-10: var(--grey-6);
     --icon-danger: var(--red-65);
     --icon-alert: var(--orange-55);
     --icon-success: var(--green-65);
@@ -263,6 +268,9 @@
     --background-08: var(--grey-12);
     --background-09: var(--grey-15);
     --background-10: var(--grey-94);
+    --background-11: var(--grey-40);
+    --background-12: var(--grey-20);
+    --background-13: var(--grey-30);
     --background-danger: var(--red-65) / 0.1; /* red65/10 */
     --background-success: 154 13% 10% / 0.4;
     /* Borders */
@@ -287,6 +295,8 @@
     --icon-06: var(--grey-30);
     --icon-07: var(--grey-40);
     --icon-08: var(--grey-90);
+    --icon-09: var(--grey-70);
+    --icon-10: var(--grey-6);
     --icon-danger: var(--red-65);
     --icon-alert: var(--orange-55);
     --icon-success: var(--green-65);

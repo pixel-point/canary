@@ -16,7 +16,7 @@ const SheetPortal = SheetPrimitive.Portal
 
 interface SheetOverlayProps extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay> {
   modal?: boolean
-  handleClose?: () => void
+  handleClose?: ((event: React.MouseEvent<HTMLDivElement>) => void) | (() => void)
 }
 
 const SheetOverlay = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Overlay>, SheetOverlayProps>(
@@ -38,7 +38,7 @@ const SheetOverlay = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Ove
       <div
         aria-hidden="true"
         className={cn('bg-background-7/50 fixed left-0 top-0 h-full w-full', className)}
-        onClick={handleClose}
+        onClick={e => handleClose?.(e)}
       />
     )
   }
@@ -88,7 +88,7 @@ const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Con
     ref
   ) => (
     <SheetPortal>
-      <SheetOverlay modal={modal} className={overlayClassName} handleClose={handleClose ?? props.onClick} />
+      <SheetOverlay modal={modal} className={overlayClassName} handleClose={handleClose || props.onClick} />
       <SheetPrimitive.Content ref={ref} className={cn(sheetVariants({ side }), className)} {...props}>
         {children}
         {!hideCloseButton && (
@@ -96,7 +96,12 @@ const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Con
             asChild
             className="absolute right-[0.1875rem] top-2 flex items-center justify-center transition-colors disabled:pointer-events-none"
           >
-            <Button className="text-icons-4 hover:text-icons-2" variant="custom" size="icon" onClick={handleClose}>
+            <Button
+              className="text-icons-4 hover:text-icons-2"
+              variant="custom"
+              size="icon"
+              onClick={() => handleClose?.()}
+            >
               <Icon name="close" size={16} />
               <span className="sr-only">Close</span>
             </Button>

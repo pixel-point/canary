@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { cn, Calendar as UICalendar, type CalendarDateRange, Input } from '@harnessio/canary'
+
+import { cn, Input, Calendar as UICalendar, type CalendarDateRange } from '@harnessio/canary'
+
 import { FilterValue } from '../../types'
 import { UseFiltersReturn } from '../../use-filters'
 
