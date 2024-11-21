@@ -1,5 +1,6 @@
-import { cn, Skeleton, StackedList } from '@harnessio/canary'
 import { useEffect, useState } from 'react'
+
+import { cn, Skeleton, StackedList } from '@harnessio/canary'
 
 // Helper function to generate random percentage width within a range
 const getRandomPercentageWidth = (min: number, max: number) => `${Math.floor(Math.random() * (max - min + 1)) + min}%`
@@ -29,7 +30,8 @@ export const SkeletonList = ({ className }: SkeletonListProps) => {
           'opacity-0': !visible
         },
         className
-      )}>
+      )}
+    >
       {listItems && listItems.length > 0 && (
         <StackedList.Root>
           {listItems.map((itm, itm_idx) => (
@@ -52,7 +54,7 @@ export const SkeletonList = ({ className }: SkeletonListProps) => {
           ))}
         </StackedList.Root>
       )}
-      <div className="absolute bottom-0 z-10 h-1/2 w-full bg-gradient-to-b from-transparent to-background" />
+      <div className="to-background absolute bottom-0 z-10 h-1/2 w-full bg-gradient-to-b from-transparent" />
     </div>
   )
 }

@@ -1,19 +1,20 @@
 import {
   AlertDialog,
-  AlertDialogTrigger,
+  AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
   AlertDialogDescription,
   AlertDialogFooter,
-  AlertDialogCancel,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  Badge,
   Button,
   Icon,
   Spacer,
-  Text,
-  Badge
+  Text
 } from '@harnessio/canary'
-import type { FormDeleteMemberDialogProps } from './interfaces'
+
+import { FormDeleteMemberDialogProps } from './interfaces'
 
 export const FormDeleteMemberDialog: React.FC<FormDeleteMemberDialogProps> = ({
   member,

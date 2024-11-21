@@ -1,8 +1,9 @@
 import * as React from 'react'
-import { Slot, Slottable } from '@radix-ui/react-slot'
 
 import { cn } from '@/lib/utils'
+import { Slot, Slottable } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
+
 import { Icon } from './icon'
 
 const listItemVariants = cva(
@@ -65,7 +66,8 @@ const List: React.FC<ListProps> = ({ className, children, onlyTopRounded, border
       borderBackground ? 'border-border-background' : '',
       className
     )}
-    {...props}>
+    {...props}
+  >
     {children}
   </div>
 )
@@ -94,7 +96,8 @@ const ListItem = ({
         isHeader ? 'bg-primary/[0.01]' : '',
         disableHover ? '' : 'hover:bg-tertiary-muted cursor-pointer duration-150 ease-in-out'
       )}
-      {...props}>
+      {...props}
+    >
       {thumbnail && <div className="mr-2 flex items-center">{thumbnail}</div>}
       <Slottable>{children}</Slottable>
       {actions && <div className="ml-2 flex items-center">{actions}</div>}
@@ -114,7 +117,8 @@ const ListField = ({ className, title, description, label, primary, secondary, r
           'text-primary [&>em]:text-primary font-normal [&>em]:font-medium [&>em]:not-italic',
           label && 'text-tertiary-background',
           className
-        )}>
+        )}
+      >
         {title}
       </div>
     )}
@@ -124,7 +128,8 @@ const ListField = ({ className, title, description, label, primary, secondary, r
           'text-tertiary-background flex gap-2 overflow-hidden text-ellipsis whitespace-nowrap',
           primary ? 'text-sm' : 'text-xs',
           className
-        )}>
+        )}
+      >
         {description}
       </div>
     )}

@@ -1,23 +1,25 @@
+import { SubmitHandler, useForm } from 'react-hook-form'
+
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+
 import {
   AlertDialog,
   AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogFooter,
-  AlertDialogDescription,
   Button,
+  ButtonGroup,
+  Icon,
   Input,
   Spacer,
-  Icon,
-  ButtonGroup,
   Text
 } from '@harnessio/canary'
-import { z } from 'zod'
-import type { SubmitHandler } from 'react-hook-form'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
+
 import { FormFieldSet, MessageTheme } from '../..'
-import type { FormEditDialogProps } from './interfaces'
+import { FormEditDialogProps } from './interfaces'
 
 export const FormUserEditDialog: React.FC<FormEditDialogProps> = ({
   user,
@@ -71,9 +73,9 @@ export const FormUserEditDialog: React.FC<FormEditDialogProps> = ({
             {/* User ID */}
             <FormFieldSet.ControlGroup>
               <FormFieldSet.Label className="flex content-center items-center" htmlFor="userID" required>
-                <Text className="font-normal text-primary/80">User ID</Text>
-                <Icon name="x-mark" className="ml-3 text-tertiary-background" />
-                <Text size={1} className="ml-1 text-tertiary-background">
+                <Text className="text-primary/80 font-normal">User ID</Text>
+                <Icon name="x-mark" className="text-tertiary-background ml-3" />
+                <Text size={1} className="text-tertiary-background ml-1">
                   User ID cannot be changed once created
                 </Text>
               </FormFieldSet.Label>
@@ -142,7 +144,8 @@ export const FormUserEditDialog: React.FC<FormEditDialogProps> = ({
                       size="sm"
                       theme="success"
                       className="pointer-events-none flex gap-2"
-                      disabled={submitted}>
+                      disabled={submitted}
+                    >
                       Saved
                       <Icon name="tick" size={14} />
                     </Button>

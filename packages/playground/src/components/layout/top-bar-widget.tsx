@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,8 +8,8 @@ import {
   BreadcrumbSeparator,
   Topbar
 } from '@harnessio/canary'
-import type { Project } from '../home'
-import { Link } from 'react-router-dom'
+
+import { Project } from '../home'
 
 export interface TopBarWidgetProps {
   projects: Project[]

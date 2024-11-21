@@ -1,5 +1,5 @@
-import type { TreeViewElement } from '@harnessio/canary'
-import { Tree } from '@harnessio/canary'
+import { Tree, type TreeViewElement } from '@harnessio/canary'
+
 import { renderTree } from './utils'
 
 export interface ExecutionTreeProps {

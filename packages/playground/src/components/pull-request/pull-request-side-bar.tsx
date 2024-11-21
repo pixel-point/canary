@@ -1,30 +1,32 @@
 import { useState } from 'react'
+
 import cx from 'classnames'
+
 import {
-  Button,
   Avatar,
   AvatarFallback,
-  Icon,
-  Text,
+  Button,
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
+  Icon,
+  Popover,
   PopoverContent,
   PopoverTrigger,
-  Popover,
-  CommandInput,
-  Command,
-  CommandList,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem
+  Text
 } from '@harnessio/canary'
-import type { EnumPullReqReviewDecision } from './interfaces'
-import { PullReqReviewDecision } from './interfaces'
+
 import { getInitials } from '../../utils/utils'
+import { EnumPullReqReviewDecision, PullReqReviewDecision } from './interfaces'
 
 interface PullRequestSideBarProps {
   reviewers?: {
@@ -88,7 +90,8 @@ const PullRequestSideBar = (props: PullRequestSideBarProps) => {
                 className="cursor-pointer text-red-400 hover:text-red-400 focus:text-red-400"
                 onSelect={() => {
                   handleDelete?.(reviewer?.id ?? 0)
-                }}>
+                }}
+              >
                 <DropdownMenuShortcut className="ml-0">
                   <Icon name="trash" className="mr-2 text-red-400" />
                 </DropdownMenuShortcut>
@@ -104,7 +107,8 @@ const PullRequestSideBar = (props: PullRequestSideBarProps) => {
         <Avatar
           className={cx('h-7 w-7 rounded-full', {
             'p-0': updatedReviewDecision !== PullReqReviewDecision.changeReq
-          })}>
+          })}
+        >
           <AvatarFallback>
             <Text size={1} color="tertiaryBackground">
               {getInitials(reviewer?.display_name || '')}
@@ -158,7 +162,7 @@ const PullRequestSideBar = (props: PullRequestSideBarProps) => {
         </Text>
         <Popover open={isOpen} onOpenChange={setIsOpen}>
           <PopoverTrigger asChild>
-            <Button size="sm" variant="ghost" className="px-2 py-1 text-tertiary-background">
+            <Button size="sm" variant="ghost" className="text-tertiary-background px-2 py-1">
               <Icon name="vertical-ellipsis" size={12} />
             </Button>
           </PopoverTrigger>
@@ -178,7 +182,8 @@ const PullRequestSideBar = (props: PullRequestSideBarProps) => {
                           setIsOpen(false)
                           refetchReviewers?.()
                         }
-                      }}>
+                      }}
+                    >
                       {display_name}
                     </CommandItem>
                   ))}

@@ -1,4 +1,5 @@
 import * as React from 'react'
+
 import { cn } from '@/lib/utils'
 
 export interface BaseInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -9,7 +10,7 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(({ className, t
   const commonClassName = 'bg-transparent text-foreground-1 px-2.5 py-1'
   const specificClassNames = isExtended
     ? 'border-none grow focus-visible:outline-none'
-    : 'flex h-8 w-full rounded border border-border-2 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-foreground-4 focus-visible:outline-none focus-visible:border-borders-3 disabled:cursor-not-allowed disabled:opacity-50'
+    : 'flex h-8 w-full rounded border border-border-2 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-foreground-4 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
 
   return <input className={cn(commonClassName, specificClassNames, className)} type={type} ref={ref} {...props} />
 })
@@ -39,7 +40,8 @@ const ExtendedInput = React.forwardRef<HTMLInputElement, ExtendedInputProps>(
               'rounded-l',
               leftStyle ? 'bg-muted border-r' : '-mr-3',
               leftClassName
-            )}>
+            )}
+          >
             {left}
           </div>
         )}
@@ -51,7 +53,8 @@ const ExtendedInput = React.forwardRef<HTMLInputElement, ExtendedInputProps>(
               'rounded-r',
               rightStyle ? 'bg-muted border-l' : '-ml-3',
               rightClassName
-            )}>
+            )}
+          >
             {right}
           </div>
         )}

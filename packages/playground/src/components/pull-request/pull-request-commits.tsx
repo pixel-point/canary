@@ -1,8 +1,10 @@
 import { useMemo } from 'react'
-import type { TypesCommit } from './interfaces'
+
+import { Avatar, AvatarFallback, NodeGroup, StackedList, Text } from '@harnessio/canary'
+
 import { formatDate, getInitials } from '../../utils/utils'
-import { StackedList, Text, NodeGroup, Avatar, AvatarFallback } from '@harnessio/canary'
 import { CommitCopyActions } from '../commit-copy-actions'
+import { TypesCommit } from './interfaces'
 
 interface CommitProps {
   data?: TypesCommit[]
@@ -39,13 +41,14 @@ export const PullRequestCommits = ({ ...props }: CommitProps) => {
                   <StackedList.Item
                     className="hover:bg-transparent"
                     key={commit.sha}
-                    isLast={commitData.length - 1 === repo_idx}>
+                    isLast={commitData.length - 1 === repo_idx}
+                  >
                     <StackedList.Field
                       title={
                         <div className="flex flex-col">
                           <div className="max-w-[500px] truncate">{commit.title}</div>
                           <div className="flex items-center pt-1">
-                            <div className="size-5 rounded-full bg-tertiary-background bg-cover">
+                            <div className="bg-tertiary-background size-5 rounded-full bg-cover">
                               <Avatar className="size-5 rounded-full p-0">
                                 <AvatarFallback>
                                   <Text size={1} color="tertiaryBackground">
@@ -55,7 +58,7 @@ export const PullRequestCommits = ({ ...props }: CommitProps) => {
                                 </AvatarFallback>
                               </Avatar>
                             </div>
-                            <Text className="pl-2 text-xs text-tertiary-background">{`${commit.author?.identity?.name} commited on ${date}`}</Text>
+                            <Text className="text-tertiary-background pl-2 text-xs">{`${commit.author?.identity?.name} commited on ${date}`}</Text>
                           </div>
                         </div>
                       }

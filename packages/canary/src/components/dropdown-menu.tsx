@@ -1,7 +1,9 @@
 import * as React from 'react'
+
+import { cn } from '@/lib/utils'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import { ChevronRightIcon, DotFilledIcon } from '@radix-ui/react-icons'
-import { cn } from '@/lib/utils'
+
 import { Icon } from './icon'
 
 const DropdownMenu = DropdownMenuPrimitive.Root
@@ -19,7 +21,8 @@ const DropdownMenuTrigger = React.forwardRef<
       { 'flex cursor-pointer items-center border-l border-inherit px-2.5 py-0.5 outline-none': insideSplitButton },
       className
     )}
-    {...props}>
+    {...props}
+  >
     {children}
   </DropdownMenuPrimitive.Trigger>
 ))
@@ -47,7 +50,8 @@ const DropdownMenuSubTrigger = React.forwardRef<
       inset && 'pl-8',
       className
     )}
-    {...props}>
+    {...props}
+  >
     {children}
     <ChevronRightIcon className="ml-auto size-4" />
   </DropdownMenuPrimitive.SubTrigger>
@@ -120,10 +124,11 @@ const DropdownMenuCheckboxItem = React.forwardRef<
       className
     )}
     checked={checked}
-    {...props}>
-    <span className="absolute left-2 flex size-4 items-center justify-center rounded-sm border border-borders-9 group-data-[state=checked]:border-icons-2">
-      <DropdownMenuPrimitive.ItemIndicator className="flex size-full items-center justify-center bg-icons-2">
-        <Icon className="h-[7px] text-icons-5" name="checkbox" />
+    {...props}
+  >
+    <span className="border-borders-9 group-data-[state=checked]:border-icons-2 absolute left-2 flex h-4 w-4 items-center justify-center rounded-sm border">
+      <DropdownMenuPrimitive.ItemIndicator className="bg-icons-2 flex h-full w-full items-center justify-center">
+        <Icon className="text-icons-5 h-[7px]" name="checkbox" />
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
     <span className="text-14 text-foreground-8">{children}</span>
@@ -141,7 +146,8 @@ const DropdownMenuRadioItem = React.forwardRef<
       'focus:bg-accent focus:text-accent-foreground relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       className
     )}
-    {...props}>
+    {...props}
+  >
     <span className="absolute left-2 flex size-3.5 items-center justify-center">
       <DropdownMenuPrimitive.ItemIndicator>
         <DotFilledIcon className="size-4 fill-current" />

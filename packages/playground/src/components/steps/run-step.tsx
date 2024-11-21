@@ -1,17 +1,16 @@
-import type { IFormDefinition } from '@harnessio/forms'
 import {
   arrayToObjectOutputTransformer,
+  IFormDefinition,
   objectToArrayInputTransformer,
   shorthandObjectInputTransformer,
   shorthandObjectOutputTransformer,
   unsetEmptyArrayOutputTransformer,
   unsetEmptyStringOutputTransformer
 } from '@harnessio/forms'
-import type { InputConfigType } from '../form-inputs/types'
-import { InputType } from '../form-inputs/types'
-import type { IInputConfigWithConfig } from './types'
-import { RUN_STEP_IDENTIFIER } from './types'
+
+import { InputConfigType, InputType } from '../form-inputs/types'
 import { getContainerPartial } from './partials/container-partial'
+import { IInputConfigWithConfig, RUN_STEP_IDENTIFIER } from './types'
 
 export const RUN_STEP_DESCRIPTION =
   'Execute scripts in the shell session. The scripts can be executed on the pod/instance running a Harness Delegate or on a remote host in the infrastructure.'

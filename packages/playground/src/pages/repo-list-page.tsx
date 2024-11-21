@@ -1,18 +1,20 @@
 import { useState } from 'react'
-import { noop } from 'lodash-es'
-import { RepoList } from '../components/repo-list'
-import { PaginationComponent } from '../components/pagination'
+import { Link } from 'react-router-dom'
 
-import { Text, Spacer, ListActions, Button, SearchBox } from '@harnessio/canary'
-import { PaddingListLayout } from '../layouts/PaddingListLayout'
+import { noop } from 'lodash-es'
+
+import { Button, ListActions, SearchBox, Spacer, Text } from '@harnessio/canary'
+
+import { TopBarWidget } from '../components/layout/top-bar-widget'
 import { SkeletonList } from '../components/loaders/skeleton-list'
 import { NoData } from '../components/no-data'
 import { NoSearchResults } from '../components/no-search-results'
-import { TopBarWidget } from '../components/layout/top-bar-widget'
-import { PlaygroundListSettings } from '../settings/list-settings'
-import { Link } from 'react-router-dom'
-import { mockRepos } from '../data/mockReposData'
+import { PaginationComponent } from '../components/pagination'
+import { RepoList } from '../components/repo-list'
 import { mockProjects } from '../data/mockProjects'
+import { mockRepos } from '../data/mockReposData'
+import { PaddingListLayout } from '../layouts/PaddingListLayout'
+import { PlaygroundListSettings } from '../settings/list-settings'
 
 const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
 const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]

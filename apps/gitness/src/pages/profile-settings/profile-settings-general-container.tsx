@@ -1,12 +1,14 @@
 import { useState } from 'react'
+
 import {
-  useGetUserQuery,
   GetUserErrorResponse,
-  useUpdateUserMutation,
+  UpdateUserErrorResponse,
   UpdateUserRequestBody,
-  UpdateUserErrorResponse
+  useGetUserQuery,
+  useUpdateUserMutation
 } from '@harnessio/code-service-client'
-import { SettingsAccountGeneralPage, ProfileFields, PasswordFields } from './profile-settings-general-page'
+
+import { PasswordFields, ProfileFields, SettingsAccountGeneralPage } from './profile-settings-general-page'
 
 export const SettingsProfileGeneralPage: React.FC = () => {
   const [apiError, setApiError] = useState<{ type: 'profile' | 'password'; message: string } | null>(null)

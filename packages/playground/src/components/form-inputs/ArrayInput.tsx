@@ -1,12 +1,22 @@
 import { useCallback } from 'react'
+
 import { Plus } from 'lucide-react'
-import type { InputProps, AnyFormikValue, IInputDefinition } from '@harnessio/forms'
-import { Controller, useFieldArray, InputComponent, RenderInputs } from '@harnessio/forms'
+
 import { Button, FormField, FormItem, Icon } from '@harnessio/canary'
-import { InputType } from './types'
+import {
+  AnyFormikValue,
+  Controller,
+  IInputDefinition,
+  InputComponent,
+  InputProps,
+  RenderInputs,
+  useFieldArray
+} from '@harnessio/forms'
+
+import { InputError } from './common/InputError'
 import InputLabel from './common/InputLabel'
 import InputWrapper from './common/InputWrapper'
-import { InputError } from './common/InputError'
+import { InputType } from './types'
 
 export type UIInputWithConfigsForArray = Omit<IInputDefinition, 'path'>
 
@@ -61,7 +71,8 @@ function ArrayInputInternal(props: InputProps<AnyFormikValue, ArrayInputConfig>)
                             onClick={() => {
                               remove(idx)
                             }}
-                            disabled={readonly}>
+                            disabled={readonly}
+                          >
                             <Icon name="x-mark" />
                           </button>
                         </div>

@@ -1,5 +1,4 @@
-import type { RadioGroupItem, Checkbox } from '@harnessio/canary'
-import { cn, Text, Label as ShadLabel } from '@harnessio/canary'
+import { Checkbox, cn, RadioGroupItem, Label as ShadLabel, Text } from '@harnessio/canary'
 
 interface CompProps {
   children: React.ReactNode
@@ -75,7 +74,8 @@ function Root({ children, box, shaded, className }: RootProps) {
         className
       )}
       role="group"
-      aria-describedby="fieldset-description">
+      aria-describedby="fieldset-description"
+    >
       {children}
     </fieldset>
   )
@@ -109,7 +109,7 @@ function Label({ htmlFor, required, children, className }: LabelProps) {
   return (
     <ShadLabel htmlFor={htmlFor} variant="sm" className={cn('text-primary/80 font-normal', className)}>
       {children}
-      {required && <span className="pl-0.5 align-top text-destructive">*</span>}
+      {required && <span className="text-destructive pl-0.5 align-top">*</span>}
     </ShadLabel>
   )
 }
@@ -119,7 +119,8 @@ function ControlGroup({ children, type, className }: ControlProps) {
     <div
       className={cn('flex flex-col gap-2', { 'mt-2': type === 'button' }, className)}
       role="group"
-      aria-label={type === 'button' ? 'Button control group' : 'Input control group'}>
+      aria-label={type === 'button' ? 'Button control group' : 'Input control group'}
+    >
       {children}
     </div>
   )

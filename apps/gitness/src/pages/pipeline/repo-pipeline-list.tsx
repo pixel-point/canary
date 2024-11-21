@@ -1,20 +1,23 @@
 import { Link } from 'react-router-dom'
+
 import { parseAsInteger, useQueryState } from 'nuqs'
+
 import { Button, Spacer, Text } from '@harnessio/canary'
-import { useListPipelinesQuery, TypesPipeline } from '@harnessio/code-service-client'
+import { TypesPipeline, useListPipelinesQuery } from '@harnessio/code-service-client'
 import {
-  PipelineList,
-  SandboxLayout,
-  SkeletonList,
   Filter,
   NoData,
   NoSearchResults,
-  PaginationComponent
+  PaginationComponent,
+  PipelineList,
+  SandboxLayout,
+  SkeletonList
 } from '@harnessio/views'
-import { PageResponseHeader } from '../../types'
+
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
-import { getExecutionStatus, getMeterState } from '../../utils/execution-utils'
 import { useDebouncedQueryState } from '../../hooks/useDebouncedQueryState'
+import { PageResponseHeader } from '../../types'
+import { getExecutionStatus, getMeterState } from '../../utils/execution-utils'
 
 export default function RepoPipelinesPage() {
   const repoRef = useGetRepoRef()

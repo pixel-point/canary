@@ -40,11 +40,11 @@ export interface RuleViolationArr {
   data: RuleViolationData
 }
 
-export interface PullReqChecksDecisionProps {
-  overallStatus: ExecutionState | undefined
+export interface PullReqChecksDecisionData {
+  overallStatus?: ExecutionState
   count: PullReqCount
   error: unknown
-  data: TypesPullReqChecks | undefined
+  data?: TypesPullReqChecks
   color: string
   background: string
   message: string
@@ -53,7 +53,7 @@ export interface PullReqChecksDecisionProps {
 }
 
 export interface PRPanelData {
-  conflictingFiles: string[] | undefined
+  conflictingFiles?: string[]
   requiresCommentApproval: boolean
   atLeastOneReviewerRule: boolean
   reqCodeOwnerApproval: boolean
@@ -65,21 +65,21 @@ export interface PRPanelData {
   ruleViolation: boolean
   commentsLoading: boolean
   commentsInfoData: CommentsInfoData
-  ruleViolationArr: RuleViolationArr | undefined
+  ruleViolationArr?: RuleViolationArr
 }
 
 export interface PullRequestDataState {
-  repoMetadata: RepoRepositoryOutput | undefined
+  repoMetadata?: RepoRepositoryOutput
   setRepoMetadata: (metadata: RepoRepositoryOutput) => void
-  pullReqMetadata: TypesPullReq | undefined
-  pullReqStats: TypesPullReqStats | undefined
-  pullReqCommits: TypesListCommitResponse | undefined
+  pullReqMetadata?: TypesPullReq
+  pullReqStats?: TypesPullReqStats
+  pullReqCommits?: TypesListCommitResponse
   setPullReqCommits: (commits: TypesListCommitResponse) => void
-  pullReqActivities: TypesPullReqActivity[] | undefined
+  pullReqActivities?: TypesPullReqActivity[]
   loading: boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: any
-  pullReqChecksDecision: PullReqChecksDecisionProps
+  pullReqChecksDecision: PullReqChecksDecisionData
   showEditDescription: boolean
   setShowEditDescription: (show: boolean) => void
   setRuleViolationArr: (arr: RuleViolationArr | undefined) => void

@@ -1,23 +1,25 @@
+import { upperFirst } from 'lodash-es'
+
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
-  Text,
-  Avatar,
-  AvatarImage,
-  AvatarFallback,
-  Select,
-  SelectValue,
-  SelectItem,
-  SelectTrigger,
-  SelectContent
+  Text
 } from '@harnessio/canary'
+
 import { getInitials } from '../../utils/utils'
-import type { MembersProps } from './interfaces'
-import { upperFirst } from 'lodash-es'
+import { MembersProps } from './interfaces'
 import { moreActionsDropdown } from './moreActionsDropdown'
 import { transformValue } from './utils'
 
@@ -69,7 +71,8 @@ export const MembersList = ({ members, onDelete, onEdit }: PageProps) => {
             <TableCell className="my-6 content-center">
               <Select
                 value={member.role}
-                onValueChange={newRole => onEdit({ ...member, role: transformValue(newRole) })}>
+                onValueChange={newRole => onEdit({ ...member, role: transformValue(newRole) })}
+              >
                 <SelectTrigger className="w-[150px] justify-start space-x-2 border-0" iconClassName="flex-shrink-0">
                   <SelectValue className="flex-1 grow-0 basis-[70%]" placeholder="Select Role">
                     {/* //the data from api call is lowerCase */}
@@ -79,23 +82,23 @@ export const MembersList = ({ members, onDelete, onEdit }: PageProps) => {
                 <SelectContent className="w-[300px]">
                   <SelectItem value="Owner">
                     <Text className="inline-block w-full text-left">Owner</Text>
-                    <Text className="mt-1.5 inline-block w-full text-muted-foreground">
+                    <Text className="text-muted-foreground mt-1.5 inline-block w-full">
                       Admin-level access to all resources.
                     </Text>
                   </SelectItem>
                   <SelectItem value="Contributor">
                     <Text className="inline-block w-full text-left">Contributor</Text>
-                    <Text className="mt-1.5 inline-block w-full text-muted-foreground">
+                    <Text className="text-muted-foreground mt-1.5 inline-block w-full">
                       Can view, comment, and edit resources.
                     </Text>
                   </SelectItem>
                   <SelectItem value="Reader">
                     <Text className="inline-block w-full text-left">Reader</Text>
-                    <Text className="mt-1.5 inline-block w-full text-muted-foreground">Can view and comment.</Text>
+                    <Text className="text-muted-foreground mt-1.5 inline-block w-full">Can view and comment.</Text>
                   </SelectItem>
                   <SelectItem value="Executor">
                     <Text className="inline-block w-full text-left">Executor</Text>
-                    <Text className="mt-1.5 inline-block w-full text-muted-foreground">
+                    <Text className="text-muted-foreground mt-1.5 inline-block w-full">
                       Can view but cannot make changes or leave comments.
                     </Text>
                   </SelectItem>

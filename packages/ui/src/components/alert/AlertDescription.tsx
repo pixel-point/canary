@@ -1,4 +1,5 @@
 import { forwardRef, PropsWithChildren } from 'react'
+
 import { cn } from '@utils/cn'
 
 export interface AlertDescriptionProps extends PropsWithChildren<unknown> {

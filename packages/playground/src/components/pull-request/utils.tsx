@@ -1,14 +1,18 @@
 import { useMemo } from 'react'
-import type {
+
+import type * as Diff2Html from 'diff2html'
+import HoganJsUtils from 'diff2html/lib/hoganjs-utils'
+
+import {
   CommentItem,
   EnumPullReqReviewDecision,
+  orderSortDate,
+  PRCommentFilterType,
+  PullReqReviewDecision,
   TypesPullReqActivity,
   TypesRuleViolations,
   TypesViolation
 } from './interfaces'
-import { PRCommentFilterType, PullReqReviewDecision, orderSortDate } from './interfaces'
-import type * as Diff2Html from 'diff2html'
-import HoganJsUtils from 'diff2html/lib/hoganjs-utils'
 
 export const processReviewDecision = (
   review_decision: EnumPullReqReviewDecision,

@@ -1,6 +1,8 @@
-import type { UseFormRegister, FieldErrors, UseFormWatch, UseFormSetValue } from 'react-hook-form'
-import type { z } from 'zod'
-import type { createWebhookFormSchema } from './create-webhooks-form-schema'
+import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
+
+import { z } from 'zod'
+
+import { createWebhookFormSchema } from './create-webhooks-form-schema'
 
 export enum WebhookTriggerEnum {
   PR_CREATED = 'pullreq_created',

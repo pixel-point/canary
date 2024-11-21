@@ -1,12 +1,13 @@
 import { useState } from 'react'
-import { Tabs, TabsContent, TabsList, TabsTrigger, Button, Text, ScrollArea, SearchBox, Icon } from '@harnessio/canary'
-import ConsoleLogs from './console-logs'
-import { Layout } from '../layout/layout'
-import { ExecutionStatus } from './execution-status'
+
+import { Button, Icon, ScrollArea, SearchBox, Tabs, TabsContent, TabsList, TabsTrigger, Text } from '@harnessio/canary'
+
 import { getFormattedDuration } from '../../utils/TimeUtils'
-import type { KeyValuePair } from './key-value-table'
-import { KeyValueTable } from './key-value-table'
-import type { ExecutionState, LivelogLine } from './types'
+import { Layout } from '../layout/layout'
+import ConsoleLogs from './console-logs'
+import { ExecutionStatus } from './execution-status'
+import { KeyValuePair, KeyValueTable } from './key-value-table'
+import { ExecutionState, LivelogLine } from './types'
 
 export interface StepProps {
   name?: string

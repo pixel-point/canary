@@ -1,11 +1,13 @@
-import type { SubmitHandler } from 'react-hook-form'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, ButtonGroup, Input, Spacer, Text, Icon } from '@harnessio/canary'
-import { SandboxLayout, FormFieldSet } from '..'
-import { MessageTheme } from './form-field-set'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+
+import { Button, ButtonGroup, Icon, Input, Spacer, Text } from '@harnessio/canary'
+
+import { FormFieldSet, SandboxLayout } from '..'
+import { MessageTheme } from './form-field-set'
 
 const newUserSchema = z.object({
   uid: z.string().min(1, { message: 'Please provide a user ID' }),
@@ -62,8 +64,8 @@ function SettingsCreateNewUserForm({
                 <FormFieldSet.Label htmlFor="memberName" required>
                   User ID
                 </FormFieldSet.Label>
-                <Icon name="x-mark" className="ml-3 text-tertiary-background" />
-                <Text size={1} className="ml-1 text-tertiary-background">
+                <Icon name="x-mark" className="text-tertiary-background ml-3" />
+                <Text size={1} className="text-tertiary-background ml-1">
                   User ID cannot be changed once created
                 </Text>
               </span>
@@ -123,7 +125,8 @@ function SettingsCreateNewUserForm({
                     onClick={() => {
                       navigate('../users')
                     }}
-                    disabled={isLoading}>
+                    disabled={isLoading}
+                  >
                     Cancel
                   </Button>
                 </>

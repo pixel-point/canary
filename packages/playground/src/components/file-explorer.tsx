@@ -1,6 +1,6 @@
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, cn, Icon, Text } from '@harnessio/canary'
-
 import { Link } from 'react-router-dom'
+
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, cn, Icon, Text } from '@harnessio/canary'
 
 interface ItemProps {
   children: React.ReactNode
@@ -19,15 +19,17 @@ function FolderItem({ children, key, value, isActive, content, chevronClass, lin
         className={cn('group w-full p-0', 'text-tertiary-background')}
         leftChevron
         rotateChevron
-        chevronClass={chevronClass || 'text-tertiary-background group-hover:text-primary'}>
+        chevronClass={chevronClass || 'text-tertiary-background group-hover:text-primary'}
+      >
         <div
           className={cn('flex w-full justify-start overflow-hidden transition-colors duration-200', {
             'text-primary': isActive
-          })}>
+          })}
+        >
           <div className="flex w-full items-center gap-2 py-1">
-            <Icon name="folder" size={12} className="min-w-[12px] duration-100 ease-in-out group-hover:text-primary" />
+            <Icon name="folder" size={12} className="group-hover:text-primary min-w-[12px] duration-100 ease-in-out" />
             <Link to={link}>
-              <Text as="p" size={2} className="truncate text-inherit duration-100 ease-in-out group-hover:text-primary">
+              <Text as="p" size={2} className="group-hover:text-primary truncate text-inherit duration-100 ease-in-out">
                 {children}
               </Text>
             </Link>
@@ -52,9 +54,10 @@ function FileItem({ children, key, isActive }: ItemProps) {
         {
           'text-primary': isActive
         }
-      )}>
-      <Icon name="file" size={12} className="min-w-[12px] duration-100 ease-in-out group-hover:text-primary" />
-      <Text size={2} className="truncate text-inherit duration-100 ease-in-out group-hover:text-primary">
+      )}
+    >
+      <Icon name="file" size={12} className="group-hover:text-primary min-w-[12px] duration-100 ease-in-out" />
+      <Text size={2} className="group-hover:text-primary truncate text-inherit duration-100 ease-in-out">
         {children}
       </Text>
     </div>

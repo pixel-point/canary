@@ -46,7 +46,8 @@ function Icon({ ...props }: IconProps) {
       role="button"
       tabIndex={0}
       onClick={handleClick && handleClick}
-      className="bg-background hover:bg-muted/50 flex items-center border-l px-1.5 py-0.5">
+      className="bg-background hover:bg-muted/50 flex items-center border-l px-1.5 py-0.5"
+    >
       {children}
     </div>
   )

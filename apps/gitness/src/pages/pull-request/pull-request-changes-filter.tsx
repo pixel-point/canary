@@ -1,3 +1,5 @@
+import { useEffect, useMemo, useState } from 'react'
+
 import {
   Button,
   DropdownMenu,
@@ -11,11 +13,12 @@ import {
   RadioGroupItem,
   Text
 } from '@harnessio/canary'
+import { EnumPullReqReviewDecision } from '@harnessio/code-service-client'
+
 import { approvalItems, determineOverallDecision, getApprovalItems, getApprovalStateTheme } from './diff-utils'
 import { ApprovalItem, ButtonEnum, FilterViewProps, PullReqReviewDecision } from './types/types'
-import { EnumPullReqReviewDecision } from '@harnessio/code-service-client'
 import { processReviewDecision } from './utils'
-import { useEffect, useMemo, useState } from 'react'
+
 // import { FileViewGauge } from '@harnessio/views'
 
 // const filesViewed = {
@@ -92,7 +95,8 @@ export const PullRequestChangesFilter: React.FC<FilterViewProps> = ({
         disabled={isActiveUserPROwner}
         onClick={() => {
           submitReview?.(itm.method as PullReqReviewDecision)
-        }}>
+        }}
+      >
         <RadioGroup className="flex items-start gap-2">
           <RadioGroupItem value="false" className="text-tertiary-background mt-1 h-3 w-3" />
           <div className="flex flex-col">
@@ -150,7 +154,8 @@ export const PullRequestChangesFilter: React.FC<FilterViewProps> = ({
                   <DropdownMenuGroup>{dropdownMenuItems}</DropdownMenuGroup>
                 </DropdownMenuContent>
               </DropdownMenu>
-            }>
+            }
+          >
             {approveState === PullReqReviewDecision.approve ? approvalItems[0].title : getApprovalState(approveState)}
           </Button>
         )}

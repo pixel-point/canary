@@ -1,3 +1,6 @@
+import { atom } from 'jotai'
+import { z } from 'zod'
+
 import {
   EnumPullReqReviewDecision,
   ReviewerListPullReqOkResponse,
@@ -6,8 +9,6 @@ import {
   TypesPullReqActivity,
   TypesUser
 } from '@harnessio/code-service-client'
-import { atom } from 'jotai'
-import { z } from 'zod'
 
 export enum orderSortDate {
   ASC = 'asc',

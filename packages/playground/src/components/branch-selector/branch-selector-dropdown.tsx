@@ -1,24 +1,26 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+
 import {
-  Text,
-  Icon,
   Badge,
-  SearchBox,
+  cn,
   DropdownMenuContent,
   DropdownMenuItem,
+  Icon,
+  SearchBox,
   Tabs,
   TabsList,
   TabsTrigger,
-  cn
+  Text
 } from '@harnessio/canary'
-import { Link } from 'react-router-dom'
-import type {
+
+import {
   BranchSelectorBaseItem,
   BranchSelectorBranchListProps,
   BranchSelectorBranchProps,
+  BranchSelectorTab,
   BranchSelectorTagListProps
 } from './types'
-import { BranchSelectorTab } from './types'
 
 const BRANCH_SELECTOR_LABELS = {
   [BranchSelectorTab.BRANCHES]: {
@@ -80,18 +82,21 @@ export const BranchSelectorDropdown = ({ name, branchList, tagList, selectBranch
         onValueChange={value => {
           setActiveTab(value as BranchSelectorTab)
           setSearchQuery('')
-        }}>
+        }}
+      >
         <TabsList>
           <DropdownMenuItem
             className="rounded-t-md p-0"
             onSelect={e => {
               e.preventDefault()
               setActiveTab(BranchSelectorTab.BRANCHES)
-            }}>
+            }}
+          >
             <TabsTrigger
               className="data-[state=active]:bg-background-2"
               value="branches"
-              onClick={e => e.stopPropagation()}>
+              onClick={e => e.stopPropagation()}
+            >
               Branches
             </TabsTrigger>
           </DropdownMenuItem>
@@ -100,11 +105,13 @@ export const BranchSelectorDropdown = ({ name, branchList, tagList, selectBranch
             onSelect={e => {
               e.preventDefault()
               setActiveTab(BranchSelectorTab.TAGS)
-            }}>
+            }}
+          >
             <TabsTrigger
               className="data-[state=active]:bg-background-2"
               value="tags"
-              onClick={e => e.stopPropagation()}>
+              onClick={e => e.stopPropagation()}
+            >
               Tags
             </TabsTrigger>
           </DropdownMenuItem>
@@ -114,7 +121,7 @@ export const BranchSelectorDropdown = ({ name, branchList, tagList, selectBranch
       <div className="mt-1">
         {filteredItems.length === 0 && (
           <div className="px-5 py-4 text-center">
-            <Text className="leading-tight text-foreground-2" size={2}>
+            <Text className="text-foreground-2 leading-tight" size={2}>
               Nothing to show
             </Text>
           </div>
@@ -133,21 +140,23 @@ export const BranchSelectorDropdown = ({ name, branchList, tagList, selectBranch
                   'pl-7': !isSelected
                 })}
                 onClick={() => selectBranch(item)}
-                key={item.name}>
+                key={item.name}
+              >
                 <div className="flex w-full min-w-0 items-center gap-x-2">
-                  {isSelected && <Icon name="tick" size={12} className="min-w-[12px] text-foreground-1" />}
+                  {isSelected && <Icon name="tick" size={12} className="text-foreground-1 min-w-[12px]" />}
                   <Text
                     className={cn('text-foreground-2', {
                       'text-foreground-1': isSelected
                     })}
-                    truncate>
+                    truncate
+                  >
                     {item.name}
                   </Text>
                 </div>
 
                 {isDefault && (
                   <Badge
-                    className="bg-transparent font-medium text-foreground-3"
+                    className="text-foreground-3 bg-transparent font-medium"
                     variant="outline"
                     // TODO: Review and update 'muted' theme implementation
                     // Current 'muted' theme styles don't fully match the design requirements
@@ -161,7 +170,8 @@ export const BranchSelectorDropdown = ({ name, branchList, tagList, selectBranch
                     theme="muted"
                     size="18"
                     borderRadius="full"
-                    disableHover>
+                    disableHover
+                  >
                     Default
                   </Badge>
                 )}
@@ -171,9 +181,9 @@ export const BranchSelectorDropdown = ({ name, branchList, tagList, selectBranch
         </div>
 
         <DropdownMenuItem className="p-0" asChild>
-          <div className="mt-1 border-t border-borders-4 px-3 py-2">
+          <div className="border-borders-4 mt-1 border-t px-3 py-2">
             <Link to={viewAllUrl}>
-              <Text className="leading-none text-ring transition-colors duration-200 hover:text-foreground-1">
+              <Text className="text-ring hover:text-foreground-1 leading-none transition-colors duration-200">
                 View all {activeTab === BranchSelectorTab.BRANCHES ? 'branches' : 'tags'}
               </Text>
             </Link>

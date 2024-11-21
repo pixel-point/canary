@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { DashIcon } from '@radix-ui/react-icons'
-import { OTPInput, OTPInputContext } from 'input-otp'
 
 import { cn } from '@/lib/utils'
+import { DashIcon } from '@radix-ui/react-icons'
+import { OTPInput, OTPInputContext } from 'input-otp'
 
 const InputOTP = React.forwardRef<React.ElementRef<typeof OTPInput>, React.ComponentPropsWithoutRef<typeof OTPInput>>(
   ({ className, containerClassName, ...props }, ref) => (
@@ -46,7 +46,8 @@ const InputOTPSlot = React.forwardRef<HTMLDivElement, InputOTPSlotProps>(
           isActive && 'ring-ring z-10 ring-1',
           className
         )}
-        {...props}>
+        {...props}
+      >
         {char}
         {hasFakeCaret && (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center">

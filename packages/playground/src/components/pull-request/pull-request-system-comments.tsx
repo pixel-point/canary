@@ -1,14 +1,21 @@
 import { Avatar, AvatarFallback, Button, Icon, Text } from '@harnessio/canary'
-import type { CommentItem, GeneralPayload, PayloadAuthor, TypesPullReq, TypesPullReqActivity } from './interfaces'
-import { CommentType } from './interfaces'
-import PullRequestTimelineItem from './pull-request-timeline-item'
-import { getInitials } from '../../utils/utils'
+
 import AvatarUrl from '../../../public/images/user-avatar.svg'
+import { getInitials } from '../../utils/utils'
+import {
+  CommentItem,
+  CommentType,
+  GeneralPayload,
+  PayloadAuthor,
+  TypesPullReq,
+  TypesPullReqActivity
+} from './interfaces'
+import PullRequestSystemLabelItem from './pull-request-system-label-item'
+import PullRequestSystemMergeItem from './pull-request-system-merge'
 import PullRequestSystemReviewerAddItem from './pull-request-system-reviewer-add'
 import PullRequestSystemReviewerDeleteItem from './pull-request-system-reviewer-delete'
-import PullRequestSystemMergeItem from './pull-request-system-merge'
 import PullRequestSystemTitleItem from './pull-request-system-title'
-import PullRequestSystemLabelItem from './pull-request-system-label-item'
+import PullRequestTimelineItem from './pull-request-timeline-item'
 
 interface SystemCommentProps extends TypesPullReq {
   commentItems: CommentItem<TypesPullReqActivity>[]

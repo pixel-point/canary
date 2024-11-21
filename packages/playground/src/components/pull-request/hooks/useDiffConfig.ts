@@ -1,4 +1,5 @@
 import { useReducer } from 'react'
+
 import { DiffModeEnum } from '@git-diff-view/react'
 
 type DiffConfig = {

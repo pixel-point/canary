@@ -1,9 +1,9 @@
 import * as React from 'react'
+
+import { cn } from '@/lib/utils'
 import { Cross2Icon } from '@radix-ui/react-icons'
 import * as ToastPrimitives from '@radix-ui/react-toast'
 import { cva, type VariantProps } from 'class-variance-authority'
-
-import { cn } from '@/lib/utils'
 
 const ToastProvider = ToastPrimitives.Provider
 
@@ -71,7 +71,8 @@ const ToastClose = React.forwardRef<
       className
     )}
     toast-close=""
-    {...props}>
+    {...props}
+  >
     <Cross2Icon className="size-4" />
   </ToastPrimitives.Close>
 ))

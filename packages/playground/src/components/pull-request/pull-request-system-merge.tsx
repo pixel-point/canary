@@ -1,8 +1,8 @@
-import PullRequestTimelineItem from './pull-request-timeline-item'
 import { Avatar, AvatarFallback, Button, Icon, Text } from '@harnessio/canary'
+
 import { getInitials } from '../../utils/utils'
-import type { GeneralPayload, PayloadAuthor, TypesPullReq, TypesPullReqActivity } from './interfaces'
-import { MergeStrategy } from './interfaces'
+import { GeneralPayload, MergeStrategy, PayloadAuthor, TypesPullReq, TypesPullReqActivity } from './interfaces'
+import PullRequestTimelineItem from './pull-request-timeline-item'
 
 interface PullRequestSystemMergeItemProps {
   payload: TypesPullReqActivity | undefined

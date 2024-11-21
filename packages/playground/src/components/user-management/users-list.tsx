@@ -1,15 +1,7 @@
 import {
-  Icon,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-  Text,
   Avatar,
-  AvatarImage,
   AvatarFallback,
+  AvatarImage,
   Badge,
   Button,
   DropdownMenu,
@@ -18,8 +10,17 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
+  Icon,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Text
 } from '@harnessio/canary'
+
 import { getInitials, timeAgo } from '../../utils/utils'
 import type { UsersProps } from './interfaces'
 
@@ -44,14 +45,16 @@ export const UsersList = ({ users, onDelete, onEdit, onRemoveAdmin, onResetPassw
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          className="w-[180px] rounded-[10px] border border-gray-800 bg-primary-background py-2 shadow-sm"
-          onCloseAutoFocus={event => event.preventDefault()}>
+          className="bg-primary-background w-[180px] rounded-[10px] border border-gray-800 py-2 shadow-sm"
+          onCloseAutoFocus={event => event.preventDefault()}
+        >
           <DropdownMenuGroup>
             <DropdownMenuItem
               className="cursor-pointer"
               onSelect={() => {
                 return user.admin ? onRemoveAdmin(user) : onSetAdmin(user)
-              }}>
+              }}
+            >
               <DropdownMenuShortcut className="ml-0">
                 <Icon name="trash" className="mr-2" />
               </DropdownMenuShortcut>
@@ -61,7 +64,8 @@ export const UsersList = ({ users, onDelete, onEdit, onRemoveAdmin, onResetPassw
               className="cursor-pointer"
               onSelect={() => {
                 onResetPassword(user)
-              }}>
+              }}
+            >
               <DropdownMenuShortcut className="ml-0">
                 <Icon name="cog-6" className="mr-2" />
               </DropdownMenuShortcut>
@@ -71,7 +75,8 @@ export const UsersList = ({ users, onDelete, onEdit, onRemoveAdmin, onResetPassw
               className="cursor-pointer"
               onSelect={() => {
                 onEdit(user)
-              }}>
+              }}
+            >
               <DropdownMenuShortcut className="ml-0">
                 <Icon name="edit-pen" className="mr-2" />
               </DropdownMenuShortcut>
@@ -82,7 +87,8 @@ export const UsersList = ({ users, onDelete, onEdit, onRemoveAdmin, onResetPassw
               className="cursor-pointer text-red-400 hover:text-red-400 focus:text-red-400"
               onSelect={() => {
                 onDelete(user)
-              }}>
+              }}
+            >
               <DropdownMenuShortcut className="ml-0">
                 <Icon name="trash" className="mr-2 text-red-400" />
               </DropdownMenuShortcut>
@@ -101,7 +107,7 @@ export const UsersList = ({ users, onDelete, onEdit, onRemoveAdmin, onResetPassw
           <TableHead className="text-primary">Name</TableHead>
           <TableHead className="text-primary">Email</TableHead>
           <TableHead className="text-primary">Display Name</TableHead>
-          <TableHead className="text-right text-primary">Date added</TableHead>
+          <TableHead className="text-primary text-right">Date added</TableHead>
           <TableHead>
             <></>
           </TableHead>
@@ -125,7 +131,8 @@ export const UsersList = ({ users, onDelete, onEdit, onRemoveAdmin, onResetPassw
                         <Badge
                           variant="outline"
                           size="xs"
-                          className="m-auto ml-2 h-5 rounded-full bg-tertiary-background/10 p-2 text-center text-xs font-normal text-tertiary-background">
+                          className="bg-tertiary-background/10 text-tertiary-background m-auto ml-2 h-5 rounded-full p-2 text-center text-xs font-normal"
+                        >
                           Admin
                         </Badge>
                       )}

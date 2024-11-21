@@ -1,27 +1,29 @@
-import { useReducer, useEffect } from 'react'
-import { Button, ButtonGroup, useZodForm, Spacer, Text } from '@harnessio/canary'
-import type { SubmitHandler } from 'react-hook-form'
-import {
-  BranchSettingsRuleToggleField,
-  BranchSettingsRuleNameField,
-  BranchSettingsRuleDescriptionField,
-  BranchSettingsRuleTargetPatternsField,
-  BranchSettingsRuleDefaultBranchField,
-  BranchSettingsRuleBypassListField,
-  BranchSettingsRuleEditPermissionsField,
-  BranchSettingsRuleListField
-} from './repo-settings/repo-branch-settings-rules/repo-branch-settings-rules-fields'
-import { branchSettingsReducer } from './repo-settings/repo-branch-settings-rules/reducers/repo-branch-settings-reducer'
-import { FormFieldSet } from '../index'
-import { branchRules } from './repo-settings/repo-branch-settings-rules/repo-branch-settings-rules-data'
-import { repoBranchSettingsFormSchema } from './repo-settings/repo-branch-settings-rules/repo-branch-settings-rules-schema'
-import type {
-  RepoBranchSettingsFormFields,
-  BypassUsersList,
-  MergeStrategy
-} from './repo-settings/repo-branch-settings-rules/types'
-import { BranchRulesActionType } from './repo-settings/repo-branch-settings-rules/types'
+import { useEffect, useReducer } from 'react'
+import { SubmitHandler } from 'react-hook-form'
 import { NavLink } from 'react-router-dom'
+
+import { Button, ButtonGroup, Spacer, Text, useZodForm } from '@harnessio/canary'
+
+import { FormFieldSet } from '../index'
+import { branchSettingsReducer } from './repo-settings/repo-branch-settings-rules/reducers/repo-branch-settings-reducer'
+import { branchRules } from './repo-settings/repo-branch-settings-rules/repo-branch-settings-rules-data'
+import {
+  BranchSettingsRuleBypassListField,
+  BranchSettingsRuleDefaultBranchField,
+  BranchSettingsRuleDescriptionField,
+  BranchSettingsRuleEditPermissionsField,
+  BranchSettingsRuleListField,
+  BranchSettingsRuleNameField,
+  BranchSettingsRuleTargetPatternsField,
+  BranchSettingsRuleToggleField
+} from './repo-settings/repo-branch-settings-rules/repo-branch-settings-rules-fields'
+import { repoBranchSettingsFormSchema } from './repo-settings/repo-branch-settings-rules/repo-branch-settings-rules-schema'
+import {
+  BranchRulesActionType,
+  type BypassUsersList,
+  type MergeStrategy,
+  type RepoBranchSettingsFormFields
+} from './repo-settings/repo-branch-settings-rules/types'
 
 type BranchSettingsErrors = {
   principals: string | null

@@ -1,7 +1,8 @@
 import * as React from 'react'
+
 import * as TabsPrimitive from '@radix-ui/react-tabs'
-import type { VariantProps } from 'class-variance-authority'
-import { cva } from 'class-variance-authority'
+import { cva, type VariantProps } from 'class-variance-authority'
+
 import { cn } from '../lib/utils'
 
 const tabsListVariants = cva('inline-flex items-center text-muted-foreground', {

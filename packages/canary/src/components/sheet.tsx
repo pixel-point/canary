@@ -1,10 +1,10 @@
 import * as React from 'react'
-import * as SheetPrimitive from '@radix-ui/react-dialog'
-import { cva, type VariantProps } from 'class-variance-authority'
 
-import { cn } from '@/lib/utils'
-import { Icon } from '@/components/icon'
 import { Button } from '@/components/button'
+import { Icon } from '@/components/icon'
+import { cn } from '@/lib/utils'
+import * as SheetPrimitive from '@radix-ui/react-dialog'
+import { cva, VariantProps } from 'class-variance-authority'
 
 const Sheet = SheetPrimitive.Root
 
@@ -88,17 +88,14 @@ const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Con
     ref
   ) => (
     <SheetPortal>
-      <SheetOverlay
-        modal={modal}
-        className={overlayClassName}
-        handleClose={handleClose || props.onClick}
-      />
+      <SheetOverlay modal={modal} className={overlayClassName} handleClose={handleClose || props.onClick} />
       <SheetPrimitive.Content ref={ref} className={cn(sheetVariants({ side }), className)} {...props}>
         {children}
         {!hideCloseButton && (
           <SheetPrimitive.Close
             asChild
-            className="absolute right-[0.1875rem] top-2 flex items-center justify-center transition-colors disabled:pointer-events-none">
+            className="absolute right-[0.1875rem] top-2 flex items-center justify-center transition-colors disabled:pointer-events-none"
+          >
             <Button className="text-icons-4 hover:text-icons-2" variant="custom" size="icon" onClick={() => handleClose?.()}>
               <Icon name="close" size={16} />
               <span className="sr-only">Close</span>

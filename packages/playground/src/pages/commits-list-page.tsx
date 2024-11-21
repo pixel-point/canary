@@ -1,16 +1,18 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
+
+import { noop } from 'lodash-es'
+
+import { ListActions, Spacer, Text } from '@harnessio/canary'
+
+import { BranchSelector } from '../components/branch-chooser'
 import CommitsList from '../components/commits-list'
 import { SkeletonList } from '../components/loaders/skeleton-list'
 import { NoData } from '../components/no-data'
-import PlaygroundCommitsSettings from '../settings/commits-settings'
-import { PaddingListLayout } from '../layouts/PaddingListLayout'
 import { PaginationComponent } from '../components/pagination'
-
-import { ListActions, Spacer, Text } from '@harnessio/canary'
-import { BranchSelector } from '../components/branch-selector/branch-selector'
 import { mockRepos } from '../data/mockReposData'
-import { Link } from 'react-router-dom'
-import { noop } from 'lodash-es'
+import { PaddingListLayout } from '../layouts/PaddingListLayout'
+import PlaygroundCommitsSettings from '../settings/commits-settings'
 
 const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
 const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]

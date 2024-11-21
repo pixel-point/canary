@@ -1,8 +1,10 @@
-import { noop } from 'lodash-es'
 import { Outlet } from 'react-router-dom'
+
+import { noop } from 'lodash-es'
+
+import { SandboxLayout } from '..'
 import { TopBarWidget } from '../components/layout/top-bar-widget'
 import { mockProjects } from '../data/mockProjects'
-import { SandboxLayout } from '..'
 
 const SandboxRepo: React.FC = () => {
   return (

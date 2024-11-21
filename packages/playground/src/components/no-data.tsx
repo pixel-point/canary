@@ -1,6 +1,6 @@
-import type { IconProps } from '@harnessio/canary'
-import { Icon, Text, Button, cn } from '@harnessio/canary'
 import { NavLink } from 'react-router-dom'
+
+import { Button, cn, Icon, IconProps, Text } from '@harnessio/canary'
 
 export interface NoDataProps {
   title: string
@@ -44,7 +44,8 @@ export const NoData: React.FC<NoDataProps> = ({
     <div
       className={cn('flex h-full w-full flex-col place-content-center place-items-center gap-4', {
         'py-20 pb-24': insideTabView
-      })}>
+      })}
+    >
       {iconName && <Icon name={iconName as IconProps['name']} size={iconSize} />}
       <div className="flex flex-col place-content-center place-items-center gap-2.5">
         <Text size={5} weight="medium">

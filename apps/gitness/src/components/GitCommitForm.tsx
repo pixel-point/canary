@@ -1,3 +1,7 @@
+import { UseFormReturn } from 'react-hook-form'
+
+import { z } from 'zod'
+
 import {
   Button,
   Form,
@@ -15,12 +19,11 @@ import {
   Textarea,
   useZodForm
 } from '@harnessio/canary'
-import { z } from 'zod'
-import { GitCommitFormType } from '../types'
-import { FormFieldSet, Layout } from '@harnessio/views'
 import { UsererrorError } from '@harnessio/code-service-client'
+import { FormFieldSet, Layout } from '@harnessio/views'
+
 import { useRuleViolationCheck } from '../framework/hooks/useRuleViolationCheck'
-import { UseFormReturn } from 'react-hook-form'
+import { GitCommitFormType } from '../types'
 
 interface GitCommitFormProps {
   onCancel: () => void
@@ -151,7 +154,8 @@ export function GitCommitForm({
                 onValueChange={value => {
                   dryRun(value as CommitToGitRefOption, form.getValues().fileName)
                   field.onChange(value)
-                }}>
+                }}
+              >
                 <FormFieldSet.Option
                   control={<RadioGroupItem value={CommitToGitRefOption.DIRECTLY} id="directly" />}
                   id="directly"

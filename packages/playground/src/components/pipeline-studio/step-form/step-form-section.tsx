@@ -8,15 +8,15 @@ const StepFormSection = {
   },
 
   Title: function Title({ children }: { children: React.ReactNode }) {
-    return <div className="my-3 text-lg text-accent-foreground">{children}</div>
+    return <div className="text-accent-foreground my-3 text-lg">{children}</div>
   },
 
-  Description: function Title({ children }: { children: React.ReactNode }) {
-    return <div className="mt-3 text-muted-foreground">{children}</div>
+  Description: function Description({ children }: { children: React.ReactNode }) {
+    return <div className="text-muted-foreground mt-3">{children}</div>
   },
 
-  Form: function Title({ children }: { children: React.ReactNode }) {
-    return <div className="mb-4 px-4">{children}</div>
+  Form: function Form({ children }: { children: React.ReactNode }) {
+    return <div className="p-4">{children}</div>
   }
 }
 

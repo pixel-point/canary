@@ -1,37 +1,39 @@
-import { useState, useEffect } from 'react'
-import { RepoList } from '../components/repo-list'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+
+import { formatDistanceToNow } from 'date-fns'
+
 import {
-  Text,
-  Spacer,
+  Button,
   ListActions,
   ListPagination,
-  Button,
-  SearchBox,
   Pagination,
   PaginationContent,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationLink,
   PaginationEllipsis,
-  PaginationNext
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+  SearchBox,
+  Spacer,
+  Text
 } from '@harnessio/canary'
-import { Link } from 'react-router-dom'
+
+import {
+  FilterCondition,
+  FilterOption,
+  Filters,
+  FiltersBar,
+  FilterValue,
+  SortDirection,
+  SortOption,
+  SortValue
+} from '../components/filters'
+import useFilters from '../components/filters/use-filters'
+import { RepoList } from '../components/repo-list'
 import { mockRepos } from '../data/mockReposData'
 import { SandboxLayout } from '../index'
 import { PlaygroundSandboxLayoutSettings } from '../settings/sandbox-settings'
-import {
-  Filters,
-  FiltersBar,
-  type FilterCondition,
-  type FilterOption,
-  type SortDirection,
-  type SortOption,
-  type FilterValue,
-  type SortValue
-} from '../components/filters'
-
-import useFilters from '../components/filters/use-filters'
-import { formatDistanceToNow } from 'date-fns'
 
 export const BASIC_CONDITIONS: FilterCondition[] = [
   { label: 'is', value: 'is' },
@@ -470,7 +472,8 @@ function SandboxRepoListPage() {
         hasHeader
         hasLeftPanel
         hasLeftSubPanel={loadState.includes('sub')}
-        fullWidth={loadState.includes('full')}>
+        fullWidth={loadState.includes('full')}
+      >
         <SandboxLayout.Content>
           <Spacer size={10} />
           <Text size={5} weight={'medium'}>

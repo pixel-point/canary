@@ -15,11 +15,13 @@
  */
 
 import { useMemo } from 'react'
+
 import { Badge, Button, Icon, Text } from '@harnessio/canary'
-import { Layout } from '../layout/layout'
-import { getPrState } from './utils'
-import type { IconType } from './interfaces'
+
 import { timeAgo } from '../../utils/utils'
+import { Layout } from '../layout/layout'
+import { IconType } from './interfaces'
+import { getPrState } from './utils'
 
 interface PullRequestTitleProps {
   data: {
@@ -51,11 +53,11 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
         <Text size={5} weight={'medium'} className="text-primary">
           {original}
           &nbsp;&nbsp;
-          <span className="font-normal text-tertiary-background">#{number}</span>
+          <span className="text-tertiary-background font-normal">#{number}</span>
         </Text>
       </div>
       <div className="">
-        <div className="flex space-x-2 text-tertiary-background">
+        <div className="text-tertiary-background flex space-x-2">
           <div className="flex items-center gap-2.5 text-center align-middle">
             <Badge disableHover borderRadius="full" theme={stateObject.theme} className={`select-none justify-center`}>
               <Layout.Horizontal gap="space-x-1" className="flex items-center align-middle">
@@ -66,8 +68,9 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
             <div className="flex gap-2">
               <Text
                 size={2}
-                className="inline-flex flex-wrap items-center gap-1 text-tertiary-background"
-                weight="normal">
+                className="text-tertiary-background inline-flex flex-wrap items-center gap-1"
+                weight="normal"
+              >
                 <span className="text-primary">{author?.display_name || author?.email || ''}</span>
                 <span>{merged ? 'merged' : ' wants to merge'}</span>
                 <span className="text-primary">
@@ -75,12 +78,12 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
                 </span>
                 <span>into</span>
                 <Button variant="secondary" size="xs">
-                  <Icon name="branch" size={12} className="mr-1 text-tertiary-background" />
+                  <Icon name="branch" size={12} className="text-tertiary-background mr-1" />
                   {target_branch}
                 </Button>
                 <span>from</span>
                 <Button variant="secondary" size="xs">
-                  <Icon name="branch" size={12} className="mr-1 text-tertiary-background" />
+                  <Icon name="branch" size={12} className="text-tertiary-background mr-1" />
                   {source_branch}
                 </Button>
                 <span>&nbsp;|&nbsp;</span>

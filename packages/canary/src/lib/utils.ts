@@ -1,5 +1,6 @@
-import { type ClassValue, clsx } from 'clsx'
+import { clsx, type ClassValue } from 'clsx'
 import { createTailwindMerge, getDefaultConfig, mergeConfigs } from 'tailwind-merge'
+
 import tailwindConfig from '../../configs/tailwind'
 
 const customTwMerge = createTailwindMerge(getDefaultConfig, config =>

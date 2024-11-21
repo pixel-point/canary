@@ -1,28 +1,30 @@
+import { SubmitHandler, useForm } from 'react-hook-form'
+
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+
 import {
   AlertDialog,
+  AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogFooter,
-  AlertDialogCancel,
-  AlertDialogDescription,
-  Select,
   Button,
-  SelectTrigger,
-  SelectContent,
-  SelectValue,
-  SelectItem,
-  Input,
-  Spacer,
+  ButtonGroup,
   Icon,
-  ButtonGroup
+  Input,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Spacer
 } from '@harnessio/canary'
-import { z } from 'zod'
-import type { SubmitHandler } from 'react-hook-form'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
+
 import { FormFieldSet, MessageTheme } from '../..'
-import type { FormEditDialogProps } from './interfaces'
+import { FormEditDialogProps } from './interfaces'
 
 export const FormEditMemberDialog: React.FC<FormEditDialogProps> = ({
   member,
@@ -93,7 +95,8 @@ export const FormEditMemberDialog: React.FC<FormEditDialogProps> = ({
               <Select
                 {...register('role', { required: 'Please select a role' })}
                 value={newMemberRoleValue}
-                onValueChange={value => setValue('role', value, { shouldValidate: true, shouldDirty: true })}>
+                onValueChange={value => setValue('role', value, { shouldValidate: true, shouldDirty: true })}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select Role" />
                 </SelectTrigger>
@@ -129,7 +132,8 @@ export const FormEditMemberDialog: React.FC<FormEditDialogProps> = ({
                       type="button"
                       size="sm"
                       theme="success"
-                      className="pointer-events-none flex h-9 gap-2">
+                      className="pointer-events-none flex h-9 gap-2"
+                    >
                       Saved
                       <Icon name="tick" size={14} />
                     </Button>

@@ -504,3 +504,16 @@ export interface TypesRuleInfo {
   type?: string
 }
 export type EnumRuleState = 'active' | 'disabled' | 'monitor' | null
+
+export interface ReviewerItemProps {
+  reviewer?: { display_name?: string; id?: number }
+  reviewDecision?: EnumPullReqReviewDecision
+  sha?: string
+  sourceSHA?: string
+  processReviewDecision: (
+    review_decision: EnumPullReqReviewDecision,
+    reviewedSHA?: string,
+    sourceSHA?: string
+  ) => EnumPullReqReviewDecision | PullReqReviewDecision.outdated
+  handleDelete: (id: number) => void
+}

@@ -1,10 +1,19 @@
 import { useCallback } from 'react'
-import type { InputProps, AnyFormikValue, IInputDefinition } from '@harnessio/forms'
-import { Controller, useFieldArray, InputComponent, RenderInputs } from '@harnessio/forms'
+
 import { Button, FormField, FormItem, Icon } from '@harnessio/canary'
+import {
+  AnyFormikValue,
+  Controller,
+  IInputDefinition,
+  InputComponent,
+  InputProps,
+  RenderInputs,
+  useFieldArray
+} from '@harnessio/forms'
+
+import { InputError } from './common/InputError'
 import InputLabel from './common/InputLabel'
 import InputWrapper from './common/InputWrapper'
-import { InputError } from './common/InputError'
 import { InputType } from './types'
 
 export type UIInputWithConfigsForList<T = unknown> = Omit<IInputDefinition<T>, 'path'> & {
@@ -90,7 +99,8 @@ function ListInputInternal(props: InputProps<AnyFormikValue, ListInputConfig>): 
                             onClick={() => {
                               remove(idx)
                             }}
-                            disabled={readonly}>
+                            disabled={readonly}
+                          >
                             <Icon name="trash" />
                           </button>
                         </div>

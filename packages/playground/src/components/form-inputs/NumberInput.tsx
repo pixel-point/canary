@@ -1,10 +1,10 @@
 import { FormControl, FormField, FormItem, Input } from '@harnessio/canary'
-import { InputType } from './types'
-import { InputComponent } from '@harnessio/forms'
-import type { AnyFormikValue, InputProps } from '@harnessio/forms'
+import { AnyFormikValue, InputComponent, InputProps } from '@harnessio/forms'
+
+import { InputError } from './common/InputError'
 import InputLabel from './common/InputLabel'
 import InputWrapper from './common/InputWrapper'
-import { InputError } from './common/InputError'
+import { InputType } from './types'
 
 export interface NumberInputConfig {
   inputType: InputType.number

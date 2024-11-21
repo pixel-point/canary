@@ -1,5 +1,6 @@
 import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+
 import {
   BreadcrumbItem,
   BreadcrumbLink,
@@ -14,23 +15,24 @@ import {
   ToggleGroup,
   ToggleGroupItem
 } from '@harnessio/canary'
-import { SandboxLayout } from '@harnessio/views'
 import { useFindRepositoryQuery, useGetContentQuery } from '@harnessio/code-service-client'
+import { SandboxLayout } from '@harnessio/views'
+import { CodeDiffEditor, CodeEditor } from '@harnessio/yaml-editor'
+
 import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
+import { themes } from '../pages/pipeline-edit/theme/monaco-theme'
+import { PathParams } from '../RouteDefinitions'
 import {
   decodeGitContent,
-  filenameToLanguage,
-  normalizeGitRef,
-  GitCommitAction,
   FILE_SEPERATOR,
+  filenameToLanguage,
+  GitCommitAction,
+  normalizeGitRef,
   PLAIN_TEXT
 } from '../utils/git-utils'
-import { PathParams } from '../RouteDefinitions'
 import { PathParts, splitPathWithParents } from '../utils/path-utils'
-import { CodeDiffEditor, CodeEditor } from '@harnessio/yaml-editor'
-import { themes } from '../pages/pipeline-edit/theme/monaco-theme'
-import GitCommitDialog from './GitCommitDialog'
 import { ExitConfirmDialog } from './ExitConfirmDialog'
+import GitCommitDialog from './GitCommitDialog'
 
 export type ViewTypeValue = 'contents' | 'changes'
 
@@ -198,7 +200,8 @@ export const FileEditor: React.FC = () => {
                               color="tertiaryBackground"
                               className={cn('hover:text-foreground', {
                                 'text-primary': index === pathParts?.length - 1
-                              })}>
+                              })}
+                            >
                               {path.path}
                             </Text>
                           </Link>
@@ -243,7 +246,8 @@ export const FileEditor: React.FC = () => {
                 size="sm"
                 onClick={() => {
                   handleCancelFileEdit()
-                }}>
+                }}
+              >
                 Cancel
               </Button>
             </ListActions.Right>
@@ -260,15 +264,18 @@ export const FileEditor: React.FC = () => {
                 value={view}
                 type="single"
                 unselectable={'on'}
-                className={'bg-primary-foreground border-primary/10 rounded-lg border p-0.5'}>
+                className={'bg-primary-foreground border-primary/10 rounded-lg border p-0.5'}
+              >
                 <ToggleGroupItem
                   value={'contents'}
-                  className="data-[state=on]:border-primary/10 h-7 rounded-md border border-transparent text-xs font-medium disabled:opacity-100">
+                  className="data-[state=on]:border-primary/10 h-7 rounded-md border border-transparent text-xs font-medium disabled:opacity-100"
+                >
                   Contents
                 </ToggleGroupItem>
                 <ToggleGroupItem
                   value={'changes'}
-                  className="data-[state=on]:border-primary/10 h-7 rounded-md border border-transparent text-xs font-medium disabled:opacity-100">
+                  className="data-[state=on]:border-primary/10 h-7 rounded-md border border-transparent text-xs font-medium disabled:opacity-100"
+                >
                   Changes
                 </ToggleGroupItem>
               </ToggleGroup>

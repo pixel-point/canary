@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
+
 import cx from 'classnames'
-import { Button, Text, Icon } from '@harnessio/canary'
-import type { StepProps } from './step-execution'
-import { StepExecution } from './step-execution'
+
+import { Button, Icon, Text } from '@harnessio/canary'
+
 import { Layout } from '../layout/layout'
-import type { LivelogLine } from './types'
+import { StepExecution, StepProps } from './step-execution'
+import { LivelogLine } from './types'
 
 export interface StageProps {
   name?: string
@@ -48,7 +50,8 @@ const StepNavigation: React.FC<StepNavigationProps> = ({
           'bg-secondary h-4 w-4 rounded-sm p-2',
           { ['cursor-pointer']: !disableUp },
           { ['cursor-not-allowed']: disableUp }
-        )}>
+        )}
+      >
         <div>
           <Icon name="x-mark" />
         </div>
@@ -63,7 +66,8 @@ const StepNavigation: React.FC<StepNavigationProps> = ({
           'bg-secondary h-4 w-4 rounded-sm p-2',
           { ['cursor-pointer']: !disableDown },
           { ['cursor-not-allowed']: disableDown }
-        )}>
+        )}
+      >
         <div>
           <Icon name="x-mark" />
         </div>
@@ -122,9 +126,9 @@ export const StageExecution: React.FC<StageExecutionProps> = ({
       <Layout.Vertical gap="space-y-2" className="grow p-4">
         {stage?.group ? (
           <Layout.Horizontal gap="space-x-1" className="flex items-center">
-            <Text className="text-sm text-stage">{stage.group}</Text>
+            <Text className="text-stage text-sm">{stage.group}</Text>
             <Icon name="x-mark" />
-            <Text className="text-sm text-ring">{stage.name}</Text>
+            <Text className="text-ring text-sm">{stage.name}</Text>
           </Layout.Horizontal>
         ) : (
           <Text>{stage.name}</Text>

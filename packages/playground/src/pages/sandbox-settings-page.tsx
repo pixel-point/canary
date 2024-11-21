@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
+
 import { Section, Spacer, SpotlightsBox, Text } from '@harnessio/canary'
+
 import { SandboxLayout } from '..'
 import { PlaygroundSandboxLayoutSettings } from '../settings/sandbox-settings'
-import { Link } from 'react-router-dom'
 
 function SandboxSettingsPage() {
   const [loadState, setLoadState] = useState('sub-float')
@@ -24,7 +26,8 @@ function SandboxSettingsPage() {
                     logo={'harness'}
                     logoSize={64}
                     highlightTop={'#262930'}
-                    highlightBottom={'#262930'}>
+                    highlightBottom={'#262930'}
+                  >
                     <SpotlightsBox.Content>
                       <Text size={3}>Account</Text>
                     </SpotlightsBox.Content>
@@ -35,7 +38,8 @@ function SandboxSettingsPage() {
                     logo={'harness'}
                     logoSize={64}
                     highlightTop={'#262930'}
-                    highlightBottom={'#262930'}>
+                    highlightBottom={'#262930'}
+                  >
                     <SpotlightsBox.Content>
                       <Text size={3}>Project</Text>
                     </SpotlightsBox.Content>

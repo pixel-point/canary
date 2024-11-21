@@ -1,5 +1,6 @@
-import type { IFormDefinition, IInputDefinition } from '@harnessio/forms'
-import type { InputConfigType } from '../form-inputs/types'
+import { IFormDefinition, IInputDefinition } from '@harnessio/forms'
+
+import { InputConfigType } from '../form-inputs/types'
 
 // type for form definition
 export type IInputConfigWithConfig = IInputDefinition & InputConfigType

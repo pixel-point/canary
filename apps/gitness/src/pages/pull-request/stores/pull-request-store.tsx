@@ -1,8 +1,11 @@
-import { create } from 'zustand'
 import { produce } from 'immer'
-import { mergePullReqOp, commentStatusPullReq as apiCommentStatusPullReq } from '@harnessio/code-service-client'
-import { CodeCommentState, PullRequestState } from '../types/types'
+import { create } from 'zustand'
+
+import { commentStatusPullReq as apiCommentStatusPullReq, mergePullReqOp } from '@harnessio/code-service-client'
 import { PullRequestDataState } from '@harnessio/views'
+
+import { CodeCommentState, PullRequestState } from '../types/types'
+
 export const codeOwnersNotFoundMessage = 'CODEOWNERS file not found'
 export const codeOwnersNotFoundMessage2 = `path "CODEOWNERS" not found`
 export const codeOwnersNotFoundMessage3 = `failed to find node 'CODEOWNERS' in 'main': failed to get tree node: failed to ls file: path "CODEOWNERS" not found`
@@ -77,7 +80,7 @@ export const usePullRequestDataStore = create<PullRequestDataState>((set, get) =
         .then(({ body: res }) => {
           set(
             produce(draft => {
-              if (res?.rule_violations?.length && res?.rule_violations?.length > 0) {
+              if (res?.rule_violations?.length) {
                 draft.prPanelData = {
                   ruleViolation: true,
                   ruleViolationArr: { data: { rule_violations: res.rule_violations } },
@@ -144,9 +147,9 @@ export const usePullRequestDataStore = create<PullRequestDataState>((set, get) =
               } else if (err.status === 400) {
                 refetchPullReq()
               } else if (
-                err.message === codeOwnersNotFoundMessage ||
-                err.message === codeOwnersNotFoundMessage2 ||
-                err.message === codeOwnersNotFoundMessage3 ||
+                [codeOwnersNotFoundMessage, codeOwnersNotFoundMessage2, codeOwnersNotFoundMessage3].includes(
+                  err.message
+                ) ||
                 err.status === 423 // resource locked (merge / dry-run already ongoing)
               ) {
                 return
@@ -178,7 +181,7 @@ export const usePullRequestDataStore = create<PullRequestDataState>((set, get) =
     reqCodeOwnerLatestApproval: false,
     minReqLatestApproval: 0,
     resolvedCommentArr: undefined,
-    PRStateLoading: false,
+    PRStateLoading: true,
     ruleViolation: false,
     commentsLoading: false,
     commentsInfoData: {

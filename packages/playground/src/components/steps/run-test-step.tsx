@@ -1,17 +1,16 @@
-import type { IFormDefinition } from '@harnessio/forms'
 import {
   arrayToObjectOutputTransformer,
+  IFormDefinition,
   objectToArrayInputTransformer,
   shorthandObjectInputTransformer,
   shorthandObjectOutputTransformer,
   unsetEmptyArrayOutputTransformer,
   unsetEmptyStringOutputTransformer
 } from '@harnessio/forms'
-import type { InputConfigType } from '../form-inputs/types'
-import { InputType } from '../form-inputs/types'
-import type { IInputConfigWithConfig } from './types'
-import { RUN_TEST_STEP_IDENTIFIER } from './types'
+
+import { InputConfigType, InputType } from '../form-inputs/types'
 import { getContainerPartial } from './partials/container-partial'
+import { RUN_TEST_STEP_IDENTIFIER, type IInputConfigWithConfig } from './types'
 
 export const RUN_TEST_STEP_DESCRIPTION = 'Run test step description.'
 

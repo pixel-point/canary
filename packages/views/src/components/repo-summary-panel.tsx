@@ -1,14 +1,14 @@
 import {
-  Text,
-  Icon,
-  Spacer,
   Badge,
   Button,
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-  IconProps
+  DropdownMenuTrigger,
+  Icon,
+  IconProps,
+  Spacer,
+  Text
 } from '@harnessio/canary'
 
 interface DetailsProps {

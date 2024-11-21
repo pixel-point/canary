@@ -1,28 +1,34 @@
 import { useEffect, useRef, useState } from 'react'
-import { BranchSelector, Layout, NoData, PullRequestCommits, SandboxLayout } from '..'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+
+import { DiffModeEnum } from '@git-diff-view/react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
   Button,
+  Icon,
+  Spacer,
   StackedList,
   Tabs,
   TabsContent,
-  TabsList
+  TabsList,
+  Text
 } from '@harnessio/canary'
-import { Icon, Spacer, Text } from '@harnessio/canary'
-import { z } from 'zod'
-import PullRequestCompareForm from '../components/pull-request/pull-request-compare-form'
-import TabTriggerItem from '../components/TabsTriggerItem'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import PullRequestCompareButton from '../components/pull-request/pull-request-compare-button'
-import { TypesCommit } from '../components/pull-request/interfaces'
-import PullRequestDiffViewer from '../components/pull-request/pull-request-diff-viewer'
-import { DiffModeEnum } from '@git-diff-view/react'
-import { parseStartingLineIfOne } from '../components/pull-request/utils'
+
+import { BranchSelector, Layout, NoData, PullRequestCommits, SandboxLayout } from '..'
 import { useDiffConfig } from '../components/pull-request/hooks/useDiffConfig'
+import { TypesCommit } from '../components/pull-request/interfaces'
+import PullRequestCompareButton from '../components/pull-request/pull-request-compare-button'
+import PullRequestCompareForm from '../components/pull-request/pull-request-compare-form'
+import PullRequestDiffViewer from '../components/pull-request/pull-request-diff-viewer'
+import { parseStartingLineIfOne } from '../components/pull-request/utils'
+import TabTriggerItem from '../components/TabsTriggerItem'
 import { TypesDiffStats } from './types'
 
 export const formSchema = z.object({
@@ -49,6 +55,7 @@ interface SandboxPullRequestCompareProps {
   diffStats: TypesDiffStats
   isBranchSelected: boolean
   setIsBranchSelected: (val: boolean) => void
+  prBranchCombinationExists: number | null
 }
 
 const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
@@ -67,10 +74,12 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
   diffData,
   diffStats,
   setIsBranchSelected,
-  isBranchSelected
+  isBranchSelected,
+  prBranchCombinationExists
 }) => {
   const formRef = useRef<HTMLFormElement>(null) // Create a ref for the form
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -202,6 +211,25 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
             onFormSubmit={onFormSubmit}
           />
         </Layout.Horizontal>
+        {prBranchCombinationExists && (
+          <>
+            <Spacer size={3} />
+            <Layout.Horizontal className="bg-background border-border items-center justify-between rounded-md border-2 px-3 py-3">
+              <div>
+                <Layout.Horizontal className="py-2">
+                  <>
+                    <Text size={1}>PR for this combination of branches already exists.</Text>
+                  </>
+                </Layout.Horizontal>
+              </div>
+              {/* <ButtonGroup.Root> */}
+              <Button onClick={() => navigate(`../${prBranchCombinationExists}/conversation`)}>
+                View Pull Request
+              </Button>
+              {/* </ButtonGroup.Root> */}
+            </Layout.Horizontal>
+          </>
+        )}
         <Spacer size={10} />
         {isBranchSelected ? (
           <Layout.Vertical>
@@ -233,9 +261,8 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
                 {/* Content for Changes */}
                 <Spacer size={5} />
                 <Text
-                  size={
-                    2
-                  }>{`Showing ${diffStats.files_changed || 0} changed files with ${diffStats.additions || 0} additions and ${diffStats.deletions || 0} deletions `}</Text>
+                  size={2}
+                >{`Showing ${diffStats.files_changed || 0} changed files with ${diffStats.additions || 0} additions and ${diffStats.deletions || 0} deletions `}</Text>
                 <Spacer size={3} />
                 {diffData?.map((item, index) => (
                   <>

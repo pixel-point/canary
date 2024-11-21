@@ -1,4 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
+
+import cx from 'classnames'
+
 import {
   Accordion,
   Button,
@@ -12,23 +15,24 @@ import {
   StackedList,
   Text
 } from '@harnessio/canary'
-import type {
-  TypesPullReq,
-  TypesPullReqCheck,
-  EnumCheckStatus,
-  PullRequestChangesSectionProps,
-  PullRequestAction,
-  TypesRuleViolations
-} from './interfaces'
 
-import { MergeCheckStatus, PullRequestState, PullRequestFilterOption } from './interfaces'
-import PullRequestCheckSection from './sections/pull-request-check-section'
-import PullRequestCommentSection from './sections/pull-request-comment-section'
-import PullRequestChangesSection from './sections/pull-request-changes-section'
-import PullRequestMergeSection from './sections/pull-request-merge-section'
-import cx from 'classnames'
 import { timeAgo } from '../../utils/utils'
 import { Layout } from '../layout/layout'
+import {
+  EnumCheckStatus,
+  MergeCheckStatus,
+  PullRequestAction,
+  PullRequestChangesSectionProps,
+  PullRequestFilterOption,
+  PullRequestState,
+  TypesPullReq,
+  TypesPullReqCheck,
+  TypesRuleViolations
+} from './interfaces'
+import PullRequestChangesSection from './sections/pull-request-changes-section'
+import PullRequestCheckSection from './sections/pull-request-check-section'
+import PullRequestCommentSection from './sections/pull-request-comment-section'
+import PullRequestMergeSection from './sections/pull-request-merge-section'
 import { extractInfoFromRuleViolationArr } from './utils'
 
 interface PullRequestPanelProps extends PullRequestChangesSectionProps {
@@ -75,12 +79,12 @@ const HeaderTitle = ({ ...props }: HeaderProps) => {
         <Text className="items-center gap-2 space-x-2" weight="medium">
           <Text>{`${props?.pullReqMetadata?.merger?.display_name} merged branch`}</Text>
           <Button variant="secondary" size="xs">
-            <Icon name="branch" size={12} className="mr-1 text-tertiary-background" />
+            <Icon name="branch" size={12} className="text-tertiary-background mr-1" />
             {props?.pullReqMetadata?.source_branch}
           </Button>
           <Text>{'into'}</Text>
           <Button variant="secondary" size="xs">
-            <Icon name="branch" size={12} className="mr-1 text-tertiary-background" />
+            <Icon name="branch" size={12} className="text-tertiary-background mr-1" />
             {props?.pullReqMetadata?.target_branch}
           </Button>
           <Text>{formattedTime}</Text>
@@ -229,7 +233,8 @@ const PullRequestPanel = ({
                           </DropdownMenuGroup>
                         </DropdownMenuContent>
                       </DropdownMenu>
-                    }>
+                    }
+                  >
                     Squash and merge
                   </Button>
                 </Layout.Horizontal>

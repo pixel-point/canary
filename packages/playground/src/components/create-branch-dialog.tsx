@@ -1,3 +1,5 @@
+import { z } from 'zod'
+
 import {
   Button,
   Dialog,
@@ -21,7 +23,6 @@ import {
   useZodForm
 } from '@harnessio/canary'
 import { Alert } from '@harnessio/ui/components'
-import { z } from 'zod'
 
 export interface Branch {
   name?: string
@@ -96,7 +97,8 @@ export function CreateBranchDialog({
                   <Select
                     disabled={isLoadingBranches || !branches?.length}
                     onValueChange={field.onChange}
-                    defaultValue={field.value}>
+                    defaultValue={field.value}
+                  >
                     <FormControl className="text-primary">
                       <SelectTrigger>
                         <SelectValue placeholder="Select a branch" />

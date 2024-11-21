@@ -1,18 +1,21 @@
-import type { IconProps } from '@harnessio/canary'
-import {
-  Spacer,
-  Text,
-  Section,
-  ResourceBox,
-  Button,
-  Icon,
-  SpotlightsBox,
-  ButtonGroup,
-  Input,
-  AIPrompt
-} from '@harnessio/canary'
 import { Link } from 'react-router-dom'
+
 import noop from 'lodash-es/noop'
+
+import {
+  AIPrompt,
+  Button,
+  ButtonGroup,
+  Icon,
+  IconProps,
+  Input,
+  ResourceBox,
+  Section,
+  Spacer,
+  SpotlightsBox,
+  Text
+} from '@harnessio/canary'
+
 import { SandboxLayout } from '../index'
 
 const SectionList = ({ children }: { children: React.ReactNode }) => (
@@ -69,7 +72,8 @@ const TemplateSection = () => {
               logo={template.logoName}
               logoSize={template.logoSize}
               highlightTop={template.highlightTop}
-              highlightBottom={template.highlightBottom}>
+              highlightBottom={template.highlightBottom}
+            >
               <SpotlightsBox.Content>
                 <Text size={3}>{template.title}</Text>
               </SpotlightsBox.Content>
@@ -102,7 +106,7 @@ const ResourceSection = ({ title, items }: ResourceSectionData) => (
         </Text>
       </ResourceBox.HeaderTitle>
       <ResourceBox.HeaderLink>
-        <Button variant="ghost" size="sm_icon" asChild className="rounded-full bg-primary/5">
+        <Button variant="ghost" size="sm_icon" asChild className="bg-primary/5 rounded-full">
           <Link to="/#">
             <Icon name="circle-arrow-top-right" size={12} className="text-tertiary-background" />
           </Link>
@@ -189,7 +193,7 @@ export function CreatePipelinePage({ onClickStartFromScratch = noop }: CreatePip
           Create your pipeline
         </Text>
         <Spacer size={3} />
-        <Text as="p" size={2} weight="normal" className="max-w-[50%] text-primary/80">
+        <Text as="p" size={2} weight="normal" className="text-primary/80 max-w-[50%]">
           It&apos;s very simple to start using Playground. Allow our AI to create your pipeline based on the code base
           or start from a clean state.
         </Text>
@@ -208,7 +212,8 @@ export function CreatePipelinePage({ onClickStartFromScratch = noop }: CreatePip
             <Button onClick={onClickStartFromScratch} variant="outline" size="sm" borderRadius="full">
               Start from scratch
             </Button>
-          }>
+          }
+        >
           <Input
             placeholder="Start by describing your project goals or key requirements..."
             className="grow rounded-full border-none pl-4"

@@ -1,5 +1,6 @@
-import type { ProjectDialogAction, DialogState } from '../interfaces'
 import { upperFirst } from 'lodash-es'
+
+import { DialogState, ProjectDialogAction } from '../interfaces'
 
 export const initialDialogState: DialogState = {
   isDialogEditOpen: false,

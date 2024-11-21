@@ -1,7 +1,7 @@
-import type { TreeViewElement } from '@harnessio/canary'
-import { Status } from '@harnessio/canary'
-import { ExecutionState } from '../execution/types'
+import { Status, TreeViewElement } from '@harnessio/canary'
+
 import { getFormattedDuration } from '../../utils/TimeUtils'
+import { ExecutionState } from '../execution/types'
 
 interface Step {
   number: number

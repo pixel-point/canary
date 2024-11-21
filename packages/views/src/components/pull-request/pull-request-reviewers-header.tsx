@@ -1,27 +1,27 @@
 import { useState } from 'react'
+
 import {
   Button,
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
   Icon,
-  Text,
   Popover,
   PopoverContent,
   PopoverTrigger,
-  Command,
-  CommandInput,
-  CommandList,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem
+  Text
 } from '@harnessio/canary'
 
 interface ReviewersHeaderProps {
   usersList?: { display_name?: string; id?: number; uid?: string }[]
   addReviewers?: (id?: number) => void
-  refetchReviewers: () => void
   currentUserId?: string
 }
 
-const ReviewersHeader = ({ usersList, addReviewers, refetchReviewers, currentUserId }: ReviewersHeaderProps) => {
+const ReviewersHeader = ({ usersList, addReviewers, currentUserId }: ReviewersHeaderProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -51,9 +51,9 @@ const ReviewersHeader = ({ usersList, addReviewers, refetchReviewers, currentUse
                         if (display_name) {
                           addReviewers?.(id)
                           setIsOpen(false)
-                          refetchReviewers?.()
                         }
-                      }}>
+                      }}
+                    >
                       {display_name}
                     </CommandItem>
                   )

@@ -1,16 +1,27 @@
 import { useState } from 'react'
+
 import { noop, pick } from 'lodash-es'
-import type { IconProps } from '@harnessio/canary'
-import { Spacer, ListActions, Button, SearchBox, Text, Icon, ButtonGroup, StackedList } from '@harnessio/canary'
-import type { FileProps } from '../components/repo-summary'
-import { Summary } from '../components/repo-summary'
-import { mockBranchData } from '../data/mockBranchData'
-import { RepoSummaryPanel } from '../components/repo-summary-panel'
-import { BranchSelector, type BranchSelectorBranchProps } from '../components/branch-selector'
-import { mockFiles } from '../data/mockSummaryFiiles'
+
+import {
+  Button,
+  ButtonGroup,
+  Icon,
+  IconProps,
+  ListActions,
+  SearchBox,
+  Spacer,
+  StackedList,
+  Text
+} from '@harnessio/canary'
+
 import { SandboxLayout } from '..'
-import { PlaygroundSandboxLayoutSettings } from '../settings/sandbox-settings'
+import { BranchSelector, BranchSelectorBranchProps } from '../components/branch-selector'
 import { CloneRepoDialog } from '../components/repo-clone/clone-repo-dialog'
+import { FileProps, Summary } from '../components/repo-summary'
+import { RepoSummaryPanel } from '../components/repo-summary-panel'
+import { mockBranchData } from '../data/mockBranchData'
+import { mockFiles } from '../data/mockSummaryFiiles'
+import { PlaygroundSandboxLayoutSettings } from '../settings/sandbox-settings'
 
 // TODO: Move LAYOUT_STATES and LayoutState type to a shared location (e.g., types/layouts.ts)
 // since these states are used across multiple pages and should be managed in a single place
@@ -100,7 +111,8 @@ function SandboxRepoSummaryPage() {
         hasLeftPanel
         hasLeftSubPanel={loadState.includes(LAYOUT_STATES.sub)}
         hasHeader
-        hasSubHeader>
+        hasSubHeader
+      >
         <SandboxLayout.Columns columnWidths="1fr 220px">
           <SandboxLayout.Column>
             <SandboxLayout.Content>

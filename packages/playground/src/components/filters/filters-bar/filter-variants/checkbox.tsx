@@ -17,7 +17,7 @@ const Checkbox = ({ filter, filterOption, onUpdateFilter, searchQueries, handleS
   return (
     <>
       {filter.condition !== 'is_empty' && (
-        <div className="border-b border-borders-1 px-3 pb-2.5">
+        <div className="border-borders-1 border-b px-3 pb-2.5">
           <div
             className={cn(
               'border-border-2 focus-within:border-borders-3 flex min-h-8 justify-between gap-x-1 rounded border px-2.5 py-[3px] outline-none transition-colors duration-200 focus-within:border',
@@ -30,10 +30,10 @@ const Checkbox = ({ filter, filterOption, onUpdateFilter, searchQueries, handleS
                 filter.selectedValues.map(value => {
                   const label = filterOption.options?.find(opt => opt.value === value)?.label
                   return (
-                    <div className="flex h-6 items-center gap-x-1.5 rounded bg-background-8 px-2" key={value}>
+                    <div className="bg-background-8 flex h-6 items-center gap-x-1.5 rounded px-2" key={value}>
                       <span className="text-14 text-foreground-8">{label}</span>
                       <button
-                        className="text-icons-1 transition-colors duration-200 hover:text-foreground-1"
+                        className="text-icons-1 hover:text-foreground-1 transition-colors duration-200"
                         onClick={() => {
                           const newValues = filter.selectedValues.filter(v => v !== value)
                           onUpdateFilter(filter.type, newValues)
@@ -60,7 +60,7 @@ const Checkbox = ({ filter, filterOption, onUpdateFilter, searchQueries, handleS
             </div>
             {(!!filter.selectedValues.length || searchQueries.filters[filter.type]) && (
               <button
-                className="flex p-1.5 text-foreground-4 transition-colors duration-200 hover:text-foreground-1"
+                className="text-foreground-4 hover:text-foreground-1 flex p-1.5 transition-colors duration-200"
                 onClick={() => {
                   onUpdateFilter(filter.type, [])
                   handleSearchChange?.(filter.type, '', 'filters')

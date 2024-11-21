@@ -1,4 +1,4 @@
-import { Progress, Text, cn } from '@harnessio/canary'
+import { cn, Progress, Text } from '@harnessio/canary'
 
 interface GaugeProps {
   behindAhead: {

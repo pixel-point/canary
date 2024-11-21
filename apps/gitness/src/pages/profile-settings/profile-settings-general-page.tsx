@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
-import { useForm, SubmitHandler } from 'react-hook-form'
-import { z } from 'zod'
+import { SubmitHandler, useForm } from 'react-hook-form'
+
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, ButtonGroup, Input, Spacer, Text, Icon, Avatar, AvatarImage, AvatarFallback } from '@harnessio/canary'
-import { SandboxLayout, FormFieldSet, SkeletonList, getInitials, ModeToggle } from '@harnessio/views'
+import { z } from 'zod'
+
+import { Avatar, AvatarFallback, AvatarImage, Button, ButtonGroup, Icon, Input, Spacer, Text } from '@harnessio/canary'
+import { FormFieldSet, getInitials, ModeToggle, SandboxLayout, SkeletonList } from '@harnessio/views'
+
 const profileSchema = z.object({
   name: z.string().min(1, { message: 'Please provide your name' }),
   username: z.string().min(1, { message: 'Please provide a username' }),
@@ -235,7 +238,8 @@ const SettingsAccountGeneralPage: React.FC<SettingsAccountGeneralPageProps> = ({
                   <Button
                     size="sm"
                     type="submit"
-                    disabled={!isProfileValid || isUpdatingUser || !Object.keys(profileDirtyFields).length}>
+                    disabled={!isProfileValid || isUpdatingUser || !Object.keys(profileDirtyFields).length}
+                  >
                     {isUpdatingUser ? 'Updating...' : 'Update profile'}
                   </Button>
                 ) : (

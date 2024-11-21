@@ -1,10 +1,12 @@
 import { useState } from 'react'
-import type { SubmitHandler } from 'react-hook-form'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import { SubmitHandler, useForm } from 'react-hook-form'
+
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, ButtonGroup, Input, Spacer, Text, Icon, Avatar, AvatarImage, AvatarFallback } from '@harnessio/canary'
-import { SandboxLayout, FormFieldSet } from '..'
+import { z } from 'zod'
+
+import { Avatar, AvatarFallback, AvatarImage, Button, ButtonGroup, Icon, Input, Spacer, Text } from '@harnessio/canary'
+
+import { FormFieldSet, SandboxLayout } from '..'
 import { MessageTheme } from '../components/form-field-set'
 
 // Define form schemas
@@ -113,7 +115,7 @@ export function SettingsAccountGeneralPage() {
             {/* PERSONAL INFORMATION */}
             <FormFieldSet.Legend>Personal information</FormFieldSet.Legend>
             <FormFieldSet.ControlGroup className="flex w-auto flex-row items-center justify-start gap-x-6">
-              <Avatar size="80" className="size-20 rounded-full bg-primary/[0.02] shadow-md">
+              <Avatar size="80" className="bg-primary/[0.02] size-20 rounded-full shadow-md">
                 <AvatarImage src="/images/anon.jpg" />
                 <AvatarFallback>
                   <Text size={5} weight="medium" color="tertiaryBackground">
@@ -180,7 +182,8 @@ export function SettingsAccountGeneralPage() {
                   <Button
                     size="sm"
                     type="submit"
-                    disabled={!isProfileValid || isProfileSubmitting || !Object.keys(profileDirtyFields).length}>
+                    disabled={!isProfileValid || isProfileSubmitting || !Object.keys(profileDirtyFields).length}
+                  >
                     {isProfileSubmitting ? 'Updating...' : 'Update profile'}
                   </Button>
                 ) : (

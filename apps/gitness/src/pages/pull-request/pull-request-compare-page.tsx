@@ -1,28 +1,32 @@
 import { useEffect, useMemo, useState } from 'react'
-import { SandboxPullRequestCompare, SkeletonList } from '@harnessio/views'
 import { useNavigate, useParams } from 'react-router-dom'
-import {
-  CreateRepositoryErrorResponse,
-  useCreatePullReqMutation,
-  OpenapiCreatePullReqRequest,
-  TypesBranchExtended,
-  useListBranchesQuery,
-  useFindRepositoryQuery,
-  useListCommitsQuery,
-  TypesCommit,
-  useRawDiffQuery,
-  mergeCheck,
-  useDiffStatsQuery
-} from '@harnessio/code-service-client'
-import { PathParams } from '../../RouteDefinitions'
-import { changesInfoAtom, DiffFileEntry, DiffViewerExchangeState, FormFields } from './types/types'
-import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
-import { normalizeGitRef } from '../../utils/git-utils'
+
+import * as Diff2Html from 'diff2html'
 import { useAtom } from 'jotai'
 import { compact, isEqual } from 'lodash-es'
+
+import {
+  CreateRepositoryErrorResponse,
+  mergeCheck,
+  OpenapiCreatePullReqRequest,
+  TypesBranchExtended,
+  TypesCommit,
+  useCreatePullReqMutation,
+  useDiffStatsQuery,
+  useFindRepositoryQuery,
+  useGetPullReqByBranchesQuery,
+  useListBranchesQuery,
+  useListCommitsQuery,
+  useRawDiffQuery
+} from '@harnessio/code-service-client'
+import { SandboxPullRequestCompare, SkeletonList } from '@harnessio/views'
+
+import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
+import { PathParams } from '../../RouteDefinitions'
+import { normalizeGitRef } from '../../utils/git-utils'
 import { parseSpecificDiff } from './diff-utils'
+import { changesInfoAtom, DiffFileEntry, DiffViewerExchangeState, FormFields } from './types/types'
 import { changedFileId, DIFF2HTML_CONFIG, normalizeGitFilePath } from './utils'
-import * as Diff2Html from 'diff2html'
 
 export const CreatePullRequest = () => {
   const createPullRequestMutation = useCreatePullReqMutation({})
@@ -36,6 +40,7 @@ export const CreatePullRequest = () => {
   const repoRef = useGetRepoRef()
   const [selectedTargetBranch, setSelectedTargetBranch] = useState<string>(diffTargetBranch ? diffTargetBranch : 'main')
   const [selectedSourceBranch, setSelectedSourceBranch] = useState<string>(diffSourceBranch ? diffSourceBranch : 'main')
+  const [prBranchCombinationExists, setPrBranchCombinationExists] = useState<number | null>(null)
   const commitSHA = '' // TODO: when you implement commit filter will need commitSHA
   const defaultCommitRange = compact(commitSHA?.split(/~1\.\.\.|\.\.\./g))
   const [
@@ -211,6 +216,24 @@ export const CreatePullRequest = () => {
     { enabled: !!repoRef && !!diffApiPath }
   )
 
+  const { data: { body: pullReqData } = {} } = useGetPullReqByBranchesQuery({
+    repo_ref: repoRef,
+    source_branch: selectedSourceBranch || repoMetadata?.default_branch || '',
+    target_branch: selectedTargetBranch,
+    queryParams: {
+      include_checks: true,
+      include_rules: true
+    }
+  })
+
+  useEffect(() => {
+    if (pullReqData) {
+      setPrBranchCombinationExists(pullReqData.number || null)
+    } else {
+      setPrBranchCombinationExists(null)
+    }
+  }, [pullReqData])
+
   const { data: { body: commitData } = {} } = useListCommitsQuery({
     repo_ref: repoRef,
 
@@ -255,6 +278,7 @@ export const CreatePullRequest = () => {
         }))}
         targetBranch={selectedTargetBranch}
         sourceBranch={selectedSourceBranch}
+        prBranchCombinationExists={prBranchCombinationExists}
         diffData={
           diffs?.map(item => ({
             text: item.filePath,
