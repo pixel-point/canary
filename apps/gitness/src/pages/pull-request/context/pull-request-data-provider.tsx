@@ -1,10 +1,8 @@
 import { PropsWithChildren, useCallback, useEffect } from 'react'
-import { usePullRequestDataStore } from '../stores/pull-request-store'
-import { useGetSpaceURLParam } from '../../../framework/hooks/useGetSpaceParam'
-import { useGetRepoRef } from '../../../framework/hooks/useGetRepoPath'
 import { useParams } from 'react-router-dom'
-import { PathParams } from '../../../RouteDefinitions'
-import useGetPullRequestTab, { PullRequestTab } from '../../../hooks/useGetPullRequestTab'
+
+import { isEqual } from 'lodash-es'
+
 import {
   TypesPullReq,
   useFindRepositoryQuery,
@@ -12,12 +10,17 @@ import {
   useListCommitsQuery,
   useListPullReqActivitiesQuery
 } from '@harnessio/code-service-client'
+
+import { useGetRepoRef } from '../../../framework/hooks/useGetRepoPath'
+import { useGetSpaceURLParam } from '../../../framework/hooks/useGetSpaceParam'
+import useSpaceSSE from '../../../framework/hooks/useSpaceSSE'
+import useGetPullRequestTab, { PullRequestTab } from '../../../hooks/useGetPullRequestTab'
+import { PathParams } from '../../../RouteDefinitions'
+import { SSEEvent } from '../../../types'
 import { normalizeGitRef } from '../../../utils/git-utils'
 import { usePRChecksDecision } from '../hooks/usePRChecksDecision'
-import { SSEEvent } from '../../../types'
-import useSpaceSSE from '../../../framework/hooks/useSpaceSSE'
+import { usePullRequestDataStore } from '../stores/pull-request-store'
 import { extractSpecificViolations } from '../utils'
-import { isEqual } from 'lodash-es'
 
 const PullRequestDataProvider: React.FC<PropsWithChildren<unknown>> = ({ children }) => {
   const space = useGetSpaceURLParam() ?? ''

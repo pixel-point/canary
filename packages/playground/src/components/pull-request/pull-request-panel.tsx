@@ -1,4 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
+
+import cx from 'classnames'
+
 import {
   Accordion,
   Button,
@@ -12,24 +15,24 @@ import {
   StackedList,
   Text
 } from '@harnessio/canary'
+
+import { timeAgo } from '../../utils/utils'
+import { Layout } from '../layout/layout'
 import {
+  EnumCheckStatus,
   MergeCheckStatus,
+  PullRequestAction,
+  PullRequestChangesSectionProps,
+  PullRequestFilterOption,
   PullRequestState,
   TypesPullReq,
   TypesPullReqCheck,
-  EnumCheckStatus,
-  PullRequestChangesSectionProps,
-  PullRequestAction,
-  PullRequestFilterOption,
   TypesRuleViolations
 } from './interfaces'
+import PullRequestChangesSection from './sections/pull-request-changes-section'
 import PullRequestCheckSection from './sections/pull-request-check-section'
 import PullRequestCommentSection from './sections/pull-request-comment-section'
-import PullRequestChangesSection from './sections/pull-request-changes-section'
 import PullRequestMergeSection from './sections/pull-request-merge-section'
-import cx from 'classnames'
-import { timeAgo } from '../../utils/utils'
-import { Layout } from '../layout/layout'
 import { extractInfoFromRuleViolationArr } from './utils'
 
 interface PullRequestPanelProps extends PullRequestChangesSectionProps {
@@ -230,7 +233,8 @@ const PullRequestPanel = ({
                           </DropdownMenuGroup>
                         </DropdownMenuContent>
                       </DropdownMenu>
-                    }>
+                    }
+                  >
                     Squash and merge
                   </Button>
                 </Layout.Horizontal>

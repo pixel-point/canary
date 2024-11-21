@@ -1,4 +1,5 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Text, Icon } from '@harnessio/canary'
+import { Icon, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Text } from '@harnessio/canary'
+
 import { timeAgo } from '../../utils/utils'
 import { TokensList } from './types'
 
@@ -41,7 +42,8 @@ export const ProfileTokensList: React.FC<PageProps> = ({ tokens, openAlertDelete
                   tabIndex={0}
                   onClick={() => {
                     openAlertDeleteDialog({ identifier: token.identifier!, type: 'token' })
-                  }}>
+                  }}
+                >
                   <Icon name="trash" size={14} className="text-tertiary-background" />
                 </div>
               </TableCell>

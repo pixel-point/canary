@@ -1,5 +1,6 @@
-import { ExecutionDetails } from '../components/execution/execution-details'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@harnessio/canary'
+
+import { ExecutionDetails } from '../components/execution/execution-details'
 import { ExecutionTab } from '../constants/ExecutionConstants'
 
 export default function ExecutionDetailsPage() {

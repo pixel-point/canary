@@ -1,14 +1,15 @@
 import {
+  Button,
+  ButtonGroup,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
   Icon,
-  Text,
-  Button,
-  ButtonGroup
+  Text
 } from '@harnessio/canary'
+
 import { CompareFormFields } from '../../layouts/SandboxPullRequestCompareLayout'
 
 interface PullRequestCompareButtonProps {
@@ -77,7 +78,8 @@ const PullRequestCompareButton: React.FC<PullRequestCompareButtonProps> = ({
                 </DropdownMenu>
               }
               type="button" // Change to button type
-              disabled={isLoading}>
+              disabled={isLoading}
+            >
               {!isLoading ? 'Create pull request' : 'Creating pull request...'}
             </Button>
           </ButtonGroup.Root>

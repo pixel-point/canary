@@ -1,15 +1,17 @@
 import { useState } from 'react'
-import { noop } from 'lodash-es'
-import { Home } from '../components/home'
-import PlaygroundLandingSettings from '../settings/landing-settings'
-import { SignInPage } from '../components/signin-page'
 import { useNavigate } from 'react-router-dom'
-import { SignUpPage } from '../components/signup-page'
-import { ForgotPasswordPage } from '../components/forgot-password-page'
-import { OTPPage } from '../components/otp-page'
-import { NewPasswordPage } from '../components/new-password-page'
-import { mockProjects } from '../data/mockProjects'
+
+import { noop } from 'lodash-es'
+
 import { CreateProjectPage } from '../components/create-project-page'
+import { ForgotPasswordPage } from '../components/forgot-password-page'
+import { Home } from '../components/home'
+import { NewPasswordPage } from '../components/new-password-page'
+import { OTPPage } from '../components/otp-page'
+import { SignInPage } from '../components/signin-page'
+import { SignUpPage } from '../components/signup-page'
+import { mockProjects } from '../data/mockProjects'
+import PlaygroundLandingSettings from '../settings/landing-settings'
 
 export default function LandingPage() {
   const [loadState, setLoadState] = useState('home-auth')

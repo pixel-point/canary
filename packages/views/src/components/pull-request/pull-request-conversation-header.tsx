@@ -15,12 +15,14 @@
  */
 
 import { useMemo } from 'react'
-import { Badge, Button, Icon, Text } from '@harnessio/canary'
-import { Layout } from '../layout/layout'
-import { getPrState } from './utils'
-import { IconType } from './interfaces'
-import { timeAgo } from '../../utils/utils'
 import { Link } from 'react-router-dom'
+
+import { Badge, Button, Icon, Text } from '@harnessio/canary'
+
+import { timeAgo } from '../../utils/utils'
+import { Layout } from '../layout/layout'
+import { IconType } from './interfaces'
+import { getPrState } from './utils'
 
 interface PullRequestTitleProps {
   data: {
@@ -83,7 +85,8 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
               <Text
                 size={2}
                 className="text-tertiary-background inline-flex flex-wrap items-center gap-1"
-                weight="normal">
+                weight="normal"
+              >
                 <span className="text-primary">{author?.display_name || author?.email || ''}</span>
                 <span>{merged ? 'merged' : ' wants to merge'}</span>
                 <span className="text-primary">

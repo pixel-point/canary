@@ -1,13 +1,14 @@
 import {
+  Button,
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuShortcut,
-  Button,
+  DropdownMenuTrigger,
   Icon
 } from '@harnessio/canary'
+
 import { ReviewerItemProps } from './interfaces'
 
 interface TooltipProps {
@@ -30,7 +31,8 @@ const PullRequestReviewersTooltip: React.FC<TooltipProps> = ({ reviewer, handleD
             onSelect={() => {
               handleDelete?.(reviewer?.id ?? 0)
               // TODO: handle error if can't delete reviewers
-            }}>
+            }}
+          >
             <DropdownMenuShortcut className="ml-0">
               <Icon name="trash" className="mr-2 text-red-400" />
             </DropdownMenuShortcut>

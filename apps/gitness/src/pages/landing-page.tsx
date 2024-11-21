@@ -1,7 +1,9 @@
-import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import { membershipSpaces, TypesSpace } from '@harnessio/code-service-client'
+
 import { useAppContext } from '../framework/context/AppContext'
-import { TypesSpace, membershipSpaces } from '@harnessio/code-service-client'
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate()

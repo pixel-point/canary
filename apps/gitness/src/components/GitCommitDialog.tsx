@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react'
+
 import { useQueryClient } from '@tanstack/react-query'
+
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Spacer } from '@harnessio/canary'
-import { GitCommitFormType } from '../types'
-import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 import {
   OpenapiCommitFilesRequest,
   TypesCommitFilesResponse,
   useCommitFilesMutation,
   UsererrorError
 } from '@harnessio/code-service-client'
-import { CommitToGitRefOption, GitCommitForm } from './GitCommitForm'
-import { GitCommitAction } from '../utils/git-utils'
+
+import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 import { useRuleViolationCheck } from '../framework/hooks/useRuleViolationCheck'
+import { GitCommitFormType } from '../types'
+import { GitCommitAction } from '../utils/git-utils'
+import { CommitToGitRefOption, GitCommitForm } from './GitCommitForm'
 
 interface CommitDialogProps {
   open: boolean

@@ -1,4 +1,5 @@
 import * as monaco from 'monaco-editor'
+
 import { ThemeDefinition } from '@harnessio/yaml-editor'
 
 const harnessLightTheme = {

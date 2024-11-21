@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ZOOM_INC_DEC_LEVEL } from '../utils/utils'
+
 import {
   Button,
   Carousel,
@@ -9,6 +9,8 @@ import {
   DialogHeader,
   DialogTitle
 } from '@harnessio/canary'
+
+import { ZOOM_INC_DEC_LEVEL } from '../utils/utils'
 
 interface ImageCarouselProps {
   isOpen: boolean
@@ -28,7 +30,8 @@ const ImageCarousel = (props: ImageCarouselProps) => {
       onOpenChange={() => {
         setIsOpen(false)
         setZoomLevel(1)
-      }}>
+      }}
+    >
       <DialogContent className="border-border bg-primary-background h-[600px] max-w-[800px]">
         <DialogHeader>
           <DialogTitle>
@@ -58,7 +61,8 @@ const ImageCarousel = (props: ImageCarouselProps) => {
                       setZoomLevel(zoomLevel + ZOOM_INC_DEC_LEVEL)
                     }
                   }}
-                  title="Zoom in">
+                  title="Zoom in"
+                >
                   +
                 </Button>
 
@@ -69,7 +73,8 @@ const ImageCarousel = (props: ImageCarouselProps) => {
                       setZoomLevel(zoomLevel - ZOOM_INC_DEC_LEVEL)
                     }
                   }}
-                  title="Zoom out">
+                  title="Zoom out"
+                >
                   -
                 </Button>
               </div>

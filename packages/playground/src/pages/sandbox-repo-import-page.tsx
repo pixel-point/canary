@@ -1,7 +1,9 @@
-import { RepoImportForm, ImportRepoFormType } from '../components/repo-import-form-component'
-import { Text, Spacer } from '@harnessio/canary'
-import { SandboxLayout } from '../index'
 import { useNavigate } from 'react-router-dom'
+
+import { Spacer, Text } from '@harnessio/canary'
+
+import { ImportRepoFormType, RepoImportForm } from '../components/repo-import-form-component'
+import { SandboxLayout } from '../index'
 
 export function SandboxRepoImportPage({ isLoading = false }: { isLoading?: boolean }) {
   const navigate = useNavigate()

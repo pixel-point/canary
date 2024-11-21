@@ -1,8 +1,11 @@
-import { create } from 'zustand'
 import { produce } from 'immer'
-import { mergePullReqOp, commentStatusPullReq as apiCommentStatusPullReq } from '@harnessio/code-service-client'
-import { CodeCommentState, PullRequestState } from '../types/types'
+import { create } from 'zustand'
+
+import { commentStatusPullReq as apiCommentStatusPullReq, mergePullReqOp } from '@harnessio/code-service-client'
 import { PullRequestDataState } from '@harnessio/views'
+
+import { CodeCommentState, PullRequestState } from '../types/types'
+
 export const codeOwnersNotFoundMessage = 'CODEOWNERS file not found'
 export const codeOwnersNotFoundMessage2 = `path "CODEOWNERS" not found`
 export const codeOwnersNotFoundMessage3 = `failed to find node 'CODEOWNERS' in 'main': failed to get tree node: failed to ls file: path "CODEOWNERS" not found`

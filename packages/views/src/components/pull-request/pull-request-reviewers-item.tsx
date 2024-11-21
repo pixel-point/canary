@@ -1,7 +1,9 @@
-import { Icon, Avatar, AvatarFallback, Text } from '@harnessio/canary'
 import cx from 'classnames'
-import { PullReqReviewDecision, ReviewerItemProps } from './interfaces'
+
+import { Avatar, AvatarFallback, Icon, Text } from '@harnessio/canary'
+
 import { getInitials } from '../../utils/utils'
+import { PullReqReviewDecision, ReviewerItemProps } from './interfaces'
 import PullRequestReviewersTooltip from './pull-request-reviewers-tooltip'
 
 const ReviewerItem = ({
@@ -32,7 +34,8 @@ const ReviewerItem = ({
       <Avatar
         className={cx('h-7 w-7 rounded-full', {
           'p-0': updatedReviewDecision !== PullReqReviewDecision.changeReq
-        })}>
+        })}
+      >
         <AvatarFallback>
           <Text size={1} color="tertiaryBackground">
             {getInitials(reviewer?.display_name || '')}

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+
 import {
   AlertDialog,
   AlertDialogContent,
@@ -12,9 +13,10 @@ import {
   Input,
   Text
 } from '@harnessio/canary'
-import { FormResetPasswordsDialogProps } from './interfaces'
-import { CopyButton } from '../copy-button'
+
 import { generateAlphaNumericHash } from '../../utils/utils'
+import { CopyButton } from '../copy-button'
+import { FormResetPasswordsDialogProps } from './interfaces'
 
 export const FormResetPasswordDialog: React.FC<FormResetPasswordsDialogProps> = ({
   user,
@@ -71,7 +73,8 @@ export const FormResetPasswordDialog: React.FC<FormResetPasswordsDialogProps> = 
               onClick={() => {
                 handleResetPassword()
                 setIsConfirm(true)
-              }}>
+              }}
+            >
               Confirm
             </Button>
           )}

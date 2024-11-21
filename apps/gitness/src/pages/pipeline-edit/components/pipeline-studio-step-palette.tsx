@@ -1,16 +1,17 @@
-import { Icon, Button } from '@harnessio/canary'
+import { Button, Icon } from '@harnessio/canary'
 import { useListGlobalTemplatesQuery } from '@harnessio/code-service-client'
 import {
+  harnessStepGroups,
+  harnessSteps,
   StepForm,
   StepsPalette,
   StepsPaletteContent,
-  StepsPaletteItem,
-  harnessSteps,
-  harnessStepGroups
+  StepsPaletteItem
 } from '@harnessio/views'
+
+import { StepSource } from '../context/data-store/types'
 import { usePipelineDataContext } from '../context/PipelineStudioDataProvider'
 import { StepDrawer, usePipelineViewContext } from '../context/PipelineStudioViewProvider'
-import { StepSource } from '../context/data-store/types'
 
 interface PipelineStudioStepFormProps {
   requestClose: () => void
@@ -54,7 +55,8 @@ const PipelineStudioStepPalette = (props: PipelineStudioStepFormProps): JSX.Elem
                   }
 
                   requestClose()
-                }}>
+                }}
+              >
                 <StepsPaletteItem.Left>
                   <Icon name="harness-plugin" size={36} />
                 </StepsPaletteItem.Left>
@@ -84,7 +86,8 @@ const PipelineStudioStepPalette = (props: PipelineStudioStepFormProps): JSX.Elem
                     }
                   })
                   setStepDrawerOpen(StepDrawer.Form)
-                }}>
+                }}
+              >
                 <StepsPaletteItem.Left>
                   <Icon name="harness-plugin" size={36} />
                 </StepsPaletteItem.Left>
@@ -113,7 +116,8 @@ const PipelineStudioStepPalette = (props: PipelineStudioStepFormProps): JSX.Elem
                   } else {
                     //TODO: TOAST HERE
                   }
-                }}>
+                }}
+              >
                 <StepsPaletteItem.Left>
                   <Icon name="harness-plugin" size={36} />
                 </StepsPaletteItem.Left>

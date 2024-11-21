@@ -1,7 +1,8 @@
 import { IInputDefinition, unsetEmptyArrayOutputTransformer, unsetEmptyStringOutputTransformer } from '@harnessio/forms'
-import { generateFriendlyName } from './common-utils'
 import { InputType, UIInputWithConfigsForArray } from '@harnessio/views'
+
 import { StepInputDefinitionType } from '../types/api-types'
+import { generateFriendlyName } from './common-utils'
 
 // TODO
 enum ApiInputType {

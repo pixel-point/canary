@@ -1,33 +1,35 @@
 import { useEffect, useMemo, useState } from 'react'
-import { parse } from 'yaml'
+
 import { get } from 'lodash-es'
-import { Button } from '@harnessio/canary'
-import {
-  IFormDefinition,
-  RenderForm,
-  RootForm,
-  getTransformers,
-  inputTransformValues,
-  outputTransformValues,
-  useZodValidationResolver
-} from '@harnessio/forms'
-import { Icon } from '@harnessio/canary'
+import { parse } from 'yaml'
+
+import { Button, Icon } from '@harnessio/canary'
 import { listGlobalTemplates } from '@harnessio/code-service-client'
 import {
-  StepForm,
-  StepFormSection,
-  inputComponentFactory,
-  TEMPLATE_STEP_IDENTIFIER,
+  getTransformers,
+  IFormDefinition,
+  inputTransformValues,
+  outputTransformValues,
+  RenderForm,
+  RootForm,
+  useZodValidationResolver
+} from '@harnessio/forms'
+import {
   getHarnessStepDefinition,
-  InputType,
   getHarnessStepIdentifier,
   GROUP_IDENTIFIER,
-  PARALLEL_IDENTIFIER
+  inputComponentFactory,
+  InputType,
+  PARALLEL_IDENTIFIER,
+  StepForm,
+  StepFormSection,
+  TEMPLATE_STEP_IDENTIFIER
 } from '@harnessio/views'
-import { usePipelineDataContext } from '../context/PipelineStudioDataProvider'
-import { addNameInput, apiInput2IInputDefinition } from '../utils/step-form-utils'
+
 import { StepSource } from '../context/data-store/types'
+import { usePipelineDataContext } from '../context/PipelineStudioDataProvider'
 import { StepDefinitionType } from '../types/api-types'
+import { addNameInput, apiInput2IInputDefinition } from '../utils/step-form-utils'
 
 interface PipelineStudioStepFormProps {
   requestClose: () => void
@@ -151,7 +153,8 @@ export const PipelineStudioStepForm = (props: PipelineStudioStepFormProps): JSX.
 
         requestClose()
       }}
-      validateAfterFirstSubmit={true}>
+      validateAfterFirstSubmit={true}
+    >
       {rootForm => (
         <StepForm.Root>
           <StepForm.Header>
@@ -183,7 +186,8 @@ export const PipelineStudioStepForm = (props: PipelineStudioStepFormProps): JSX.
                 onClick={() => {
                   requestYamlModifications.deleteInArray({ path: editStepIntention.path })
                   requestClose()
-                }}>
+                }}
+              >
                 <Icon name="trash" />
               </Button>
             )}

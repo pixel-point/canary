@@ -1,4 +1,5 @@
 import { MockDiffString, mockDiffStringB } from './mockDiffString'
+
 const fileTitle = 'scm/driver/azure/webhook.go'
 
 export const mockDiffData = [

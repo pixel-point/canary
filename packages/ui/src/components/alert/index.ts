@@ -1,6 +1,6 @@
 import { AlertContainer, type AlertContainerProps } from './AlertContainer'
-import { AlertTitle, type AlertTitleProps } from './AlertTitle'
 import { AlertDescription, type AlertDescriptionProps } from './AlertDescription'
+import { AlertTitle, type AlertTitleProps } from './AlertTitle'
 
 export { AlertContainerProps, AlertDescriptionProps, AlertTitleProps }
 

@@ -1,23 +1,26 @@
 import { useState } from 'react'
+
 import { noop, pick } from 'lodash-es'
+
 import {
-  Spacer,
-  ListActions,
   Button,
-  SearchBox,
-  Text,
-  Icon,
   ButtonGroup,
+  Icon,
+  IconProps,
+  ListActions,
+  SearchBox,
+  Spacer,
   StackedList,
-  IconProps
+  Text
 } from '@harnessio/canary'
+
+import { SandboxLayout } from '..'
+import { BranchSelector } from '../components/branch-chooser'
+import { CloneRepoDialog } from '../components/repo-clone/clone-repo-dialog'
 import { Summary } from '../components/repo-summary'
 import { RepoSummaryPanel } from '../components/repo-summary-panel'
-import { BranchSelector } from '../components/branch-chooser'
 import { mockFiles } from '../data/mockSummaryFiiles'
-import { SandboxLayout } from '..'
 import { PlaygroundSandboxLayoutSettings } from '../settings/sandbox-settings'
-import { CloneRepoDialog } from '../components/repo-clone/clone-repo-dialog'
 
 const mockSummaryDetails: { id: string; name: string; count: number; iconName: IconProps['name'] }[] = [
   {
@@ -87,7 +90,8 @@ function SandboxRepoSummaryPage() {
         hasLeftPanel
         hasLeftSubPanel={loadState.includes('sub')}
         hasHeader
-        hasSubHeader>
+        hasSubHeader
+      >
         <SandboxLayout.Columns columnWidths="1fr 220px">
           <SandboxLayout.Column>
             <SandboxLayout.Content>

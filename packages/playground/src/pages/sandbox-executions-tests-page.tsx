@@ -1,4 +1,5 @@
-import { Text, Spacer } from '@harnessio/canary'
+import { Spacer, Text } from '@harnessio/canary'
+
 import { SandboxLayout } from '../index'
 
 function SandboxExecutionTestsPage() {

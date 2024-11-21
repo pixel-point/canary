@@ -1,13 +1,16 @@
 import { useState } from 'react'
-import { noop, pick } from 'lodash-es'
-import { Spacer, ListActions, Button, Text, Icon, ButtonGroup } from '@harnessio/canary'
-import { Summary } from '../components/repo-summary'
-import { BranchSelector } from '../components/branch-chooser'
-import { mockFiles } from '../data/mockSummaryFiiles'
-import { SandboxLayout, FileExplorer } from '..'
-import { PlaygroundSandboxLayoutSettings } from '../settings/sandbox-settings'
 import { Link } from 'react-router-dom'
+
+import { noop, pick } from 'lodash-es'
+
+import { Button, ButtonGroup, Icon, ListActions, Spacer, Text } from '@harnessio/canary'
+
+import { FileExplorer, SandboxLayout } from '..'
+import { BranchSelector } from '../components/branch-chooser'
+import { Summary } from '../components/repo-summary'
 import { SearchFiles } from '../components/search-files'
+import { mockFiles } from '../data/mockSummaryFiiles'
+import { PlaygroundSandboxLayoutSettings } from '../settings/sandbox-settings'
 
 const mockBranchList = [
   {
@@ -87,7 +90,8 @@ function Sidebar() {
         <BranchSelector size="sm" name="main" branchList={mockBranchList} selectBranch={noop} width="full" />
         <ButtonGroup.Root
           spacing="0"
-          className="shadow-border h-full overflow-hidden rounded-md shadow-[inset_0_0_0_1px]">
+          className="shadow-border h-full overflow-hidden rounded-md shadow-[inset_0_0_0_1px]"
+        >
           <Button size="sm" variant="ghost" className="w-8 rounded-none p-0">
             <Icon size={15} name="add-folder" className="text-primary/80" />
           </Button>
@@ -142,13 +146,15 @@ function Sidebar() {
                               )
                             )}
                           </FileExplorer.Root>
-                        }>
+                        }
+                      >
                         {item.name}
                       </FileExplorer.FolderItem>
                     )
                   )}
                 </FileExplorer.Root>
-              }>
+              }
+            >
               {item.name}
             </FileExplorer.FolderItem>
           )
@@ -175,7 +181,8 @@ function SandboxRepoCodePage() {
         hasLeftPanel
         hasLeftSubPanel={loadState.includes('sub')}
         hasHeader
-        hasSubHeader>
+        hasSubHeader
+      >
         <SandboxLayout.Content>
           <ListActions.Root>
             <ListActions.Left>

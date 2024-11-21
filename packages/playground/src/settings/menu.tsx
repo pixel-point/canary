@@ -1,12 +1,12 @@
 import {
-  Text,
   Button,
   DropdownMenu,
-  DropdownMenuTrigger,
-  Icon,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  Icon,
+  Text
 } from '@harnessio/canary'
 
 interface PlaygroundSettingsOption {
@@ -27,7 +27,8 @@ const PlaygroundSettingsMenu: React.FC<PlaygroundSettingsMenuProps> = ({ loadSta
       <DropdownMenu>
         <DropdownMenuTrigger
           asChild
-          className="opacity-25 outline-none duration-100 ease-in-out group-hover:opacity-100">
+          className="opacity-25 outline-none duration-100 ease-in-out group-hover:opacity-100"
+        >
           <Button variant="ghost" size="icon">
             <Icon name="ellipsis" className="text-primary" />
           </Button>
@@ -43,7 +44,8 @@ const PlaygroundSettingsMenu: React.FC<PlaygroundSettingsMenuProps> = ({ loadSta
             <DropdownMenuItem
               key={option.key}
               onClick={() => setLoadState(option.key)}
-              className={loadState === option.key ? 'text-emerald-500' : ''}>
+              className={loadState === option.key ? 'text-emerald-500' : ''}
+            >
               {option.label}
             </DropdownMenuItem>
           ))}

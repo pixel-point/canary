@@ -1,3 +1,7 @@
+import cx from 'classnames'
+import { isEmpty } from 'lodash-es'
+import pluralize from 'pluralize'
+
 import {
   AccordionContent,
   AccordionItem,
@@ -8,9 +12,8 @@ import {
   StackedList,
   Text
 } from '@harnessio/canary'
-import { LineDescription, LineTitle } from '../pull-request-line-title'
-import { isEmpty } from 'lodash-es'
-import cx from 'classnames'
+
+import { getInitials } from '../../../utils/utils'
 import {
   TypesCodeOwnerEvaluation,
   TypesCodeOwnerEvaluationEntry,
@@ -18,8 +21,7 @@ import {
   TypesPullReqReviewer,
   TypesUserGroupOwnerEvaluation
 } from '../interfaces'
-import { getInitials } from '../../../utils/utils'
-import pluralize from 'pluralize'
+import { LineDescription, LineTitle } from '../pull-request-line-title'
 
 interface PullRequestChangesSectionProps {
   changesInfo: { header: string; content: string; status: string }
@@ -340,7 +342,8 @@ const PullRequestChangesSection = ({
                 <StackedList.Item
                   isHeader
                   disableHover
-                  className="text-tertiary-background cursor-default !bg-transparent px-0">
+                  className="text-tertiary-background cursor-default !bg-transparent px-0"
+                >
                   <StackedList.Field title={<HeaderItem header="Code" />} />
                   <StackedList.Field title={<HeaderItem header="Owners" />} />
                   <StackedList.Field title={<HeaderItem header="Changes requested by" />} />

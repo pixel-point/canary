@@ -12,6 +12,7 @@ import {
   Spacer,
   Text
 } from '@harnessio/canary'
+
 import { FormRemoveUserDialogProps } from './interfaces'
 
 //Form Add Admin Dialog
@@ -60,7 +61,8 @@ export const FormAddAdminDialog: React.FC<FormRemoveUserDialogProps> = ({
                 updateUserAdmin(user?.uid ?? '', true)
                 onRemove()
               }}
-              disabled={isRemoving || removeSuccess}>
+              disabled={isRemoving || removeSuccess}
+            >
               {isRemoving ? 'Adding admin...' : 'Yes, add admin'}
             </Button>
           )}

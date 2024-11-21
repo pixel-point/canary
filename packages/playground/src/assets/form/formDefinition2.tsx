@@ -1,6 +1,8 @@
-import { IFormDefinition, IInputDefinition } from '@harnessio/forms'
-import { InputConfigType, InputType } from '../../components/form-inputs/types'
 import * as zod from 'zod'
+
+import { IFormDefinition, IInputDefinition } from '@harnessio/forms'
+
+import { InputConfigType, InputType } from '../../components/form-inputs/types'
 
 type IInputConfigWithConfig = IInputDefinition & InputConfigType
 

@@ -1,4 +1,5 @@
 import {
+  Icon,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -6,9 +7,9 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-  Icon
+  SelectValue
 } from '@harnessio/canary'
+
 import { PopoverCommitInfo } from '../popover-commit-info'
 
 interface PipelineStudioFooterBarProps {
@@ -39,7 +40,8 @@ const PipelineStudioFooterBar: React.FC<PipelineStudioFooterBarProps> = (props: 
     <footer
       className={
         'bg-grey-6 text-grey-60 text-tiny flex h-10 shrink-0 items-center justify-between border-t border-[#1d1d20] px-4 font-normal not-italic leading-[15px]'
-      }>
+      }
+    >
       <div className="flex items-center gap-2">
         <div
           role="button"
@@ -47,7 +49,8 @@ const PipelineStudioFooterBar: React.FC<PipelineStudioFooterBarProps> = (props: 
           onClick={() => {
             props.togglePane?.()
           }}
-          className="hover:bg-primary/10 flex h-full cursor-pointer gap-2 rounded-md px-2 py-1.5 duration-150 ease-in-out">
+          className="hover:bg-primary/10 flex h-full cursor-pointer gap-2 rounded-md px-2 py-1.5 duration-150 ease-in-out"
+        >
           <div className="flex items-center gap-1.5">
             <Icon name="x-mark" className="text-tertiary-background" />
             <span className="text-tiny text-primary">{props.problems.error}</span>

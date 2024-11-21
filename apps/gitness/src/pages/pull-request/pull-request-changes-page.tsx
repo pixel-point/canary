@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Spacer } from '@harnessio/canary'
+import { useParams } from 'react-router-dom'
+
 import * as Diff2Html from 'diff2html'
+import { useAtom } from 'jotai'
+import { compact, isEqual } from 'lodash-es'
+
+import { Spacer } from '@harnessio/canary'
 import {
   EnumPullReqReviewDecision,
   reviewSubmitPullReq,
@@ -8,18 +13,16 @@ import {
   useReviewerListPullReqQuery
 } from '@harnessio/code-service-client'
 import { PullRequestChanges, SkeletonList } from '@harnessio/views'
-import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
-import { compact, isEqual } from 'lodash-es'
-import { useAtom } from 'jotai'
-import { normalizeGitRef } from '../../utils/git-utils'
-import { changedFileId, DIFF2HTML_CONFIG, normalizeGitFilePath } from './utils'
-import { changesInfoAtom, DiffFileEntry, DiffViewerExchangeState, PullReqReviewDecision } from './types/types'
-import { parseSpecificDiff } from './diff-utils'
+
 import { useAppContext } from '../../framework/context/AppContext'
-import { useParams } from 'react-router-dom'
+import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { PathParams } from '../../RouteDefinitions'
+import { normalizeGitRef } from '../../utils/git-utils'
+import { parseSpecificDiff } from './diff-utils'
 import { PullRequestChangesFilter } from './pull-request-changes-filter'
 import { usePullRequestDataStore } from './stores/pull-request-store'
+import { changesInfoAtom, DiffFileEntry, DiffViewerExchangeState, PullReqReviewDecision } from './types/types'
+import { changedFileId, DIFF2HTML_CONFIG, normalizeGitFilePath } from './utils'
 
 export default function PullRequestChangesPage() {
   const { pullReqMetadata, refetchPullReq, refetchActivities } = usePullRequestDataStore(state => ({

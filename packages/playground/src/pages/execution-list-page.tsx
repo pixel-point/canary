@@ -1,16 +1,19 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+
 import { noop } from 'lodash-es'
-import { Text, Spacer, ListActions, SearchBox } from '@harnessio/canary'
+
+import { ListActions, SearchBox, Spacer, Text } from '@harnessio/canary'
+
 import { ExecutionList } from '../components/execution-list'
-import { PaginationComponent } from '../components/pagination'
-import { PaddingListLayout } from '../layouts/PaddingListLayout'
-import { SkeletonList } from '../components/loaders/skeleton-list'
-import { NoSearchResults } from '../components/no-search-results'
-import { NoData } from '../components/no-data'
-import { PlaygroundListSettings } from '../settings/list-settings'
 import { TopBarWidget } from '../components/layout/top-bar-widget'
+import { SkeletonList } from '../components/loaders/skeleton-list'
+import { NoData } from '../components/no-data'
+import { NoSearchResults } from '../components/no-search-results'
+import { PaginationComponent } from '../components/pagination'
 import { mockProjects } from '../data/mockProjects'
+import { PaddingListLayout } from '../layouts/PaddingListLayout'
+import { PlaygroundListSettings } from '../settings/list-settings'
 import { mockExecutions } from './mocks/execution/mockExecutionList'
 
 const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]

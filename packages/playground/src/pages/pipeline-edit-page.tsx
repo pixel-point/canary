@@ -1,10 +1,17 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { stringify } from 'yaml'
+
 import cx from 'classnames'
 import { noop } from 'lodash-es'
+import { ArrowLeft } from 'lucide-react'
+import { ILanguageFeaturesService } from 'monaco-editor/esm/vs/editor/common/services/languageFeatures.js'
+import { OutlineModel } from 'monaco-editor/esm/vs/editor/contrib/documentSymbols/browser/outlineModel.js'
+import { StandaloneServices } from 'monaco-editor/esm/vs/editor/standalone/browser/standaloneServices.js'
+import { stringify } from 'yaml'
+
 import {
   Badge,
   Button,
+  Icon,
   Input,
   ResizableHandle,
   ResizablePanel,
@@ -14,11 +21,8 @@ import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger,
-  Icon
+  TabsTrigger
 } from '@harnessio/canary'
-import { type InlineAction } from '@harnessio/yaml-editor'
-import { YamlEditor, MonacoGlobals } from '@harnessio/yaml-editor'
 import {
   RenderForm,
   RootForm,
@@ -26,32 +30,30 @@ import {
   // outputTransformValues,
   useZodValidationResolver
 } from '@harnessio/forms'
-import { PipelineStudio, getNodesFromPipelineYaml } from '@harnessio/unified-pipeline'
-import { ILanguageFeaturesService } from 'monaco-editor/esm/vs/editor/common/services/languageFeatures.js'
-import { OutlineModel } from 'monaco-editor/esm/vs/editor/contrib/documentSymbols/browser/outlineModel.js'
-import { StandaloneServices } from 'monaco-editor/esm/vs/editor/standalone/browser/standaloneServices.js'
-import { Container } from '../components/layout/container'
-import { Topbar } from '../components/layout/topbar'
-import { VisualYamlToggle, VisualYamlValue } from '../components/pipeline-studio/visual-yaml-toggle'
-import { PipelineStudioToolbarActions } from '../components/pipeline-studio/pipeline-studio-toolbar-actions'
-import { PipelineStudioFooterBar } from '../components/pipeline-studio/pipeline-studio-footer-bar/pipeline-studio-footer-bar'
-import pipeline from '../assets/pipeline.yaml'
+import { getNodesFromPipelineYaml, PipelineStudio } from '@harnessio/unified-pipeline'
+import { MonacoGlobals, YamlEditor, type InlineAction } from '@harnessio/yaml-editor'
+
+import { getInlineActions, InlineActionArgsType } from '../assets/inlineActions'
 // import pipelineV0 from '../assets/pipelineV0.yaml'
 import { themes } from '../assets/monacoTheme'
-import { Problems } from '../components/pipeline-studio/problems'
+import pipeline from '../assets/pipeline.yaml'
 import { problemsMock } from '../assets/problemsMock'
-import { InlineActionArgsType, getInlineActions } from '../assets/inlineActions'
+import { stepPaletteItems } from '../assets/stepPaletteItems'
 import unifiedSchema from '../assets/unifiedSchema.json'
+import { inputComponentFactory } from '../components/form-inputs/factory/factory'
+import { Container } from '../components/layout/container'
+import { Topbar } from '../components/layout/topbar'
+import { PipelineStudioFooterBar } from '../components/pipeline-studio/pipeline-studio-footer-bar/pipeline-studio-footer-bar'
+import { PipelineStudioToolbarActions } from '../components/pipeline-studio/pipeline-studio-toolbar-actions'
+import { Problems } from '../components/pipeline-studio/problems'
 import { StepForm } from '../components/pipeline-studio/step-form/step-form'
 import { StepFormSection } from '../components/pipeline-studio/step-form/step-form-section'
 import { StepsPalette } from '../components/pipeline-studio/step-palette/step-palette'
-import { StepPaletteFilters } from '../components/pipeline-studio/step-palette/step-palette-filters'
 import { StepsPaletteContent } from '../components/pipeline-studio/step-palette/step-palette-content'
+import { StepPaletteFilters } from '../components/pipeline-studio/step-palette/step-palette-filters'
 import { StepsPaletteItem } from '../components/pipeline-studio/step-palette/step-palette-item'
-import { stepPaletteItems } from '../assets/stepPaletteItems'
-import { inputComponentFactory } from '../components/form-inputs/factory/factory'
+import { VisualYamlToggle, VisualYamlValue } from '../components/pipeline-studio/visual-yaml-toggle'
 import { runStepFormDefinition } from '../components/steps/run-step'
-import { ArrowLeft } from 'lucide-react'
 
 MonacoGlobals.set({
   ILanguageFeaturesService,
@@ -180,7 +182,8 @@ const StepFormPanel = (): JSX.Element => {
       // onValuesChange={values => {
       //   // console.log(values)
       // }}
-      validateAfterFirstSubmit={true}>
+      validateAfterFirstSubmit={true}
+    >
       {rootForm => (
         <StepForm.Root>
           <StepForm.Header>
@@ -307,7 +310,8 @@ export default function PipelineEditPage() {
         open={!!drawerOpen}
         onOpenChange={open => {
           if (!open) setDrawerOpen(undefined)
-        }}>
+        }}
+      >
         <SheetContent className="p-0">{renderSheetContent()}</SheetContent>
       </Sheet>
     ),

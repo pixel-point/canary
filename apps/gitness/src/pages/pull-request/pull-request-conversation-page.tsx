@@ -1,4 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useParams } from 'react-router-dom'
+
+import { isEmpty } from 'lodash-es'
+
 import { Spacer } from '@harnessio/canary'
 import {
   commentCreatePullReq,
@@ -17,17 +21,22 @@ import {
   useReviewerListPullReqQuery
 } from '@harnessio/code-service-client'
 import {
-  SandboxLayout,
   PullRequestCommentBox,
   PullRequestFilters,
   PullRequestOverview,
   PullRequestPanel,
   PullRequestSideBar,
+  SandboxLayout,
   SkeletonList
 } from '@harnessio/views'
-import { useDateFilters } from './hooks/useDataFilters'
-import { useActivityFilters } from './hooks/useActivityFilters'
+
+import { useAppContext } from '../../framework/context/AppContext'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
+import { PathParams } from '../../RouteDefinitions'
+import { CodeOwnerReqDecision } from '../../types'
+import { useActivityFilters } from './hooks/useActivityFilters'
+import { useDateFilters } from './hooks/useDataFilters'
+import { usePullRequestDataStore } from './stores/pull-request-store'
 import {
   capitalizeFirstLetter,
   checkIfOutdatedSha,
@@ -37,12 +46,6 @@ import {
   generateAlphaNumericHash,
   processReviewDecision
 } from './utils'
-import { useParams } from 'react-router-dom'
-import { PathParams } from '../../RouteDefinitions'
-import { isEmpty } from 'lodash-es'
-import { CodeOwnerReqDecision } from '../../types'
-import { useAppContext } from '../../framework/context/AppContext'
-import { usePullRequestDataStore } from './stores/pull-request-store'
 
 export default function PullRequestConversationPage() {
   const {

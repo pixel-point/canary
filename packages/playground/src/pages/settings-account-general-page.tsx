@@ -1,9 +1,12 @@
 import { useState } from 'react'
-import { useForm, SubmitHandler } from 'react-hook-form'
-import { z } from 'zod'
+import { SubmitHandler, useForm } from 'react-hook-form'
+
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, ButtonGroup, Input, Spacer, Text, Icon, Avatar, AvatarImage, AvatarFallback } from '@harnessio/canary'
-import { SandboxLayout, FormFieldSet } from '..'
+import { z } from 'zod'
+
+import { Avatar, AvatarFallback, AvatarImage, Button, ButtonGroup, Icon, Input, Spacer, Text } from '@harnessio/canary'
+
+import { FormFieldSet, SandboxLayout } from '..'
 import { MessageTheme } from '../components/form-field-set'
 
 // Define form schemas
@@ -179,7 +182,8 @@ export function SettingsAccountGeneralPage() {
                   <Button
                     size="sm"
                     type="submit"
-                    disabled={!isProfileValid || isProfileSubmitting || !Object.keys(profileDirtyFields).length}>
+                    disabled={!isProfileValid || isProfileSubmitting || !Object.keys(profileDirtyFields).length}
+                  >
                     {isProfileSubmitting ? 'Updating...' : 'Update profile'}
                   </Button>
                 ) : (

@@ -1,16 +1,18 @@
-import { Badge, Icon, Separator, Text, ScrollArea } from '@harnessio/canary'
-import moment from 'moment'
 import { noop } from 'lodash-es'
-import { StageExecution } from './stage-execution'
+import moment from 'moment'
+
+import { Badge, Icon, ScrollArea, Separator, Text } from '@harnessio/canary'
+
 import { data as mockExecution } from '../../pages/mocks/execution/mockExecution'
 import { data as mockStepLogs } from '../../pages/mocks/execution/mockStepLogs'
-import { Layout } from '../layout/layout'
-import { ExecutionTree } from './execution-tree'
-import { ExecutionStatus } from './execution-status'
-import { ExecutionState } from './types'
-import { ContactCard } from '../contact-card'
-import { convertExecutionToTree } from './execution-tree-utils'
 import { getFormattedDuration } from '../../utils/TimeUtils'
+import { ContactCard } from '../contact-card'
+import { Layout } from '../layout/layout'
+import { ExecutionStatus } from './execution-status'
+import { ExecutionTree } from './execution-tree'
+import { convertExecutionToTree } from './execution-tree-utils'
+import { StageExecution } from './stage-execution'
+import { ExecutionState } from './types'
 
 interface ExecutionProps {
   pipelineId: number

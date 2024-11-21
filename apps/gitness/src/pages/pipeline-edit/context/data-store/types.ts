@@ -1,9 +1,11 @@
 import { editor } from 'monaco-editor'
-import { Problem } from '@harnessio/views'
+
 import { OpenapiGetContentOutput, TypesPipeline, TypesTemplate } from '@harnessio/code-service-client'
-import { YamlRevision } from '../PipelineStudioDataProvider'
-import { InlineActionArgsType } from '../../utils/inline-actions'
+import { Problem } from '@harnessio/views'
+
 import { YamlProblemSeverity } from '../../types/types'
+import { InlineActionArgsType } from '../../utils/inline-actions'
+import { YamlRevision } from '../PipelineStudioDataProvider'
 
 export enum StepSource {
   None = 'None',

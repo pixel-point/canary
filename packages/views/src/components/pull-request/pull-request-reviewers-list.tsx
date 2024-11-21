@@ -1,6 +1,7 @@
 import { Text } from '@harnessio/canary'
-import ReviewerItem from './pull-request-reviewers-item'
+
 import { EnumPullReqReviewDecision } from './interfaces'
+import ReviewerItem from './pull-request-reviewers-item'
 
 interface ReviewersListProps {
   reviewers: {

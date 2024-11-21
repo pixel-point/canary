@@ -1,12 +1,15 @@
 import { useEffect } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
-import { FileExplorer } from '@harnessio/views'
-import { OpenapiContentInfo, getContent, OpenapiGetContentOutput } from '@harnessio/code-service-client'
-import { normalizeGitRef } from '../utils/git-utils'
-import { PathParams } from '../RouteDefinitions'
+
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+
+import { getContent, OpenapiContentInfo, OpenapiGetContentOutput } from '@harnessio/code-service-client'
+import { FileExplorer } from '@harnessio/views'
+
 import { useOpenFolderPaths } from '../framework/context/ExplorerPathsContext'
 import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
+import { PathParams } from '../RouteDefinitions'
+import { normalizeGitRef } from '../utils/git-utils'
 
 interface ExplorerProps {
   selectedBranch: string
@@ -88,7 +91,8 @@ export default function Explorer({ selectedBranch, repoDetails }: ExplorerProps)
           <FileExplorer.FileItem
             key={itemPath || idx.toString()}
             isActive={itemPath === fullResourcePath}
-            link={fullPath}>
+            link={fullPath}
+          >
             {item.name}
           </FileExplorer.FileItem>
         ) : (
@@ -96,7 +100,8 @@ export default function Explorer({ selectedBranch, repoDetails }: ExplorerProps)
             <FileExplorer.FileItem
               key={itemPath || idx.toString()}
               isActive={itemPath === fullResourcePath}
-              link={fullPath}>
+              link={fullPath}
+            >
               {item.name}
             </FileExplorer.FileItem>
           </Link>
@@ -116,7 +121,8 @@ export default function Explorer({ selectedBranch, repoDetails }: ExplorerProps)
                 handleOpenFoldersChange={handleOpenFoldersChange}
                 openFolderPaths={openFolderPaths}
               />
-            }>
+            }
+          >
             {item.name}
           </FileExplorer.FolderItem>
         )
@@ -160,7 +166,8 @@ export default function Explorer({ selectedBranch, repoDetails }: ExplorerProps)
             handleOpenFoldersChange(value)
           }
         }}
-        value={openFolderPaths}>
+        value={openFolderPaths}
+      >
         {contents && renderEntries(contents, folderPath)}
       </FileExplorer.Root>
     )
@@ -228,7 +235,8 @@ export default function Explorer({ selectedBranch, repoDetails }: ExplorerProps)
           handleOpenFoldersChange(value)
         }
       }}
-      value={openFolderPaths}>
+      value={openFolderPaths}
+    >
       {isRootLoading ? (
         <div>Loading...</div>
       ) : rootError ? (

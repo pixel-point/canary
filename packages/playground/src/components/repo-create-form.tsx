@@ -1,5 +1,9 @@
 import { useEffect } from 'react'
-import { FormFieldSet, SandboxLayout } from '..'
+import { useForm, type SubmitHandler } from 'react-hook-form'
+
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+
 import {
   Button,
   ButtonGroup,
@@ -16,10 +20,8 @@ import {
   Textarea
 } from '@harnessio/canary'
 import { Alert } from '@harnessio/ui/components'
-import { type SubmitHandler, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 
+import { FormFieldSet, SandboxLayout } from '..'
 import { MessageTheme } from './form-field-set'
 
 // Define the form schema with optional fields for gitignore and license

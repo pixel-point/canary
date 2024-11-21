@@ -1,8 +1,10 @@
 // RepoLayout.tsx
 
 import { NavLink, Outlet } from 'react-router-dom'
-import { PullRequestHeader } from '../components/pull-request/pull-request-conversation-header'
+
 import { Badge, Icon, Spacer, Tabs, TabsList, TabsTrigger } from '@harnessio/canary'
+
+import { PullRequestHeader } from '../components/pull-request/pull-request-conversation-header'
 import { Floating1ColumnLayout } from './Floating1ColumnLayout'
 
 const mockedPullRequest = {

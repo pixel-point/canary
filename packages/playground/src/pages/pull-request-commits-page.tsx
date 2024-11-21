@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { PullRequestCommits } from '../components/pull-request/pull-request-commits'
-import { mockCommitData } from '../data/mockCommitData'
+
 import {
   ListPagination,
   Pagination,
@@ -12,9 +11,12 @@ import {
   PaginationPrevious,
   Spacer
 } from '@harnessio/canary'
-import PlaygroundPullRequestCommitsSettings from '../settings/pull-request-commits-settings'
+
 import { SkeletonList } from '../components/loaders/skeleton-list'
 import { NoData } from '../components/no-data'
+import { PullRequestCommits } from '../components/pull-request/pull-request-commits'
+import { mockCommitData } from '../data/mockCommitData'
+import PlaygroundPullRequestCommitsSettings from '../settings/pull-request-commits-settings'
 
 export default function PullRequestCommitsPage() {
   const [loadState, setLoadState] = useState('data-loaded')

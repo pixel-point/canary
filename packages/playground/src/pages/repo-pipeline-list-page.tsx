@@ -1,15 +1,16 @@
 import { useState } from 'react'
-import { Spacer, ListActions, Button, SearchBox, Text } from '@harnessio/canary'
-import { PipelineList } from '../components/pipeline-list'
-import { PaddingListLayout } from '../layouts/PaddingListLayout'
+import { Link } from 'react-router-dom'
+
+import { Button, ListActions, SearchBox, Spacer, Text } from '@harnessio/canary'
+
+import { SkeletonList } from '../components/loaders/skeleton-list'
 import { NoData } from '../components/no-data'
 import { NoSearchResults } from '../components/no-search-results'
 import { PaginationComponent } from '../components/pagination'
-
-import { SkeletonList } from '../components/loaders/skeleton-list'
-import { PlaygroundListSettings } from '../settings/list-settings'
+import { PipelineList } from '../components/pipeline-list'
 import { mockPipelines } from '../data/mockPipelinesData'
-import { Link } from 'react-router-dom'
+import { PaddingListLayout } from '../layouts/PaddingListLayout'
+import { PlaygroundListSettings } from '../settings/list-settings'
 
 const filterOptions = [{ name: 'Filter option 1' }, { name: 'Filter option 2' }, { name: 'Filter option 3' }]
 const sortOptions = [{ name: 'Sort option 1' }, { name: 'Sort option 2' }, { name: 'Sort option 3' }]

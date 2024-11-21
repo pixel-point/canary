@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+
+import Editor, { loader, Monaco, useMonaco } from '@monaco-editor/react'
 import * as monaco from 'monaco-editor'
-import Editor, { Monaco, useMonaco, loader } from '@monaco-editor/react'
+
 import { useTheme } from '../hooks/useTheme'
+import { BlameItem } from '../types/blame'
 import { ThemeDefinition } from '../types/themes'
 import { createCommitMessage, getMonacoEditorCommitCss, getMonacoEditorCss } from '../utils/blame-editor-utils'
 import { createRandomString } from '../utils/utils'
-import { BlameItem } from '../types/blame'
 
 loader.config({ monaco })
 

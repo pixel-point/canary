@@ -12,6 +12,7 @@ import {
   Spacer,
   Text
 } from '@harnessio/canary'
+
 import { FormDeleterDialogProps } from './interfaces'
 
 //Form Delete Member Dialog
@@ -60,7 +61,8 @@ export const FormDeleteUserDialog: React.FC<FormDeleterDialogProps> = ({
                 handleDeleteUser(user!.uid!)
                 onDelete()
               }}
-              disabled={isDeleting}>
+              disabled={isDeleting}
+            >
               {isDeleting ? 'Deleting user...' : 'Yes, delete user'}
             </Button>
           )}

@@ -1,10 +1,17 @@
 import { useEffect, useState } from 'react'
-import { parse } from 'yaml'
-import { omit } from 'lodash-es'
-import { inputComponentFactory, InputType } from '@harnessio/views'
 import { useNavigate, useParams } from 'react-router-dom'
+
+import { omit } from 'lodash-es'
+import { parse } from 'yaml'
+
 import { Button, DialogDescription, DialogFooter, DialogHeader, DialogTitle, Spacer } from '@harnessio/canary'
-import { Alert } from '@harnessio/ui/components'
+import {
+  findPipeline,
+  getContent,
+  useCreateExecutionMutation,
+  useListBranchesQuery,
+  UsererrorError
+} from '@harnessio/code-service-client'
 import {
   getTransformers,
   IInputDefinition,
@@ -13,18 +20,14 @@ import {
   RootForm,
   useZodValidationResolver
 } from '@harnessio/forms'
-import {
-  findPipeline,
-  getContent,
-  useCreateExecutionMutation,
-  useListBranchesQuery,
-  UsererrorError
-} from '@harnessio/code-service-client'
-import { PipelineParams } from '../pipeline-edit/context/PipelineStudioDataProvider'
-import { decodeGitContent, normalizeGitRef } from '../../utils/git-utils'
-import { createFormFromPipelineInputs } from './utils/utils'
+import { Alert } from '@harnessio/ui/components'
+import { inputComponentFactory, InputType } from '@harnessio/views'
+
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { Inputs } from '../../types/pipeline-schema'
+import { decodeGitContent, normalizeGitRef } from '../../utils/git-utils'
+import { PipelineParams } from '../pipeline-edit/context/PipelineStudioDataProvider'
+import { createFormFromPipelineInputs } from './utils/utils'
 
 const ADDITIONAL_INPUTS_PREFIX = '_'
 
@@ -161,7 +164,8 @@ export default function RunPipelineForm({
 
         runPipeline({ branch, inputsValues })
       }}
-      validateAfterFirstSubmit={true}>
+      validateAfterFirstSubmit={true}
+    >
       {rootForm => (
         <>
           <DialogHeader>

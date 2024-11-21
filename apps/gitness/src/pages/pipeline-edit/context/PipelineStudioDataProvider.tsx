@@ -1,10 +1,11 @@
 import { createContext, useCallback, useContext, useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
+
 import { useYamlEditorContext } from '@harnessio/yaml-editor'
-import { countProblems, monacoMarkers2Problems } from '../utils/problems-utils'
-import type { InlineActionArgsType } from '../utils/inline-actions'
+
 import useThunkReducer from '../../../hooks/useThunkReducer'
-import { DataReducer, initialState } from './data-store/reducer'
+import type { InlineActionArgsType } from '../utils/inline-actions'
+import { countProblems, monacoMarkers2Problems } from '../utils/problems-utils'
 import {
   deleteInArrayAction,
   injectInArrayAction,
@@ -14,6 +15,7 @@ import {
   updateInArrayAction,
   updateState
 } from './data-store/actions'
+import { DataReducer, initialState } from './data-store/reducer'
 import {
   AddStepIntentionActionPayload,
   DataReducerState,
@@ -158,7 +160,8 @@ const PipelineStudioDataProvider = ({ children }: React.PropsWithChildren) => {
         fetchPipelineFileContent,
         setCurrentBranch,
         requestYamlModifications
-      }}>
+      }}
+    >
       {children}
     </PipelineStudioDataContext.Provider>
   )

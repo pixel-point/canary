@@ -1,24 +1,26 @@
 import { useState } from 'react'
-import PlaygroundPullRequestChangesSettings from '../settings/pull-request-changes-settings'
-import { SkeletonList } from '../components/loaders/skeleton-list'
-import { NoData } from '../components/no-data'
+
 import {
-  ListActions,
-  Spacer,
-  Text,
   Button,
   DropdownMenu,
-  DropdownMenuTrigger,
-  Icon,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuTrigger,
+  Icon,
+  ListActions,
+  RadioGroup,
   RadioGroupItem,
-  RadioGroup
+  Spacer,
+  Text
 } from '@harnessio/canary'
-import { PullRequestChanges } from '../components/pull-request/pull-request-changes'
+
 import { FileViewGauge } from '..'
+import { SkeletonList } from '../components/loaders/skeleton-list'
+import { NoData } from '../components/no-data'
+import { PullRequestChanges } from '../components/pull-request/pull-request-changes'
 import { mockDiffData } from '../data/mockDiffData'
+import PlaygroundPullRequestChangesSettings from '../settings/pull-request-changes-settings'
 
 interface FilterViewProps {
   active: string
@@ -154,7 +156,8 @@ const FilterSortViewDropdowns: React.FC<FilterViewProps> = ({ active }) => {
                 </DropdownMenuGroup>
               </DropdownMenuContent>
             </DropdownMenu>
-          }>
+          }
+        >
           {mockApprovalItems[index].title}
         </Button>
       </ListActions.Right>
