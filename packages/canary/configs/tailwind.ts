@@ -118,6 +118,9 @@ export default {
           8: 'hsl(var(--background-08))',
           9: 'hsl(var(--background-09))',
           10: 'hsl(var(--background-10))',
+          11: 'hsl(var(--background-11))',
+          12: 'hsl(var(--background-12))',
+          13: 'hsl(var(--background-13))',
           danger: 'hsla(var(--background-danger))',
           success: 'hsla(var(--background-success))'
         },
@@ -144,6 +147,8 @@ export default {
           6: 'hsl(var(--icon-06))',
           7: 'hsl(var(--icon-07))',
           8: 'hsl(var(--icon-08))',
+          9: 'hsl(var(--icon-09))',
+          10: 'hsl(var(--icon-10))',
           danger: 'hsl(var(--icon-danger))',
           alert: 'hsl(var(--icon-alert))',
           success: 'hsl(var(--icon-success))',

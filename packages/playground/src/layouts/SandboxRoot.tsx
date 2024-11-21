@@ -1,14 +1,15 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { SandboxLayout } from '../index'
 import { Outlet, useLocation } from 'react-router-dom'
-import { Navbar } from '../components/navbar'
-import { MoreSubmenu } from '../components/more-submenu'
-import type { TypesUser } from './types'
-import { SettingsMenu } from '../components/settings-menu'
-import { MenuGroupType, MenuGroupTypes, NavbarItemType } from '../components/navbar/types'
-import { pinnedMenuItemsData, recentMenuItemsData } from '../data/mockPinnedAndRecentMenuData'
-import { navbarMenuData } from '../data/mockNavbarMenuData'
+
 import { ManageNavigation } from '../components/manage-navigation'
+import { MoreSubmenu } from '../components/more-submenu'
+import { Navbar } from '../components/navbar'
+import { MenuGroupType, MenuGroupTypes, NavbarItemType } from '../components/navbar/types'
+import { SettingsMenu } from '../components/settings-menu'
+import { navbarMenuData } from '../data/mockNavbarMenuData'
+import { pinnedMenuItemsData, recentMenuItemsData } from '../data/mockPinnedAndRecentMenuData'
+import { SandboxLayout } from '../index'
+import type { TypesUser } from './types'
 
 interface SandboxRootProps {
   currentUser: TypesUser | undefined

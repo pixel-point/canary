@@ -27,7 +27,8 @@ export const NavbarAi = () => {
         size="sm"
         padding="sm"
         variant="gradient-border"
-        gradientType="ai-button">
+        gradientType="ai-button"
+      >
         <Icon className="mr-1.5" name="sparks" size={12} />
         Make with AI
       </Button>

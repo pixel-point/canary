@@ -16,19 +16,6 @@ enum BadgesHoverStates {
   DISABLED_MUTED_THEME = 'disabled-muted-theme'
 }
 
-enum BadgesHoverStates {
-  ENABLED = 'enabled',
-  DISABLED_DEFAULT = 'disabled-default',
-  DISABLED_SECONDARY = 'disabled-secondary',
-  DISABLED_DESTRUCTIVE = 'disabled-destructive',
-  DISABLED_OUTLINE = 'disabled-outline',
-  DISABLED_DESTRUCTIVE_THEME = 'disabled-destructive-theme',
-  DISABLED_WARNING_THEME = 'disabled-warning-theme',
-  DISABLED_SUCCESS_THEME = 'disabled-success-theme',
-  DISABLED_EMPHASIS_THEME = 'disabled-emphasis-theme',
-  DISABLED_MUTED_THEME = 'disabled-muted-theme'
-}
-
 const badgeVariants = cva(
   'inline-flex items-center rounded-md border transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
   {

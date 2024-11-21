@@ -1,9 +1,10 @@
 import { Icon } from '@harnessio/canary'
-import { FilterOption, SortOption, SortDirection } from '../types'
-import { UseFiltersReturn } from '../use-filters'
-import Sorts from './sorts'
-import Filters from './filters'
+
 import FilterTrigger from '../filter-trigger'
+import { FilterOption, SortDirection, SortOption } from '../types'
+import { UseFiltersReturn } from '../use-filters'
+import Filters from './filters'
+import Sorts from './sorts'
 
 interface FiltersBarProps {
   filterOptions: FilterOption[]
@@ -80,7 +81,7 @@ const FiltersBar = ({
         />
       )}
 
-      {activeFilters.length > 0 && activeSorts.length > 0 && <div className="bg-borders-1 h-7 w-px" />}
+      {activeFilters.length > 0 && activeSorts.length > 0 && <div className="h-7 w-px bg-borders-1" />}
 
       {activeFilters.map(filter => (
         <Filters
@@ -103,7 +104,7 @@ const FiltersBar = ({
             <FilterTrigger
               type="filter"
               customLabel={
-                <div className="text-foreground-4 hover:text-foreground-1 flex items-center gap-x-1.5 transition-colors duration-200">
+                <div className="flex items-center gap-x-1.5 text-foreground-4 transition-colors duration-200 hover:text-foreground-1">
                   <Icon name="plus" size={10} />
                   <span>Add filter</span>
                 </div>
@@ -117,11 +118,12 @@ const FiltersBar = ({
               options={filterOptions}
             />
             <button
-              className="text-14 text-foreground-4 hover:text-foreground-danger ring-offset-background flex items-center gap-x-1.5 outline-none ring-offset-2 transition-colors duration-200 focus:ring-2"
+              className="flex items-center gap-x-1.5 text-14 text-foreground-4 outline-none ring-offset-2 ring-offset-background transition-colors duration-200 hover:text-foreground-danger focus:ring-2"
               onClick={() => {
                 handleResetAll()
                 handleClearSavedFilters()
-              }}>
+              }}
+            >
               <Icon className="rotate-45" name="plus" size={12} />
               Reset
             </button>
@@ -129,8 +131,9 @@ const FiltersBar = ({
 
           {hasUnsavedChanges && (
             <button
-              className="text-14 text-foreground-4 hover:text-foreground-1 flex items-center gap-x-1.5"
-              onClick={handleSaveFilters}>
+              className="flex items-center gap-x-1.5 text-14 text-foreground-4 hover:text-foreground-1"
+              onClick={handleSaveFilters}
+            >
               Save
             </button>
           )}

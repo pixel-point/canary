@@ -1,6 +1,8 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { NavbarUser as NavbarUserComp, Icon, cn, Text } from '@harnessio/canary'
+
+import { cn, Icon, NavbarUser as NavbarUserComp, Text } from '@harnessio/canary'
+
 import { TypesUser } from '../../../layouts/types'
 import { userMenuItems } from '../data'
 import { UserMenuKeys } from '../types'

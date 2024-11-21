@@ -1,6 +1,5 @@
 import * as React from 'react'
-import { DayPicker } from 'react-day-picker'
-import type { DateRange } from 'react-day-picker'
+import { DayPicker, type DateRange } from 'react-day-picker'
 
 import { buttonVariants } from '@/components/button'
 import { cn } from '@/lib/utils'

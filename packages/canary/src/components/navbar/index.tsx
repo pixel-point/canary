@@ -1,8 +1,9 @@
+import { Icon } from '@/components/icon'
 import { cn } from '@/lib/utils'
+import { isSafari } from '@/utils/isSafari'
+
 import { Text } from '../text'
 import noiseBg from './noise.png'
-import { Icon } from '@/components/icon'
-import { isSafari } from '@/utils/isSafari'
 
 interface NavbarRootProps {
   className?: string
@@ -17,7 +18,8 @@ function Root({ className, children, isSubMenu = false }: NavbarRootProps) {
         'border-borders-5 bg-background-7 grid h-screen w-[220px] select-none grid-rows-[auto_1fr_auto] overflow-y-auto border-r',
         { 'bg-background-7/70 backdrop-blur-[10px]': isSubMenu },
         className
-      )}>
+      )}
+    >
       {!isSubMenu && (
         <>
           <div
@@ -82,7 +84,8 @@ function Group({ children, title, topBorder, isSubMenu = false, titleClassName }
         'flex w-full flex-col overflow-x-hidden px-5',
         { 'border-borders-5 border-t pt-2.5': topBorder },
         isSubMenu ? 'pb-2.5' : 'gap-1.5 pb-3'
-      )}>
+      )}
+    >
       {title && (
         <div className={cn('text-foreground-7 mt-1.5', isSubMenu ? 'mb-3' : 'mb-2.5', titleClassName)}>
           <p className="text-xs font-normal">{title}</p>
@@ -111,7 +114,8 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
           'group relative grid cursor-pointer select-none grid-cols-[auto_1fr] items-center gap-3 pb-[0.6875rem] pt-[0.5625rem]',
           { 'gap-0': !icon },
           className
-        )}>
+        )}
+      >
         <div
           className={cn(
             'group-hover:bg-background-4 absolute -inset-x-3 z-0 h-full w-auto rounded-[10px] bg-transparent',
@@ -139,7 +143,8 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
             weight="medium"
             className={cn('text-foreground-2 group-hover:text-foreground-1 z-10 w-full duration-0 ease-in-out', {
               'text-foreground-1': active
-            })}>
+            })}
+          >
             {text}
           </Text>
           {!!description && (
@@ -159,7 +164,8 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
           className={cn(
             'text-icons-4 group-hover:text-icons-2 relative z-10 mt-1 flex h-3 w-3 min-w-3 items-center duration-100 ease-in-out',
             { 'text-icons-2': active }
-          )}>
+          )}
+        >
           {active && (
             <span
               className="absolute left-1/2 top-1/2 z-[-1] size-7 -translate-x-1/2 -translate-y-1/2"
@@ -177,7 +183,8 @@ function Item({ icon, text, description, active, submenuItem, className }: ItemP
         weight="medium"
         className={cn('text-foreground-3 group-hover:text-foreground-1 z-10 text-left duration-100 ease-in-out', {
           'text-foreground-1': active
-        })}>
+        })}
+      >
         {text}
       </Text>
     </div>

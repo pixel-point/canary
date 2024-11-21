@@ -1,4 +1,7 @@
+import { Fragment } from 'react'
+
 import { getInitials } from '@/utils/StringUtils'
+
 import {
   Avatar,
   AvatarFallback,
@@ -10,7 +13,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '..'
-import { Fragment } from 'react'
 
 interface UserItem {
   element: React.ReactNode
@@ -34,7 +36,8 @@ const UserBlock = ({ username, role, url, isButton = false, className }: UserBlo
       className={cn(
         'relative grid w-full grid-cols-[auto_1fr] grid-rows-2 items-center justify-start gap-x-2.5 text-left',
         className
-      )}>
+      )}
+    >
       {isButton && (
         <div className="absolute -inset-2 rounded duration-100 ease-in-out group-hover:bg-background-4 group-data-[state=open]:bg-background-4" />
       )}
@@ -70,7 +73,8 @@ const Root: React.FC<{
           className="ml-3 w-[230px] bg-background-1"
           align="start"
           sideOffset={-40}
-          alignOffset={187}>
+          alignOffset={187}
+        >
           <UserBlock className="p-2" username={username} role={role} url={url} />
           <DropdownMenuSeparator />
           {menuItems.map(itm => {

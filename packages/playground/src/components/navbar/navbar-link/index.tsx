@@ -1,5 +1,7 @@
 import { NavLink } from 'react-router-dom'
+
 import { Icon, IconProps, Navbar as NavbarComp } from '@harnessio/canary'
+
 import { NavbarItem, NavbarItemStatic } from '../types'
 
 export const NavBarLink = (item: NavbarItem | NavbarItemStatic) => {

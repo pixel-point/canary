@@ -1,5 +1,7 @@
-import { Navbar, Sheet, SheetContent, Icon, Spacer, SheetTitle, ScrollArea } from '@harnessio/canary'
 import { NavLink } from 'react-router-dom'
+
+import { Icon, Navbar, ScrollArea, Sheet, SheetContent, SheetTitle, Spacer } from '@harnessio/canary'
+
 import { MenuGroupType } from './navbar/types'
 
 interface MoreSubmenuProps {
@@ -15,7 +17,8 @@ export function MoreSubmenu({ showMoreMenu, handleMoreMenu, items }: MoreSubmenu
         className="inset-y-0 left-[220px] z-40 h-screen w-[328px] bg-transparent p-0"
         side="left"
         onClick={handleMoreMenu}
-        modal={false}>
+        modal={false}
+      >
         <SheetTitle className="sr-only">More Menu</SheetTitle>
         <Navbar.Root className="w-[328px]" isSubMenu>
           <Navbar.Content className="overflow-hidden">

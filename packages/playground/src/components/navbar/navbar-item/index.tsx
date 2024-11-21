@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom'
+
 import {
   Button,
   DropdownMenu,
@@ -7,9 +8,10 @@ import {
   DropdownMenuTrigger,
   Icon,
   IconProps,
-  Text,
-  Navbar as NavbarComp
+  Navbar as NavbarComp,
+  Text
 } from '@harnessio/canary'
+
 import { NavbarItemType } from '../types'
 
 interface NavbarItemProps {
@@ -77,7 +79,8 @@ export const NavbarItem = ({
           <Button
             className="absolute -right-[0.8125rem] top-0 text-icons-4 opacity-0 hover:text-icons-2 group-hover:opacity-100 data-[state=open]:opacity-100"
             size="sm_icon"
-            variant="custom">
+            variant="custom"
+          >
             <Icon name="menu-dots" size={12} />
           </Button>
         </DropdownMenuTrigger>

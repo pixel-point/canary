@@ -1,7 +1,9 @@
-import { Button, cn, Popover, PopoverContent, PopoverTrigger, ScrollArea, SearchBox, Text } from '@harnessio/canary'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { MenuGroupType, NavbarItemType } from '../navbar/types'
+
+import { Button, cn, Popover, PopoverContent, PopoverTrigger, ScrollArea, SearchBox, Text } from '@harnessio/canary'
+
 import { debounce } from '../../utils/debaunce'
+import { MenuGroupType, NavbarItemType } from '../navbar/types'
 
 const filterItems = (categories: MenuGroupType[], query: string): MenuGroupType[] => {
   if (!query.trim()) return categories
@@ -106,7 +108,8 @@ export const ManageNavigationSearch = ({ navbarMenuData, addToPinnedItems }: Man
         align="start"
         onWheel={e => e.stopPropagation()}
         onOpenAutoFocus={e => e.preventDefault()}
-        onCloseAutoFocus={e => e.preventDefault()}>
+        onCloseAutoFocus={e => e.preventDefault()}
+      >
         <ScrollArea className={cn('relative max-h-[50vh]', countFilteredItems > 10 && 'h-[404px]')}>
           <div className="px-1 pb-2 pt-1">
             <span
@@ -123,7 +126,8 @@ export const ManageNavigationSearch = ({ navbarMenuData, addToPinnedItems }: Man
               filteredItems.map((category, index) => (
                 <div
                   className={cn(index > 0 ? 'border-borders-4 mt-0.5 border-t pt-2' : 'pt-1')}
-                  key={`category-${category.groupId}-${index}`}>
+                  key={`category-${category.groupId}-${index}`}
+                >
                   <Text className="inline-block px-2 leading-none text-foreground-7" size={1}>
                     {category.title}
                   </Text>
@@ -133,7 +137,8 @@ export const ManageNavigationSearch = ({ navbarMenuData, addToPinnedItems }: Man
                         className="h-9 cursor-pointer rounded-sm px-2 focus-visible:ring-offset-0"
                         variant="ghost"
                         key={`item-${item.id}`}
-                        onClick={() => handleItemClick(item)}>
+                        onClick={() => handleItemClick(item)}
+                      >
                         <div className="flex w-full items-center gap-x-2">
                           <Text className="truncate leading-tight text-foreground-8">{item.title}</Text>
                         </div>

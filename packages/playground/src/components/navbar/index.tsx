@@ -1,12 +1,14 @@
 import { useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Navbar as NavbarComp, Icon, NavbarProjectChooser, ScrollArea } from '@harnessio/canary'
+
+import { Icon, Navbar as NavbarComp, NavbarProjectChooser, ScrollArea } from '@harnessio/canary'
+
 import type { TypesUser } from '../../layouts/types'
 import { adminMenuItem } from './data'
-import { NavbarItem } from './navbar-item'
-import { NavbarItemType } from './types'
 import { NavbarAi } from './navbar-ai'
+import { NavbarItem } from './navbar-item'
 import { NavbarUser } from './navbar-user'
+import { NavbarItemType } from './types'
 
 const hideNavbarPaths = ['/signin', '/signup']
 

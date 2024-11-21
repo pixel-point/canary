@@ -1,22 +1,25 @@
 import { useState } from 'react'
+
+import { closestCenter, DndContext } from '@dnd-kit/core'
+import { SortableContext } from '@dnd-kit/sortable'
+
 import {
   AlertDialog,
   AlertDialogContent,
+  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogFooter,
   Button,
-  Icon,
-  Text,
   ButtonGroup,
-  ScrollArea
+  Icon,
+  ScrollArea,
+  Text
 } from '@harnessio/canary'
+
 import useDragAndDrop from '../../hooks/use-drag-and-drop'
-import { SortableContext } from '@dnd-kit/sortable'
-import { DndContext, closestCenter } from '@dnd-kit/core'
-import { ManageNavigationSearch } from './manage-navigation-search'
 import { MenuGroupType, NavbarItemType } from '../navbar/types'
 import { DraggableItem } from './draggable-item'
+import { ManageNavigationSearch } from './manage-navigation-search'
 
 interface ManageNavigationProps {
   pinnedItems: NavbarItemType[]
@@ -136,7 +139,8 @@ export const ManageNavigation = ({
                               className="w-full grow cursor-grab gap-x-2.5 rounded p-1 px-3 active:cursor-grabbing"
                               variant="ghost"
                               {...attributes}
-                              {...listeners}>
+                              {...listeners}
+                            >
                               <Icon className="w-3.5" name="grid-dots" size={14} />
                               <Text className="w-full text-left text-[inherit]">{item.title}</Text>
                             </Button>
@@ -144,7 +148,8 @@ export const ManageNavigation = ({
                               className="absolute right-1 top-0.5 z-20 text-icons-4 hover:text-icons-2"
                               size="sm_icon"
                               variant="custom"
-                              onClick={() => removeFromPinnedItems(item)}>
+                              onClick={() => removeFromPinnedItems(item)}
+                            >
                               <Icon className="w-3.5" name="x-mark" size={14} />
                             </Button>
                           </>
@@ -176,7 +181,8 @@ export const ManageNavigation = ({
                         className="absolute -right-2 top-0.5 text-icons-4 hover:text-icons-2"
                         size="sm_icon"
                         variant="custom"
-                        onClick={() => addToPinnedItems(item)}>
+                        onClick={() => addToPinnedItems(item)}
+                      >
                         <Icon name="pin" size={14} />
                       </Button>
                     </li>
@@ -204,7 +210,8 @@ export const ManageNavigation = ({
                 size="sm"
                 theme="success"
                 className="pointer-events-none flex gap-2"
-                disabled={submitted}>
+                disabled={submitted}
+              >
                 Saved
                 <Icon name="tick" size={14} />
               </Button>

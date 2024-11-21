@@ -1,11 +1,12 @@
 import { format } from 'date-fns'
+
 import {
   CheckboxFilterOption,
-  type FilterValue,
-  type FilterOption,
+  FilterSearchQueries,
   SortOption,
   SortValue,
-  FilterSearchQueries
+  type FilterOption,
+  type FilterValue
 } from './types'
 
 /**

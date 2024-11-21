@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
-import { MoreSubmenu } from '../components/more-submenu'
-import { TypesUser } from './types'
-import { Navbar } from '../components/navbar'
-import { SettingsMenu } from '../components/settings-menu'
+
 import { ManageNavigation } from '../components/manage-navigation'
-import { navbarMenuData } from '../data/mockNavbarMenuData'
+import { MoreSubmenu } from '../components/more-submenu'
+import { Navbar } from '../components/navbar'
 import { MenuGroupType, MenuGroupTypes, NavbarItemType } from '../components/navbar/types'
+import { SettingsMenu } from '../components/settings-menu'
+import { navbarMenuData } from '../data/mockNavbarMenuData'
 import { pinnedMenuItemsData, recentMenuItemsData } from '../data/mockPinnedAndRecentMenuData'
+import { TypesUser } from './types'
 
 interface RootLayoutProps {
   currentUser: TypesUser | undefined

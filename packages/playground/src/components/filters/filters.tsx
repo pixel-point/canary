@@ -1,5 +1,5 @@
-import { FilterOption, SortOption } from './types'
 import FilterTrigger from './filter-trigger'
+import { FilterOption, SortOption } from './types'
 import { UseFiltersReturn } from './use-filters'
 
 interface FiltersProps {
