@@ -1,4 +1,4 @@
-import { Icon, Navbar, Sheet, SheetContent, Spacer, SheetTitle } from '@harnessio/canary'
+import { Icon, Navbar, Sheet, SheetContent, Spacer, SheetTitle, ScrollArea } from '@harnessio/canary'
 import { NavLink } from 'react-router-dom'
 import { MenuGroupType } from './navbar/types'
 
@@ -18,25 +18,27 @@ export const SettingsMenu = ({ showSettingMenu, handleSettingsMenu, items }: Sys
         modal={false}>
         <SheetTitle className="sr-only">System Administration menu</SheetTitle>
         <Navbar.Root className="w-[364px]" isSubMenu>
-          <Navbar.Content>
-            <Spacer size={9} />
-            {items.map((group, group_idx) => (
-              <Navbar.Group key={group.groupId} topBorder={group_idx > 0} title={group.title} titleClassName="mb-1.5">
-                <div className="grid grid-cols-2 gap-x-6 gap-y-[0.6875rem]">
-                  {group.items.map(item => (
-                    <NavLink key={item.id} to={item.to || ''}>
-                      {({ isActive }) => (
-                        <Navbar.Item
-                          text={item.title || ''}
-                          icon={<Icon name={item.iconName} size={12} />}
-                          active={isActive}
-                        />
-                      )}
-                    </NavLink>
-                  ))}
-                </div>
-              </Navbar.Group>
-            ))}
+          <Navbar.Content className="overflow-hidden">
+            <ScrollArea>
+              <Spacer size={9} />
+              {items.map((group, group_idx) => (
+                <Navbar.Group key={group.groupId} topBorder={group_idx > 0} title={group.title} titleClassName="mb-1.5">
+                  <div className="grid grid-cols-2 gap-x-6 gap-y-[0.6875rem]">
+                    {group.items.map(item => (
+                      <NavLink key={item.id} to={item.to || ''}>
+                        {({ isActive }) => (
+                          <Navbar.Item
+                            text={item.title || ''}
+                            icon={<Icon name={item.iconName} size={12} />}
+                            active={isActive}
+                          />
+                        )}
+                      </NavLink>
+                    ))}
+                  </div>
+                </Navbar.Group>
+              ))}
+            </ScrollArea>
           </Navbar.Content>
         </Navbar.Root>
       </SheetContent>

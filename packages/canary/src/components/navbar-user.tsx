@@ -36,7 +36,7 @@ const UserBlock = ({ username, role, url, isButton = false, className }: UserBlo
         className
       )}>
       {isButton && (
-        <div className="group-hover:bg-background-4 group-data-[state=open]:bg-background-4 absolute -inset-2 rounded duration-100 ease-in-out" />
+        <div className="absolute -inset-2 rounded duration-100 ease-in-out group-hover:bg-background-4 group-data-[state=open]:bg-background-4" />
       )}
       <div className="col-start-1 row-span-2">
         <Avatar className="overflow-hidden rounded-md" size="8">
@@ -44,9 +44,9 @@ const UserBlock = ({ username, role, url, isButton = false, className }: UserBlo
           <AvatarFallback>{getInitials(username)}</AvatarFallback>
         </Avatar>
       </div>
-      <p className="text-13 text-foreground-1 col-start-2 row-start-1 font-medium leading-none">{username}</p>
+      <p className="col-start-2 row-start-1 text-13 font-medium leading-none text-foreground-1">{username}</p>
       {!!role && (
-        <p className="text-13 text-foreground-4 col-start-2 row-start-2 mt-0.5 font-normal leading-none">{role}</p>
+        <p className="col-start-2 row-start-2 mt-0.5 text-13 font-normal leading-none text-foreground-4">{role}</p>
       )}
     </Tag>
   )
@@ -67,7 +67,7 @@ const Root: React.FC<{
       </DropdownMenuTrigger>
       {menuItems && (
         <DropdownMenuContent
-          className="bg-background-1 ml-3 w-[230px]"
+          className="ml-3 w-[230px] bg-background-1"
           align="start"
           sideOffset={-40}
           alignOffset={187}>

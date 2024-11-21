@@ -1,12 +1,12 @@
 import { Button, cn, Popover, PopoverContent, PopoverTrigger, ScrollArea, SearchBox, Text } from '@harnessio/canary'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { MenuGroup, NavbarItem } from '../navbar/types'
+import { MenuGroupType, NavbarItemType } from '../navbar/types'
 import { debounce } from '../../utils/debaunce'
 
-const filterItems = (categories: MenuGroup[], query: string): MenuGroup[] => {
+const filterItems = (categories: MenuGroupType[], query: string): MenuGroupType[] => {
   if (!query.trim()) return categories
 
-  return categories.reduce<MenuGroup[]>((acc, category) => {
+  return categories.reduce<MenuGroupType[]>((acc, category) => {
     const filteredItems = category.items.filter(item => item.title.toLowerCase().includes(query.toLowerCase()))
     if (filteredItems.length > 0) {
       acc.push({
@@ -19,16 +19,16 @@ const filterItems = (categories: MenuGroup[], query: string): MenuGroup[] => {
 }
 
 interface ManageNavigationSearchProps {
-  navbarMenuData: MenuGroup[]
-  addToPinnedItems: (item: NavbarItem) => void
+  navbarMenuData: MenuGroupType[]
+  addToPinnedItems: (item: NavbarItemType) => void
 }
 
 export const ManageNavigationSearch = ({ navbarMenuData, addToPinnedItems }: ManageNavigationSearchProps) => {
-  const [filteredItems, setFilteredItems] = useState<MenuGroup[]>(navbarMenuData)
+  const [filteredItems, setFilteredItems] = useState<MenuGroupType[]>(navbarMenuData)
   const [searchQuery, setSearchQuery] = useState('')
   const [isSearchDialogOpen, setSearchDialogOpen] = useState(false)
-  const inputRef = useRef<HTMLInputElement>(null)
-  const popoverRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement | null>(null)
+  const popoverRef = useRef<HTMLDivElement | null>(null)
 
   const debouncedSearch = useCallback(
     debounce((query: string) => {
@@ -45,7 +45,7 @@ export const ManageNavigationSearch = ({ navbarMenuData, addToPinnedItems }: Man
     debouncedSearch(query)
   }
 
-  const handleItemClick = (item: NavbarItem) => {
+  const handleItemClick = (item: NavbarItemType) => {
     addToPinnedItems(item)
     setSearchQuery('')
     setSearchDialogOpen(false)
@@ -65,7 +65,7 @@ export const ManageNavigationSearch = ({ navbarMenuData, addToPinnedItems }: Man
         const activeElement = document.activeElement
 
         if (popoverRef.current) {
-          const focusableElements = popoverRef.current.querySelectorAll<HTMLElement>('button:not([disabled])')
+          const focusableElements = popoverRef.current!.querySelectorAll<HTMLElement>('button:not([disabled])')
           const firstFocusableElement = focusableElements[0]
 
           if (!isShift && activeElement === inputRef.current) {
@@ -101,7 +101,7 @@ export const ManageNavigationSearch = ({ navbarMenuData, addToPinnedItems }: Man
         />
       </PopoverTrigger>
       <PopoverContent
-        className="border-borders-1 bg-background-2 w-[368px] overflow-hidden !rounded !p-0"
+        className="w-[368px] overflow-hidden !rounded border-borders-1 bg-background-2 !p-0"
         ref={popoverRef}
         align="start"
         onWheel={e => e.stopPropagation()}
@@ -110,21 +110,21 @@ export const ManageNavigationSearch = ({ navbarMenuData, addToPinnedItems }: Man
         <ScrollArea className={cn('relative max-h-[50vh]', countFilteredItems > 10 && 'h-[404px]')}>
           <div className="px-1 pb-2 pt-1">
             <span
-              className="from-background-2 pointer-events-none absolute inset-x-0 top-0 h-3 w-full bg-gradient-to-b to-transparent"
+              className="pointer-events-none absolute inset-x-0 top-0 h-3 w-full bg-gradient-to-b from-background-2 to-transparent"
               aria-hidden
             />
             <span
-              className="from-background-2 pointer-events-none absolute inset-x-0 bottom-0 h-3 w-full bg-gradient-to-t to-transparent"
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-3 w-full bg-gradient-to-t from-background-2 to-transparent"
               aria-hidden
             />
             {countFilteredItems === 0 ? (
-              <Text className="text-foreground-5 block w-full px-2 py-4">No results found</Text>
+              <Text className="block w-full px-2 py-4 text-foreground-5">No results found</Text>
             ) : (
               filteredItems.map((category, index) => (
                 <div
                   className={cn(index > 0 ? 'border-borders-4 mt-0.5 border-t pt-2' : 'pt-1')}
                   key={`category-${category.groupId}-${index}`}>
-                  <Text className="text-foreground-7 inline-block px-2 leading-none" size={1}>
+                  <Text className="inline-block px-2 leading-none text-foreground-7" size={1}>
                     {category.title}
                   </Text>
                   <div className="mt-2.5 flex flex-col">
@@ -135,7 +135,7 @@ export const ManageNavigationSearch = ({ navbarMenuData, addToPinnedItems }: Man
                         key={`item-${item.id}`}
                         onClick={() => handleItemClick(item)}>
                         <div className="flex w-full items-center gap-x-2">
-                          <Text className="text-foreground-8 truncate leading-tight">{item.title}</Text>
+                          <Text className="truncate leading-tight text-foreground-8">{item.title}</Text>
                         </div>
                       </Button>
                     ))}

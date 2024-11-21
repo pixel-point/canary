@@ -31,7 +31,7 @@ function Root({ logo }: ProjectProps) {
         showOnFocus
       />
       <Dialog open={isSearchDialogOpen} onOpenChange={closeSearchDialog}>
-        <DialogContent className="border-border bg-primary-background h-[600px] max-w-[800px]">
+        <DialogContent className="h-[600px] max-w-[800px] border-border bg-primary-background">
           <DialogHeader>
             <DialogTitle>Search</DialogTitle>
             <DialogDescription>

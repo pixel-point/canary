@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Navbar as NavbarComp, Icon, NavbarProjectChooser } from '@harnessio/canary'
+import { Navbar as NavbarComp, Icon, NavbarProjectChooser, ScrollArea } from '@harnessio/canary'
 import type { TypesUser } from '../../layouts/types'
 import { adminMenuItem } from './data'
 import { NavbarItem } from './navbar-item'
@@ -46,20 +46,20 @@ export const Navbar = ({
   if (!showNavbar) return null
 
   return (
-    <NavbarComp.Root className="fixed inset-y-0 left-0 z-50 max-md:hidden">
+    <NavbarComp.Root className="fixed inset-y-0 left-0 z-50 overflow-hidden max-md:hidden">
       <NavbarComp.Header>
         <NavbarProjectChooser.Root
           logo={
             <Link className="flex items-center gap-1.5" to="/">
               <Icon name="harness" size={18} className="text-foreground-1" />
-              <Icon name="harness-logo-text" width={65} height={15} className="text-foreground-1 mb-0.5" />
+              <Icon name="harness-logo-text" width={65} height={15} className="mb-0.5 text-foreground-1" />
             </Link>
           }
         />
       </NavbarComp.Header>
 
       <NavbarComp.Content className="overflow-hidden">
-        <div className="mb-[1.375rem] overflow-y-scroll">
+        <ScrollArea className="mb-[1.375rem] flex-1">
           <NavbarComp.Group>
             {pinnedMenuItems.map((item, idx) => (
               <NavbarItem
@@ -99,7 +99,7 @@ export const Navbar = ({
               />
             </button>
           </NavbarComp.Group>
-        </div>
+        </ScrollArea>
 
         <NavbarAi />
       </NavbarComp.Content>

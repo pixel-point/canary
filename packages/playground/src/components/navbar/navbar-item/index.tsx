@@ -52,8 +52,8 @@ export const NavbarItem = ({
     </>
   ) : (
     <>
-      <DropdownMenuItem>
-        <Text size={2} truncate onSelect={handleCustomNav}>
+      <DropdownMenuItem onSelect={handleCustomNav}>
+        <Text size={2} truncate>
           Reorder
         </Text>
       </DropdownMenuItem>

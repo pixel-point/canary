@@ -8,6 +8,7 @@ import { SettingsMenu } from '../components/settings-menu'
 import { MenuGroupType, MenuGroupTypes, NavbarItemType } from '../components/navbar/types'
 import { pinnedMenuItemsData, recentMenuItemsData } from '../data/mockPinnedAndRecentMenuData'
 import { navbarMenuData } from '../data/mockNavbarMenuData'
+import { ManageNavigation } from '../components/manage-navigation'
 
 interface SandboxRootProps {
   currentUser: TypesUser | undefined
@@ -81,6 +82,14 @@ export const SandboxRoot: React.FC<SandboxRootProps> = ({ currentUser }) => {
   }, [location])
 
   /**
+   * Handle save recent and pinned items
+   */
+  const handleSave = (recentItems: NavbarItemType[], currentPinnedItems: NavbarItemType[]) => {
+    setRecentMenuItems(recentItems)
+    setPinnedMenuItems(currentPinnedItems)
+  }
+
+  /**
    * Remove recent menu item
    */
   const handleRemoveRecentMenuItem = useCallback((item: NavbarItemType) => {
@@ -128,6 +137,16 @@ export const SandboxRoot: React.FC<SandboxRootProps> = ({ currentUser }) => {
       <Outlet />
       <MoreSubmenu showMoreMenu={showMoreMenu} handleMoreMenu={handleMoreMenu} items={moreMenu} />
       <SettingsMenu showSettingMenu={showSettingMenu} handleSettingsMenu={handleSettingsMenu} items={settingsMenu} />
+      <ManageNavigation
+        pinnedItems={pinnedMenuItems}
+        recentItems={recentMenuItems}
+        navbarMenuData={navbarMenuData}
+        showManageNavigation={showCustomNav}
+        isSubmitting={false}
+        submitted={false}
+        onSave={handleSave}
+        onClose={handleCustomNav}
+      />
     </SandboxLayout.Root>
   )
 }
