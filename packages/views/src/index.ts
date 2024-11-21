@@ -25,6 +25,7 @@ export * from './components/pull-request/pull-request-comment-box'
 export * from './components/pull-request/pull-request-filters'
 export * from './components/pull-request/pull-request-side-bar'
 export * from './components/pull-request/pull-request-changes'
+export * from './components/pull-request/interfaces-store'
 
 export * from './components/no-search-results'
 export * from './components/pipeline-studio/pipeline-studio-toolbar-actions'

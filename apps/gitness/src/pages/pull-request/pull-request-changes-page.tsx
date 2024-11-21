@@ -12,7 +12,6 @@ import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { compact, isEqual } from 'lodash-es'
 import { useAtom } from 'jotai'
 import { normalizeGitRef } from '../../utils/git-utils'
-import { usePullRequestData } from './context/pull-request-data-provider'
 import { changedFileId, DIFF2HTML_CONFIG, normalizeGitFilePath } from './utils'
 import { changesInfoAtom, DiffFileEntry, DiffViewerExchangeState, PullReqReviewDecision } from './types/types'
 import { parseSpecificDiff } from './diff-utils'
@@ -20,9 +19,14 @@ import { useAppContext } from '../../framework/context/AppContext'
 import { useParams } from 'react-router-dom'
 import { PathParams } from '../../RouteDefinitions'
 import { PullRequestChangesFilter } from './pull-request-changes-filter'
+import { usePullRequestDataStore } from './stores/pull-request-store'
 
 export default function PullRequestChangesPage() {
-  const { pullReqMetadata, refetchPullReq, refetchActivities } = usePullRequestData()
+  const { pullReqMetadata, refetchPullReq, refetchActivities } = usePullRequestDataStore(state => ({
+    pullReqMetadata: state.pullReqMetadata,
+    refetchPullReq: state.refetchPullReq,
+    refetchActivities: state.refetchActivities
+  }))
   const { currentUser } = useAppContext()
   const repoRef = useGetRepoRef()
   const commitSHA = '' // TODO: when you implement commit filter will need commitSHA
@@ -200,7 +204,7 @@ export default function PullRequestChangesPage() {
         active={''}
         loading={loadingReviewers}
         currentUser={currentUser ?? {}}
-        pullRequestMetadata={pullReqMetadata}
+        pullRequestMetadata={pullReqMetadata ? pullReqMetadata : undefined}
         reviewers={reviewers}
         submitReview={submitReview}
         refetchReviewers={refetchReviewers}

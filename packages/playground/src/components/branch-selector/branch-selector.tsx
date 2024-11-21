@@ -43,10 +43,10 @@ export const BranchSelector = ({
           {prefix ? null : (
             <Icon className="text-icons-9 min-w-[12px] fill-transparent" name={isTag ? 'tag' : 'branch'} size={12} />
           )}
-          <Text className="w-full text-primary/90" truncate align="left">
+          <Text className="text-primary/90 w-full" truncate align="left">
             {prefix ? `${prefix}: ${name}` : name}
           </Text>
-          <Icon className="chevron-down ml-0 min-w-[10px] text-tertiary-background" name="chevron-down" size={10} />
+          <Icon className="chevron-down text-tertiary-background ml-0 min-w-[10px]" name="chevron-down" size={10} />
         </Button>
       </DropdownMenuTrigger>
       <BranchSelectorDropdown branchList={branchList} tagList={tagList} name={name} selectBranch={selectBranch} />

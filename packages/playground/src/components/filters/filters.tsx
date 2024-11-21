@@ -1,19 +1,23 @@
-import { FilterOption, FilterSearchQueries, FilterValue, SortOption, SortValue } from './types'
+import { FilterOption, SortOption } from './types'
 import FilterTrigger from './filter-trigger'
+import { UseFiltersReturn } from './use-filters'
 
 interface FiltersProps {
   showFilter?: boolean
   showSort?: boolean
   filterOptions: FilterOption[]
   sortOptions: SortOption[]
-  activeFilters: FilterValue[]
-  activeSorts: SortValue[]
-  handleFilterChange: (filter: Omit<FilterValue, 'condition' | 'selectedValues'>) => void
-  handleSortChange: (sort: SortValue) => void
-  handleResetFilters: () => void
-  handleResetSorts: () => void
-  searchQueries: FilterSearchQueries
-  handleSearchChange: (type: string, query: string, searchType: keyof FilterSearchQueries) => void
+  filterHandlers: Pick<
+    UseFiltersReturn,
+    | 'activeFilters'
+    | 'activeSorts'
+    | 'handleFilterChange'
+    | 'handleSortChange'
+    | 'handleResetFilters'
+    | 'handleResetSorts'
+    | 'searchQueries'
+    | 'handleSearchChange'
+  >
 }
 
 const Filters = ({
@@ -21,14 +25,16 @@ const Filters = ({
   showSort = true,
   filterOptions,
   sortOptions,
-  activeFilters,
-  activeSorts,
-  handleFilterChange,
-  handleSortChange,
-  handleResetFilters,
-  handleResetSorts,
-  searchQueries,
-  handleSearchChange
+  filterHandlers: {
+    activeFilters,
+    activeSorts,
+    handleFilterChange,
+    handleResetFilters,
+    searchQueries,
+    handleSearchChange,
+    handleSortChange,
+    handleResetSorts
+  }
 }: FiltersProps) => {
   return (
     <div className="flex items-center gap-x-5">

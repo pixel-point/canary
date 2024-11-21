@@ -1,15 +1,105 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { FilterValue, SortValue, FilterSearchQueries, FilterAction } from './types'
 
-const useFilters = () => {
-  const [activeFilters, setActiveFilters] = useState<FilterValue[]>([])
-  const [activeSorts, setActiveSorts] = useState<SortValue[]>([])
+export interface UseFiltersReturn {
+  // State values
+  activeFilters: FilterValue[]
+  activeSorts: SortValue[]
+  searchQueries: FilterSearchQueries
+  filterToOpen: FilterAction | null
+
+  // Filter methods
+  handleFilterChange: (newFilter: Omit<FilterValue, 'condition' | 'selectedValues'>, defaultCondition?: string) => void
+  handleUpdateFilter: (type: string, selectedValues: string[]) => void
+  handleUpdateCondition: (type: string, condition: string) => void
+  handleRemoveFilter: (type: string) => void
+  handleResetFilters: () => void
+
+  // Sort methods
+  handleSortChange: (newSort: SortValue) => void
+  handleUpdateSort: (index: number, updatedSort: SortValue) => void
+  handleRemoveSort: (index: number) => void
+  handleReorderSorts: (newSorts: SortValue[]) => void
+  handleResetSorts: () => void
+
+  // Common methods
+  handleResetAll: () => void
+
+  // Search methods
+  handleSearchChange: (type: string, query: string, searchType: keyof FilterSearchQueries) => void
+  clearSearchQuery: (type: string, searchType: keyof FilterSearchQueries) => void
+
+  // Filter opening control
+  clearFilterToOpen: () => void
+
+  // Save and clear saved filters
+  handleSaveFilters: () => void
+  handleClearSavedFilters: () => void
+  hasUnsavedChanges: boolean
+}
+
+interface UseFiltersProps {
+  /**
+   * Initial state for filters and sorts
+   */
+  initialState?: {
+    filters: FilterValue[]
+    sorts: SortValue[]
+  }
+
+  /**
+   * Callback fired when filters or sorts state changes
+   */
+  onStateChange?: (state: { filters: FilterValue[]; sorts: SortValue[] }) => void
+
+  /**
+   * Controls visibility of save button
+   */
+  hasUnsavedChanges?: boolean
+
+  /**
+   * Callback fired when save button is clicked
+   */
+  onSave?: () => void
+
+  /**
+   * Callback fired when clear button is clicked
+   */
+  onClear?: () => void
+}
+
+const useFilters = ({
+  initialState,
+  onStateChange,
+  hasUnsavedChanges = false,
+  onSave,
+  onClear
+}: UseFiltersProps): UseFiltersReturn => {
+  // Initialize state with initialState if provided
+  const [activeFilters, setActiveFilters] = useState<FilterValue[]>(() => initialState?.filters || [])
+  const [activeSorts, setActiveSorts] = useState<SortValue[]>(() => initialState?.sorts || [])
   const [searchQueries, setSearchQueries] = useState<FilterSearchQueries>({
-    filters: {} as Record<string, string>,
-    menu: {} as Record<string, string>
+    filters: {},
+    menu: {}
   })
   const [filterToOpen, setFilterToOpen] = useState<FilterAction | null>(null)
+
+  // Update filters and sorts when initialState changes
+  useEffect(() => {
+    if (initialState) {
+      setActiveFilters(initialState.filters)
+      setActiveSorts(initialState.sorts)
+    }
+  }, [initialState])
+
+  // Notify parent component about state changes
+  useEffect(() => {
+    onStateChange?.({
+      filters: activeFilters,
+      sorts: activeSorts
+    })
+  }, [activeFilters, activeSorts, onStateChange])
 
   // FILTERS
   /**
@@ -172,10 +262,29 @@ const useFilters = () => {
     setFilterToOpen(null)
   }
 
+  /**
+   * Saves current filter state using provided onSave callback
+   * Parent component is responsible for implementing the actual save logic
+   * (e.g. localStorage, API call, cookies etc.)
+   */
+  const handleSaveFilters = useCallback(() => {
+    onSave?.()
+  }, [onSave])
+
+  /**
+   * Clears saved filter state using provided onClear callback
+   * Parent component is responsible for implementing the actual clear logic
+   * and resetting filters to initial state
+   */
+  const handleClearSavedFilters = useCallback(() => {
+    onClear?.()
+  }, [onClear])
+
   return {
     activeFilters,
     activeSorts,
     searchQueries,
+    filterToOpen,
     handleFilterChange,
     handleUpdateFilter,
     handleUpdateCondition,
@@ -189,8 +298,10 @@ const useFilters = () => {
     handleResetAll,
     handleSearchChange,
     clearSearchQuery,
-    filterToOpen,
-    clearFilterToOpen
+    clearFilterToOpen,
+    handleSaveFilters,
+    handleClearSavedFilters,
+    hasUnsavedChanges
   }
 }
 

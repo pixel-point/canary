@@ -1,4 +1,5 @@
-import { FilterOption, FilterValue, SortOption, SortValue, FilterSearchQueries } from './types'
+import { FilterOption, SortOption } from './types'
+import { UseFiltersReturn } from './use-filters'
 
 import {
   DropdownMenu,
@@ -11,36 +12,42 @@ import {
 
 interface BaseFilterTriggerProps {
   type: 'filter' | 'sort'
-  searchQueries: FilterSearchQueries
-  onReset: () => void
+  options: FilterOption[] | SortOption[]
+  customLabel?: React.ReactNode | string
+  hideCount?: boolean
+  dropdownAlign?: 'start' | 'end'
 }
 
 interface FilterTriggerFilterProps extends BaseFilterTriggerProps {
   type: 'filter'
-  activeFilters: FilterValue[]
   options: FilterOption[]
-  onChange: (filter: Omit<FilterValue, 'condition' | 'selectedValues'>, defaultCondition?: string) => void
-  onSearchChange: (type: string, query: string, searchType: keyof FilterSearchQueries) => void
+  activeFilters: UseFiltersReturn['activeFilters']
+  onChange: UseFiltersReturn['handleFilterChange']
+  onReset?: UseFiltersReturn['handleResetFilters']
+  searchQueries: UseFiltersReturn['searchQueries']
+  onSearchChange: UseFiltersReturn['handleSearchChange']
 }
 
 interface FilterTriggerSortProps extends BaseFilterTriggerProps {
   type: 'sort'
-  activeFilters: SortValue[]
   options: SortOption[]
-  onChange: (sort: SortValue) => void
-  onSearchChange: (type: string, query: string, searchType: keyof FilterSearchQueries) => void
+  activeFilters: UseFiltersReturn['activeSorts']
+  onChange: UseFiltersReturn['handleSortChange']
+  onReset: UseFiltersReturn['handleResetSorts']
+  searchQueries: UseFiltersReturn['searchQueries']
+  onSearchChange: UseFiltersReturn['handleSearchChange']
 }
 
 type FilterTriggerProps = FilterTriggerFilterProps | FilterTriggerSortProps
 
 const LABELS = {
   filter: {
-    label: 'Filter',
+    defaultLabel: 'Filter',
     inputPlaceholder: 'Filter by...',
     buttonLabel: 'Reset filters'
   },
   sort: {
-    label: 'Sort',
+    defaultLabel: 'Sort',
     inputPlaceholder: 'Sort by...',
     buttonLabel: 'Reset sort'
   }
@@ -49,13 +56,17 @@ const LABELS = {
 const FilterTrigger = ({
   type,
   activeFilters,
+  customLabel,
+  hideCount,
+  dropdownAlign = 'end',
   onChange,
   onReset,
   searchQueries,
   onSearchChange,
   options
 }: FilterTriggerProps) => {
-  const { label, inputPlaceholder, buttonLabel } = LABELS[type]
+  const { defaultLabel, inputPlaceholder, buttonLabel } = LABELS[type]
+  const displayLabel = customLabel || defaultLabel
 
   const isFilterOption = (option: FilterOption | SortOption): option is FilterOption => {
     return 'type' in option && (option as FilterOption).type !== undefined
@@ -92,18 +103,18 @@ const FilterTrigger = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center gap-x-1.5">
-        <span className="flex items-center gap-x-1 text-14 text-foreground-2 hover:text-foreground-1">
-          {label}
-          {activeFilters.length > 0 && (
-            <span className="flex h-[18px] min-w-[17px] items-center justify-center rounded border border-borders-5 bg-background-2 px-1 text-11 text-foreground-2">
+        <span className="text-foreground-2 hover:text-foreground-1 text-14 flex items-center gap-x-1">
+          {displayLabel}
+          {!hideCount && activeFilters.length > 0 && (
+            <span className="text-foreground-2 bg-background-2 text-11 border-borders-5 flex h-[18px] min-w-[17px] items-center justify-center rounded border px-1">
               {activeFilters.length}
             </span>
           )}
         </span>
-        <Icon className="chevron-down text-icons-4" name="chevron-fill-down" size={6} />
+        {!customLabel && <Icon className="chevron-down text-icons-4" name="chevron-fill-down" size={6} />}
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="min-w-[224px] p-0" align="end">
-        <div className="relative flex items-center justify-between border-b border-borders-4 px-3 py-2.5">
+      <DropdownMenuContent className="min-w-[224px] p-0" align={dropdownAlign}>
+        <div className="border-borders-4 relative flex items-center justify-between border-b px-3 py-2.5">
           <Input
             type="text"
             placeholder={inputPlaceholder}
@@ -114,16 +125,16 @@ const FilterTrigger = ({
           />
 
           {searchQueries.menu[type] && (
-            <DropdownMenuItem className="absolute right-3 hover:bg-transparent focus:bg-transparent" asChild>
+            <div className="absolute right-3">
               <button
-                className="flex text-foreground-4 transition-colors duration-200 hover:text-foreground-1"
+                className="text-foreground-4 hover:text-foreground-1 flex p-1.5 transition-colors duration-200"
                 onClick={e => {
                   e.preventDefault()
                   onSearchChange(type, '', 'menu')
                 }}>
                 <Icon className="rotate-45" name="plus" size={12} />
               </button>
-            </DropdownMenuItem>
+            </div>
           )}
         </div>
 
@@ -136,18 +147,20 @@ const FilterTrigger = ({
 
           {filteredBySearchOptions.length === 0 && (
             <div className="flex items-center justify-center p-4">
-              <span className="text-14 leading-none text-foreground-2">No results</span>
+              <span className="text-foreground-2 text-14 leading-none">No results</span>
             </div>
           )}
         </div>
 
-        <div className="border-t border-borders-4 p-1">
-          <DropdownMenuItem asChild>
-            <button className="w-full font-medium" onClick={onReset}>
-              {buttonLabel}
-            </button>
-          </DropdownMenuItem>
-        </div>
+        {onReset && (
+          <div className="border-borders-4 border-t p-1">
+            <DropdownMenuItem asChild>
+              <button className="w-full font-medium" onClick={onReset}>
+                {buttonLabel}
+              </button>
+            </DropdownMenuItem>
+          </div>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   )

@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { Input, Icon, DropdownMenuItem } from '@harnessio/canary'
 import { FilterValue } from '../../types'
+import { UseFiltersReturn } from '../../use-filters'
 
 interface NumberFilterProps {
   filter: FilterValue
-  onUpdateFilter: (type: string, selectedValues: string[]) => void
+  onUpdateFilter: UseFiltersReturn['handleUpdateFilter']
 }
 
 const Number = ({ filter, onUpdateFilter }: NumberFilterProps) => {
@@ -58,7 +59,7 @@ const Number = ({ filter, onUpdateFilter }: NumberFilterProps) => {
 
         {value && (
           <button
-            className="absolute right-3 text-icons-1 transition-colors duration-200 hover:text-foreground-1"
+            className="text-icons-1 hover:text-foreground-1 absolute right-3 transition-colors duration-200"
             onClick={e => {
               e.stopPropagation()
               handleClear()
