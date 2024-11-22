@@ -8,6 +8,7 @@ export interface RepositoryType {
   pulls: number
   createdAt: number
   timestamp: string
+  importing?: boolean
 }
 
 export interface RepoListProps {

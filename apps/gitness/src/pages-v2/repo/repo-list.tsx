@@ -1,25 +1,25 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 
 import { parseAsInteger, useQueryState } from 'nuqs'
 
 import { ListReposOkResponse, useListReposQuery } from '@harnessio/code-service-client'
-import { RepositoryType, SandboxRepoListPage } from '@harnessio/ui/views'
+import { SandboxRepoListPage } from '@harnessio/ui/views'
 
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
 import useSpaceSSE from '../../framework/hooks/useSpaceSSE'
 import { useDebouncedQueryState } from '../../hooks/useDebouncedQueryState'
-import { timeAgoFromEpochTime } from '../../pages/pipeline-edit/utils/time-utils'
-import { PageResponseHeader, SSEEvent } from '../../types'
+import { SSEEvent } from '../../types'
+import { useRepoStore } from './stores/repo-store'
 
 export default function ReposListPage() {
   const space = useGetSpaceURLParam() ?? ''
+  const { repositories, totalPages, setRepositories } = useRepoStore()
 
   /* Query and Pagination */
   const [query] = useDebouncedQueryState('query')
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
-  const [repos, setRepos] = useState<RepositoryType[] | null>(null)
 
-  const { data: { body: repositories, headers } = {}, refetch } = useListReposQuery(
+  const { data: { body: repoData, headers } = {}, refetch } = useListReposQuery(
     {
       queryParams: { page, query },
       space_ref: `${space}/+`
@@ -28,36 +28,22 @@ export default function ReposListPage() {
   )
 
   useEffect(() => {
-    if (repositories) {
-      const transformedRepos = repositories.map(repo => ({
-        id: repo.id || 0,
-        name: repo.identifier || '',
-        description: repo.description || '',
-        private: !repo.is_public,
-        stars: 0,
-        forks: repo.num_forks || 0,
-        pulls: repo.num_pulls || 0,
-        timestamp: repo.updated ? timeAgoFromEpochTime(repo.updated) : '',
-        createdAt: repo.created || 0,
-        importing: !!repo.importing
-      }))
-      setRepos(transformedRepos)
-    } else {
-      setRepos(null)
+    if (repoData) {
+      setRepositories(repoData, headers)
     }
-  }, [repositories])
+  }, [repoData, headers, setRepositories])
 
   const isRepoStillImporting: boolean = useMemo(() => {
-    return repositories?.some(repository => repository.importing) ?? false
-  }, [repositories])
+    return repoData?.some(repository => repository.importing) ?? false
+  }, [repoData])
 
   const onEvent = useCallback(
     (_eventRepos: ListReposOkResponse) => {
-      if (repositories?.some(repository => repository.importing)) {
+      if (repoData?.some(repository => repository.importing)) {
         refetch()
       }
     },
-    [repositories]
+    [repoData]
   )
 
   const events = useMemo(() => [SSEEvent.REPO_IMPORTED], [])
@@ -69,11 +55,9 @@ export default function ReposListPage() {
     shouldRun: isRepoStillImporting
   })
 
-  const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '')
-
   return (
     <SandboxRepoListPage
-      repositories={repos}
+      repositories={repositories}
       totalPages={totalPages}
       currentPage={page}
       setPage={(pageNum: number) => setPage(pageNum)}

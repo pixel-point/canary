@@ -436,7 +436,7 @@ const SandboxRepoListPage: React.FC<RepoListProps> = ({ repositories, totalPages
 
   return (
     <>
-      <SandboxLayout.Main hasHeader hasLeftPanel>
+      <SandboxLayout.Main hasLeftPanel>
         <SandboxLayout.Content>
           <Spacer size={10} />
           <Text size={5} weight={'medium'}>

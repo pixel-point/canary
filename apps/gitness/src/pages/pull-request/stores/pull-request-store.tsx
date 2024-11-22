@@ -51,6 +51,7 @@ export const usePullRequestDataStore = create<PullRequestDataState>((set, get) =
       status: ''
     }
   },
+
   showEditDescription: false,
   setShowEditDescription: show =>
     set(
