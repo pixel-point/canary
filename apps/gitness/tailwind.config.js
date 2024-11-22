@@ -4,10 +4,12 @@ module.exports = {
     require('@harnessio/canary/tailwind.config'),
     require('@harnessio/unified-pipeline/tailwind.config'),
     require('@harnessio/views/tailwind.config')
+    // require('@harnessio/ui/tailwind.config')
   ],
   content: [
     'node_modules/@harnessio/unified-pipeline/src/**/*.{ts,tsx}',
     'node_modules/@harnessio/views/src/**/*.{ts,tsx}',
+    'node_modules/@harnessio/ui/src/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}'
   ]
 }

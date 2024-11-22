@@ -5,6 +5,7 @@ import { NuqsAdapter } from 'nuqs/adapters/react-router'
 
 import { TooltipProvider } from '@harnessio/canary'
 import { CodeServiceAPIClient } from '@harnessio/code-service-client'
+import { SandboxRepoListPage } from '@harnessio/ui/views'
 import {
   ForgotPasswordPage,
   NewPasswordPage,
@@ -100,6 +101,16 @@ export default function App() {
     {
       path: '/new-password',
       element: <NewPasswordPage />
+    },
+    {
+      path: '/v2',
+      element: <RootWrapper />,
+      children: [
+        {
+          path: ':spaceId/repos',
+          element: <SandboxRepoListPage />
+        }
+      ]
     },
     {
       path: '/',

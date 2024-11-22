@@ -1,8 +1,7 @@
-import './styles.css'
+// import './styles.css'
 
 import * as components from './components'
+import * as views from './views'
 
-// import * as views from './views'
-
-export { components }
-// export { components, views }
+// export { components }
+export { components, views }
