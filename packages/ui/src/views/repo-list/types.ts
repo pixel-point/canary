@@ -1,11 +1,18 @@
-export interface Repository {
-  id: string
+export interface RepositoryType {
+  id: number
   name: string
   description?: string
   private: boolean
   stars: number
   forks: number
   pulls: number
-  createdAt: string
+  createdAt: number
   timestamp: string
+}
+
+export interface RepoListProps {
+  repositories: RepositoryType[] | null
+  setPage: (page: number) => void
+  totalPages: number
+  currentPage: number
 }

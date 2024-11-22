@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 
 import { formatDistanceToNow } from 'date-fns'
 
-// import { PlaygroundSandboxLayoutSettings } from '../settings/sandbox-settings'
 import {
   Filters,
   FiltersBar,
@@ -15,24 +14,10 @@ import {
   type SortValue
 } from '../../components/filters'
 import useFilters from '../../components/filters/use-filters'
-import {
-  Button,
-  ListActions,
-  ListPagination,
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-  SearchBox,
-  Spacer,
-  Text
-} from '../../components/index'
+import { Button, ListActions, PaginationComponent, SearchBox, Spacer, Text } from '../../components/index'
 import { SandboxLayout } from '../index'
-import { mockRepos } from './mockRepoData'
 import { RepoList } from './repo-list'
+import { RepoListProps } from './types'
 
 export const BASIC_CONDITIONS: FilterCondition[] = [
   { label: 'is', value: 'is' },
@@ -117,9 +102,7 @@ const SORT_DIRECTIONS: SortDirection[] = [
   { label: 'Descending', value: 'desc' }
 ]
 
-function SandboxRepoListPage() {
-  const [loadState] = useState('float')
-
+const SandboxRepoListPage: React.FC<RepoListProps> = ({ repositories, totalPages, currentPage, setPage }) => {
   // State for storing saved filters and sorts
   // null means no saved state exists
   const [savedState, setSavedState] = useState<{
@@ -233,160 +216,162 @@ function SandboxRepoListPage() {
    *   - Supports 'is' and 'is not' conditions
    *   - Ignores empty filters or is_empty/is_not_empty conditions
    */
-  const filteredRepos = mockRepos.filter(repo => {
-    if (filterHandlers.activeFilters.length === 0) return true
+  const filteredRepos =
+    repositories &&
+    repositories.filter(repo => {
+      if (filterHandlers.activeFilters.length === 0) return true
 
-    return filterHandlers.activeFilters.every(filter => {
-      switch (filter.type) {
-        case 'type': {
-          // Skip empty/not empty conditions for type filter
-          if (filter.condition === 'is_empty' || filter.condition === 'is_not_empty') {
-            return true
+      return filterHandlers.activeFilters.every(filter => {
+        switch (filter.type) {
+          case 'type': {
+            // Skip empty/not empty conditions for type filter
+            if (filter.condition === 'is_empty' || filter.condition === 'is_not_empty') {
+              return true
+            }
+
+            // Skip if no values selected
+            if (filter.selectedValues.length === 0) {
+              return true
+            }
+
+            // Determine repository types
+            const isPrivate = repo.private
+            const isPublic = !repo.private
+            const isFork = repo.forks > 0
+
+            // Check if repo matches any of the selected type values
+            const matchesType = filter.selectedValues.some(value => {
+              switch (value) {
+                case 'private':
+                  return isPrivate
+                case 'public':
+                  return isPublic
+                case 'fork':
+                  return isFork
+                default:
+                  return false
+              }
+            })
+
+            // Apply condition (is/is not)
+            return filter.condition === 'is' ? matchesType : !matchesType
           }
 
-          // Skip if no values selected
-          if (filter.selectedValues.length === 0) {
-            return true
-          }
+          case 'created_time': {
+            // Skip if no values selected
+            if (filter.selectedValues.length === 0) {
+              return true
+            }
 
-          // Determine repository types
-          const isPrivate = repo.private
-          const isPublic = !repo.private
-          const isFork = repo.forks > 0
+            // Handle empty conditions
+            if (filter.condition === 'is_empty') {
+              return !repo.createdAt
+            }
+            if (filter.condition === 'is_not_empty') {
+              return !!repo.createdAt
+            }
 
-          // Check if repo matches any of the selected type values
-          const matchesType = filter.selectedValues.some(value => {
-            switch (value) {
-              case 'private':
-                return isPrivate
-              case 'public':
-                return isPublic
-              case 'fork':
-                return isFork
+            const createdDate = new Date(repo.createdAt)
+            const selectedDate = new Date(filter.selectedValues[0])
+
+            // Reset time parts for date-only comparison
+            createdDate.setHours(0, 0, 0, 0)
+            selectedDate.setHours(0, 0, 0, 0)
+
+            switch (filter.condition) {
+              case 'is':
+                return createdDate.getTime() === selectedDate.getTime()
+
+              case 'is_before':
+                return createdDate.getTime() < selectedDate.getTime()
+
+              case 'is_after':
+                return createdDate.getTime() > selectedDate.getTime()
+
+              case 'is_between': {
+                if (filter.selectedValues.length !== 2) return true
+                const endDate = new Date(filter.selectedValues[1])
+                endDate.setHours(0, 0, 0, 0)
+                return createdDate.getTime() >= selectedDate.getTime() && createdDate.getTime() <= endDate.getTime()
+              }
+
               default:
-                return false
+                return true
             }
-          })
-
-          // Apply condition (is/is not)
-          return filter.condition === 'is' ? matchesType : !matchesType
-        }
-
-        case 'created_time': {
-          // Skip if no values selected
-          if (filter.selectedValues.length === 0) {
-            return true
           }
 
-          // Handle empty conditions
-          if (filter.condition === 'is_empty') {
-            return !repo.createdAt
-          }
-          if (filter.condition === 'is_not_empty') {
-            return !!repo.createdAt
-          }
-
-          const createdDate = new Date(repo.createdAt)
-          const selectedDate = new Date(filter.selectedValues[0])
-
-          // Reset time parts for date-only comparison
-          createdDate.setHours(0, 0, 0, 0)
-          selectedDate.setHours(0, 0, 0, 0)
-
-          switch (filter.condition) {
-            case 'is':
-              return createdDate.getTime() === selectedDate.getTime()
-
-            case 'is_before':
-              return createdDate.getTime() < selectedDate.getTime()
-
-            case 'is_after':
-              return createdDate.getTime() > selectedDate.getTime()
-
-            case 'is_between': {
-              if (filter.selectedValues.length !== 2) return true
-              const endDate = new Date(filter.selectedValues[1])
-              endDate.setHours(0, 0, 0, 0)
-              return createdDate.getTime() >= selectedDate.getTime() && createdDate.getTime() <= endDate.getTime()
+          case 'name': {
+            if (filter.condition === 'is_empty') {
+              return !repo.name
+            }
+            if (filter.condition === 'is_not_empty') {
+              return !!repo.name
             }
 
-            default:
+            // Skip if no values selected
+            if (filter.selectedValues.length === 0) {
               return true
-          }
-        }
+            }
 
-        case 'name': {
-          if (filter.condition === 'is_empty') {
-            return !repo.name
-          }
-          if (filter.condition === 'is_not_empty') {
-            return !!repo.name
+            const value = filter.selectedValues[0].toLowerCase()
+            const name = repo.name.toLowerCase()
+
+            switch (filter.condition) {
+              case 'is':
+                return name === value
+              case 'is_not':
+                return name !== value
+              case 'contains':
+                return name.includes(value)
+              case 'does_not_contain':
+                return !name.includes(value)
+              case 'starts_with':
+                return name.startsWith(value)
+              case 'ends_with':
+                return name.endsWith(value)
+              default:
+                return true
+            }
           }
 
-          // Skip if no values selected
-          if (filter.selectedValues.length === 0) {
+          case 'stars': {
+            if (filter.condition === 'is_empty') {
+              return !repo.stars
+            }
+            if (filter.condition === 'is_not_empty') {
+              return !!repo.stars
+            }
+
+            if (filter.selectedValues.length === 0) {
+              return true
+            }
+
+            const filterValue = Number(filter.selectedValues[0])
+            const repoValue = repo.stars || 0
+
+            switch (filter.condition) {
+              case 'equals':
+                return repoValue === filterValue
+              case 'not_equals':
+                return repoValue !== filterValue
+              case 'greater':
+                return repoValue > filterValue
+              case 'less':
+                return repoValue < filterValue
+              case 'greater_equals':
+                return repoValue >= filterValue
+              case 'less_equals':
+                return repoValue <= filterValue
+              default:
+                return true
+            }
+          }
+
+          default:
             return true
-          }
-
-          const value = filter.selectedValues[0].toLowerCase()
-          const name = repo.name.toLowerCase()
-
-          switch (filter.condition) {
-            case 'is':
-              return name === value
-            case 'is_not':
-              return name !== value
-            case 'contains':
-              return name.includes(value)
-            case 'does_not_contain':
-              return !name.includes(value)
-            case 'starts_with':
-              return name.startsWith(value)
-            case 'ends_with':
-              return name.endsWith(value)
-            default:
-              return true
-          }
         }
-
-        case 'stars': {
-          if (filter.condition === 'is_empty') {
-            return !repo.stars
-          }
-          if (filter.condition === 'is_not_empty') {
-            return !!repo.stars
-          }
-
-          if (filter.selectedValues.length === 0) {
-            return true
-          }
-
-          const filterValue = Number(filter.selectedValues[0])
-          const repoValue = repo.stars || 0
-
-          switch (filter.condition) {
-            case 'equals':
-              return repoValue === filterValue
-            case 'not_equals':
-              return repoValue !== filterValue
-            case 'greater':
-              return repoValue > filterValue
-            case 'less':
-              return repoValue < filterValue
-            case 'greater_equals':
-              return repoValue >= filterValue
-            case 'less_equals':
-              return repoValue <= filterValue
-            default:
-              return true
-          }
-        }
-
-        default:
-          return true
-      }
+      })
     })
-  })
 
   /**
    * Sorts filtered repositories based on active sorts
@@ -406,7 +391,7 @@ function SandboxRepoListPage() {
    *   - title: alphabetically by name
    * - Each sort supports ascending/descending direction
    */
-  const sortedRepos = [...filteredRepos].sort((a, b) => {
+  const sortedRepos = [...(filteredRepos ?? [])].sort((a, b) => {
     // Iterate through sorts in priority order
     for (const sort of filterHandlers.activeSorts) {
       const direction = sort.direction === 'asc' ? 1 : -1
@@ -451,28 +436,7 @@ function SandboxRepoListPage() {
 
   return (
     <>
-      {loadState.includes('sub') && (
-        <SandboxLayout.LeftSubPanel hasHeader>
-          <SandboxLayout.Content>
-            <Text as="p" size={2} className="text-primary/70">
-              SubMenu
-            </Text>
-            <Text as="p" size={2} className="text-primary/70">
-              2,000 pixels tall
-            </Text>
-            <div className="h-[2000px]" />
-            <Text as="p" size={2} className="text-primary/70">
-              End of SubMenu
-            </Text>
-          </SandboxLayout.Content>
-        </SandboxLayout.LeftSubPanel>
-      )}
-      <SandboxLayout.Main
-        hasHeader
-        hasLeftPanel
-        hasLeftSubPanel={loadState.includes('sub')}
-        fullWidth={loadState.includes('full')}
-      >
+      <SandboxLayout.Main hasHeader hasLeftPanel>
         <SandboxLayout.Content>
           <Spacer size={10} />
           <Text size={5} weight={'medium'}>
@@ -503,47 +467,7 @@ function SandboxRepoListPage() {
             hasActiveFilters={filterHandlers.activeFilters.length > 0}
           />
           <Spacer size={8} />
-          {loadState === 'data-loaded' && (
-            <ListPagination.Root>
-              <Pagination>
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious size="sm" href="#" />
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink isActive size="sm_icon" href="#">
-                      1
-                    </PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink size="sm_icon" href="#">
-                      2
-                    </PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink size="sm_icon" href="#">
-                      <PaginationEllipsis />
-                    </PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink size="sm_icon" href="#">
-                      4
-                    </PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink size="sm_icon" href="#">
-                      5
-                    </PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationNext size="sm" href="#" />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
-            </ListPagination.Root>
-          )}
-
-          {/* <PlaygroundSandboxLayoutSettings loadState={loadState} setLoadState={setLoadState} /> */}
+          <PaginationComponent totalPages={totalPages} currentPage={currentPage} goToPage={page => setPage(page)} />
         </SandboxLayout.Content>
       </SandboxLayout.Main>
     </>

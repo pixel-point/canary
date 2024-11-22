@@ -39,6 +39,7 @@ Use InputFactory to register inputs
 
 ```js
 import { InputFactory } from '@harnessio/forms'
+
 import { TextInput } from '../inputs/TextInput'
 
 const inputComponentFactory = new InputFactory()

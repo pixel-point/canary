@@ -5,7 +5,6 @@ import { NuqsAdapter } from 'nuqs/adapters/react-router'
 
 import { TooltipProvider } from '@harnessio/canary'
 import { CodeServiceAPIClient } from '@harnessio/code-service-client'
-import { SandboxRepoListPage } from '@harnessio/ui/views'
 import {
   ForgotPasswordPage,
   NewPasswordPage,
@@ -28,6 +27,8 @@ import { queryClient } from './framework/queryClient'
 import PipelineLayout from './layouts/PipelineStudioLayout'
 import PullRequestLayout from './layouts/PullRequestLayout'
 import RepoLayout from './layouts/RepoLayout'
+// import ReposListPage from './pages/repo/repo-list'
+import ReposListPage from './pages-v2/repo/repo-list'
 import CreateProject from './pages/create-project'
 import { EmptyPage } from './pages/empty-page'
 import { Execution } from './pages/execution/execution-details'
@@ -56,7 +57,6 @@ import { CreateRepo } from './pages/repo/repo-create-page'
 import { RepoFiles } from './pages/repo/repo-files'
 import { RepoHeader } from './pages/repo/repo-header'
 import { RepoImportContainer } from './pages/repo/repo-import-container'
-import ReposListPage from './pages/repo/repo-list'
 import { RepoSettingsGeneralPageContainer } from './pages/repo/repo-settings-general-container'
 import { RepoSummaryList } from './pages/repo/repo-summary'
 import { SignIn } from './pages/signin'
@@ -108,7 +108,7 @@ export default function App() {
       children: [
         {
           path: ':spaceId/repos',
-          element: <SandboxRepoListPage />
+          element: <ReposListPage />
         }
       ]
     },

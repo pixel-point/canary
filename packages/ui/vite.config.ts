@@ -1,7 +1,8 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
-import dts from 'vite-plugin-dts'
 import { resolve } from 'path'
+
+import react from '@vitejs/plugin-react-swc'
+import { defineConfig } from 'vite'
+import dts from 'vite-plugin-dts'
 import svgr from 'vite-plugin-svgr'
 import tsConfigPaths from 'vite-tsconfig-paths'
 
