@@ -1,3 +1,4 @@
+import { DiffModeEnum } from '@git-diff-view/react'
 import { atom } from 'jotai'
 import { z } from 'zod'
 
@@ -190,6 +191,8 @@ export interface FilterViewProps {
   submitReview?: (decision: PullReqReviewDecision) => void
   refetchReviewers?: () => void
   loading?: boolean
+  diffMode: DiffModeEnum
+  setDiffMode: (value: DiffModeEnum) => void
 }
 
 export type EnumPullReqReviewDecisionExtended = EnumPullReqReviewDecision | 'outdated'

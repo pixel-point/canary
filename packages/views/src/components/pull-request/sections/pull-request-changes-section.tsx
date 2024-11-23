@@ -228,7 +228,13 @@ const PullRequestChangesSection = ({
     false
   return (
     <AccordionItem value="item-1">
-      <AccordionTrigger hideChevron={!viewBtn} className="text-left">
+      <AccordionTrigger
+        hideChevron={!viewBtn}
+        className="text-left"
+        onClick={e => {
+          if (!viewBtn) e.preventDefault()
+        }}
+      >
         <StackedList.Field
           title={<LineTitle text={changesInfo.header} icon={getStatusIcon(changesInfo.status)} />}
           description={<LineDescription text={changesInfo.content} />}

@@ -16,11 +16,15 @@ import {
   TypesPullReqActivity,
   TypesPullReqReviewer,
   useCodeownersPullReqQuery,
+  useCreateBranchMutation,
+  useDeleteBranchMutation,
+  useGetBranchQuery,
   useListPrincipalsQuery,
   useListPullReqActivitiesQuery,
   useReviewerListPullReqQuery
 } from '@harnessio/code-service-client'
 import {
+  extractInfoFromRuleViolationArr,
   PullRequestCommentBox,
   PullRequestFilters,
   PullRequestOverview,
@@ -91,7 +95,107 @@ export default function PullRequestConversationPage() {
     pullreq_number: prId,
     queryParams: {}
   })
+
   const [changesLoading, setChangesLoading] = useState(true)
+  const [showDeleteBranchButton, setShowDeleteBranchButton] = useState(false)
+  const [showRestoreBranchButton, setShowRestoreBranchButton] = useState(false)
+  const [errorMsg, setErrorMsg] = useState('')
+
+  const { mutateAsync: saveBranch } = useCreateBranchMutation({})
+  const onRestoreBranch = () => {
+    saveBranch({
+      repo_ref: repoRef,
+      body: { name: pullReqMetadata?.source_branch, target: pullReqMetadata?.source_sha, bypass_rules: false }
+    })
+      .then(res => {
+        if (res.body.name) {
+          setErrorMsg('')
+          setShowRestoreBranchButton(false)
+          setShowDeleteBranchButton(true)
+        }
+      })
+      .catch(err => {
+        setErrorMsg(err.message)
+      })
+  }
+  const {
+    data: { body: sourceBranch } = {},
+    error: branchError,
+    refetch: refetchBranch
+  } = useGetBranchQuery({
+    repo_ref: repoRef,
+    branch_name: pullReqMetadata?.source_branch || '',
+    queryParams: { include_checks: true, include_rules: true }
+  })
+  const { mutateAsync: deleteBranch } = useDeleteBranchMutation({
+    repo_ref: repoRef,
+    branch_name: pullReqMetadata?.source_branch || '',
+    queryParams: { dry_run_rules: true }
+  })
+  const { mutateAsync: createBranch } = useCreateBranchMutation({})
+
+  const onDeleteBranch = () => {
+    deleteBranch({
+      repo_ref: repoRef,
+      branch_name: pullReqMetadata?.source_branch || '',
+      queryParams: { bypass_rules: true, dry_run_rules: false }
+    })
+      .then(() => {
+        refetchBranch()
+        setErrorMsg('')
+      })
+      .catch(err => {
+        setErrorMsg(err.message)
+      })
+  }
+
+  useEffect(() => {
+    if (pullReqMetadata?.merged || pullReqMetadata?.closed) {
+      refetchBranch()
+      if (sourceBranch && (pullReqMetadata?.merged || pullReqMetadata?.closed)) {
+        // dry run delete branch
+        deleteBranch({}).then(res => {
+          if (res?.body?.rule_violations) {
+            const { checkIfBypassAllowed } = extractInfoFromRuleViolationArr(res.body?.rule_violations)
+            if (checkIfBypassAllowed) {
+              setShowDeleteBranchButton(true)
+            } else {
+              setShowDeleteBranchButton(false)
+            }
+          } else {
+            setShowDeleteBranchButton(true)
+          }
+        })
+      }
+    }
+  }, [sourceBranch, pullReqMetadata?.merged, pullReqMetadata?.closed])
+
+  useEffect(() => {
+    if (branchError) {
+      setShowDeleteBranchButton(false)
+      createBranch({
+        repo_ref: repoRef,
+        body: {
+          name: pullReqMetadata?.source_branch || '',
+          target: pullReqMetadata?.source_sha,
+          bypass_rules: true,
+          dry_run_rules: true
+        }
+      }).then(res => {
+        if (res?.body?.rule_violations) {
+          const { checkIfBypassAllowed } = extractInfoFromRuleViolationArr(res.body?.rule_violations)
+          if (checkIfBypassAllowed) {
+            setShowRestoreBranchButton(true)
+          } else {
+            setShowRestoreBranchButton(false)
+          }
+        } else {
+          setShowRestoreBranchButton(true)
+        }
+      })
+    }
+  }, [branchError])
+
   const [activities, setActivities] = useState(activityData)
   const approvedEvaluations = reviewers?.filter(evaluation => evaluation.review_decision === 'approved')
   const latestApprovalArr = approvedEvaluations?.filter(
@@ -318,6 +422,11 @@ export default function PullRequestConversationPage() {
               ruleViolationArr={prPanelData?.ruleViolationArr}
               checkboxBypass={checkboxBypass}
               setCheckboxBypass={setCheckboxBypass}
+              onRestoreBranch={onRestoreBranch}
+              onDeleteBranch={onDeleteBranch}
+              showDeleteBranchButton={showDeleteBranchButton}
+              showRestoreBranchButton={showRestoreBranchButton}
+              headerMsg={errorMsg}
             />
             <Spacer size={9} />
             <PullRequestFilters

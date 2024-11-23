@@ -81,6 +81,7 @@ export * from './components/create-project-page'
 export * from './components/new-password-page'
 export * from './components/otp-page'
 export * from './utils/utils'
+export * from './components/pull-request/utils'
 
 export * as ShaBadge from './components/sha-badge'
 export * as FileViewGauge from './components/file-view-gauge'
