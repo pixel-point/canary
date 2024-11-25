@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import {
   AlertDialog,
@@ -59,6 +59,14 @@ export const ManageNavigation = ({
     filterRecentItems(pinnedItems, recentItems)
   )
   const [isRecentCleared, setIsRecentCleared] = useState(false)
+
+  useEffect(() => {
+    setCurrentPinnedItems(pinnedItems)
+  }, [pinnedItems])
+
+  useEffect(() => {
+    setCurrentFilteredRecentItems(filterRecentItems(pinnedItems, recentItems))
+  }, [recentItems, pinnedItems])
 
   const { handleDragEnd, getItemId } = useDragAndDrop<NavbarItemType>({
     items: currentPinnedItems,
@@ -129,7 +137,7 @@ export const ManageNavigation = ({
             ) : (
               <DndContext onDragEnd={handleDragEnd} collisionDetection={closestCenter}>
                 <SortableContext items={currentPinnedItems.map((_, index) => getItemId(index))}>
-                  <ul className="-mx-3 mt-3.5 flex flex-col gap-y-0.5">
+                  <ul className="-mx-3 mt-3.5 mb-1 flex flex-col gap-y-0.5">
                     {currentPinnedItems.map((item, index) => (
                       <DraggableItem id={getItemId(index)} tag="li" key={item.title}>
                         {({ attributes, listeners }) => (

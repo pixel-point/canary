@@ -12,8 +12,10 @@ export interface MenuGroupType {
   items: NavbarItemType[]
 }
 
+export type NavbarItemIdType = number | string
+
 export interface NavbarItemType {
-  id: number | string
+  id: NavbarItemIdType
   title: string
   iconName: IconProps['name']
   description?: string

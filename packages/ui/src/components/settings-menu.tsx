@@ -46,6 +46,7 @@ export const SettingsMenu = ({ showSettingMenu, handleSettingsMenu, items }: Sys
                   </div>
                 </NavbarSkeleton.Group>
               ))}
+              <Spacer size={11} />
             </ScrollArea>
           </NavbarSkeleton.Content>
         </NavbarSkeleton.Root>

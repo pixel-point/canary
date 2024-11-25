@@ -80,7 +80,7 @@ function Group({ children, title, topBorder, isSubMenu = false, titleClassName }
   return (
     <div
       className={cn(
-        'flex w-full flex-col overflow-x-hidden px-5',
+        'flex w-full flex-col px-5',
         { 'border-borders-5 border-t pt-2.5': topBorder },
         isSubMenu ? 'pb-2.5' : 'gap-1.5 pb-3'
       )}
