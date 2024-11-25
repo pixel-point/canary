@@ -11,9 +11,13 @@ export interface RepositoryType {
   importing?: boolean
 }
 
-export interface RepoListProps {
+interface RepoStore {
   repositories: RepositoryType[] | null
-  setPage: (page: number) => void
   totalPages: number
-  currentPage: number
+  page: number
+  setPage: (page: number) => void
+}
+
+export interface RepoListProps {
+  useRepoStore: () => RepoStore
 }

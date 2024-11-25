@@ -103,9 +103,10 @@ const SORT_DIRECTIONS: SortDirection[] = [
   { label: 'Descending', value: 'desc' }
 ]
 
-const SandboxRepoListPage: React.FC<RepoListProps> = ({ repositories, totalPages, currentPage, setPage }) => {
+const SandboxRepoListPage: React.FC<RepoListProps> = ({ useRepoStore }) => {
   // State for storing saved filters and sorts
   // null means no saved state exists
+  const { repositories, totalPages, page, setPage } = useRepoStore()
   const [savedState, setSavedState] = useState<{
     filters: FilterValue[]
     sorts: SortValue[]
@@ -493,7 +494,7 @@ const SandboxRepoListPage: React.FC<RepoListProps> = ({ repositories, totalPages
             handleResetQuery={handleResetQuery}
           />
           <Spacer size={8} />
-          <PaginationComponent totalPages={totalPages} currentPage={currentPage} goToPage={page => setPage(page)} />
+          <PaginationComponent totalPages={totalPages} currentPage={page} goToPage={page => setPage(page)} />
         </SandboxLayout.Content>
       </SandboxLayout.Main>
     </>
