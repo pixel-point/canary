@@ -137,7 +137,7 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
             Choose two branches to see what&apos;s changed or to start a new pull request. If you need to, you can also
             compare across forks or learn more about diff comparisons.
           </Text>
-          <Layout.Horizontal className="text-tertiary-background items-center">
+          <Layout.Horizontal className="items-center text-tertiary-background">
             <Icon name="pull" size={16} className="text-tertiary-background" />
 
             <BranchSelector
@@ -150,7 +150,7 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
                 handleBranchSelection() // Call when target branch is selected
               }}
             />
-            <Icon name="arrow-long" size={14} className="text-tertiary-background rotate-180" />
+            <Icon name="arrow-long" size={14} className="rotate-180 text-tertiary-background" />
             <BranchSelector
               prefix="compare"
               size="default"
@@ -198,32 +198,34 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
           </Layout.Horizontal>
         </Layout.Vertical>
         <Spacer size={3} />
-        <Layout.Horizontal className="bg-background border-border items-center justify-between rounded-md border-2 px-3 py-3">
-          <div>
-            <Layout.Horizontal className="py-2">
-              {isBranchSelected ? (
-                <>
-                  <Text size={1}>Discuss and review the changes in this comparison with others.</Text>
-                  <Text size={1}>Learn about pull requests.</Text>
-                </>
-              ) : (
-                <Text size={1}>Choose different branches or forks above to discuss and review changes.</Text>
-              )}
-            </Layout.Horizontal>
-          </div>
-          <PullRequestCompareButton
-            isSubmitted={isSubmitted}
-            isValid={isValid}
-            isLoading={isLoading}
-            formRef={formRef}
-            onFormDraftSubmit={onFormDraftSubmit}
-            onFormSubmit={onFormSubmit}
-          />
-        </Layout.Horizontal>
+        {!prBranchCombinationExists && (
+          <Layout.Horizontal className="items-center justify-between rounded-md border-2 border-border bg-background p-3">
+            <div>
+              <Layout.Horizontal className="py-2">
+                {isBranchSelected ? (
+                  <>
+                    <Text size={1}>Discuss and review the changes in this comparison with others.</Text>
+                    <Text size={1}>Learn about pull requests.</Text>
+                  </>
+                ) : (
+                  <Text size={1}>Choose different branches or forks above to discuss and review changes.</Text>
+                )}
+              </Layout.Horizontal>
+            </div>
+            <PullRequestCompareButton
+              isSubmitted={isSubmitted}
+              isValid={isValid}
+              isLoading={isLoading}
+              formRef={formRef}
+              onFormDraftSubmit={onFormDraftSubmit}
+              onFormSubmit={onFormSubmit}
+            />
+          </Layout.Horizontal>
+        )}
         {prBranchCombinationExists && (
           <>
-            <Spacer size={3} />
-            <Layout.Horizontal className="bg-background border-border items-center justify-between rounded-md border-2 px-3 py-3">
+            {/* <Spacer size={2} /> */}
+            <Layout.Horizontal className="items-center justify-between rounded-md border-2 border-border bg-background p-3">
               <div>
                 <Layout.Horizontal className="py-2">
                   <>
@@ -232,7 +234,11 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
                 </Layout.Horizontal>
               </div>
               {/* <ButtonGroup.Root> */}
-              <Button onClick={() => navigate(`../${prBranchCombinationExists}/conversation`)}>
+              <Button
+                size={'xs'}
+                // className="py-0.5"
+                onClick={() => navigate(`../${prBranchCombinationExists}/conversation`)}
+              >
                 View Pull Request
               </Button>
               {/* </ButtonGroup.Root> */}
