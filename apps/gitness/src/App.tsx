@@ -27,7 +27,6 @@ import { queryClient } from './framework/queryClient'
 import PipelineLayout from './layouts/PipelineStudioLayout'
 import PullRequestLayout from './layouts/PullRequestLayout'
 import RepoLayout from './layouts/RepoLayout'
-// import ReposListPage from './pages/repo/repo-list'
 import ReposListPage from './pages-v2/repo/repo-list'
 import CreateProject from './pages/create-project'
 import { EmptyPage } from './pages/empty-page'
@@ -57,6 +56,7 @@ import { CreateRepo } from './pages/repo/repo-create-page'
 import { RepoFiles } from './pages/repo/repo-files'
 import { RepoHeader } from './pages/repo/repo-header'
 import { RepoImportContainer } from './pages/repo/repo-import-container'
+import ReposListPageV1 from './pages/repo/repo-list'
 import { RepoSettingsGeneralPageContainer } from './pages/repo/repo-settings-general-container'
 import { RepoSummaryList } from './pages/repo/repo-summary'
 import { SignIn } from './pages/signin'
@@ -103,7 +103,7 @@ export default function App() {
       element: <NewPasswordPage />
     },
     {
-      path: '/v2',
+      path: '/',
       element: <RootWrapper />,
       children: [
         {
@@ -113,7 +113,7 @@ export default function App() {
       ]
     },
     {
-      path: '/',
+      path: '/v1',
       element: <RootWrapper />,
       children: [
         {
@@ -147,7 +147,7 @@ export default function App() {
           children: [
             {
               path: ':spaceId/repos',
-              element: <ReposListPage />
+              element: <ReposListPageV1 />
             },
             {
               path: ':spaceId/repos/:repoId',
