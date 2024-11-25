@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom'
+
 import { SandboxRoot } from '@harnessio/ui/views'
 
 import { useAppContext } from '../framework/context/AppContext'
@@ -10,10 +12,11 @@ const RootWrapper = () => {
     // spaces
   } = useAppContext()
   // const spaceId = useGetSpaceURLParam()
-
+  const navigate = useNavigate()
   return (
     <>
       <SandboxRoot
+        logout={() => navigate('/logout')}
         currentUser={currentUser}
         pinnedMenu={null}
         recentMenu={[]}
