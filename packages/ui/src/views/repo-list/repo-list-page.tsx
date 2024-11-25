@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import { useCommonFilter } from '@hooks/useCommonFilter'
 import { formatDistanceToNow } from 'date-fns'
 
 import {
@@ -434,6 +435,23 @@ const SandboxRepoListPage: React.FC<RepoListProps> = ({ repositories, totalPages
     }).replace('about ', '')
   }))
 
+  const { query, handleSearch } = useCommonFilter()
+  const [value, setValue] = useState<string>()
+
+  useEffect(() => {
+    setValue(query || '')
+  }, [query])
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e?.target?.value)
+    handleSearch(e)
+  }
+
+  const handleResetQuery = () => {
+    setValue('')
+    handleSearch({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>)
+  }
+
   return (
     <>
       <SandboxLayout.Main hasLeftPanel>
@@ -445,7 +463,13 @@ const SandboxRepoListPage: React.FC<RepoListProps> = ({ repositories, totalPages
           <Spacer size={6} />
           <ListActions.Root>
             <ListActions.Left>
-              <SearchBox.Root placeholder="Search repositories" />
+              <SearchBox.Root
+                width="full"
+                className="max-w-96"
+                value={value}
+                handleChange={handleInputChange}
+                placeholder="Search"
+              />
             </ListActions.Left>
             <ListActions.Right>
               <Filters filterOptions={FILTER_OPTIONS} sortOptions={SORT_OPTIONS} filterHandlers={filterHandlers} />
@@ -465,6 +489,8 @@ const SandboxRepoListPage: React.FC<RepoListProps> = ({ repositories, totalPages
             LinkComponent={LinkComponent}
             handleResetFilters={filterHandlers.handleResetFilters}
             hasActiveFilters={filterHandlers.activeFilters.length > 0}
+            query={query ?? ''}
+            handleResetQuery={handleResetQuery}
           />
           <Spacer size={8} />
           <PaginationComponent totalPages={totalPages} currentPage={currentPage} goToPage={page => setPage(page)} />

@@ -1,6 +1,7 @@
 import { resolve } from 'path'
 
 import react from '@vitejs/plugin-react-swc'
+import { hooks } from 'dist'
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
 import svgr from 'vite-plugin-svgr'
@@ -15,6 +16,7 @@ export default defineConfig({
       entry: {
         components: resolve(__dirname, 'src/components/index.ts'),
         views: resolve(__dirname, 'src/views/index.ts'),
+        hooks: resolve(__dirname, 'src/hooks/index.ts'),
         index: resolve(__dirname, 'src/index.ts')
       },
       formats: ['es']
@@ -30,7 +32,14 @@ export default defineConfig({
     coverage: {
       provider: 'istanbul',
       include: ['src'],
-      exclude: ['src/index.ts', 'src/components/index.ts', 'src/views/index.ts', 'src/**/*.test.*', 'src/utils/cn.ts'],
+      exclude: [
+        'src/index.ts',
+        'src/components/index.ts',
+        'src/views/index.ts',
+        'src/hooks/index.ts',
+        'src/**/*.test.*',
+        'src/utils/cn.ts'
+      ],
       extension: ['ts', 'js', 'tsx', 'jsx']
       // thresholds: {
       //   branches: 80,

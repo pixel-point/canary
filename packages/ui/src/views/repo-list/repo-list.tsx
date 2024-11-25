@@ -11,6 +11,8 @@ export interface PageProps {
   LinkComponent: React.ComponentType<{ to: string; children: React.ReactNode }>
   handleResetFilters?: () => void
   hasActiveFilters?: boolean
+  query?: string
+  handleResetQuery: () => void
 }
 
 const Stats = ({ stars, pulls }: { stars?: number; pulls: number }) => (
@@ -35,7 +37,14 @@ const Title = ({ title, isPrivate }: { title: string; isPrivate: boolean }) => (
   </div>
 )
 
-export function RepoList({ repos, LinkComponent, handleResetFilters, hasActiveFilters }: PageProps) {
+export function RepoList({
+  repos,
+  LinkComponent,
+  handleResetFilters,
+  hasActiveFilters,
+  query,
+  handleResetQuery
+}: PageProps) {
   return (
     <>
       <StackedList.Root>
@@ -67,16 +76,14 @@ export function RepoList({ repos, LinkComponent, handleResetFilters, hasActiveFi
           </>
         ) : (
           <div className="flex min-h-[50vh] items-center justify-center py-20">
-            {hasActiveFilters ? (
+            {hasActiveFilters || query ? (
               <NoData
                 iconName="no-search-magnifying-glass"
                 title="No search results"
                 description={['Check your spelling and filter options,', 'or search for a different keyword.']}
                 primaryButton={{
                   label: 'Clear search',
-                  onClick: () => {
-                    // TODO: add clear search handler
-                  }
+                  onClick: handleResetQuery
                 }}
                 secondaryButton={{
                   label: 'Clear filters',
