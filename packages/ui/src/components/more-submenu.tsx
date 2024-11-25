@@ -41,6 +41,7 @@ export function MoreSubmenu({ showMoreMenu, handleMoreMenu, items }: MoreSubmenu
                   ))}
                 </NavbarSkeleton.Group>
               ))}
+              <Spacer size={11} />
             </ScrollArea>
           </NavbarSkeleton.Content>
         </NavbarSkeleton.Root>

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import {
   AlertDialog,
@@ -59,6 +59,14 @@ export const ManageNavigation = ({
     filterRecentItems(pinnedItems, recentItems)
   )
   const [isRecentCleared, setIsRecentCleared] = useState(false)
+
+  useEffect(() => {
+    setCurrentPinnedItems(pinnedItems)
+  }, [pinnedItems])
+
+  useEffect(() => {
+    setCurrentFilteredRecentItems(filterRecentItems(pinnedItems, recentItems))
+  }, [recentItems, pinnedItems])
 
   const { handleDragEnd, getItemId } = useDragAndDrop<NavbarItemType>({
     items: currentPinnedItems,

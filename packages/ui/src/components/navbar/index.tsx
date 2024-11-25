@@ -5,7 +5,6 @@ import { Icon, NavbarProjectChooser, ScrollArea } from '@/components'
 import { TypesUser } from '@views/layouts/types'
 
 import { adminMenuItem } from './data'
-import { NavbarAi } from './navbar-ai'
 import { NavbarItem } from './navbar-item'
 import NavbarSkeleton from './navbar-skeleton'
 import { NavbarUser } from './navbar-user'
@@ -104,7 +103,7 @@ export const Navbar = ({
           </NavbarSkeleton.Group>
         </ScrollArea>
 
-        <NavbarAi />
+        {/*<NavbarAi />*/}
       </NavbarSkeleton.Content>
 
       <NavbarSkeleton.Footer>
