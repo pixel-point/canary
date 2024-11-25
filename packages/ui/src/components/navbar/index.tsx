@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-import { Icon, NavbarProjectChooser, ScrollArea } from '@/components'
+import { Icon, NavbarProjectChooser, ScrollArea, Spacer } from '@/components'
 import { TypesUser } from '@views/layouts/types'
 
 import { adminMenuItem } from './data'
@@ -62,6 +62,7 @@ export const Navbar = ({
 
       <NavbarSkeleton.Content className="overflow-hidden">
         <ScrollArea className="mb-[1.375rem] flex-1">
+          <Spacer size={1.5} />
           <NavbarSkeleton.Group>
             {pinnedMenuItems.map((item, idx) => (
               <NavbarItem

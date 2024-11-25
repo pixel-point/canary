@@ -133,7 +133,8 @@ export default {
           9: 'hsl(var(--border-09))',
           10: 'hsl(var(--border-10))',
           danger: 'hsl(var(--border-danger))',
-          success: 'hsl(var(--border-success))'
+          success: 'hsl(var(--border-success))',
+          accent: 'hsl(var(--border-accent))'
         },
         tag: {
           border: {
@@ -237,6 +238,9 @@ export default {
         1: '0px 8px 16px rgba(0, 0, 0, 0.30)',
         2: '0px 8px 8px rgba(0, 0, 0, 0.60)',
         'pagination-1': '0px 2px 4px rgba(0, 0, 0, 0.50)'
+      },
+      borderRadius: {
+        10: '0.625rem'
       },
       fontSize: {
         tiny: '0.75rem',

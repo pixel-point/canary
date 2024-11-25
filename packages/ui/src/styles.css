@@ -140,6 +140,7 @@
     --border-10: var(--grey-6);
     --border-danger: var(--red-65);
     --border-success: var(--green-65);
+    --border-accent: var(--blue-60);
     /* Icons */
     --icon-01: var(--grey-60);
     --icon-02: var(--white);
@@ -276,6 +277,7 @@
     --border-10: var(--grey-6);
     --border-danger: var(--red-65);
     --border-success: var(--green-65);
+    --border-accent: var(--blue-60);
     /* Icons */
     --icon-01: var(--grey-60);
     --icon-02: var(--white);
@@ -639,4 +641,10 @@
       stop-color: hsla(0, 0%, 61%, 1);
     }
   }
+}
+
+:focus-visible {
+  outline: 2px solid hsl(var(--border-accent));
+  outline-offset: 2px;
+  border-radius: 2px;
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './dialog'
 import { Root as SearchBox } from './search-box'
@@ -11,7 +11,10 @@ interface ProjectProps {
 function Root({ logo }: ProjectProps) {
   const [isSearchDialogOpen, setSearchDialogOpen] = useState(false)
 
-  const openSearchDialog = () => {
+  const openSearchDialog = (e?: React.FormEvent<HTMLInputElement>) => {
+    e?.preventDefault()
+    e?.stopPropagation()
+
     setSearchDialogOpen(true)
   }
 
@@ -20,7 +23,7 @@ function Root({ logo }: ProjectProps) {
   }
 
   return (
-    <div className="flex w-full flex-col items-start justify-items-start px-5 pb-[1.375rem]">
+    <div className="flex w-full flex-col items-start justify-items-start px-5 pb-4">
       <div className="flex h-[58px] items-center">{logo}</div>
       <SearchBox
         width="full"
@@ -28,8 +31,9 @@ function Root({ logo }: ProjectProps) {
         hasShortcut
         shortcutLetter="K"
         shortcutModifier="cmd"
+        value=""
         onSearch={openSearchDialog}
-        showOnFocus
+        handleChange={openSearchDialog}
       />
       <Dialog open={isSearchDialogOpen} onOpenChange={closeSearchDialog}>
         <DialogContent className="border-border bg-primary-background h-[600px] max-w-[800px]">

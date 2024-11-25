@@ -8,6 +8,7 @@ const spacerVariants = cva('mt-4 block', {
   variants: {
     size: {
       1: 'mt-1',
+      1.5: 'mt-1.5',
       2: 'mt-2',
       3: 'mt-3',
       4: 'mt-4',
