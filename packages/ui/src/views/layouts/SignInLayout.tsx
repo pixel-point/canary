@@ -30,17 +30,6 @@ export const SignInLayout = ({ className, children, theme = 'default' }: SignInL
       verticalCenter
       as="main"
     >
-      {children}
-      <Text className="leading-tight mt-auto relative z-10" size={0} color="foreground-5" align="center">
-        By joining, you agree to{' '}
-        <Link className="text-foreground-1 whitespace-nowrap" to="/">
-          Terms of Service
-        </Link>{' '}
-        and&nbsp;
-        <Link className="text-foreground-1 whitespace-nowrap" to="/">
-          Privacy Policy
-        </Link>
-      </Text>
       <div className="absolute inset-0 pointer-events-none z-0" aria-hidden>
         <span
           className={cn(
@@ -62,9 +51,20 @@ export const SignInLayout = ({ className, children, theme = 'default' }: SignInL
         />
       </div>
       <span
-        className="absolute inset-0 bg-[url('/images/signin/noise.png')] bg-[size:100px_100px] bg-repeat opacity-70 mix-blend-overlay"
+        className="absolute pointer-events-none inset-0 bg-[url('/images/signin/noise.png')] bg-[size:100px_100px] bg-repeat opacity-70 mix-blend-overlay"
         aria-hidden
       />
+      {children}
+      <Text className="leading-tight mt-auto relative z-10" size={0} color="foreground-5" align="center">
+        By joining, you agree to{' '}
+        <Link className="text-foreground-1 whitespace-nowrap" to="/">
+          Terms of Service
+        </Link>{' '}
+        and&nbsp;
+        <Link className="text-foreground-1 whitespace-nowrap" to="/">
+          Privacy Policy
+        </Link>
+      </Text>
     </Floating1ColumnLayout>
   )
 }

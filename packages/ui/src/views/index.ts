@@ -7,8 +7,7 @@ export * from './layouts/Floating1ColumnLayout'
 export * from './repo-list/repo-list-page'
 export * from './repo-list/types'
 
-// signin-page
+// signin pages
 export * from './signin-page'
-
-// forgot-password-page
+export * from './signup-page'
 export * from './forgot-password-page'

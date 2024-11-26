@@ -31,6 +31,7 @@ import RepoLayout from './layouts/RepoLayout'
 // import ReposListPage from './pages/repo/repo-list'
 import ReposListPage from './pages-v2/repo/repo-list'
 import { SignIn as SignInV2 } from './pages-v2/signin'
+import { SignUp as SignUpV2 } from './pages-v2/signup'
 import CreateProject from './pages/create-project'
 import { EmptyPage } from './pages/empty-page'
 import { Execution } from './pages/execution/execution-details'
@@ -107,6 +108,10 @@ export default function App() {
     {
       path: '/v2/signin',
       element: <SignInV2 />
+    },
+    {
+      path: '/v2/signup',
+      element: <SignUpV2 />
     },
     {
       path: '/v2/forgot',

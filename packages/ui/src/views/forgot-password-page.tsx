@@ -80,9 +80,9 @@ export function ForgotPasswordPage({ isLoading, onSubmit }: PageProps) {
             </Button>
           </form>
           <Spacer size={4} />
-          <Text className="block" size={2} color="foreground-5" weight="normal" align="center">
+          <Text className="block" size={2} color="foreground-5" weight="normal" align="center" as="p">
             Don’t have an account?{' '}
-            <Link className="text-primary" to="/signup">
+            <Link className="text-primary" to="/v2/signup">
               Sign up
             </Link>
           </Text>

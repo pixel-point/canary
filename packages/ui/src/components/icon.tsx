@@ -67,6 +67,7 @@ import FolderIcon from '../icons/folder-icon.svg'
 import Folder from '../icons/folder.svg'
 import GitBranch from '../icons/git-branch.svg'
 import GithubActions from '../icons/github-actions.svg'
+import GitnessLogoGreen from '../icons/gitness-logo-green.svg'
 import GitnessLogo from '../icons/gitness-logo.svg'
 import GreenCircle from '../icons/green-circle.svg'
 import GreenTick from '../icons/green-tick-nobg.svg'
@@ -211,6 +212,7 @@ const IconNameMap = {
   'apple-shortcut': AppleShortcut,
   'edit-pen': Edit,
   'gitness-logo': GitnessLogo,
+  'gitness-logo-green': GitnessLogoGreen,
   'github-actions': GithubActions,
   folder: Folder,
   file: File,
