@@ -5,6 +5,7 @@ import { NuqsAdapter } from 'nuqs/adapters/react-router'
 
 import { TooltipProvider } from '@harnessio/canary'
 import { CodeServiceAPIClient } from '@harnessio/code-service-client'
+import { ForgotPasswordPage as ForgotPasswordPageV2 } from '@harnessio/ui/views'
 import {
   ForgotPasswordPage,
   NewPasswordPage,
@@ -106,6 +107,10 @@ export default function App() {
     {
       path: '/v2/signin',
       element: <SignInV2 />
+    },
+    {
+      path: '/v2/forgot',
+      element: <ForgotPasswordPageV2 />
     },
     {
       path: '/v2',

@@ -5,6 +5,7 @@ interface Floating1ColumnLayoutProps {
   children: React.ReactNode
   maxWidth?: 'default' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
   verticalCenter?: boolean
+  as?: 'div' | 'section' | 'main'
 }
 const widthClass = {
   default: 'max-w-[1200px]',
@@ -19,11 +20,12 @@ export const Floating1ColumnLayout = ({
   className,
   maxWidth = 'default', // Default to 'default' key
   verticalCenter = false,
-  children
+  children,
+  as: Tag = 'div'
 }: Floating1ColumnLayoutProps) => {
   const verticalCenterClass = verticalCenter ? 'flex items-center justify-center min-h-screen' : ''
 
   const computedClassName = cn('px-5 pb-8 mx-auto md:px-8', widthClass[maxWidth], verticalCenterClass, className)
 
-  return <div className={computedClassName}>{children}</div>
+  return <Tag className={computedClassName}>{children}</Tag>
 }
