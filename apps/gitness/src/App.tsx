@@ -5,7 +5,11 @@ import { NuqsAdapter } from 'nuqs/adapters/react-router'
 
 import { TooltipProvider } from '@harnessio/canary'
 import { CodeServiceAPIClient } from '@harnessio/code-service-client'
-import { ForgotPasswordPage as ForgotPasswordPageV2 } from '@harnessio/ui/views'
+import {
+  ForgotPasswordPage as ForgotPasswordPageV2,
+  NewPasswordPage as NewPasswordPageV2,
+  OTPPage as OTPPageV2
+} from '@harnessio/ui/views'
 import {
   ForgotPasswordPage,
   NewPasswordPage,
@@ -116,6 +120,14 @@ export default function App() {
     {
       path: '/v2/forgot',
       element: <ForgotPasswordPageV2 />
+    },
+    {
+      path: '/v2/otp',
+      element: <OTPPageV2 />
+    },
+    {
+      path: '/v2/new-password',
+      element: <NewPasswordPageV2 />
     },
     {
       path: '/v2',

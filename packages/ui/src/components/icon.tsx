@@ -67,11 +67,12 @@ import FolderIcon from '../icons/folder-icon.svg'
 import Folder from '../icons/folder.svg'
 import GitBranch from '../icons/git-branch.svg'
 import GithubActions from '../icons/github-actions.svg'
-import GitnessLogoGreen from '../icons/gitness-logo-green.svg'
 import GitnessLogo from '../icons/gitness-logo.svg'
 import GreenCircle from '../icons/green-circle.svg'
 import GreenTick from '../icons/green-tick-nobg.svg'
 import GridDots from '../icons/grid-dots.svg'
+import HarnessEllipseGradientGreen from '../icons/harness-ellipse-gradient-green.svg'
+import HarnessEllipseGradientPurple from '../icons/harness-ellipse-gradient-purple.svg'
 import HarnessLogoText from '../icons/harness-logo-text.svg'
 import HarnessPlugin from '../icons/harness-plugin.svg'
 import Harness from '../icons/harness.svg'
@@ -212,7 +213,6 @@ const IconNameMap = {
   'apple-shortcut': AppleShortcut,
   'edit-pen': Edit,
   'gitness-logo': GitnessLogo,
-  'gitness-logo-green': GitnessLogoGreen,
   'github-actions': GithubActions,
   folder: Folder,
   file: File,
@@ -265,6 +265,8 @@ const IconNameMap = {
   'settings-2': Settings2,
   'harness-gradient': HarnessLogoGradient,
   'harness-gradient-ellipse': HarnessLogoGradientEllipse,
+  'harness-ellipse-gradient-green': HarnessEllipseGradientGreen,
+  'harness-ellipse-gradient-purple': HarnessEllipseGradientPurple,
   'sub-menu-ellipse': SubMenuEllipse,
   close: Close,
   notification: Notification,

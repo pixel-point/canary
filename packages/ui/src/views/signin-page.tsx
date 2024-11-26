@@ -44,10 +44,10 @@ export function SignInPage({ handleSignIn, isLoading }: PageProps) {
               className="absolute size-[68px] left-1.5 top-1.5 -z-10 rounded-[100%] bg-[#AD79D2] blur-[10px] opacity-[0.08]"
               aria-hidden
             />
-            <Icon name="gitness-logo" size={104} />
+            <Icon name="harness-ellipse-gradient-purple" size={104} />
           </div>
           <CardTitle className="mt-3 text-center text-2xl" as="h1">
-            Sign in to Gitness
+            Sign in to Harness
           </CardTitle>
           <Text className="mt-0.5" size={2} color="foreground-4" align="center" as="p">
             Welcome back! Please enter your details.

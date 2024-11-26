@@ -33,13 +33,13 @@ export const SignInLayout = ({ className, children, theme = 'default' }: SignInL
       <div className="absolute inset-0 pointer-events-none z-0" aria-hidden>
         <span
           className={cn(
-            'absolute -top-1.5 left-1/2 -translate-x-[65%] -translate-y-1/2 w-[528px] h-[178px] rounded-[100%] blur-[30px] opacity-[0.14]',
+            'absolute -top-1.5 left-1/2 -translate-x-[65%] -translate-y-1/2 w-[528px] h-[178px] rounded-[100%] blur-[30px] opacity-10 mix-blend-plus-lighter',
             themes[theme].topAdditionalGradient
           )}
         />
         <span
           className={cn(
-            'absolute top-3 -translate-y-1/2 left-1/2 -translate-x-[84.5%] w-[895px] h-[377px] rounded-[100%]  blur-[30px] opacity-10',
+            'absolute top-3 -translate-y-1/2 left-1/2 -translate-x-[84.5%] w-[895px] h-[377px] rounded-[100%]  blur-[30px] opacity-[0.14]',
             themes[theme].topGradient
           )}
         />

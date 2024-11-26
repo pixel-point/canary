@@ -23,6 +23,7 @@ const widthClasses = {
   auto: 'w-auto',
   full: 'w-full',
   screen: 'w-screen',
+  fit: 'w-fit',
   xs: 'w-24',
   sm: 'w-48',
   md: 'w-64',
