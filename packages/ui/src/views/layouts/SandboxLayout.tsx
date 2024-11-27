@@ -103,14 +103,17 @@ function Main({
 
   if (fullWidth) {
     return (
-      <section aria-label="Main Content" className={cn('h-full', paddingLeftClass, paddingTopClass, className)}>
+      <section
+        aria-label="Main Content"
+        className={cn('h-full', 'bg-background', paddingLeftClass, paddingTopClass, className)}
+      >
         {children}
       </section>
     )
   }
 
   return (
-    <section aria-label="Main Content" className={cn('h-full', paddingLeftClass)}>
+    <section aria-label="Main Content" className={cn('h-full', 'bg-background', paddingLeftClass)}>
       <div className={cn('mx-auto h-full max-w-[1200px]', paddingTopClass, className)}>{children}</div>
     </section>
   )

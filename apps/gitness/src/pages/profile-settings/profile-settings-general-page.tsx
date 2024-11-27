@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
 import { Avatar, AvatarFallback, AvatarImage, Button, ButtonGroup, Icon, Input, Spacer, Text } from '@harnessio/canary'
-import { FormFieldSet, getInitials, ModeToggle, SandboxLayout, SkeletonList } from '@harnessio/views'
+import { FormFieldSet, getInitials, SandboxLayout, SkeletonList } from '@harnessio/views'
 
 const profileSchema = z.object({
   name: z.string().min(1, { message: 'Please provide your name' }),
@@ -215,11 +215,6 @@ const SettingsAccountGeneralPage: React.FC<SettingsAccountGeneralPageProps> = ({
                   {profileErrors.email.message?.toString()}
                 </FormFieldSet.Message>
               )}
-            </FormFieldSet.ControlGroup>
-
-            <FormFieldSet.ControlGroup>
-              <FormFieldSet.Label>Theme</FormFieldSet.Label>
-              <ModeToggle />
             </FormFieldSet.ControlGroup>
 
             {error && error.type === 'profile' && (

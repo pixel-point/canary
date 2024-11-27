@@ -13,8 +13,7 @@ import {
   RepoSettingsPlaceholderPage,
   SandboxSettings,
   SettingsAccountPage,
-  SettingsProjectNav,
-  ThemeProvider
+  SettingsProjectNav
 } from '@harnessio/views'
 
 import { FileEditor } from './components/FileEditor'
@@ -23,6 +22,7 @@ import RootWrapper from './components/RootWrapper'
 import { AppProvider } from './framework/context/AppContext'
 import { ExitConfirmProvider } from './framework/context/ExitConfirmContext'
 import { ExplorerPathsProvider } from './framework/context/ExplorerPathsContext'
+import { ThemeProvider } from './framework/context/ThemeContext'
 import { queryClient } from './framework/queryClient'
 import PipelineLayout from './layouts/PipelineStudioLayout'
 import PullRequestLayout from './layouts/PullRequestLayout'
@@ -40,6 +40,7 @@ import ProjectPipelinesPage from './pages/pipeline/project-pipeline-list'
 import RepoPipelinesPage from './pages/pipeline/repo-pipeline-list'
 import { SettingsProfileGeneralPage } from './pages/profile-settings/profile-settings-general-container'
 import { SettingsProfileKeysPage } from './pages/profile-settings/profile-settings-keys-container'
+import { ProfileSettingsThemePage } from './pages/profile-settings/profile-settings-theme-page'
 import { ProjectSettingsGeneralPage } from './pages/project-settings/project-settings-general-page'
 import { ProjectSettingsMemebersPage } from './pages/project-settings/project-settings-members-page'
 import { CreateNewMemberPage } from './pages/project-settings/project-settings-new-member-page'
@@ -109,6 +110,10 @@ export default function App() {
         {
           path: ':spaceId/repos',
           element: <ReposListPage />
+        },
+        {
+          path: 'theme',
+          element: <ProfileSettingsThemePage />
         }
       ]
     },
@@ -484,7 +489,7 @@ export default function App() {
 
   return (
     <AppProvider>
-      <ThemeProvider defaultTheme="dark">
+      <ThemeProvider>
         <QueryClientProvider client={queryClient}>
           <TooltipProvider>
             <ExitConfirmProvider>
