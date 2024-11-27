@@ -1,24 +1,28 @@
 import { NavbarItemType } from '@components/navbar/types'
 
-export const pinnedMenuItemsData: NavbarItemType[] = [
+import { i18nextViewsInstance } from '../i18n/i18n'
+
+const { t } = i18nextViewsInstance
+
+export const getPinnedMenuItemsData = (): NavbarItemType[] => [
   {
     id: 0,
     iconName: 'repositories-gradient',
-    title: 'Repositories',
+    title: t('component:navbar.repositories'),
     description: 'Integrated & familiar git experience.',
     to: '/repos'
   },
   {
     id: 1,
     iconName: 'pipelines-gradient',
-    title: 'Pipelines',
+    title: t('component:navbar.pipelines'),
     description: 'Up to 4X faster than other solutions.',
     to: '/pipelines'
   },
   {
     id: 2,
     iconName: 'execution-gradient',
-    title: 'Executions',
+    title: t('component:navbar.executions'),
     description: 'Optimize feature rollout velocity.',
     to: '/executions'
   }
