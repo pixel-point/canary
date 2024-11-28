@@ -6,3 +6,6 @@ export * from './layouts/SandboxRoot'
 export * from './repo'
 
 export * from './empty-page'
+
+//pull-request-list
+export * from './pull-request/pull-request-list-page'

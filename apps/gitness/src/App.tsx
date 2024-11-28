@@ -15,7 +15,8 @@ import {
   RepoSettingsPlaceholderPage,
   SandboxSettings,
   SettingsAccountPage,
-  SettingsProjectNav
+  SettingsProjectNav,
+  ThemeProvider
 } from '@harnessio/views'
 
 import { FileEditor } from './components/FileEditor'
@@ -24,12 +25,12 @@ import RootWrapper from './components/RootWrapper'
 import { AppProvider } from './framework/context/AppContext'
 import { ExitConfirmProvider } from './framework/context/ExitConfirmContext'
 import { ExplorerPathsProvider } from './framework/context/ExplorerPathsContext'
-import { ThemeProvider } from './framework/context/ThemeContext'
 import { queryClient } from './framework/queryClient'
 import i18n from './i18n/i18n'
 import PipelineLayout from './layouts/PipelineStudioLayout'
 import PullRequestLayout from './layouts/PullRequestLayout'
 import RepoLayoutV1 from './layouts/RepoLayout'
+import SandboxPullRequestListPage from './pages-v2/pull-request/pull-request-list'
 import RepoLayout from './pages-v2/repo/repo-layout'
 import ReposListPage from './pages-v2/repo/repo-list'
 import { RepoSidebar } from './pages-v2/repo/repo-sidebar'
@@ -127,6 +128,18 @@ export default function App() {
                 </ExplorerPathsProvider>
               ),
               children: []
+            },
+            {
+              index: true,
+              element: <Navigate to="pulls" replace />
+            },
+            {
+              path: 'pulls',
+              element: <SandboxPullRequestListPage />
+            },
+            {
+              path: 'pulls/:pullRequestId',
+              element: <>test</>
             }
           ]
         },
@@ -284,7 +297,6 @@ export default function App() {
                     }
                   ]
                 },
-
                 {
                   path: 'webhooks',
                   element: <RepoWebhooksListPage />
