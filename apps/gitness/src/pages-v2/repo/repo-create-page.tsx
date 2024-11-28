@@ -8,11 +8,12 @@ import {
   useListGitignoreQuery,
   useListLicensesQuery
 } from '@harnessio/code-service-client'
-import { FormFields, RepoCreatePageForm } from '@harnessio/views'
+import { RepoCreatePage as RepoCreatePageView } from '@harnessio/ui/views'
+import { FormFields } from '@harnessio/views'
 
 import { useGetSpaceURLParam } from '../../framework/hooks/useGetSpaceParam'
 
-export const CreateRepoV1 = () => {
+export const CreateRepo = () => {
   const createRepositoryMutation = useCreateRepositoryMutation({})
   const spaceId = useGetSpaceURLParam()
   const navigate = useNavigate()
@@ -58,7 +59,7 @@ export const CreateRepoV1 = () => {
 
   return (
     <>
-      <RepoCreatePageForm
+      <RepoCreatePageView
         onFormSubmit={onSubmit}
         onFormCancel={onCancel}
         apiError={apiError}

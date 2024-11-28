@@ -1,24 +1,38 @@
 import * as React from 'react'
 
+import { cva, type VariantProps } from 'class-variance-authority'
+
 import { cn } from '../utils/cn'
 
-export interface BaseInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  isExtended?: boolean
+export interface BaseInputProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>,
+    VariantProps<typeof inputVariants> {
+  size?: 'sm' | 'md'
 }
 
-const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(({ className, type, isExtended, ...props }, ref) => {
-  const commonClassName = 'bg-transparent text-foreground-1 px-2.5 pt-[3px] pb-[5px] focus-visible:outline-none'
-  const specificClassNames = isExtended
-    ? 'border-none grow'
-    : `
-      flex h-8 w-full rounded border border-borders-2 text-sm transition-colors
-      focus-visible:rounded focus-visible:border-borders-3
-      file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-foreground-4
-      disabled:cursor-not-allowed disabled:opacity-50 
-    `
-
-  return <input className={cn(commonClassName, specificClassNames, className)} type={type} ref={ref} {...props} />
+const inputVariants = cva('text-foreground-1 bg-transparent px-2.5 py-1', {
+  variants: {
+    variant: {
+      default:
+        'placeholder:text-foreground-5 focus-visible:ring-ring flex w-full rounded border text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50',
+      extended: 'grow border-none focus-visible:outline-none'
+    },
+    size: {
+      sm: 'h-8',
+      md: 'h-9'
+    },
+    theme: {
+      default: 'border-borders-2',
+      danger: 'border-borders-danger'
+    }
+  }
 })
+
+const BaseInput = React.forwardRef<HTMLInputElement, BaseInputProps>(
+  ({ className, type, variant = 'default', size = 'sm', theme = 'default', ...props }, ref) => {
+    return <input className={cn(inputVariants({ variant, size, theme }), className)} type={type} ref={ref} {...props} />
+  }
+)
 BaseInput.displayName = 'BaseInput'
 
 export interface ExtendedInputProps extends BaseInputProps {
@@ -50,7 +64,7 @@ const ExtendedInput = React.forwardRef<HTMLInputElement, ExtendedInputProps>(
             {left}
           </div>
         )}
-        <BaseInput className={className} type={type} {...props} ref={ref} isExtended={true} />
+        <BaseInput className={className} type={type} {...props} ref={ref} variant="extended" />
         {right && (
           <div
             className={cn(
@@ -69,7 +83,7 @@ const ExtendedInput = React.forwardRef<HTMLInputElement, ExtendedInputProps>(
 )
 ExtendedInput.displayName = 'ExtendedInput'
 
-interface InputProps extends Omit<BaseInputProps, 'isExtended'>, ExtendedInputProps {}
+interface InputProps extends ExtendedInputProps {}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(({ left, right, ...props }, ref) => {
   if (left || right) {
