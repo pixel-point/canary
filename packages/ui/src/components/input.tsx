@@ -1,19 +1,40 @@
 import * as React from 'react'
 
 import { cn } from '../utils/cn'
+import { Text } from './'
 
 export interface BaseInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   isExtended?: boolean
+  error?: string
+  wrapperClassName?: string
 }
 
-const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(({ className, type, isExtended, ...props }, ref) => {
-  const commonClassName = 'bg-transparent text-foreground-1 px-2.5 py-1'
-  const specificClassNames = isExtended
-    ? 'border-none grow focus-visible:outline-none'
-    : 'flex h-8 w-full rounded border border-border-2 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-foreground-4 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
+const BaseInput = React.forwardRef<HTMLInputElement, BaseInputProps>(
+  ({ className, type, isExtended, error, wrapperClassName, ...props }, ref) => {
+    const commonClassName = 'bg-transparent placeholder:text-foreground-5 text-foreground-1 px-3 py-1'
+    const specificClassNames = isExtended
+      ? 'border-none grow focus-visible:outline-none'
+      : cn(
+          'flex h-9 w-full rounded border text-sm shadow-sm transition-colors file:border-0 focus-visible:outline-none file:bg-transparent file:text-sm file:font-medium placeholder:text-foreground-4 disabled:cursor-not-allowed disabled:opacity-50',
+          error ? 'border-borders-danger' : 'border-borders-2 focus-visible:border-borders-3'
+        )
 
-  return <input className={cn(commonClassName, specificClassNames, className)} type={type} ref={ref} {...props} />
-})
+    return (
+      <div className={cn('relative flex flex-col', wrapperClassName)}>
+        <input className={cn(commonClassName, specificClassNames, className)} type={type} ref={ref} {...props} />
+        {error && (
+          <Text
+            className="text-foreground-danger absolute top-full leading-none translate-y-1 tracking-tight"
+            weight="light"
+            size={0}
+          >
+            {error}
+          </Text>
+        )}
+      </div>
+    )
+  }
+)
 BaseInput.displayName = 'BaseInput'
 
 export interface ExtendedInputProps extends BaseInputProps {
