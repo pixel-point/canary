@@ -34,6 +34,8 @@ export * from './breadcrumb'
 export * from './skeleton-list'
 export * from './dialog'
 export * from './path-breadcrumbs'
+export * from './card'
+export * from './input-otp'
 
 export * as ShaBadge from './sha-badge'
 export * as ListActions from './list-actions'
