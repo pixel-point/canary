@@ -4,8 +4,10 @@ import { Link } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
-import { Button, Card, CardContent, CardHeader, CardTitle, Icon, Input, Label, Spacer, Text } from '../components'
-import { SignInLayout } from './layouts/SignInLayout'
+import { Floating1ColumnLayout } from '..'
+import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label, Spacer, Text } from '../../components'
+import { Agreements } from './components/agreements'
+import { AnimatedHarnessLogo } from './components/animated-harness-logo'
 
 interface PageProps {
   isLoading?: boolean
@@ -47,17 +49,17 @@ export function SignUpPage({ isLoading, handleSignUp, error }: PageProps) {
     reset()
   }
 
+  const hasError = Object.keys(errors).length > 0 || !!error
+
   return (
-    <SignInLayout theme="green">
+    <Floating1ColumnLayout
+      className="sm:pt-[186px] pt-20 flex-col bg-background-7"
+      highlightTheme={hasError ? 'error' : 'green'}
+      verticalCenter
+    >
       <Card className="relative z-10 mb-8 max-w-full" variant="plain" width="xl">
         <CardHeader className="items-center">
-          <div className="-mb-5 relative">
-            <span
-              className="absolute size-[68px] left-1.5 top-1.5 -z-10 rounded-[100%] bg-[#70DCD3] blur-[10px] opacity-[0.08]"
-              aria-hidden
-            />
-            <Icon name="harness-ellipse-gradient-green" size={104} />
-          </div>
+          <AnimatedHarnessLogo theme={hasError ? 'error' : 'green'} />
           <CardTitle className="mt-3 text-center text-2xl" as="h1">
             Sign up to Harness
           </CardTitle>
@@ -65,7 +67,7 @@ export function SignUpPage({ isLoading, handleSignUp, error }: PageProps) {
             Let’s start your journey with us today.
           </Text>
         </CardHeader>
-        <CardContent className="mt-7">
+        <CardContent className="mt-10">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Label htmlFor="userId" variant="default">
               User ID
@@ -133,12 +135,13 @@ export function SignUpPage({ isLoading, handleSignUp, error }: PageProps) {
           <Spacer size={4} />
           <Text className="block" size={2} color="foreground-5" weight="normal" align="center" as="p">
             Already have an account?{' '}
-            <Link to="/v2/signin" className="text-foreground-1">
+            <Link className="text-foreground-accent" to="/v2/signin">
               Sign in
             </Link>
           </Text>
         </CardContent>
       </Card>
-    </SignInLayout>
+      <Agreements />
+    </Floating1ColumnLayout>
   )
 }

@@ -4,15 +4,18 @@ import { Link } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
-import { Button, Card, CardContent, CardHeader, CardTitle, Icon, Input, Label, Spacer, Text } from '../components'
-import { SignInLayout } from './layouts/SignInLayout'
+import { Floating1ColumnLayout } from '..'
+import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label, Spacer, Text } from '../../components'
+import { Agreements } from './components/agreements'
+import { AnimatedHarnessLogo } from './components/animated-harness-logo'
 
 interface PageProps {
-  handleSignIn: (data: DataProps) => void
+  handleSignIn: (data: SignInDataProps) => void
   isLoading?: boolean
+  error?: string
 }
 
-export interface DataProps {
+export interface SignInDataProps {
   email?: string
   password?: string
 }
@@ -22,7 +25,7 @@ const signInSchema = z.object({
   password: z.string().min(1, { message: 'The field can’t be blank' })
 })
 
-export function SignInPage({ handleSignIn, isLoading }: PageProps) {
+export function SignInPage({ handleSignIn, isLoading, error }: PageProps) {
   const {
     register,
     handleSubmit,
@@ -31,21 +34,21 @@ export function SignInPage({ handleSignIn, isLoading }: PageProps) {
     resolver: zodResolver(signInSchema)
   })
 
-  const onSubmit = (data: DataProps) => {
+  const onSubmit = (data: SignInDataProps) => {
     handleSignIn(data)
   }
 
+  const hasError = Object.keys(errors).length > 0 || !!error
+
   return (
-    <SignInLayout>
+    <Floating1ColumnLayout
+      className="sm:pt-[186px] pt-20 flex-col bg-background-7"
+      highlightTheme={hasError ? 'error' : 'blue'}
+      verticalCenter
+    >
       <Card className="relative z-10 mb-8 max-w-full" variant="plain" width="xl">
         <CardHeader className="items-center">
-          <div className="-mb-5 relative">
-            <span
-              className="absolute size-[68px] left-1.5 top-1.5 -z-10 rounded-[100%] bg-[#AD79D2] blur-[10px] opacity-[0.08]"
-              aria-hidden
-            />
-            <Icon name="harness-ellipse-gradient-purple" size={104} />
-          </div>
+          <AnimatedHarnessLogo theme={hasError ? 'error' : 'blue'} />
           <CardTitle className="mt-3 text-center text-2xl" as="h1">
             Sign in to Harness
           </CardTitle>
@@ -53,7 +56,7 @@ export function SignInPage({ handleSignIn, isLoading }: PageProps) {
             Welcome back! Please enter your details.
           </Text>
         </CardHeader>
-        <CardContent className="mt-7">
+        <CardContent className="mt-10">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Label htmlFor="email" variant="default">
               Email
@@ -67,14 +70,9 @@ export function SignInPage({ handleSignIn, isLoading }: PageProps) {
               autoFocus
               error={errors.email?.message?.toString()}
             />
-            <div className="mt-5 flex justify-between">
-              <Label htmlFor="password" variant="default">
-                Password
-              </Label>
-              <Link className="text-foreground-4 text-12 tracking-tight leading-none" to="/v2/forgot">
-                Forgot password?
-              </Link>
-            </div>
+            <Label className="mt-5" htmlFor="password" variant="default">
+              Password
+            </Label>
             <Input
               wrapperClassName="mt-2.5"
               id="password"
@@ -97,12 +95,13 @@ export function SignInPage({ handleSignIn, isLoading }: PageProps) {
           <Spacer size={4} />
           <Text className="block" size={2} color="foreground-5" weight="normal" align="center" as="p">
             Don’t have an account?{' '}
-            <Link className="text-foreground-1" to="/v2/signup">
+            <Link className="text-foreground-accent" to="/v2/signup">
               Sign up
             </Link>
           </Text>
         </CardContent>
       </Card>
-    </SignInLayout>
+      <Agreements />
+    </Floating1ColumnLayout>
   )
 }

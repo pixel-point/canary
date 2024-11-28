@@ -350,6 +350,14 @@
   @apply bg-gradient-radial text-primary/70 from-[#CA9AF4]/70 to-[#CA9AF4]/0 bg-clip-text;
 }
 
+.border-linear {
+  @apply pointer-events-none absolute inset-0 rounded-[inherit] border border-transparent;
+  mask:
+    linear-gradient(#fff 0 0) padding-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+
 /* Card utilities */
 .card-auth {
   @apply w-[362px] border-none;

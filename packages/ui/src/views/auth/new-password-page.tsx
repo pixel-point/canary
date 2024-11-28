@@ -3,12 +3,15 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
-import { Button, Card, CardContent, CardHeader, CardTitle, Icon, Input, Label, Text } from '../components'
-import { SignInLayout } from './layouts/SignInLayout'
+import { Floating1ColumnLayout } from '..'
+import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label, Text } from '../../components'
+import { Agreements } from './components/agreements'
+import { AnimatedHarnessLogo } from './components/animated-harness-logo'
 
 interface PageProps {
   isLoading?: boolean
   handleFormSubmit?: (data: NewPasswordDataProps) => void
+  error?: string
 }
 
 export interface NewPasswordDataProps {
@@ -26,7 +29,7 @@ const newPasswordSchema = z
     path: ['confirmPassword']
   })
 
-export function NewPasswordPage({ isLoading, handleFormSubmit }: PageProps) {
+export function NewPasswordPage({ isLoading, handleFormSubmit, error }: PageProps) {
   const {
     register,
     handleSubmit,
@@ -39,17 +42,17 @@ export function NewPasswordPage({ isLoading, handleFormSubmit }: PageProps) {
     handleFormSubmit?.(data)
   }
 
+  const hasError = Object.keys(errors).length > 0 || !!error
+
   return (
-    <SignInLayout>
+    <Floating1ColumnLayout
+      className="sm:pt-[186px] pt-20 flex-col bg-background-7"
+      highlightTheme={hasError ? 'error' : 'blue'}
+      verticalCenter
+    >
       <Card className="relative z-10 mb-8 max-w-full" variant="plain" width="xl">
         <CardHeader className="items-center">
-          <div className="-mb-5 relative">
-            <span
-              className="absolute size-[68px] left-1.5 top-1.5 -z-10 rounded-[100%] bg-[#AD79D2] blur-[10px] opacity-[0.08]"
-              aria-hidden
-            />
-            <Icon name="harness-ellipse-gradient-purple" size={104} />
-          </div>
+          <AnimatedHarnessLogo theme={hasError ? 'error' : 'blue'} />
           <CardTitle className="mt-3 text-center text-2xl" as="h1">
             Create new password
           </CardTitle>
@@ -57,7 +60,7 @@ export function NewPasswordPage({ isLoading, handleFormSubmit }: PageProps) {
             Your new password must be different from your previously used password.
           </Text>
         </CardHeader>
-        <CardContent className="mt-7">
+        <CardContent className="mt-10">
           <form onSubmit={handleSubmit(onFormSubmit)}>
             <Label htmlFor="password" variant="default">
               New password
@@ -93,6 +96,7 @@ export function NewPasswordPage({ isLoading, handleFormSubmit }: PageProps) {
           </form>
         </CardContent>
       </Card>
-    </SignInLayout>
+      <Agreements />
+    </Floating1ColumnLayout>
   )
 }
