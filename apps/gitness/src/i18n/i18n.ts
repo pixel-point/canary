@@ -3,6 +3,8 @@ import { initReactI18next } from 'react-i18next'
 import i18n from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 
+import { resources } from '@harnessio/ui/locales'
+
 const languageDetectorOptions = {
   // Order and from where user language should be detected
   order: ['localStorage', 'navigator', 'cookie'],
@@ -20,9 +22,8 @@ i18n
   .use(LanguageDetector)
   .init({
     detection: languageDetectorOptions,
-    resources: {},
+    resources,
     fallbackLng: 'en',
-    // debug: true,
     react: {
       bindI18n: 'languageChanged',
       bindI18nStore: 'added'
@@ -49,8 +50,7 @@ export const handleLanguageChange = (lng: string) => {
 
 // Detect language change on the navigator
 window.addEventListener('languagechange', () => {
-  const navigatorLang = navigator.language.split('-')[0]
-
+  const navigatorLang = (navigator.language || 'en').split('-')[0]
   i18n.changeLanguage(navigatorLang)
 })
 
