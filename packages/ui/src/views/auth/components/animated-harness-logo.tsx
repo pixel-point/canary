@@ -30,10 +30,10 @@ export function AnimatedHarnessLogo({ theme }: AnimatedHarnessLogoProps) {
 
   return (
     <div className="relative" aria-hidden>
-      <div className={cn(isError && 'rotate-90', 'transition-transform duration-500')}>
+      <div className={cn(isError && 'rotate-90', 'transition-transform duration-700')}>
         <span
           className={cn(
-            'absolute size-[68px] -left-2.5 -z-10 -top-2 rounded-[100%] transition-colors duration-500 blur-[10px] opacity-[.12]',
+            'absolute size-[68px] -left-2.5 -z-10 -top-2 rounded-[100%] transition-colors duration-700 blur-[10px] opacity-[.12]',
             shadowBackground
           )}
         />
@@ -42,13 +42,13 @@ export function AnimatedHarnessLogo({ theme }: AnimatedHarnessLogoProps) {
           <span className="absolute rounded-full size-7 -right-0.5 blur-[10px] bottom-px bg-[#D9D9D9] opacity-5 translate-y-1/2" />
           <span
             className={cn(
-              'absolute rounded-full size-7 -right-0.5 blur-[10px] bottom-px transition-colors duration-500 mix-blend-plus-lighter bg-[#7980D2] opacity-10 translate-y-1/2',
+              'absolute rounded-full size-7 -right-0.5 blur-[10px] bottom-px transition-colors duration-700 mix-blend-plus-lighter bg-[#7980D2] opacity-10 translate-y-1/2',
               smallLightBackground
             )}
           />
           <span
             className={cn(
-              'absolute rounded-full size-14 -top-0.5 blur-[10px] transition-colors duration-500 mix-blend-plus-lighter opacity-20 bg-[#798FD2] left-0.5 -translate-x-1/2 -translate-y-1/2',
+              'absolute rounded-full size-14 -top-0.5 blur-[10px] transition-colors duration-700 mix-blend-plus-lighter opacity-20 bg-[#798FD2] left-0.5 -translate-x-1/2 -translate-y-1/2',
               largeLightBackground
             )}
           />

@@ -1219,10 +1219,20 @@
   }
 }
 
-/* Text utilities */
-.text-radial-gradient {
-  /* remove hardcode colors */
-  @apply bg-gradient-radial text-primary/70 from-[#CA9AF4]/70 to-[#CA9AF4]/0 bg-clip-text;
+@layer utilities {
+  /*
+    Handy CSS class to prevent Input background color becomes yellow in Chrome on autofill.
+    Works as well with inputs with transparent background.
+
+    https://stackoverflow.com/questions/2781549/removing-input-background-colour-for-chrome-autocomplete
+  */
+  .remove-autocomplete-styles:-webkit-autofill,
+  .remove-autocomplete-styles:-webkit-autofill:hover,
+  .remove-autocomplete-styles:-webkit-autofill:focus {
+    transition:
+      background-color 5000s,
+      color 5000s;
+  }
 }
 
 .border-linear {
@@ -1231,6 +1241,12 @@
     linear-gradient(#fff 0 0) padding-box,
     linear-gradient(#fff 0 0);
   mask-composite: exclude;
+}
+
+/* Text utilities */
+.text-radial-gradient {
+  /* remove hardcode colors */
+  @apply bg-gradient-radial text-primary/70 from-[#CA9AF4]/70 to-[#CA9AF4]/0 bg-clip-text;
 }
 
 /* Card utilities */

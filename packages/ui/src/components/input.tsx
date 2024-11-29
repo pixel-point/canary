@@ -11,7 +11,8 @@ export interface BaseInputProps extends React.InputHTMLAttributes<HTMLInputEleme
 
 const BaseInput = React.forwardRef<HTMLInputElement, BaseInputProps>(
   ({ className, type, isExtended, error, wrapperClassName, ...props }, ref) => {
-    const commonClassName = 'bg-transparent placeholder:text-foreground-5 text-foreground-1 px-3 py-1'
+    const commonClassName =
+      'remove-autocomplete-styles bg-transparent placeholder:text-foreground-5 text-foreground-1 px-3 py-1'
     const specificClassNames = isExtended
       ? 'border-none grow focus-visible:outline-none'
       : cn(
@@ -47,7 +48,7 @@ export interface ExtendedInputProps extends BaseInputProps {
 }
 
 const containerClassName =
-  'flex h-9 w-full rounded border border-input text-sm shadow-sm transition-colors placeholder:text-foreground-4 focus-within:outline-none focus-within:ring-1 focus-within:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
+  'remove-autocomplete-styles flex h-9 w-full rounded border border-input text-sm shadow-sm transition-colors placeholder:text-foreground-4 focus-within:outline-none focus-within:ring-1 focus-within:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
 const leftRightCommonClassName = 'flex items-center text-muted-foreground'
 
 const ExtendedInput = React.forwardRef<HTMLInputElement, ExtendedInputProps>(
