@@ -25,7 +25,7 @@ const BaseInput = React.forwardRef<HTMLInputElement, BaseInputProps>(
         <input className={cn(commonClassName, specificClassNames, className)} type={type} ref={ref} {...props} />
         {error && (
           <Text
-            className="text-foreground-danger absolute top-full leading-none translate-y-1 tracking-tight"
+            className="absolute top-full translate-y-1 leading-none tracking-tight text-foreground-danger"
             weight="light"
             size={0}
           >

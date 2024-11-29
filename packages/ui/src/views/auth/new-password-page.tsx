@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -31,11 +31,13 @@ const newPasswordSchema = z
   })
 
 export function NewPasswordPage({ isLoading, handleFormSubmit, error }: PageProps) {
+  const [serverError, setServerError] = useState<string | null>(null)
   const {
     register,
     handleSubmit,
     setError,
     clearErrors,
+    trigger,
     formState: { errors }
   } = useForm({
     resolver: zodResolver(newPasswordSchema)
@@ -45,8 +47,17 @@ export function NewPasswordPage({ isLoading, handleFormSubmit, error }: PageProp
     handleFormSubmit?.(data)
   }
 
+  const handleInputChange = async () => {
+    if (serverError) {
+      setServerError(null)
+      clearErrors(['confirmPassword'])
+      await trigger()
+    }
+  }
+
   useEffect(() => {
     if (error) {
+      setServerError(error)
       setError('password', {
         type: 'manual',
         message: ' '
@@ -56,15 +67,16 @@ export function NewPasswordPage({ isLoading, handleFormSubmit, error }: PageProp
         message: error
       })
     } else {
+      setServerError(null)
       clearErrors(['password', 'confirmPassword'])
     }
   }, [error, setError, clearErrors])
 
-  const hasError = Object.keys(errors).length > 0 || !!error
+  const hasError = Object.keys(errors).length > 0 || !!serverError
 
   return (
     <Floating1ColumnLayout
-      className="sm:pt-[186px] pt-20 flex-col bg-background-7"
+      className="flex-col bg-background-7 pt-20 sm:pt-[186px]"
       highlightTheme={hasError ? 'error' : 'blue'}
       verticalCenter
     >
@@ -87,7 +99,7 @@ export function NewPasswordPage({ isLoading, handleFormSubmit, error }: PageProp
               wrapperClassName="mt-2.5"
               id="password"
               type="password"
-              {...register('password')}
+              {...register('password', { onChange: handleInputChange })}
               placeholder="Password (6+ characters)"
               error={errors.password?.message?.toString()}
             />
@@ -98,9 +110,9 @@ export function NewPasswordPage({ isLoading, handleFormSubmit, error }: PageProp
               wrapperClassName="mt-2.5"
               id="confirmPassword"
               type="password"
-              {...register('confirmPassword')}
+              {...register('confirmPassword', { onChange: handleInputChange })}
               placeholder="Confirm password"
-              error={errors.confirmPassword?.message?.toString() || error}
+              error={errors.confirmPassword?.message?.toString()}
             />
             <Button
               className="mt-10 w-full"

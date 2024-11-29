@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
@@ -35,11 +36,13 @@ const signUpSchema = z
   })
 
 export function SignUpPage({ isLoading, handleSignUp, error }: PageProps) {
+  const [serverError, setServerError] = useState<string | null>(null)
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors }
+    formState: { errors },
+    trigger
   } = useForm({
     resolver: zodResolver(signUpSchema)
   })
@@ -49,11 +52,24 @@ export function SignUpPage({ isLoading, handleSignUp, error }: PageProps) {
     reset()
   }
 
-  const hasError = Object.keys(errors).length > 0 || !!error
+  const handleInputChange = async () => {
+    if (serverError) {
+      setServerError(null)
+      await trigger()
+    }
+  }
+
+  useEffect(() => {
+    if (error) {
+      setServerError(error)
+    }
+  }, [error])
+
+  const hasError = Object.keys(errors).length > 0 || !!serverError
 
   return (
     <Floating1ColumnLayout
-      className="sm:pt-[186px] pt-20 flex-col bg-background-7"
+      className="flex-col bg-background-7 pt-20 sm:pt-[186px]"
       highlightTheme={hasError ? 'error' : 'green'}
       verticalCenter
     >
@@ -76,7 +92,7 @@ export function SignUpPage({ isLoading, handleSignUp, error }: PageProps) {
               wrapperClassName="mt-2.5"
               id="userId"
               type="text"
-              {...register('userId')}
+              {...register('userId', { onChange: handleInputChange })}
               placeholder="User ID"
               autoFocus
               error={errors.userId?.message?.toString()}
@@ -88,7 +104,7 @@ export function SignUpPage({ isLoading, handleSignUp, error }: PageProps) {
               wrapperClassName="mt-2.5"
               id="email"
               type="email"
-              {...register('email')}
+              {...register('email', { onChange: handleInputChange })}
               placeholder="Your email"
               error={errors.email?.message?.toString()}
             />
@@ -100,27 +116,33 @@ export function SignUpPage({ isLoading, handleSignUp, error }: PageProps) {
               id="password"
               type="password"
               placeholder="Password (6+ characters)"
-              {...register('password')}
+              {...register('password', { onChange: handleInputChange })}
               error={errors.password?.message?.toString()}
             />
-            <Label className="mt-5" htmlFor="confirmPassword" variant="default">
-              Confirm password
-            </Label>
-            <Input
-              wrapperClassName="mt-2.5"
-              id="confirmPassword"
-              type="password"
-              placeholder="Confirm password"
-              {...register('confirmPassword')}
-              error={errors.confirmPassword?.message?.toString()}
-            />
-            {error && (
-              <>
-                <Text className="text-foreground-danger leading-none tracking-tight" weight="light" size={0}>
-                  {error}
-                </Text>
-              </>
-            )}
+            <div className="relative">
+              <Label className="mt-5" htmlFor="confirmPassword" variant="default">
+                Confirm password
+              </Label>
+              <Input
+                wrapperClassName="mt-2.5"
+                id="confirmPassword"
+                type="password"
+                placeholder="Confirm password"
+                {...register('confirmPassword', { onChange: handleInputChange })}
+                error={errors.confirmPassword?.message?.toString()}
+              />
+              {serverError && (
+                <>
+                  <Text
+                    className="absolute top-full translate-y-1 leading-none tracking-tight text-foreground-danger"
+                    weight="light"
+                    size={0}
+                  >
+                    {serverError}
+                  </Text>
+                </>
+              )}
+            </div>
             <Button
               className="mt-10 w-full"
               variant="default"
@@ -137,7 +159,7 @@ export function SignUpPage({ isLoading, handleSignUp, error }: PageProps) {
           <Text className="block" size={2} color="foreground-5" weight="normal" align="center" as="p">
             Already have an account?{' '}
             <Link
-              className="text-foreground-accent underline decoration-transparent hover:decoration-foreground-accent transition-colors duration-200 underline-offset-4 decoration-1"
+              className="text-foreground-accent underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-200 hover:decoration-foreground-accent"
               to="/signin"
             >
               Sign in

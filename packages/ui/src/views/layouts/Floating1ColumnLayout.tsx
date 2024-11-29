@@ -71,7 +71,7 @@ const HighlightedFloatingLayout = ({ children, className, theme = 'blue' }: High
 
   return (
     <Floating1ColumnLayout className={cn(className, 'relative max-w-full overflow-hidden')}>
-      <div className="absolute inset-0 pointer-events-none z-0" aria-hidden>
+      <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
         <span
           className={cn(
             'absolute blur-[30px] top-0 left-1/2 -translate-y-1/2 w-[528px] h-[178px] rounded-[100%] opacity-10 mix-blend-plus-lighter',
@@ -101,7 +101,7 @@ const HighlightedFloatingLayout = ({ children, className, theme = 'blue' }: High
         />
       </div>
       <span
-        className="absolute pointer-events-none inset-0 bg-[url('/images/signin/noise.png')] bg-[size:100px_100px] bg-repeat opacity-70 mix-blend-overlay"
+        className="pointer-events-none absolute inset-0 bg-[url('/images/signin/noise.png')] bg-[size:100px_100px] bg-repeat opacity-70 mix-blend-overlay"
         aria-hidden
       />
       {children}

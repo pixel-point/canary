@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Fragment } from 'react/jsx-runtime'
 
@@ -43,6 +43,7 @@ const otpPasswordSchema = z.object({
 })
 
 export function OTPPage({ handleResend, isLoading, handleFormSubmit, error }: PageProps) {
+  const [serverError, setServerError] = useState<string | null>(null)
   // TODO: get email from url or from context
   const email = 'stevenm@gmail.com'
 
@@ -50,8 +51,6 @@ export function OTPPage({ handleResend, isLoading, handleFormSubmit, error }: Pa
     handleSubmit,
     control,
     formState: { errors },
-    setError,
-    clearErrors,
     reset,
     watch
   } = useForm<OtpPageDataProps>({
@@ -64,32 +63,29 @@ export function OTPPage({ handleResend, isLoading, handleFormSubmit, error }: Pa
   const otpValue = watch('otp')
 
   const onSubmit = (data: OtpPageDataProps) => {
+    setServerError(null)
     handleFormSubmit?.({ ...data, email })
     reset()
   }
 
   useEffect(() => {
+    setServerError(null)
     if (otpValue.length === OTP_LENGTH) {
       handleSubmit(onSubmit)()
     }
   }, [otpValue, handleSubmit, onSubmit])
 
-  const hasError = Object.keys(errors).length > 0 || !!error
-
   useEffect(() => {
     if (error) {
-      setError('otp', {
-        type: 'manual',
-        message: error
-      })
-    } else {
-      clearErrors(['otp'])
+      setServerError(error)
     }
-  }, [error, setError, clearErrors])
+  }, [error])
+
+  const hasError = Object.keys(errors).length > 0 || !!serverError
 
   return (
     <Floating1ColumnLayout
-      className="sm:pt-[186px] pt-20 flex-col bg-background-7"
+      className="flex-col bg-background-7 pt-20 sm:pt-[186px]"
       highlightTheme={hasError ? 'error' : 'blue'}
       verticalCenter
     >
@@ -122,15 +118,15 @@ export function OTPPage({ handleResend, isLoading, handleFormSubmit, error }: Pa
                   </InputOTP>
                 )}
               />
-              {(errors.otp || error) && (
+              {(errors.otp || serverError) && (
                 <Text
-                  className="text-foreground-danger w-full absolute top-full leading-none translate-y-2 tracking-tight"
+                  className="absolute top-full w-full translate-y-2 leading-none tracking-tight text-foreground-danger"
                   weight="light"
                   align="center"
                   size={1}
                   as="p"
                 >
-                  {errors.otp?.message || error}
+                  {errors.otp?.message || serverError}
                 </Text>
               )}
             </div>
@@ -141,6 +137,7 @@ export function OTPPage({ handleResend, isLoading, handleFormSubmit, error }: Pa
               type="submit"
               size="md"
               loading={isLoading}
+              disabled={hasError}
             >
               {isLoading ? 'Verifying...' : 'Verify'}
             </Button>
@@ -148,7 +145,7 @@ export function OTPPage({ handleResend, isLoading, handleFormSubmit, error }: Pa
           <Spacer size={4} />
           <Text className="block" size={2} color="foreground-5" weight="normal" align="center" as="p">
             Didn&apos;t receive the code?{' '}
-            <Button className="p-0 leading-none h-5" variant="link" onClick={handleResend}>
+            <Button className="h-5 p-0 leading-none" variant="link" onClick={handleResend}>
               Resend
             </Button>
           </Text>

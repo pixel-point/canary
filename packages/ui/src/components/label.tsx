@@ -6,7 +6,7 @@ import * as LabelPrimitive from '@radix-ui/react-label'
 import { cn } from '@utils/cn'
 import { cva, type VariantProps } from 'class-variance-authority'
 
-const labelVariants = cva('leading-none block peer-disabled:cursor-not-allowed peer-disabled:opacity-70', {
+const labelVariants = cva('block leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70', {
   variants: {
     variant: {
       default: 'text-sm leading-none',

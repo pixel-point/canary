@@ -40,7 +40,7 @@ const InputOTPSlot = React.forwardRef<HTMLDivElement, InputOTPSlotProps>(({ inde
     <div
       ref={ref}
       className={cn(
-        'relative flex items-center justify-center h-[52px] w-11 rounded border border-borders-1 p-2 text-xl transition-all',
+        'relative flex items-center justify-center h-[52px] w-11 rounded border border-borders-1 p-2 text-2xl transition-all',
         isActive && 'border-borders-3 z-10',
         className
       )}
@@ -49,7 +49,7 @@ const InputOTPSlot = React.forwardRef<HTMLDivElement, InputOTPSlotProps>(({ inde
       {char}
       {hasFakeCaret && (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="animate-caret-blink bg-foreground h-4 w-px duration-1000" />
+          <div className="animate-caret-blink h-4 w-px bg-foreground duration-1000" />
         </div>
       )}
     </div>

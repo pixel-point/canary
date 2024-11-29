@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
@@ -25,11 +25,13 @@ const forgotPasswordSchema = z.object({
 })
 
 export function ForgotPasswordPage({ isLoading, onSubmit, error }: PageProps) {
+  const [serverError, setServerError] = useState<string | null>(null)
   const {
     register,
     handleSubmit,
     setError,
     clearErrors,
+    trigger,
     formState: { errors }
   } = useForm({
     resolver: zodResolver(forgotPasswordSchema)
@@ -42,18 +44,28 @@ export function ForgotPasswordPage({ isLoading, onSubmit, error }: PageProps) {
     }
   }
 
-  const hasError = Object.keys(errors).length > 0 || !!error
+  const handleInputChange = async () => {
+    if (serverError) {
+      setServerError(null)
+      clearErrors(['email'])
+      await trigger()
+    }
+  }
 
   useEffect(() => {
     if (error) {
+      setServerError(error)
       setError('email', {
         type: 'manual',
         message: error
       })
     } else {
+      setServerError(null)
       clearErrors(['email'])
     }
   }, [error, setError, clearErrors])
+
+  const hasError = Object.keys(errors).length > 0 || !!serverError
 
   return (
     <Floating1ColumnLayout
@@ -81,8 +93,8 @@ export function ForgotPasswordPage({ isLoading, onSubmit, error }: PageProps) {
               id="email"
               type="email"
               placeholder="Your email"
-              {...register('email')}
-              error={errors.email?.message?.toString() || error}
+              {...register('email', { onChange: handleInputChange })}
+              error={errors.email?.message?.toString()}
               autoFocus
             />
             <Button

@@ -29,7 +29,7 @@ export function AnimatedHarnessLogo({ theme }: AnimatedHarnessLogoProps) {
   const isError = theme === 'error'
 
   return (
-    <div className="relative" aria-hidden>
+    <div className="relative flex size-16" aria-hidden>
       <div className={cn(isError && 'rotate-90', 'transition-transform duration-700')}>
         <span
           className={cn(
@@ -37,9 +37,9 @@ export function AnimatedHarnessLogo({ theme }: AnimatedHarnessLogoProps) {
             shadowBackground
           )}
         />
-        <div className="relative h-16 w-16 bg-background-3 rounded-full overflow-hidden shadow-[0px_0px_20px_0px_rgba(0,0,0,0.6)] flex">
+        <div className="relative flex size-16 overflow-hidden rounded-full bg-background-3 shadow-[0px_0px_20px_0px_rgba(0,0,0,0.6)]">
           <span className="border-linear absolute inset-0 mix-blend-overlay [background:linear-gradient(180deg,#fff,transparent)_border-box]" />
-          <span className="absolute rounded-full size-7 -right-0.5 blur-[10px] bottom-px bg-[#D9D9D9] opacity-5 translate-y-1/2" />
+          <span className="absolute -right-0.5 bottom-px size-7 translate-y-1/2 rounded-full bg-[#D9D9D9] opacity-5 blur-[10px]" />
           <span
             className={cn(
               'absolute rounded-full size-7 -right-0.5 blur-[10px] bottom-px transition-colors duration-700 mix-blend-plus-lighter bg-[#7980D2] opacity-10 translate-y-1/2',
@@ -52,10 +52,10 @@ export function AnimatedHarnessLogo({ theme }: AnimatedHarnessLogoProps) {
               largeLightBackground
             )}
           />
-          <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rotate-45 size-8 rounded-xl bg-gradient-to-r opacity-50 blur-sm from-[#F9F9FA] via-transparent via-60% to-transparent" />
+          <span className="absolute left-1/2 top-1/2 size-8 -translate-x-1/2 -translate-y-1/2 rotate-45 rounded-xl bg-gradient-to-r from-[#F9F9FA] via-transparent via-60% to-transparent opacity-50 blur-sm" />
         </div>
       </div>
-      <Icon className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2 z-10" name="harness" size={36} />
+      <Icon className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2" name="harness" size={36} />
     </div>
   )
 }

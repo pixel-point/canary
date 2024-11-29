@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
@@ -27,12 +27,14 @@ const signInSchema = z.object({
 })
 
 export function SignInPage({ handleSignIn, isLoading, error }: PageProps) {
+  const [serverError, setServerError] = useState<string | null>(null)
   const {
     register,
     handleSubmit,
     setError,
     clearErrors,
-    formState: { errors }
+    formState: { errors },
+    trigger
   } = useForm({
     resolver: zodResolver(signInSchema)
   })
@@ -41,8 +43,17 @@ export function SignInPage({ handleSignIn, isLoading, error }: PageProps) {
     handleSignIn(data)
   }
 
+  const handleInputChange = async () => {
+    if (serverError) {
+      setServerError(null)
+      clearErrors(['password'])
+      await trigger()
+    }
+  }
+
   useEffect(() => {
     if (error) {
+      setServerError(error)
       setError('email', {
         type: 'manual',
         message: ' '
@@ -52,15 +63,16 @@ export function SignInPage({ handleSignIn, isLoading, error }: PageProps) {
         message: error
       })
     } else {
+      setServerError(null)
       clearErrors(['email', 'password'])
     }
   }, [error, setError, clearErrors])
 
-  const hasError = Object.keys(errors).length > 0 || !!error
+  const hasError = Object.keys(errors).length > 0 || !!serverError
 
   return (
     <Floating1ColumnLayout
-      className="sm:pt-[186px] pt-20 flex-col bg-background-7"
+      className="flex-col bg-background-7 pt-20 sm:pt-[186px]"
       highlightTheme={hasError ? 'error' : 'blue'}
       verticalCenter
     >
@@ -84,9 +96,9 @@ export function SignInPage({ handleSignIn, isLoading, error }: PageProps) {
               id="email"
               type="email"
               placeholder="Your email"
-              {...register('email')}
-              autoFocus
+              {...register('email', { onChange: handleInputChange })}
               error={errors.email?.message?.toString()}
+              autoFocus
             />
             <Label className="mt-5" htmlFor="password" variant="default">
               Password
@@ -95,7 +107,7 @@ export function SignInPage({ handleSignIn, isLoading, error }: PageProps) {
               wrapperClassName="mt-2.5"
               id="password"
               type="password"
-              {...register('password')}
+              {...register('password', { onChange: handleInputChange })}
               placeholder="Password"
               error={errors.password?.message?.toString()}
             />
@@ -115,7 +127,7 @@ export function SignInPage({ handleSignIn, isLoading, error }: PageProps) {
           <Text className="block" size={2} color="foreground-5" weight="normal" align="center" as="p">
             Don’t have an account?{' '}
             <Link
-              className="text-foreground-accent underline decoration-transparent hover:decoration-foreground-accent transition-colors duration-200 underline-offset-4 decoration-1"
+              className="text-foreground-accent underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-200 hover:decoration-foreground-accent"
               to="/signup"
             >
               Sign up
