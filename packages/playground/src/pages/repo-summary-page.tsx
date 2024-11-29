@@ -14,6 +14,7 @@ import {
   Text
 } from '@harnessio/canary'
 import { SkeletonList } from '@harnessio/ui/components'
+import { Floating1ColumnLayout } from '@harnessio/ui/views'
 
 import { BranchSelector } from '../components/branch-chooser'
 import { NoData } from '../components/no-data'
@@ -21,7 +22,6 @@ import { NoSearchResults } from '../components/no-search-results'
 import { Summary } from '../components/repo-summary'
 import { RepoSummaryPanel } from '../components/repo-summary-panel'
 import { mockFiles } from '../data/mockSummaryFiiles'
-import { Floating1ColumnLayout } from '../layouts/Floating1ColumnLayout'
 import { FullWidth2ColumnLayout } from '../layouts/FullWidth2ColumnLayout'
 import { PlaygroundListSettings } from '../settings/list-settings'
 

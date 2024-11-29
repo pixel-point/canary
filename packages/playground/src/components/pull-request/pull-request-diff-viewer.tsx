@@ -5,7 +5,7 @@ import { DiffBlock } from 'diff2html/lib/types'
 import { debounce } from 'lodash-es'
 import { OverlayScrollbars } from 'overlayscrollbars'
 
-import { Card, Input, Text } from '@harnessio/canary'
+import { Card, Input, Text } from '@harnessio/ui/components'
 
 import constants from './constants'
 

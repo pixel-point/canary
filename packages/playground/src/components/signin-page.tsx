@@ -5,8 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
 import { Button, Card, CardContent, CardHeader, CardTitle, Icon, Input, Label, Spacer, Text } from '@harnessio/canary'
-
-import { Floating1ColumnLayout } from '../layouts/Floating1ColumnLayout'
+import { Floating1ColumnLayout } from '@harnessio/ui/views'
 
 interface PageProps {
   handleSignIn: (data: DataProps) => void

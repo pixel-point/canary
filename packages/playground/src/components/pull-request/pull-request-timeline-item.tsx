@@ -2,7 +2,8 @@ import { memo, useEffect, useState } from 'react'
 
 import cx from 'classnames'
 
-import { Button, Card, Input, NodeGroup, Text } from '@harnessio/canary'
+import { NodeGroup } from '@harnessio/canary'
+import { Button, Card, Input, Text } from '@harnessio/ui/components'
 
 interface TimelineItemProps {
   header: {

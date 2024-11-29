@@ -123,7 +123,6 @@ export * from './layouts/SandboxSettings'
 // eslint-disable-next-line import/export
 export * from './configs/canary-outlets'
 export * from './layouts/PaddingListLayout'
-export * from './layouts/Floating1ColumnLayout'
 export * from './layouts/RootLayout'
 export * from './components/layout/container'
 export * from './components/layout/topbar'
