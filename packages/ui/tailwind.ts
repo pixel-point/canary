@@ -232,8 +232,7 @@ export default {
         }
       },
       letterSpacing: {
-        tight: '-0.02rem',
-        tighter: '-0.04rem'
+        tight: '-0.02em'
       },
       boxShadow: {
         1: '0px 8px 16px rgba(0, 0, 0, 0.30)',
