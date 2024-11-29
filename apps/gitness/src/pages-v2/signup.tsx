@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useOnRegisterMutation } from '@harnessio/code-service-client'
-import { SignUpDataProps, SignUpPage } from '@harnessio/ui/views'
+import { SignUpData, SignUpPage } from '@harnessio/ui/views'
 
 export const SignUp: React.FC = () => {
   const navigate = useNavigate()
@@ -20,7 +20,7 @@ export const SignUp: React.FC = () => {
     }
   }, [isSuccess])
 
-  const handleSignUp = (data: SignUpDataProps) => {
+  const handleSignUp = (data: SignUpData) => {
     register({
       body: {
         email: data.email,

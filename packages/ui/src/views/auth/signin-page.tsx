@@ -10,13 +10,13 @@ import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label, Spacer,
 import { Agreements } from './components/agreements'
 import { AnimatedHarnessLogo } from './components/animated-harness-logo'
 
-interface PageProps {
-  handleSignIn: (data: SignInDataProps) => void
+interface SignInPageProps {
+  handleSignIn: (data: SignInData) => void
   isLoading?: boolean
   error?: string
 }
 
-export interface SignInDataProps {
+export interface SignInData {
   email?: string
   password?: string
 }
@@ -26,7 +26,7 @@ const signInSchema = z.object({
   password: z.string().min(1, { message: 'The field can’t be blank' })
 })
 
-export function SignInPage({ handleSignIn, isLoading, error }: PageProps) {
+export function SignInPage({ handleSignIn, isLoading, error }: SignInPageProps) {
   const [serverError, setServerError] = useState<string | null>(null)
   const {
     register,
@@ -39,7 +39,7 @@ export function SignInPage({ handleSignIn, isLoading, error }: PageProps) {
     resolver: zodResolver(signInSchema)
   })
 
-  const onSubmit = (data: SignInDataProps) => {
+  const onSubmit = (data: SignInData) => {
     handleSignIn(data)
   }
 
@@ -79,10 +79,10 @@ export function SignInPage({ handleSignIn, isLoading, error }: PageProps) {
       <Card className="relative z-10 mb-8 max-w-full" variant="plain" width="xl">
         <CardHeader className="items-center">
           <AnimatedHarnessLogo theme={hasError ? 'error' : 'blue'} />
-          <CardTitle className="mt-3 text-center text-2xl" as="h1">
+          <CardTitle className="mt-3 text-center" as="h1">
             Sign in to Harness
           </CardTitle>
-          <Text className="mt-0.5" size={2} color="foreground-4" align="center" as="p">
+          <Text className="mt-0.5 leading-snug" size={2} color="foreground-4" align="center" as="p">
             Welcome back! Please enter your details.
           </Text>
         </CardHeader>

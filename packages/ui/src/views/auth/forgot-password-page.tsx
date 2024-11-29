@@ -10,13 +10,13 @@ import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label, Spacer,
 import { Agreements } from './components/agreements'
 import { AnimatedHarnessLogo } from './components/animated-harness-logo'
 
-interface PageProps {
+interface ForgotPasswordPageProps {
   isLoading?: boolean
-  onSubmit?: (emailData: ForgotPasswordDataProps) => void
+  onSubmit?: (emailData: ForgotPasswordData) => void
   error?: string
 }
 
-export interface ForgotPasswordDataProps {
+export interface ForgotPasswordData {
   email?: string
 }
 
@@ -24,7 +24,7 @@ const forgotPasswordSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' })
 })
 
-export function ForgotPasswordPage({ isLoading, onSubmit, error }: PageProps) {
+export function ForgotPasswordPage({ isLoading, onSubmit, error }: ForgotPasswordPageProps) {
   const [serverError, setServerError] = useState<string | null>(null)
   const {
     register,
@@ -37,7 +37,7 @@ export function ForgotPasswordPage({ isLoading, onSubmit, error }: PageProps) {
     resolver: zodResolver(forgotPasswordSchema)
   })
 
-  const handleOnSubmit: SubmitHandler<ForgotPasswordDataProps> = data => {
+  const handleOnSubmit: SubmitHandler<ForgotPasswordData> = data => {
     // Handle the submission of the forgot password form
     if (onSubmit) {
       onSubmit(data)
@@ -76,10 +76,10 @@ export function ForgotPasswordPage({ isLoading, onSubmit, error }: PageProps) {
       <Card className="relative z-10 mb-8 max-w-full" variant="plain" width="xl">
         <CardHeader className="items-center">
           <AnimatedHarnessLogo theme={hasError ? 'error' : 'blue'} />
-          <CardTitle className="mt-3 text-center text-2xl" as="h1">
+          <CardTitle className="mt-3 text-center" as="h1">
             Forgot password?
           </CardTitle>
-          <Text className="mt-0.5" size={2} color="foreground-4" align="center" as="p">
+          <Text className="mt-0.5 leading-snug" size={2} color="foreground-4" align="center" as="p">
             Enter your email to receive the verification code.
           </Text>
         </CardHeader>

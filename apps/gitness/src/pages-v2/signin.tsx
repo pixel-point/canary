@@ -1,11 +1,12 @@
+import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { getUser, useOnLoginMutation } from '@harnessio/code-service-client'
-import { SignInDataProps, SignInPage } from '@harnessio/ui/views'
+import { SignInData, SignInPage } from '@harnessio/ui/views'
 
 import { useAppContext } from '../framework/context/AppContext'
 
-export const SignIn: React.FC = () => {
+export const SignIn: FC = () => {
   const navigate = useNavigate()
   const { setCurrentUser } = useAppContext()
   const {
@@ -31,7 +32,7 @@ export const SignIn: React.FC = () => {
   return (
     <SignInPage
       isLoading={isLoading}
-      handleSignIn={(data: SignInDataProps) => {
+      handleSignIn={(data: SignInData) => {
         login({
           body: {
             login_identifier: data.email,

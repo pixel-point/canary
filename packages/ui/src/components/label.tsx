@@ -1,6 +1,6 @@
 // ToDo: Need to be reviewed by the XD team
 
-import * as React from 'react'
+import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
 
 import * as LabelPrimitive from '@radix-ui/react-label'
 import { cn } from '@utils/cn'
@@ -18,9 +18,9 @@ const labelVariants = cva('block leading-none peer-disabled:cursor-not-allowed p
   }
 })
 
-const Label = React.forwardRef<
-  React.ElementRef<typeof LabelPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> & VariantProps<typeof labelVariants>
+const Label = forwardRef<
+  ElementRef<typeof LabelPrimitive.Root>,
+  ComponentPropsWithoutRef<typeof LabelPrimitive.Root> & VariantProps<typeof labelVariants>
 >(({ className, variant, ...props }, ref) => (
   <LabelPrimitive.Root
     ref={ref}

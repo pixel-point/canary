@@ -10,13 +10,13 @@ import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label, Spacer,
 import { Agreements } from './components/agreements'
 import { AnimatedHarnessLogo } from './components/animated-harness-logo'
 
-interface PageProps {
+interface SignUpPageProps {
   isLoading?: boolean
-  handleSignUp: (data: SignUpDataProps) => void
+  handleSignUp: (data: SignUpData) => void
   error?: string
 }
 
-export interface SignUpDataProps {
+export interface SignUpData {
   userId?: string
   email?: string
   password?: string
@@ -35,7 +35,7 @@ const signUpSchema = z
     path: ['confirmPassword']
   })
 
-export function SignUpPage({ isLoading, handleSignUp, error }: PageProps) {
+export function SignUpPage({ isLoading, handleSignUp, error }: SignUpPageProps) {
   const [serverError, setServerError] = useState<string | null>(null)
   const {
     register,
@@ -47,7 +47,7 @@ export function SignUpPage({ isLoading, handleSignUp, error }: PageProps) {
     resolver: zodResolver(signUpSchema)
   })
 
-  const onSubmit = (data: SignUpDataProps) => {
+  const onSubmit = (data: SignUpData) => {
     handleSignUp(data)
     reset()
   }
@@ -76,10 +76,10 @@ export function SignUpPage({ isLoading, handleSignUp, error }: PageProps) {
       <Card className="relative z-10 mb-8 max-w-full" variant="plain" width="xl">
         <CardHeader className="items-center">
           <AnimatedHarnessLogo theme={hasError ? 'error' : 'green'} />
-          <CardTitle className="mt-3 text-center text-2xl" as="h1">
+          <CardTitle className="mt-3 text-center" as="h1">
             Sign up to Harness
           </CardTitle>
-          <Text className="mt-0.5" size={2} color="foreground-4" align="center" as="p">
+          <Text className="mt-0.5 leading-snug" size={2} color="foreground-4" align="center" as="p">
             Let’s start your journey with us today.
           </Text>
         </CardHeader>

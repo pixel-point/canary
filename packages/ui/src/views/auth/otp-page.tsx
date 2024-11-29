@@ -23,14 +23,14 @@ import { AnimatedHarnessLogo } from './components/animated-harness-logo'
 
 const OTP_LENGTH = 4
 
-interface PageProps {
+interface OTPPageProps {
   handleResend?: () => void
   isLoading?: boolean
-  handleFormSubmit?: (data: OtpPageDataProps) => void
+  handleFormSubmit?: (data: OtpPageData) => void
   error?: string
 }
 
-export interface OtpPageDataProps {
+export interface OtpPageData {
   email?: string
   otp: string
 }
@@ -42,7 +42,7 @@ const otpPasswordSchema = z.object({
     .regex(/^\d+$/, { message: 'Code must contain only numbers' })
 })
 
-export function OTPPage({ handleResend, isLoading, handleFormSubmit, error }: PageProps) {
+export function OTPPage({ handleResend, isLoading, handleFormSubmit, error }: OTPPageProps) {
   const [serverError, setServerError] = useState<string | null>(null)
   // TODO: get email from url or from context
   const email = 'stevenm@gmail.com'
@@ -53,7 +53,7 @@ export function OTPPage({ handleResend, isLoading, handleFormSubmit, error }: Pa
     formState: { errors },
     reset,
     watch
-  } = useForm<OtpPageDataProps>({
+  } = useForm<OtpPageData>({
     mode: 'onSubmit',
     resolver: zodResolver(otpPasswordSchema),
     defaultValues: {
@@ -62,7 +62,7 @@ export function OTPPage({ handleResend, isLoading, handleFormSubmit, error }: Pa
   })
   const otpValue = watch('otp')
 
-  const onSubmit = (data: OtpPageDataProps) => {
+  const onSubmit = (data: OtpPageData) => {
     setServerError(null)
     handleFormSubmit?.({ ...data, email })
     reset()
@@ -92,10 +92,10 @@ export function OTPPage({ handleResend, isLoading, handleFormSubmit, error }: Pa
       <Card className="relative z-10 mb-8 max-w-full" variant="plain" width="xl">
         <CardHeader className="items-center">
           <AnimatedHarnessLogo theme={hasError ? 'error' : 'blue'} />
-          <CardTitle className="mt-3 text-center text-2xl" as="h1">
+          <CardTitle className="mt-3 text-center" as="h1">
             Verify your email
           </CardTitle>
-          <Text className="mt-0.5" size={2} color="foreground-4" align="center" as="p">
+          <Text className="mt-0.5 leading-snug" size={2} color="foreground-4" align="center" as="p">
             Please enter the verification code we’ve sent to your email{' '}
             <span className="text-foreground-1">{email}</span>
           </Text>

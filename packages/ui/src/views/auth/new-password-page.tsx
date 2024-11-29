@@ -9,13 +9,13 @@ import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label, Text } 
 import { Agreements } from './components/agreements'
 import { AnimatedHarnessLogo } from './components/animated-harness-logo'
 
-interface PageProps {
+interface NewPasswordPageProps {
   isLoading?: boolean
-  handleFormSubmit?: (data: NewPasswordDataProps) => void
+  handleFormSubmit?: (data: NewPasswordData) => void
   error?: string
 }
 
-export interface NewPasswordDataProps {
+export interface NewPasswordData {
   password?: string
   confirmPassword?: string
 }
@@ -30,7 +30,7 @@ const newPasswordSchema = z
     path: ['confirmPassword']
   })
 
-export function NewPasswordPage({ isLoading, handleFormSubmit, error }: PageProps) {
+export function NewPasswordPage({ isLoading, handleFormSubmit, error }: NewPasswordPageProps) {
   const [serverError, setServerError] = useState<string | null>(null)
   const {
     register,
@@ -43,7 +43,7 @@ export function NewPasswordPage({ isLoading, handleFormSubmit, error }: PageProp
     resolver: zodResolver(newPasswordSchema)
   })
 
-  const onFormSubmit = (data: NewPasswordDataProps) => {
+  const onFormSubmit = (data: NewPasswordData) => {
     handleFormSubmit?.(data)
   }
 
@@ -83,10 +83,10 @@ export function NewPasswordPage({ isLoading, handleFormSubmit, error }: PageProp
       <Card className="relative z-10 mb-8 max-w-full" variant="plain" width="xl">
         <CardHeader className="items-center">
           <AnimatedHarnessLogo theme={hasError ? 'error' : 'blue'} />
-          <CardTitle className="mt-3 text-center text-2xl" as="h1">
+          <CardTitle className="mt-3 text-center" as="h1">
             Create new password
           </CardTitle>
-          <Text className="mt-0.5" size={2} color="foreground-4" align="center" as="p">
+          <Text className="mt-0.5 leading-snug" size={2} color="foreground-4" align="center" as="p">
             Your new password must be different from your previously used password.
           </Text>
         </CardHeader>
