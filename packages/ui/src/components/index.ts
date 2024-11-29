@@ -29,6 +29,8 @@ export * from './skeleton'
 export * from './loaders/skeleton-list'
 export * from './table'
 export * from './commit-copy-actions'
+export * from './card'
+export * from './input-otp'
 
 export * as ShaBadge from './sha-badge'
 export * as ListActions from './list-actions'

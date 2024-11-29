@@ -258,7 +258,8 @@ export default {
         17: '1.0625rem',
         18: '1.125rem',
         19: '1.1875rem',
-        20: '1.25rem'
+        20: '1.25rem',
+        24: '1.5rem'
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

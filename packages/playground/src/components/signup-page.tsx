@@ -4,21 +4,20 @@ import { Link } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
+import { Dock } from '@harnessio/canary'
 import {
   Button,
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-  Dock,
   Icon,
   Input,
   Label,
   Spacer,
   Text
-} from '@harnessio/canary'
-
-import { Floating1ColumnLayout } from '../layouts/Floating1ColumnLayout'
+} from '@harnessio/ui/components'
+import { Floating1ColumnLayout } from '@harnessio/ui/views'
 
 interface PageProps {
   isLoading?: boolean

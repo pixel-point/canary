@@ -5,7 +5,7 @@ import { cva } from 'class-variance-authority'
 
 import { cn } from '../utils/cn'
 
-const textVariants = cva('text-base', {
+const textVariants = cva('text-base tracking-tight', {
   variants: {
     align: {
       left: 'text-left',
@@ -37,6 +37,7 @@ const textVariants = cva('text-base', {
       true: 'truncate'
     },
     weight: {
+      light: 'font-light',
       normal: 'font-normal',
       medium: 'font-medium',
       semibold: 'font-semibold',
@@ -46,7 +47,9 @@ const textVariants = cva('text-base', {
       primary: 'text-foreground-1',
       secondary: 'text-foreground-9',
       tertiary: 'text-tertiary',
-      tertiaryBackground: 'text-tertiary-background'
+      tertiaryBackground: 'text-tertiary-background',
+      'foreground-4': 'text-foreground-4',
+      'foreground-5': 'text-foreground-5'
     },
     wrap: {
       wrap: 'text-wrap',
@@ -94,12 +97,12 @@ interface TextProps extends React.ComponentProps<'span'> {
   /**
    * Sets the font-weight property.
    */
-  weight?: 'normal' | 'medium' | 'semibold' | 'bold'
+  weight?: 'light' | 'normal' | 'medium' | 'semibold' | 'bold'
 
   /**
    * Sets the color property.
    */
-  color?: 'primary' | 'secondary' | 'tertiary' | 'tertiaryBackground'
+  color?: 'primary' | 'secondary' | 'tertiary' | 'tertiaryBackground' | 'foreground-5' | 'foreground-4'
 
   /**
    * Controls the wrapping behavior of the text.
