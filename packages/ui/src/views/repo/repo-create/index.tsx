@@ -1,25 +1,25 @@
 import { useEffect } from 'react'
 import { useForm, type SubmitHandler } from 'react-hook-form'
-import { Link } from 'react-router-dom'
 
 import {
-  Alert,
   Button,
   ButtonGroup,
   Checkbox,
-  FormFieldSet,
+  ControlGroup,
+  ErrorMessageTheme,
+  Fieldset,
+  FormErrorMessage,
   Input,
+  RadioButton,
   RadioGroup,
   RadioGroupItem,
   Select,
   SelectContent,
   SelectItem,
-  SelectTrigger,
-  SelectValue,
   Spacer,
+  StyledLink,
   Text,
-  Textarea,
-  Toast
+  Textarea
 } from '@/components'
 import { SandboxLayout } from '@/views'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -40,7 +40,6 @@ export type FormFields = z.infer<typeof formSchema> // Automatically generate a 
 interface RepoCreatePageProps {
   onFormSubmit: (data: FormFields) => void
   onFormCancel: () => void
-  apiError: string | null
   isLoading: boolean
   isSuccess: boolean
   gitIgnoreOptions?: string[]
@@ -49,7 +48,6 @@ interface RepoCreatePageProps {
 
 export function RepoCreatePage({
   onFormSubmit,
-  apiError = null,
   onFormCancel,
   isLoading,
   isSuccess,
@@ -90,24 +88,14 @@ export function RepoCreatePage({
   }
 
   const handleReadmeChange = (value: boolean) => {
-    console.log('readmeValue', value)
     setValue('readme', value, { shouldValidate: true })
   }
 
   useEffect(() => {
-    if (isSuccess === true) {
+    if (isSuccess) {
       reset()
     }
   }, [isSuccess, reset])
-
-  useEffect(() => {
-    if (apiError) {
-      Toast.toast({
-        title: apiError,
-        variant: 'destructive'
-      })
-    }
-  }, [])
 
   const onSubmit: SubmitHandler<FormFields> = data => {
     onFormSubmit(data)
@@ -120,67 +108,71 @@ export function RepoCreatePage({
   return (
     <>
       <SandboxLayout.Main hasLeftPanel>
-        <SandboxLayout.Content paddingClassName="w-[570px] mx-auto py-11">
+        <SandboxLayout.Content paddingClassName="w-[570px] mx-auto pt-11 pb-20">
           <Spacer size={5} />
           <Text className="tracking-tight" size={5} weight="medium">
             Create a new repository
           </Text>
           <Spacer size={2.5} />
-          <Text className="text-foreground-2 max-w-[476px] tracking-tight" size={2} as="p">
+          <Text className="text-foreground-2 max-w-[476px]" size={2} as="p">
             A repository contains all project files, including the revision history. Already have a project repository
             elsewhere?{' '}
-            <Link className="text-foreground-accent" to="../import" relative="path">
+            <StyledLink to="../import" relative="path">
               Import a repository.
-            </Link>
+            </StyledLink>
           </Text>
           <Spacer size={10} />
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* NAME */}
-            <FormFieldSet.Root>
-              <FormFieldSet.ControlGroup>
-                <FormFieldSet.Label htmlFor="name">Name</FormFieldSet.Label>
+            <Fieldset>
+              <ControlGroup>
                 <Input
                   id="name"
+                  label="Name"
                   {...register('name')}
-                  theme={errors.name ? 'danger' : 'default'}
                   placeholder="Enter repository name"
                   size="md"
+                  error={errors.name && { theme: ErrorMessageTheme.ERROR, message: errors.name.message?.toString() }}
                   autoFocus
                 />
-                {errors.name && (
-                  <FormFieldSet.Message theme={FormFieldSet.MessageTheme.ERROR}>
-                    {errors.name.message?.toString()}
-                  </FormFieldSet.Message>
-                )}
-              </FormFieldSet.ControlGroup>
+              </ControlGroup>
               <Spacer size={7} />
               {/* DESCRIPTION */}
-              <FormFieldSet.ControlGroup>
-                <FormFieldSet.Label htmlFor="description" optional>
-                  Description
-                </FormFieldSet.Label>
+              <ControlGroup>
                 <Textarea
                   id="description"
                   {...register('description')}
                   placeholder="Enter a description of this repository..."
+                  label="Description"
+                  error={
+                    errors.description && {
+                      theme: ErrorMessageTheme.ERROR,
+                      message: errors.description.message?.toString()
+                    }
+                  }
+                  optional
                 />
-                {errors.description && (
-                  <FormFieldSet.Message theme={FormFieldSet.MessageTheme.ERROR}>
-                    {errors.description.message?.toString()}
-                  </FormFieldSet.Message>
-                )}
-              </FormFieldSet.ControlGroup>
-            </FormFieldSet.Root>
+              </ControlGroup>
+            </Fieldset>
             <Spacer size={7} />
 
             {/* GITIGNORE */}
-            <FormFieldSet.Root>
-              <FormFieldSet.ControlGroup>
-                <FormFieldSet.Label htmlFor="gitignore">Add a .gitignore</FormFieldSet.Label>
-                <Select value={gitignoreValue} onValueChange={value => handleSelectChange('gitignore', value)}>
-                  <SelectTrigger id="gitignore">
-                    <SelectValue placeholder="Select" />
-                  </SelectTrigger>
+            <Fieldset>
+              <ControlGroup>
+                <Select
+                  name="gitignore"
+                  value={gitignoreValue}
+                  onValueChange={value => handleSelectChange('gitignore', value)}
+                  placeholder="Select"
+                  label="Add a .gitignore"
+                  error={
+                    errors.gitignore && {
+                      theme: ErrorMessageTheme.ERROR,
+                      message: errors.gitignore.message?.toString()
+                    }
+                  }
+                  caption="Choose which files not to track from a list of templates."
+                >
                   <SelectContent>
                     {gitIgnoreOptions &&
                       gitIgnoreOptions?.map(option => {
@@ -192,22 +184,25 @@ export function RepoCreatePage({
                       })}
                   </SelectContent>
                 </Select>
-                <FormFieldSet.Caption>Choose which files not to track from a list of templates.</FormFieldSet.Caption>
-                {errors.gitignore && (
-                  <FormFieldSet.Message theme={FormFieldSet.MessageTheme.ERROR}>
-                    {errors.gitignore.message?.toString()}
-                  </FormFieldSet.Message>
-                )}
-              </FormFieldSet.ControlGroup>
-              <Spacer size={7} />
+              </ControlGroup>
+              <Spacer size={6} />
 
               {/* LICENSE */}
-              <FormFieldSet.ControlGroup>
-                <FormFieldSet.Label htmlFor="license">Choose a license</FormFieldSet.Label>
-                <Select value={licenseValue} onValueChange={value => handleSelectChange('license', value)}>
-                  <SelectTrigger id="license">
-                    <SelectValue placeholder="Select" />
-                  </SelectTrigger>
+              <ControlGroup>
+                <Select
+                  name="license"
+                  value={licenseValue}
+                  onValueChange={value => handleSelectChange('license', value)}
+                  placeholder="Select"
+                  label="Choose a license"
+                  error={
+                    errors.license && {
+                      theme: ErrorMessageTheme.ERROR,
+                      message: errors.license.message?.toString()
+                    }
+                  }
+                  caption="A license tells others what they can and can't do with your code."
+                >
                   <SelectContent>
                     {licenseOptions &&
                       licenseOptions?.map(option => (
@@ -217,82 +212,77 @@ export function RepoCreatePage({
                       ))}
                   </SelectContent>
                 </Select>
-                <FormFieldSet.Caption>
-                  A license tells others what they can and can&apos;t do with your code.
-                </FormFieldSet.Caption>
-                {errors.license && (
-                  <FormFieldSet.Message theme={FormFieldSet.MessageTheme.ERROR}>
-                    {errors.license.message?.toString()}
-                  </FormFieldSet.Message>
-                )}
-              </FormFieldSet.ControlGroup>
-            </FormFieldSet.Root>
+              </ControlGroup>
+            </Fieldset>
             <Spacer size={11} />
 
             {/* ACCESS */}
-            <FormFieldSet.Root>
-              <FormFieldSet.ControlGroup>
-                <FormFieldSet.Label htmlFor="access">Who has access</FormFieldSet.Label>
-                <RadioGroup className="mt-3.5" value={accessValue} onValueChange={handleAccessChange} id="access">
-                  <FormFieldSet.Option
-                    control={<RadioGroupItem value="1" id="access-public" />}
+            <Fieldset>
+              <ControlGroup>
+                <Text className="text-foreground-2 leading-none" size={2}>
+                  Who has access
+                </Text>
+                <RadioGroup className="mt-6" value={accessValue} onValueChange={handleAccessChange} id="access">
+                  <RadioGroupItem
+                    control={<RadioButton className="mt-px" value="1" id="access-public" />}
                     id="access-public"
                     label="Public"
+                    ariaSelected={accessValue === '1'}
                     description="Anyone with access to the Gitness environment can clone this repo."
                   />
-                  <FormFieldSet.Option
-                    control={<RadioGroupItem value="2" id="access-private" />}
+                  <RadioGroupItem
+                    control={<RadioButton className="mt-px" value="2" id="access-private" />}
                     id="access-private"
                     label="Private"
+                    ariaSelected={accessValue === '2'}
                     description="You choose who can see and commit to this repository."
                   />
                 </RadioGroup>
                 {errors.access && (
-                  <FormFieldSet.Message theme={FormFieldSet.MessageTheme.ERROR}>
+                  <FormErrorMessage className="mt-1" theme={ErrorMessageTheme.ERROR}>
                     {errors.access.message?.toString()}
-                  </FormFieldSet.Message>
+                  </FormErrorMessage>
                 )}
-              </FormFieldSet.ControlGroup>
-            </FormFieldSet.Root>
-            <Spacer size={12} />
+              </ControlGroup>
+            </Fieldset>
+            <Spacer size={11} />
 
             {/* README */}
-            <FormFieldSet.Root>
-              <FormFieldSet.ControlGroup>
-                <FormFieldSet.Label>Initialize this repository with</FormFieldSet.Label>
-                <Checkbox
-                  className="mt-3.5"
-                  id="readme"
-                  checked={readmeValue}
-                  onCheckedChange={handleReadmeChange}
-                  label="Add a README file"
-                />
-                <Text className="text-foreground-4 mt-1.5 pl-[26px] font-normal tracking-tight" as="p" size={2}>
-                  This is where you can write a long description for your project.{' '}
-                  <Link className="text-foreground-accent block" to="/">
-                    Learn more about README
-                  </Link>
+            <Fieldset>
+              <ControlGroup>
+                <Text className="text-foreground-2 leading-none" size={2}>
+                  Initialize this repository with
                 </Text>
+                <RadioGroupItem
+                  className="mt-6"
+                  control={<Checkbox id="readme" checked={readmeValue} onCheckedChange={handleReadmeChange} />}
+                  id="readme"
+                  label="Add a README file"
+                  ariaSelected={accessValue === '1'}
+                  description={
+                    <>
+                      This is where you can write a long description for your project.{' '}
+                      <StyledLink className="inline-block" to="/">
+                        Learn more about README
+                      </StyledLink>
+                    </>
+                  }
+                />
 
                 {errors.readme && (
-                  <FormFieldSet.Message theme={FormFieldSet.MessageTheme.ERROR}>
+                  <FormErrorMessage theme={ErrorMessageTheme.ERROR}>
                     {errors.readme.message?.toString()}
-                  </FormFieldSet.Message>
+                  </FormErrorMessage>
                 )}
-              </FormFieldSet.ControlGroup>
-            </FormFieldSet.Root>
-
-            {apiError && (
-              <Alert.Container variant="destructive" className="mb-8">
-                <Alert.Description>{apiError?.toString()}</Alert.Description>
-              </Alert.Container>
-            )}
+              </ControlGroup>
+            </Fieldset>
 
             {/* SUBMIT BUTTONS */}
-            <FormFieldSet.Root className="mt-[50px]">
-              <FormFieldSet.ControlGroup>
+            <Fieldset className="mt-[50px]">
+              <ControlGroup>
                 <ButtonGroup.Root>
                   <>
+                    {/* TODO: Improve loading state to avoid flickering */}
                     <Button type="submit" disabled={!isValid || isLoading}>
                       {!isLoading ? 'Create repository' : 'Creating repository...'}
                     </Button>
@@ -301,11 +291,9 @@ export function RepoCreatePage({
                     </Button>
                   </>
                 </ButtonGroup.Root>
-              </FormFieldSet.ControlGroup>
-            </FormFieldSet.Root>
+              </ControlGroup>
+            </Fieldset>
           </form>
-
-          <Toast.Toaster />
         </SandboxLayout.Content>
       </SandboxLayout.Main>
     </>

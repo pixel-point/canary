@@ -14,7 +14,7 @@ const ToastViewport = React.forwardRef<
   <ToastPrimitives.Viewport
     ref={ref}
     className={cn(
-      'fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[317px]',
+      'fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 gap-y-2 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[317px]',
       className
     )}
     {...props}
@@ -23,12 +23,12 @@ const ToastViewport = React.forwardRef<
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName
 
 const toastVariants = cva(
-  'pointer-events-auto relative flex w-full items-center justify-between space-x-2 overflow-hidden rounded py-3 pl-3.5 pr-12 shadow-lg transition-all',
+  'pointer-events-auto relative flex w-full items-center justify-between space-x-2 overflow-hidden rounded border py-3 pl-3.5 pr-12 shadow-lg transition-all',
   {
     variants: {
       variant: {
-        default: 'bg-background text-foreground border',
-        destructive: 'bg-foreground-danger text-foreground-1'
+        default: 'bg-background-3 border-borders-1 text-foreground [&_svg]:text-icons-1',
+        destructive: 'bg-foreground-danger text-foreground-1 [&_svg]:text-icons-2 border-borders-danger'
       }
     },
     defaultVariants: {
