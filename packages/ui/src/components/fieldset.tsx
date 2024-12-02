@@ -1,6 +1,8 @@
+import { HTMLAttributes } from 'react'
+
 import { cn } from '@utils/cn'
 
-interface FieldsetProps extends React.HTMLAttributes<HTMLFieldSetElement> {
+interface FieldsetProps extends HTMLAttributes<HTMLFieldSetElement> {
   box?: boolean
   shaded?: boolean
 }

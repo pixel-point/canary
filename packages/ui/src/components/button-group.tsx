@@ -1,9 +1,9 @@
-import * as React from 'react'
+import { ReactNode } from 'react'
 
 import { cn } from '@utils/cn'
 
 interface ButtonGroupProps {
-  children: React.ReactNode
+  children: ReactNode
   direction?: 'horizontal' | 'vertical'
   className?: string
   spacing?: string

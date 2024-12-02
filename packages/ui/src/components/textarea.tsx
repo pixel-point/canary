@@ -1,7 +1,8 @@
-import * as React from 'react'
+import { forwardRef, ReactNode, TextareaHTMLAttributes } from 'react'
 
 import { cn } from '@utils/cn'
 
+import { ControlGroup } from './control-group'
 import { ErrorMessageTheme, FormErrorMessage } from './form-error-message'
 import { Label } from './label'
 import { Text } from './text'
@@ -10,19 +11,19 @@ interface TextareaError {
   theme: ErrorMessageTheme
   message?: string
 }
-export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string
-  caption?: React.ReactNode
+  caption?: ReactNode
   error?: TextareaError
   optional?: boolean
 }
 
-const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
+const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ id, disabled, label, caption, error, optional, className, ...props }, ref) => {
     return (
-      <>
+      <ControlGroup>
         {label && (
-          <Label className="mb-2.5" theme={disabled ? 'disabled-dark' : 'secondary'} optional={optional} htmlFor={id}>
+          <Label className="mb-2.5" theme={disabled ? 'foreground-9' : 'foreground-2'} optional={optional} htmlFor={id}>
             {label}
           </Label>
         )}
@@ -49,7 +50,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
             {caption}
           </Text>
         )}
-      </>
+      </ControlGroup>
     )
   }
 )

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
 
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import { cn } from '@utils/cn'
@@ -6,16 +6,16 @@ import { cn } from '@utils/cn'
 import { Icon } from './icon'
 import { Label } from './label'
 
-interface CheckboxProps extends React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> {
+interface CheckboxProps extends ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> {
   label?: string
 }
 
-const Checkbox = React.forwardRef<React.ElementRef<typeof CheckboxPrimitive.Root>, CheckboxProps>(
+const Checkbox = forwardRef<ElementRef<typeof CheckboxPrimitive.Root>, CheckboxProps>(
   ({ className, label, ...props }, ref) => (
     <div className={cn('flex gap-x-2.5', className)}>
       <CheckboxPrimitive.Root
         ref={ref}
-        className="border-icons-1 data-[state=checked]:bg-primary data-[state=checked]:border-icons-2 data-[state=checked]:text-primary-foreground hover:border-icons-3 disabled:border-icons-4 peer size-4 shrink-0 rounded-sm border shadow disabled:cursor-not-allowed"
+        className="border-icons-1 hover:border-icons-3 disabled:border-icons-4 data-[state=checked]:border-icons-2 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground peer size-4 shrink-0 rounded-sm border shadow disabled:cursor-not-allowed"
         {...props}
       >
         <CheckboxPrimitive.Indicator className={cn('flex items-center justify-center text-current')}>
@@ -23,7 +23,7 @@ const Checkbox = React.forwardRef<React.ElementRef<typeof CheckboxPrimitive.Root
         </CheckboxPrimitive.Indicator>
       </CheckboxPrimitive.Root>
       {label && (
-        <Label className="text-foreground-1 font-normal leading-tight tracking-tight" htmlFor={props.id}>
+        <Label className="leading-tight" theme="foreground-1" htmlFor={props.id}>
           {label}
         </Label>
       )}
