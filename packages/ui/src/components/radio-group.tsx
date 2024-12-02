@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { ComponentPropsWithoutRef, ElementRef, FC, forwardRef, ReactElement, ReactNode } from 'react'
 
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 import { cn } from '@utils/cn'
@@ -7,25 +7,25 @@ import { Checkbox } from './checkbox'
 import { Label } from './label'
 import { Text } from './text'
 
-type ControlType = React.ReactElement<typeof RadioGroupItem> | React.ReactElement<typeof Checkbox>
+type ControlType = ReactElement<typeof RadioGroupItem> | ReactElement<typeof Checkbox>
 interface RadioGroupItemProps {
   control: ControlType
   id: string
   label?: string
-  description?: string | React.ReactNode
+  description?: string | ReactNode
   className?: string
   ariaSelected?: boolean
 }
 
-const RadioGroup = React.forwardRef<
-  React.ElementRef<typeof RadioGroupPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
+const RadioGroup = forwardRef<
+  ElementRef<typeof RadioGroupPrimitive.Root>,
+  ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
 >(({ className, ...props }, ref) => {
   return <RadioGroupPrimitive.Root className={cn('grid gap-5', className)} {...props} ref={ref} />
 })
 RadioGroup.displayName = RadioGroupPrimitive.Root.displayName
 
-const RadioGroupItem = ({ control, id, label, description, ariaSelected, className }: RadioGroupItemProps) => {
+const RadioGroupItem: FC<RadioGroupItemProps> = ({ control, id, label, description, ariaSelected, className }) => {
   return (
     <div
       className={cn('flex items-start', className)}
@@ -55,9 +55,9 @@ const RadioGroupItem = ({ control, id, label, description, ariaSelected, classNa
   )
 }
 
-const RadioButton = React.forwardRef<
-  React.ElementRef<typeof RadioGroupPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
+const RadioButton = forwardRef<
+  ElementRef<typeof RadioGroupPrimitive.Item>,
+  ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
 >(({ className, ...props }, ref) => {
   return (
     <RadioGroupPrimitive.Item

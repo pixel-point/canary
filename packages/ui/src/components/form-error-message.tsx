@@ -1,3 +1,5 @@
+import { HTMLAttributes } from 'react'
+
 import { cn } from '@utils/cn'
 
 import { Text } from './text'
@@ -9,7 +11,7 @@ export enum ErrorMessageTheme {
   DEFAULT = 'default'
 }
 
-interface FormErrorMessageProps extends React.HTMLAttributes<HTMLDivElement> {
+interface FormErrorMessageProps extends HTMLAttributes<HTMLDivElement> {
   theme: ErrorMessageTheme
 }
 

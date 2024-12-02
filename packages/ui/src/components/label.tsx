@@ -1,6 +1,6 @@
 // ToDo: Need to be reviewed by the XD team
 
-import * as React from 'react'
+import { ComponentPropsWithoutRef, ElementRef, forwardRef, PropsWithChildren } from 'react'
 
 import * as LabelPrimitive from '@radix-ui/react-label'
 import { cn } from '@utils/cn'
@@ -12,27 +12,27 @@ const labelVariants = cva('peer-disabled:cursor-not-allowed peer-disabled:opacit
       default: 'text-sm font-normal leading-none'
     },
     theme: {
-      primary: 'text-foreground-1',
-      secondary: 'text-foreground-2',
-      disabled: 'text-foreground-5',
-      'disabled-dark': 'text-foreground-9'
+      'foreground-1': 'text-foreground-1',
+      'foreground-2': 'text-foreground-2',
+      'foreground-5': 'text-foreground-5',
+      'foreground-9': 'text-foreground-9'
     }
   },
   defaultVariants: {
     variant: 'default',
-    theme: 'primary'
+    theme: 'foreground-1'
   }
 })
 
-const LabelRoot = React.forwardRef<
-  React.ElementRef<typeof LabelPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> & VariantProps<typeof labelVariants>
+const LabelRoot = forwardRef<
+  ElementRef<typeof LabelPrimitive.Root>,
+  ComponentPropsWithoutRef<typeof LabelPrimitive.Root> & VariantProps<typeof labelVariants>
 >(({ className, variant, theme, ...props }, ref) => (
   <LabelPrimitive.Root ref={ref} className={cn(labelVariants({ variant, theme }), className)} {...props} />
 ))
 LabelRoot.displayName = LabelPrimitive.Root.displayName
 
-interface LabelProps extends VariantProps<typeof labelVariants>, React.PropsWithChildren {
+interface LabelProps extends VariantProps<typeof labelVariants>, PropsWithChildren {
   htmlFor?: string
   optional?: boolean
   className?: string

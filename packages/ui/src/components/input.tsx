@@ -1,17 +1,16 @@
-import * as React from 'react'
+import { forwardRef, InputHTMLAttributes, ReactNode } from 'react'
 
 import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '../utils/cn'
+import { ControlGroup } from './control-group'
 import { ErrorMessageTheme, FormErrorMessage } from './form-error-message'
 import { Label } from './label'
 import { Text } from './text'
 
 export interface BaseInputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>,
-    VariantProps<typeof inputVariants> {
-  size?: 'sm' | 'md'
-}
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>,
+    VariantProps<typeof inputVariants> {}
 
 const inputVariants = cva('text-foreground-1 bg-transparent px-2.5 py-1 disabled:cursor-not-allowed', {
   variants: {
@@ -21,46 +20,48 @@ const inputVariants = cva('text-foreground-1 bg-transparent px-2.5 py-1 disabled
       extended: 'grow border-none focus-visible:outline-none'
     },
     size: {
-      sm: 'h-8',
-      md: 'h-9'
+      32: 'h-8',
+      36: 'h-9'
     },
     theme: {
       default:
-        'border-borders-2 focus-visible:border-borders-3 disabled:placeholder:text-foreground-9 disabled:border-borders-1',
+        'border-borders-2 focus-visible:border-borders-3 disabled:border-borders-1 disabled:placeholder:text-foreground-9',
       danger: 'border-borders-danger'
     }
   },
   defaultVariants: {
     variant: 'default',
     theme: 'default',
-    size: 'sm'
+    size: 32
   }
 })
 
-const BaseInput = React.forwardRef<HTMLInputElement, BaseInputProps>(
+const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
   ({ className, type, variant, size, theme, ...props }, ref) => {
     return <input className={cn(inputVariants({ variant, size, theme }), className)} type={type} ref={ref} {...props} />
   }
 )
+
 BaseInput.displayName = 'BaseInput'
 
 interface InputError {
   theme: ErrorMessageTheme
   message?: string
 }
+
 interface InputProps extends BaseInputProps {
   label?: string
-  caption?: React.ReactNode
+  caption?: ReactNode
   error?: InputError
   optional?: boolean
 }
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
+const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, caption, error, id, theme, disabled, optional, ...props }, ref) => {
     return (
-      <>
+      <ControlGroup>
         {label && (
-          <Label className="mb-2.5" theme={disabled ? 'disabled-dark' : 'secondary'} optional={optional} htmlFor={id}>
+          <Label className="mb-2.5" theme={disabled ? 'foreground-9' : 'foreground-2'} optional={optional} htmlFor={id}>
             {label}
           </Label>
         )}
@@ -75,10 +76,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {caption}
           </Text>
         )}
-      </>
+      </ControlGroup>
     )
   }
 )
+
 Input.displayName = 'Input'
 
 export { Input }

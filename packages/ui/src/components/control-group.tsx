@@ -1,6 +1,8 @@
+import { HTMLAttributes } from 'react'
+
 import { cn } from '@utils/cn'
 
-interface ControlGroupProps extends React.HTMLAttributes<HTMLDivElement> {
+interface ControlGroupProps extends HTMLAttributes<HTMLDivElement> {
   type?: 'button' | 'input'
 }
 

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { ComponentProps } from 'react'
 
 import { cva, type VariantProps } from 'class-variance-authority'
 
@@ -29,7 +29,7 @@ const spacerVariants = cva('mt-4 block', {
   }
 })
 
-export interface SpacerProps extends React.ComponentProps<'span'>, VariantProps<typeof spacerVariants> {}
+export interface SpacerProps extends ComponentProps<'span'>, VariantProps<typeof spacerVariants> {}
 
 const Spacer = ({ className, size, ...props }: SpacerProps) => (
   <span aria-hidden className={cn(spacerVariants({ size, className }))} {...props}></span>

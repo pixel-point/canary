@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { ButtonHTMLAttributes, forwardRef, ReactNode } from 'react'
 
 import { Slot } from '@radix-ui/react-slot'
 import { CanaryOutletFactory, CanaryOutletName } from '@utils/CanaryOutletFactory'
@@ -14,7 +14,7 @@ const buttonVariants = cva(
           'bg-background-5 text-foreground-6 hover:bg-background-10 disabled:bg-background-6 disabled:text-foreground-9',
         destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm',
         outline:
-          'border-borders-2 hover:border-borders-6 text-foreground-2 hover:text-foreground-8 border bg-transparent',
+          'border-borders-2 text-foreground-2 hover:border-borders-6 hover:text-foreground-8 border bg-transparent',
         secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm',
         tertiary: 'bg-tertiary text-secondary-foreground hover:bg-tertiary/80 shadow-sm',
         ghost: 'hover:bg-background-12 hover:text-accent-foreground',
@@ -65,17 +65,15 @@ const buttonVariants = cva(
   }
 )
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
   asChild?: boolean
   loading?: boolean
-  spinner?: React.ReactNode
-  dropdown?: React.ReactNode
+  spinner?: ReactNode
+  dropdown?: ReactNode
   gradientType?: string
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       className,
