@@ -6,24 +6,44 @@ import * as LabelPrimitive from '@radix-ui/react-label'
 import { cn } from '@utils/cn'
 import { cva, type VariantProps } from 'class-variance-authority'
 
-const labelVariants = cva('leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70', {
+const labelVariants = cva('peer-disabled:cursor-not-allowed peer-disabled:opacity-70', {
   variants: {
     variant: {
-      default: 'text-sm font-light',
-      sm: 'text-xs font-light'
+      default: 'text-sm font-normal leading-none'
+    },
+    theme: {
+      primary: 'text-foreground-1',
+      secondary: 'text-foreground-2',
+      disabled: 'text-foreground-5',
+      'disabled-dark': 'text-foreground-9'
     }
   },
   defaultVariants: {
-    variant: 'default'
+    variant: 'default',
+    theme: 'primary'
   }
 })
 
-const Label = React.forwardRef<
+const LabelRoot = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> & VariantProps<typeof labelVariants>
->(({ className, variant, ...props }, ref) => (
-  <LabelPrimitive.Root ref={ref} className={cn(labelVariants({ variant }), className)} {...props} />
+>(({ className, variant, theme, ...props }, ref) => (
+  <LabelPrimitive.Root ref={ref} className={cn(labelVariants({ variant, theme }), className)} {...props} />
 ))
-Label.displayName = LabelPrimitive.Root.displayName
+LabelRoot.displayName = LabelPrimitive.Root.displayName
+
+interface LabelProps extends VariantProps<typeof labelVariants>, React.PropsWithChildren {
+  htmlFor?: string
+  optional?: boolean
+  className?: string
+}
+
+const Label = ({ htmlFor, optional, theme, variant, children, className }: LabelProps) => {
+  return (
+    <LabelRoot htmlFor={htmlFor} variant={variant} theme={theme} className={className}>
+      {children} {optional && <span className="text-foreground-7 align-top">(optional)</span>}
+    </LabelRoot>
+  )
+}
 
 export { Label }
