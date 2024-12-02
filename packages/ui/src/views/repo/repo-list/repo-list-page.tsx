@@ -473,7 +473,9 @@ const SandboxRepoListPage: React.FC<RepoListProps> = ({ useRepoStore }) => {
             </ListActions.Left>
             <ListActions.Right>
               <Filters filterOptions={FILTER_OPTIONS} sortOptions={SORT_OPTIONS} filterHandlers={filterHandlers} />
-              <Button variant="default">Create repository</Button>
+              <Button variant="default" asChild>
+                <Link to={`create`}>Create repository</Link>
+              </Button>
             </ListActions.Right>
           </ListActions.Root>
           {(filterHandlers.activeFilters.length > 0 || filterHandlers.activeSorts.length > 0) && <Spacer size={2} />}

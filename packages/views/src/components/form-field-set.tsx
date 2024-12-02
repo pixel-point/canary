@@ -65,6 +65,7 @@ const themeClassMap: Record<MessageTheme, string> = {
   [MessageTheme.DEFAULT]: 'text-tertiary-background'
 }
 
+/** @deprecated: Use Fieldset from @harnessio/ui/components instead */
 function Root({ children, box, shaded, className }: RootProps) {
   return (
     <fieldset
@@ -105,6 +106,7 @@ function Item({ children, className }: CompProps) {
   )
 }
 
+/** @deprecated: Use Label from @harnessio/ui/components instead */
 function Label({ htmlFor, required, children, className }: LabelProps) {
   return (
     <ShadLabel htmlFor={htmlFor} variant="sm" className={cn('text-primary/80 font-normal', className)}>
@@ -114,6 +116,7 @@ function Label({ htmlFor, required, children, className }: LabelProps) {
   )
 }
 
+/** @deprecated */
 function ControlGroup({ children, type, className }: ControlProps) {
   return (
     <div
@@ -126,6 +129,7 @@ function ControlGroup({ children, type, className }: ControlProps) {
   )
 }
 
+/** @deprecated: Use Text from @harnessio/ui/components instead */
 function Caption({ children, className }: CompProps) {
   return (
     <Text as="p" size={1} color="tertiaryBackground" role="note" aria-live="polite" className={cn('mt-1', className)}>
@@ -134,6 +138,7 @@ function Caption({ children, className }: CompProps) {
   )
 }
 
+/** @deprecated: Use ErrorMessage from @harnessio/ui/components instead */
 function Message({ children, theme, className }: MessageProps) {
   const textClass = themeClassMap[theme]
   const role = theme === MessageTheme.ERROR ? 'alert' : 'status'
@@ -148,6 +153,7 @@ function Message({ children, theme, className }: MessageProps) {
   )
 }
 
+/** @deprecated: Use RadioGroupItem from @harnessio/ui/components instead */
 function Option({ control, id, label, description, className }: OptionProps) {
   return (
     // eslint-disable-next-line jsx-a11y/role-has-required-aria-props
@@ -177,6 +183,7 @@ function Separator({ dashed, dotted, className }: SeparatorProps) {
   )
 }
 
+/** @deprecated: Use Spacer from @harnessio/ui/components instead */
 function Spacer({ className }: SpacerProps) {
   return <div className={cn('mt-1', className)} role="presentation" aria-hidden="true" />
 }
