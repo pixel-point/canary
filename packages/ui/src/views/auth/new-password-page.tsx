@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
+import { Button, Card, CardContent, CardHeader, CardTitle, ErrorMessageTheme, Input, Text } from '@/components'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
 import { Floating1ColumnLayout } from '..'
-import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label, Text } from '../../components'
 import { Agreements } from './components/agreements'
 import { AnimatedHarnessLogo } from './components/animated-harness-logo'
 
@@ -76,7 +76,7 @@ export function NewPasswordPage({ isLoading, handleFormSubmit, error }: NewPassw
 
   return (
     <Floating1ColumnLayout
-      className="flex-col bg-background-7 pt-20 sm:pt-[186px]"
+      className="bg-background-7 flex-col pt-20 sm:pt-[186px]"
       highlightTheme={hasError ? 'error' : 'blue'}
       verticalCenter
     >
@@ -92,27 +92,34 @@ export function NewPasswordPage({ isLoading, handleFormSubmit, error }: NewPassw
         </CardHeader>
         <CardContent className="mt-10">
           <form onSubmit={handleSubmit(onFormSubmit)}>
-            <Label htmlFor="password" variant="default">
-              New password
-            </Label>
             <Input
-              wrapperClassName="mt-2.5"
               id="password"
               type="password"
+              label="New password"
+              size={36}
               {...register('password', { onChange: handleInputChange })}
               placeholder="Password (6+ characters)"
-              error={errors.password?.message?.toString()}
+              error={
+                errors.password && {
+                  theme: ErrorMessageTheme.ERROR,
+                  message: errors.password.message?.toString()
+                }
+              }
             />
-            <Label className="mt-5" htmlFor="confirmPassword" variant="default">
-              Confirm password
-            </Label>
             <Input
-              wrapperClassName="mt-2.5"
+              wrapperClassName="mt-7"
               id="confirmPassword"
               type="password"
+              label="Confirm password"
+              size={36}
               {...register('confirmPassword', { onChange: handleInputChange })}
               placeholder="Confirm password"
-              error={errors.confirmPassword?.message?.toString()}
+              error={
+                errors.confirmPassword && {
+                  theme: ErrorMessageTheme.ERROR,
+                  message: errors.confirmPassword.message?.toString()
+                }
+              }
             />
             <Button
               className="mt-10 w-full"

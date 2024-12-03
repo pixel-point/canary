@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
+import { Button, Card, CardContent, CardHeader, CardTitle, ErrorMessageTheme, Input, Spacer, Text } from '@/components'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
 import { Floating1ColumnLayout } from '..'
-import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label, Spacer, Text } from '../../components'
 import { Agreements } from './components/agreements'
 import { AnimatedHarnessLogo } from './components/animated-harness-logo'
 
@@ -25,7 +25,7 @@ export interface SignUpData {
 
 const signUpSchema = z
   .object({
-    userId: z.string().nonempty({ message: 'User ID cannot be blank' }),
+    userId: z.string().min(1, { message: 'User ID cannot be blank' }),
     email: z.string().email({ message: 'Invalid email address' }),
     password: z.string().min(6, { message: 'Password must be at least 6 characters' }),
     confirmPassword: z.string()
@@ -69,7 +69,7 @@ export function SignUpPage({ isLoading, handleSignUp, error }: SignUpPageProps) 
 
   return (
     <Floating1ColumnLayout
-      className="flex-col bg-background-7 pt-20 sm:pt-[186px]"
+      className="bg-background-7 flex-col pt-20 sm:pt-[186px]"
       highlightTheme={hasError ? 'error' : 'green'}
       verticalCenter
     >
@@ -85,64 +85,73 @@ export function SignUpPage({ isLoading, handleSignUp, error }: SignUpPageProps) 
         </CardHeader>
         <CardContent className="mt-10">
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Label htmlFor="userId" variant="default">
-              User ID
-            </Label>
             <Input
-              wrapperClassName="mt-2.5"
               id="userId"
               type="text"
               {...register('userId', { onChange: handleInputChange })}
               placeholder="User ID"
+              label="User ID"
+              size={36}
               autoFocus
-              error={errors.userId?.message?.toString()}
+              error={
+                errors.userId && {
+                  theme: ErrorMessageTheme.ERROR,
+                  message: errors.userId.message?.toString()
+                }
+              }
             />
-            <Label className="mt-5" htmlFor="email" variant="default">
-              Email
-            </Label>
             <Input
-              wrapperClassName="mt-2.5"
+              wrapperClassName="mt-7"
               id="email"
               type="email"
               {...register('email', { onChange: handleInputChange })}
               placeholder="Your email"
-              error={errors.email?.message?.toString()}
+              label="Email"
+              size={36}
+              error={
+                errors.email && {
+                  theme: ErrorMessageTheme.ERROR,
+                  message: errors.email.message?.toString()
+                }
+              }
             />
-            <Label className="mt-5" htmlFor="password" variant="default">
-              Password
-            </Label>
             <Input
-              wrapperClassName="mt-2.5"
+              wrapperClassName="mt-7"
               id="password"
               type="password"
               placeholder="Password (6+ characters)"
+              label="Password"
+              size={36}
               {...register('password', { onChange: handleInputChange })}
-              error={errors.password?.message?.toString()}
+              error={
+                errors.password && {
+                  theme: ErrorMessageTheme.ERROR,
+                  message: errors.password.message?.toString()
+                }
+              }
             />
-            <div className="relative">
-              <Label className="mt-5" htmlFor="confirmPassword" variant="default">
-                Confirm password
-              </Label>
-              <Input
-                wrapperClassName="mt-2.5"
-                id="confirmPassword"
-                type="password"
-                placeholder="Confirm password"
-                {...register('confirmPassword', { onChange: handleInputChange })}
-                error={errors.confirmPassword?.message?.toString()}
-              />
-              {serverError && (
-                <>
-                  <Text
-                    className="absolute top-full translate-y-1 leading-none tracking-tight text-foreground-danger"
-                    weight="light"
-                    size={0}
-                  >
-                    {serverError}
-                  </Text>
-                </>
-              )}
-            </div>
+            <Input
+              wrapperClassName="mt-7"
+              id="confirmPassword"
+              type="password"
+              placeholder="Confirm password"
+              label="Confirm password"
+              size={36}
+              {...register('confirmPassword', { onChange: handleInputChange })}
+              error={
+                errors.confirmPassword && {
+                  theme: ErrorMessageTheme.ERROR,
+                  message: errors.confirmPassword.message?.toString()
+                }
+              }
+            />
+            {serverError && (
+              <>
+                <Text className="text-foreground-danger mt-1 leading-none tracking-tight" weight="light" size={0}>
+                  {serverError}
+                </Text>
+              </>
+            )}
             <Button
               className="mt-10 w-full"
               variant="default"
@@ -159,7 +168,7 @@ export function SignUpPage({ isLoading, handleSignUp, error }: SignUpPageProps) 
           <Text className="block" size={2} color="foreground-5" weight="normal" align="center" as="p">
             Already have an account?{' '}
             <Link
-              className="text-foreground-accent underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-200 hover:decoration-foreground-accent"
+              className="text-foreground-accent hover:decoration-foreground-accent underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-200"
               to="/signin"
             >
               Sign in

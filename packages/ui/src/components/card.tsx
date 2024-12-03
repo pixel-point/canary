@@ -3,7 +3,7 @@ import { forwardRef, HTMLAttributes } from 'react'
 import { cn } from '@utils/cn'
 import { cva, type VariantProps } from 'class-variance-authority'
 
-const cardVariants = cva('rounded-lg border bg-card text-card-foreground shadow', {
+const cardVariants = cva('bg-card text-card-foreground rounded-lg border shadow', {
   variants: {
     variant: {
       default: '',
@@ -19,7 +19,7 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement>, VariantProps<
   width?: 'auto' | 'full' | 'screen' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | string
 }
 
-const widthClasses = {
+const widthVariants = {
   auto: 'w-auto',
   full: 'w-full',
   screen: 'w-screen',
@@ -33,9 +33,9 @@ const widthClasses = {
 }
 
 const Card = forwardRef<HTMLDivElement, CardProps>(({ variant, className, width = 'auto', ...props }, ref) => {
-  const widthClass = widthClasses[width as keyof typeof widthClasses] || width
+  const widthClassName = widthVariants[width as keyof typeof widthVariants] || width
 
-  return <div ref={ref} className={cn(cardVariants({ variant }), widthClass, className)} {...props} />
+  return <div ref={ref} className={cn(cardVariants({ variant }), widthClassName, className)} {...props} />
 })
 
 Card.displayName = 'Card'

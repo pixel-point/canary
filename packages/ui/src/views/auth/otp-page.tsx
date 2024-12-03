@@ -2,10 +2,6 @@ import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Fragment } from 'react/jsx-runtime'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-
-import { Floating1ColumnLayout } from '..'
 import {
   Button,
   Card,
@@ -17,7 +13,11 @@ import {
   InputOTPSlot,
   Spacer,
   Text
-} from '../../components'
+} from '@/components'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+
+import { Floating1ColumnLayout } from '..'
 import { Agreements } from './components/agreements'
 import { AnimatedHarnessLogo } from './components/animated-harness-logo'
 
@@ -85,7 +85,7 @@ export function OTPPage({ handleResend, isLoading, handleFormSubmit, error }: OT
 
   return (
     <Floating1ColumnLayout
-      className="flex-col bg-background-7 pt-20 sm:pt-[186px]"
+      className="bg-background-7 flex-col pt-20 sm:pt-[186px]"
       highlightTheme={hasError ? 'error' : 'blue'}
       verticalCenter
     >
@@ -120,7 +120,7 @@ export function OTPPage({ handleResend, isLoading, handleFormSubmit, error }: OT
               />
               {(errors.otp || serverError) && (
                 <Text
-                  className="absolute top-full w-full translate-y-2 leading-none tracking-tight text-foreground-danger"
+                  className="text-foreground-danger absolute top-full w-full translate-y-2 leading-none tracking-tight"
                   weight="light"
                   align="center"
                   size={1}

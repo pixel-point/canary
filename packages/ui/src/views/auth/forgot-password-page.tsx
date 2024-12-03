@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
+import { Button, Card, CardContent, CardHeader, CardTitle, ErrorMessageTheme, Input, Spacer, Text } from '@/components'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
 import { Floating1ColumnLayout } from '..'
-import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label, Spacer, Text } from '../../components'
 import { Agreements } from './components/agreements'
 import { AnimatedHarnessLogo } from './components/animated-harness-logo'
 
@@ -69,7 +69,7 @@ export function ForgotPasswordPage({ isLoading, onSubmit, error }: ForgotPasswor
 
   return (
     <Floating1ColumnLayout
-      className="sm:pt-[186px] pt-20 flex-col bg-background-7"
+      className="bg-background-7 flex-col pt-20 sm:pt-[186px]"
       highlightTheme={hasError ? 'error' : 'blue'}
       verticalCenter
     >
@@ -85,16 +85,19 @@ export function ForgotPasswordPage({ isLoading, onSubmit, error }: ForgotPasswor
         </CardHeader>
         <CardContent className="mt-10">
           <form onSubmit={handleSubmit(handleOnSubmit)}>
-            <Label htmlFor="email" variant="default">
-              Email
-            </Label>
             <Input
-              wrapperClassName="mt-2.5"
               id="email"
               type="email"
               placeholder="Your email"
+              label="Email"
+              size={36}
               {...register('email', { onChange: handleInputChange })}
-              error={errors.email?.message?.toString()}
+              error={
+                errors.email && {
+                  theme: ErrorMessageTheme.ERROR,
+                  message: errors.email.message?.toString()
+                }
+              }
               autoFocus
             />
             <Button

@@ -10,11 +10,11 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-primary text-primary-foreground shadow hover:bg-primary/90',
-        destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
-        outline: 'border border-borders-2 bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground',
-        secondary: 'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
-        tertiary: 'bg-tertiary text-secondary-foreground shadow-sm hover:bg-tertiary/80',
+        default: 'bg-primary text-primary-foreground hover:bg-primary/90 shadow',
+        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm',
+        outline: 'border-borders-2 bg-transparent hover:bg-accent hover:text-accent-foreground border shadow-sm',
+        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm',
+        tertiary: 'bg-tertiary text-secondary-foreground hover:bg-tertiary/80 shadow-sm',
         ghost: 'hover:bg-background-12 hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
         link_accent: 'text-foreground-accent underline-offset-4 hover:underline',
@@ -34,7 +34,7 @@ const buttonVariants = cva(
       },
       borderRadius: {
         default: '',
-        full: 'rounded-full',
+        full: 'rounded-full focus-visible:rounded-full',
         none: 'rounded-none'
       },
       theme: {

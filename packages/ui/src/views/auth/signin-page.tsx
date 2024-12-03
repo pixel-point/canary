@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
+import { Button, Card, CardContent, CardHeader, CardTitle, ErrorMessageTheme, Input, Spacer, Text } from '@/components'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
 import { Floating1ColumnLayout } from '..'
-import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label, Spacer, Text } from '../../components'
 import { Agreements } from './components/agreements'
 import { AnimatedHarnessLogo } from './components/animated-harness-logo'
 
@@ -72,7 +72,7 @@ export function SignInPage({ handleSignIn, isLoading, error }: SignInPageProps) 
 
   return (
     <Floating1ColumnLayout
-      className="flex-col bg-background-7 pt-20 sm:pt-[186px]"
+      className="bg-background-7 flex-col pt-20 sm:pt-[186px]"
       highlightTheme={hasError ? 'error' : 'blue'}
       verticalCenter
     >
@@ -88,28 +88,35 @@ export function SignInPage({ handleSignIn, isLoading, error }: SignInPageProps) 
         </CardHeader>
         <CardContent className="mt-10">
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Label htmlFor="email" variant="default">
-              Email
-            </Label>
             <Input
-              wrapperClassName="mt-2.5"
               id="email"
               type="email"
+              label="Email"
               placeholder="Your email"
+              size={36}
               {...register('email', { onChange: handleInputChange })}
-              error={errors.email?.message?.toString()}
+              error={
+                errors.email && {
+                  theme: ErrorMessageTheme.ERROR,
+                  message: errors.email.message?.toString()
+                }
+              }
               autoFocus
             />
-            <Label className="mt-5" htmlFor="password" variant="default">
-              Password
-            </Label>
             <Input
-              wrapperClassName="mt-2.5"
+              wrapperClassName="mt-7"
               id="password"
               type="password"
               {...register('password', { onChange: handleInputChange })}
+              label="Password"
               placeholder="Password"
-              error={errors.password?.message?.toString()}
+              size={36}
+              error={
+                errors.password && {
+                  theme: ErrorMessageTheme.ERROR,
+                  message: errors.password.message?.toString()
+                }
+              }
             />
             <Button
               className="mt-10 w-full"
@@ -127,7 +134,7 @@ export function SignInPage({ handleSignIn, isLoading, error }: SignInPageProps) 
           <Text className="block" size={2} color="foreground-5" weight="normal" align="center" as="p">
             Don’t have an account?{' '}
             <Link
-              className="text-foreground-accent underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-200 hover:decoration-foreground-accent"
+              className="text-foreground-accent hover:decoration-foreground-accent underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-200"
               to="/signup"
             >
               Sign up

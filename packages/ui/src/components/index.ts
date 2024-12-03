@@ -36,6 +36,8 @@ export * from './dialog'
 export * from './path-breadcrumbs'
 export * from './card'
 export * from './input-otp'
+export * from './control-group'
+export * from './form-error-message'
 
 export * as ShaBadge from './sha-badge'
 export * as ListActions from './list-actions'
