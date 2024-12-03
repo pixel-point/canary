@@ -35,7 +35,7 @@ const Select: FC<SelectProps> = ({
 }) => (
   <SelectPrimitive.Root {...props}>
     {label && (
-      <Label className="mb-2.5" theme={disabled ? 'foreground-9' : 'foreground-2'} htmlFor={name}>
+      <Label className="mb-2.5" color={disabled ? 'foreground-9' : 'foreground-2'} htmlFor={name}>
         {label}
       </Label>
     )}

@@ -23,7 +23,7 @@ const Checkbox = forwardRef<ElementRef<typeof CheckboxPrimitive.Root>, CheckboxP
         </CheckboxPrimitive.Indicator>
       </CheckboxPrimitive.Root>
       {label && (
-        <Label className="leading-tight" theme="foreground-1" htmlFor={props.id}>
+        <Label className="leading-tight" color="foreground-1" htmlFor={props.id}>
           {label}
         </Label>
       )}
