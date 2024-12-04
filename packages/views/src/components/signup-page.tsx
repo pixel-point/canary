@@ -81,9 +81,7 @@ export function SignUpPage({ isLoading, handleSignUp, error }: PageProps) {
         <Spacer size={1} />
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Label htmlFor="userId" variant="sm">
-              User ID
-            </Label>
+            <Label htmlFor="userId">User ID</Label>
             <Spacer size={1} />
             <Input id="userId" type="text" {...register('userId')} placeholder="Enter your user ID" autoFocus />
             {errors.userId && (
@@ -95,9 +93,7 @@ export function SignUpPage({ isLoading, handleSignUp, error }: PageProps) {
               </>
             )}
             <Spacer size={4} />
-            <Label htmlFor="email" variant="sm">
-              Email
-            </Label>
+            <Label htmlFor="email">Email</Label>
             <Spacer size={1} />
             <Input id="email" type="email" {...register('email')} placeholder="email@work.com" />
             {errors.email && (
@@ -109,9 +105,7 @@ export function SignUpPage({ isLoading, handleSignUp, error }: PageProps) {
               </>
             )}
             <Spacer size={4} />
-            <Label htmlFor="password" variant="sm">
-              Password
-            </Label>
+            <Label htmlFor="password">Password</Label>
             <Spacer size={1} />
             <Input
               id="password"
@@ -128,9 +122,7 @@ export function SignUpPage({ isLoading, handleSignUp, error }: PageProps) {
               </>
             )}
             <Spacer size={4} />
-            <Label htmlFor="confirmPassword" variant="sm">
-              Confirm Password
-            </Label>
+            <Label htmlFor="confirmPassword">Confirm Password</Label>
             <Spacer size={1} />
             <Input
               id="confirmPassword"

@@ -69,9 +69,7 @@ export function CreateProjectPage({ isLoading, onFormSubmit, apiError }: PagePro
           <Spacer size={1} />
           <CardContent>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <Label htmlFor="identifier" variant="sm">
-                Project name
-              </Label>
+              <Label htmlFor="identifier">Project name</Label>
               <Spacer size={1} />
               <Input
                 id="identifier"

@@ -68,9 +68,7 @@ export function NewPasswordPage({ isLoading, handleFormSubmit }: PageProps) {
         <Spacer size={1} />
         <CardContent>
           <form onSubmit={handleSubmit(onFormSubmit)}>
-            <Label htmlFor="password" variant="sm">
-              New password
-            </Label>
+            <Label htmlFor="password">New password</Label>
             <Spacer size={1} />
             <Input id="password" type="password" {...register('password')} placeholder="Password (6+ characters)" />
             {errors.password && (
@@ -82,9 +80,7 @@ export function NewPasswordPage({ isLoading, handleFormSubmit }: PageProps) {
               </>
             )}
             <Spacer size={4} />
-            <Label htmlFor="confirmPassword" variant="sm">
-              Confirm Password
-            </Label>
+            <Label htmlFor="confirmPassword">Confirm Password</Label>
             <Spacer size={1} />
             <Input
               id="confirmPassword"

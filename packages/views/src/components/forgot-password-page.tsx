@@ -65,9 +65,7 @@ export function ForgotPasswordPage({ isLoading, onSubmit }: PageProps) {
         <Spacer size={1} />
         <CardContent>
           <form onSubmit={handleSubmit(handleOnSubmit)}>
-            <Label htmlFor="email" variant="sm">
-              Email
-            </Label>
+            <Label htmlFor="email">Email</Label>
             <Spacer size={1} />
             <Input id="email" type="email" {...register('email')} placeholder="email@work.com" autoFocus />
             {errors.email && (

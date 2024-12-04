@@ -64,9 +64,7 @@ export function SignInPage({ handleSignIn, isLoading }: PageProps) {
         <Spacer size={1} />
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Label htmlFor="email" variant="sm">
-              Email
-            </Label>
+            <Label htmlFor="email">Email</Label>
             <Spacer size={1} />
             <Input id="email" type="email" {...register('email')} placeholder="email@work.com" autoFocus />
             {errors.email && (
@@ -79,9 +77,7 @@ export function SignInPage({ handleSignIn, isLoading }: PageProps) {
             )}
             <Spacer size={4} />
             <div className="flex justify-between">
-              <Label htmlFor="password" variant="sm">
-                Password
-              </Label>
+              <Label htmlFor="password">Password</Label>
             </div>
             <Spacer size={1} />
             <Input
