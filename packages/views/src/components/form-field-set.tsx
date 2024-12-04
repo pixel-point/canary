@@ -82,6 +82,7 @@ function Root({ children, box, shaded, className }: RootProps) {
   )
 }
 
+/** @deprecated: Use FormLegend from @harnessio/ui/components instead */
 function Legend({ children, className }: CompProps) {
   return (
     <Text size={3} weight={'medium'} className={cn('mb-0', className)} as="p" role="heading">
@@ -90,6 +91,7 @@ function Legend({ children, className }: CompProps) {
   )
 }
 
+/** @deprecated: Use FormLegend from @harnessio/ui/components instead */
 function SubLegend({ children, className }: CompProps) {
   return (
     <Text size={2} weight={'normal'} className={cn('text-primary/70 mb-0', className)} as="p" id="fieldset-description">
@@ -98,6 +100,7 @@ function SubLegend({ children, className }: CompProps) {
   )
 }
 
+/** @deprecated */
 function Item({ children, className }: CompProps) {
   return (
     <div className={cn('item-wrapper', className)} role="presentation">
@@ -173,6 +176,7 @@ function Option({ control, id, label, description, className }: OptionProps) {
   )
 }
 
+/** @deprecated: Use FormSeparator from @harnessio/ui/components instead */
 function Separator({ dashed, dotted, className }: SeparatorProps) {
   return (
     <div

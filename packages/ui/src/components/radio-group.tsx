@@ -1,6 +1,5 @@
 import { ComponentPropsWithoutRef, ElementRef, FC, forwardRef, ReactElement, ReactNode } from 'react'
 
-import { CheckIcon } from '@radix-ui/react-icons'
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 import { cn } from '@utils/cn'
 
@@ -64,14 +63,12 @@ const RadioButton = forwardRef<
     <RadioGroupPrimitive.Item
       ref={ref}
       className={cn(
-        'border-primary hover:border-icons-3 text-icons-5 aspect-square h-4 w-4 rounded-full border shadow focus-visible:rounded-full disabled:cursor-not-allowed disabled:border-icons-4',
+        'relative border-primary hover:border-icons-3 text-icons-5 aspect-square h-4 w-4 rounded-full border shadow focus-visible:rounded-full disabled:cursor-not-allowed disabled:border-icons-4 flex items-center justify-center',
         className
       )}
       {...props}
     >
-      <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-        <CheckIcon className="size-3.5 fill-icons-2" />
-      </RadioGroupPrimitive.Indicator>
+      <RadioGroupPrimitive.Indicator className="bg-primary size-2 rounded-full" />
     </RadioGroupPrimitive.Item>
   )
 })

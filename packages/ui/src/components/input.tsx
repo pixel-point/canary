@@ -12,11 +12,11 @@ export interface BaseInputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>,
     VariantProps<typeof inputVariants> {}
 
-const inputVariants = cva('text-foreground-1 bg-transparent px-2.5 py-1 disabled:cursor-not-allowed', {
+const inputVariants = cva('bg-transparent px-2.5 py-1 text-foreground-1 disabled:cursor-not-allowed', {
   variants: {
     variant: {
       default:
-        'placeholder:text-foreground-4 flex w-full rounded border text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:rounded focus-visible:outline-none',
+        'flex w-full rounded border text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-foreground-4 focus-visible:rounded focus-visible:outline-none',
       extended: 'grow border-none focus-visible:outline-none'
     },
     size: {
@@ -80,7 +80,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           </FormErrorMessage>
         )}
         {caption && (
-          <Text className="text-foreground-4 mt-1 leading-snug" size={2}>
+          <Text className="mt-1 leading-snug text-foreground-4" size={2}>
             {caption}
           </Text>
         )}

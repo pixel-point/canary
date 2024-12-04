@@ -49,7 +49,7 @@ const Select: FC<SelectProps> = ({
       </FormErrorMessage>
     )}
     {caption && (
-      <Text className="text-foreground-4 mt-1 leading-snug" size={2}>
+      <Text className="mt-1 leading-snug text-foreground-4" size={2}>
         {caption}
       </Text>
     )}
