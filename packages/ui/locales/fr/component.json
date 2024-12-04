@@ -97,6 +97,10 @@
     "freeze-windows": "Fenêtres de gel",
     "external-tickets": "Tickets externes"
   },
+  "pagination": {
+    "previous": "Précédent",
+    "next": "Suivant"
+  },
   "searchFile": {
     "input": "Rechercher des fichiers...",
     "noFile": "Aucun fichier trouvé."
