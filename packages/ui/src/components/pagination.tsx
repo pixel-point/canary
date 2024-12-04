@@ -1,6 +1,7 @@
 import * as React from 'react'
 
-import { cn } from '../utils/cn'
+import { cn } from '@utils/cn'
+
 import { buttonVariants, type ButtonProps } from './button'
 import { Icon } from './icon'
 

@@ -2,8 +2,8 @@ import * as React from 'react'
 
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import { ChevronRightIcon, DotFilledIcon } from '@radix-ui/react-icons'
+import { cn } from '@utils/cn'
 
-import { cn } from '../utils/cn'
 import { Icon } from './icon'
 
 const DropdownMenu = DropdownMenuPrimitive.Root
@@ -126,9 +126,9 @@ const DropdownMenuCheckboxItem = React.forwardRef<
     checked={checked}
     {...props}
   >
-    <span className="absolute left-2 flex size-4 items-center justify-center rounded-sm border border-borders-9 group-data-[state=checked]:border-icons-2">
-      <DropdownMenuPrimitive.ItemIndicator className="flex size-full items-center justify-center bg-icons-2">
-        <Icon className="h-[7px] text-icons-5" name="checkbox" />
+    <span className="border-borders-9 group-data-[state=checked]:border-icons-2 absolute left-2 flex size-4 items-center justify-center rounded-sm border">
+      <DropdownMenuPrimitive.ItemIndicator className="bg-icons-2 flex size-full items-center justify-center">
+        <Icon className="text-icons-5 h-[7px]" name="checkbox" />
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
     <span className="text-14 text-foreground-8">{children}</span>

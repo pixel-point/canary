@@ -1,8 +1,7 @@
 import * as React from 'react'
 
+import { cn } from '@utils/cn'
 import { cva, type VariantProps } from 'class-variance-authority'
-
-import { cn } from '../utils/cn'
 
 const spacerVariants = cva('mt-4 block', {
   variants: {

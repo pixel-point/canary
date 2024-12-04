@@ -1,82 +1,94 @@
-import * as React from 'react'
+import { forwardRef, InputHTMLAttributes, ReactNode } from 'react'
 
-import { cn } from '../utils/cn'
+import { cn } from '@utils/cn'
+import { cva, type VariantProps } from 'class-variance-authority'
 
-export interface BaseInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  isExtended?: boolean
-}
+import { ControlGroup } from './control-group'
+import { ErrorMessageTheme, FormErrorMessage } from './form-error-message'
+import { Label } from './label'
+import { Text } from './text'
 
-const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(({ className, type, isExtended, ...props }, ref) => {
-  const commonClassName = 'bg-transparent text-foreground-1 px-2.5 pt-[3px] pb-[5px] focus-visible:outline-none'
-  const specificClassNames = isExtended
-    ? 'border-none grow'
-    : `
-      flex h-8 w-full rounded border border-borders-2 text-sm transition-colors
-      focus-visible:rounded focus-visible:border-borders-3
-      file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-foreground-4
-      disabled:cursor-not-allowed disabled:opacity-50 
-    `
+export interface BaseInputProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>,
+    VariantProps<typeof inputVariants> {}
 
-  return <input className={cn(commonClassName, specificClassNames, className)} type={type} ref={ref} {...props} />
+const inputVariants = cva('text-foreground-1 bg-transparent px-2.5 py-1 disabled:cursor-not-allowed', {
+  variants: {
+    variant: {
+      default:
+        'placeholder:text-foreground-4 flex w-full rounded border text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:rounded focus-visible:outline-none',
+      extended: 'grow border-none focus-visible:outline-none'
+    },
+    size: {
+      32: 'h-8',
+      36: 'h-9'
+    },
+    theme: {
+      default:
+        'border-borders-2 focus-visible:border-borders-3 disabled:border-borders-1 disabled:placeholder:text-foreground-9',
+      danger: 'border-borders-danger'
+    }
+  },
+  defaultVariants: {
+    variant: 'default',
+    theme: 'default',
+    size: 32
+  }
 })
+
+const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
+  ({ className, type, variant, size, theme, ...props }, ref) => {
+    return <input className={cn(inputVariants({ variant, size, theme }), className)} type={type} ref={ref} {...props} />
+  }
+)
+
 BaseInput.displayName = 'BaseInput'
 
-export interface ExtendedInputProps extends BaseInputProps {
-  left?: React.ReactNode
-  leftStyle?: boolean
-  leftClassName?: string
-  right?: React.ReactNode
-  rightStyle?: boolean
-  rightClassName?: string
+interface InputError {
+  theme: ErrorMessageTheme
+  message?: string
 }
 
-const containerClassName =
-  'flex h-9 w-full rounded border border-input text-sm shadow-sm transition-colors placeholder:text-foreground-4 focus-within:outline-none focus-within:ring-1 focus-within:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
-const leftRightCommonClassName = 'flex items-center text-muted-foreground'
+interface InputProps extends BaseInputProps {
+  label?: string
+  caption?: ReactNode
+  error?: InputError
+  optional?: boolean
+  wrapperClassName?: string
+}
 
-const ExtendedInput = React.forwardRef<HTMLInputElement, ExtendedInputProps>(
-  ({ className, type, left, leftStyle, leftClassName, right, rightStyle, rightClassName, ...props }, ref) => {
+const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ label, caption, error, id, theme, disabled, optional, className, wrapperClassName, ...props }, ref) => {
     return (
-      <div className={cn(containerClassName, className)}>
-        {left && (
-          <div
-            className={cn(
-              leftRightCommonClassName,
-              'rounded-l',
-              leftStyle ? 'bg-muted border-r' : '-mr-3',
-              leftClassName
-            )}
-          >
-            {left}
-          </div>
+      <ControlGroup className={wrapperClassName}>
+        {label && (
+          <Label className="mb-2.5" color={disabled ? 'foreground-9' : 'foreground-2'} optional={optional} htmlFor={id}>
+            {label}
+          </Label>
         )}
-        <BaseInput className={className} type={type} {...props} ref={ref} isExtended={true} />
-        {right && (
-          <div
-            className={cn(
-              leftRightCommonClassName,
-              'rounded-r',
-              rightStyle ? 'bg-muted border-l' : '-ml-3',
-              rightClassName
-            )}
-          >
-            {right}
-          </div>
+        <BaseInput
+          className={className}
+          id={id}
+          ref={ref}
+          theme={error ? 'danger' : theme}
+          disabled={disabled}
+          {...props}
+        />
+        {error && (
+          <FormErrorMessage className={cn(caption ? 'mt-1' : 'absolute top-full translate-y-1')} theme={error.theme}>
+            {error.message}
+          </FormErrorMessage>
         )}
-      </div>
+        {caption && (
+          <Text className="text-foreground-4 mt-1 leading-snug" size={2}>
+            {caption}
+          </Text>
+        )}
+      </ControlGroup>
     )
   }
 )
-ExtendedInput.displayName = 'ExtendedInput'
 
-interface InputProps extends Omit<BaseInputProps, 'isExtended'>, ExtendedInputProps {}
-
-const Input = React.forwardRef<HTMLInputElement, InputProps>(({ left, right, ...props }, ref) => {
-  if (left || right) {
-    return <ExtendedInput left={left} right={right} {...props} ref={ref} />
-  }
-  return <BaseInput {...props} ref={ref} />
-})
 Input.displayName = 'Input'
 
 export { Input }

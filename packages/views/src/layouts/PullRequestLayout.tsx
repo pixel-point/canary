@@ -3,9 +3,9 @@
 import { NavLink, Outlet } from 'react-router-dom'
 
 import { Badge, Icon, Spacer, Tabs, TabsList, TabsTrigger } from '@harnessio/canary'
+import { Floating1ColumnLayout } from '@harnessio/ui/views'
 
 import { PullRequestHeader } from '../components/pull-request/pull-request-conversation-header'
-import { Floating1ColumnLayout } from './Floating1ColumnLayout'
 
 const mockedPullRequest = {
   number: 1,

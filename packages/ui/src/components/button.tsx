@@ -10,11 +10,11 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-primary text-primary-foreground shadow hover:bg-primary/90',
-        destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
-        outline: 'border border-borders-2 bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground',
-        secondary: 'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
-        tertiary: 'bg-tertiary text-secondary-foreground shadow-sm hover:bg-tertiary/80',
+        default: 'bg-primary text-primary-foreground hover:bg-primary/90 shadow',
+        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm',
+        outline: 'border-borders-2 bg-transparent hover:bg-accent hover:text-accent-foreground border shadow-sm',
+        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm',
+        tertiary: 'bg-tertiary text-secondary-foreground hover:bg-tertiary/80 shadow-sm',
         ghost: 'hover:bg-background-12 hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
         link_accent: 'text-foreground-accent underline-offset-4 hover:underline',
@@ -26,6 +26,7 @@ const buttonVariants = cva(
         default: 'h-8 px-6 py-2',
         sm: 'h-7 px-3 py-0 text-sm font-normal',
         xs: 'h-auto px-1.5 py-0.5 text-xs font-normal',
+        md: 'h-9 px-7',
         lg: 'h-10 px-8',
         icon: 'size-8',
         sm_icon: 'size-7',
@@ -33,7 +34,7 @@ const buttonVariants = cva(
       },
       borderRadius: {
         default: '',
-        full: 'rounded-full',
+        full: 'rounded-full focus-visible:rounded-full',
         none: 'rounded-none'
       },
       theme: {

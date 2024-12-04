@@ -6,7 +6,12 @@ import { NuqsAdapter } from 'nuqs/adapters/react-router'
 
 import { TooltipProvider } from '@harnessio/canary'
 import { CodeServiceAPIClient } from '@harnessio/code-service-client'
-import { EmptyPage } from '@harnessio/ui/views'
+import {
+  EmptyPage,
+  ForgotPasswordPage as ForgotPasswordPageV2,
+  NewPasswordPage as NewPasswordPageV2,
+  OTPPage as OTPPageV2
+} from '@harnessio/ui/views'
 import {
   ForgotPasswordPage,
   NewPasswordPage,
@@ -36,6 +41,8 @@ import RepoLayout from './pages-v2/repo/repo-layout'
 import ReposListPage from './pages-v2/repo/repo-list'
 import { RepoSidebar } from './pages-v2/repo/repo-sidebar'
 import RepoSummaryPage from './pages-v2/repo/repo-summary'
+import { SignIn as SignInV2 } from './pages-v2/signin'
+import { SignUp as SignUpV2 } from './pages-v2/signup'
 import WebhookListPage from './pages-v2/webhooks/webhook-list'
 import CreateProject from './pages/create-project'
 import { Execution } from './pages/execution/execution-details'
@@ -92,24 +99,44 @@ export default function App() {
 
   const router = createBrowserRouter([
     {
-      path: '/signin',
+      path: '/v1/signin',
       element: <SignIn />
     },
     {
-      path: '/signup',
+      path: '/v1/signup',
       element: <SignUp />
     },
     {
-      path: '/forgot',
+      path: '/v1/forgot',
       element: <ForgotPasswordPage />
     },
     {
-      path: '/otp',
+      path: '/v1/otp',
       element: <OTPPage />
     },
     {
-      path: '/new-password',
+      path: '/v1/new-password',
       element: <NewPasswordPage />
+    },
+    {
+      path: '/signin',
+      element: <SignInV2 />
+    },
+    {
+      path: '/signup',
+      element: <SignUpV2 />
+    },
+    {
+      path: '/forgot',
+      element: <ForgotPasswordPageV2 />
+    },
+    {
+      path: '/otp',
+      element: <OTPPageV2 />
+    },
+    {
+      path: '/new-password',
+      element: <NewPasswordPageV2 />
     },
     {
       path: '/',
