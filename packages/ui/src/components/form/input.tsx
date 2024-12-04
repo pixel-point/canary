@@ -8,11 +8,11 @@ export interface BaseInputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>,
     VariantProps<typeof inputVariants> {}
 
-const inputVariants = cva('text-foreground-1 bg-transparent px-2.5 py-1 disabled:cursor-not-allowed', {
+const inputVariants = cva('bg-transparent px-2.5 py-1 text-foreground-1 disabled:cursor-not-allowed', {
   variants: {
     variant: {
       default:
-        'placeholder:text-foreground-4 flex w-full rounded border text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:rounded focus-visible:outline-none',
+        'flex w-full rounded border text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-foreground-4 focus-visible:rounded focus-visible:outline-none',
       extended: 'grow border-none focus-visible:outline-none'
     },
     size: {
@@ -50,6 +50,8 @@ interface InputProps extends BaseInputProps {
   caption?: ReactNode
   error?: InputError
   optional?: boolean
+  className?: string
+  wrapperClassName?: string
 }
 
 /**
@@ -64,6 +66,8 @@ interface InputProps extends BaseInputProps {
  * @param {MessageTheme} [props.theme] - Visual theme of the input
  * @param {boolean} [props.disabled] - Whether the input is disabled
  * @param {boolean} [props.optional] - Indicates if the field is optional, displays "(Optional)" in the label
+ * @param {string} [props.className] - Optional additional class names for the input element
+ * @param {string} [props.wrapperClassName] - Optional additional class names for the wrapper element
  * @param {BaseInputProps} props.rest - All other props are passed to the underlying input element
  *
  * @example
@@ -77,17 +81,24 @@ interface InputProps extends BaseInputProps {
  * />
  */
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, caption, error, id, theme, disabled, optional, ...props }, ref) => {
-    const InputWrapper = error || caption || label ? ControlGroup : Fragment
+  ({ label, caption, error, id, theme, disabled, optional, className, wrapperClassName, ...props }, ref) => {
+    const InputWrapper = error || caption || label || wrapperClassName ? ControlGroup : Fragment
 
     return (
-      <InputWrapper>
+      <InputWrapper className={wrapperClassName}>
         {label && (
           <Label className="mb-2.5" color={disabled ? 'disabled-dark' : 'secondary'} optional={optional} htmlFor={id}>
             {label}
           </Label>
         )}
-        <BaseInput id={id} ref={ref} theme={error ? 'danger' : theme} disabled={disabled} {...props} />
+        <BaseInput
+          className={className}
+          id={id}
+          ref={ref}
+          theme={error ? 'danger' : theme}
+          disabled={disabled}
+          {...props}
+        />
         {error && (
           <Message className={cn(caption ? 'mt-1' : 'absolute top-full translate-y-1')} theme={error.theme}>
             {error.message}

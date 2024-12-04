@@ -113,7 +113,7 @@ export function RepoCreatePage({
           Create a new repository
         </Text>
         <Spacer size={2.5} />
-        <Text className="text-foreground-2 max-w-[476px]" size={2} as="p">
+        <Text className="max-w-[476px] text-foreground-2" size={2} as="p">
           A repository contains all project files, including the revision history. Already have a project repository
           elsewhere?{' '}
           <StyledLink to="../import" relative="path">
@@ -214,7 +214,7 @@ export function RepoCreatePage({
           {/* ACCESS */}
           <Fieldset>
             <ControlGroup>
-              <Text className="text-foreground-2 leading-none" size={2}>
+              <Text className="leading-none text-foreground-2" size={2}>
                 Who has access
               </Text>
               <RadioGroup className="mt-6" value={accessValue} onValueChange={handleAccessChange} id="access">
@@ -245,7 +245,7 @@ export function RepoCreatePage({
           {/* README */}
           <Fieldset>
             <ControlGroup>
-              <Text className="text-foreground-2 leading-none" size={2}>
+              <Text className="leading-none text-foreground-2" size={2}>
                 Initialize this repository with
               </Text>
               <Option

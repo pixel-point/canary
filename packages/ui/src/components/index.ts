@@ -32,6 +32,8 @@ export * from './breadcrumb'
 export * from './skeleton-list'
 export * from './dialog'
 export * from './path-breadcrumbs'
+export * from './card'
+export * from './input-otp'
 export * from './form'
 export * from './button-group'
 

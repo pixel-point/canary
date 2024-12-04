@@ -54,9 +54,9 @@ export const RepoSidebar = ({
                 useTranslationStore={useTranslationStore}
               />
             )}
-            <ButtonGroup spacing="0" className="shadow-as-border shadow-borders-2 h-full overflow-hidden rounded">
+            <ButtonGroup spacing="0" className="h-full overflow-hidden rounded shadow-as-border shadow-borders-2">
               <Button
-                className="border-borders-2 rounded-none border-l p-0"
+                className="rounded-none border-l border-borders-2 p-0"
                 size="icon"
                 variant="ghost"
                 aria-label="Create new folder"
@@ -65,7 +65,7 @@ export const RepoSidebar = ({
                 <Icon size={16} name="add-folder" className="text-icons-3" />
               </Button>
               <Button
-                className="border-borders-2 rounded-none border-l p-0"
+                className="rounded-none border-l border-borders-2 p-0"
                 size="icon"
                 variant="ghost"
                 aria-label="Create new file"
