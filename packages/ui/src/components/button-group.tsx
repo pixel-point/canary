@@ -10,7 +10,13 @@ interface ButtonGroupProps {
   verticalAlign?: string
 }
 
-function Root({ children, direction = 'horizontal', className, spacing = '4', verticalAlign }: ButtonGroupProps) {
+export function ButtonGroup({
+  children,
+  direction = 'horizontal',
+  className,
+  spacing = '4',
+  verticalAlign
+}: ButtonGroupProps) {
   const gapClass = `gap-${spacing}`
   const verticalAlignClass = verticalAlign ? `items-${verticalAlign}` : ''
 
@@ -20,5 +26,3 @@ function Root({ children, direction = 'horizontal', className, spacing = '4', ve
     </div>
   )
 }
-
-export { Root }

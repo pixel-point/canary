@@ -1,29 +1,45 @@
 import { forwardRef, ReactNode, TextareaHTMLAttributes } from 'react'
 
+import { Caption, ControlGroup, Label, Message, MessageTheme } from '@/components'
 import { cn } from '@utils/cn'
 
-import { ControlGroup } from './control-group'
-import { ErrorMessageTheme, FormErrorMessage } from './form-error-message'
-import { Label } from './label'
-import { Text } from './text'
-
+/**
+ * Interface for the error object used in the Textarea component.
+ */
 interface TextareaError {
-  theme: ErrorMessageTheme
+  /** Theme for the error message. */
+  theme: MessageTheme
+  /** Optional error message to display. */
   message?: string
 }
+
+/**
+ * Props for the Textarea component.
+ */
 export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  /** Label for the textarea. */
   label?: string
+  /** Caption text displayed below the textarea. */
   caption?: ReactNode
+  /** Error object containing theme and optional message. */
   error?: TextareaError
+  /** Indicates if the textarea is optional. */
   optional?: boolean
 }
 
+/**
+ * A forward-ref Textarea component with support for labels, captions, and error messages.
+ *
+ * @param {TextareaProps} props - The props for the Textarea component.
+ * @param {React.Ref<HTMLTextAreaElement>} ref - The ref to be forwarded to the textarea element.
+ * @returns {JSX.Element} The rendered Textarea component.
+ */
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ id, disabled, label, caption, error, optional, className, ...props }, ref) => {
     return (
       <ControlGroup>
         {label && (
-          <Label className="mb-2.5" color={disabled ? 'foreground-9' : 'foreground-2'} optional={optional} htmlFor={id}>
+          <Label className="mb-2.5" color={disabled ? 'disabled-dark' : 'secondary'} optional={optional} htmlFor={id}>
             {label}
           </Label>
         )}
@@ -41,15 +57,11 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           {...props}
         />
         {error && (
-          <FormErrorMessage className={cn(caption ? 'mt-1' : 'absolute top-full translate-y-1')} theme={error.theme}>
+          <Message className={cn(caption ? 'mt-1' : 'absolute top-full translate-y-1')} theme={error.theme}>
             {error.message}
-          </FormErrorMessage>
+          </Message>
         )}
-        {caption && (
-          <Text className="mt-1 leading-snug text-foreground-4" size={2}>
-            {caption}
-          </Text>
-        )}
+        {caption && <Caption>{caption}</Caption>}
       </ControlGroup>
     )
   }

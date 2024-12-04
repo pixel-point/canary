@@ -1,7 +1,7 @@
 import { forwardRef } from 'react'
 import { FieldErrors, SubmitHandler, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
 
-import { ErrorMessageTheme, Fieldset, Input, Textarea } from '@/components'
+import { Fieldset, Input, MessageTheme, Textarea } from '@/components'
 import { Text } from '@components/text'
 import { z } from 'zod'
 
@@ -39,7 +39,7 @@ const PullRequestCompareForm = forwardRef<HTMLFormElement, PullRequestFormProps>
             label="Title"
             error={
               errors.title && {
-                theme: ErrorMessageTheme.ERROR,
+                theme: MessageTheme.ERROR,
                 message: errors.title.message?.toString()
               }
             }
@@ -50,9 +50,7 @@ const PullRequestCompareForm = forwardRef<HTMLFormElement, PullRequestFormProps>
             {...register('description')}
             placeholder="Add Pull Request description here."
             label="Description"
-            error={
-              errors.description && { theme: ErrorMessageTheme.ERROR, message: errors.description.message?.toString() }
-            }
+            error={errors.description && { theme: MessageTheme.ERROR, message: errors.description.message?.toString() }}
           />
         </Fieldset>
 

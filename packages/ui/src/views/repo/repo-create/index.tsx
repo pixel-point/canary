@@ -6,13 +6,13 @@ import {
   ButtonGroup,
   Checkbox,
   ControlGroup,
-  ErrorMessageTheme,
   Fieldset,
-  FormErrorMessage,
   Input,
+  Message,
+  MessageTheme,
+  Option,
   RadioButton,
   RadioGroup,
-  RadioGroupItem,
   Select,
   SelectContent,
   SelectItem,
@@ -113,7 +113,7 @@ export function RepoCreatePage({
           Create a new repository
         </Text>
         <Spacer size={2.5} />
-        <Text className="max-w-[476px] text-foreground-2" size={2} as="p">
+        <Text className="text-foreground-2 max-w-[476px]" size={2} as="p">
           A repository contains all project files, including the revision history. Already have a project repository
           elsewhere?{' '}
           <StyledLink to="../import" relative="path">
@@ -129,8 +129,8 @@ export function RepoCreatePage({
               label="Name"
               {...register('name')}
               placeholder="Enter repository name"
-              size={36}
-              error={errors.name && { theme: ErrorMessageTheme.ERROR, message: errors.name.message?.toString() }}
+              size="md"
+              error={errors.name && { theme: MessageTheme.ERROR, message: errors.name.message?.toString() }}
               autoFocus
             />
             <Spacer size={7} />
@@ -142,7 +142,7 @@ export function RepoCreatePage({
               label="Description"
               error={
                 errors.description && {
-                  theme: ErrorMessageTheme.ERROR,
+                  theme: MessageTheme.ERROR,
                   message: errors.description.message?.toString()
                 }
               }
@@ -162,7 +162,7 @@ export function RepoCreatePage({
                 label="Add a .gitignore"
                 error={
                   errors.gitignore && {
-                    theme: ErrorMessageTheme.ERROR,
+                    theme: MessageTheme.ERROR,
                     message: errors.gitignore.message?.toString()
                   }
                 }
@@ -192,7 +192,7 @@ export function RepoCreatePage({
                 label="Choose a license"
                 error={
                   errors.license && {
-                    theme: ErrorMessageTheme.ERROR,
+                    theme: MessageTheme.ERROR,
                     message: errors.license.message?.toString()
                   }
                 }
@@ -214,18 +214,18 @@ export function RepoCreatePage({
           {/* ACCESS */}
           <Fieldset>
             <ControlGroup>
-              <Text className="leading-none text-foreground-2" size={2}>
+              <Text className="text-foreground-2 leading-none" size={2}>
                 Who has access
               </Text>
               <RadioGroup className="mt-6" value={accessValue} onValueChange={handleAccessChange} id="access">
-                <RadioGroupItem
+                <Option
                   control={<RadioButton className="mt-px" value="1" id="access-public" />}
                   id="access-public"
                   label="Public"
                   ariaSelected={accessValue === '1'}
                   description="Anyone with access to the Gitness environment can clone this repo."
                 />
-                <RadioGroupItem
+                <Option
                   control={<RadioButton className="mt-px" value="2" id="access-private" />}
                   id="access-private"
                   label="Private"
@@ -234,9 +234,9 @@ export function RepoCreatePage({
                 />
               </RadioGroup>
               {errors.access && (
-                <FormErrorMessage className="mt-1" theme={ErrorMessageTheme.ERROR}>
+                <Message className="mt-1" theme={MessageTheme.ERROR}>
                   {errors.access.message?.toString()}
-                </FormErrorMessage>
+                </Message>
               )}
             </ControlGroup>
           </Fieldset>
@@ -245,10 +245,10 @@ export function RepoCreatePage({
           {/* README */}
           <Fieldset>
             <ControlGroup>
-              <Text className="leading-none text-foreground-2" size={2}>
+              <Text className="text-foreground-2 leading-none" size={2}>
                 Initialize this repository with
               </Text>
-              <RadioGroupItem
+              <Option
                 className="mt-6"
                 control={<Checkbox id="readme" checked={readmeValue} onCheckedChange={handleReadmeChange} />}
                 id="readme"
@@ -264,26 +264,22 @@ export function RepoCreatePage({
                 }
               />
 
-              {errors.readme && (
-                <FormErrorMessage theme={ErrorMessageTheme.ERROR}>{errors.readme.message?.toString()}</FormErrorMessage>
-              )}
+              {errors.readme && <Message theme={MessageTheme.ERROR}>{errors.readme.message?.toString()}</Message>}
             </ControlGroup>
           </Fieldset>
 
           {/* SUBMIT BUTTONS */}
           <Fieldset className="mt-[50px]">
             <ControlGroup>
-              <ButtonGroup.Root>
-                <>
-                  {/* TODO: Improve loading state to avoid flickering */}
-                  <Button type="submit" disabled={!isValid || isLoading}>
-                    {!isLoading ? 'Create repository' : 'Creating repository...'}
-                  </Button>
-                  <Button type="button" variant="outline" onClick={handleCancel}>
-                    Cancel
-                  </Button>
-                </>
-              </ButtonGroup.Root>
+              <ButtonGroup>
+                {/* TODO: Improve loading state to avoid flickering */}
+                <Button type="submit" disabled={!isValid || isLoading}>
+                  {!isLoading ? 'Create repository' : 'Creating repository...'}
+                </Button>
+                <Button type="button" variant="outline" onClick={handleCancel}>
+                  Cancel
+                </Button>
+              </ButtonGroup>
             </ControlGroup>
           </Fieldset>
         </form>

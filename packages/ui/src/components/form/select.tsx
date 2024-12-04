@@ -2,27 +2,40 @@
 
 import { Children, ComponentPropsWithoutRef, ElementRef, FC, forwardRef, PropsWithChildren, ReactNode } from 'react'
 
+import { Caption, Label, Message, MessageTheme } from '@/components'
 import { CheckIcon, ChevronDownIcon } from '@radix-ui/react-icons'
 import * as SelectPrimitive from '@radix-ui/react-select'
 import { cn } from '@utils/cn'
 
-import { ErrorMessageTheme, FormErrorMessage } from './form-error-message'
-import { Label } from './label'
-import { Text } from './text'
-
 interface SelectError {
-  theme: ErrorMessageTheme
+  theme: MessageTheme
   message?: string
 }
 
+/**
+ * Props for the Select component
+ * @interface SelectProps
+ * @extends {PropsWithChildren}
+ * @extends {SelectPrimitive.SelectProps}
+ */
 interface SelectProps extends PropsWithChildren, SelectPrimitive.SelectProps {
+  /** Label text displayed above the select */
   label?: string
+  /** Error state configuration */
   error?: SelectError
+  /** Optional caption text displayed below the select */
   caption?: ReactNode
+  /** Whether the select is disabled */
   disabled?: boolean
+  /** Placeholder text shown when no option is selected */
   placeholder: string
 }
 
+/**
+ * A customizable select component that supports labels, error states, and captions
+ * @param {SelectProps} props - The component props
+ * @returns {JSX.Element} The Select component
+ */
 const Select: FC<SelectProps> = ({
   name,
   label,
@@ -35,7 +48,7 @@ const Select: FC<SelectProps> = ({
 }) => (
   <SelectPrimitive.Root {...props}>
     {label && (
-      <Label className="mb-2.5" color={disabled ? 'foreground-9' : 'foreground-2'} htmlFor={name}>
+      <Label className="mb-2.5" color={disabled ? 'disabled-dark' : 'secondary'} htmlFor={name}>
         {label}
       </Label>
     )}
@@ -44,15 +57,11 @@ const Select: FC<SelectProps> = ({
     </SelectTrigger>
     {children}
     {error && (
-      <FormErrorMessage className={cn(caption ? 'mt-1' : 'absolute top-full translate-y-1')} theme={error.theme}>
+      <Message className={cn(caption ? 'mt-1' : 'absolute top-full translate-y-1')} theme={error.theme}>
         {error.message}
-      </FormErrorMessage>
+      </Message>
     )}
-    {caption && (
-      <Text className="mt-1 leading-snug text-foreground-4" size={2}>
-        {caption}
-      </Text>
-    )}
+    {caption && <Caption>{caption}</Caption>}
   </SelectPrimitive.Root>
 )
 Select.displayName = SelectPrimitive.Root.displayName
@@ -61,6 +70,11 @@ const SelectGroup = SelectPrimitive.Group
 
 const SelectValue = SelectPrimitive.Value
 
+/**
+ * The trigger button for the select dropdown
+ * @param {ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> & { iconClassName?: string }} props - The component props
+ * @returns {JSX.Element} The SelectTrigger component
+ */
 const SelectTrigger = forwardRef<
   ElementRef<typeof SelectPrimitive.Trigger>,
   ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> & { iconClassName?: string }
@@ -81,6 +95,11 @@ const SelectTrigger = forwardRef<
 ))
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName
 
+/**
+ * The content container for the select dropdown
+ * @param {ComponentPropsWithoutRef<typeof SelectPrimitive.Content>} props - The component props
+ * @returns {JSX.Element} The SelectContent component
+ */
 const SelectContent = forwardRef<
   ElementRef<typeof SelectPrimitive.Content>,
   ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
@@ -111,6 +130,11 @@ const SelectContent = forwardRef<
 ))
 SelectContent.displayName = SelectPrimitive.Content.displayName
 
+/**
+ * A label component for grouping select items
+ * @param {ComponentPropsWithoutRef<typeof SelectPrimitive.Label>} props - The component props
+ * @returns {JSX.Element} The SelectLabel component
+ */
 const SelectLabel = forwardRef<
   ElementRef<typeof SelectPrimitive.Label>,
   ComponentPropsWithoutRef<typeof SelectPrimitive.Label>
@@ -119,6 +143,11 @@ const SelectLabel = forwardRef<
 ))
 SelectLabel.displayName = SelectPrimitive.Label.displayName
 
+/**
+ * An individual selectable item within the dropdown
+ * @param {ComponentPropsWithoutRef<typeof SelectPrimitive.Item>} props - The component props
+ * @returns {JSX.Element} The SelectItem component
+ */
 const SelectItem = forwardRef<
   ElementRef<typeof SelectPrimitive.Item>,
   ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
@@ -141,6 +170,11 @@ const SelectItem = forwardRef<
 ))
 SelectItem.displayName = SelectPrimitive.Item.displayName
 
+/**
+ * A visual separator between select items
+ * @param {ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>} props - The component props
+ * @returns {JSX.Element} The SelectSeparator component
+ */
 const SelectSeparator = forwardRef<
   ElementRef<typeof SelectPrimitive.Separator>,
   ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>

@@ -141,7 +141,7 @@ function Caption({ children, className }: CompProps) {
   )
 }
 
-/** @deprecated: Use ErrorMessage from @harnessio/ui/components instead */
+/** @deprecated: Use FormErrorMessage from @harnessio/ui/components instead */
 function Message({ children, theme, className }: MessageProps) {
   const textClass = themeClassMap[theme]
   const role = theme === MessageTheme.ERROR ? 'alert' : 'status'

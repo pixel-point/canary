@@ -12,15 +12,15 @@ const labelVariants = cva('peer-disabled:cursor-not-allowed peer-disabled:opacit
       default: 'text-sm font-normal leading-none'
     },
     color: {
-      'foreground-1': 'text-foreground-1',
-      'foreground-2': 'text-foreground-2',
-      'foreground-5': 'text-foreground-5',
-      'foreground-9': 'text-foreground-9'
+      primary: 'text-foreground-1',
+      secondary: 'text-foreground-2',
+      disabled: 'text-foreground-5',
+      'disabled-dark': 'text-foreground-9'
     }
   },
   defaultVariants: {
     variant: 'default',
-    color: 'foreground-1'
+    color: 'primary'
   }
 })
 
@@ -38,10 +38,23 @@ interface LabelProps extends VariantProps<typeof labelVariants>, PropsWithChildr
   className?: string
 }
 
+/**
+ * A Label component that wraps the Radix UI LabelPrimitive.Root component.
+ * It supports variant and color styling through class-variance-authority.
+ *
+ * @param {Object} props - The properties object.
+ * @param {string} [props.htmlFor] - The id of the element this label is associated with.
+ * @param {boolean} [props.optional] - If true, renders "(optional)" next to the label text.
+ * @param {string} [props.color] - The color variant of the label.
+ * @param {string} [props.variant] - The style variant of the label.
+ * @param {React.ReactNode} props.children - The content of the label.
+ * @param {string} [props.className] - Additional class names to apply to the label.
+ * @returns {JSX.Element} The rendered label component.
+ */
 const Label = ({ htmlFor, optional, color, variant, children, className }: LabelProps) => {
   return (
     <LabelRoot htmlFor={htmlFor} variant={variant} color={color} className={className}>
-      {children} {optional && <span className="align-top text-foreground-7">(optional)</span>}
+      {children} {optional && <span className="text-foreground-7 align-top">(optional)</span>}
     </LabelRoot>
   )
 }
