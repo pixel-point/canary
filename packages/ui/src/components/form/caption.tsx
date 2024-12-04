@@ -10,11 +10,8 @@ interface CaptionProps extends PropsWithChildren {
 /**
  * Caption component that renders supplementary text below form inputs.
  * Used to provide additional context or hints for form fields.
- *
- * @param {CaptionProps} props - The properties for the Caption component.
- * @param {React.ReactNode} props.children - The content to be displayed as the caption text.
- * @param {string} [props.className] - Optional additional class names for styling.
- * @returns {JSX.Element} The rendered Caption component.
+ * @example
+ * <Caption>This is a caption</Caption>
  */
 export function Caption({ children, className }: CaptionProps) {
   return (

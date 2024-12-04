@@ -8,9 +8,6 @@ interface FormSeparatorProps {
 
 /**
  * A horizontal separator component for forms
- * @component
- * @param {FormSeparatorProps} props - The component props
- * @returns {JSX.Element} A horizontal separator element
  * @example
  * // Basic usage
  * <FormSeparator />

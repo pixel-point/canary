@@ -3,36 +3,22 @@ import { forwardRef, ReactNode, TextareaHTMLAttributes } from 'react'
 import { Caption, ControlGroup, Label, Message, MessageTheme } from '@/components'
 import { cn } from '@utils/cn'
 
-/**
- * Interface for the error object used in the Textarea component.
- */
 interface TextareaError {
-  /** Theme for the error message. */
   theme: MessageTheme
-  /** Optional error message to display. */
   message?: string
 }
 
-/**
- * Props for the Textarea component.
- */
 export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  /** Label for the textarea. */
   label?: string
-  /** Caption text displayed below the textarea. */
   caption?: ReactNode
-  /** Error object containing theme and optional message. */
   error?: TextareaError
-  /** Indicates if the textarea is optional. */
   optional?: boolean
 }
 
 /**
  * A forward-ref Textarea component with support for labels, captions, and error messages.
- *
- * @param {TextareaProps} props - The props for the Textarea component.
- * @param {React.Ref<HTMLTextAreaElement>} ref - The ref to be forwarded to the textarea element.
- * @returns {JSX.Element} The rendered Textarea component.
+ * @example
+ * <Textarea name="textarea" label="Textarea" placeholder="Enter text here" />
  */
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ id, disabled, label, caption, error, optional, className, ...props }, ref) => {

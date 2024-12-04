@@ -8,11 +8,11 @@ export interface BaseInputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>,
     VariantProps<typeof inputVariants> {}
 
-const inputVariants = cva('bg-transparent px-2.5 py-1 text-foreground-1 disabled:cursor-not-allowed', {
+const inputVariants = cva('text-foreground-1 bg-transparent px-2.5 py-1 disabled:cursor-not-allowed', {
   variants: {
     variant: {
       default:
-        'flex w-full rounded border text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-foreground-4 focus-visible:rounded focus-visible:outline-none',
+        'placeholder:text-foreground-4 flex w-full rounded border text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:rounded focus-visible:outline-none',
       extended: 'grow border-none focus-visible:outline-none'
     },
     size: {
@@ -56,20 +56,6 @@ interface InputProps extends BaseInputProps {
 
 /**
  * A form input component with support for labels, captions, and error messages.
- *
- * @component
- * @param {Object} props - The component props
- * @param {string} [props.label] - Optional label text displayed above the input
- * @param {ReactNode} [props.caption] - Optional caption text displayed below the input
- * @param {InputError} [props.error] - Error configuration object containing theme and message
- * @param {string} [props.id] - Input element ID, used for label association
- * @param {MessageTheme} [props.theme] - Visual theme of the input
- * @param {boolean} [props.disabled] - Whether the input is disabled
- * @param {boolean} [props.optional] - Indicates if the field is optional, displays "(Optional)" in the label
- * @param {string} [props.className] - Optional additional class names for the input element
- * @param {string} [props.wrapperClassName] - Optional additional class names for the wrapper element
- * @param {BaseInputProps} props.rest - All other props are passed to the underlying input element
- *
  * @example
  * <Input
  *   label="Email"

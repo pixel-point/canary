@@ -12,29 +12,21 @@ interface SelectError {
   message?: string
 }
 
-/**
- * Props for the Select component
- * @interface SelectProps
- * @extends {PropsWithChildren}
- * @extends {SelectPrimitive.SelectProps}
- */
 interface SelectProps extends PropsWithChildren, SelectPrimitive.SelectProps {
-  /** Label text displayed above the select */
   label?: string
-  /** Error state configuration */
   error?: SelectError
-  /** Optional caption text displayed below the select */
   caption?: ReactNode
-  /** Whether the select is disabled */
   disabled?: boolean
-  /** Placeholder text shown when no option is selected */
   placeholder: string
 }
 
 /**
  * A customizable select component that supports labels, error states, and captions
- * @param {SelectProps} props - The component props
- * @returns {JSX.Element} The Select component
+ * @example
+ * <Select name="select" label="Select an option" placeholder="Select an option">
+ *   <SelectItem value="option1">Option 1</SelectItem>
+ *   <SelectItem value="option2">Option 2</SelectItem>
+ * </Select>
  */
 const Select: FC<SelectProps> = ({
   name,
@@ -72,8 +64,6 @@ const SelectValue = SelectPrimitive.Value
 
 /**
  * The trigger button for the select dropdown
- * @param {ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> & { iconClassName?: string }} props - The component props
- * @returns {JSX.Element} The SelectTrigger component
  */
 const SelectTrigger = forwardRef<
   ElementRef<typeof SelectPrimitive.Trigger>,
@@ -97,8 +87,6 @@ SelectTrigger.displayName = SelectPrimitive.Trigger.displayName
 
 /**
  * The content container for the select dropdown
- * @param {ComponentPropsWithoutRef<typeof SelectPrimitive.Content>} props - The component props
- * @returns {JSX.Element} The SelectContent component
  */
 const SelectContent = forwardRef<
   ElementRef<typeof SelectPrimitive.Content>,
@@ -132,8 +120,6 @@ SelectContent.displayName = SelectPrimitive.Content.displayName
 
 /**
  * A label component for grouping select items
- * @param {ComponentPropsWithoutRef<typeof SelectPrimitive.Label>} props - The component props
- * @returns {JSX.Element} The SelectLabel component
  */
 const SelectLabel = forwardRef<
   ElementRef<typeof SelectPrimitive.Label>,
@@ -145,8 +131,6 @@ SelectLabel.displayName = SelectPrimitive.Label.displayName
 
 /**
  * An individual selectable item within the dropdown
- * @param {ComponentPropsWithoutRef<typeof SelectPrimitive.Item>} props - The component props
- * @returns {JSX.Element} The SelectItem component
  */
 const SelectItem = forwardRef<
   ElementRef<typeof SelectPrimitive.Item>,
@@ -172,8 +156,6 @@ SelectItem.displayName = SelectPrimitive.Item.displayName
 
 /**
  * A visual separator between select items
- * @param {ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>} props - The component props
- * @returns {JSX.Element} The SelectSeparator component
  */
 const SelectSeparator = forwardRef<
   ElementRef<typeof SelectPrimitive.Separator>,

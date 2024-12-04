@@ -5,27 +5,17 @@ import { cn } from '@utils/cn'
 
 type ControlType = ReactElement<typeof RadioButton> | ReactElement<typeof Checkbox>
 
-/**
- * Interface for Option component props
- */
 interface OptionProps {
-  /** The radio button or checkbox control element */
   control: ControlType
-  /** Unique identifier for the input */
   id: string
-  /** Label text for the input */
   label?: string
-  /** Optional description text or node below the label */
   description?: string | ReactNode
-  /** Additional CSS classes */
   className?: string
-  /** Indicates if the item is currently selected */
   ariaSelected?: boolean
 }
 
 /**
  * Individual item that contains a control (radio button or checkbox) with optional label and description
- * @component
  * @example
  * <Option
  *   control={<RadioButton value="option1" />}

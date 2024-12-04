@@ -41,20 +41,13 @@ interface LabelProps extends VariantProps<typeof labelVariants>, PropsWithChildr
 /**
  * A Label component that wraps the Radix UI LabelPrimitive.Root component.
  * It supports variant and color styling through class-variance-authority.
- *
- * @param {Object} props - The properties object.
- * @param {string} [props.htmlFor] - The id of the element this label is associated with.
- * @param {boolean} [props.optional] - If true, renders "(optional)" next to the label text.
- * @param {string} [props.color] - The color variant of the label.
- * @param {string} [props.variant] - The style variant of the label.
- * @param {React.ReactNode} props.children - The content of the label.
- * @param {string} [props.className] - Additional class names to apply to the label.
- * @returns {JSX.Element} The rendered label component.
+ * @example
+ * <Label htmlFor="label" optional>Label</Label>
  */
 const Label = ({ htmlFor, optional, color, variant, children, className }: LabelProps) => {
   return (
     <LabelRoot htmlFor={htmlFor} variant={variant} color={color} className={className}>
-      {children} {optional && <span className="align-top text-foreground-7">(optional)</span>}
+      {children} {optional && <span className="text-foreground-7 align-top">(optional)</span>}
     </LabelRoot>
   )
 }

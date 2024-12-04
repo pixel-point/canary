@@ -8,12 +8,10 @@ interface ControlGroupProps extends HTMLAttributes<HTMLDivElement> {
 
 /**
  * A container component that groups form control elements together.
- *
- * @param props.type - Specifies the type of control group ('button' or 'input').
- *                     Affects spacing and ARIA labels.
- * @param props.children - The form control elements to be grouped (Label, Input/Button,
- *                        ErrorMessage, Caption, etc.).
- * @param props.className - Additional CSS classes to apply to the control group.
+ * @example
+ * <ControlGroup type="button">
+ *   <Button>Button</Button>
+ * </ControlGroup>
  */
 export function ControlGroup({ children, type, className, ...props }: ControlGroupProps) {
   return (
