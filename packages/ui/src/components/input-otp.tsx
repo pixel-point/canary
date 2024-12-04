@@ -1,9 +1,8 @@
 import { ComponentPropsWithoutRef, ElementRef, forwardRef, useContext } from 'react'
 
 import { DashIcon } from '@radix-ui/react-icons'
+import { cn } from '@utils/cn'
 import { OTPInput, OTPInputContext } from 'input-otp'
-
-import { cn } from '../utils/cn'
 
 const InputOTP = forwardRef<ElementRef<typeof OTPInput>, ComponentPropsWithoutRef<typeof OTPInput>>(
   ({ className, containerClassName, ...props }, ref) => (
@@ -49,7 +48,7 @@ const InputOTPSlot = forwardRef<HTMLDivElement, InputOTPSlotProps>(({ index, cla
       {char}
       {hasFakeCaret && (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="animate-caret-blink bg-foreground-1 h-4 w-px duration-1000" />
+          <div className="animate-caret-blink bg-background-5 h-4 w-px duration-1000" />
         </div>
       )}
     </div>

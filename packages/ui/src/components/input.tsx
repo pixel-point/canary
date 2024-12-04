@@ -1,8 +1,8 @@
 import { forwardRef, InputHTMLAttributes, ReactNode } from 'react'
 
+import { cn } from '@utils/cn'
 import { cva, type VariantProps } from 'class-variance-authority'
 
-import { cn } from '../utils/cn'
 import { ControlGroup } from './control-group'
 import { ErrorMessageTheme, FormErrorMessage } from './form-error-message'
 import { Label } from './label'

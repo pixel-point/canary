@@ -28,6 +28,7 @@ interface OTPPageProps {
   isLoading?: boolean
   handleFormSubmit?: (data: OtpPageData) => void
   error?: string
+  email?: string
 }
 
 export interface OtpPageData {
@@ -42,10 +43,15 @@ const otpPasswordSchema = z.object({
     .regex(/^\d+$/, { message: 'Code must contain only numbers' })
 })
 
-export function OTPPage({ handleResend, isLoading, handleFormSubmit, error }: OTPPageProps) {
+// TODO: remove default email when we have a way to get it from the url or context
+export function OTPPage({
+  handleResend,
+  isLoading,
+  handleFormSubmit,
+  error,
+  email = 'stevenm@gmail.com'
+}: OTPPageProps) {
   const [serverError, setServerError] = useState<string | null>(null)
-  // TODO: get email from url or from context
-  const email = 'stevenm@gmail.com'
 
   const {
     handleSubmit,
@@ -121,7 +127,6 @@ export function OTPPage({ handleResend, isLoading, handleFormSubmit, error }: OT
               {(errors.otp || serverError) && (
                 <Text
                   className="text-foreground-danger absolute top-full w-full translate-y-2 leading-none tracking-tight"
-                  weight="light"
                   align="center"
                   size={1}
                   as="p"
