@@ -6,6 +6,7 @@ import {
   AvatarImage,
   CommitCopyActions,
   Icon,
+  Skeleton,
   Spacer,
   StackedList,
   Table,
@@ -29,7 +30,7 @@ export const TopTitle = ({ file }: { file: LatestFileTypes }) => {
   const { user, lastCommitMessage } = file
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 h-7">
       <Avatar size="6">
         <AvatarImage src={user?.avatarUrl || ''} />
         <AvatarFallback>
@@ -38,24 +39,39 @@ export const TopTitle = ({ file }: { file: LatestFileTypes }) => {
           </Text>
         </AvatarFallback>
       </Avatar>
-      <Text size={2} weight="normal" color="tertiaryBackground" wrap="nowrap">
-        {user?.name}
-      </Text>
-      <Text size={2} weight="normal" color="primary" className="line-clamp-1">
-        {lastCommitMessage}
-      </Text>
+      {user?.name ? (
+        <Text size={2} weight="normal" color="tertiaryBackground" wrap="nowrap">
+          {user?.name}
+        </Text>
+      ) : (
+        <Skeleton className="h-2.5 w-full" />
+      )}
+
+      {lastCommitMessage ? (
+        <Text size={2} weight="normal" color="primary" className="line-clamp-1">
+          {lastCommitMessage}
+        </Text>
+      ) : (
+        <Skeleton className="h-2.5 w-full" />
+      )}
     </div>
   )
 }
 
 export const TopDetails = ({ file }: { file: LatestFileTypes }) => {
   const { sha, timestamp } = file
+
   return (
     <div className="flex items-center gap-2">
-      <CommitCopyActions sha={sha || ''} />
-      <Text className="text-borders-2" size={2} weight="normal">
-        |
-      </Text>
+      {sha && (
+        <>
+          <CommitCopyActions sha={sha} />
+          <Text className="text-borders-2" size={2} weight="normal">
+            |
+          </Text>
+        </>
+      )}
+
       <Text size={2} weight="normal" color="tertiaryBackground">
         {timestamp}
       </Text>

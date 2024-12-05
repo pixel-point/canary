@@ -28,7 +28,7 @@ import { PathParams } from '../../RouteDefinitions'
 import { decodeGitContent, getTrimmedSha, normalizeGitRef, REFS_TAGS_PREFIX } from '../../utils/git-utils'
 
 export default function RepoSummaryPage() {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [files, setFiles] = useState<RepoFile[]>([])
   const repoRef = useGetRepoRef()
   const navigate = useNavigate()
@@ -198,8 +198,6 @@ export default function RepoSummaryPage() {
   )
 
   useEffect(() => {
-    setLoading(true)
-
     if (!repoEntryPathToFileTypeMap.size) {
       return
     }
