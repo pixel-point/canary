@@ -11,36 +11,9 @@ import {
   TabsList,
   TabsTrigger
 } from '@/components'
-import { TranslationStore } from '@/views'
+import { BranchSelectorDropdownProps, BranchSelectorTab, getBranchSelectorLabels } from '@/views'
 import { cn } from '@utils/cn'
 import { BranchSelectorListItem } from '@views/repo/repo.types'
-import { TFunction } from 'i18next'
-
-enum BranchSelectorTab {
-  BRANCHES = 'branches',
-  TAGS = 'tags'
-}
-
-export const getBranchSelectorLabels = (t: TFunction) => ({
-  [BranchSelectorTab.BRANCHES]: {
-    label: t('views:repos.branches', 'Branches'),
-    searchPlaceholder: t('views:repos.findBranch', 'Find a branch')
-  },
-  [BranchSelectorTab.TAGS]: {
-    label: t('views:repos.tags', 'Tags'),
-    searchPlaceholder: t('views:repos.findTag', 'Find a tag')
-  }
-})
-
-export interface BranchSelectorDropdownProps {
-  selectedBranch: BranchSelectorListItem
-  branchList: BranchSelectorListItem[]
-  tagList: BranchSelectorListItem[]
-  onSelectBranch: (branch: BranchSelectorListItem) => void
-  repoId: string
-  spaceId: string
-  useTranslationStore: () => TranslationStore
-}
 
 const filterItems = (items: BranchSelectorListItem[], query: string) => {
   if (!query.trim()) return items
@@ -153,7 +126,7 @@ export const BranchSelectorDropdown: FC<BranchSelectorDropdownProps> = ({
                   'bg-background-4': isSelected,
                   'pl-7': !isSelected
                 })}
-                onClick={() => onSelectBranch(item)}
+                onClick={() => onSelectBranch(item, activeTab)}
                 key={item.name}
               >
                 <div className="flex w-full min-w-0 items-center gap-x-2">

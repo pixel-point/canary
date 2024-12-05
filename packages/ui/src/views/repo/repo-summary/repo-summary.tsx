@@ -19,7 +19,7 @@ import {
   Text
 } from '@/components'
 import { BranchSelectorListItem, RepoFile, SandboxLayout, TranslationStore } from '@/views'
-import { BranchSelector, Summary } from '@/views/repo/components'
+import { BranchSelector, BranchSelectorTab, Summary } from '@/views/repo/components'
 
 import SummaryPanel from './components/summary-panel'
 
@@ -28,7 +28,7 @@ export interface RepoSummaryViewProps {
   selectedBranch: BranchSelectorListItem
   branchList: BranchSelectorListItem[]
   tagList: BranchSelectorListItem[]
-  selectBranch: (branch: BranchSelectorListItem) => void
+  selectBranch: (branchTag: BranchSelectorListItem, type: BranchSelectorTab) => void
   filesList: string[]
   navigateToFile: (path: string) => void
   repository:

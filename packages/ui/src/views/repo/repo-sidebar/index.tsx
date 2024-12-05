@@ -3,7 +3,7 @@ import { ReactNode } from 'react'
 import { Button, ButtonGroup, Icon, ScrollArea, SearchFiles, Spacer } from '@/components'
 import { SandboxLayout, TranslationStore } from '@/views'
 import { BranchSelectorListItem } from '@views/repo'
-import { BranchSelector } from '@views/repo/components'
+import { BranchSelector, BranchSelectorTab } from '@views/repo/components'
 
 interface RepoSidebarProps {
   hasHeader?: boolean
@@ -13,7 +13,7 @@ interface RepoSidebarProps {
   selectedBranch: BranchSelectorListItem
   branchList: BranchSelectorListItem[]
   tagList: BranchSelectorListItem[]
-  selectBranch: (branch: BranchSelectorListItem) => void
+  selectBranch: (branchTag: BranchSelectorListItem, type: BranchSelectorTab) => void
   navigateToNewFile: () => void
   navigateToNewFolder: () => void
   navigateToFile: (file: string) => void
