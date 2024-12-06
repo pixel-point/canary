@@ -18,17 +18,13 @@ import {
   StackedList,
   Text
 } from '@/components'
-import { BranchSelectorListItem, RepoFile, SandboxLayout, TranslationStore } from '@/views'
-import { BranchSelector, BranchSelectorTab, Summary } from '@/views/repo/components'
+import { IBranchSelectorStore, RepoFile, SandboxLayout, TranslationStore } from '@/views'
+import { BranchSelector, Summary } from '@/views/repo/components'
 
 import SummaryPanel from './components/summary-panel'
 
 export interface RepoSummaryViewProps {
   loading: boolean
-  selectedBranch: BranchSelectorListItem
-  branchList: BranchSelectorListItem[]
-  tagList: BranchSelectorListItem[]
-  selectBranch: (branchTag: BranchSelectorListItem, type: BranchSelectorTab) => void
   filesList: string[]
   navigateToFile: (path: string) => void
   repository:
@@ -50,8 +46,6 @@ export interface RepoSummaryViewProps {
     tag_count?: number
     pull_req_summary?: { open_count: number } | undefined
   }
-  spaceId: string
-  repoId: string
   gitRef?: string
   latestCommitInfo?: {
     userName: string
@@ -63,35 +57,30 @@ export interface RepoSummaryViewProps {
   isEditingDescription?: boolean
   setIsEditingDescription: (value: boolean) => void
   saveDescription: (description: string) => void
+  useRepoBranchesStore: () => IBranchSelectorStore
   useTranslationStore: () => TranslationStore
 }
 
 export function RepoSummaryView({
   loading,
-  selectedBranch,
-  branchList,
-  tagList,
-  selectBranch,
   filesList,
   navigateToFile,
   repository,
-  handleCreateToken,
   repoEntryPathToFileTypeMap,
   files,
-  decodedReadmeContent,
   summaryDetails: { default_branch_commit_count = 0, branch_count = 0, tag_count = 0, pull_req_summary },
-  spaceId,
-  repoId,
   gitRef,
   latestCommitInfo,
   onChangeDescription,
   isEditingDescription,
   setIsEditingDescription,
   saveDescription,
-  useTranslationStore
+  useTranslationStore,
+  useRepoBranchesStore
 }: RepoSummaryViewProps) {
   const navigate = useNavigate()
   const { t } = useTranslationStore()
+  const { repoId, spaceId, selectedBranchTag } = useRepoBranchesStore()
 
   if (loading) return <SkeletonList />
 
@@ -117,12 +106,7 @@ export function RepoSummaryView({
               <ListActions.Left>
                 <ButtonGroup>
                   <BranchSelector
-                    selectedBranch={selectedBranch}
-                    branchList={branchList}
-                    tagList={tagList}
-                    onSelectBranch={selectBranch}
-                    repoId={repoId}
-                    spaceId={spaceId}
+                    useRepoBranchesStore={useRepoBranchesStore}
                     useTranslationStore={useTranslationStore}
                   />
                   <SearchFiles
@@ -145,7 +129,7 @@ export function RepoSummaryView({
                       <DropdownMenuItem
                         key={'create-file'}
                         onClick={() => {
-                          navigate(`/${spaceId}/repos/${repoId}/code/new/${gitRef || selectedBranch.name}/~/`)
+                          navigate(`/${spaceId}/repos/${repoId}/code/new/${gitRef || selectedBranchTag?.name || ''}/~/`)
                         }}
                       >
                         {t('views:repos.createNewFile', '+ Create New File')}

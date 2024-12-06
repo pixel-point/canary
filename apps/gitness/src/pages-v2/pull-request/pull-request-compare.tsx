@@ -9,7 +9,6 @@ import {
   CreateRepositoryErrorResponse,
   mergeCheck,
   OpenapiCreatePullReqRequest,
-  TypesBranchExtended,
   TypesCommit,
   useCreatePullReqMutation,
   useDiffStatsQuery,
@@ -30,6 +29,7 @@ import { changesInfoAtom, DiffFileEntry, DiffViewerExchangeState } from '../../p
 import { changedFileId, DIFF2HTML_CONFIG, normalizeGitFilePath } from '../../pages/pull-request/utils'
 import { PathParams } from '../../RouteDefinitions'
 import { normalizeGitRef } from '../../utils/git-utils'
+import { useRepoBranchesStore } from '../repo/stores/repo-branches-store'
 
 /**
  * TODO: This code was migrated from V2 and needs to be refactored.
@@ -313,12 +313,22 @@ export const CreatePullRequest = () => {
     [branchList, tagsList]
   )
 
+  const { setTagList, setBranchList, setSpaceIdAndRepoId } = useRepoBranchesStore()
+
+  useEffect(() => {
+    setTagList(tagsList)
+    setBranchList(branchList)
+  }, [tagsList, branchList])
+
+  useEffect(() => {
+    setSpaceIdAndRepoId(spaceId || '', repoId || '')
+  }, [spaceId, repoId])
+
   const renderContent = () => {
     if (isFetchingBranches) return <SkeletonList />
 
     return (
       <PullRequestCompare
-        tagList={tagsList}
         isBranchSelected={isBranchSelected}
         setIsBranchSelected={setIsBranchSelected}
         onFormSubmit={onSubmit}
@@ -329,17 +339,8 @@ export const CreatePullRequest = () => {
         onFormDraftSubmit={onDraftSubmit}
         mergeability={mergeability}
         selectBranch={selectBranchorTag}
-        repoId={repoId || ''}
-        spaceId={spaceId || ''}
         useTranslationStore={useTranslationStore}
-        branchList={
-          branches
-            ? branches?.map((item: TypesBranchExtended) => ({
-                name: item.name || '',
-                sha: item.sha || ''
-              }))
-            : []
-        }
+        useRepoBranchesStore={useRepoBranchesStore}
         commitData={commitData?.commits?.map((item: TypesCommit) => ({
           sha: item.sha,
           parent_shas: item.parent_shas,

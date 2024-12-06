@@ -18,8 +18,6 @@ import {
 } from '@components/index'
 import { DiffModeEnum } from '@git-diff-view/react'
 import { zodResolver } from '@hookform/resolvers/zod'
-// import { useDiffConfig } from '@views/pull-request/hooks/useDiffConfig'
-
 import { BranchSelector } from '@views/repo/components/branch-selector/branch-selector'
 import PullRequestCompareButton from '@views/repo/pull-request/compare/components/pull-request-compare-button'
 import PullRequestCompareForm from '@views/repo/pull-request/compare/components/pull-request-compare-form'
@@ -33,11 +31,11 @@ import {
   BranchSelectorListItem,
   BranchSelectorTab,
   CommitsList,
+  IBranchSelectorStore,
   SandboxLayout,
   TranslationStore,
   TypesCommit
 } from '..'
-// import PullRequestDiffViewer from '../components/pull-request/pull-request-diff-viewer'
 import { Layout } from './layout'
 
 export const formSchema = z.object({
@@ -58,8 +56,6 @@ interface SandboxPullRequestCompareProps {
   isLoading: boolean
   isSuccess: boolean
   mergeability?: boolean
-  branchList: BranchSelectorListItem[]
-  tagList: BranchSelectorListItem[]
   selectBranch: (branchTag: BranchSelectorListItem, type: BranchSelectorTab, sourceBranch: boolean) => void
   commitData?: TypesCommit[]
   targetBranch: BranchSelectorListItem
@@ -70,8 +66,7 @@ interface SandboxPullRequestCompareProps {
   setIsBranchSelected: (val: boolean) => void
   prBranchCombinationExists: number | null
   useTranslationStore: () => TranslationStore
-  spaceId: string
-  repoId: string
+  useRepoBranchesStore: () => IBranchSelectorStore
 }
 /**
  * TODO: This code was migrated from V2 and needs to be refactored.
@@ -84,7 +79,6 @@ const PullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
   onFormDraftSubmit,
   mergeability = false,
   selectBranch,
-  branchList,
   commitData,
   targetBranch,
   sourceBranch,
@@ -93,10 +87,8 @@ const PullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
   setIsBranchSelected,
   isBranchSelected,
   prBranchCombinationExists,
-  tagList,
   useTranslationStore,
-  spaceId,
-  repoId
+  useRepoBranchesStore
 }) => {
   const formRef = useRef<HTMLFormElement>(null) // Create a ref for the form
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
@@ -155,36 +147,29 @@ const PullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
           </Text>
           <Layout.Horizontal className="items-center text-tertiary-background">
             <Icon name="pull" size={16} className="text-tertiary-background" />
-
             <BranchSelector
               useTranslationStore={useTranslationStore}
-              spaceId={spaceId}
-              repoId={repoId}
-              prefix={'base'}
-              size="default"
+              useRepoBranchesStore={useRepoBranchesStore}
+              branchPrefix="base"
               selectedBranch={targetBranch}
-              tagList={tagList}
-              branchList={branchList.map(item => ({ name: item.name || '', sha: item.sha || '' }))}
               onSelectBranch={(branchTag, type) => {
                 selectBranch(branchTag, type, false)
                 handleBranchSelection()
               }}
             />
+
             <Icon name="arrow-long" size={14} className="rotate-180 text-tertiary-background" />
             <BranchSelector
               useTranslationStore={useTranslationStore}
-              spaceId={spaceId}
-              repoId={repoId}
-              tagList={tagList}
-              prefix="compare"
-              size="default"
+              useRepoBranchesStore={useRepoBranchesStore}
+              branchPrefix="compare"
               selectedBranch={sourceBranch}
-              branchList={branchList}
               onSelectBranch={(branchTag, type) => {
                 selectBranch(branchTag, type, true)
                 handleBranchSelection()
               }}
             />
+
             {isBranchSelected &&
               !isLoading && ( // Only render this block if isBranchSelected is true
                 <Layout.Horizontal className="items-center gap-x-0">
