@@ -1,11 +1,11 @@
-import { ChangeEvent, FC, ReactNode, useEffect, useState } from 'react'
+import { ChangeEvent, FC, ReactNode, useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import { Button, ListActions, PaginationComponent, SearchBox, SkeletonList, Spacer, Text } from '@/components'
+import { Button, ListActions, PaginationComponent, SearchBox, Spacer, Text } from '@/components'
 import { Filters, FiltersBar, type FilterValue, type SortValue } from '@components/filters'
 import useFilters from '@components/filters/use-filters'
-import { useCommonFilter } from '@hooks/use-common-filter'
 import { formatDistanceToNow } from 'date-fns'
+import { debounce } from 'lodash-es'
 
 import { SandboxLayout } from '../../index'
 import { getFilterOptions, getSortDirections, getSortOptions } from './filter-options'
@@ -19,12 +19,15 @@ const SandboxRepoListPage: FC<RepoListProps> = ({
   useTranslationStore,
   isLoading,
   isError,
-  errorMessage
+  errorMessage,
+  searchQuery,
+  setSearchQuery
 }) => {
   const { t } = useTranslationStore()
   const FILTER_OPTIONS = getFilterOptions(t)
   const SORT_OPTIONS = getSortOptions(t)
   const SORT_DIRECTIONS = getSortDirections(t)
+  const [searchInput, setSearchInput] = useState(searchQuery)
 
   // State for storing saved filters and sorts
   // null means no saved state exists
@@ -355,32 +358,26 @@ const SandboxRepoListPage: FC<RepoListProps> = ({
     }).replace('about ', '')
   }))
 
-  const { query, handleSearch } = useCommonFilter()
-  const [value, setValue] = useState<string>()
+  const debouncedSetSearchQuery = debounce(searchQuery => {
+    setSearchQuery(searchQuery || null)
+  }, 300)
 
-  useEffect(() => {
-    setValue(query || '')
-  }, [query])
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e?.target?.value)
-    handleSearch(e)
-  }
-
-  const handleResetQuery = () => {
-    setValue('')
-    handleSearch({ target: { value: '' } } as ChangeEvent<HTMLInputElement>)
-  }
-
-  if (isLoading) return <SkeletonList />
+  const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value)
+    debouncedSetSearchQuery(e.target.value)
+  }, [])
 
   if (isError)
     return (
       <>
-        <Spacer size={2} />
-        <Text size={1} className="text-destructive">
-          {errorMessage || 'Something went wrong'}
-        </Text>
+        <SandboxLayout.Main hasHeader hasLeftPanel>
+          <SandboxLayout.Content>
+            <Spacer size={2} />
+            <Text size={1} className="text-destructive">
+              {errorMessage || 'Something went wrong'}
+            </Text>
+          </SandboxLayout.Content>
+        </SandboxLayout.Main>
       </>
     )
 
@@ -398,7 +395,8 @@ const SandboxRepoListPage: FC<RepoListProps> = ({
               <SearchBox.Root
                 width="full"
                 className="max-w-96"
-                value={value}
+                // defaultValue={searchQuery || ''}
+                value={searchInput || ''}
                 handleChange={handleInputChange}
                 placeholder={t('views:repos.search')}
               />
@@ -429,9 +427,13 @@ const SandboxRepoListPage: FC<RepoListProps> = ({
             LinkComponent={LinkComponent}
             handleResetFilters={filterHandlers.handleResetFilters}
             hasActiveFilters={filterHandlers.activeFilters.length > 0}
-            query={query ?? ''}
-            handleResetQuery={handleResetQuery}
+            query={searchQuery ?? ''}
+            handleResetQuery={() => {
+              setSearchInput('')
+              setSearchQuery(null)
+            }}
             useTranslationStore={useTranslationStore}
+            isLoading={isLoading}
           />
           <Spacer size={8} />
           <PaginationComponent totalPages={totalPages} currentPage={page} goToPage={page => setPage(page)} t={t} />

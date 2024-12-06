@@ -1,4 +1,4 @@
-import { Badge, Icon, NoData, StackedList } from '@/components'
+import { Badge, Icon, NoData, SkeletonList, StackedList } from '@/components'
 import { TFunction } from 'i18next'
 
 import { RepositoryType, TranslationStore } from './types'
@@ -11,6 +11,7 @@ export interface PageProps {
   query?: string
   handleResetQuery: () => void
   useTranslationStore: () => TranslationStore
+  isLoading: boolean
 }
 
 const Stats = ({ stars, pulls }: { stars?: number; pulls: number }) => (
@@ -42,10 +43,15 @@ export function RepoList({
   hasActiveFilters,
   query,
   handleResetQuery,
-  useTranslationStore
+  useTranslationStore,
+  isLoading
 }: PageProps) {
   const noData = !(repos && repos.length > 0)
   const { t } = useTranslationStore()
+
+  if (isLoading) {
+    return <SkeletonList />
+  }
 
   if (noData) {
     return (
