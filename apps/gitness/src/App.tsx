@@ -10,7 +10,8 @@ import {
   EmptyPage,
   ForgotPasswordPage as ForgotPasswordPageV2,
   NewPasswordPage as NewPasswordPageV2,
-  OTPPage as OTPPageV2
+  OTPPage as OTPPageV2,
+  SandboxLayout
 } from '@harnessio/ui/views'
 import {
   ForgotPasswordPage,
@@ -145,6 +146,39 @@ export default function App() {
       path: '/',
       element: <RootWrapper />,
       children: [
+        // 🚨 Routes to fix 🚨
+        {
+          path: 'repos',
+          element: (
+            <SandboxLayout.Main hasLeftPanel hasHeader>
+              <h1>Repo</h1>
+            </SandboxLayout.Main>
+          )
+        },
+        {
+          path: 'pipelines',
+          element: (
+            <SandboxLayout.Main hasLeftPanel hasHeader>
+              <h1>pipelines</h1>
+            </SandboxLayout.Main>
+          )
+        },
+        {
+          path: 'executions',
+          element: (
+            <SandboxLayout.Main hasLeftPanel hasHeader>
+              <h1>executions</h1>
+            </SandboxLayout.Main>
+          )
+        },
+        {
+          path: 'databases',
+          element: (
+            <SandboxLayout.Main hasLeftPanel hasHeader>
+              <h1>databases</h1>
+            </SandboxLayout.Main>
+          )
+        },
         {
           path: ':spaceId/repos',
           element: <ReposListPage />
@@ -591,10 +625,6 @@ export default function App() {
     {
       path: 'cloud-costs',
       element: <EmptyPage pathName="Cloud Cost Management" />
-    },
-    {
-      path: 'databases',
-      element: <EmptyPage pathName="Databases" />
     },
     {
       path: 'incidents',
