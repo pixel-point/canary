@@ -18,8 +18,9 @@ import {
   StackedList,
   Text
 } from '@/components'
-import { IBranchSelectorStore, RepoFile, SandboxLayout, TranslationStore } from '@/views'
-import { BranchSelector, Summary } from '@/views/repo/components'
+import { BranchSelectorListItem, IBranchSelectorStore, RepoFile, SandboxLayout, TranslationStore } from '@/views'
+import { BranchSelector, BranchSelectorTab, Summary } from '@/views/repo/components'
+import { formatDate } from '@utils/utils'
 
 import SummaryPanel from './components/summary-panel'
 
@@ -32,6 +33,7 @@ export interface RepoSummaryViewProps {
         git_ssh_url?: string
         git_url?: string
         description?: string
+        created?: number
       }
     | undefined
   handleCreateToken: () => void
@@ -53,12 +55,12 @@ export interface RepoSummaryViewProps {
     timestamp: string
     sha: string | null
   }
-  onChangeDescription?: () => void
-  isEditingDescription?: boolean
-  setIsEditingDescription: (value: boolean) => void
   saveDescription: (description: string) => void
   useRepoBranchesStore: () => IBranchSelectorStore
+  updateRepoError?: string
   useTranslationStore: () => TranslationStore
+  isEditDialogOpen: boolean
+  setEditDialogOpen: (value: boolean) => void
 }
 
 export function RepoSummaryView({
@@ -71,12 +73,12 @@ export function RepoSummaryView({
   summaryDetails: { default_branch_commit_count = 0, branch_count = 0, tag_count = 0, pull_req_summary },
   gitRef,
   latestCommitInfo,
-  onChangeDescription,
-  isEditingDescription,
-  setIsEditingDescription,
   saveDescription,
-  useTranslationStore,
-  useRepoBranchesStore
+  useRepoBranchesStore,
+  updateRepoError,
+  isEditDialogOpen,
+  setEditDialogOpen,
+  useTranslationStore
 }: RepoSummaryViewProps) {
   const navigate = useNavigate()
   const { t } = useTranslationStore()
@@ -98,8 +100,8 @@ export function RepoSummaryView({
   }
 
   return (
-    <SandboxLayout.Main hasLeftPanel hasHeader hasSubHeader>
-      <SandboxLayout.Columns columnWidths="1fr 220px">
+    <SandboxLayout.Main hasLeftPanel hasHeader hasSubHeader fullWidth>
+      <SandboxLayout.Columns columnWidths="1fr 255px">
         <SandboxLayout.Column>
           <SandboxLayout.Content>
             <ListActions.Root>
@@ -206,11 +208,12 @@ export function RepoSummaryView({
                   iconName: 'open-pr'
                 }
               ]}
+              timestamp={formatDate(repository?.created || '')}
               description={repository?.description}
-              onChangeDescription={onChangeDescription}
-              isEditingDescription={isEditingDescription}
-              setIsEditingDescription={setIsEditingDescription}
               saveDescription={saveDescription}
+              updateRepoError={updateRepoError}
+              isEditDialogOpen={isEditDialogOpen}
+              setEditDialogOpen={setEditDialogOpen}
             />
           </SandboxLayout.Content>
         </SandboxLayout.Column>
