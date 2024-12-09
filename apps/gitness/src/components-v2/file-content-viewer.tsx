@@ -1,17 +1,16 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { OpenapiGetContentOutput, useFindRepositoryQuery } from '@harnessio/code-service-client'
+import { OpenapiGetContentOutput } from '@harnessio/code-service-client'
 import { FileViewerControlBar, MarkdownViewer, ViewTypeValue } from '@harnessio/ui/components'
 import { CodeEditor } from '@harnessio/yaml-editor'
 
-import GitCommitDialog from '../components-v2/git-commit-dialog'
 import GitBlame from '../components/GitBlame'
 import { useDownloadRawFile } from '../framework/hooks/useDownloadRawFile'
 import { useGetRepoRef } from '../framework/hooks/useGetRepoPath'
 import { themes } from '../pages/pipeline-edit/theme/monaco-theme'
 import { PathParams } from '../RouteDefinitions'
-import { decodeGitContent, filenameToLanguage, formatBytes, GitCommitAction } from '../utils/git-utils'
+import { decodeGitContent, filenameToLanguage, formatBytes } from '../utils/git-utils'
 
 const getIsMarkdown = (language?: string) => language === 'markdown'
 
@@ -21,12 +20,16 @@ const getDefaultView = (language?: string): ViewTypeValue => {
 
 interface FileContentViewerProps {
   repoContent?: OpenapiGetContentOutput
+  handleOpenCommitDialog: () => void
 }
 
 /**
  * TODO: This code was migrated from V2 and needs to be refactored.
  */
-export default function FileContentViewer({ repoContent }: FileContentViewerProps) {
+export default function FileContentViewer({
+  repoContent,
+  handleOpenCommitDialog
+}: FileContentViewerProps) {
   const fileName = repoContent?.name || ''
   const language = filenameToLanguage(fileName) || ''
   const fileContent = decodeGitContent(repoContent?.content?.data)
@@ -37,7 +40,6 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
   const downloadFile = useDownloadRawFile()
   const navigate = useNavigate()
   const rawURL = `/api/v1/repos/${repoRef}/raw/${fullResourcePath}?git_ref=${gitRef}`
-  const [isDeleteFileDialogOpen, setIsDeleteFileDialogOpen] = useState(false)
   const [view, setView] = useState<ViewTypeValue>(getDefaultView(language))
 
   const onChangeView = (value: ViewTypeValue) => {
@@ -48,10 +50,6 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
     setView(getDefaultView(language))
   }, [language])
 
-  const handleToggleDeleteDialog = (value: boolean) => {
-    setIsDeleteFileDialogOpen(value)
-  }
-
   const themeConfig = useMemo(
     () => ({
       defaultTheme: 'dark',
@@ -59,8 +57,6 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
     }),
     []
   )
-
-  const { data: { body: repoMetadata } = {} } = useFindRepositoryQuery({ repo_ref: repoRef })
 
   const handleDownloadFile = () => {
     downloadFile({
@@ -71,7 +67,7 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
   }
 
   const handleEditFile = () => {
-    navigate(`/spaces/${spaceId}/repos/${repoId}/code/edit/${gitRef}/~/${fullResourcePath}`)
+    navigate(`/${spaceId}/repos/${repoId}/code/edit/${gitRef}/~/${fullResourcePath}`)
   }
 
   const CodeView = useMemo(
@@ -91,24 +87,6 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
 
   return (
     <>
-      <GitCommitDialog
-        open={isDeleteFileDialogOpen}
-        onClose={() => handleToggleDeleteDialog(false)}
-        commitAction={GitCommitAction.DELETE}
-        gitRef={gitRef || ''}
-        resourcePath={fullResourcePath || ''}
-        onSuccess={(_commitInfo, isNewBranch, newBranchName) => {
-          if (!isNewBranch) {
-            navigate(`/spaces/${spaceId}/repos/${repoId}/code`)
-          } else {
-            navigate(
-              `/spaces/${spaceId}/repos/${repoId}/pull-requests/compare/${repoMetadata?.default_branch}...${newBranchName}`
-            )
-          }
-        }}
-        defaultBranch={repoMetadata?.default_branch || ''}
-        isNew={false}
-      />
       <FileViewerControlBar
         view={view}
         onChangeView={onChangeView}
@@ -118,7 +96,7 @@ export default function FileContentViewer({ repoContent }: FileContentViewerProp
         url={rawURL}
         handleDownloadFile={handleDownloadFile}
         handleEditFile={handleEditFile}
-        handleOpenDeleteDialog={() => handleToggleDeleteDialog(true)}
+        handleOpenDeleteDialog={handleOpenCommitDialog}
       />
 
       {language === 'markdown' && view === 'preview' ? (

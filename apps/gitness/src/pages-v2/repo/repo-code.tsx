@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import {
   GitPathDetails,
@@ -13,22 +13,24 @@ import { RepoFile, RepoFiles, SummaryItemType } from '@harnessio/ui/views'
 
 import FileContentViewer from '../../components-v2/file-content-viewer'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
-import useCodePathDetails from '../../hooks/useCodePathDetails'
+import useCodePathDetails, { CodeModes } from '../../hooks/useCodePathDetails'
 import { useTranslationStore } from '../../i18n/stores/i18n-store'
 import { timeAgoFromISOTime } from '../../pages/pipeline-edit/utils/time-utils'
 import { PathParams } from '../../RouteDefinitions'
-import { getTrimmedSha, normalizeGitRef } from '../../utils/git-utils'
+import { getTrimmedSha, GitCommitAction, normalizeGitRef } from '../../utils/git-utils'
 import { splitPathWithParents } from '../../utils/path-utils'
+import GitCommitDialog, { CommitDialogOnSuccess } from '../../components-v2/git-commit-dialog.tsx'
 
 /**
  * TODO: This code was migrated from V2 and needs to be refactored.
  */
 export const RepoCode = () => {
+  const navigate = useNavigate()
   const repoRef = useGetRepoRef()
   const { spaceId, repoId } = useParams<PathParams>()
 
   // TODO: Not sure what codeMode is used for; it needs to be reviewed, and the condition for rendering the FileContentViewer component may need to be adjusted or fixed.
-  const { codeMode: _, fullGitRef, gitRefName, fullResourcePath } = useCodePathDetails()
+  const { codeMode, fullGitRef, gitRefName, fullResourcePath } = useCodePathDetails()
   const repoPath = `/${spaceId}/repos/${repoId}/code/${fullGitRef}`
 
   // TODO: pathParts - should have all data for files path breadcrumbs
@@ -41,7 +43,7 @@ export const RepoCode = () => {
   ]
   const [files, setFiles] = useState<RepoFile[]>([])
   const [loading, setLoading] = useState(false)
-  const [selectedBranch, setSelectedBranch] = useState<string>(gitRefName || '')
+  const [selectedBranch, setSelectedBranch] = useState(gitRefName || '')
 
   const { data: { body: repoDetails } = {} } = useGetContentQuery({
     path: fullResourcePath || '',
@@ -130,23 +132,101 @@ export const RepoCode = () => {
     }
   }, [repoDetails?.latest_commit])
 
+  // From apps/gitness/src/components/FileEditor.tsx
+  const [isCommitDialogOpen, setIsCommitDialogOpen] = useState(false)
+  const [fileName, setFileName] = useState<string>('')
+
+  /**
+   * Set default file name value
+   */
+  useEffect(() => {
+    if (codeMode === CodeModes.NEW) {
+      setFileName('')
+      return
+    }
+
+    if (CodeModes === CodeModes.EDIT) {
+      setFileName(repoDetails?.name || '')
+    }
+  }, [codeMode, repoDetails?.name])
+
+  /**
+   * Handle change file name
+   * @param value
+   */
+  const handleFileNameChange = (value: string) => {
+    setFileName(value)
+  }
+
+  /**
+   * Toggle open status of commit dialog
+   * @param value
+   */
+  const handleToggleCommitDialog = (value: boolean) => {
+    setIsCommitDialogOpen(value)
+  }
+
+  /**
+   * Get commit action from codeMode
+   */
+  const commitAction: GitCommitAction = useMemo(() => {
+    return codeMode === CodeModes.VIEW ?
+      GitCommitAction.DELETE : (
+        CodeModes.NEW ?
+          GitCommitAction.CREATE :
+          GitCommitAction.UPDATE
+      )
+  }, [codeMode])
+
+  const handleCommitSuccess: CommitDialogOnSuccess = (_, isNewBranch, newBranchName) => {
+    if (!isNewBranch) {
+      navigate(`${spaceId}/repos/${repoId}/code`)
+      return
+    }
+
+    navigate(
+      `${spaceId}/repos/${repoId}/pull-requests/compare/${repository?.default_branch}...${newBranchName}`
+    )
+  }
+
   if (!repoId) return <></>
 
   return (
-    <RepoFiles
-      pathParts={pathParts}
-      loading={loading}
-      files={files}
-      isDir={repoDetails?.type === 'dir'}
-      isShowSummary={!!repoEntryPathToFileTypeMap.size}
-      latestFile={latestFiles}
-      useTranslationStore={useTranslationStore}
-      // TODO: add correct path to Create new file page
-      pathNewFile="/new-file"
-      // TODO: add correct path to Upload files page
-      pathUploadFiles="/upload-file"
-    >
-      {!!repoDetails?.type && repoDetails.type !== 'dir' && <FileContentViewer repoContent={repoDetails} />}
-    </RepoFiles>
+    <>
+      <RepoFiles
+        pathParts={pathParts}
+        loading={loading}
+        files={files}
+        isDir={repoDetails?.type === 'dir'}
+        isShowSummary={!!repoEntryPathToFileTypeMap.size}
+        latestFile={latestFiles}
+        useTranslationStore={useTranslationStore}
+        // TODO: add correct path to Create new file page
+        pathNewFile="/new-file"
+        // TODO: add correct path to Upload files page
+        pathUploadFiles="/upload-file"
+        codeMode={codeMode}
+        changeFileName={handleFileNameChange}
+        gitRefName={gitRefName}
+        handleOpenCommitDialog={() => handleToggleCommitDialog(true)}
+      >
+        {!!repoDetails?.type && repoDetails.type !== 'dir' && (
+          <FileContentViewer
+            repoContent={repoDetails}
+            handleOpenCommitDialog={() => handleToggleCommitDialog(true)}
+          />
+        )}
+      </RepoFiles>
+      <GitCommitDialog
+        open={isCommitDialogOpen}
+        onClose={() => handleToggleCommitDialog(false)}
+        commitAction={commitAction}
+        gitRef={gitRefName}
+        resourcePath={fullResourcePath}
+        onSuccess={handleCommitSuccess}
+        defaultBranch={repository?.default_branch || ''}
+        isNew={codeMode === CodeModes.NEW}
+      />
+    </>
   )
 }

@@ -1,7 +1,7 @@
 import { ReactNode, useMemo } from 'react'
 
-import { FileAdditionsTrigger, NoData, PathBreadcrumbs, PathParts, SkeletonList } from '@/components'
-import { LatestFileTypes, RepoFile, SandboxLayout, TranslationStore } from '@/views'
+import { Button, FileAdditionsTrigger, NoData, PathBreadcrumbs, PathParts, SkeletonList } from '@/components'
+import { CodeModes, LatestFileTypes, RepoFile, SandboxLayout, TranslationStore } from '@/views'
 import { FileLastChangeBar, Summary } from '@/views/repo/components'
 
 interface RepoFilesProps {
@@ -15,6 +15,10 @@ interface RepoFilesProps {
   useTranslationStore: () => TranslationStore
   pathNewFile: string
   pathUploadFiles: string
+  codeMode: CodeModes
+  changeFileName: (value: string) => void
+  gitRefName: string
+  handleOpenCommitDialog: () => void
 }
 
 export const RepoFiles = ({
@@ -27,8 +31,15 @@ export const RepoFiles = ({
   children,
   useTranslationStore,
   pathNewFile,
-  pathUploadFiles
+  pathUploadFiles,
+  codeMode,
+  changeFileName,
+  gitRefName,
+  handleOpenCommitDialog
 }: RepoFilesProps) => {
+  // const isView = codeMode === CodeModes.VIEW
+  const isView = false
+
   const content = useMemo(() => {
     if (!isDir)
       return (
@@ -59,12 +70,31 @@ export const RepoFiles = ({
     <SandboxLayout.Main leftSubPanelWidth={248} fullWidth hasLeftPanel hasLeftSubPanel hasHeader hasSubHeader>
       <SandboxLayout.Content>
         <div className="mb-4 flex h-8 items-center justify-between gap-8">
-          <PathBreadcrumbs items={pathParts} />
-          <FileAdditionsTrigger
-            useTranslationStore={useTranslationStore}
-            pathNewFile={pathNewFile}
-            pathUploadFiles={pathUploadFiles}
+          <PathBreadcrumbs
+            isEdit={codeMode === CodeModes.EDIT}
+            isNew={codeMode === CodeModes.NEW}
+            items={pathParts}
+            changeFileName={changeFileName}
+            gitRefName={gitRefName}
           />
+          {isView ? (
+            <FileAdditionsTrigger
+              useTranslationStore={useTranslationStore}
+              pathNewFile={pathNewFile}
+              pathUploadFiles={pathUploadFiles}
+            />
+          ) : (
+            <div className="flex gap-3">
+              <Button
+                variant="outline"
+              >
+                Cancel changes
+              </Button>
+              <Button onClick={handleOpenCommitDialog}>
+                Commit changes
+              </Button>
+            </div>
+          )}
         </div>
         {content}
       </SandboxLayout.Content>

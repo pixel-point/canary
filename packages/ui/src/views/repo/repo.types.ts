@@ -80,3 +80,9 @@ export interface IBranchSelectorStore {
   repoId: string
   setSpaceIdAndRepoId: (spaceId: string, repoId: string) => void
 }
+
+export enum CodeModes {
+  EDIT = 'edit',
+  NEW = 'new',
+  VIEW = 'view'
+}
