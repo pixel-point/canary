@@ -160,18 +160,16 @@ export const FileEditor: React.FC = () => {
         resourcePath={fileResourcePath || ''}
         payload={content}
         sha={repoDetails?.sha}
-        onSuccess={(_commitInfo, isNewBranch, newBranchName, fileName) => {
+        onSuccess={(_commitInfo, isNewBranch, newBranchName) => {
           if (!isNewBranch) {
-            navigate(
-              `/${spaceId}/repos/${repoId}/code/${fullGitRef}/~/${isNew ? fileResourcePath + fileName : fileResourcePath}`
-            )
+            navigate(`/${spaceId}/repos/${repoId}/code/${fullGitRef}/~/${fileResourcePath}`)
           } else {
             navigate(
               `/${spaceId}/repos/${repoId}/pull-requests/compare/${repoMetadata?.default_branch}...${newBranchName}`
             )
           }
         }}
-        defaultBranch={repoMetadata?.default_branch || ''}
+        currentBranch={fullGitRef || repoMetadata?.default_branch || ''}
         isNew={!!isNew}
       />
       <ExitConfirmDialog onCancel={onExitCancel} onConfirm={onExitConfirm} open={isExitConfirmOpen} />
