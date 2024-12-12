@@ -38,14 +38,19 @@ export const BranchesList = ({
           {branches[0]?.checks?.done && branches[0]?.checks?.total && branches[0]?.checks?.status && (
             <TableHead>{t('views:repos.checkStatus', 'Check status')}</TableHead>
           )}
-          <TableHead className="box-border text-center">
-            <span className="border-gray-20 w-[50%] border-r-2 px-1.5 text-right">
-              {t('views:repos.behind', 'Behind')}
-            </span>
-            <span className="w-[50%] px-1.5 text-left">{t('views:repos.ahead', 'Ahead')}</span>
+          <TableHead>
+            <div className="mx-auto grid w-28 grid-flow-col grid-cols-[1fr_auto_1fr] items-center justify-items-end gap-x-2">
+              <Text as="p" size={1} truncate color="tertiaryBackground" className="leading-none">
+                {t('views:repos.behind', 'Behind')}
+              </Text>
+              <div className="h-full border-r-2 border-tertiary-background/30" />
+              <Text as="p" size={1} truncate color="tertiaryBackground" className="place-self-start leading-none">
+                {t('views:repos.ahead', 'Ahead')}
+              </Text>
+            </div>
           </TableHead>
           {/* since we don't have the data for pull request, we can change data to Commit to match the original gitness */}
-          {branches[0]?.sha && <TableHead className="text-center">{t('views:repos.commit', 'Commit')}</TableHead>}
+          {branches[0]?.sha && <TableHead>{t('views:repos.commit', 'Commit')}</TableHead>}
           <TableHead>
             <></>
           </TableHead>
@@ -61,7 +66,6 @@ export const BranchesList = ({
                   <div className="flex items-center gap-1.5">
                     <Text wrap="nowrap" truncate className="text-primary/90">
                       <Button variant="secondary" size="xs">
-                        &nbsp;
                         {branch?.name}
                       </Button>
                     </Text>
@@ -71,7 +75,7 @@ export const BranchesList = ({
                 {/* user avatar and timestamp */}
                 <TableCell className="content-center">
                   <div className="flex items-center gap-1.5">
-                    <Avatar className="size-5">
+                    <Avatar className="size-6">
                       {branch?.user?.avatarUrl && <AvatarImage src={branch?.user?.avatarUrl} />}
                       <AvatarFallback className="p-1 text-center text-xs">
                         {getInitials(branch?.user?.name ?? '', 2)}
@@ -85,7 +89,7 @@ export const BranchesList = ({
                 {/* checkstatus: show in the playground, hide the check status column if the checks are null in the gitness without data */}
                 {branch?.checks?.done && branch?.checks?.total && branch?.checks?.status && (
                   <TableCell className="content-center">
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center justify-center gap-1.5">
                       <Icon name="tick" size={11} className="text-success" />
                       <Text size={2} wrap="nowrap" truncate className="text-tertiary-background">
                         {branch?.checks?.done} / {branch?.checks?.total}
@@ -95,7 +99,7 @@ export const BranchesList = ({
                 )}
                 {/* calculated divergence bar & default branch */}
                 <TableCell className="content-center">
-                  <div className="flex content-center items-center gap-1.5 align-middle">
+                  <div className="flex justify-center items-center gap-1.5 align-middle">
                     {branch?.behindAhead?.default ? (
                       <Badge
                         variant="outline"
@@ -112,7 +116,7 @@ export const BranchesList = ({
                 {/* change commit data instead: SHA */}
                 {branch.sha && (
                   <TableCell className="content-center">
-                    <div className="flex items-center justify-center gap-1.5">
+                    <div className="flex items-center gap-1.5">
                       {/* <Icon name="open-pr" size={11} className="text-success" /> */}
                       <Text wrap="nowrap" size={1} truncate className="font-mono text-tertiary-background">
                         <CommitCopyActions sha={branch.sha} />
@@ -121,7 +125,7 @@ export const BranchesList = ({
                   </TableCell>
                 )}
                 <TableCell className="content-center">
-                  {
+                  <div className="flex justify-end">
                     <MoreActionsTooltip
                       branchInfo={branch}
                       spaceId={spaceId}
@@ -129,7 +133,7 @@ export const BranchesList = ({
                       defaultBranch={defaultBranch}
                       useTranslationStore={useTranslationStore}
                     />
-                  }
+                  </div>
                 </TableCell>
               </TableRow>
             )

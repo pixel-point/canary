@@ -16,7 +16,8 @@ const progressVariants = cva('', {
     },
     rounded: {
       default: 'rounded-full',
-      sm: 'rounded-[1px]'
+      sm: 'rounded-[1px]',
+      md: 'rounded-[2px]'
     },
     rotated: {
       default: '',
