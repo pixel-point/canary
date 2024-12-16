@@ -11,13 +11,13 @@ import {
   ForgotPasswordPage as ForgotPasswordPageV2,
   NewPasswordPage as NewPasswordPageV2,
   OTPPage as OTPPageV2,
+  RepoSettingsPage,
   SandboxLayout
 } from '@harnessio/ui/views'
 import {
   ForgotPasswordPage,
   NewPasswordPage,
   OTPPage,
-  RepoSettingsPage,
   RepoSettingsPlaceholderPage,
   SandboxSettings,
   SettingsAccountPage,
@@ -242,10 +242,6 @@ export default function App() {
               element: <Navigate to="pulls" replace />
             },
             {
-              path: 'webhooks',
-              element: <WebhookListPage />
-            },
-            {
               path: 'pulls',
               children: [
                 { index: true, element: <SandboxPullRequestListPage /> },
@@ -300,6 +296,11 @@ export default function App() {
                 {
                   path: 'rules',
                   element: <RepoSettingsGeneralPageContainer />
+                },
+
+                {
+                  path: 'webhooks',
+                  element: <WebhookListPage />
                 }
               ]
             }
