@@ -67,7 +67,7 @@ const SandboxRepoListPage: FC<RepoListProps> = ({
   if (isError)
     return (
       <>
-        <SandboxLayout.Main hasHeader hasLeftPanel>
+        <SandboxLayout.Main>
           <SandboxLayout.Content>
             <div className="flex min-h-[70vh] items-center justify-center py-20">
               <NoData
@@ -91,7 +91,7 @@ const SandboxRepoListPage: FC<RepoListProps> = ({
   const showTopBar = !noData || filterHandlers.activeFilters.length > 0 || searchQuery?.length
 
   return (
-    <SandboxLayout.Main hasHeader hasLeftPanel>
+    <SandboxLayout.Main>
       <SandboxLayout.Content>
         {/* 
           TODO: Replace the Text component with a Title component in the future.

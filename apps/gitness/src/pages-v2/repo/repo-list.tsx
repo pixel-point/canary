@@ -72,9 +72,7 @@ export default function ReposListPage() {
 
   return (
     <>
-      <div className="breadcrumbs">
-        <Breadcrumbs />
-      </div>
+      <Breadcrumbs />
       <SandboxRepoListPage
         useRepoStore={useRepoStore}
         useTranslationStore={useTranslationStore}

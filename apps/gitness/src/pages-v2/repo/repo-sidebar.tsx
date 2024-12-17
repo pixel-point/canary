@@ -188,21 +188,25 @@ export const RepoSidebar = () => {
 
   return (
     <>
-      <RepoSidebarView
-        hasHeader
-        hasSubHeader
-        selectBranchOrTag={selectBranchOrTag}
-        useRepoBranchesStore={useRepoBranchesStore}
-        useTranslationStore={useTranslationStore}
-        navigateToNewFile={navigateToNewFile}
-        navigateToFile={navigateToFile}
-        filesList={filesList}
-      >
-        {!!repoDetails?.body?.content?.entries?.length && (
-          <Explorer repoDetails={repoDetails?.body} selectedBranch={selectedBranchTag.name} />
-        )}
-      </RepoSidebarView>
-      <Outlet />
+      <div className="grid grid-cols-[auto_1fr]">
+        <RepoSidebarView
+          selectBranchOrTag={selectBranchOrTag}
+          useRepoBranchesStore={useRepoBranchesStore}
+          useTranslationStore={useTranslationStore}
+          navigateToNewFile={navigateToNewFile}
+          navigateToFile={navigateToFile}
+          filesList={filesList}
+        >
+          {!!repoDetails?.body?.content?.entries?.length && (
+            <Explorer repoDetails={repoDetails?.body} selectedBranch={selectedBranchTag.name} />
+          )}
+        </RepoSidebarView>
+        {/* 100vh = screen height - (55px Breadcrumbs Height + 45px SubHeader Height = 100px) */}
+        {/* Total height of both the divs should be 100vh */}
+        <div className="min-h-[calc(100vh-100px)]">
+          <Outlet />
+        </div>
+      </div>
     </>
   )
 }
