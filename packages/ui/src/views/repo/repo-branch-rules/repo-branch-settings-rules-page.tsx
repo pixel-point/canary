@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { NavLink } from 'react-router-dom'
 
 import { Button, ButtonGroup, ControlGroup, Fieldset, Spacer, Text } from '@/components'
-import { IRepoStore, SandboxLayout } from '@/views'
+import { IRepoStore, SandboxLayout, TranslationStore } from '@/views'
 
 import {
   BranchSettingsRuleBypassListField,
@@ -30,6 +30,7 @@ interface RepoBranchSettingsRulesPageProps {
   apiErrors?: BranchSettingsErrors
   useRepoRulesStore: () => IRepoStore
   useBranchRulesStore: () => IBranchRulesStore
+  useTranslationStore: () => TranslationStore
   handleCheckboxChange: (id: string, checked: boolean) => void
   handleSubmenuChange: (id: string, subOptionId: string, checked: boolean) => void
   handleSelectChangeForRule: (id: string, selectedOption: string) => void
@@ -41,6 +42,7 @@ export const RepoBranchSettingsRulesPage: React.FC<RepoBranchSettingsRulesPagePr
   isLoading,
   handleRuleUpdate,
   useRepoRulesStore,
+  useTranslationStore,
   apiErrors,
   useBranchRulesStore,
   handleCheckboxChange,
@@ -49,6 +51,7 @@ export const RepoBranchSettingsRulesPage: React.FC<RepoBranchSettingsRulesPagePr
   handleInputChange,
   handleInitialRules
 }) => {
+  const { t } = useTranslationStore()
   const { presetRuleData, principals, recentStatusChecks } = useRepoRulesStore()
   const {
     register,
@@ -115,41 +118,45 @@ export const RepoBranchSettingsRulesPage: React.FC<RepoBranchSettingsRulesPagePr
       <SandboxLayout.Content maxWidth="2xl" className="ml-0">
         {presetRuleData ? (
           <Text size={5} weight="medium" as="div" className="mb-8">
-            Update rule
+            {t('views:repos.updateRule', 'Update rule')}
           </Text>
         ) : (
           <Text size={5} weight="medium" as="div" className="mb-8">
-            Create a rule
+            {t('views:repos.CreateRule', 'Create a rule')}
           </Text>
         )}
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <Fieldset>
-            <BranchSettingsRuleToggleField register={register} setValue={setValue} watch={watch} />
-            <BranchSettingsRuleNameField register={register} errors={errors} disabled={!!presetRuleData} />
-            <BranchSettingsRuleDescriptionField register={register} errors={errors} />
+            <BranchSettingsRuleToggleField register={register} setValue={setValue} watch={watch} t={t} />
+            <BranchSettingsRuleNameField register={register} errors={errors} disabled={!!presetRuleData} t={t} />
+            <BranchSettingsRuleDescriptionField register={register} errors={errors} t={t} />
             <BranchSettingsRuleTargetPatternsField
               watch={watch}
               setValue={setValue}
               register={register}
               errors={errors}
+              t={t}
             />
             <BranchSettingsRuleDefaultBranchField
               register={register}
               errors={errors}
               setValue={setValue}
               watch={watch}
+              t={t}
             />
             <BranchSettingsRuleBypassListField
               setValue={setValue}
               watch={watch}
               bypassOptions={principals as BypassUsersList[]}
+              t={t}
             />
             <BranchSettingsRuleEditPermissionsField
               register={register}
               errors={errors}
               setValue={setValue}
               watch={watch}
+              t={t}
             />
             <BranchSettingsRuleListField
               rules={rules}
@@ -158,6 +165,7 @@ export const RepoBranchSettingsRulesPage: React.FC<RepoBranchSettingsRulesPagePr
               handleSubmenuChange={handleSubmenuChange}
               handleSelectChangeForRule={handleSelectChangeForRule}
               handleInputChange={handleInputChange}
+              t={t}
             />
 
             {apiErrors &&
@@ -176,19 +184,23 @@ export const RepoBranchSettingsRulesPage: React.FC<RepoBranchSettingsRulesPagePr
                   {!presetRuleData ? (
                     <>
                       <Button type="submit" size="sm" disabled={!isValid || isLoading}>
-                        {!isLoading ? 'Create rule' : 'Creating rule...'}
+                        {!isLoading
+                          ? t('views:repos.createRuleButton', 'Create rule')
+                          : t('views:repos.creatingRuleButton', 'Creating rule...')}
                       </Button>
                       <Button type="button" variant="outline" size="sm">
-                        <NavLink to="../general">Cancel</NavLink>
+                        <NavLink to="../general">{t('views:repos.cancel', 'Cancel')}</NavLink>
                       </Button>
                     </>
                   ) : (
                     <>
                       <Button type="submit" size="sm" disabled={!isValid || isLoading}>
-                        {!isLoading ? 'Update rule' : 'Updating rule...'}
+                        {!isLoading
+                          ? t('views:repos.updateRule', 'Update rule')
+                          : t('views:repos.updatingRule', 'Updating rule...')}
                       </Button>
                       <Button type="button" variant="outline" size="sm">
-                        <NavLink to="../general">Cancel</NavLink>
+                        <NavLink to="../general">{t('views:repos.cancel', 'Cancel')}</NavLink>
                       </Button>
                     </>
                   )}
