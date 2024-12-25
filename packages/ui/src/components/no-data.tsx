@@ -8,6 +8,7 @@ import { Icon, IconProps } from './icon'
 import { Text } from './text'
 
 export interface NoDataProps {
+  className?: string
   title: string
   iconName?:
     | Pick<IconProps, 'name'>
@@ -47,12 +48,14 @@ export const NoData: FC<NoDataProps> = ({
   primaryButton,
   secondaryButton,
   withBorder = false,
+  className,
   textWrapperClassName
 }) => {
   return (
     <div
       className={cn('flex h-full w-full flex-col place-content-center place-items-center gap-4', {
-        'py-20 pb-24 h-auto min-h-[75vh] border border-borders-4 rounded-md': withBorder
+        'py-20 pb-24 h-auto min-h-[75vh] border border-borders-4 rounded-md': withBorder,
+        className
       })}
     >
       {iconName && <Icon name={iconName as IconProps['name']} size={iconSize} />}

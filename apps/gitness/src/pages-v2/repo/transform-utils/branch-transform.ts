@@ -2,7 +2,8 @@ import {
   ListBranchesOkResponse,
   RepoRepositoryOutput,
   TypesBranchExtended,
-  TypesCommitDivergence
+  TypesCommitDivergence,
+  TypesPullReq
 } from '@harnessio/code-service-client'
 import { BranchData } from '@harnessio/ui/views'
 
@@ -11,7 +12,8 @@ import { timeAgoFromISOTime } from '../../../pages/pipeline-edit/utils/time-util
 export const transformBranchList = (
   branches: TypesBranchExtended[],
   defaultBranch?: string,
-  divergence?: TypesCommitDivergence[]
+  divergence?: TypesCommitDivergence[],
+  pullRequests?: TypesPullReq[]
 ): BranchData[] => {
   return branches.map((branch, index) => {
     const { ahead, behind } = divergence?.[index] || {}
@@ -29,7 +31,8 @@ export const transformBranchList = (
         behind: behind || 0,
         ahead: ahead || 0,
         default: defaultBranch === branch.name || branch.is_default || false
-      }
+      },
+      pullRequests: pullRequests?.filter((pr: TypesPullReq) => pr?.source_branch === branch.name) || []
     }
   })
 }

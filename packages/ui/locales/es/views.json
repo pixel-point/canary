@@ -78,11 +78,12 @@
     "checkStatus": "Check status",
     "behind": "Behind",
     "ahead": "Ahead",
-    "commit": "Commit",
+    "pullRequest": "Pull Request",
     "createBranch": "Create branch",
     "newPullReq": "New pull request",
     "viewRules": "View Rules",
     "renameBranch": "Rename Branch",
+    "deleteBranch": "Delete Branch",
     "repositories": "",
     "create-repository": "",
     "import-repository": "Import repository",
@@ -123,7 +124,8 @@
     "generateCredential": "Please generate a clone credential if its your first time.",
     "addFile": "Add file",
     "readme": "README.md",
-    "openPullReq": "Open pull requests"
+    "openPullReq": "Open pull requests",
+    "commit": "Commit"
   },
   "createProject": {
     "newProject": "Create your new project",
@@ -152,6 +154,7 @@
     "unified": "",
     "viewed": "",
     "deleted": "",
+    "deletedComment": "",
     "commits": ""
   },
   "noData": {

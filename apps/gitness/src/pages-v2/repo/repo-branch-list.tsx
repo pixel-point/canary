@@ -2,13 +2,15 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { useQueryClient } from '@tanstack/react-query'
+import isEqual from 'lodash-es/isEqual'
 import { parseAsInteger, useQueryState } from 'nuqs'
 
 import {
   useCalculateCommitDivergenceMutation,
   useCreateBranchMutation,
   useFindRepositoryQuery,
-  useListBranchesQuery
+  useListBranchesQuery,
+  useListPullReqQuery
 } from '@harnessio/code-service-client'
 import { CreateBranchFormFields, RepoBranchListView } from '@harnessio/ui/views'
 
@@ -57,6 +59,8 @@ export function RepoBranchesListPage() {
       }
     )
 
+  const { data: { body: pullReqs = [] } = {} } = useListPullReqQuery({ repo_ref: repoRef, queryParams: {} })
+
   const { mutateAsync: saveBranch, isLoading: isCreatingBranch, error: createBranchError } = useCreateBranchMutation({})
 
   const onSubmit = async (formValues: CreateBranchFormFields) => {
@@ -96,10 +100,16 @@ export function RepoBranchesListPage() {
   }, [spaceId, repoId, setSpaceIdAndRepoId])
 
   useEffect(() => {
-    if (branches) {
-      setBranchList(transformBranchList(branches, repoMetadata?.default_branch, branchDivergence))
+    if (!branches) return
+
+    const newList = transformBranchList(branches, repoMetadata?.default_branch, branchDivergence, pullReqs)
+
+    const currentList = useRepoBranchesStore.getState().branchList
+
+    if (!isEqual(currentList, newList)) {
+      setBranchList(newList)
     }
-  }, [branches, repoMetadata?.default_branch, setBranchList])
+  }, [branches, repoMetadata?.default_branch, branchDivergence, pullReqs])
 
   useEffect(() => {
     setDefaultBranch(repoMetadata?.default_branch || '')

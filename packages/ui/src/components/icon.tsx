@@ -101,6 +101,7 @@ import NoDataMerge from '../icons/lists-data-icons/no-data-merge.svg'
 import NoRepository from '../icons/lists-data-icons/no-data-repository.svg'
 import NoDataWebhooks from '../icons/lists-data-icons/no-data-webhooks.svg'
 import NoSearchMagnifyingGlass from '../icons/lists-data-icons/no-search-magnifying-glass.svg'
+import Lock from '../icons/lock.svg'
 import LogOut from '../icons/log-out-icon.svg'
 import HarnessLogoGradientEllipse from '../icons/logo-gradient-ellipse.svg'
 import HarnessLogoGradient from '../icons/logo-gradient.svg'
@@ -345,7 +346,8 @@ const IconNameMap = {
   list: List,
   checklist: Checklist,
   italicize: Italicize,
-  'no-data-commits': NoDataCommits
+  'no-data-commits': NoDataCommits,
+  lock: Lock
   // fork: Fork
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>
 

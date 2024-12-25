@@ -78,11 +78,12 @@
     "checkStatus": "Vérifier le statut",
     "behind": "En retard",
     "ahead": "En avance",
-    "commit": "Validation",
+    "pullRequest": "Pull Request",
     "createBranch": "Créer une branche",
     "newPullReq": "Nouvelle requête de tirage",
     "viewRules": "Voir les règles",
     "renameBranch": "Renommer la branche",
+    "deleteBranch": "Delete Branch",
     "repositories": "Dépôts",
     "create-repository": "Créer un dépôt",
     "import-repository": "Importer un dépôt",
@@ -123,7 +124,8 @@
     "generateCredential": "Veuillez générer un identifiant de clonage si c'est votre première fois.",
     "addFile": "Ajouter un fichier",
     "readme": "README.md",
-    "openPullReq": "Requêtes de tirage ouvertes"
+    "openPullReq": "Requêtes de tirage ouvertes",
+    "commit": "Validation"
   },
   "createProject": {
     "newProject": "Créez votre nouveau projet",
