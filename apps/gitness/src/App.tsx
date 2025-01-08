@@ -9,6 +9,7 @@ import { CodeServiceAPIClient } from '@harnessio/code-service-client'
 
 import { AppProvider } from './framework/context/AppContext'
 import { ExitConfirmProvider } from './framework/context/ExitConfirmContext'
+import { NavigationProvider } from './framework/context/NavigationContext'
 import { ThemeProvider } from './framework/context/ThemeContext'
 import { queryClient } from './framework/queryClient'
 import i18n from './i18n/i18n'
@@ -40,7 +41,9 @@ export default function AppV1() {
             <TooltipProvider>
               <ExitConfirmProvider>
                 <NuqsAdapter>
-                  <RouterProvider router={router} />
+                  <NavigationProvider routes={routes}>
+                    <RouterProvider router={router} />
+                  </NavigationProvider>
                 </NuqsAdapter>
               </ExitConfirmProvider>
             </TooltipProvider>

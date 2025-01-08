@@ -1,4 +1,4 @@
-import { Navigate, Params, RouteObject } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 import { BreadcrumbSeparator, Text } from '@harnessio/ui/components'
 import { EmptyPage, RepoSettingsPage, SandboxLayout } from '@harnessio/ui/views'
@@ -6,6 +6,7 @@ import { EmptyPage, RepoSettingsPage, SandboxLayout } from '@harnessio/ui/views'
 import AppShell from './components-v2/app-shell'
 import { ProjectDropdown } from './components-v2/breadcrumbs/project-dropdown'
 import { ExplorerPathsProvider } from './framework/context/ExplorerPathsContext'
+import { CustomRouteObject, RouteConstants } from './framework/routing/types'
 import { useTranslationStore } from './i18n/stores/i18n-store'
 import CreateProject from './pages-v2/create-project/create-project-container'
 import { LandingPage } from './pages-v2/landing-page-container'
@@ -43,16 +44,6 @@ import { SignUp } from './pages-v2/signup'
 import { UserManagementPageContainer } from './pages-v2/user-management/user-management-container'
 import { CreateWebhookContainer } from './pages-v2/webhooks/create-webhook-container'
 import WebhookListPage from './pages-v2/webhooks/webhook-list'
-
-// Define a custom handle with the breadcrumb property
-export interface CustomHandle {
-  breadcrumb?: (params: Params<string>) => string
-}
-
-// Create a new type by intersecting RouteObject with the custom handle
-type CustomRouteObject = RouteObject & {
-  handle?: CustomHandle
-}
 
 export const routes: CustomRouteObject[] = [
   {
@@ -99,21 +90,24 @@ export const routes: CustomRouteObject[] = [
                     path: 'summary',
                     element: <RepoSummaryPage />,
                     handle: {
-                      breadcrumb: () => <Text>Summary</Text>
+                      breadcrumb: () => <Text>Summary</Text>,
+                      routeName: RouteConstants.toRepoSummary
                     }
                   },
                   {
                     path: 'commits',
                     element: <RepoCommitsPage />,
                     handle: {
-                      breadcrumb: () => <Text>Commits</Text>
+                      breadcrumb: () => <Text>Commits</Text>,
+                      routeName: RouteConstants.toRepoCommits
                     }
                   },
                   {
                     path: 'branches',
                     element: <RepoBranchesListPage />,
                     handle: {
-                      breadcrumb: () => <Text>Branches</Text>
+                      breadcrumb: () => <Text>Branches</Text>,
+                      routeName: RouteConstants.toRepoBranches
                     }
                   },
                   {
@@ -124,7 +118,8 @@ export const routes: CustomRouteObject[] = [
                       </ExplorerPathsProvider>
                     ),
                     handle: {
-                      breadcrumb: () => <Text>Files</Text>
+                      breadcrumb: () => <Text>Files</Text>,
+                      routeName: RouteConstants.toRepoFiles
                     },
                     children: [
                       {
