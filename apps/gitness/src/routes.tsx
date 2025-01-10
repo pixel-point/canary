@@ -50,6 +50,7 @@ export const routes: CustomRouteObject[] = [
   {
     path: '/',
     element: <AppShell />,
+    handle: { routeName: 'toHome' },
     children: [
       {
         index: true,
@@ -196,7 +197,8 @@ export const routes: CustomRouteObject[] = [
           {
             path: 'repos',
             handle: {
-              breadcrumb: () => <Text>Repositories</Text>
+              breadcrumb: () => <Text>Repositories</Text>,
+              routeName: RouteConstants.toRepositories
             },
             children: [
               { index: true, element: <ReposListPage /> },
@@ -268,13 +270,17 @@ export const routes: CustomRouteObject[] = [
                   {
                     path: 'pulls',
                     handle: {
-                      breadcrumb: () => <Text>Pull Requests</Text>
+                      breadcrumb: () => <Text>Pull Requests</Text>,
+                      routeName: RouteConstants.toPullRequests
                     },
                     children: [
                       { index: true, element: <PullRequestListPage /> },
                       {
                         path: 'compare/:diffRefs*?',
-                        element: <CreatePullRequest />
+                        element: <CreatePullRequest />,
+                        handle: {
+                          routeName: RouteConstants.toPullRequestCompare
+                        }
                       },
                       {
                         path: ':pullRequestId',
@@ -341,8 +347,25 @@ export const routes: CustomRouteObject[] = [
                             path: 'edit',
                             element: <PipelineEditPage />,
                             handle: {
-                              breadcrumb: () => <Text>Edit</Text>
+                              breadcrumb: () => <Text>Edit</Text>,
+                              routeName: RouteConstants.toPipelineEdit
                             }
+                          },
+                          {
+                            path: 'executions',
+                            handle: {
+                              routeName: RouteConstants.toPipelineExecutions
+                            },
+                            children: [
+                              {
+                                path: ':executionId',
+                                element: <>Execution Details Page</>,
+                                handle: {
+                                  breadcrumb: ({ executionId }: { executionId: string }) => <Text>{executionId}</Text>,
+                                  routeName: RouteConstants.toPipelineExecution
+                                }
+                              }
+                            ]
                           }
                         ]
                       }
@@ -363,7 +386,8 @@ export const routes: CustomRouteObject[] = [
                         path: 'general',
                         element: <RepoSettingsGeneralPageContainer />,
                         handle: {
-                          breadcrumb: () => <Text>General</Text>
+                          breadcrumb: () => <Text>General</Text>,
+                          routeName: RouteConstants.toRepoGeneralSettings
                         }
                       },
                       {
@@ -379,14 +403,18 @@ export const routes: CustomRouteObject[] = [
                         children: [
                           {
                             path: ':identifier',
-                            element: <RepoBranchSettingsRulesPageContainer />
+                            element: <RepoBranchSettingsRulesPageContainer />,
+                            handle: {
+                              routeName: RouteConstants.toRepoBranchRule
+                            }
                           }
                         ]
                       },
                       {
                         path: 'webhooks',
                         handle: {
-                          breadcrumb: () => <Text>Webhooks</Text>
+                          breadcrumb: () => <Text>Webhooks</Text>,
+                          routeName: RouteConstants.toRepoWebhooks
                         },
                         children: [
                           {
@@ -501,7 +529,8 @@ export const routes: CustomRouteObject[] = [
   },
   {
     path: 'signin',
-    element: <SignIn />
+    element: <SignIn />,
+    handle: { routeName: RouteConstants.toSignIn }
   },
   {
     path: 'signup',
