@@ -124,8 +124,8 @@ export function RepoSummaryView({
   }
 
   return (
-    <SandboxLayout.Main fullWidth>
-      <SandboxLayout.Columns className="mx-auto w-fit" columnWidths="976px 280px">
+    <SandboxLayout.Main>
+      <SandboxLayout.Columns columnWidths="1fr 256px">
         <SandboxLayout.Column>
           <SandboxLayout.Content className="pl-6">
             {/*

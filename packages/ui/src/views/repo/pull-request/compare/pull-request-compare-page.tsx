@@ -155,7 +155,7 @@ export const PullRequestComparePage: FC<PullRequestComparePageProps> = ({
     return review_decision
   }
   return (
-    <SandboxLayout.Main fullWidth>
+    <SandboxLayout.Main>
       <SandboxLayout.Content className="px-20">
         <span className="mt-7 text-24 font-medium leading-snug tracking-tight text-foreground-1">
           {t('views:pullRequests.compareChanges', 'Comparing changes')}
@@ -305,7 +305,7 @@ export const PullRequestComparePage: FC<PullRequestComparePageProps> = ({
         {isBranchSelected ? (
           <Layout.Vertical className="mt-10">
             <Tabs variant="tabnav" value={prBranchCombinationExists ? 'commits' : 'overview'}>
-              <TabsList className="relative left-1/2 w-[calc(100%+160px)] -translate-x-1/2 px-20">
+              <TabsList className="relative left-1/2 w-[calc(100%+160px)] -translate-x-1/2 px-20 before:bg-borders-4">
                 {!prBranchCombinationExists && (
                   <TabTriggerItem
                     value="overview"
