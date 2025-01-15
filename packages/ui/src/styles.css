@@ -199,7 +199,11 @@
     --canary-code-background-08: var(--canary-blue) / 0.1;
 
     /* Gradient colors */
-    --tab-gradient-radial: radial-gradient(50% 50% at 50% 50%, hsl(240deg 6% 20%/40%), hsl(240deg 6% 20%/0%));
+    --canary-tab-background-gradient: radial-gradient(
+      50% 50% at 50% 50%,
+      hsl(240deg 6% 20%/40%),
+      hsl(240deg 6% 20%/0%)
+    );
   }
   .dark-tri-std {
     --canary-background: var(--canary-grey-6);
@@ -362,7 +366,11 @@
     --canary-code-background-08: var(--canary-blue) / 0.1;
 
     /* Gradient colors */
-    --tab-gradient-radial: radial-gradient(50% 50% at 50% 50%, hsl(240deg 6% 20%/40%), hsl(240deg 6% 20%/0%));
+    --canary-tab-background-gradient: radial-gradient(
+      50% 50% at 50% 50%,
+      hsl(240deg 6% 20%/40%),
+      hsl(240deg 6% 20%/0%)
+    );
   }
   .light-pnd-std {
     --canary-background: 0 0% 100%;
@@ -544,7 +552,11 @@
     --canary-code-background-08: var(--canary-blue) / 0.1;
 
     /* Gradient colors */
-    --tab-gradient-radial: radial-gradient(50% 50% at 50% 50%, hsl(240deg 6% 20%/40%), hsl(240deg 6% 20%/0%));
+    --canary-tab-background-gradient: radial-gradient(
+      50% 50% at 50% 50%,
+      hsl(240deg 6% 20%/40%),
+      hsl(240deg 6% 20%/0%)
+    );
   }
   .dark-pnd-std {
     --canary-background: var(--canary-grey-6);
@@ -707,7 +719,11 @@
     --canary-code-background-08: var(--canary-blue) / 0.1;
 
     /* Gradient colors */
-    --tab-gradient-radial: radial-gradient(50% 50% at 50% 50%, hsl(240deg 6% 20%/40%), hsl(240deg 6% 20%/0%));
+    --canary-tab-background-gradient: radial-gradient(
+      50% 50% at 50% 50%,
+      hsl(240deg 6% 20%/40%),
+      hsl(240deg 6% 20%/0%)
+    );
   }
 }
 
@@ -1139,7 +1155,7 @@ mark {
 }
 
 .bg-tab-gradient-radial {
-  background-image: var(--tab-gradient-radial);
+  background-image: var(--canary-tab-background-gradient);
 }
 
 .top-\[100px\] {
