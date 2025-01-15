@@ -15,6 +15,7 @@ import { DiffModeEnum } from '@git-diff-view/react'
 import {
   CommentItem,
   CommitFilterItemProps,
+  CommitSuggestion,
   FileViewedState,
   getFileViewedState,
   TranslationStore,
@@ -62,6 +63,14 @@ interface DataProps {
   unmarkViewed: (filePath: string) => void
   commentId?: string
   onCopyClick?: (commentId?: number) => void
+  onCommentSaveAndStatusChange?: (comment: string, status: string, parentId?: number) => void
+  suggestionsBatch: CommitSuggestion[]
+  onCommitSuggestion: (suggestion: CommitSuggestion) => void
+  addSuggestionToBatch: (suggestion: CommitSuggestion) => void
+  removeSuggestionFromBatch: (commentId: number) => void
+  filenameToLanguage: (fileName: string) => string | undefined
+  toggleConversationStatus: (status: string, parentId?: number) => void
+  handleUpload?: (blob: File, setMarkdownContent: (data: string) => void) => void
 }
 
 const LineTitle: React.FC<LineTitleProps> = ({
@@ -150,6 +159,14 @@ const PullRequestAccordion: React.FC<{
   commentId?: string
   autoExpand?: boolean
   onCopyClick?: (commentId?: number) => void
+  onCommentSaveAndStatusChange?: (comment: string, status: string, parentId?: number) => void
+  suggestionsBatch: CommitSuggestion[]
+  onCommitSuggestion: (suggestion: CommitSuggestion) => void
+  addSuggestionToBatch: (suggestion: CommitSuggestion) => void
+  removeSuggestionFromBatch: (commentId: number) => void
+  filenameToLanguage: (fileName: string) => string | undefined
+  toggleConversationStatus: (status: string, parentId?: number) => void
+  handleUpload?: (blob: File, setMarkdownContent: (data: string) => void) => void
 }> = ({
   header,
   diffMode,
@@ -165,7 +182,15 @@ const PullRequestAccordion: React.FC<{
   unmarkViewed,
   commentId,
   autoExpand,
-  onCopyClick
+  onCopyClick,
+  onCommentSaveAndStatusChange,
+  suggestionsBatch,
+  onCommitSuggestion,
+  addSuggestionToBatch,
+  removeSuggestionFromBatch,
+  filenameToLanguage,
+  toggleConversationStatus,
+  handleUpload
 }) => {
   const { highlight, wrap, fontsize } = useDiffConfig()
 
@@ -246,6 +271,7 @@ const PullRequestAccordion: React.FC<{
                     </div>
                   ) : null}
                   <PullRequestDiffViewer
+                    handleUpload={handleUpload}
                     data={header?.data}
                     fontsize={fontsize}
                     highlight={highlight}
@@ -262,6 +288,13 @@ const PullRequestAccordion: React.FC<{
                     useTranslationStore={useTranslationStore}
                     commentId={commentId}
                     onCopyClick={onCopyClick}
+                    onCommentSaveAndStatusChange={onCommentSaveAndStatusChange}
+                    onCommitSuggestion={onCommitSuggestion}
+                    addSuggestionToBatch={addSuggestionToBatch}
+                    suggestionsBatch={suggestionsBatch}
+                    removeSuggestionFromBatch={removeSuggestionFromBatch}
+                    filenameToLanguage={filenameToLanguage}
+                    toggleConversationStatus={toggleConversationStatus}
                   />
                 </div>
               </div>
@@ -287,7 +320,15 @@ export function PullRequestChanges({
   markViewed,
   unmarkViewed,
   commentId,
-  onCopyClick
+  onCopyClick,
+  onCommentSaveAndStatusChange,
+  suggestionsBatch,
+  onCommitSuggestion,
+  addSuggestionToBatch,
+  removeSuggestionFromBatch,
+  filenameToLanguage,
+  toggleConversationStatus,
+  handleUpload
 }: DataProps) {
   const [autoExpandFiles, setAutoExpandFiles] = useState<{ [fileText: string]: boolean }>({})
 
@@ -324,6 +365,7 @@ export function PullRequestChanges({
 
         return (
           <PullRequestAccordion
+            handleUpload={handleUpload}
             key={`${item.title}-${index}`}
             header={item}
             diffMode={diffMode}
@@ -340,6 +382,13 @@ export function PullRequestChanges({
             commentId={commentId}
             autoExpand={!!autoExpandFiles[item.text]}
             onCopyClick={onCopyClick}
+            onCommentSaveAndStatusChange={onCommentSaveAndStatusChange}
+            onCommitSuggestion={onCommitSuggestion}
+            addSuggestionToBatch={addSuggestionToBatch}
+            suggestionsBatch={suggestionsBatch}
+            removeSuggestionFromBatch={removeSuggestionFromBatch}
+            filenameToLanguage={filenameToLanguage}
+            toggleConversationStatus={toggleConversationStatus}
           />
         )
       })}

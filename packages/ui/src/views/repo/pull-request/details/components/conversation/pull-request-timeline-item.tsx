@@ -1,4 +1,4 @@
-import { memo, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 
 import {
   Avatar,
@@ -43,17 +43,23 @@ interface TimelineItemProps {
   titleClassName?: string
   handleSaveComment?: (comment: string, parentId?: number) => void
   onEditClick?: () => void
-  onCopyClick?: (commentId?: number) => void
+  onCopyClick?: (commentId?: number, isNotCodeComment?: boolean) => void
   isEditMode?: boolean
   handleDeleteComment?: () => void
   isDeleted?: boolean
+  isNotCodeComment?: boolean
   hideReplyBox?: boolean
   setHideReplyBox?: (state: boolean) => void
   id?: string
+  isResolved?: boolean
+  toggleConversationStatus?: (status: string, parentId?: number) => void
+  onCommentSaveAndStatusChange?: (comment: string, status: string, parentId?: number) => void
+  data?: string
+  handleUpload?: (blob: File, setMarkdownContent: (data: string) => void) => void
 }
 
 interface ItemHeaderProps {
-  handleReplyBox: (state: boolean) => void
+  handleReplyBox: (content: string, state: boolean) => void
   avatar?: React.ReactNode
   name?: string
   isComment?: boolean
@@ -62,10 +68,11 @@ interface ItemHeaderProps {
   setComment?: React.Dispatch<React.SetStateAction<string>>
   selectStatus?: React.ReactNode
   onEditClick?: () => void
-  onCopyClick?: (commentId?: number) => void
+  onCopyClick?: (commentId?: number, isNotCodeComment?: boolean) => void
   commentId?: number
   handleDeleteComment?: () => void
   isDeleted?: boolean
+  isNotCodeComment?: boolean
 }
 const CRLF = '\n'
 
@@ -82,7 +89,9 @@ const ItemHeader: React.FC<ItemHeaderProps> = memo(
     selectStatus,
     isComment,
     handleDeleteComment,
-    isDeleted = false
+    isDeleted = false,
+    isNotCodeComment = false,
+    comment
   }) => {
     const moreTooltip = () => {
       return (
@@ -101,7 +110,10 @@ const ItemHeader: React.FC<ItemHeaderProps> = memo(
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={e => {
-                    handleReplyBox(true)
+                    if (comment) {
+                      handleReplyBox(comment, true)
+                    }
+
                     e.stopPropagation()
                   }}
                   className="cursor-pointer"
@@ -109,7 +121,7 @@ const ItemHeader: React.FC<ItemHeaderProps> = memo(
                   <DropdownMenuShortcut className="ml-0"></DropdownMenuShortcut>
                   {'Quote reply'}
                 </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer" onClick={() => onCopyClick?.(commentId)}>
+                <DropdownMenuItem className="cursor-pointer" onClick={() => onCopyClick?.(commentId, isNotCodeComment)}>
                   <DropdownMenuShortcut className="ml-0"></DropdownMenuShortcut>
                   {'Copy Link'}
                 </DropdownMenuItem>
@@ -183,23 +195,37 @@ const PullRequestTimelineItem: React.FC<TimelineItemProps> = ({
   hideReplyBox,
   setHideReplyBox,
   currentUser,
-  id
+  id,
+  isResolved,
+  toggleConversationStatus,
+  onCommentSaveAndStatusChange,
+  isNotCodeComment,
+  data,
+  handleUpload
 }) => {
-  const [comment, setComment] = useState<string>('')
-  const onQuote = (content: string) => {
-    // TODO: Handle quote logic
-    const replyContent = content
-      .split(CRLF)
-      .map(line => `> ${line}`)
-      .concat([CRLF])
-      .join(CRLF)
-    setComment(replyContent)
-  }
+  const [quoteData, setQuoteData] = useState<string>('')
+  const [comment, setComment] = useState<string>(quoteData ? quoteData : '')
 
-  const handleReplyBox = (state: boolean) => {
+  const handleReplyBox = (content: string, state: boolean) => {
+    setComment(content)
     setHideReplyBox?.(state)
-    onQuote('t')
+
+    if (data) {
+      setQuoteData(content)
+    }
   }
+  useEffect(() => {
+    if (quoteData) {
+      const replyContent = quoteData
+        .split(CRLF)
+        .map(line => `> ${line}`)
+        .concat([CRLF])
+        .join(CRLF)
+
+      setComment(replyContent)
+    }
+  }, [hideReplyBox, setQuoteData])
+
   return (
     <div id={id}>
       <NodeGroup.Root>
@@ -213,8 +239,9 @@ const PullRequestTimelineItem: React.FC<TimelineItemProps> = ({
               setComment={setComment}
               onEditClick={onEditClick}
               onCopyClick={onCopyClick}
-              comment={comment}
+              comment={data}
               isComment={isComment}
+              isNotCodeComment={isNotCodeComment}
               handleDeleteComment={handleDeleteComment}
               commentId={commentId}
               {...header[0]}
@@ -226,8 +253,8 @@ const PullRequestTimelineItem: React.FC<TimelineItemProps> = ({
             <Card className={cn('rounded-md bg-transparent', contentClassName)}>
               {isEditMode ? (
                 <PullRequestCommentBox
+                  handleUpload={handleUpload}
                   isEditMode
-                  inReplyMode
                   onSaveComment={() => {
                     handleSaveComment?.(comment, parentCommentId)
                     setComment('')
@@ -236,6 +263,7 @@ const PullRequestTimelineItem: React.FC<TimelineItemProps> = ({
                   onCancelClick={() => {
                     setComment('')
                   }}
+                  isResolved={isResolved}
                   comment={comment}
                   setComment={setComment}
                 />
@@ -245,42 +273,60 @@ const PullRequestTimelineItem: React.FC<TimelineItemProps> = ({
               {!hideReply && (
                 <>
                   {hideReplyBox ? (
-                    <PullRequestCommentBox
-                      inReplyMode
-                      onSaveComment={() => {
-                        handleSaveComment?.(comment, parentCommentId)
-                        setHideReplyBox?.(false)
-                      }}
-                      currentUser={currentUser}
-                      onCancelClick={() => {
-                        setHideReplyBox?.(false)
-                      }}
-                      comment={comment}
-                      setComment={setComment}
-                    />
-                  ) : (
-                    <div className={cn('flex items-center gap-3 border-t', replyBoxClassName)}>
-                      {currentUser ? (
-                        <Avatar className="size-6 rounded-full p-0">
-                          <AvatarFallback>
-                            <Text size={1} color="tertiaryBackground">
-                              {getInitials(currentUser ?? '', 2)}
-                            </Text>
-                          </AvatarFallback>
-                        </Avatar>
-                      ) : null}
-                      <Input
-                        value={comment}
-                        placeholder="Reply here"
-                        size="md"
-                        onClick={() => {
-                          setHideReplyBox?.(true)
+                    <div className="flex w-full flex-col px-4">
+                      <PullRequestCommentBox
+                        handleUpload={handleUpload}
+                        inReplyMode
+                        onSaveComment={() => {
+                          handleSaveComment?.(comment, parentCommentId)
+                          setHideReplyBox?.(false)
                         }}
-                        onChange={e => {
-                          setComment(e.target.value)
+                        currentUser={currentUser}
+                        onCancelClick={() => {
+                          setHideReplyBox?.(false)
                         }}
+                        comment={comment}
+                        isResolved={isResolved}
+                        setComment={setComment}
+                        parentCommentId={parentCommentId}
+                        onCommentSaveAndStatusChange={onCommentSaveAndStatusChange}
                       />
                     </div>
+                  ) : (
+                    <>
+                      <div className={cn('flex items-center gap-3 border-t', replyBoxClassName)}>
+                        {currentUser ? (
+                          <Avatar className="size-6 rounded-full p-0">
+                            <AvatarFallback>
+                              <Text size={1} color="tertiaryBackground">
+                                {getInitials(currentUser ?? '', 2)}
+                              </Text>
+                            </AvatarFallback>
+                          </Avatar>
+                        ) : null}
+                        <Input
+                          value={comment}
+                          placeholder="Reply here"
+                          size="md"
+                          onClick={() => {
+                            setHideReplyBox?.(true)
+                          }}
+                          onChange={e => {
+                            setComment(e.target.value)
+                          }}
+                        />
+                      </div>
+                      <div className={cn('flex gap-3 border-t', replyBoxClassName)}>
+                        <Button
+                          variant={'outline'}
+                          onClick={() => {
+                            toggleConversationStatus?.(isResolved ? 'active' : 'resolved', parentCommentId)
+                          }}
+                        >
+                          {isResolved ? 'Reactivate' : 'Resolve Conversation'}
+                        </Button>
+                      </div>
+                    </>
                   )}
                 </>
               )}

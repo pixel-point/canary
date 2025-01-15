@@ -1,7 +1,7 @@
-import { useMemo } from 'react'
+import { useCallback, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import { Badge, Icon } from '@components/index'
+import { Badge, Button, Icon, Layout, Text } from '@components/index'
 import { timeAgo } from '@utils/utils'
 
 import { IconType } from '../pull-request.types'
@@ -22,7 +22,9 @@ interface PullRequestTitleProps {
     state?: string
     spaceId?: string
     repoId?: string
+    description?: string
   }
+  updateTitle: (title: string, description: string) => Promise<void>
 }
 
 export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
@@ -38,21 +40,87 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
     is_draft,
     state,
     spaceId,
-    repoId
-  }
+    repoId,
+    description
+  },
+  updateTitle
 }) => {
-  const [original] = useMemo(() => [title], [title])
-
+  const [original, setOriginal] = useState(title)
+  const [edit, setEdit] = useState(false)
+  const [val, setVal] = useState(title)
+  const [err, setError] = useState('')
   // Format the parsed date as relative time from now
   const formattedTime = timeAgo(created || 0)
 
   const stateObject = getPrState(is_draft, merged, state)
+  const submitChange = useCallback(() => {
+    if (val && description) {
+      updateTitle(val, description)
+        .then(() => {
+          setEdit(false)
+          setOriginal(val)
+        })
+        .catch(exception => setError(exception))
+    }
+  }, [description, val, updateTitle])
   return (
     <div className="flex flex-col gap-y-4">
       <div className="flex items-center">
-        <h1 className="text-foreground-1 font-medium text-24 flex gap-x-2.5">
-          {original}
-          <span className="font-normal text-foreground-4">#{number}</span>
+        <h1 className="flex items-center gap-x-2.5 text-24 font-medium text-foreground-1">
+          {!edit && original}
+          {!edit && <span className="font-normal text-foreground-4">#{number}</span>}
+          {edit ? (
+            <Layout.Horizontal>
+              <input
+                className="rounded-md border  bg-primary-background hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                // wrapperClassName={css.input}
+                value={val}
+                onFocus={event => event.target.select()}
+                onInput={event => setVal(event.currentTarget.value)}
+                autoFocus
+                onKeyDown={event => {
+                  switch (event.key) {
+                    case 'Enter':
+                      submitChange()
+                      break
+                    case 'Escape': // does not work, maybe TextInput cancels ESC?
+                      setEdit(false)
+                      break
+                  }
+                }}
+              />
+              <Button
+                variant={'default'}
+                size={'sm'}
+                disabled={(val || '').trim().length === 0 || title === val}
+                onClick={submitChange}
+              >
+                Save
+              </Button>
+              <Button
+                variant={'secondary'}
+                size={'sm'}
+                onClick={() => {
+                  setEdit(false)
+                  setVal(title)
+                }}
+              >
+                Cancel
+              </Button>
+            </Layout.Horizontal>
+          ) : (
+            <Button
+              size="icon"
+              variant="custom"
+              aria-label="Edit"
+              onClick={() => {
+                setEdit(true)
+              }}
+            >
+              <Icon name="edit-pen" size={16} className="text-foreground-4" />
+            </Button>
+          )}
+          {err && <Text className="text-destructive">{err}</Text>}
         </h1>
       </div>
 
@@ -70,19 +138,25 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
           </span>
           <span>into</span>
           <Badge variant="tertiary" size="md" borderRadius="base">
-            <Link className="flex items-center gap-x-1" to={`/${spaceId}/repos/${repoId}/code/${target_branch}`}>
+            <Link
+              className="flex items-center gap-x-1"
+              to={`${spaceId ? `/${spaceId}` : ''}/repos/${repoId}/code/${target_branch}`}
+            >
               <Icon name="branch" size={12} className="text-icons-9" />
               {target_branch}
             </Link>
           </Badge>
           <span>from</span>
           <Badge variant="tertiary" size="md" borderRadius="base">
-            <Link className="flex items-center gap-x-1" to={`/${spaceId}/repos/${repoId}/code/${source_branch}`}>
+            <Link
+              className="flex items-center gap-x-1"
+              to={`${spaceId ? `/${spaceId}` : ''}/repos/${repoId}/code/${source_branch}`}
+            >
               <Icon name="branch" size={12} className="text-icons-9" />
               {source_branch}
             </Link>
           </Badge>
-          <span className="w-px h-4 mx-1.5 bg-borders-2" />
+          <span className="mx-1.5 h-4 w-px bg-borders-2" />
           <span className="text-foreground-4">{formattedTime}</span>
         </div>
       </div>

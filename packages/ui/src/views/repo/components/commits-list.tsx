@@ -1,4 +1,5 @@
 import { FC, useMemo } from 'react'
+import { Link } from 'react-router-dom'
 
 import { Avatar, AvatarFallback, CommitCopyActions, NodeGroup, StackedList } from '@/components'
 import { formatDate, getInitials } from '@/utils/utils'
@@ -8,9 +9,10 @@ type CommitsGroupedByDate = Record<string, TypesCommit[]>
 
 interface CommitProps {
   data?: TypesCommit[]
+  commitsPath?: string
 }
 
-export const CommitsList: FC<CommitProps> = ({ data }) => {
+export const CommitsList: FC<CommitProps> = ({ data, commitsPath }) => {
   const entries = useMemo(() => {
     const commitsGroupedByDate = !data
       ? {}
@@ -46,7 +48,16 @@ export const CommitsList: FC<CommitProps> = ({ data }) => {
                       <StackedList.Field
                         title={
                           <div className="flex flex-col gap-y-1.5">
-                            <span className="truncate text-16 font-medium leading-snug">{commit.title}</span>
+                            {commitsPath ? (
+                              <Link
+                                className="truncate text-16 font-medium leading-snug"
+                                to={`${commitsPath}/${commit?.sha}`}
+                              >
+                                {commit.title}
+                              </Link>
+                            ) : (
+                              <span className="truncate text-16 font-medium leading-snug">{commit.title}</span>
+                            )}
                             <div className="flex items-center gap-x-1.5">
                               {authorName && (
                                 <Avatar className="size-[18px]">

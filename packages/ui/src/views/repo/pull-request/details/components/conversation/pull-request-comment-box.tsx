@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
 import {
   Avatar,
@@ -10,9 +10,11 @@ import {
   TabsList,
   TabsTrigger,
   Textarea
-} from '@components/index'
+} from '@/components'
 import { cn } from '@utils/cn'
 import { getInitials } from '@utils/stringUtils'
+
+import { handleFileDrop, handlePaste } from '../../pull-request-utils'
 
 // TODO: add back when functionality is added
 // import { ToolbarAction } from '../../pull-request-details-types'
@@ -35,6 +37,10 @@ interface PullRequestCommentBoxProps {
   inReplyMode?: boolean
   isEditMode?: boolean
   onCancelClick?: () => void
+  isResolved?: boolean
+  onCommentSaveAndStatusChange?: (comment: string, status: string, parentId?: number) => void
+  parentCommentId?: number
+  handleUpload?: (blob: File, setMarkdownContent: (data: string) => void) => void
 }
 
 //  TODO: will have to eventually implement a commenting and reply system similiar to gitness
@@ -45,8 +51,14 @@ const PullRequestCommentBox = ({
   onCancelClick,
   comment,
   setComment,
-  isEditMode
+  isEditMode,
+  isResolved,
+  onCommentSaveAndStatusChange,
+  parentCommentId,
+  handleUpload
 }: PullRequestCommentBoxProps) => {
+  const [__file, setFile] = useState<File>()
+
   const handleSaveComment = () => {
     if (comment.trim()) {
       onSaveComment(comment)
@@ -79,10 +91,23 @@ const PullRequestCommentBox = ({
   //    { icon: 'code', action: ToolbarAction.CODE_BLOCK }
   //  ]
   // }, [])
+  const handleUploadCallback = (file: File) => {
+    setFile(file)
+
+    handleUpload?.(file, setComment)
+  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleDropForUpload = async (event: any) => {
+    handleFileDrop(event, handleUploadCallback)
+  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handlePasteForUpload = (event: { preventDefault: () => void; clipboardData: any }) => {
+    handlePaste(event, handleUploadCallback)
+  }
 
   return (
     <div className="flex items-start space-x-4">
-      {!inReplyMode && avatar}
+      {!isEditMode && avatar}
       <div
         className={cn('min-w-0 flex-1 px-4 pb-5 pt-1.5', {
           'border rounded-md': !inReplyMode || isEditMode,
@@ -96,15 +121,38 @@ const PullRequestCommentBox = ({
           </TabsList>
 
           <TabsContent className="mt-4" value="write">
-            <div className="relative">
+            <div
+              onDrop={e => {
+                handleDropForUpload(e)
+              }}
+              onPaste={handlePasteForUpload}
+              className="relative gap-y-1"
+              onDragOver={event => {
+                event.preventDefault()
+              }}
+            >
               <Textarea
+                onDrop={e => {
+                  handleDropForUpload(e)
+                }}
+                onPaste={e => {
+                  if (e.clipboardData.files.length > 0) {
+                    handlePasteForUpload(e)
+                  } else {
+                    const pastedText = e.clipboardData.getData('Text')
+                    setComment(comment + pastedText)
+                  }
+                }}
                 className="min-h-24 p-3 pb-10"
-                autoFocus={inReplyMode}
+                autoFocus={!!inReplyMode}
                 placeholder="Add your comment here"
                 value={comment}
                 onChange={e => setComment(e.target.value)}
                 resizable
               />
+              <p className="pt-1 text-foreground-4">
+                Attach images & videos by dragging and dropping,selecting or pasting them.
+              </p>
 
               {/* TODO: add back when functionality is implemented */}
               {/* <div className="absolute pb-2 pt-1 px-1 bottom-px bg-background-1 left-1/2 w-[calc(100%-2px)] -translate-x-1/2 rounded">
@@ -125,7 +173,18 @@ const PullRequestCommentBox = ({
           </TabsContent>
         </Tabs>
         <div className="mt-4 flex items-center gap-x-3">
-          {!inReplyMode && <Button onClick={handleSaveComment}>Comment</Button>}
+          {!inReplyMode && !isEditMode ? (
+            <Button onClick={handleSaveComment}>Comment</Button>
+          ) : isEditMode ? (
+            <>
+              <Button onClick={handleSaveComment}>Save</Button>
+              <Button variant="outline" onClick={onCancelClick}>
+                Cancel
+              </Button>
+            </>
+          ) : (
+            <></>
+          )}
 
           {inReplyMode && (
             <>
@@ -134,9 +193,15 @@ const PullRequestCommentBox = ({
               ) : (
                 <Button onClick={handleSaveComment}>Reply</Button>
               )}
-              {/* <Button variant={'outline'} onClick={handleSaveComment}>
-              Reply & Resolve
-            </Button> */}
+              <Button
+                variant={'outline'}
+                onClick={() => {
+                  onCommentSaveAndStatusChange?.(comment, isResolved ? 'active' : 'resolved', parentCommentId)
+                  onCancelClick?.()
+                }}
+              >
+                {isResolved ? 'Reply & Reactivate' : 'Reply & Resolve'}
+              </Button>
               <Button variant="outline" onClick={onCancelClick}>
                 Cancel
               </Button>

@@ -154,6 +154,12 @@ export interface TypesPullReqStats {
   unresolved_count?: number
 }
 
+export interface PRReviewer {
+  reviewer: { display_name: string; id: number }
+  review_decision?: EnumPullReqReviewDecision
+  sha?: string
+}
+
 export interface TypesLabelPullReqAssignmentInfo {
   color?: EnumLabelColor
   id?: number
@@ -190,4 +196,9 @@ export interface CreateCommentPullReqRequest {
   source_commit_sha?: string
   target_commit_sha?: string
   text?: string
+}
+
+export interface CommitSuggestion {
+  check_sum: string
+  comment_id: number
 }

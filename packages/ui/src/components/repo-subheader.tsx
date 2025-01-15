@@ -16,7 +16,13 @@ export enum RepoTabsKeys {
 
 export const repoTabsKeysArr = Object.values(RepoTabsKeys)
 
-export const RepoSubheader = ({ useTranslationStore }: { useTranslationStore: () => TranslationStore }) => {
+export const RepoSubheader = ({
+  useTranslationStore,
+  showPipelinesTab = true
+}: {
+  useTranslationStore: () => TranslationStore
+  showPipelinesTab?: boolean
+}) => {
   const location = useLocation()
   const { t } = useTranslationStore()
 
@@ -43,11 +49,13 @@ export const RepoSubheader = ({ useTranslationStore }: { useTranslationStore: ()
               {t('views:repos.files', 'Files')}
             </TabsTrigger>
           </NavLink>
-          <NavLink to={RepoTabsKeys.PIPELINES}>
-            <TabsTrigger className="text-sm" value="pipelines">
-              {t('views:repos.pipelines', 'Pipelines')}
-            </TabsTrigger>
-          </NavLink>
+          {showPipelinesTab && (
+            <NavLink to={RepoTabsKeys.PIPELINES}>
+              <TabsTrigger className="text-sm" value="pipelines">
+                {t('views:repos.pipelines', 'Pipelines')}
+              </TabsTrigger>
+            </NavLink>
+          )}
           <NavLink to={RepoTabsKeys.COMMITS}>
             <TabsTrigger className="text-sm" value="commits">
               {t('views:repos.commits', 'Commits')}

@@ -5,6 +5,7 @@ export type PathParams = {
   executionId?: string
   pullRequestId?: string
   gitRef?: string
+  commitSHA?: string
   resourcePath?: string
   diffRefs?: string
   webhookId?: string
@@ -30,6 +31,7 @@ export interface AppRoutes {
   toPullRequestChanges: ({ spaceId, repoId, pullRequestId }: PullRequestRoutePathParams) => string
   toPullRequestChecks: ({ spaceId, repoId, pullRequestId }: PullRequestRoutePathParams) => string
   toPullRequestCompare: ({ spaceId, repoId, diffRefs }: PullRequestRoutePathParams) => string
+  toRepoCommits: ({ spaceId, repoId }: PathParams) => string
 }
 
 export const routes: AppRoutes = {
@@ -47,5 +49,6 @@ export const routes: AppRoutes = {
     const basePath = `${spaceId}/repos/${repoId}/pull-requests/compare`
     const diffPath = diffRefs ? diffRefs : ''
     return `${basePath}/${diffPath}`
-  }
+  },
+  toRepoCommits: ({ spaceId, repoId }: PathParams) => `/${spaceId}/repos/${repoId}/commits`
 }
