@@ -413,7 +413,7 @@ export const CreatePullRequest = () => {
         searchCommitQuery={query}
         useRepoCommitsStore={useRepoCommitsStore}
         repoId={repoId}
-        spaceId={spaceId}
+        spaceId={spaceId || ''}
         onSelectCommit={selectCommit}
         isBranchSelected={isBranchSelected}
         setIsBranchSelected={setIsBranchSelected}
