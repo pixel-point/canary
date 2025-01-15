@@ -1,3 +1,4 @@
+import { FC } from 'react'
 import { Link } from 'react-router-dom'
 
 import {
@@ -6,14 +7,13 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
   Icon
 } from '@/components'
 
 import { MoreActionsTooltipProps } from '../types'
 
-export const MoreActionsTooltip: React.FC<MoreActionsTooltipProps> = ({
+export const MoreActionsTooltip: FC<MoreActionsTooltipProps> = ({
   branchInfo,
   defaultBranch,
   spaceId,
@@ -24,34 +24,28 @@ export const MoreActionsTooltip: React.FC<MoreActionsTooltipProps> = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon">
-          <Icon name="vertical-ellipsis" size={14} className="text-tertiary-background" />
+        <Button className="-mr-2" variant="ghost" size="sm_icon">
+          <Icon className="text-icons-1" name="vertical-ellipsis" size={14} />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[180px] rounded-[10px] border border-borders-1 bg-background-2 py-2 shadow-sm">
+      <DropdownMenuContent className="min-w-[12.5rem]" align="end">
         <DropdownMenuGroup>
           <Link
             replace
             to={`${spaceId ? `/${spaceId}` : ''}/repos/${repoId}/pulls/compare/${defaultBranch}...${branchInfo.name}`}
           >
-            <DropdownMenuItem className="cursor-pointer">
-              <DropdownMenuShortcut className="ml-0">
-                <Icon name="pr-open" className="mr-2 fill-none" />
-              </DropdownMenuShortcut>
+            <DropdownMenuItem className="cursor-pointer px-3">
               {t('views:repos.newPullReq', 'New pull request')}
             </DropdownMenuItem>
           </Link>
-          <DropdownMenuItem className="cursor-pointer">
-            <DropdownMenuShortcut className="ml-0">
-              <Icon name="cog-6" className="mr-2" />
-            </DropdownMenuShortcut>
+          <DropdownMenuItem className="cursor-pointer px-3">
             {t('views:repos.viewRules', 'View Rules')}
           </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer">
-            <DropdownMenuShortcut className="ml-0">
-              <Icon name="edit-pen" className="mr-2" />
-            </DropdownMenuShortcut>
+          <DropdownMenuItem className="cursor-pointer px-3">
             {t('views:repos.renameBranch', 'Rename Branch')}
+          </DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer text-foreground-danger px-3 data-[highlighted]:text-foreground-danger">
+            {t('views:repos.deleteBranch', 'Delete Branch')}
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

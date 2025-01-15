@@ -79,11 +79,12 @@
     "checkStatus": "Check status",
     "behind": "Behind",
     "ahead": "Ahead",
-    "commit": "Commit",
+    "pullRequest": "Pull Request",
     "newPullReq": "New pull request",
     "viewRules": "View Rules",
     "renameBranch": "Rename Branch",
     "createBranch": "Create branch",
+    "deleteBranch": "Delete Branch",
     "repositories": "Repositories",
     "create-repository": "Create repository",
     "import-repository": "Import repository",
@@ -144,6 +145,7 @@
     "creatingWebhook": "Creating webhook...",
     "updateWebhook": "Update webhook",
     "createWebhook": "Create webhook",
+    "commit": "Commit",
     "add": "Add",
     "users": "Users",
     "clone": "Clone",
@@ -174,7 +176,8 @@
     "createOrImportRepos": "Create new or import an existing repository.",
     "noResultsDescription": "No rules match your search. Try adjusting your keywords or filters.",
     "noWebhooks": "No webhooks yet",
-    "noWebhooksDescription": "Add or manage webhooks to automate tasks and connect external services to your project."
+    "noWebhooksDescription": "Add or manage webhooks to automate tasks and connect external services to your project.",
+    "commit": "Commit"
   },
   "createProject": {
     "newProject": "Create your new project",

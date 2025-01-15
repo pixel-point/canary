@@ -1,6 +1,7 @@
 import { TranslationStore } from '@/views'
 import { z } from 'zod'
 
+import { PullRequestType } from '../pull-request/pull-request.types'
 import { IBranchSelectorStore } from '../repo.types'
 import { createBranchFormSchema } from './components/create-branch-dialog'
 
@@ -18,16 +19,24 @@ export interface BranchProps {
   checks?: {
     done?: number
     total?: number
-    status?: number
+    status?: {
+      pending: number
+      running: number
+      success: number
+      failure: number
+      error: number
+    }
   }
   behindAhead: {
     behind?: number
     ahead?: number
     default?: boolean
   }
+  pullRequests?: PullRequestType[]
 }
 
 export interface BranchListPageProps {
+  isLoading: boolean
   branches: BranchProps[]
   spaceId?: string
   repoId?: string

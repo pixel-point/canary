@@ -1,14 +1,15 @@
-import { ChangeEvent, FC, useState } from 'react'
+import { ChangeEvent, useCallback, useState } from 'react'
 
-import { Button, ListActions, NoData, PaginationComponent, SearchBox, SkeletonList, Spacer, Text } from '@/components'
+import { Button, ListActions, NoData, PaginationComponent, SearchBox, Spacer, Text } from '@/components'
 import { SandboxLayout } from '@/views'
+import { cn } from '@utils/cn'
 import { debounce } from 'lodash-es'
 
 import { BranchesList } from './components/branch-list'
 import { CreateBranchDialog } from './components/create-branch-dialog'
 import { RepoBranchListViewProps } from './types'
 
-export const RepoBranchListView: FC<RepoBranchListViewProps> = ({
+export const RepoBranchListView: React.FC<RepoBranchListViewProps> = ({
   isLoading,
   useRepoBranchesStore,
   useTranslationStore,
@@ -28,18 +29,17 @@ export const RepoBranchListView: FC<RepoBranchListViewProps> = ({
     setSearchQuery(searchQuery || null)
   }, 300)
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value)
     debouncedSetSearchQuery(e.target.value)
-  }
+  }, [])
 
   const renderListContent = () => {
-    if (isLoading && !branchList.length) return <SkeletonList />
-
-    if (!branchList?.length) {
+    if (!branchList?.length && !isLoading) {
       if (searchQuery) {
         return (
           <NoData
+            className="pt-[100px] pb-[157px] border border-borders-4 rounded-md"
             iconName="no-search-magnifying-glass"
             title={t('views:noData.noResults', 'No search results')}
             description={[
@@ -56,6 +56,7 @@ export const RepoBranchListView: FC<RepoBranchListViewProps> = ({
           />
         )
       }
+
       return (
         <NoData
           iconName="no-data-branches"
@@ -76,6 +77,7 @@ export const RepoBranchListView: FC<RepoBranchListViewProps> = ({
 
     return (
       <BranchesList
+        isLoading={isLoading}
         defaultBranch={defaultBranch}
         repoId={repoId}
         spaceId={spaceId}
@@ -86,35 +88,40 @@ export const RepoBranchListView: FC<RepoBranchListViewProps> = ({
   }
 
   return (
-    <SandboxLayout.Main>
-      <SandboxLayout.Content>
-        <Text size={5} weight={'medium'}>
-          {t('views:repos.branches', 'Branches')}
-        </Text>
-        <Spacer size={6} />
-        <ListActions.Root>
-          <ListActions.Left>
-            <SearchBox.Root
-              width="full"
-              className="max-w-96"
-              value={searchInput || ''}
-              handleChange={handleInputChange}
-              placeholder={t('views:repos.search')}
-            />
-          </ListActions.Left>
-          <ListActions.Right>
-            <Button
-              variant="default"
-              onClick={() => {
-                setCreateBranchDialogOpen(true)
-              }}
-            >
-              {t('views:repos.createBranch', 'Create branch')}
-            </Button>
-          </ListActions.Right>
-        </ListActions.Root>
+    <SandboxLayout.Main className="max-w-[1132px]">
+      <SandboxLayout.Content className={cn({ 'h-full': !isLoading && !branchList.length && !searchQuery })}>
+        <Spacer size={2} />
+        {(isLoading || !!branchList.length || searchQuery) && (
+          <>
+            <Text size={5} weight={'medium'}>
+              {t('views:repos.branches', 'Branches')}
+            </Text>
+            <Spacer size={6} />
+            <ListActions.Root>
+              <ListActions.Left>
+                <SearchBox.Root
+                  width="full"
+                  className="max-w-80"
+                  value={searchInput || ''}
+                  handleChange={handleInputChange}
+                  placeholder={t('views:repos.search')}
+                />
+              </ListActions.Left>
+              <ListActions.Right>
+                <Button
+                  variant="default"
+                  onClick={() => {
+                    setCreateBranchDialogOpen(true)
+                  }}
+                >
+                  {t('views:repos.createBranch', 'New branch')}
+                </Button>
+              </ListActions.Right>
+            </ListActions.Root>
 
-        <Spacer size={5} />
+            <Spacer size={5} />
+          </>
+        )}
         {renderListContent()}
         <PaginationComponent
           nextPage={xNextPage}
