@@ -112,7 +112,7 @@ export const RepoFiles: FC<RepoFilesProps> = ({
   ])
 
   return (
-    <SandboxLayout.Main>
+    <SandboxLayout.Main className="max-w-[1000px]">
       <SandboxLayout.Content className="h-full">
         {isView && (
           <PathActionBar

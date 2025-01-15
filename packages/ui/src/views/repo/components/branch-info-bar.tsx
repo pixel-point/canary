@@ -50,12 +50,16 @@ export const BranchInfoBar: FC<BranchInfoBarProps> = ({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            className="gap-x-2 px-2.5 data-[state=open]:border-borders-8 [&_svg]:data-[state=open]:text-foreground-1"
+            className="group/contribute data-[state=open]:border-borders-9 data-[state=open]:text-foreground-8 [&_svg]:data-[state=open]:text-canary-icon-09 gap-x-2 px-2.5"
             variant="outline"
           >
             <Icon name="merged" size={14} />
             <span>Contribute</span>
-            <Icon className="chevron-down text-icons-7" name="chevron-down" size={12} />
+            <Icon
+              className="chevron-down text-icons-7 group-data-[state=open]/contribute:text-icons-2"
+              name="chevron-down"
+              size={12}
+            />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-60 p-4" align="end">

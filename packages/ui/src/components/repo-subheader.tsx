@@ -34,25 +34,39 @@ export const RepoSubheader = ({ useTranslationStore }: { useTranslationStore: ()
       <Tabs variant="navigation" value={activeTab}>
         <TabsList>
           <NavLink to={RepoTabsKeys.SUMMARY}>
-            <TabsTrigger value="summary">{t('views:repos.summary', 'Summary')}</TabsTrigger>
+            <TabsTrigger className="text-sm" value="summary">
+              {t('views:repos.summary', 'Summary')}
+            </TabsTrigger>
           </NavLink>
           <NavLink to={RepoTabsKeys.CODE}>
-            <TabsTrigger value="code">{t('views:repos.files', 'Files')}</TabsTrigger>
+            <TabsTrigger className="text-sm" value="code">
+              {t('views:repos.files', 'Files')}
+            </TabsTrigger>
           </NavLink>
           <NavLink to={RepoTabsKeys.PIPELINES}>
-            <TabsTrigger value="pipelines">{t('views:repos.pipelines', 'Pipelines')}</TabsTrigger>
+            <TabsTrigger className="text-sm" value="pipelines">
+              {t('views:repos.pipelines', 'Pipelines')}
+            </TabsTrigger>
           </NavLink>
           <NavLink to={RepoTabsKeys.COMMITS}>
-            <TabsTrigger value="commits">{t('views:repos.commits', 'Commits')}</TabsTrigger>
+            <TabsTrigger className="text-sm" value="commits">
+              {t('views:repos.commits', 'Commits')}
+            </TabsTrigger>
           </NavLink>
           <NavLink to={RepoTabsKeys.PULLS}>
-            <TabsTrigger value="pulls">{t('views:repos.pull-requests', 'Pull Requests')}</TabsTrigger>
+            <TabsTrigger className="text-sm" value="pulls">
+              {t('views:repos.pull-requests', 'Pull Requests')}
+            </TabsTrigger>
           </NavLink>
           <NavLink to={RepoTabsKeys.BRANCHES}>
-            <TabsTrigger value="branches">{t('views:repos.branches', 'Branches')}</TabsTrigger>
+            <TabsTrigger className="text-sm" value="branches">
+              {t('views:repos.branches', 'Branches')}
+            </TabsTrigger>
           </NavLink>
           <NavLink to={RepoTabsKeys.SETTINGS}>
-            <TabsTrigger value="settings">{t('views:repos.settings', 'Settings')}</TabsTrigger>
+            <TabsTrigger className="text-sm" value="settings">
+              {t('views:repos.settings', 'Settings')}
+            </TabsTrigger>
           </NavLink>
         </TabsList>
       </Tabs>
