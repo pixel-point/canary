@@ -113,12 +113,10 @@
     "input": "Rechercher des fichiers...",
     "noFile": "Aucun fichier trouvé."
   },
-
   "layout": {
     "table": "Table",
     "list": "List"
   },
-  "No search results": "",
   "projectSettings": {
     "members": "membres",
     "newMember": "Nouveau membre"

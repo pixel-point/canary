@@ -317,6 +317,15 @@
     "members": "Members"
   },
   "commits": {
+    "commitDetailsDiffShowing": "Showing",
+    "commitDetailsDiffChangedFiles": "changed files",
+    "commitDetailsDiffWith": "with",
+    "commitDetailsDiffAdditionsAnd": "additions and",
+    "commitDetailsDiffDeletions": "deletions",
+    "commitDetailsTitle": "Commit",
+    "commitDetailsAuthored": "authored",
+    "verified": "Verified",
+    "browseFiles": "Browse files",
     "createNewCommit": "Create new commit"
   },
   "rules": {

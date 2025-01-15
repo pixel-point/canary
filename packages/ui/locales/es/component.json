@@ -113,10 +113,8 @@
     "input": "Search files...",
     "noFile": "No file found."
   },
-
   "layout": {
     "table": "Table",
     "list": "List"
-  },
-  "No search results": ""
+  }
 }
