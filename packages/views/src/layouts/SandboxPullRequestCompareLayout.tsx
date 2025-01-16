@@ -248,7 +248,6 @@ const SandboxPullRequestCompare: React.FC<SandboxPullRequestCompareProps> = ({
         <Spacer size={10} />
         {isBranchSelected ? (
           <Layout.Vertical>
-            {/* TODO: pass the size="xs" prop */}
             <Tabs variant="navigation" defaultValue="overview">
               <TabsList className="px-0">
                 <TabTriggerItem value="overview" icon="comments" label="Overview" />

@@ -11,7 +11,6 @@ function SettingsProjectNav() {
   return (
     <>
       <SandboxLayout.SubHeader>
-        {/* TODO: pass the size="xs" prop */}
         <Tabs variant="navigation" value={activeTab}>
           <TabsList>
             <NavLink to={`general`}>
