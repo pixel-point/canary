@@ -40,6 +40,7 @@ const RepoExecutionLayout: React.FC = () => {
           <></>
         </Topbar.Right>
       </Topbar.Root>
+      {/* TODO: pass the size="xs" prop */}
       <Tabs variant="navigation" defaultValue="index">
         <TabsList>
           <NavLink to={`/repos/${repoId}`}>
