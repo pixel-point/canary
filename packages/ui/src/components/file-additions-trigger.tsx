@@ -1,4 +1,4 @@
-import { FC, useLayoutEffect, useRef, useState } from 'react'
+import { FC, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
 import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, Icon } from '@/components'
@@ -16,14 +16,7 @@ export const FileAdditionsTrigger: FC<FileAdditionsTriggerProps> = ({
   pathUploadFiles
 }) => {
   const triggerRef = useRef<HTMLButtonElement>(null)
-  const [triggerWidth, setTriggerWidth] = useState<number | null>(null)
   const { t } = useTranslationStore()
-
-  useLayoutEffect(() => {
-    if (triggerRef.current) {
-      setTriggerWidth(triggerRef.current.offsetWidth)
-    }
-  }, [])
 
   return (
     <DropdownMenu>
@@ -35,12 +28,7 @@ export const FileAdditionsTrigger: FC<FileAdditionsTriggerProps> = ({
           </span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align="end"
-        style={{
-          width: triggerWidth ? `${triggerWidth}px` : 'auto'
-        }}
-      >
+      <DropdownMenuContent className="min-w-[157px]" align="end">
         <DropdownMenuItem>
           <Link className="relative grid grid-cols-[auto_1fr] items-center gap-2.5" to={pathNewFile}>
             <Icon name="plus" size={12} />
