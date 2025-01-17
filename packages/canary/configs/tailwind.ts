@@ -5,7 +5,7 @@ export default {
   darkMode: ['class'],
   content: ['./src/**/*.{ts,tsx}'],
   prefix: '',
-  theme: {
+  size: {
     container: {
       center: true,
       padding: '2rem',
