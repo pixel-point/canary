@@ -7,7 +7,7 @@ body {
 }
 
 main {
-  @apply px-0 py-6 w-full !important;
+  @apply px-0 py-10 w-full !important;
 }
 
 .sl-container h1 {
@@ -73,13 +73,13 @@ ul.top-level summary .group-label span {
 }
 
 ul.top-level summary svg {
-  @apply font-normal text-foreground-4 text-lg;
+  @apply font-normal text-foreground-5 text-lg;
 }
 
 /* Right-hand page sidebar overrides */
 
 .right-sidebar-panel {
-  @apply px-3 pl-0 py-6 pt-12;
+  @apply px-3 pl-0 py-6 pt-16;
 }
 
 .right-sidebar-panel h2 {
