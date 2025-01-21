@@ -14,8 +14,8 @@ function ProfileSettingsTabNav({
   return (
     <>
       <SandboxLayout.SubHeader className="h-[45px] overflow-hidden">
-        <Tabs variant="navigation" size="xs" value={activeTab}>
-          <TabsList>
+        <Tabs variant="navigation" value={activeTab}>
+          <TabsList fontSize="xs">
             <NavLink to={`general`}>
               <TabsTrigger value="general">{t('views:profileSettings.GeneralTab', 'General')}</TabsTrigger>
             </NavLink>

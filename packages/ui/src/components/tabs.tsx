@@ -4,7 +4,7 @@ import * as TabsPrimitive from '@radix-ui/react-tabs'
 import { cn } from '@utils/cn'
 import { cva, type VariantProps } from 'class-variance-authority'
 
-// TODO: text sizes should be passed as separate size prop
+// TODO: text sizes should be passed as separate fontSize prop
 const tabsListVariants = cva('inline-flex items-center text-foreground-4', {
   variants: {
     variant: {
@@ -14,13 +14,14 @@ const tabsListVariants = cva('inline-flex items-center text-foreground-4', {
       tabnav:
         'relative flex w-full before:absolute before:bottom-0 before:left-0 before:h-px before:w-full before:bg-borders-1'
     },
-    size: {
-      xs: 'text-xs',
-      sm: 'text-sm'
+    fontSize: {
+      xs: 'text-12',
+      sm: 'text-14'
     }
   },
   defaultVariants: {
-    variant: 'default'
+    variant: 'default',
+    fontSize: 'sm'
   }
 })
 
@@ -36,10 +37,6 @@ const tabsTriggerVariants = cva(
           'm-0 -mb-px h-[44px] border-b border-solid border-b-transparent px-0 font-normal text-foreground-2 duration-150 ease-in-out hover:text-foreground-1 data-[state=active]:border-borders-9',
         tabnav:
           'h-[36px] rounded-t-md border-x border-t border-transparent px-3.5 font-normal text-foreground-2 hover:text-foreground-1 data-[state=active]:border-borders-1 data-[state=active]:bg-background-1 data-[state=active]:text-foreground-1'
-      },
-      size: {
-        xs: 'text-xs',
-        sm: 'text-sm'
       }
     },
     defaultVariants: {
@@ -66,8 +63,7 @@ const tabsContentVariants = cva(
 )
 
 const TabsContext = React.createContext<VariantProps<typeof tabsListVariants | typeof tabsTriggerVariants>>({
-  variant: 'default',
-  size: 'sm'
+  variant: 'default'
 })
 
 interface TabsProps
@@ -75,9 +71,9 @@ interface TabsProps
     VariantProps<typeof tabsListVariants | typeof tabsTriggerVariants> {}
 
 const Tabs = React.forwardRef<React.ElementRef<typeof TabsPrimitive.Root>, TabsProps>(
-  ({ children, variant, size, ...props }, ref) => (
+  ({ children, variant, ...props }, ref) => (
     <TabsPrimitive.Root ref={ref} {...props}>
-      <TabsContext.Provider value={{ variant, size }}>{children}</TabsContext.Provider>
+      <TabsContext.Provider value={{ variant }}>{children}</TabsContext.Provider>
     </TabsPrimitive.Root>
   )
 )
@@ -87,7 +83,7 @@ interface TabsListProps
     VariantProps<typeof tabsListVariants> {}
 
 const TabsList = React.forwardRef<React.ElementRef<typeof TabsPrimitive.List>, TabsListProps>(
-  ({ className, variant, ...props }, ref) => {
+  ({ className, variant, fontSize, ...props }, ref) => {
     const context = React.useContext(TabsContext)
 
     return (
@@ -96,6 +92,7 @@ const TabsList = React.forwardRef<React.ElementRef<typeof TabsPrimitive.List>, T
         className={cn(
           tabsListVariants({
             variant: context.variant ?? variant,
+            fontSize,
             className
           })
         )}
@@ -111,14 +108,12 @@ interface TabsTriggerProps
     VariantProps<typeof tabsTriggerVariants> {}
 
 const TabsTrigger = React.forwardRef<React.ElementRef<typeof TabsPrimitive.Trigger>, TabsTriggerProps>(
-  ({ className, variant, size, children, ...props }, ref) => {
+  ({ className, variant, children, ...props }, ref) => {
     const context = React.useContext(TabsContext)
     return (
       <TabsPrimitive.Trigger
         ref={ref}
-        className={cn(
-          tabsTriggerVariants({ variant: context.variant ?? variant, size: context.size ?? size, className })
-        )}
+        className={cn(tabsTriggerVariants({ variant: context.variant ?? variant, className }))}
         {...props}
       >
         {context.variant === 'navigation' && (
