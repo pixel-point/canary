@@ -37,7 +37,7 @@ import TabTriggerItem from '@views/repo/pull-request/compare/components/pull-req
 import { noop } from 'lodash-es'
 import { z } from 'zod'
 
-import { EnumPullReqReviewDecision, PullReqReviewDecision } from '../pull-request.types'
+import { EnumPullReqReviewDecision, PRReviewer, PullReqReviewDecision } from '../pull-request.types'
 import PullRequestCompareDiffList from './components/pull-request-compare-diff-list'
 import { HeaderProps } from './pull-request-compare.types'
 
@@ -83,11 +83,7 @@ export interface PullRequestComparePageProps {
   searchReviewersQuery: string
   setSearchReviewersQuery: (query: string) => void
   usersList?: { display_name?: string; id?: number; uid?: string }[]
-  reviewers?: {
-    reviewer?: { display_name?: string; id?: number }
-    review_decision?: EnumPullReqReviewDecision
-    sha?: string
-  }[]
+  reviewers?: PRReviewer[]
   handleAddReviewer: (id?: number) => void
   handleDeleteReviewer: (id?: number) => void
 }
@@ -386,6 +382,7 @@ export const PullRequestComparePage: FC<PullRequestComparePageProps> = ({
               <TabsContent className="pt-7" value="commits">
                 {/* TODO: add pagination to this */}
                 <CommitsList
+                  inCompare
                   data={commitData?.map((item: TypesCommit) => ({
                     sha: item.sha,
                     parent_shas: item.parent_shas,

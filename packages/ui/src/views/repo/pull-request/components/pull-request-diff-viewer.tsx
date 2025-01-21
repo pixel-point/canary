@@ -19,6 +19,7 @@ import constants from '../constants'
 import PRCommentView from '../details/components/common/pull-request-comment-view'
 import PullRequestTimelineItem from '../details/components/conversation/pull-request-timeline-item'
 import { useDiffHighlighter } from '../hooks/useDiffHighlighter'
+import { quoteTransform } from '../utils'
 
 interface Thread {
   parent: CommentItem<TypesPullReqActivity>
@@ -57,6 +58,8 @@ interface PullRequestDiffviewerProps {
   filenameToLanguage?: (fileName: string) => string | undefined
   toggleConversationStatus?: (status: string, parentId?: number) => void
   handleUpload?: (blob: File, setMarkdownContent: (data: string) => void) => void
+  scrolledToComment?: boolean
+  setScrolledToComment?: (val: boolean) => void
 }
 
 const PullRequestDiffViewer = ({
@@ -90,7 +93,9 @@ const PullRequestDiffViewer = ({
   removeSuggestionFromBatch,
   filenameToLanguage,
   toggleConversationStatus,
-  handleUpload
+  handleUpload,
+  scrolledToComment,
+  setScrolledToComment
 }: PullRequestDiffviewerProps) => {
   const { t } = useTranslationStore()
   const ref = useRef<{ getDiffFileInstance: () => DiffFile }>(null)
@@ -119,6 +124,17 @@ const PullRequestDiffViewer = ({
   highlightRef.current = highlight
   const [diffFileInstance, setDiffFileInstance] = useState<DiffFile>()
 
+  const [quoteReplies, setQuoteReplies] = useState<Record<number, { text: string }>>({})
+  const handleQuoteReply = useCallback((parentId: number, originalText: string) => {
+    const quoted = quoteTransform(originalText)
+    setQuoteReplies(prev => ({
+      ...prev,
+      [parentId]: {
+        text: quoted
+      }
+    }))
+  }, [])
+
   const [
     scrollBar
     //  setScrollBar
@@ -127,7 +143,6 @@ const PullRequestDiffViewer = ({
     expandAll
     //  setExpandAll
   ] = useState(false)
-  const [isScrolledToComment, setIsScrolledToComment] = useState(false)
   const [extend, setExtend] = useState<{
     oldFile: Record<number, { data: Thread[] }>
     newFile: Record<number, { data: Thread[] }>
@@ -289,7 +304,7 @@ const PullRequestDiffViewer = ({
 
   const [editModes, setEditModes] = useState<{ [key: string]: boolean }>({})
   const [editComments, setEditComments] = useState<{ [key: string]: string }>({})
-  const [hideReplyBoxes, setHideReplyBoxes] = useState<{ [key: string]: boolean }>({})
+  const [hideReplyHeres, setHideReplyHeres] = useState<{ [key: string]: boolean }>({})
 
   const toggleEditMode = (id: string, initialText: string) => {
     setEditModes(prev => ({ ...prev, [id]: !prev[id] }))
@@ -303,25 +318,16 @@ const PullRequestDiffViewer = ({
       console.error('toggleEditMode called with undefined id')
       return
     }
-    setHideReplyBoxes(prev => ({ ...prev, [id]: state }))
+    setHideReplyHeres(prev => ({ ...prev, [id]: state }))
   }
 
   const [newComments, setNewComments] = useState<Record<string, string>>({})
 
-  function getNewCommentKey(side: SplitSide, lineNumber: number) {
-    return `${side}:${lineNumber}`
-  }
-  function getNewCommentValue(side: SplitSide, lineNumber: number) {
-    return newComments[getNewCommentKey(side, lineNumber)] ?? ''
-  }
-  function setNewCommentValue(side: SplitSide, lineNumber: number, text: string) {
-    setNewComments(prev => ({ ...prev, [getNewCommentKey(side, lineNumber)]: text }))
-  }
-
   const renderWidgetLine = useCallback<NonNullable<DiffViewProps<Thread[]>['renderWidgetLine']>>(
     ({ onClose, side, lineNumber }) => {
       const sideKey = side === SplitSide.old ? 'oldFile' : 'newFile'
-      const commentText = getNewCommentValue(side, lineNumber)
+      const commentKey = `${side}:${lineNumber}`
+      const commentText = newComments[commentKey] ?? ''
 
       return (
         <div className="flex w-full flex-col border px-[4px] py-[8px]">
@@ -339,20 +345,20 @@ const PullRequestDiffViewer = ({
                   path: fileName
                 })
               }
-              setNewCommentValue(side, lineNumber, '')
+              setNewComments(prev => ({ ...prev, [commentKey]: '' }))
             }}
             currentUser={currentUser}
             onCancelClick={() => {
               onClose()
-              setNewCommentValue(side, lineNumber, '')
+              setNewComments(prev => ({ ...prev, [commentKey]: '' }))
             }}
             comment={commentText}
-            setComment={value => setNewCommentValue(side, lineNumber, value)}
+            setComment={value => setNewComments(prev => ({ ...prev, [commentKey]: value }))}
           />
         </div>
       )
     },
-    [handleSaveComment, fileName, newComments, currentUser]
+    [handleSaveComment, fileName, newComments, currentUser, handleUpload]
   )
 
   const renderExtendLine = useCallback<NonNullable<DiffViewProps<Thread[]>['renderExtendLine']>>(
@@ -379,11 +385,13 @@ const PullRequestDiffViewer = ({
                 currentUser={currentUser}
                 isComment
                 replyBoxClassName="py-4"
-                hideReplyBox={hideReplyBoxes[parent?.id]}
-                setHideReplyBox={state => toggleReplyBox(state, parent?.id)}
+                hideReplyHere={hideReplyHeres[parent?.id]}
+                setHideReplyHere={state => toggleReplyBox(state, parent?.id)}
                 isResolved={!!parent.payload?.resolved}
                 toggleConversationStatus={toggleConversationStatus}
                 onCommentSaveAndStatusChange={onCommentSaveAndStatusChange}
+                onQuoteReply={handleQuoteReply}
+                quoteReplyText={quoteReplies[parent.id]?.text || ''}
                 content={
                   <div className="flex-col">
                     <PullRequestTimelineItem
@@ -391,14 +399,17 @@ const PullRequestDiffViewer = ({
                       parentCommentId={parent.id}
                       handleSaveComment={handleSaveComment}
                       isLast={replies.length === 0}
-                      hideReply
+                      hideReplySection
                       isComment
                       replyBoxClassName=""
                       handleDeleteComment={() => deleteComment?.(parent?.id)}
                       onEditClick={() => toggleEditMode(componentId, parent?.payload?.payload?.text || '')}
+                      data={parent?.payload?.payload?.text}
                       contentClassName="border-transparent"
                       onCopyClick={onCopyClick}
                       commentId={parent.id}
+                      setHideReplyHere={state => toggleReplyBox(state, parent?.id)}
+                      onQuoteReply={handleQuoteReply}
                       icon={
                         <Avatar className="size-6 rounded-full p-0">
                           <AvatarFallback>
@@ -472,15 +483,18 @@ const PullRequestDiffViewer = ({
                               parentCommentId={parent?.id}
                               isLast={isLastComment}
                               handleSaveComment={handleSaveComment}
-                              hideReply
+                              hideReplySection
                               isComment
                               onCopyClick={onCopyClick}
                               commentId={reply.id}
                               isDeleted={!!reply?.deleted}
                               handleDeleteComment={() => deleteComment?.(reply?.id)}
                               onEditClick={() => toggleEditMode(replyComponentId, reply?.payload?.payload?.text || '')}
+                              data={reply?.payload?.payload?.text}
                               contentClassName="border-transparent"
                               titleClassName="!flex max-w-full"
+                              setHideReplyHere={state => toggleReplyBox(state, parent?.id)}
+                              onQuoteReply={handleQuoteReply}
                               icon={
                                 <Avatar className="size-6 rounded-full p-0">
                                   <AvatarFallback>
@@ -555,24 +569,24 @@ const PullRequestDiffViewer = ({
         </div>
       )
     },
-    [currentUser, handleSaveComment, updateComment, deleteComment, fileName, hideReplyBoxes, editModes, editComments, t]
+    [currentUser, handleSaveComment, updateComment, deleteComment, fileName, hideReplyHeres, editModes, editComments, t]
   )
 
   // Scroll to commentId whenever extendData or commentId changes
   useEffect(() => {
-    if (!commentId || isScrolledToComment) return
+    if (!commentId || scrolledToComment) return
     // Slight timeout so the UI has time to expand/hydrate
     const timeoutId = setTimeout(() => {
       const elem = document.getElementById(`comment-${commentId}`)
       if (!elem) return
       elem.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      setIsScrolledToComment(true)
+      setScrolledToComment?.(true)
     }, 500)
 
     return () => {
       clearTimeout(timeoutId)
     }
-  }, [commentId, extend])
+  }, [commentId, extend, scrolledToComment, setScrolledToComment])
 
   return (
     <>

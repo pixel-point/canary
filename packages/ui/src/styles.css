@@ -7,7 +7,14 @@
 @font-face {
   font-family: 'Inter';
   font-style: normal;
-  font-weight: 300 600; /* Supports weights from 300 to 600 */
+  font-weight: 300 500;
+  src: url('./fonts/InterVariable.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
   src: url('./fonts/InterVariable.ttf') format('truetype');
 }
 
@@ -88,11 +95,12 @@
     --canary-foreground-07: var(--canary-grey-40);
     --canary-foreground-08: var(--canary-grey-90);
     --canary-foreground-09: var(--canary-grey-30);
+    --canary-foreground-10: var(--canary-grey-15);
     --canary-foreground-danger: var(--canary-red-65);
     --canary-foreground-alert: var(--canary-orange-55);
     --canary-foreground-success: var(--canary-green-65);
     --canary-foreground-accent: var(--canary-blue-60);
-    --canary-button-foreground-danger: var(--canary-harness-red-700);
+    --canary-button-foreground-danger-01: var(--canary-harness-red-700);
     /* Backgrounds */
     --canary-background-01: var(--canary-white);
     --canary-background-02: var(--canary-grey-8);
@@ -110,8 +118,8 @@
     --canary-background-danger: var(--canary-red-65) / 0.1; /* red65/10 */
     --canary-background-success: 154 13% 10% / 0.4;
     --canary-background-accent: var(--canary-blue-70);
-    --canary-background-button-danger-1: var(--canary-harness-red-350) / 0.1;
-    --canary-background-button-danger-3: var(--canary-harness-red-350) / 0.2;
+    --canary-button-background-danger-01: var(--canary-harness-red-350) / 0.1;
+    --canary-button-background-danger-03: var(--canary-harness-red-350) / 0.2;
     /* Borders */
     --canary-border-01: var(--canary-grey-15);
     --canary-border-02: var(--canary-grey-20);
@@ -255,6 +263,7 @@
     --canary-foreground-07: var(--canary-grey-40);
     --canary-foreground-08: var(--canary-grey-90);
     --canary-foreground-09: var(--canary-grey-30);
+    --canary-foreground-10: var(--canary-grey-15);
     --canary-foreground-danger: var(--canary-red-65);
     --canary-foreground-alert: var(--canary-orange-55);
     --canary-foreground-success: var(--canary-green-65);
@@ -277,8 +286,8 @@
     --canary-background-danger: var(--canary-red-65) / 0.1; /* red65/10 */
     --canary-background-success: 154 13% 10% / 0.4;
     --canary-background-accent: var(--canary-blue-70);
-    --canary-background-button-danger-1: var(--canary-red-65) / 0.1; /* red65/10 */
-    --canary-background-button-danger-3: var(--canary-red-65) / 0.16; /* red65/16 */
+    --canary-button-background-danger-01: var(--canary-red-65) / 0.1; /* red65/10 */
+    --canary-button-background-danger-03: var(--canary-red-65) / 0.16; /* red65/16 */
     /* Borders */
     --canary-border-01: var(--canary-grey-15);
     --canary-border-02: var(--canary-grey-20);
@@ -441,6 +450,7 @@
     --canary-foreground-07: var(--canary-grey-40);
     --canary-foreground-08: var(--canary-grey-90);
     --canary-foreground-09: var(--canary-grey-30);
+    --canary-foreground-10: var(--canary-grey-15);
     --canary-foreground-danger: var(--canary-red-65);
     --canary-foreground-alert: var(--canary-orange-55);
     --canary-foreground-success: var(--canary-green-65);
@@ -463,8 +473,8 @@
     --canary-background-danger: var(--canary-red-65) / 0.1; /* red65/10 */
     --canary-background-success: 154 13% 10% / 0.4;
     --canary-background-accent: var(--canary-blue-70);
-    --canary-background-button-danger-1: var(--canary-harness-red-350) / 0.1;
-    --canary-background-button-danger-3: var(--canary-harness-red-350) / 0.2;
+    --canary-button-background-danger-01: var(--canary-harness-red-350) / 0.1;
+    --canary-button-background-danger-03: var(--canary-harness-red-350) / 0.2;
     /* Borders */
     --canary-border-01: var(--canary-grey-15);
     --canary-border-02: var(--canary-grey-20);
@@ -608,6 +618,7 @@
     --canary-foreground-07: var(--canary-grey-40);
     --canary-foreground-08: var(--canary-grey-90);
     --canary-foreground-09: var(--canary-grey-30);
+    --canary-foreground-10: var(--canary-grey-15);
     --canary-foreground-danger: var(--canary-red-65);
     --canary-foreground-alert: var(--canary-orange-55);
     --canary-foreground-success: var(--canary-green-65);
@@ -630,8 +641,8 @@
     --canary-background-danger: var(--canary-red-65) / 0.1; /* red65/10 */
     --canary-background-success: 154 13% 10% / 0.4;
     --canary-background-accent: var(--canary-blue-70);
-    --canary-background-button-danger-1: var(--canary-red-65) / 0.1; /* red65/10 */
-    --canary-background-button-danger-3: var(--canary-red-65) / 0.16; /* red65/16 */
+    --canary-button-background-danger-01: var(--canary-red-65) / 0.1; /* red65/10 */
+    --canary-button-background-danger-03: var(--canary-red-65) / 0.16; /* red65/16 */
     /* Borders */
     --canary-border-01: var(--canary-grey-15);
     --canary-border-02: var(--canary-grey-20);

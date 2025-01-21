@@ -102,11 +102,11 @@ export default {
           7: 'hsl(var(--canary-foreground-07))',
           8: 'hsl(var(--canary-foreground-08))',
           9: 'hsl(var(--canary-foreground-09))',
+          10: 'hsl(var(--canary-foreground-10))',
           danger: 'hsl(var(--canary-foreground-danger))',
           alert: 'hsl(var(--canary-foreground-alert))',
           success: 'hsl(var(--canary-foreground-success))',
-          accent: 'hsl(var(--canary-foreground-accent))',
-          'button-danger': 'hsl(var(--canary-button-foreground-danger))'
+          accent: 'hsl(var(--canary-foreground-accent))'
         },
         background: {
           // TODO: remove DEFAULT, cause use old color var
@@ -124,9 +124,7 @@ export default {
           11: 'hsl(var(--canary-background-11))',
           12: 'hsl(var(--canary-background-12))',
           danger: 'hsla(var(--canary-background-danger))',
-          success: 'hsla(var(--canary-background-success))',
-          'button-danger-1': 'hsla(var(--canary-background-button-danger-1))',
-          'button-danger-3': 'hsla(var(--canary-background-button-danger-3))'
+          success: 'hsla(var(--canary-background-success))'
         },
         borders: {
           1: 'hsl(var(--canary-border-01))',
@@ -142,6 +140,26 @@ export default {
           danger: 'hsl(var(--canary-border-danger))',
           success: 'hsl(var(--canary-border-success))',
           accent: 'hsl(var(--canary-border-accent))'
+        },
+        button: {
+          foreground: {
+            'disabled-1': 'hsl(var(--canary-button-foreground-disabled-01))',
+            'danger-1': 'hsl(var(--canary-button-foreground-danger-01))',
+            'success-1': 'hsl(var(--canary-button-foreground-success-01))'
+          },
+          background: {
+            'disabled-1': 'hsla(var(--canary-button-background-disabled-01))',
+            'danger-1': 'hsla(var(--canary-button-background-danger-01))',
+            'danger-3': 'hsla(var(--canary-button-background-danger-03))',
+            'success-1': 'hsla(var(--canary-button-background-success-01))',
+            'success-2': 'hsla(var(--canary-button-background-success-02))'
+          },
+          border: {
+            'disabled-1': 'hsla(var(--canary-button-border-disabled-01))',
+            'danger-1': 'hsla(var(--canary-button-border-danger-01))',
+            'danger-3': 'hsla(var(--canary-button-border-danger-03))',
+            'success-1': 'hsla(var(--canary-button-border-success-01))'
+          }
         },
         tag: {
           border: {
@@ -295,7 +313,17 @@ export default {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--canary-tw-gradient-stops))',
         'ai-button':
-          'linear-gradient(to right, hsl(var(--canary-ai-button-stop-1)), hsl(var(--canary-ai-button-stop-2)), hsl(var(--canary-ai-button-stop-3)), hsl(var(--canary-ai-button-stop-4)))'
+          'linear-gradient(to right, hsl(var(--canary-ai-button-stop-1)), hsl(var(--canary-ai-button-stop-2)), hsl(var(--canary-ai-button-stop-3)), hsl(var(--canary-ai-button-stop-4)))',
+        'navbar-gradient-1':
+            'radial-gradient(50% 50% at 50% 50%, hsla(var(--canary-nav-gradient-1-1)) 0%, hsla(var(--canary-nav-gradient-1-2)) 100%)',
+        'navbar-gradient-2':
+            'radial-gradient(50% 50% at 50% 50%, hsla(var(--canary-nav-gradient-2-1)) 0%, hsla(var(--canary-nav-gradient-2-2)) 44.95%, hsla(var(--canary-nav-gradient-2-3)) 100%)',
+        'navbar-gradient-3':
+            'radial-gradient(50% 50% at 50% 50%, hsla(var(--canary-nav-gradient-3-1)) 0%, hsla(var(--canary-nav-gradient-3-2)) 100%)',
+        'navbar-gradient-4':
+            'radial-gradient(50% 50% at 50% 50%, hsla(var(--canary-nav-gradient-4-1)) 0%, hsla(var(--canary-nav-gradient-4-2)) 100%)',
+        'navbar-item-gradient':
+            'radial-gradient(50% 50% at 50% 50%, hsla(var(--canary-nav-item-gradient-1)) 0%, hsla(var(--canary-nav-item-gradient-2)) 17.63%, hsla(var(--canary-nav-item-gradient-3)) 40.23%, hsla(var(--canary-nav-item-gradient-4)) 61.54%, hsla(var(--canary-nav-item-gradient-5)) 80%, hsla(var(--canary-nav-item-gradient-6)) 100%)'
       },
       keyframes: {
         'accordion-down': {

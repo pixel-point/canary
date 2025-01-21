@@ -6,11 +6,11 @@ export const getPrState = (
   state?: string
 ): { icon: IconType; text: string; theme: string } => {
   if (state === 'open' && is_draft) {
-    return { icon: 'pr-draft', text: 'Draft', theme: 'warning' }
+    return { icon: 'pr-draft', text: 'Draft', theme: 'muted' }
   } else if (merged) {
     return { icon: 'pr-merge', text: 'Merged', theme: 'emphasis' }
   } else if (state === 'closed') {
-    return { icon: 'pr-closed', text: 'Closed', theme: 'muted' }
+    return { icon: 'pr-closed', text: 'Closed', theme: 'destructive' }
   } else {
     return { icon: 'pr-open', text: 'Open', theme: 'success' }
   }
@@ -36,4 +36,15 @@ export function parseStartingLineIfOne(diffString: string) {
 
   // Return null if the starting line is not 1 or if the header is not found
   return null
+}
+
+export const CRLF = '\n'
+
+// helper to transform lines to quote format: each line => '> line' + blank line at end
+export function quoteTransform(raw: string): string {
+  return raw
+    .split(CRLF)
+    .map(line => `> ${line}`)
+    .concat([CRLF])
+    .join(CRLF)
 }

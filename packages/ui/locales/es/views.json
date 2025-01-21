@@ -154,11 +154,14 @@
     "checkSpelling": "Check your spelling and filter options,",
     "changeSearch": "or search for a different keyword.",
     "clearSearch": "Clear search",
+    "labels": "No labels yet",
+    "createLabel": "Create a new label to get started.",
+    "noResultsDescription": "No {{type}} match your search. Try adjusting your keywords or filters.",
+    "clearFilters": "Clear filters",
     "members": "",
     "inviteMembers": "",
     "compareChanges": "Compare and review just about anything",
     "compareChangesDescription": "Branches, tags, commit ranges, and time ranges. In the same repository and across forks.",
-    "clearFilters": "Clear filters",
     "noPullRequests": "There are no pull requests in this project yet.",
     "createNewPullRequest": "Create a new pull request.",
     "noBranches": "No branches yet",
@@ -172,9 +175,10 @@
     "noRepos": "No repositories yet",
     "noReposProject": "There are no repositories in this project yet.",
     "createOrImportRepos": "Create new or import an existing repository.",
-    "noResultsDescription": "No rules match your search. Try adjusting your keywords or filters.",
     "noWebhooks": "No webhooks yet",
-    "noWebhooksDescription": "Add or manage webhooks to automate tasks and connect external services to your project."
+    "noWebhooksDescription": "Add or manage webhooks to automate tasks and connect external services to your project.",
+    "noLabels": "No labels yet",
+    "noLabelsDescription": "Use labels to organize, prioritize, and categorize tasks efficiently."
   },
   "createProject": {
     "newProject": "Create your new project",
@@ -238,6 +242,12 @@
     "replyHere": "",
     "commits": ""
   },
+  "notFound": {
+    "title": "Algo salió mal…",
+    "descriptionWithType": "La página solicitada no se encontró. Puedes volver para ver todos los {{type}} y gestionar tus configuraciones.",
+    "description": "La página solicitada no se encontró.",
+    "button": "Recargar página"
+  },
   "profileSettings": {
     "name": "Name",
     "added": "Added",
@@ -297,19 +307,37 @@
     "selectMemberError": "",
     "selectMember": "",
     "selectRole": "",
-    "selectRoleError": "",
     "enterBranchName": "Enter branch name",
     "createBranchError": "",
     "select": "Select",
     "baseBranch": "Base Branch",
-    "selectBranchError": ""
+    "selectBranchError": "",
+    "selectRoleError": ""
   },
   "projectSettings": {
+    "newLabels": "Create label",
     "newMember": "",
     "member": "",
     "role": "",
     "addMember": "",
+    "membersTable": {
+      "user": "User",
+      "email": "Email",
+      "role": "Role"
+    },
+    "removeMember": "Remove member",
+    "inviteNewMember": "Invite new member",
     "members": ""
+  },
+  "roles": {
+    "owner": "Owner",
+    "ownerDesc": "Admin-level access to all resources.",
+    "contributor": "Contributor",
+    "contributorDesc": "Can view, comment, and edit resources.",
+    "executor": "Executor",
+    "executorDesc": "Can view and leave comments.",
+    "reader": "Reader",
+    "readerDesc": "Can view but cannot make changes or leave comments."
   },
   "commits": {
     "commitDetailsDiffShowing": "Mostrando",
@@ -344,6 +372,9 @@
     "create": "Create webhook",
     "edit": "Edit webhook",
     "delete": "Delete webhook"
+  },
+  "labelData": {
+    "create": "Create labels"
   },
   "profileSettingsTableHeader": {
     "token": "Token",
