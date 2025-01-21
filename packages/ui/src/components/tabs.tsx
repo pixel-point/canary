@@ -4,7 +4,6 @@ import * as TabsPrimitive from '@radix-ui/react-tabs'
 import { cn } from '@utils/cn'
 import { cva, type VariantProps } from 'class-variance-authority'
 
-// TODO: text sizes should be passed as separate fontSize prop
 const tabsListVariants = cva('inline-flex items-center text-foreground-4', {
   variants: {
     variant: {

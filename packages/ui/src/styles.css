@@ -205,13 +205,6 @@
     --canary-code-background-06: var(--canary-harness-yellow-800) / 0.1;
     --canary-code-background-07: var(--canary-harness-yellow-800) / 0.25;
     --canary-code-background-08: var(--canary-blue) / 0.1;
-
-    /* Gradient colors */
-    --canary-tab-background-gradient: radial-gradient(
-      50% 50% at 50% 50%,
-      hsl(240deg 6% 20%/40%),
-      hsl(240deg 6% 20%/0%)
-    );
   }
   .dark-tri-std {
     --canary-background: var(--canary-grey-6);
@@ -373,13 +366,6 @@
     --canary-code-background-06: var(--canary-harness-yellow-800) / 0.1;
     --canary-code-background-07: var(--canary-harness-yellow-800) / 0.25;
     --canary-code-background-08: var(--canary-blue) / 0.1;
-
-    /* Gradient colors */
-    --canary-tab-background-gradient: radial-gradient(
-      50% 50% at 50% 50%,
-      hsl(240deg 6% 20%/40%),
-      hsl(240deg 6% 20%/0%)
-    );
   }
   .light-pnd-std {
     --canary-background: 0 0% 100%;
@@ -560,13 +546,6 @@
     --canary-code-background-06: var(--canary-harness-yellow-800) / 0.1;
     --canary-code-background-07: var(--canary-harness-yellow-800) / 0.25;
     --canary-code-background-08: var(--canary-blue) / 0.1;
-
-    /* Gradient colors */
-    --canary-tab-background-gradient: radial-gradient(
-      50% 50% at 50% 50%,
-      hsl(240deg 6% 20%/40%),
-      hsl(240deg 6% 20%/0%)
-    );
   }
   .dark-pnd-std {
     --canary-background: var(--canary-grey-6);
@@ -728,13 +707,6 @@
     --canary-code-background-06: var(--canary-harness-yellow-800) / 0.1;
     --canary-code-background-07: var(--canary-harness-yellow-800) / 0.25;
     --canary-code-background-08: var(--canary-blue) / 0.1;
-
-    /* Gradient colors */
-    --canary-tab-background-gradient: radial-gradient(
-      50% 50% at 50% 50%,
-      hsl(240deg 6% 20%/40%),
-      hsl(240deg 6% 20%/0%)
-    );
   }
 }
 
