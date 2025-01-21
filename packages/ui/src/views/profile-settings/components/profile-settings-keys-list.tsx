@@ -1,16 +1,22 @@
+import { FC } from 'react'
+
 import { Icon, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Text } from '@/components'
 import { timeAgo } from '@utils/utils'
 import { TranslationStore } from '@views/repo'
 
 import { KeysList } from '../types'
 
-interface PageProps {
+interface ProfileKeysListProps {
   publicKeys: KeysList[]
   openAlertDeleteDialog: (params: { identifier: string; type: string }) => void
   useTranslationStore: () => TranslationStore
 }
 
-export const ProfileKeysList: React.FC<PageProps> = ({ publicKeys, openAlertDeleteDialog, useTranslationStore }) => {
+export const ProfileKeysList: FC<ProfileKeysListProps> = ({
+  publicKeys,
+  openAlertDeleteDialog,
+  useTranslationStore
+}) => {
   const { t } = useTranslationStore()
   return (
     <Table variant="asStackedList">
@@ -31,7 +37,7 @@ export const ProfileKeysList: React.FC<PageProps> = ({ publicKeys, openAlertDele
                   <Icon name="ssh-key" size={42} />
                   <div className="flex flex-col">
                     <Text weight="bold">{key.identifier}</Text>
-                    <Text truncate color="tertiaryBackground" className="max-w-[200px] overflow-hidden">
+                    <Text className="max-w-[200px] overflow-hidden" truncate color="tertiaryBackground">
                       {key.fingerprint}
                     </Text>
                   </div>
@@ -49,20 +55,24 @@ export const ProfileKeysList: React.FC<PageProps> = ({ publicKeys, openAlertDele
                 <div
                   role="button"
                   tabIndex={0}
-                  className="flex cursor-pointer items-center justify-end gap-1.5"
+                  className="p-1"
                   onClick={() => {
                     openAlertDeleteDialog({ identifier: key.identifier!, type: 'key' })
                   }}
+                  onKeyDown={() => {
+                    openAlertDeleteDialog({ identifier: key.identifier!, type: 'key' })
+                  }}
                 >
-                  <Icon name="trash" size={14} className="text-tertiary-background" />
+                  <span className="sr-only">Delete personal access token</span>
+                  <Icon className="text-tertiary-background" name="trash" size={14} />
                 </div>
               </TableCell>
             </TableRow>
           ))
         ) : (
           <TableRow>
-            <TableCell colSpan={4}>
-              <Text as="p" size={2} align="center" color={'tertiaryBackground'} className="w-full text-center">
+            <TableCell className="!p-4" colSpan={4}>
+              <Text className="w-full text-center" as="p" size={2} align="center" color="foreground-4">
                 {t(
                   'views:profileSettings.noDataKeysDescription',
                   'There are no SSH keys associated with this account.'
