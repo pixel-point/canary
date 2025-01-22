@@ -27,7 +27,8 @@ export const BranchesList = ({
   useTranslationStore,
   toBranchRules,
   toPullRequestCompare,
-  toCommitDetails
+  toCommitDetails,
+  onDeleteBranch
 }: BranchListPageProps) => {
   const { t } = useTranslationStore()
   return (
@@ -65,11 +66,11 @@ export const BranchesList = ({
                 {/* branch name */}
                 <TableCell className="content-center">
                   <div className="flex items-center gap-1.5">
-                    <Text wrap="nowrap" truncate className="text-primary/90">
-                      <Button variant="secondary" size="xs">
+                    <Button variant="secondary" size="xs">
+                      <Text wrap="nowrap" truncate className="text-primary/90 max-w-[500px]">
                         {branch?.name}
-                      </Button>
-                    </Text>
+                      </Text>
+                    </Button>
                     <CopyButton name={branch?.name} />
                   </div>
                 </TableCell>
@@ -138,10 +139,13 @@ export const BranchesList = ({
                         to: toBranchRules?.()
                       },
                       {
+                        title: t('views:repos.browse', 'Browse'),
+                        to: `../code/${branch.name}`
+                      },
+                      {
                         isDanger: true,
-                        title: t('views:repos.renameBranch', 'Rename Branch'),
-                        // TODO: add remove fnc
-                        onClick: () => {}
+                        title: t('views:repos.deleteBranch', 'Delete Branch'),
+                        onClick: () => onDeleteBranch(branch.name)
                       }
                     ]}
                   />
