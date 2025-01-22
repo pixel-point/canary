@@ -138,7 +138,7 @@ export const RepoCode = () => {
       },
       lastCommitMessage: message || '',
       timestamp: author?.when ? timeAgoFromISOTime(author.when) : '',
-      sha: sha && getTrimmedSha(sha)
+      sha: sha && sha
     }
   }, [repoDetails?.latest_commit])
 
@@ -188,6 +188,7 @@ export const RepoCode = () => {
 
   return (
     <RepoFiles
+      toCommitDetails={({ sha }: { sha: string }) => routes.toRepoCommitDetails({ spaceId, repoId, commitSHA: sha })}
       isRepoEmpty={repository?.is_empty}
       pathParts={pathParts}
       loading={loading}

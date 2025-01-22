@@ -329,6 +329,7 @@ export default function RepoSummaryPage() {
   return (
     <>
       <RepoSummaryView
+        toCommitDetails={({ sha }: { sha: string }) => routes.toRepoCommitDetails({ spaceId, repoId, commitSHA: sha })}
         loading={isLoading}
         filesList={filesList}
         navigateToFile={navigateToFile}
