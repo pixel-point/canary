@@ -45,6 +45,7 @@ export const ProfileKeysList: FC<ProfileKeysListProps> = ({
                 <span className="text-foreground-1">{timeAgo(new Date(key.created!).getTime())}</span>
               </TableCell>
               <TableCell className="h-1">
+                {/* TODO: pass the data to KeysList item about last used date */}
                 {/* <span className="text-foreground-1">
                   {key.last_used ? new Date(key.last_used).toLocaleString() : 'Never used'}
                 </span> */}

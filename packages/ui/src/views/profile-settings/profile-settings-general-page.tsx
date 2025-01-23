@@ -159,7 +159,7 @@ const SettingsAccountGeneralPage: FC<SettingsAccountGeneralPageProps> = ({
 
   return (
     <SandboxLayout.Content className="max-w-[476px] px-0">
-      <h1 className="text-2xl font-medium text-foreground-1">
+      <h1 className="text-24 font-medium text-foreground-1">
         {t('views:profileSettings.accountSettings', 'Account settings')}
       </h1>
       <Spacer size={10} />
@@ -170,10 +170,14 @@ const SettingsAccountGeneralPage: FC<SettingsAccountGeneralPageProps> = ({
           <FormWrapper onSubmit={handleProfileSubmit(onProfileSubmit)}>
             <Legend title={t('views:profileSettings.personalInfo', 'Personal information')} />
             <ControlGroup>
+              {/*
+                 FIXME: Avatar size does not work correctly
+                 issue – https://github.com/harness/canary/issues/817
+              */}
               <Avatar size="20" className="size-20 shadow-md">
                 <AvatarImage src="/images/anon.jpg" />
                 <AvatarFallback>
-                  <span className="text-2xl font-medium text-foreground-3">
+                  <span className="text-24 font-medium text-foreground-3">
                     {getInitials(userData?.name || '', AVATAR_INITIALS_LENGTH)}
                   </span>
                 </AvatarFallback>

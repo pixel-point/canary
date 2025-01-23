@@ -51,7 +51,7 @@ export const ProfileSettingsView = () => {
                 placeholder="Enter your username"
                 disabled
                 label="Username"
-                value="username@mail.co"
+                value="test-user"
                 caption="This username will be shown across the platform."
               />
             </ControlGroup>

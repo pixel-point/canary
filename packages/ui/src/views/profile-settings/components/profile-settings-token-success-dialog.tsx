@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { AlertDialog, Button, ControlGroup, FormWrapper, Input, Text } from '@/components'
+import { AlertDialog, Button, ControlGroup, CopyButton, FormWrapper, Input, Text } from '@/components'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { IProfileSettingsStore } from '@views/profile-settings/types'
 import { TranslationStore } from '@views/repo'
@@ -61,8 +61,9 @@ export const ProfileSettingsTokenSuccessDialog: FC<ProfileSettingsTokenSuccessDi
               size="md"
               readOnly
               label={t('views:profileSettings.name', 'Name')}
-              // @todo Add a copy button to copy the identifier value when base component is ready
-              // right={<CopyButton name={defaultValues?.identifier} />}
+              rightElement={
+                <CopyButton className="absolute right-2.5 bg-background-1" name={createdTokenData?.identifier || ''} />
+              }
             />
           </ControlGroup>
           <ControlGroup>
@@ -81,9 +82,10 @@ export const ProfileSettingsTokenSuccessDialog: FC<ProfileSettingsTokenSuccessDi
               value={createdTokenData?.token}
               size="md"
               readOnly
-              // right={<CopyButton name={defaultValues?.token} />}
-              autoFocus
               label={t('views:profileSettings.token', 'Token')}
+              rightElement={
+                <CopyButton className="absolute right-2.5 bg-background-1" name={createdTokenData?.token || ''} />
+              }
             />
           </ControlGroup>
           <ControlGroup>
