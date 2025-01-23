@@ -55,7 +55,7 @@ export const ProfileKeysList: FC<ProfileKeysListProps> = ({
                   actions={[
                     {
                       isDanger: true,
-                      title: t('views:profileSettings.addSshKey', 'Delete SSH key'),
+                      title: t('views:profileSettings.deleteSshKey', 'Delete SSH key'),
                       onClick: () => {
                         openAlertDeleteDialog({ identifier: key.identifier!, type: 'key' })
                       }

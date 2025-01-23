@@ -4,11 +4,14 @@ import '@harnessio/ui/styles.css'
 
 import { Navigate, Route, Routes } from 'react-router-dom'
 
+import { ProfileSettingsViewWrapper } from '@/pages/view-preview/profile-settings-view-wrapper.tsx'
 import { RepoSettingsViewWrapper } from '@/pages/view-preview/repo-settings-view-wrapper'
 import ExecutionListWrapper from '@subjects/views/execution-list/execution-list'
 import { ProjectLabelsList } from '@subjects/views/labels/project-labels-list'
 import { RepoLabelsList } from '@subjects/views/labels/repo-labels-list'
 import PipelineListWrapper from '@subjects/views/pipeline-list/pipeline-list'
+import { ProfileSettingsView } from '@subjects/views/profile-settings'
+import { ProfileSettingsKeysView } from '@subjects/views/profile-settings-keys'
 import PullRequestCompareWrapper from '@subjects/views/pull-request-compare/pull-request-compare'
 import PullRequestChanges from '@subjects/views/pull-request-conversation/pull-request-changes'
 import PullRequestCommits from '@subjects/views/pull-request-conversation/pull-request-commits'
@@ -198,6 +201,20 @@ export const viewPreviews: Record<string, ReactNode> = {
     <ProjectSettingsWrapper>
       <SpaceSettingsMembers />
     </ProjectSettingsWrapper>
+  ),
+  'profile-settings': (
+    <RootViewWrapper>
+      <ProfileSettingsViewWrapper>
+        <ProfileSettingsView />
+      </ProfileSettingsViewWrapper>
+    </RootViewWrapper>
+  ),
+  'profile-settings-keys': (
+    <RootViewWrapper>
+      <ProfileSettingsViewWrapper>
+        <ProfileSettingsKeysView />
+      </ProfileSettingsViewWrapper>
+    </RootViewWrapper>
   )
 }
 
