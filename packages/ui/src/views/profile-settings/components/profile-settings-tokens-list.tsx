@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { Icon, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Text } from '@/components'
+import { Icon, MoreActionsTooltip, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components'
 import { timeAgo } from '@/utils/utils'
 import { TranslationStore } from '@/views'
 
@@ -30,47 +30,53 @@ export const ProfileTokensList: FC<ProfileTokensListProps> = ({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {tokens && tokens.length > 0 ? (
+        {tokens.length ? (
           tokens.map(token => (
             <TableRow key={token.uid}>
               <TableCell>
-                <Text weight="bold">{token.identifier}</Text>
+                <span className="font-medium text-foreground-1">{token.identifier}</span>
               </TableCell>
               <TableCell>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-x-1.5">
                   <Icon name="green-dot" size={8} />
-                  <Text>{t('views:profileSettings.active', 'Active')}</Text>
+                  <span className="text-foreground-3">{t('views:profileSettings.active', 'Active')}</span>
                 </div>
               </TableCell>
               <TableCell>
-                {token.expires_at
-                  ? new Date(token.expires_at).toLocaleString()
-                  : t('views:profileSettings.noExpiration', 'No Expiration')}
+                <span className="text-foreground-1">
+                  {token.expires_at
+                    ? new Date(token.expires_at).toLocaleString()
+                    : t('views:profileSettings.noExpiration', 'No Expiration')}
+                </span>
               </TableCell>
-              <TableCell>{timeAgo(new Date(token.issued_at!).getTime())}</TableCell>
-              <TableCell className="content-center">
-                <div
-                  className="p-1"
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => openAlertDeleteDialog({ identifier: token.identifier!, type: 'token' })}
-                  onKeyDown={() => openAlertDeleteDialog({ identifier: token.identifier!, type: 'token' })}
-                >
-                  <span className="sr-only">Delete personal access token</span>
-                  <Icon className="text-tertiary-background" name="trash" size={14} />
-                </div>
+              <TableCell>
+                <span className="text-foreground-3">{timeAgo(new Date(token.issued_at!).getTime())}</span>
+              </TableCell>
+              <TableCell className="text-right">
+                <MoreActionsTooltip
+                  isInTable
+                  actions={[
+                    {
+                      isDanger: true,
+                      title: t('views:profileSettings.deleteToken', 'Delete token'),
+                      onClick: () => {
+                        openAlertDeleteDialog({ identifier: token.identifier!, type: 'token' })
+                      }
+                    }
+                  ]}
+                />
               </TableCell>
             </TableRow>
           ))
         ) : (
-          <TableRow>
+          <TableRow className="hover:bg-transparent">
             <TableCell className="!p-4" colSpan={5}>
-              <Text className="w-full text-center" as="p" size={2} align="center" color="foreground-4">
+              <p className="text-center text-14 text-foreground-4">
                 {t(
                   'views:profileSettings.noTokenDescription',
                   'There are no personal access tokens associated with this account.'
                 )}
-              </Text>
+              </p>
             </TableCell>
           </TableRow>
         )}

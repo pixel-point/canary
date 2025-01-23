@@ -1,7 +1,7 @@
 import { FC } from 'react'
 
-import { Button, ControlGroup, Fieldset, FormSeparator, FormWrapper, Legend, Spacer, Text } from '@/components'
-import { SandboxLayout, TranslationStore } from '@/views'
+import { Button, ControlGroup, Fieldset, FormSeparator, FormWrapper, Legend, Spacer } from '@/components'
+import { ApiErrorType, SandboxLayout, TranslationStore } from '@/views'
 
 import { ProfileKeysList } from './components/profile-settings-keys-list'
 import { ProfileTokensList } from './components/profile-settings-tokens-list'
@@ -12,11 +12,18 @@ interface SettingsAccountKeysPageProps {
   openTokenDialog: () => void
   openSshKeyDialog: () => void
   openAlertDeleteDialog: (data: AlertDeleteParams) => void
-  error: { type: string; message: string } | null
+  error: { type: ApiErrorType; message: string } | null
   headers?: Headers
   useProfileSettingsStore: () => IProfileSettingsStore
   useTranslationStore: () => TranslationStore
 }
+
+const ErrorMessage: FC<{ message: string }> = ({ message }) => (
+  <>
+    <Spacer size={2} />
+    <span className="text-xs font-normal text-destructive">{message}</span>
+  </>
+)
 
 const SettingsAccountKeysPage: FC<SettingsAccountKeysPageProps> = ({
   useProfileSettingsStore,
@@ -34,17 +41,16 @@ const SettingsAccountKeysPage: FC<SettingsAccountKeysPageProps> = ({
   const { t } = useTranslationStore()
 
   return (
-    <SandboxLayout.Content className="max-w-[812px] px-0">
-      <Text size={5} weight={'medium'} as="h1">
+    <SandboxLayout.Content className="px-0">
+      <h1 className="text-2xl font-medium text-foreground-1">
         {t('views:profileSettings.keysAndTokens', 'Keys and Tokens')}
-      </Text>
+      </h1>
       <Spacer size={10} />
       <FormWrapper>
-        {/* PERSONAL ACCESS TOKEN */}
         <Fieldset className="gap-y-5">
           <Legend
             title={
-              <span className="flex justify-between">
+              <span className="flex justify-between gap-x-4">
                 {t('views:profileSettings.personalAccessToken', 'Personal access token')}
                 <Button type="button" variant="outline" className="text-primary" onClick={openTokenDialog}>
                   {t('views:profileSettings.addToken', 'Add new token')}
@@ -57,29 +63,20 @@ const SettingsAccountKeysPage: FC<SettingsAccountKeysPageProps> = ({
             )}
           />
           <ControlGroup>
-            <>
-              {(!error || error.type !== 'tokenFetch') && (
-                <ProfileTokensList
-                  tokens={tokens}
-                  openAlertDeleteDialog={openAlertDeleteDialog}
-                  useTranslationStore={useTranslationStore}
-                />
-              )}
-              {error && error.type === 'tokenFetch' && (
-                <>
-                  <Spacer size={2} />
-                  <Text size={1} className="text-destructive">
-                    {error.message}
-                  </Text>
-                </>
-              )}
-            </>
+            {error?.type === ApiErrorType.TokenFetch ? (
+              <ErrorMessage message={error.message} />
+            ) : (
+              <ProfileTokensList
+                tokens={tokens}
+                openAlertDeleteDialog={openAlertDeleteDialog}
+                useTranslationStore={useTranslationStore}
+              />
+            )}
           </ControlGroup>
         </Fieldset>
 
         <FormSeparator />
 
-        {/* PERSONAL ACCESS TOKEN */}
         <Fieldset className="gap-y-5">
           <div className="flex items-end justify-between">
             <Legend
@@ -94,32 +91,21 @@ const SettingsAccountKeysPage: FC<SettingsAccountKeysPageProps> = ({
               {t('views:profileSettings.addSshKey', 'Add new SSH key')}
             </Button>
           </div>
-
           <ControlGroup>
-            <>
-              {(!error || error.type !== 'keyFetch') && (
-                <>
-                  <ProfileKeysList
-                    publicKeys={publicKeys}
-                    openAlertDeleteDialog={openAlertDeleteDialog}
-                    useTranslationStore={useTranslationStore}
-                  />
-                  {/* <PaginationComponent
-                      totalPages={totalPages}
-                      currentPage={page}
-                      goToPage={(pageNum: number) => setPage(pageNum)}
-                    /> */}
-                </>
-              )}
-              {error && error.type === 'keyFetch' && (
-                <>
-                  <Spacer size={2} />
-                  <Text size={1} className="text-destructive">
-                    {error.message}
-                  </Text>
-                </>
-              )}
-            </>
+            {error?.type === ApiErrorType.KeyFetch ? (
+              <ErrorMessage message={error.message} />
+            ) : (
+              <ProfileKeysList
+                publicKeys={publicKeys}
+                openAlertDeleteDialog={openAlertDeleteDialog}
+                useTranslationStore={useTranslationStore}
+              />
+            )}
+            {/* <PaginationComponent
+                totalPages={totalPages}
+                currentPage={page}
+                goToPage={(pageNum: number) => setPage(pageNum)}
+              /> */}
           </ControlGroup>
         </Fieldset>
       </FormWrapper>

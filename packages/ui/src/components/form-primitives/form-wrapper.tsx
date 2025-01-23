@@ -4,6 +4,7 @@ import { cn } from '@utils/cn'
 
 interface FormWrapperProps extends PropsWithChildren, FormHTMLAttributes<HTMLFormElement> {
   className?: string
+  formRef?: (form: HTMLFormElement) => void
 }
 
 /**
@@ -16,9 +17,9 @@ interface FormWrapperProps extends PropsWithChildren, FormHTMLAttributes<HTMLFor
  *   <Textarea type="email" />
  * </FormWrapper>
  */
-export function FormWrapper({ className, children, ...props }: FormWrapperProps) {
+export function FormWrapper({ className, children, formRef, ...props }: FormWrapperProps) {
   return (
-    <form className={cn('flex flex-col gap-y-7', className)} {...props}>
+    <form className={cn('flex flex-col gap-y-7', className)} ref={formRef} {...props}>
       {children}
     </form>
   )

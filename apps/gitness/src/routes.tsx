@@ -1,7 +1,7 @@
 import { ReactElement } from 'react'
 import { Navigate } from 'react-router-dom'
 
-import { Breadcrumb, Text } from '@harnessio/ui/components'
+import { Text } from '@harnessio/ui/components'
 import { EmptyPage, ProfileSettingsLayout, RepoSettingsLayout, SandboxLayout } from '@harnessio/ui/views'
 
 import { AppShell, AppShellMFE } from './components-v2/app-shell'

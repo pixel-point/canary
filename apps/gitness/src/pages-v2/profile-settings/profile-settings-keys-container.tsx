@@ -32,6 +32,8 @@ import {
 import { useTranslationStore } from '../../i18n/stores/i18n-store'
 import { useProfileSettingsStore } from './stores/profile-settings-store'
 
+const CONVERT_DAYS_TO_NANO_SECONDS = 24 * 60 * 60 * 1000 * 1000000
+
 export const SettingsProfileKeysPage = () => {
   const {
     createdTokenData,
@@ -49,7 +51,6 @@ export const SettingsProfileKeysPage = () => {
   const [isAlertDeleteDialogOpen, setIsAlertDeleteDialogOpen] = useState(false)
   const [alertParams, setAlertParams] = useState<AlertDeleteParams | null>(null)
   const [searchParams] = useSearchParams()
-  const CONVERT_DAYS_TO_NANO_SECONDS = 24 * 60 * 60 * 1000 * 1000000
 
   const [apiError, setApiError] = useState<{
     type: ApiErrorType

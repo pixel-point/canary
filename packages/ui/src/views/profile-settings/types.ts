@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { tokenCreateFormSchema } from './components/token-create/token-create-form'
+import { tokenCreateFormSchema } from './components/profile-settings-token-create-dialog'
 import { ProfileFields } from './profile-settings-general-page'
 
 export type TokenFormType = z.infer<typeof tokenCreateFormSchema>
