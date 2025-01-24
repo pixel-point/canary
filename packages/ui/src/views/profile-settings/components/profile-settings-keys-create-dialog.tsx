@@ -1,7 +1,7 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import { AlertDialog, Button, ControlGroup, FormWrapper, Input, Spacer, Textarea } from '@/components'
+import { AlertDialog, Button, Fieldset, FormWrapper, Input, Textarea } from '@/components'
 import { ApiErrorType } from '@/views'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TranslationStore } from '@views/repo'
@@ -35,6 +35,7 @@ export const ProfileSettingsKeysCreateDialog: FC<ProfileSettingsKeysCreateDialog
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors, isValid }
   } = useForm<SshKeyFormType>({
     resolver: zodResolver(formSchema),
@@ -48,18 +49,22 @@ export const ProfileSettingsKeysCreateDialog: FC<ProfileSettingsKeysCreateDialog
   const content = watch('content')
   const identifier = watch('identifier')
 
+  useEffect(() => {
+    !open && reset()
+  }, [open, reset])
+
   const handleFormSubmit: SubmitHandler<SshKeyFormType> = data => {
     handleCreateSshKey(data)
   }
 
   return (
     <AlertDialog.Root open={open} onOpenChange={onClose}>
-      <AlertDialog.Content>
+      <AlertDialog.Content onOverlayClick={onClose} onClose={onClose}>
         <AlertDialog.Header>
           <AlertDialog.Title>{t('views:profileSettings.newSshKey', 'New SSH key')}</AlertDialog.Title>
         </AlertDialog.Header>
-        <FormWrapper formRef={setFormElement} onSubmit={handleSubmit(handleFormSubmit)}>
-          <ControlGroup>
+        <FormWrapper className="pb-3 pt-2.5" formRef={setFormElement} onSubmit={handleSubmit(handleFormSubmit)}>
+          <Fieldset>
             <Input
               id="identifier"
               value={identifier}
@@ -70,9 +75,10 @@ export const ProfileSettingsKeysCreateDialog: FC<ProfileSettingsKeysCreateDialog
               error={errors.identifier?.message?.toString()}
               autoFocus
             />
-          </ControlGroup>
-          <ControlGroup>
+          </Fieldset>
+          <Fieldset className="gap-y-0">
             <Textarea
+              className="text-foreground-1"
               id="content"
               value={content}
               {...register('content')}
@@ -80,18 +86,15 @@ export const ProfileSettingsKeysCreateDialog: FC<ProfileSettingsKeysCreateDialog
               error={errors.content?.message?.toString()}
             />
             {error?.type === ApiErrorType.KeyCreate && (
-              <>
-                <span className="text-14 text-destructive">{error.message}</span>
-                <Spacer size={4} />
-              </>
+              <span className="text-14 mt-6 text-destructive">{error.message}</span>
             )}
-          </ControlGroup>
+          </Fieldset>
         </FormWrapper>
         <AlertDialog.Footer>
-          <Button type="button" variant="outline" size="sm" onClick={onClose}>
+          <Button type="button" variant="outline" onClick={onClose}>
             {t('views:profileSettings.cancel', 'Cancel')}
           </Button>
-          <Button type="button" size="sm" disabled={!isValid} onClick={() => formElement?.requestSubmit()}>
+          <Button type="button" disabled={!isValid} onClick={() => formElement?.requestSubmit()}>
             {t('views:profileSettings.saveButton', 'Save')}
           </Button>
         </AlertDialog.Footer>

@@ -133,9 +133,9 @@ export const SettingsProfileKeysPage = () => {
           token: newToken.access_token ?? 'Token not available'
         }
 
-        closeTokenDialog()
         setCreatedTokenData(tokenData)
         setSuccessTokenDialog(true)
+        closeTokenDialog()
         addToken(newToken.token as TokensList)
       },
       onError: (error: CreateTokenErrorResponse) => {

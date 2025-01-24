@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { Button, ControlGroup, Fieldset, FormSeparator, FormWrapper, Legend, Spacer } from '@/components'
+import { Button, Fieldset, FormSeparator, FormWrapper, Legend, SkeletonTable, Spacer } from '@/components'
 import { ApiErrorType, SandboxLayout, TranslationStore } from '@/views'
 
 import { ProfileKeysList } from './components/profile-settings-keys-list'
@@ -48,34 +48,36 @@ const SettingsAccountKeysPage: FC<SettingsAccountKeysPageProps> = ({
       <Spacer size={10} />
       <FormWrapper>
         <Fieldset className="gap-y-5">
-          <Legend
-            title={
-              <span className="flex justify-between gap-x-4">
-                {t('views:profileSettings.personalAccessToken', 'Personal access token')}
-                <Button type="button" variant="outline" className="text-primary" onClick={openTokenDialog}>
-                  {t('views:profileSettings.addToken', 'Add new token')}
-                </Button>
-              </span>
-            }
-            description={t(
-              'views:profileSettings.addTokenDescription',
-              'Personal access tokens allow you to authenticate with the API.'
-            )}
-          />
-          <ControlGroup>
-            {error?.type === ApiErrorType.TokenFetch ? (
-              <ErrorMessage message={error.message} />
-            ) : (
-              <ProfileTokensList
-                tokens={tokens}
-                openAlertDeleteDialog={openAlertDeleteDialog}
-                useTranslationStore={useTranslationStore}
-              />
-            )}
-          </ControlGroup>
+          <div className="flex items-end justify-between">
+            <Legend
+              title={
+                <span className="flex justify-between gap-x-4">
+                  {t('views:profileSettings.personalAccessToken', 'Personal access token')}
+                </span>
+              }
+              description={t(
+                'views:profileSettings.addTokenDescription',
+                'Personal access tokens allow you to authenticate with the API.'
+              )}
+            />
+            <Button type="button" variant="outline" className="text-primary" onClick={openTokenDialog}>
+              {t('views:profileSettings.addToken', 'Add new token')}
+            </Button>
+          </div>
+          {error?.type === ApiErrorType.TokenFetch ? (
+            <ErrorMessage message={error.message} />
+          ) : tokens.length > 0 ? (
+            <ProfileTokensList
+              tokens={tokens}
+              openAlertDeleteDialog={openAlertDeleteDialog}
+              useTranslationStore={useTranslationStore}
+            />
+          ) : (
+            <SkeletonTable countRows={5} />
+          )}
         </Fieldset>
 
-        <FormSeparator />
+        <FormSeparator className="border-borders-4" />
 
         <Fieldset className="gap-y-5">
           <div className="flex items-end justify-between">
@@ -91,22 +93,17 @@ const SettingsAccountKeysPage: FC<SettingsAccountKeysPageProps> = ({
               {t('views:profileSettings.addSshKey', 'Add new SSH key')}
             </Button>
           </div>
-          <ControlGroup>
-            {error?.type === ApiErrorType.KeyFetch ? (
-              <ErrorMessage message={error.message} />
-            ) : (
-              <ProfileKeysList
-                publicKeys={publicKeys}
-                openAlertDeleteDialog={openAlertDeleteDialog}
-                useTranslationStore={useTranslationStore}
-              />
-            )}
-            {/* <PaginationComponent
-                totalPages={totalPages}
-                currentPage={page}
-                goToPage={(pageNum: number) => setPage(pageNum)}
-              /> */}
-          </ControlGroup>
+          {error?.type === ApiErrorType.KeyFetch ? (
+            <ErrorMessage message={error.message} />
+          ) : publicKeys.length > 0 ? (
+            <ProfileKeysList
+              publicKeys={publicKeys}
+              openAlertDeleteDialog={openAlertDeleteDialog}
+              useTranslationStore={useTranslationStore}
+            />
+          ) : (
+            <SkeletonTable countRows={4} />
+          )}
         </Fieldset>
       </FormWrapper>
     </SandboxLayout.Content>

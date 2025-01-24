@@ -8,6 +8,7 @@ import {
   Button,
   ButtonGroup,
   ControlGroup,
+  Fieldset,
   FormSeparator,
   FormWrapper,
   Icon,
@@ -169,21 +170,19 @@ const SettingsAccountGeneralPage: FC<SettingsAccountGeneralPageProps> = ({
         <>
           <FormWrapper onSubmit={handleProfileSubmit(onProfileSubmit)}>
             <Legend title={t('views:profileSettings.personalInfo', 'Personal information')} />
-            <ControlGroup>
-              {/*
+            {/*
                  FIXME: Avatar size does not work correctly
                  issue – https://github.com/harness/canary/issues/817
               */}
-              <Avatar size="20" className="size-20 shadow-md">
-                <AvatarImage src="/images/anon.jpg" />
-                <AvatarFallback>
-                  <span className="text-24 font-medium text-foreground-3">
-                    {getInitials(userData?.name || '', AVATAR_INITIALS_LENGTH)}
-                  </span>
-                </AvatarFallback>
-              </Avatar>
-            </ControlGroup>
-            <ControlGroup>
+            <Avatar size="20" className="size-20 shadow-md">
+              <AvatarImage src="/images/anon.jpg" />
+              <AvatarFallback>
+                <span className="text-24 font-medium text-foreground-3">
+                  {getInitials(userData?.name || '', AVATAR_INITIALS_LENGTH)}
+                </span>
+              </AvatarFallback>
+            </Avatar>
+            <Fieldset>
               <Input
                 id="name"
                 size="md"
@@ -193,8 +192,8 @@ const SettingsAccountGeneralPage: FC<SettingsAccountGeneralPageProps> = ({
                 error={profileErrors?.name?.message?.toString()}
                 disabled={isUpdatingUser}
               />
-            </ControlGroup>
-            <ControlGroup>
+            </Fieldset>
+            <Fieldset>
               <Input
                 id="username"
                 size="md"
@@ -205,8 +204,8 @@ const SettingsAccountGeneralPage: FC<SettingsAccountGeneralPageProps> = ({
                 caption={'This username will be shown across the platform.'}
                 error={profileErrors?.username?.message?.toString()}
               />
-            </ControlGroup>
-            <ControlGroup>
+            </Fieldset>
+            <Fieldset>
               <Input
                 id="email"
                 size="md"
@@ -216,7 +215,7 @@ const SettingsAccountGeneralPage: FC<SettingsAccountGeneralPageProps> = ({
                 error={profileErrors?.email?.message}
                 disabled={isUpdatingUser}
               />
-            </ControlGroup>
+            </Fieldset>
 
             {renderErrorMessage(ProfileSettingsErrorType.PROFILE, error?.message || '')}
 
@@ -241,7 +240,7 @@ const SettingsAccountGeneralPage: FC<SettingsAccountGeneralPageProps> = ({
             </ControlGroup>
           </FormWrapper>
 
-          <FormSeparator className="my-7" />
+          <FormSeparator className="my-7 border-borders-4" />
 
           <FormWrapper onSubmit={handlePasswordSubmit(onPasswordSubmit)}>
             <Legend
@@ -251,7 +250,7 @@ const SettingsAccountGeneralPage: FC<SettingsAccountGeneralPageProps> = ({
                 'Minimum of 6 characters long containing at least one number and a mixture of uppercase and lowercase letters.'
               )}
             />
-            <ControlGroup>
+            <Fieldset>
               <Input
                 id="newPassword"
                 type="password"
@@ -262,8 +261,8 @@ const SettingsAccountGeneralPage: FC<SettingsAccountGeneralPageProps> = ({
                 error={passwordErrors?.newPassword?.message}
                 disabled={isUpdatingPassword}
               />
-            </ControlGroup>
-            <ControlGroup>
+            </Fieldset>
+            <Fieldset>
               <Input
                 id="confirmPassword"
                 type="password"
@@ -274,7 +273,7 @@ const SettingsAccountGeneralPage: FC<SettingsAccountGeneralPageProps> = ({
                 error={passwordErrors?.confirmPassword?.message}
                 disabled={isUpdatingPassword}
               />
-            </ControlGroup>
+            </Fieldset>
 
             {renderErrorMessage(ProfileSettingsErrorType.PASSWORD, error?.message || '')}
 

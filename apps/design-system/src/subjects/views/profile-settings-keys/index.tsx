@@ -60,26 +60,24 @@ export const ProfileSettingsKeysView = () => {
   return (
     <>
       <SandboxLayout.Content className="px-0">
-        <h1 className="text-2xl font-medium text-foreground-1">Keys and Tokens</h1>
+        <h1 className="text-24 font-medium text-foreground-1">Keys and Tokens</h1>
         <Spacer size={10} />
         <FormWrapper>
           <Fieldset className="gap-y-5">
-            <Legend
-              title={
-                <span className="flex justify-between gap-x-4">
-                  Personal access token
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="text-primary"
-                    onClick={() => setIsTokenDialogOpen(true)}
-                  >
-                    Add new token
-                  </Button>
-                </span>
-              }
-              description="Personal access tokens allow you to authenticate with the API."
-            />
+            <div className="flex items-end justify-between">
+              <Legend
+                title={<span className="flex justify-between gap-x-4">Personal access token</span>}
+                description="Personal access tokens allow you to authenticate with the API."
+              />
+              <Button
+                type="button"
+                variant="outline"
+                className="text-primary"
+                onClick={() => setIsTokenDialogOpen(true)}
+              >
+                Add new token
+              </Button>
+            </div>
             <ControlGroup>
               <ProfileTokensList
                 tokens={tokens}
@@ -89,7 +87,7 @@ export const ProfileSettingsKeysView = () => {
             </ControlGroup>
           </Fieldset>
 
-          <FormSeparator />
+          <FormSeparator className="border-borders-4" />
 
           <Fieldset className="gap-y-5">
             <div className="flex items-end justify-between">

@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { AlertDialog, Button, ControlGroup, CopyButton, FormWrapper, Input, Text } from '@/components'
+import { AlertDialog, Button, CopyButton, Fieldset, FormWrapper, Input, Text } from '@/components'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { IProfileSettingsStore } from '@views/profile-settings/types'
 import { TranslationStore } from '@views/repo'
@@ -49,12 +49,12 @@ export const ProfileSettingsTokenSuccessDialog: FC<ProfileSettingsTokenSuccessDi
 
   return (
     <AlertDialog.Root open={open} onOpenChange={onClose}>
-      <AlertDialog.Content>
+      <AlertDialog.Content onOverlayClick={onClose} onClose={onClose}>
         <AlertDialog.Header>
           <AlertDialog.Title>{t('views:profileSettings.createToken', 'Create a token')}</AlertDialog.Title>
         </AlertDialog.Header>
-        <FormWrapper>
-          <ControlGroup>
+        <FormWrapper className="pb-3 pt-2.5">
+          <Fieldset>
             <Input
               id="identifier"
               value={createdTokenData?.identifier}
@@ -65,8 +65,8 @@ export const ProfileSettingsTokenSuccessDialog: FC<ProfileSettingsTokenSuccessDi
                 <CopyButton className="absolute right-2.5 bg-background-1" name={createdTokenData?.identifier || ''} />
               }
             />
-          </ControlGroup>
-          <ControlGroup>
+          </Fieldset>
+          <Fieldset>
             <Input
               id="lifetime"
               value={createdTokenData?.lifetime}
@@ -74,8 +74,8 @@ export const ProfileSettingsTokenSuccessDialog: FC<ProfileSettingsTokenSuccessDi
               label={t('views:profileSettings.expiration', 'Expiration')}
               readOnly
             />
-          </ControlGroup>
-          <ControlGroup>
+          </Fieldset>
+          <Fieldset>
             <Input
               className="truncate"
               id="token"
@@ -87,18 +87,16 @@ export const ProfileSettingsTokenSuccessDialog: FC<ProfileSettingsTokenSuccessDi
                 <CopyButton className="absolute right-2.5 bg-background-1" name={createdTokenData?.token || ''} />
               }
             />
-          </ControlGroup>
-          <ControlGroup>
-            <Text>
-              {t(
-                'views:profileSettings.tokenSuccessDescription',
-                'Your token has been generated. Please make sure to copy and store your token somewhere safe, you won’t beable to see it again.'
-              )}
-            </Text>
-          </ControlGroup>
+          </Fieldset>
+          <span className="text-14 text-foreground-1">
+            {t(
+              'views:profileSettings.tokenSuccessDescription',
+              'Your token has been generated. Please make sure to copy and store your token somewhere safe, you won’t beable to see it again.'
+            )}
+          </span>
         </FormWrapper>
         <AlertDialog.Footer>
-          <Button type="button" variant="outline" size="default" onClick={onClose}>
+          <Button type="button" variant="outline" onClick={onClose}>
             {t('views:profileSettings.gotItButton', 'Got it')}
           </Button>
         </AlertDialog.Footer>

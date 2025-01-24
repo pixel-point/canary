@@ -1,18 +1,7 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import {
-  AlertDialog,
-  Button,
-  ControlGroup,
-  FormWrapper,
-  Input,
-  Select,
-  SelectContent,
-  SelectItem,
-  Spacer,
-  Text
-} from '@/components'
+import { AlertDialog, Button, Fieldset, FormWrapper, Input, Select, SelectContent, SelectItem } from '@/components'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TranslationStore } from '@views/repo'
 import { z } from 'zod'
@@ -56,6 +45,7 @@ export const ProfileSettingsTokenCreateDialog: FC<ProfileSettingsTokenCreateDial
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors, isValid }
   } = useForm<TokenFormType>({
     resolver: zodResolver(tokenCreateFormSchema),
@@ -68,6 +58,10 @@ export const ProfileSettingsTokenCreateDialog: FC<ProfileSettingsTokenCreateDial
 
   const expirationValue = watch('lifetime')
   const identifier = watch('identifier')
+
+  useEffect(() => {
+    !open && reset()
+  }, [open, reset])
 
   const handleSelectChange = (fieldName: keyof TokenFormType, value: string) => {
     setValue(fieldName, value, { shouldValidate: true })
@@ -94,12 +88,12 @@ export const ProfileSettingsTokenCreateDialog: FC<ProfileSettingsTokenCreateDial
 
   return (
     <AlertDialog.Root open={open} onOpenChange={onClose}>
-      <AlertDialog.Content>
+      <AlertDialog.Content onOverlayClick={onClose} onClose={onClose}>
         <AlertDialog.Header>
           <AlertDialog.Title>{t('views:profileSettings.createToken', 'Create a token')}</AlertDialog.Title>
         </AlertDialog.Header>
-        <FormWrapper formRef={setFormElement} onSubmit={handleSubmit(handleFormSubmit)}>
-          <ControlGroup>
+        <FormWrapper className="pb-3 pt-2.5" formRef={setFormElement} onSubmit={handleSubmit(handleFormSubmit)}>
+          <Fieldset>
             <Input
               id="identifier"
               value={identifier}
@@ -110,8 +104,8 @@ export const ProfileSettingsTokenCreateDialog: FC<ProfileSettingsTokenCreateDial
               error={errors.identifier?.message?.toString()}
               autoFocus
             />
-          </ControlGroup>
-          <ControlGroup>
+          </Fieldset>
+          <Fieldset className="gap-y-0">
             <Select
               value={expirationValue}
               onValueChange={value => handleSelectChange('lifetime', value)}
@@ -123,42 +117,37 @@ export const ProfileSettingsTokenCreateDialog: FC<ProfileSettingsTokenCreateDial
                 {expirationOptions.map(expirationOption => {
                   return (
                     <SelectItem key={expirationOption.value} value={expirationOption.value}>
-                      {expirationOption.label}
+                      <span className="text-foreground-1">{expirationOption.label}</span>
                     </SelectItem>
                   )
                 })}
               </SelectContent>
             </Select>
             {isValid && (
-              <span className="mt-1.5">
+              <span className="mt-1.5 text-14 text-foreground-3">
                 {watch('lifetime') === 'never' ? (
-                  <Text color="tertiaryBackground">
-                    {t('views:profileSettings.tokenExpiryNone', 'Token will never expire')}
-                  </Text>
+                  <span>{t('views:profileSettings.tokenExpiryNone', 'Token will never expire')}</span>
                 ) : (
-                  <Text color="tertiaryBackground">
-                    {t('views:profileSettings.tokenExpiryDate', ' Token will expire on')}{' '}
+                  <span>
+                    {t('views:profileSettings.tokenExpiryDate', 'Token will expire on')}{' '}
                     {calculateExpirationDate(watch('lifetime'))}
-                  </Text>
+                  </span>
                 )}
               </span>
             )}
             {error?.type === ApiErrorType.TokenCreate && (
-              <>
-                <span className="text-14 text-destructive">{error.message}</span>
-                <Spacer size={4} />
-              </>
+              <span className="mt-1.5 text-14 text-destructive">{error.message}</span>
             )}
-          </ControlGroup>
+          </Fieldset>
         </FormWrapper>
         <AlertDialog.Footer>
-          <Button type="button" variant="outline" size="sm" onClick={onClose}>
+          <Button type="button" variant="outline" onClick={onClose}>
             {t('views:profileSettings.cancel', 'Cancel')}
           </Button>
-          <Button type="button" size="sm" disabled={!isValid || isLoading} onClick={() => formElement?.requestSubmit()}>
+          <Button type="button" disabled={!isValid || isLoading} onClick={() => formElement?.requestSubmit()}>
             {!isLoading
-              ? t('views:profileSettings.generateTokenButton', 'Generate Token')
-              : t('views:profileSettings.generatingTokenButton', 'Generating Token...')}
+              ? t('views:profileSettings.generateTokenButton', 'Generate token')
+              : t('views:profileSettings.generatingTokenButton', 'Generating token...')}
           </Button>
         </AlertDialog.Footer>
       </AlertDialog.Content>

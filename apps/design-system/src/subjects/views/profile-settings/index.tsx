@@ -7,6 +7,7 @@ import {
   Button,
   ButtonGroup,
   ControlGroup,
+  Fieldset,
   FormSeparator,
   FormWrapper,
   Input,
@@ -25,7 +26,7 @@ export const ProfileSettingsView = () => {
 
   return (
     <SandboxLayout.Content className="max-w-[476px] px-0">
-      <h1 className="text-2xl font-medium text-foreground-1">Account settings</h1>
+      <h1 className="text-24 font-medium text-foreground-1">Account settings</h1>
       <Spacer size={10} />
       {isLoadingUser ? (
         <SkeletonForm />
@@ -33,18 +34,16 @@ export const ProfileSettingsView = () => {
         <>
           <FormWrapper>
             <Legend title="Personal information" />
-            <ControlGroup>
-              <Avatar size="20" className="size-20 shadow-md">
-                <AvatarImage src="/images/anon.jpg" />
-                <AvatarFallback>
-                  <span className="text-2xl font-medium text-foreground-3">TN</span>
-                </AvatarFallback>
-              </Avatar>
-            </ControlGroup>
-            <ControlGroup>
+            <Avatar size="20" className="size-20 shadow-md">
+              <AvatarImage src="/images/anon.jpg" />
+              <AvatarFallback>
+                <span className="text-2xl font-medium text-foreground-3">TN</span>
+              </AvatarFallback>
+            </Avatar>
+            <Fieldset>
               <Input id="name" size="md" placeholder="Enter your name" label="Name" value="Test Name" />
-            </ControlGroup>
-            <ControlGroup>
+            </Fieldset>
+            <Fieldset>
               <Input
                 id="username"
                 size="md"
@@ -54,10 +53,10 @@ export const ProfileSettingsView = () => {
                 value="test-user"
                 caption="This username will be shown across the platform."
               />
-            </ControlGroup>
-            <ControlGroup>
+            </Fieldset>
+            <Fieldset>
               <Input id="email" size="md" value="user@domain.com" placeholder="name@domain.com" label="Account email" />
-            </ControlGroup>
+            </Fieldset>
 
             <ControlGroup type="button">
               <ButtonGroup>
@@ -68,14 +67,14 @@ export const ProfileSettingsView = () => {
             </ControlGroup>
           </FormWrapper>
 
-          <FormSeparator className="my-7" />
+          <FormSeparator className="my-7 border-borders-4" />
 
           <FormWrapper>
             <Legend
               title="Password settings"
               description="Minimum of 6 characters long containing at least one number and a mixture of uppercase and lowercase letters."
             />
-            <ControlGroup>
+            <Fieldset>
               <Input
                 id="newPassword"
                 type="password"
@@ -83,8 +82,8 @@ export const ProfileSettingsView = () => {
                 placeholder="Enter a new password"
                 label="New password"
               />
-            </ControlGroup>
-            <ControlGroup>
+            </Fieldset>
+            <Fieldset>
               <Input
                 id="confirmPassword"
                 type="password"
@@ -92,7 +91,7 @@ export const ProfileSettingsView = () => {
                 placeholder="Confirm your new password"
                 label="Confirm password"
               />
-            </ControlGroup>
+            </Fieldset>
 
             <ControlGroup type="button">
               <ButtonGroup>

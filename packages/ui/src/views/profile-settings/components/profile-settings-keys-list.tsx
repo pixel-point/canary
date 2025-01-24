@@ -32,34 +32,32 @@ export const ProfileKeysList: FC<ProfileKeysListProps> = ({
         {publicKeys.length ? (
           publicKeys.map((key: KeysList) => (
             <TableRow key={key.identifier}>
-              <TableCell>
+              <TableCell className="content-center">
                 <div className="inline-flex items-center gap-x-2.5">
                   <Icon name="ssh-key" size={32} />
                   <div className="flex flex-col">
-                    <span className="font-medium text-foreground-1">{key.identifier}</span>
+                    <span className="font-medium text-foreground-1 block max-w-[200px] truncate">{key.identifier}</span>
                     <span className="max-w-[200px] truncate text-12 text-foreground-3">{key.fingerprint}</span>
                   </div>
                 </div>
               </TableCell>
-              <TableCell className="h-1">
+              <TableCell className="h-1 content-center">
                 <span className="text-foreground-1">{timeAgo(new Date(key.created!).getTime())}</span>
               </TableCell>
-              <TableCell className="h-1">
+              <TableCell className="h-1 content-center">
                 {/* TODO: pass the data to KeysList item about last used date */}
                 {/* <span className="text-foreground-1">
                   {key.last_used ? new Date(key.last_used).toLocaleString() : 'Never used'}
                 </span> */}
               </TableCell>
-              <TableCell className="text-right">
+              <TableCell className="text-right content-center">
                 <MoreActionsTooltip
                   isInTable
                   actions={[
                     {
                       isDanger: true,
                       title: t('views:profileSettings.deleteSshKey', 'Delete SSH key'),
-                      onClick: () => {
-                        openAlertDeleteDialog({ identifier: key.identifier!, type: 'key' })
-                      }
+                      onClick: () => openAlertDeleteDialog({ identifier: key.identifier!, type: 'key' })
                     }
                   ]}
                 />
@@ -68,7 +66,7 @@ export const ProfileKeysList: FC<ProfileKeysListProps> = ({
           ))
         ) : (
           <TableRow className="hover:bg-transparent">
-            <TableCell className="!p-4" colSpan={4}>
+            <TableCell className="!p-4 content-center" colSpan={4}>
               <p className="text-center text-14 text-foreground-4">
                 {t(
                   'views:profileSettings.noDataKeysDescription',
