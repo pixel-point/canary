@@ -151,6 +151,15 @@ export const mockPullRequestActions = [
     action: () => {
       noop()
     }
+  },
+  {
+    id: '3',
+    title: 'Fast-forward merge',
+    description:
+      'All commits from this branch will be added to the base branch without a merge commit. Rebase may be required.',
+    action: () => {
+      noop()
+    }
   }
 ]
 
