@@ -1,4 +1,3 @@
-import { ReactElement } from 'react'
 import { Navigate } from 'react-router-dom'
 
 import { Breadcrumb, Text } from '@harnessio/ui/components'
@@ -52,7 +51,24 @@ import { UserManagementPageContainer } from './pages-v2/user-management/user-man
 import { CreateWebhookContainer } from './pages-v2/webhooks/create-webhook-container'
 import WebhookListPage from './pages-v2/webhooks/webhook-list'
 
-const repoRoutes: CustomRouteObject[] = [
+export const extractRedirectRouteObjects = (routes: CustomRouteObject[]): CustomRouteObject[] => {
+  const navigateObjects: CustomRouteObject[] = []
+  const traverseRoutes = (routes: CustomRouteObject[], currentPath: string = '') => {
+    for (const route of routes) {
+      const newPath = currentPath ? `${currentPath}${route.path ? `/${route.path}` : ''}` : (route.path ?? '')
+      if ((route.element as JSX.Element)?.type === Navigate) {
+        navigateObjects.push({ ...route, path: newPath })
+      }
+      if (route.children) {
+        traverseRoutes(route.children, newPath)
+      }
+    }
+  }
+  traverseRoutes(routes)
+  return navigateObjects
+}
+
+export const repoRoutes: CustomRouteObject[] = [
   {
     path: 'repos',
     handle: {
@@ -834,7 +850,7 @@ export const routes: CustomRouteObject[] = [
   }
 ]
 
-export const mfeRoutes = (mfeProjectId = '', mfeRouteRenderer: ReactElement | null = null): CustomRouteObject[] => [
+export const mfeRoutes = (mfeProjectId = '', mfeRouteRenderer: JSX.Element | null = null): CustomRouteObject[] => [
   {
     path: '/',
     element: (
@@ -845,17 +861,6 @@ export const mfeRoutes = (mfeProjectId = '', mfeRouteRenderer: ReactElement | nu
     ),
     handle: { routeName: 'toHome' },
     children: [
-      {
-        index: true,
-        element: <LandingPage />
-      },
-      {
-        path: 'repos',
-        handle: {
-          breadcrumb: () => <Text>Repositories</Text>
-        },
-        children: [{ index: true, element: <ReposListPage /> }]
-      },
       {
         path: '',
         handle: {

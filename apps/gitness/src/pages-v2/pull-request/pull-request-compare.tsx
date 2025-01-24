@@ -4,7 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import * as Diff2Html from 'diff2html'
 import { useAtom } from 'jotai'
 import { compact, isEqual } from 'lodash-es'
-import { parseAsInteger, useQueryState } from 'nuqs'
 
 import {
   CreateRepositoryErrorResponse,
@@ -34,6 +33,7 @@ import {
 import { useAppContext } from '../../framework/context/AppContext'
 import { useRoutes } from '../../framework/context/NavigationContext'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
+import { useQueryState } from '../../framework/hooks/useQueryState'
 import { useTranslationStore } from '../../i18n/stores/i18n-store'
 import { parseSpecificDiff } from '../../pages/pull-request/diff-utils'
 import { changesInfoAtom, DiffFileEntry, DiffViewerExchangeState } from '../../pages/pull-request/types/types'
@@ -306,18 +306,13 @@ export const CreatePullRequest = () => {
       include_stats: true
     }
   })
-  const { setCommits, page, setPage, setSelectedCommit } = useRepoCommitsStore()
-  const [queryPage, setQueryPage] = useQueryState('page', parseAsInteger.withDefault(1))
+  const { setCommits, setSelectedCommit } = useRepoCommitsStore()
 
   useEffect(() => {
     if (commitData) {
       setCommits(commitData, headers)
     }
   }, [commitData, headers, setCommits])
-
-  useEffect(() => {
-    setQueryPage(page)
-  }, [queryPage, page, setPage])
 
   const branchList: BranchSelectorListItem[] = useMemo(() => {
     if (!branches) return []
