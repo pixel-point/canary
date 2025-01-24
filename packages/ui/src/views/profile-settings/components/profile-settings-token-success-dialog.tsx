@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { AlertDialog, Button, CopyButton, Fieldset, FormWrapper, Input, Text } from '@/components'
+import { AlertDialog, Button, CopyButton, Fieldset, FormWrapper, Input } from '@/components'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { IProfileSettingsStore } from '@views/profile-settings/types'
 import { TranslationStore } from '@views/repo'
