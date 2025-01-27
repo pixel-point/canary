@@ -60,7 +60,7 @@ export const ProfileSettingsKeysView = () => {
   return (
     <>
       <SandboxLayout.Content className="px-0">
-        <h1 className="text-24 font-medium text-foreground-1">Keys and Tokens</h1>
+        <h1 className="text-24 text-foreground-1 font-medium">Keys and Tokens</h1>
         <Spacer size={10} />
         <FormWrapper>
           <Fieldset className="gap-y-5">

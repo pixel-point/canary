@@ -26,7 +26,7 @@ export const ProfileSettingsView = () => {
 
   return (
     <SandboxLayout.Content className="max-w-[476px] px-0">
-      <h1 className="text-24 font-medium text-foreground-1">Account settings</h1>
+      <h1 className="text-24 text-foreground-1 font-medium">Account settings</h1>
       <Spacer size={10} />
       {isLoadingUser ? (
         <SkeletonForm />
@@ -37,7 +37,7 @@ export const ProfileSettingsView = () => {
             <Avatar size="20" className="size-20 shadow-md">
               <AvatarImage src="/images/anon.jpg" />
               <AvatarFallback>
-                <span className="text-2xl font-medium text-foreground-3">TN</span>
+                <span className="text-foreground-3 text-2xl font-medium">TN</span>
               </AvatarFallback>
             </Avatar>
             <Fieldset>
@@ -67,7 +67,7 @@ export const ProfileSettingsView = () => {
             </ControlGroup>
           </FormWrapper>
 
-          <FormSeparator className="my-7 border-borders-4" />
+          <FormSeparator className="border-borders-4 my-7" />
 
           <FormWrapper>
             <Legend

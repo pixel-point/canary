@@ -18,7 +18,7 @@ export const SkeletonTable = ({ className, countRows = 12, countColumns = 5 }: S
       {Array.from({ length: countRows }).map((_, index) => (
         <TableRow key={`row-${index}`}>
           {Array.from({ length: countColumns }).map((_, columnIndex) => (
-            <TableCell className="flex-1 h-12 content-center" key={`cell-${index}-${columnIndex}`}>
+            <TableCell className="h-12 flex-1 content-center" key={`cell-${index}-${columnIndex}`}>
               <Skeleton className="h-2.5" style={{ width: getRandomPercentageWidth(30, 80) }} />
             </TableCell>
           ))}

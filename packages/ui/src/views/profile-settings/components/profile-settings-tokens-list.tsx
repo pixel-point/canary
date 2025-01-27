@@ -18,7 +18,7 @@ import { TokensList } from '../types'
 
 interface ProfileTokensListProps {
   tokens: TokensList[]
-  isLoading: boolean
+  isLoading?: boolean
   openAlertDeleteDialog: (params: { identifier: string; type: string }) => void
   useTranslationStore: () => TranslationStore
 }
@@ -53,7 +53,7 @@ export const ProfileTokensList: FC<ProfileTokensListProps> = ({
             tokens.map(token => (
               <TableRow key={token.uid}>
                 <TableCell className="content-center">
-                  <span className="font-medium text-foreground-1 block max-w-[200px] truncate">{token.identifier}</span>
+                  <span className="block max-w-[200px] truncate font-medium text-foreground-1">{token.identifier}</span>
                 </TableCell>
                 <TableCell className="content-center">
                   <div className="flex items-center gap-x-1.5">
@@ -71,7 +71,7 @@ export const ProfileTokensList: FC<ProfileTokensListProps> = ({
                 <TableCell className="content-center">
                   <span className="text-foreground-3">{timeAgo(new Date(token.issued_at!).getTime())}</span>
                 </TableCell>
-                <TableCell className="text-right content-center">
+                <TableCell className="content-center text-right">
                   <MoreActionsTooltip
                     isInTable
                     actions={[
@@ -89,7 +89,7 @@ export const ProfileTokensList: FC<ProfileTokensListProps> = ({
             ))
           ) : (
             <TableRow className="hover:bg-transparent">
-              <TableCell className="!p-4 content-center" colSpan={5}>
+              <TableCell className="content-center !p-4" colSpan={5}>
                 <p className="text-center text-14 text-foreground-4">
                   {t(
                     'views:profileSettings.noTokenDescription',

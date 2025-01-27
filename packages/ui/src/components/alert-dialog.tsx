@@ -65,7 +65,7 @@ const AlertDialogContent = React.forwardRef<
         {...props}
       >
         <Button
-          className="absolute top-4 right-4 z-10 transition-colors duration-200 text-icons-4 hover:text-icons-2"
+          className="absolute right-4 top-4 z-10 text-icons-4 transition-colors duration-200 hover:text-icons-2"
           type="button"
           variant="custom"
           size="icon"

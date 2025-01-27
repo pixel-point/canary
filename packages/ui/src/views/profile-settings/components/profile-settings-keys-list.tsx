@@ -18,7 +18,7 @@ import { KeysList } from '../types'
 
 interface ProfileKeysListProps {
   publicKeys: KeysList[]
-  isLoading: boolean
+  isLoading?: boolean
   openAlertDeleteDialog: (params: { identifier: string; type: string }) => void
   useTranslationStore: () => TranslationStore
 }
@@ -56,7 +56,7 @@ export const ProfileKeysList: FC<ProfileKeysListProps> = ({
                   <div className="inline-flex items-center gap-x-2.5">
                     <Icon name="ssh-key" size={32} />
                     <div className="flex flex-col">
-                      <span className="font-medium text-foreground-1 block max-w-[200px] truncate">
+                      <span className="block max-w-[200px] truncate font-medium text-foreground-1">
                         {key.identifier}
                       </span>
                       <span className="max-w-[200px] truncate text-12 text-foreground-3">{key.fingerprint}</span>
@@ -72,7 +72,7 @@ export const ProfileKeysList: FC<ProfileKeysListProps> = ({
                   {key.last_used ? new Date(key.last_used).toLocaleString() : 'Never used'}
                 </span> */}
                 </TableCell>
-                <TableCell className="text-right content-center">
+                <TableCell className="content-center text-right">
                   <MoreActionsTooltip
                     isInTable
                     actions={[
@@ -88,7 +88,7 @@ export const ProfileKeysList: FC<ProfileKeysListProps> = ({
             ))
           ) : (
             <TableRow className="hover:bg-transparent">
-              <TableCell className="!p-4 content-center" colSpan={4}>
+              <TableCell className="content-center !p-4" colSpan={4}>
                 <p className="text-center text-14 text-foreground-4">
                   {t(
                     'views:profileSettings.noDataKeysDescription',

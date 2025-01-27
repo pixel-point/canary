@@ -86,7 +86,7 @@ export const ProfileSettingsKeysCreateDialog: FC<ProfileSettingsKeysCreateDialog
               error={errors.content?.message?.toString()}
             />
             {error?.type === ApiErrorType.KeyCreate && (
-              <span className="text-14 mt-6 text-destructive">{error.message}</span>
+              <span className="mt-6 text-14 text-destructive">{error.message}</span>
             )}
           </Fieldset>
         </FormWrapper>

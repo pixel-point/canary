@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren } from 'react'
+import { FC, HTMLAttributes, PropsWithChildren } from 'react'
 import { Route } from 'react-router-dom'
 
 import { ProjectSettingsPage } from '@harnessio/ui/views'
@@ -13,7 +13,7 @@ const Layout = () => {
   )
 }
 
-export const ProjectSettingsWrapper: FC<PropsWithChildren<React.HTMLAttributes<HTMLElement>>> = ({ children }) => {
+export const ProjectSettingsWrapper: FC<PropsWithChildren<HTMLAttributes<HTMLElement>>> = ({ children }) => {
   return (
     <>
       <RootViewWrapper asChild>
