@@ -2,7 +2,7 @@ import { create } from 'zustand'
 
 import { IAdminListUsersStore, UsersProps } from '@harnessio/ui/views'
 
-import { EActiveTab, PageResponseHeader } from '../../../types'
+import { PageResponseHeader } from '../../../types'
 
 export const useAdminListUsersStore = create<IAdminListUsersStore>(set => ({
   users: [],
@@ -12,7 +12,6 @@ export const useAdminListUsersStore = create<IAdminListUsersStore>(set => ({
   user: null,
   searchQuery: '',
   generatePassword: false,
-  activeTab: EActiveTab.ACTIVE,
   setPage: page =>
     set({
       page
@@ -47,11 +46,6 @@ export const useAdminListUsersStore = create<IAdminListUsersStore>(set => ({
   setSearchQuery: (searchQuery: string) => {
     set({
       searchQuery
-    })
-  },
-  setActiveTab: (activeTab: EActiveTab) => {
-    set({
-      activeTab
     })
   }
 }))

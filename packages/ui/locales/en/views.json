@@ -401,10 +401,6 @@
     "delete": "Delete webhook"
   },
   "userManagement": {
-    "tabs": {
-      "active": "Active users",
-      "inactive": "Pending users"
-    },
     "searchPlaceholder": "Search",
     "newUserButton": "New user",
     "usersHeader": "Users"
