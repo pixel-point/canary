@@ -24,11 +24,11 @@ interface PageProps {
 export const UsersList = ({ users, handleDialogOpen }: PageProps) => {
   return (
     <Table variant="asStackedList">
-      <TableHeader className="h-[46px]">
+      <TableHeader>
         <TableRow>
           <TableHead>User</TableHead>
+          <TableHead>Display Name</TableHead>
           <TableHead>Email</TableHead>
-          <TableHead>Role binding</TableHead>
           <TableHead>
             <></>
           </TableHead>
@@ -38,7 +38,7 @@ export const UsersList = ({ users, handleDialogOpen }: PageProps) => {
         {users &&
           users.map(user => {
             return (
-              <TableRow key={user.uid} className="h-[48px]">
+              <TableRow key={user.uid}>
                 {/* NAME */}
                 <TableCell className="my-6 content-center">
                   <div className="flex items-center gap-2">
@@ -48,8 +48,24 @@ export const UsersList = ({ users, handleDialogOpen }: PageProps) => {
                     </Avatar>
                     <Text size={2} weight="medium" wrap="nowrap" truncate className="text-primary">
                       {user.uid}
+                      {user.admin && (
+                        <Badge
+                          variant="outline"
+                          size="xs"
+                          className="m-auto ml-2 h-5 rounded-full bg-tertiary-background/10 p-2 text-center text-xs font-normal text-tertiary-background"
+                        >
+                          Admin
+                        </Badge>
+                      )}
                     </Text>
                   </div>
+                </TableCell>
+
+                {/* DISPLAY NAME */}
+                <TableCell className="my-6 content-center">
+                  <Text size={2} weight="medium" wrap="nowrap" truncate className="text-primary">
+                    {user.display_name}
+                  </Text>
                 </TableCell>
 
                 {/* EMAIL */}
@@ -57,23 +73,6 @@ export const UsersList = ({ users, handleDialogOpen }: PageProps) => {
                   <div className="flex gap-1.5">
                     <Text wrap="nowrap" size={1} truncate className="text-tertiary-background">
                       {user.email}
-                    </Text>
-                  </div>
-                </TableCell>
-
-                {/* ROLE BINDING */}
-                <TableCell className="my-6 content-center">
-                  <div className="flex gap-1.5">
-                    <Text wrap="nowrap" size={1} truncate className="text-tertiary-background">
-                      {user.admin && (
-                        <Badge
-                          variant="outline"
-                          size="xs"
-                          className="bg-tertiary-background/10 text-tertiary-background m-auto ml-2 h-5 rounded-full p-2 text-center text-xs font-normal"
-                        >
-                          Admin
-                        </Badge>
-                      )}
                     </Text>
                   </div>
                 </TableCell>

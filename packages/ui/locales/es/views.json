@@ -388,11 +388,6 @@
     "edit": "Edit webhook",
     "delete": "Delete webhook"
   },
-  "userManagement": {
-    "searchPlaceholder": "Search",
-    "newUserButton": "New user",
-    "usersHeader": "Users"
-  },
   "labelData": {
     "create": "Create labels"
   },

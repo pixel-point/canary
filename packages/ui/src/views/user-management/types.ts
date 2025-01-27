@@ -22,9 +22,7 @@ export interface IAdminListUsersStore {
   page: number
   password: string | null
   user: UsersProps | null
-  searchQuery: string
   generatePassword: boolean
-  setSearchQuery: (searchQuery: string) => void
   setPassword: (password: string) => void
   setUser: (user: UsersProps) => void
   setPage: (data: number) => void
