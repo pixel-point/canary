@@ -5,6 +5,7 @@ import { cn } from '@utils/cn'
 interface FormWrapperProps extends FormHTMLAttributes<HTMLFormElement> {
   className?: string
   children?: React.ReactNode
+  formRef?: (form: HTMLFormElement) => void
 }
 
 /**
@@ -17,9 +18,9 @@ interface FormWrapperProps extends FormHTMLAttributes<HTMLFormElement> {
  *   <Textarea type="email" />
  * </FormWrapper>
  */
-export function FormWrapper({ className, children, ...props }: FormWrapperProps) {
+export function FormWrapper({ className, children, formRef, ...props }: FormWrapperProps) {
   return (
-    <form className={cn('flex flex-col gap-y-8', className)} {...props}>
+    <form className={cn('flex flex-col gap-y-8', className)} ref={formRef} {...props}>
       {children}
     </form>
   )

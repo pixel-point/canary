@@ -26,10 +26,12 @@ import { generateAlphaNumericHash } from '../pull-request/pull-request-utils'
 import { useAdminListUsersStore } from './stores/admin-list-store'
 
 export const UserManagementPageContainer = () => {
-  const [queryPage, setQueryPage] = useQueryState('page', parseAsInteger.withDefault(1))
   const { setUsers, setTotalPages, setPage, page, password, setUser, setPassword, setGeteneratePassword } =
     useAdminListUsersStore()
+
   const queryClient = useQueryClient()
+  const [query, setQuery] = useQueryState('query')
+  const [queryPage, setQueryPage] = useQueryState('page', parseAsInteger.withDefault(1))
 
   const [isDeleteUserDialogOpen, setDeleteUserDialogOpen] = useState(false)
   const [isEditUserDialogOpen, setEditUserDialogOpen] = useState(false)
@@ -65,9 +67,11 @@ export const UserManagementPageContainer = () => {
     }
   }
 
+  // TODO: need to userData.role field from the useAdminListUsersQuery
   const { data: { body: userData, headers } = {} } = useAdminListUsersQuery({
     queryParams: {
       page: queryPage
+      // query: query ?? ''
     }
   })
 
@@ -189,13 +193,15 @@ export const UserManagementPageContainer = () => {
   return (
     <>
       <UserManagementPage
+        searchQuery={query}
+        setSearchQuery={setQuery}
         useAdminListUsersStore={useAdminListUsersStore}
         useTranslationStore={useTranslationStore}
         handleDialogOpen={handleDialogOpen}
       />
-
       <DeleteUserDialog
         open={isDeleteUserDialogOpen}
+        useTranslationStore={useTranslationStore}
         useAdminListUsersStore={useAdminListUsersStore}
         onClose={() => setDeleteUserDialogOpen(false)}
         isDeleting={isDeletingUser}
@@ -203,6 +209,7 @@ export const UserManagementPageContainer = () => {
       />
       <EditUserDialog
         open={isEditUserDialogOpen}
+        useTranslationStore={useTranslationStore}
         useAdminListUsersStore={useAdminListUsersStore}
         isSubmitting={isUpdatingUser}
         onClose={() => setEditUserDialogOpen(false)}
@@ -210,6 +217,7 @@ export const UserManagementPageContainer = () => {
       />
       <AdminDialog
         open={isAdminDialogOpen}
+        useTranslationStore={useTranslationStore}
         useAdminListUsersStore={useAdminListUsersStore}
         onClose={() => setAdminDialogOpen(false)}
         isLoading={isUpdatingUserAdmin}
@@ -217,12 +225,14 @@ export const UserManagementPageContainer = () => {
       />
       <ResetPasswordDialog
         open={isResetPasswordDialogOpen}
+        useTranslationStore={useTranslationStore}
         useAdminListUsersStore={useAdminListUsersStore}
         onClose={() => setResetPasswordDialogOpen(false)}
         handleUpdatePassword={handleUpdatePassword}
       />
       <CreateUserDialog
         open={isCreateUserDialogOpen}
+        useTranslationStore={useTranslationStore}
         onClose={() => setCreateUserDialogOpen(false)}
         isLoading={isCreatingUser}
         apiError={createUserError?.message?.toString() ?? ''}

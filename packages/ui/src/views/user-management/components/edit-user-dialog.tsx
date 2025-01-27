@@ -1,25 +1,29 @@
-import { useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import { AlertDialog, Button, ButtonGroup, ControlGroup, Fieldset, FormWrapper, Input } from '@/components'
+import { AlertDialog, Button, ControlGroup, Fieldset, FormWrapper, Input } from '@/components'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
 import { IEditUserDialogProps } from '../types'
 
-export const EditUserDialog: React.FC<IEditUserDialogProps> = ({
+const newUserSchema = z.object({
+  userID: z.string(),
+  email: z.string().email({ message: 'Please provide a valid email, ex: example@yourcompany.com' }),
+  displayName: z.string().min(1, { message: 'Please provide a display name' })
+})
+
+export const EditUserDialog: FC<IEditUserDialogProps> = ({
   useAdminListUsersStore,
   onClose,
   isSubmitting,
   handleUpdateUser,
-  open
+  open,
+  useTranslationStore
 }) => {
+  const { t } = useTranslationStore()
   const { user } = useAdminListUsersStore()
-  const newUserSchema = z.object({
-    userID: z.string(),
-    email: z.string().email({ message: 'Please provide a valid email, ex: example@yourcompany.com' }),
-    displayName: z.string().min(1, { message: 'Please provide a display name' })
-  })
+  const [formElement, setFormElement] = useState<HTMLFormElement | null>(null)
 
   type MemberFields = z.infer<typeof newUserSchema>
 
@@ -33,11 +37,14 @@ export const EditUserDialog: React.FC<IEditUserDialogProps> = ({
     mode: 'onChange'
   })
 
-  // Form edit submit handler
   const onSubmit: SubmitHandler<MemberFields> = data => {
     handleUpdateUser(data)
     resetNewMemberForm(data)
   }
+
+  useEffect(() => {
+    !open && resetNewMemberForm()
+  }, [open, resetNewMemberForm])
 
   useEffect(() => {
     resetNewMemberForm({
@@ -49,19 +56,20 @@ export const EditUserDialog: React.FC<IEditUserDialogProps> = ({
 
   return (
     <AlertDialog.Root open={open} onOpenChange={onClose}>
-      <AlertDialog.Content>
+      <AlertDialog.Content onOverlayClick={onClose}>
         <AlertDialog.Header>
-          <AlertDialog.Title>Update User</AlertDialog.Title>
+          <AlertDialog.Title>{t('views:userManagement.updateUser', 'Update user')}</AlertDialog.Title>
         </AlertDialog.Header>
-
-        {/* Accessibility: Add Description */}
-        <AlertDialog.Description>Update information for {user?.uid} and confirm changes.</AlertDialog.Description>
-        <FormWrapper onSubmit={handleSubmit(onSubmit)}>
+        <AlertDialog.Description>
+          {t('views:userManagement.updateInformationFor', 'Update information for ')}
+          {user?.uid}
+        </AlertDialog.Description>
+        <FormWrapper className="pb-3 pt-2.5" formRef={setFormElement} onSubmit={handleSubmit(onSubmit)}>
           <Fieldset>
-            {/* User ID */}
             <ControlGroup>
               <Input
                 id="userID"
+                size="md"
                 {...register('userID')}
                 placeholder="Enter User ID"
                 value={user?.uid}
@@ -71,22 +79,20 @@ export const EditUserDialog: React.FC<IEditUserDialogProps> = ({
                 error={errors.userID?.message?.toString()}
               />
             </ControlGroup>
-
-            {/* EMAIL */}
             <ControlGroup>
               <Input
                 id="email"
+                size="md"
                 {...register('email')}
                 defaultValue={user?.email}
                 label="Email"
                 error={errors.email?.message?.toString()}
               />
             </ControlGroup>
-
-            {/* Display Name */}
             <ControlGroup>
               <Input
                 id="displayName"
+                size="md"
                 {...register('displayName')}
                 defaultValue={user?.display_name}
                 placeholder="Enter a display name"
@@ -94,25 +100,16 @@ export const EditUserDialog: React.FC<IEditUserDialogProps> = ({
                 error={errors.displayName?.message?.toString()}
               />
             </ControlGroup>
-
-            {/* Footer */}
-            {/* <Spacer size={5} /> */}
-            <AlertDialog.Footer>
-              <ControlGroup>
-                <ButtonGroup>
-                  <>
-                    <Button variant="outline" onClick={onClose} disabled={isSubmitting}>
-                      Cancel
-                    </Button>
-                    <Button type="submit" theme="primary" disabled={isSubmitting}>
-                      {isSubmitting ? 'Saving...' : 'Save'}
-                    </Button>
-                  </>
-                </ButtonGroup>
-              </ControlGroup>
-            </AlertDialog.Footer>
           </Fieldset>
         </FormWrapper>
+        <AlertDialog.Footer>
+          <Button variant="outline" disabled={isSubmitting} onClick={onClose}>
+            {t('views:userManagement.cancel', 'Cancel')}
+          </Button>
+          <Button disabled={isSubmitting} onClick={() => formElement?.requestSubmit()}>
+            {t('views:userManagement.save', 'Save')}
+          </Button>
+        </AlertDialog.Footer>
       </AlertDialog.Content>
     </AlertDialog.Root>
   )

@@ -12,10 +12,13 @@ export interface UsersProps {
 }
 
 export interface IUserManagementPageProps {
+  searchQuery: string | null
+  setSearchQuery: (query: string | null) => void
   useAdminListUsersStore: () => IAdminListUsersStore
   useTranslationStore: () => TranslationStore
   handleDialogOpen: (user: UsersProps | null, dialogLabel: string) => void
 }
+
 export interface IAdminListUsersStore {
   users: UsersProps[]
   totalPages: number
@@ -37,6 +40,7 @@ export interface IDeleteDialogProps {
   isDeleting: boolean
   handleDeleteUser: (userUid: string) => void
   useAdminListUsersStore: () => IAdminListUsersStore
+  useTranslationStore: () => TranslationStore
 }
 
 export interface IEditUserDialogProps {
@@ -45,6 +49,7 @@ export interface IEditUserDialogProps {
   handleUpdateUser: (data: { email: string; displayName: string; userID: string }) => void
   open: boolean
   useAdminListUsersStore: () => IAdminListUsersStore
+  useTranslationStore: () => TranslationStore
 }
 
 export interface IRemoveAdminDialogProps {
@@ -53,6 +58,7 @@ export interface IRemoveAdminDialogProps {
   isLoading: boolean
   updateUserAdmin: (uid: string, admin: boolean) => void
   useAdminListUsersStore: () => IAdminListUsersStore
+  useTranslationStore: () => TranslationStore
 }
 
 export interface IResetPasswordDialogProps {
@@ -60,6 +66,7 @@ export interface IResetPasswordDialogProps {
   open: boolean
   handleUpdatePassword: (userId: string) => void
   useAdminListUsersStore: () => IAdminListUsersStore
+  useTranslationStore: () => TranslationStore
 }
 
 export enum DialogLabels {
