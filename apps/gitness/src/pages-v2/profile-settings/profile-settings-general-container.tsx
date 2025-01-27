@@ -14,14 +14,16 @@ import {
   SettingsAccountGeneralPage
 } from '@harnessio/ui/views'
 
+import { useAppContext } from '../../framework/context/AppContext.tsx'
 import { useTranslationStore } from '../../i18n/stores/i18n-store'
 import { useProfileSettingsStore } from './stores/profile-settings-store'
 
 export const SettingsProfileGeneralPage: FC = () => {
+  const { updateUserProfile, updateUserPassword, isUpdateUserLoading, updateUserLoadingError } = useAppContext()
   const { setUserData } = useProfileSettingsStore()
   const [apiError, setApiError] = useState<{ type: ProfileSettingsErrorType; message: string } | null>(null)
 
-  const { data: { body: userData } = {}, isLoading: isLoadingUser } = useGetUserQuery(
+  const { data: { body: userData } = {}, isLoading: isLoadingUserData } = useGetUserQuery(
     {},
     {
       onError: (error: GetUserErrorResponse) => {
@@ -30,6 +32,9 @@ export const SettingsProfileGeneralPage: FC = () => {
       }
     }
   )
+
+  const isLoadingUser = isLoadingUserData || isUpdateUserLoading
+
   const updateUserMutation = useUpdateUserMutation(
     {},
     {
@@ -69,8 +74,14 @@ export const SettingsProfileGeneralPage: FC = () => {
       display_name: updatedUserData.name,
       email: updatedUserData.email
     }
-    updateUserMutation.mutate({
-      body: updateUserBody
+
+    updateUserProfile({
+      display_name: updatedUserData.name,
+      email: updatedUserData.email
+    }).then(() => {
+      updateUserMutation.mutate({
+        body: updateUserBody
+      })
     })
   }
 
@@ -83,8 +94,11 @@ export const SettingsProfileGeneralPage: FC = () => {
     const updatePasswordBody: UpdateUserRequestBody = {
       password: updatedPasswordData.newPassword
     }
-    updatePasswordMutation.mutate({
-      body: updatePasswordBody
+
+    updateUserPassword(updatedPasswordData.newPassword).then(() => {
+      updatePasswordMutation.mutate({
+        body: updatePasswordBody
+      })
     })
   }
 
@@ -104,13 +118,13 @@ export const SettingsProfileGeneralPage: FC = () => {
         useProfileSettingsStore={useProfileSettingsStore}
         useTranslationStore={useTranslationStore}
         isLoadingUser={isLoadingUser}
-        isUpdatingUser={updateUserMutation.isLoading}
-        isUpdatingPassword={updatePasswordMutation.isLoading}
-        error={apiError}
+        isUpdatingUser={isLoadingUser}
+        isUpdatingPassword={isLoadingUser}
+        error={apiError || updateUserLoadingError}
         onUpdateUser={handleUpdateUser}
         onUpdatePassword={handleUpdatePassword}
-        profileUpdateSuccess={updateUserMutation.isSuccess}
-        passwordUpdateSuccess={updatePasswordMutation.isSuccess}
+        profileUpdateSuccess={!isLoadingUser && !apiError && !updateUserLoadingError}
+        passwordUpdateSuccess={!isLoadingUser && !apiError && !updateUserLoadingError}
       />
     </>
   )
