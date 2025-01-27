@@ -65,6 +65,7 @@ export const UserManagementPageContainer = () => {
     }
   }
 
+  // TODO: add search functionality by query parameter
   const { data: { body: userData, headers } = {} } = useAdminListUsersQuery({
     queryParams: {
       page: queryPage
@@ -82,7 +83,7 @@ export const UserManagementPageContainer = () => {
 
   useEffect(() => {
     setQueryPage(page)
-  }, [queryPage, page, setPage])
+  }, [queryPage, page, setPage, setQueryPage])
 
   const { mutate: updateUser, isLoading: isUpdatingUser } = useAdminUpdateUserMutation(
     {},
