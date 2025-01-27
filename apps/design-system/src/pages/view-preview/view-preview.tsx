@@ -13,9 +13,9 @@ import PipelineListWrapper from '@subjects/views/pipeline-list/pipeline-list'
 import { ProfileSettingsView } from '@subjects/views/profile-settings'
 import { ProfileSettingsKeysView } from '@subjects/views/profile-settings-keys'
 import PullRequestCompareWrapper from '@subjects/views/pull-request-compare/pull-request-compare'
-import PullRequestChanges from '@subjects/views/pull-request-conversation/pull-request-changes'
+import PullRequestChangesWrapper from '@subjects/views/pull-request-conversation/pull-request-changes-wrapper'
 import PullRequestCommits from '@subjects/views/pull-request-conversation/pull-request-commits'
-import PullRequestConversation from '@subjects/views/pull-request-conversation/pull-request-conversation'
+import PullRequestConversationWrapper from '@subjects/views/pull-request-conversation/pull-request-conversation-wrapper'
 import PullRequestListWrapper from '@subjects/views/pull-request-list/pull-request-list'
 import { RepoBranchesView } from '@subjects/views/repo-branches'
 import { RepoCommitsView } from '@subjects/views/repo-commits'
@@ -82,7 +82,12 @@ export const viewPreviews: Record<string, ReactNode> = {
   ),
   'pull-request-conversation': (
     <PullRequestLayoutWrapper>
-      <PullRequestConversation />
+      <PullRequestConversationWrapper state={'simple'} />
+    </PullRequestLayoutWrapper>
+  ),
+  'pull-request-conversation-1': (
+    <PullRequestLayoutWrapper>
+      <PullRequestConversationWrapper state={'complex-1'} />
     </PullRequestLayoutWrapper>
   ),
   'pull-request-commits': (
@@ -92,7 +97,12 @@ export const viewPreviews: Record<string, ReactNode> = {
   ),
   'pull-request-changes': (
     <PullRequestLayoutWrapper>
-      <PullRequestChanges />
+      <PullRequestChangesWrapper state={'simple'} />
+    </PullRequestLayoutWrapper>
+  ),
+  'pull-request-changes-1': (
+    <PullRequestLayoutWrapper>
+      <PullRequestChangesWrapper state={'complex-1'} />
     </PullRequestLayoutWrapper>
   ),
   'repo-files-list': (

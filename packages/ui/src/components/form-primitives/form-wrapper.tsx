@@ -1,10 +1,11 @@
-import { FormHTMLAttributes, PropsWithChildren } from 'react'
+import { FormHTMLAttributes, ReactNode } from 'react'
 
 import { cn } from '@utils/cn'
 
-interface FormWrapperProps extends PropsWithChildren, FormHTMLAttributes<HTMLFormElement> {
+interface FormWrapperProps extends FormHTMLAttributes<HTMLFormElement> {
   className?: string
   formRef?: (form: HTMLFormElement) => void
+  children?: ReactNode
 }
 
 /**

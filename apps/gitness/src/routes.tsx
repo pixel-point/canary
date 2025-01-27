@@ -1,4 +1,3 @@
-import { ReactElement } from 'react'
 import { Navigate } from 'react-router-dom'
 
 import { Text } from '@harnessio/ui/components'
@@ -51,7 +50,24 @@ import { UserManagementPageContainer } from './pages-v2/user-management/user-man
 import { CreateWebhookContainer } from './pages-v2/webhooks/create-webhook-container'
 import WebhookListPage from './pages-v2/webhooks/webhook-list'
 
-const repoRoutes: CustomRouteObject[] = [
+export const extractRedirectRouteObjects = (routes: CustomRouteObject[]): CustomRouteObject[] => {
+  const navigateObjects: CustomRouteObject[] = []
+  const traverseRoutes = (routes: CustomRouteObject[], currentPath: string = '') => {
+    for (const route of routes) {
+      const newPath = currentPath ? `${currentPath}${route.path ? `/${route.path}` : ''}` : (route.path ?? '')
+      if ((route.element as JSX.Element)?.type === Navigate) {
+        navigateObjects.push({ ...route, path: newPath })
+      }
+      if (route.children) {
+        traverseRoutes(route.children, newPath)
+      }
+    }
+  }
+  traverseRoutes(routes)
+  return navigateObjects
+}
+
+export const repoRoutes: CustomRouteObject[] = [
   {
     path: 'repos',
     handle: {
@@ -106,7 +122,7 @@ const repoRoutes: CustomRouteObject[] = [
               },
               {
                 path: ':commitSHA',
-                element: <RepoCommitDetailsPage />,
+                element: <RepoCommitDetailsPage showSidebar={false} />,
                 handle: {
                   breadcrumb: ({ commitSHA }: { commitSHA: string }) => (
                     <>
@@ -120,7 +136,7 @@ const repoRoutes: CustomRouteObject[] = [
                     index: true,
                     element: (
                       <ExplorerPathsProvider>
-                        <CommitDiffContainer />
+                        <CommitDiffContainer showSidebar={false} />
                       </ExplorerPathsProvider>
                     )
                   }
@@ -167,11 +183,20 @@ const repoRoutes: CustomRouteObject[] = [
             children: [
               { index: true, element: <PullRequestListPage /> },
               {
-                path: 'compare/:diffRefs',
-                element: <CreatePullRequest />,
+                path: 'compare',
                 handle: {
-                  routeName: RouteConstants.toPullRequestCompare
-                }
+                  breadcrumb: () => <Text>Compare</Text>,
+                  asLink: false
+                },
+                children: [
+                  { index: true, element: <CreatePullRequest /> },
+                  {
+                    path: ':diffRefs',
+                    element: <CreatePullRequest />,
+                    handle: { routeName: RouteConstants.toPullRequestCompare }
+                  },
+                  { path: '*', element: <CreatePullRequest /> }
+                ]
               },
               {
                 path: ':pullRequestId',
@@ -805,7 +830,7 @@ export const routes: CustomRouteObject[] = [
   }
 ]
 
-export const mfeRoutes = (mfeProjectId = '', mfeRouteRenderer: ReactElement | null = null): CustomRouteObject[] => [
+export const mfeRoutes = (mfeProjectId = '', mfeRouteRenderer: JSX.Element | null = null): CustomRouteObject[] => [
   {
     path: '/',
     element: (
@@ -814,23 +839,14 @@ export const mfeRoutes = (mfeProjectId = '', mfeRouteRenderer: ReactElement | nu
         <AppShellMFE />
       </>
     ),
-    handle: { routeName: 'toHome' },
+    handle: { routeName: RouteConstants.toHome },
     children: [
-      {
-        index: true,
-        element: <LandingPage />
-      },
-      {
-        path: 'repos',
-        handle: {
-          breadcrumb: () => <Text>Repositories</Text>
-        },
-        children: [{ index: true, element: <ReposListPage /> }]
-      },
       {
         path: '',
         handle: {
-          breadcrumb: () => <span>{mfeProjectId ?? ''}</span>
+          ...(mfeProjectId && {
+            breadcrumb: () => <Text>{mfeProjectId}</Text>
+          })
         },
         children: repoRoutes
       }

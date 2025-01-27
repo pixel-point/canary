@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom'
 
 import copy from 'clipboard-copy'
 import { isEmpty } from 'lodash-es'
-import { useQueryState } from 'nuqs'
 
 import {
   commentStatusPullReq,
@@ -48,6 +47,7 @@ import CommitSuggestionsDialog from '../../components-v2/commit-suggestions-dial
 import { useAppContext } from '../../framework/context/AppContext'
 import { useRoutes } from '../../framework/context/NavigationContext'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
+import { useQueryState } from '../../framework/hooks/useQueryState'
 import { useTranslationStore } from '../../i18n/stores/i18n-store'
 import {
   capitalizeFirstLetter,
@@ -86,13 +86,22 @@ export default function PullRequestConversationPage() {
   }))
   const { currentUser: currentUserData } = useAppContext()
   const [checkboxBypass, setCheckboxBypass] = useState(false)
+  const [searchReviewers, setSearchReviewers] = useState('')
+  const [addReviewerError, setAddReviewerError] = useState('')
+  const [removeReviewerError, setRemoveReviewerError] = useState('')
+  const [searchLabel, setSearchLabel] = useState('')
+  const [changesLoading, setChangesLoading] = useState(true)
+  const [showDeleteBranchButton, setShowDeleteBranchButton] = useState(false)
+  const [showRestoreBranchButton, setShowRestoreBranchButton] = useState(false)
+  const [errorMsg, setErrorMsg] = useState('')
   const { spaceId, repoId } = useParams<PathParams>()
+
   const { data: { body: principals } = {} } = useListPrincipalsQuery({
     // @ts-expect-error : BE issue - not implemnted
-    queryParams: { page: 1, limit: 100, type: 'user' }
+    queryParams: { page: 1, limit: 100, type: 'user', query: searchReviewers }
   })
   const [comment, setComment] = useState<string>('')
-  const [commentId] = useQueryState('commentId', { defaultValue: '' })
+  const [commentId] = useQueryState('commentId')
   const [isScrolledToComment, setIsScrolledToComment] = useState(false)
 
   const repoRef = useGetRepoRef()
@@ -116,15 +125,6 @@ export default function PullRequestConversationPage() {
     pullreq_number: prId,
     queryParams: {}
   })
-
-  const [searchReviewers, setSearchReviewers] = useQueryState('reviewer', { defaultValue: '' })
-  const [addReviewerError, setAddReviewerError] = useState('')
-  const [removeReviewerError, setRemoveReviewerError] = useState('')
-  const [searchLabel, setSearchLabel] = useQueryState('label', { defaultValue: '' })
-  const [changesLoading, setChangesLoading] = useState(true)
-  const [showDeleteBranchButton, setShowDeleteBranchButton] = useState(false)
-  const [showRestoreBranchButton, setShowRestoreBranchButton] = useState(false)
-  const [errorMsg, setErrorMsg] = useState('')
 
   const { data: { body: labelsList } = {} } = useListRepoLabelsQuery({
     repo_ref: repoRef,
@@ -337,19 +337,19 @@ export default function PullRequestConversationPage() {
     }
   }
   useEffect(() => {
-    if (!commentId || isScrolledToComment) return
+    if (!commentId || isScrolledToComment || prPanelData.PRStateLoading || activityData?.length === 0) return
     // Slight timeout so the UI has time to expand/hydrate
     const timeoutId = setTimeout(() => {
       const elem = document.getElementById(`comment-${commentId}`)
       if (!elem) return
       elem.scrollIntoView({ behavior: 'smooth', block: 'center' })
       setIsScrolledToComment(true)
-    }, 2500)
+    }, 500)
 
     return () => {
       clearTimeout(timeoutId)
     }
-  }, [commentId])
+  }, [commentId, isScrolledToComment, prPanelData.PRStateLoading, activityData])
 
   const changesInfo = extractInfoForCodeOwnerContent({
     approvedEvaluations,
@@ -499,6 +499,15 @@ export default function PullRequestConversationPage() {
               description: 'All commits from this branch will be rebased and added to the base branch.',
               action: () => {
                 handleMerge('rebase')
+              }
+            },
+            {
+              id: '3',
+              title: 'Fast-forward merge',
+              description:
+                'All commits from this branch will be added to the base branch without a merge commit. Rebase may be required.',
+              action: () => {
+                handleMerge('fast-forward')
               }
             }
           ])
