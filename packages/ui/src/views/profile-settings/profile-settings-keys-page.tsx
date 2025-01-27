@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { Button, Fieldset, FormSeparator, FormWrapper, Legend, SkeletonTable, Spacer } from '@/components'
+import { Button, Fieldset, FormSeparator, FormWrapper, Legend, Spacer } from '@/components'
 import { ApiErrorType, SandboxLayout, TranslationStore } from '@/views'
 
 import { ProfileKeysList } from './components/profile-settings-keys-list'
@@ -16,6 +16,8 @@ interface SettingsAccountKeysPageProps {
   headers?: Headers
   useProfileSettingsStore: () => IProfileSettingsStore
   useTranslationStore: () => TranslationStore
+  isLoadingTokenList: boolean
+  isLoadingKeysList: boolean
 }
 
 const ErrorMessage: FC<{ message: string }> = ({ message }) => (
@@ -31,7 +33,9 @@ const SettingsAccountKeysPage: FC<SettingsAccountKeysPageProps> = ({
   openSshKeyDialog,
   openAlertDeleteDialog,
   useTranslationStore,
-  error
+  error,
+  isLoadingTokenList,
+  isLoadingKeysList
   // headers
 }) => {
   // @todo: Add pagination for tokens and keys lists in following PR
@@ -66,14 +70,13 @@ const SettingsAccountKeysPage: FC<SettingsAccountKeysPageProps> = ({
           </div>
           {error?.type === ApiErrorType.TokenFetch ? (
             <ErrorMessage message={error.message} />
-          ) : tokens.length > 0 ? (
+          ) : (
             <ProfileTokensList
               tokens={tokens}
+              isLoading={isLoadingTokenList}
               openAlertDeleteDialog={openAlertDeleteDialog}
               useTranslationStore={useTranslationStore}
             />
-          ) : (
-            <SkeletonTable countRows={5} />
           )}
         </Fieldset>
 
@@ -95,14 +98,13 @@ const SettingsAccountKeysPage: FC<SettingsAccountKeysPageProps> = ({
           </div>
           {error?.type === ApiErrorType.KeyFetch ? (
             <ErrorMessage message={error.message} />
-          ) : publicKeys.length > 0 ? (
+          ) : (
             <ProfileKeysList
               publicKeys={publicKeys}
+              isLoading={isLoadingKeysList}
               openAlertDeleteDialog={openAlertDeleteDialog}
               useTranslationStore={useTranslationStore}
             />
-          ) : (
-            <SkeletonTable countRows={4} />
           )}
         </Fieldset>
       </FormWrapper>

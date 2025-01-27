@@ -33,8 +33,6 @@ export const SettingsProfileGeneralPage: FC = () => {
     }
   )
 
-  const isLoadingUser = isLoadingUserData || isUpdateUserLoading
-
   const updateUserMutation = useUpdateUserMutation(
     {},
     {
@@ -117,14 +115,14 @@ export const SettingsProfileGeneralPage: FC = () => {
       <SettingsAccountGeneralPage
         useProfileSettingsStore={useProfileSettingsStore}
         useTranslationStore={useTranslationStore}
-        isLoadingUser={isLoadingUser}
-        isUpdatingUser={isLoadingUser}
-        isUpdatingPassword={isLoadingUser}
+        isLoadingUser={isLoadingUserData}
+        isUpdatingUser={isUpdateUserLoading}
+        isUpdatingPassword={isUpdateUserLoading}
         error={apiError || updateUserLoadingError}
         onUpdateUser={handleUpdateUser}
         onUpdatePassword={handleUpdatePassword}
-        profileUpdateSuccess={!isLoadingUser && !apiError && !updateUserLoadingError}
-        passwordUpdateSuccess={!isLoadingUser && !apiError && !updateUserLoadingError}
+        profileUpdateSuccess={updateUserMutation.isSuccess}
+        passwordUpdateSuccess={updatePasswordMutation.isSuccess}
       />
     </>
   )

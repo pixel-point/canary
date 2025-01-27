@@ -54,19 +54,15 @@ export const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
   } | null>(null)
 
   const fetchUser = async (): Promise<void> => {
-    setIsUpdateUserLoading(true)
-    setUpdateUserLoadingError(null)
     try {
       const userResponse = await getUser({})
       setCurrentUser(userResponse.body)
-      setIsUpdateUserLoading(false)
     } catch (error) {
       const typedError = error as GetUserErrorResponse
       setUpdateUserLoadingError({
         type: ProfileSettingsErrorType.PROFILE,
         message: typedError.message || 'An unknown fetch user error occurred.'
       })
-      setIsUpdateUserLoading(false)
     }
   }
 

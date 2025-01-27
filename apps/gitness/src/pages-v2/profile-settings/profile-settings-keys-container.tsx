@@ -86,7 +86,7 @@ export const SettingsProfileKeysPage = () => {
     order: 'asc'
   }
 
-  const { data: { body: tokenList, headers } = {} } = useListTokensQuery(
+  const { data: { body: tokenList, headers } = {}, isLoading: isLoadingTokenList } = useListTokensQuery(
     {},
     {
       onError: (error: ListTokensErrorResponse) => {
@@ -96,7 +96,7 @@ export const SettingsProfileKeysPage = () => {
     }
   )
 
-  const { data: { body: publicKeysList } = {} } = useListPublicKeyQuery(
+  const { data: { body: publicKeysList } = {}, isLoading: isLoadingPublicKeys } = useListPublicKeyQuery(
     { queryParams },
     {
       onError: (error: ListPublicKeyErrorResponse) => {
@@ -226,6 +226,8 @@ export const SettingsProfileKeysPage = () => {
         error={apiError}
         headers={headers}
         useTranslationStore={useTranslationStore}
+        isLoadingTokenList={isLoadingTokenList}
+        isLoadingKeysList={isLoadingPublicKeys}
       />
       <ProfileSettingsTokenCreateDialog
         open={openCreateTokenDialog}
