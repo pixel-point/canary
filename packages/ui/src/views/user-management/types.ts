@@ -23,6 +23,7 @@ export interface IAdminListUsersStore {
   password: string | null
   user: UsersProps | null
   searchQuery: string
+  activeTab: EActiveTab
   generatePassword: boolean
   setSearchQuery: (searchQuery: string) => void
   setPassword: (password: string) => void
@@ -31,6 +32,7 @@ export interface IAdminListUsersStore {
   setUsers: (data: UsersProps[]) => void
   setTotalPages: (data: Headers) => void
   setGeteneratePassword: (data: boolean) => void
+  setActiveTab: (data: EActiveTab) => void
 }
 
 export interface IDeleteDialogProps {
@@ -70,4 +72,9 @@ export enum DialogLabels {
   TOGGLE_ADMIN = 'toggleAdmin',
   RESET_PASSWORD = 'resetPassword',
   CREATE_USER = 'createUser'
+}
+
+export enum EActiveTab {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive'
 }

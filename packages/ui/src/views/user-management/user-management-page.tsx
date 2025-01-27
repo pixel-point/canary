@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import { Button, ListActions, PaginationComponent, SearchBox, Spacer, Text } from '@/components'
 import { SandboxLayout } from '@/views'
 
+import { UserManagementTabs } from './components/tabs'
 import { UsersList } from './components/users-list'
 import { DialogLabels, IUserManagementPageProps, UsersProps } from './types'
 
@@ -23,7 +24,9 @@ export const UserManagementPage: React.FC<IUserManagementPageProps> = ({
     page: currentPage,
     setPage,
     searchQuery,
-    setSearchQuery
+    setSearchQuery,
+    activeTab,
+    setActiveTab
   } = useAdminListUsersStore()
   const { t } = useTranslationStore()
 
@@ -45,13 +48,13 @@ export const UserManagementPage: React.FC<IUserManagementPageProps> = ({
   }
 
   return (
-    <SandboxLayout.Main>
-      <SandboxLayout.Content maxWidth="3xl">
-        <Spacer size={10} />
+    <SandboxLayout.Main fullWidth>
+      <UserManagementTabs activeTab={activeTab} setActiveTab={setActiveTab} useTranslationStore={useTranslationStore} />
+      <SandboxLayout.Content className="mx-auto max-w-[1092px]">
         <Text size={5} weight={'medium'}>
           {t('views:userManagement.usersHeader', 'Users')}{' '}
           <Text size={5} weight={'medium'} color="foreground-4">
-            ({userData?.length || 0})
+            ({filteredUsers?.length || 0})
           </Text>
         </Text>
         <Spacer size={6} />
