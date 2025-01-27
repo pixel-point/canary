@@ -98,3 +98,8 @@ export enum PageResponseHeader {
   xNextPage = 'x-next-page',
   xPrevPage = 'x-prev-page'
 }
+
+export enum EActiveTab {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive'
+}
