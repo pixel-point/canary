@@ -10,6 +10,7 @@ export const useAdminListUsersStore = create<IAdminListUsersStore>(set => ({
   page: 1,
   password: null,
   user: null,
+  searchQuery: '',
   generatePassword: false,
   setPage: page =>
     set({
@@ -40,6 +41,11 @@ export const useAdminListUsersStore = create<IAdminListUsersStore>(set => ({
   setGeteneratePassword: (generatePassword: boolean) => {
     set({
       generatePassword
+    })
+  },
+  setSearchQuery: (searchQuery: string) => {
+    set({
+      searchQuery
     })
   }
 }))
