@@ -1,11 +1,10 @@
+import { SandboxLayout } from '@/views'
+import { Content } from '@/views/user-management/components/page-components/content'
+import { UserManagementTabs } from '@/views/user-management/components/tabs'
+import { useUserManagement } from '@/views/user-management/hooks/use-user-management'
+import { IUserManagementPageProps } from '@/views/user-management/types'
 import { getFilterOptions, getSortDirections, getSortOptions } from '@views/repo/constants/filter-options'
 import { useFilters } from '@views/repo/hooks'
-
-import { SandboxLayout } from '..'
-import { Content } from './components/page-components/content'
-import { UserManagementTabs } from './components/tabs'
-import { useUserManagement } from './hooks/use-user-management'
-import { IUserManagementPageProps } from './types'
 
 export const UserManagementPage: React.FC<IUserManagementPageProps> = ({
   useAdminListUsersStore,

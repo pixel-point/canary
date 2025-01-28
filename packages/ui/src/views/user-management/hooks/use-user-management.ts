@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { filterItems } from '../utils'
+import { filterItems } from '@/views/user-management/utils'
 
 export const useUserManagement = (userData: any[], searchQuery: string) => {
   const filteredUsers = useMemo(() => {

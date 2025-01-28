@@ -1,6 +1,5 @@
 import { AlertDialog, Button, Spacer } from '@/components'
-
-import { IDeleteDialogProps } from './types'
+import { IDeleteDialogProps } from '@/views/user-management/components/dialogs/delete-user/types'
 
 export const DeleteUserDialog: React.FC<IDeleteDialogProps> = ({
   useAdminListUsersStore,
@@ -10,6 +9,7 @@ export const DeleteUserDialog: React.FC<IDeleteDialogProps> = ({
   open
 }) => {
   const { user } = useAdminListUsersStore()
+
   return (
     <AlertDialog.Root open={open} onOpenChange={onClose}>
       <AlertDialog.Trigger asChild></AlertDialog.Trigger>

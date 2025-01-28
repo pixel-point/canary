@@ -1,9 +1,8 @@
 import { Tabs, TabsList, TabsTrigger } from '@/components'
 import { SandboxLayout, TranslationStore } from '@/views'
+import { EActiveTab } from '@/views/user-management/types'
 
-import { EActiveTab } from '../types'
-
-const UserManagementTabs = ({
+export const UserManagementTabs = ({
   activeTab,
   setActiveTab,
   useTranslationStore
@@ -32,5 +31,3 @@ const UserManagementTabs = ({
     </SandboxLayout.SubHeader>
   )
 }
-
-export { UserManagementTabs }

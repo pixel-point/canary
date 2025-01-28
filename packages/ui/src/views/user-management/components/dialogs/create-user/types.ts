@@ -1,4 +1,7 @@
-import { NewUserFields } from '../../create-user-dialog'
+import { newUserSchema } from '@/views/user-management/components/dialogs/create-user/schemas'
+import { z } from 'zod'
+
+export type NewUserFields = z.infer<typeof newUserSchema>
 
 export interface ICreateUserDialogProps {
   handleCreateUser: (data: NewUserFields) => void

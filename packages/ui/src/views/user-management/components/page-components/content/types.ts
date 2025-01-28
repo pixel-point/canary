@@ -1,6 +1,5 @@
 import { TranslationStore } from '@/views'
-
-import { UsersProps } from '../../../types'
+import { UsersProps } from '@/views/user-management/types'
 
 export interface ContentProps {
   userData: UsersProps[] | null

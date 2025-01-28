@@ -13,13 +13,8 @@ import {
   Text
 } from '@/components'
 import { getInitials } from '@/utils/utils'
-
-import { DialogLabels, UsersProps } from '../types'
-
-interface PageProps {
-  users: UsersProps[]
-  handleDialogOpen: (user: UsersProps | null, dialogLabel: string) => void
-}
+import { PageProps } from '@/views/user-management/components/page-components/content/components/users-list/types'
+import { DialogLabels } from '@/views/user-management/types'
 
 export const UsersList = ({ users, handleDialogOpen }: PageProps) => {
   return (

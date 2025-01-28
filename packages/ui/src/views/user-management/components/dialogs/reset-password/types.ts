@@ -1,4 +1,4 @@
-import { IAdminListUsersStore } from 'dist/views'
+import { IAdminListUsersStore } from '@/views'
 
 export interface IResetPasswordDialogProps {
   onClose: () => void

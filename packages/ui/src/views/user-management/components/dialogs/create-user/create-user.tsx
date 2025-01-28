@@ -13,18 +13,9 @@ import {
   Spacer,
   Text
 } from '@/components'
+import { newUserSchema } from '@/views/user-management/components/dialogs/create-user/schemas'
+import { ICreateUserDialogProps, NewUserFields } from '@/views/user-management/components/dialogs/create-user/types'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-
-import { ICreateUserDialogProps } from './types'
-
-const newUserSchema = z.object({
-  uid: z.string().min(1, { message: 'Please provide a user ID' }),
-  email: z.string().email({ message: 'Please enter a valid email address' }),
-  display_name: z.string().min(1, { message: 'Please provide a display name' })
-})
-
-export type NewUserFields = z.infer<typeof newUserSchema>
 
 export function CreateUserDialog({ handleCreateUser, isLoading, apiError, open, onClose }: ICreateUserDialogProps) {
   const {

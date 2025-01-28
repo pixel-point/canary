@@ -2,10 +2,9 @@ import { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { AlertDialog, Button, ButtonGroup, ControlGroup, Fieldset, FormWrapper, Input } from '@/components'
+import { newUserSchema } from '@/views/user-management/components/dialogs/edit-user/schemas'
+import { IEditUserDialogProps, MemberFields } from '@/views/user-management/components/dialogs/edit-user/types'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-
-import { IEditUserDialogProps } from './types'
 
 export const EditUserDialog: React.FC<IEditUserDialogProps> = ({
   useAdminListUsersStore,
@@ -15,13 +14,6 @@ export const EditUserDialog: React.FC<IEditUserDialogProps> = ({
   open
 }) => {
   const { user } = useAdminListUsersStore()
-  const newUserSchema = z.object({
-    userID: z.string(),
-    email: z.string().email({ message: 'Please provide a valid email, ex: example@yourcompany.com' }),
-    displayName: z.string().min(1, { message: 'Please provide a display name' })
-  })
-
-  type MemberFields = z.infer<typeof newUserSchema>
 
   const {
     handleSubmit,
@@ -33,7 +25,6 @@ export const EditUserDialog: React.FC<IEditUserDialogProps> = ({
     mode: 'onChange'
   })
 
-  // Form edit submit handler
   const onSubmit: SubmitHandler<MemberFields> = data => {
     handleUpdateUser(data)
     resetNewMemberForm(data)

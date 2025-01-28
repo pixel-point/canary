@@ -1,4 +1,4 @@
-import { UsersProps } from './types'
+import { UsersProps } from '@/views/user-management/types'
 
 export const filterItems = (items: UsersProps[], query: string) => {
   if (!query.trim()) return items

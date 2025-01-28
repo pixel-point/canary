@@ -1,12 +1,11 @@
 import { FiltersBar, PaginationComponent, Spacer } from '@/components'
 import { SandboxLayout } from '@/views'
-
-import { DialogLabels } from '../../../types'
-import { EmptyState } from '../../empty-state'
-import { UsersList } from '../../users-list'
-import { Actions } from '../actions'
-import { Header } from '../header'
-import { ContentProps } from './types'
+import { EmptyState } from '@/views/user-management/components/empty-state'
+import { Actions } from '@/views/user-management/components/page-components/actions'
+import { UsersList } from '@/views/user-management/components/page-components/content/components/users-list'
+import { ContentProps } from '@/views/user-management/components/page-components/content/types'
+import { Header } from '@/views/user-management/components/page-components/header'
+import { DialogLabels } from '@/views/user-management/types'
 
 export const Content = ({
   userData,

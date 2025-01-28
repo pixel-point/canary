@@ -1,6 +1,5 @@
 import { NoData } from '@/components'
-
-import { IEmptyStateProps } from './types'
+import { IEmptyStateProps } from '@/views/user-management/components/empty-state/types'
 
 export const EmptyState = ({ t, onButtonClick }: IEmptyStateProps) => {
   return (
