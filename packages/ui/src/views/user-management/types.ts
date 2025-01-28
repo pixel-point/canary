@@ -11,10 +11,34 @@ export interface UsersProps {
   blocked?: boolean
 }
 
+export interface IDialogHandlers {
+  handleUpdateUser: (data: { email: string; displayName: string; userID: string }) => void
+  handleDeleteUser: (userUid: string) => void
+  handleUpdateUserAdmin: (userUid: string, isAdmin: boolean) => void
+  handleUpdatePassword: (userId: string) => void
+  handleCreateUser: (data: { uid: string; email: string; display_name: string }) => void
+}
+
+export interface IDialogLoadingStates {
+  isUpdatingUser: boolean
+  isDeletingUser: boolean
+  isUpdatingUserAdmin: boolean
+  isCreatingUser: boolean
+}
+
+export interface IDialogErrorStates {
+  updateUserError: string
+  deleteUserError: string
+  updateUserAdminError: string
+  createUserError: string
+}
+
 export interface IUserManagementPageProps {
   useAdminListUsersStore: () => IAdminListUsersStore
   useTranslationStore: () => TranslationStore
-  handleDialogOpen: (user: UsersProps | null, dialogLabel: string) => void
+  handlers: IDialogHandlers
+  loadingStates: IDialogLoadingStates
+  errorStates: IDialogErrorStates
 }
 export interface IAdminListUsersStore {
   users: UsersProps[]

@@ -1,12 +1,11 @@
 import { TranslationStore } from '@/views'
-import { UsersProps } from '@/views/user-management/types'
+import { IAdminListUsersStore, UsersProps } from '@/views/user-management/types'
 
 export interface ContentProps {
   userData: UsersProps[] | null
   filteredUsers: UsersProps[]
   searchQuery: string
   handleSearch: (event: React.ChangeEvent<HTMLInputElement>) => void
-  handleDialogOpen: (user: UsersProps | null, dialogLabel: string) => void
   filterOptions: any[]
   sortOptions: any[]
   sortDirections: any[]
@@ -15,4 +14,5 @@ export interface ContentProps {
   currentPage: number
   setPage: (page: number) => void
   useTranslationStore: () => TranslationStore
+  useAdminListUsersStore: () => IAdminListUsersStore
 }

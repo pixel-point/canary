@@ -13,9 +13,12 @@ import {
   Spacer,
   Text
 } from '@/components'
-import { newUserSchema } from '@/views/user-management/components/dialogs/create-user/schemas'
-import { ICreateUserDialogProps, NewUserFields } from '@/views/user-management/components/dialogs/create-user/types'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { newUserSchema } from '@views/user-management/components/dialogs/components/create-user/schemas'
+import {
+  ICreateUserDialogProps,
+  NewUserFields
+} from '@views/user-management/components/dialogs/components/create-user/types'
 
 export function CreateUserDialog({ handleCreateUser, isLoading, apiError, open, onClose }: ICreateUserDialogProps) {
   const {

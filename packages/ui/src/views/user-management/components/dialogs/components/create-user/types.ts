@@ -1,4 +1,4 @@
-import { newUserSchema } from '@/views/user-management/components/dialogs/create-user/schemas'
+import { newUserSchema } from '@views/user-management/components/dialogs/components/create-user/schemas'
 import { z } from 'zod'
 
 export type NewUserFields = z.infer<typeof newUserSchema>

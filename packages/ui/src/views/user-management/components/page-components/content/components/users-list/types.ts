@@ -1,6 +1,6 @@
-import { UsersProps } from '@views/user-management/types'
+import { DialogLabels, UsersProps } from '@views/user-management/types'
 
 export interface PageProps {
   users: UsersProps[]
-  handleDialogOpen: (user: UsersProps | null, dialogLabel: string) => void
+  handleDialogOpen: (user: UsersProps | null, dialogLabel: DialogLabels) => void
 }

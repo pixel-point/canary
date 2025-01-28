@@ -1,6 +1,5 @@
 import { Spacer, Text } from '@/components'
-
-import { HeaderProps } from './types'
+import { HeaderProps } from '@/views/user-management/components/page-components/header/types'
 
 export const Header = ({ usersCount, useTranslationStore }: HeaderProps) => {
   const { t } = useTranslationStore()

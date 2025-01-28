@@ -1,5 +1,5 @@
 import { IAdminListUsersStore } from '@/views'
-import { newUserSchema } from '@/views/user-management/components/dialogs/edit-user/schemas'
+import { newUserSchema } from '@views/user-management/components/dialogs/components/edit-user/schemas'
 import { z } from 'zod'
 
 export type MemberFields = z.infer<typeof newUserSchema>

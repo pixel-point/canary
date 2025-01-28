@@ -2,9 +2,12 @@ import { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { AlertDialog, Button, ButtonGroup, ControlGroup, Fieldset, FormWrapper, Input } from '@/components'
-import { newUserSchema } from '@/views/user-management/components/dialogs/edit-user/schemas'
-import { IEditUserDialogProps, MemberFields } from '@/views/user-management/components/dialogs/edit-user/types'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { newUserSchema } from '@views/user-management/components/dialogs/components/edit-user/schemas'
+import {
+  IEditUserDialogProps,
+  MemberFields
+} from '@views/user-management/components/dialogs/components/edit-user/types'
 
 export const EditUserDialog: React.FC<IEditUserDialogProps> = ({
   useAdminListUsersStore,

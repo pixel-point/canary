@@ -1,15 +1,20 @@
 import { SandboxLayout } from '@/views'
 import { Content } from '@/views/user-management/components/page-components/content'
 import { UserManagementTabs } from '@/views/user-management/components/tabs'
+import { DialogsProvider } from '@/views/user-management/context/dialogs/context'
 import { useUserManagement } from '@/views/user-management/hooks/use-user-management'
 import { IUserManagementPageProps } from '@/views/user-management/types'
 import { getFilterOptions, getSortDirections, getSortOptions } from '@views/repo/constants/filter-options'
 import { useFilters } from '@views/repo/hooks'
 
+import { Dialogs } from './components/dialogs/dialogs'
+
 export const UserManagementPage: React.FC<IUserManagementPageProps> = ({
   useAdminListUsersStore,
   useTranslationStore,
-  handleDialogOpen
+  handlers,
+  loadingStates,
+  errorStates
 }) => {
   const {
     users: userData,
@@ -36,23 +41,35 @@ export const UserManagementPage: React.FC<IUserManagementPageProps> = ({
   const filterHandlers = useFilters()
 
   return (
-    <SandboxLayout.Main fullWidth>
-      <UserManagementTabs activeTab={activeTab} setActiveTab={setActiveTab} useTranslationStore={useTranslationStore} />
-      <Content
-        userData={userData}
-        filteredUsers={filteredUsers}
-        searchQuery={searchQuery}
-        handleSearch={handleSearch}
-        handleDialogOpen={handleDialogOpen}
-        filterOptions={FILTER_OPTIONS}
-        sortOptions={SORT_OPTIONS}
-        sortDirections={SORT_DIRECTIONS}
-        filterHandlers={filterHandlers}
-        totalPages={totalPages}
-        currentPage={currentPage}
-        setPage={setPage}
-        useTranslationStore={useTranslationStore}
-      />
-    </SandboxLayout.Main>
+    <DialogsProvider>
+      <SandboxLayout.Main fullWidth>
+        <UserManagementTabs
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          useTranslationStore={useTranslationStore}
+        />
+        <Content
+          userData={userData}
+          filteredUsers={filteredUsers}
+          searchQuery={searchQuery}
+          handleSearch={handleSearch}
+          filterOptions={FILTER_OPTIONS}
+          sortOptions={SORT_OPTIONS}
+          sortDirections={SORT_DIRECTIONS}
+          filterHandlers={filterHandlers}
+          totalPages={totalPages}
+          currentPage={currentPage}
+          setPage={setPage}
+          useTranslationStore={useTranslationStore}
+          useAdminListUsersStore={useAdminListUsersStore}
+        />
+        <Dialogs
+          useAdminListUsersStore={useAdminListUsersStore}
+          handlers={handlers}
+          loadingStates={loadingStates}
+          errorStates={errorStates}
+        />
+      </SandboxLayout.Main>
+    </DialogsProvider>
   )
 }

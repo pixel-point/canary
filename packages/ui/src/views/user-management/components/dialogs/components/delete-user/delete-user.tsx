@@ -1,5 +1,5 @@
 import { AlertDialog, Button, Spacer } from '@/components'
-import { IDeleteDialogProps } from '@/views/user-management/components/dialogs/delete-user/types'
+import { IDeleteDialogProps } from '@views/user-management/components/dialogs/components/delete-user/types'
 
 export const DeleteUserDialog: React.FC<IDeleteDialogProps> = ({
   useAdminListUsersStore,

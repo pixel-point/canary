@@ -1,7 +1,7 @@
 import { FC } from 'react'
 
 import { AlertDialog, Button, CopyButton, Input, Text } from '@/components'
-import { IResetPasswordDialogProps } from '@/views/user-management/components/dialogs/reset-password/types'
+import { IResetPasswordDialogProps } from '@views/user-management/components/dialogs/components/reset-password/types'
 
 export const ResetPasswordDialog: FC<IResetPasswordDialogProps> = ({
   open,

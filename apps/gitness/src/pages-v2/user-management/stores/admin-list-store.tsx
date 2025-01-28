@@ -1,8 +1,8 @@
 import { create } from 'zustand'
 
-import { IAdminListUsersStore, UsersProps } from '@harnessio/ui/views'
+import { EActiveTab, IAdminListUsersStore, UsersProps } from '@harnessio/ui/views'
 
-import { EActiveTab, PageResponseHeader } from '../../../types'
+import { PageResponseHeader } from '../../../types'
 
 export const useAdminListUsersStore = create<IAdminListUsersStore>(set => ({
   users: [],
