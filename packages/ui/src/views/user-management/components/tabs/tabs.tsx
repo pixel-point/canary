@@ -1,8 +1,7 @@
 import { Tabs, TabsList, TabsTrigger } from '@/components'
 import { SandboxLayout } from '@/views'
-import { EActiveTab } from '@/views/user-management/types'
-
-import { useUserManagementStore } from '../../providers/StoreProvider'
+import { EActiveTab } from '@/views/user-management/components/tabs/types'
+import { useUserManagementStore } from '@/views/user-management/providers/StoreProvider'
 
 export const UserManagementTabs = ({
   activeTab,

@@ -1,4 +1,4 @@
-import { DialogLabels, IDialogHandlers } from '@/views/user-management/types'
+import { DialogLabels, IDialogHandlers } from '@/views/user-management/components/dialogs'
 import { useDialogs } from '@views/user-management/providers/DialogsProvider'
 
 export const useDialogHandlers = (handlers: IDialogHandlers) => {

@@ -1,4 +1,5 @@
-import { DialogLabels, UsersProps } from '@views/user-management/types'
+import { DialogLabels } from '@/views/user-management/components/dialogs'
+import { UsersProps } from '@/views/user-management/types'
 
 export interface PageProps {
   users: UsersProps[]

@@ -1,2 +1,5 @@
 export * from './user-management-page'
 export * from './types'
+export * from './components/dialogs/types'
+export * from './components/tabs/types'
+export * from './providers/StoreProvider/types'

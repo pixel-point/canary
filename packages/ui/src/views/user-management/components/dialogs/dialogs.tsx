@@ -1,6 +1,5 @@
 import { useDialogHandlers } from '@/views/user-management/components/dialogs/hooks'
-import { DialogLabels } from '@/views/user-management/types'
-import { IDialogsProps } from '@views/user-management/components/dialogs/types'
+import { DialogLabels, IDialogsProps } from '@/views/user-management/components/dialogs/types'
 import { useDialogs } from '@views/user-management/providers/DialogsProvider'
 
 import { CreateUserDialog } from './components/create-user'

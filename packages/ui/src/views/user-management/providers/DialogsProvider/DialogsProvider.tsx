@@ -1,6 +1,6 @@
 import { createContext, useState } from 'react'
 
-import { DialogLabels } from '@/views/user-management/types'
+import { DialogLabels } from '@/views/user-management/components/dialogs'
 
 import { DialogsContextType, DialogState } from './types'
 

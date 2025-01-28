@@ -1,6 +1,6 @@
 import { Button, Filters, ListActions, SearchBox } from '@/components'
+import { DialogLabels } from '@/views/user-management/components/dialogs'
 import { ActionsProps } from '@/views/user-management/components/page-components/actions/types'
-import { DialogLabels } from '@/views/user-management/types'
 
 export const Actions = ({
   searchQuery,

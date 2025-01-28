@@ -1,4 +1,4 @@
-import { DialogLabels } from '@/views/user-management/types'
+import { DialogLabels } from '@/views/user-management/components/dialogs'
 
 export type DialogState = {
   [K in DialogLabels]: boolean
