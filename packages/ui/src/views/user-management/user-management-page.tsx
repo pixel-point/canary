@@ -1,4 +1,5 @@
 import { SandboxLayout } from '@/views'
+import { Dialogs } from '@/views/user-management/components/dialogs'
 import { Content } from '@/views/user-management/components/page-components/content'
 import { UserManagementTabs } from '@/views/user-management/components/tabs'
 import { DialogsProvider } from '@/views/user-management/context/dialogs/context'
@@ -6,8 +7,6 @@ import { useUserManagement } from '@/views/user-management/hooks/use-user-manage
 import { IUserManagementPageProps } from '@/views/user-management/types'
 import { getFilterOptions, getSortDirections, getSortOptions } from '@views/repo/constants/filter-options'
 import { useFilters } from '@views/repo/hooks'
-
-import { Dialogs } from './components/dialogs/dialogs'
 
 export const UserManagementPage: React.FC<IUserManagementPageProps> = ({
   useAdminListUsersStore,

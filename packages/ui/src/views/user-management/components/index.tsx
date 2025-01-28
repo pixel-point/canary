@@ -1,5 +1,0 @@
-export * from './dialogs/components/delete-user'
-export * from './dialogs/components/edit-user'
-export * from './dialogs/components/remove-admin'
-export * from './dialogs/components/reset-password'
-export * from './dialogs/components/create-user'
