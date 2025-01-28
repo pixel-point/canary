@@ -14,24 +14,22 @@ const UserManagementTabs = ({
 }) => {
   const { t } = useTranslationStore()
   return (
-    <>
-      <SandboxLayout.SubHeader className="h-[44px] overflow-hidden">
-        <Tabs
-          variant="tabnav"
-          value={activeTab}
-          onValueChange={value => {
-            setActiveTab(value as EActiveTab)
-          }}
-        >
-          <TabsList fontSize="xs">
-            <TabsTrigger value={EActiveTab.ACTIVE}>{t('views:userManagement.tabs.active', 'Active users')}</TabsTrigger>
-            <TabsTrigger value={EActiveTab.INACTIVE}>
-              {t('views:userManagement.tabs.inactive', 'Pending users')}
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
-      </SandboxLayout.SubHeader>
-    </>
+    <SandboxLayout.SubHeader className="h-[44px] overflow-hidden">
+      <Tabs
+        variant="tabnav"
+        value={activeTab}
+        onValueChange={value => {
+          setActiveTab(value as EActiveTab)
+        }}
+      >
+        <TabsList fontSize="xs">
+          <TabsTrigger value={EActiveTab.ACTIVE}>{t('views:userManagement.tabs.active', 'Active users')}</TabsTrigger>
+          <TabsTrigger value={EActiveTab.INACTIVE}>
+            {t('views:userManagement.tabs.inactive', 'Pending users')}
+          </TabsTrigger>
+        </TabsList>
+      </Tabs>
+    </SandboxLayout.SubHeader>
   )
 }
 
