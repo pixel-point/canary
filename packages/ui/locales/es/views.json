@@ -389,9 +389,13 @@
     "delete": "Delete webhook"
   },
   "userManagement": {
+    "tabs": {
+      "active": "Active users",
+      "inactive": "Pending users"
+    },
+    "usersHeader": "Users",
     "searchPlaceholder": "Search",
-    "newUserButton": "New user",
-    "usersHeader": "Users"
+    "newUserButton": "New user"
   },
   "labelData": {
     "create": "Create labels"

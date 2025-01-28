@@ -1,7 +1,9 @@
 import { useMemo } from 'react'
 
-import { Button, ListActions, PaginationComponent, SearchBox, Spacer, Text } from '@/components'
+import { Button, Filters, FiltersBar, ListActions, PaginationComponent, SearchBox, Spacer, Text } from '@/components'
 import { SandboxLayout } from '@/views'
+import { getFilterOptions, getSortDirections, getSortOptions } from '@views/repo/constants/filter-options'
+import { useFilters } from '@views/repo/hooks'
 
 import { UserManagementTabs } from './components/tabs'
 import { UsersList } from './components/users-list'
@@ -29,6 +31,12 @@ export const UserManagementPage: React.FC<IUserManagementPageProps> = ({
     setActiveTab
   } = useAdminListUsersStore()
   const { t } = useTranslationStore()
+
+  const FILTER_OPTIONS = getFilterOptions(t)
+  const SORT_OPTIONS = getSortOptions(t)
+  const SORT_DIRECTIONS = getSortDirections(t)
+
+  const filterHandlers = useFilters()
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value)
@@ -68,11 +76,19 @@ export const UserManagementPage: React.FC<IUserManagementPageProps> = ({
             />
           </ListActions.Left>
           <ListActions.Right>
+            <Filters filterOptions={FILTER_OPTIONS} sortOptions={SORT_OPTIONS} filterHandlers={filterHandlers} t={t} />
             <Button variant="default" onClick={() => handleDialogOpen(null, DialogLabels.CREATE_USER)}>
               {t('views:userManagement.newUserButton', 'New user')}
             </Button>
           </ListActions.Right>
         </ListActions.Root>
+        <FiltersBar
+          filterOptions={FILTER_OPTIONS}
+          sortOptions={SORT_OPTIONS}
+          sortDirections={SORT_DIRECTIONS}
+          filterHandlers={filterHandlers}
+          t={t}
+        />
         <Spacer size={5} />
         {renderUserListContent()}
         <Spacer size={8} />
