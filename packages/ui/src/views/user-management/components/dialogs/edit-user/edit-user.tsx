@@ -5,7 +5,7 @@ import { AlertDialog, Button, ButtonGroup, ControlGroup, Fieldset, FormWrapper, 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
-import { IEditUserDialogProps } from '../types'
+import { IEditUserDialogProps } from './types'
 
 export const EditUserDialog: React.FC<IEditUserDialogProps> = ({
   useAdminListUsersStore,

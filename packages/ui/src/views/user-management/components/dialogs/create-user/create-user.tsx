@@ -16,6 +16,8 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
+import { ICreateUserDialogProps } from './types'
+
 const newUserSchema = z.object({
   uid: z.string().min(1, { message: 'Please provide a user ID' }),
   email: z.string().email({ message: 'Please enter a valid email address' }),
@@ -24,19 +26,7 @@ const newUserSchema = z.object({
 
 export type NewUserFields = z.infer<typeof newUserSchema>
 
-export function CreateUserDialog({
-  handleCreateUser,
-  isLoading,
-  apiError,
-  open,
-  onClose
-}: {
-  handleCreateUser: (data: NewUserFields) => void
-  isLoading: boolean
-  apiError: string | null
-  open: boolean
-  onClose: () => void
-}) {
+export function CreateUserDialog({ handleCreateUser, isLoading, apiError, open, onClose }: ICreateUserDialogProps) {
   const {
     register,
     handleSubmit,
@@ -68,8 +58,8 @@ export function CreateUserDialog({
               <ControlGroup>
                 <span className="flex items-center">
                   <Label htmlFor="memberName">User ID</Label>
-                  <Icon name="info-circle" height={15} className="ml-3 text-tertiary-background" />
-                  <Text size={1} className="ml-1 text-tertiary-background">
+                  <Icon name="info-circle" height={15} className="text-tertiary-background ml-3" />
+                  <Text size={1} className="text-tertiary-background ml-1">
                     User ID cannot be changed once created
                   </Text>
                 </span>

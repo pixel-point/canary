@@ -35,37 +35,6 @@ export interface IAdminListUsersStore {
   setActiveTab: (data: EActiveTab) => void
 }
 
-export interface IDeleteDialogProps {
-  open: boolean
-  onClose: () => void
-  isDeleting: boolean
-  handleDeleteUser: (userUid: string) => void
-  useAdminListUsersStore: () => IAdminListUsersStore
-}
-
-export interface IEditUserDialogProps {
-  isSubmitting: boolean
-  onClose: () => void
-  handleUpdateUser: (data: { email: string; displayName: string; userID: string }) => void
-  open: boolean
-  useAdminListUsersStore: () => IAdminListUsersStore
-}
-
-export interface IRemoveAdminDialogProps {
-  open: boolean
-  onClose: () => void
-  isLoading: boolean
-  updateUserAdmin: (uid: string, admin: boolean) => void
-  useAdminListUsersStore: () => IAdminListUsersStore
-}
-
-export interface IResetPasswordDialogProps {
-  onClose: () => void
-  open: boolean
-  handleUpdatePassword: (userId: string) => void
-  useAdminListUsersStore: () => IAdminListUsersStore
-}
-
 export enum DialogLabels {
   DELETE_USER = 'deleteUser',
   EDIT_USER = 'editUser',
