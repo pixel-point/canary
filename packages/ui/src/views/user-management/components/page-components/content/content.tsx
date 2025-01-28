@@ -7,26 +7,32 @@ import { UsersList } from '@/views/user-management/components/page-components/co
 import { ContentProps } from '@/views/user-management/components/page-components/content/types'
 import { Header } from '@/views/user-management/components/page-components/header'
 import { DialogLabels, UsersProps } from '@/views/user-management/types'
+import { getFilterOptions, getSortDirections, getSortOptions } from '@views/repo/constants/filter-options'
+import { useFilters } from '@views/repo/hooks'
 import { useDialogs } from '@views/user-management/providers/DialogsProvider'
+import { useUserManagementStore } from '@views/user-management/providers/StoreProvider'
 
 export const Content = ({
   userData,
   filteredUsers,
   searchQuery,
   handleSearch,
-  filterOptions,
-  sortOptions,
-  sortDirections,
-  filterHandlers,
   totalPages,
   currentPage,
-  setPage,
-  useTranslationStore,
-  useAdminListUsersStore
+  setPage
 }: ContentProps) => {
-  const { t } = useTranslationStore()
-  const { openDialog } = useDialogs()
+  const { useAdminListUsersStore, useTranslationStore } = useUserManagementStore()
+
   const { setUser, setPassword, setGeteneratePassword } = useAdminListUsersStore()
+  const { t } = useTranslationStore()
+
+  const { openDialog } = useDialogs()
+
+  const FILTER_OPTIONS = getFilterOptions(t)
+  const SORT_OPTIONS = getSortOptions(t)
+  const SORT_DIRECTIONS = getSortDirections(t)
+
+  const filterHandlers = useFilters()
 
   const prepareDialogData = (user: UsersProps | null, dialogType: DialogLabels) => {
     if (user) setUser(user)
@@ -62,15 +68,15 @@ export const Content = ({
         searchQuery={searchQuery}
         handleSearch={handleSearch}
         handleDialogOpen={handleDialogOpen}
-        filterOptions={filterOptions}
-        sortOptions={sortOptions}
+        filterOptions={FILTER_OPTIONS}
+        sortOptions={SORT_OPTIONS}
         filterHandlers={filterHandlers}
         useTranslationStore={useTranslationStore}
       />
       <FiltersBar
-        filterOptions={filterOptions}
-        sortOptions={sortOptions}
-        sortDirections={sortDirections}
+        filterOptions={FILTER_OPTIONS}
+        sortOptions={SORT_OPTIONS}
+        sortDirections={SORT_DIRECTIONS}
         filterHandlers={filterHandlers}
         t={t}
       />

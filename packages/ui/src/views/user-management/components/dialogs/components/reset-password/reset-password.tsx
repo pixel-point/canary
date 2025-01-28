@@ -2,13 +2,11 @@ import { FC } from 'react'
 
 import { AlertDialog, Button, CopyButton, Input, Text } from '@/components'
 import { IResetPasswordDialogProps } from '@views/user-management/components/dialogs/components/reset-password/types'
+import { useUserManagementStore } from '@views/user-management/providers/StoreProvider'
 
-export const ResetPasswordDialog: FC<IResetPasswordDialogProps> = ({
-  open,
-  useAdminListUsersStore,
-  onClose,
-  handleUpdatePassword
-}) => {
+export const ResetPasswordDialog: FC<IResetPasswordDialogProps> = ({ open, onClose, handleUpdatePassword }) => {
+  const { useAdminListUsersStore } = useUserManagementStore()
+
   const { user, generatePassword, setGeteneratePassword, password } = useAdminListUsersStore()
 
   const handleResetPassword = () => {

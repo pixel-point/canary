@@ -1,17 +1,20 @@
 import { Tabs, TabsList, TabsTrigger } from '@/components'
-import { SandboxLayout, TranslationStore } from '@/views'
+import { SandboxLayout } from '@/views'
 import { EActiveTab } from '@/views/user-management/types'
+
+import { useUserManagementStore } from '../../providers/StoreProvider'
 
 export const UserManagementTabs = ({
   activeTab,
-  setActiveTab,
-  useTranslationStore
+  setActiveTab
 }: {
   activeTab: EActiveTab
   setActiveTab: (value: EActiveTab) => void
-  useTranslationStore: () => TranslationStore
 }) => {
+  const { useTranslationStore } = useUserManagementStore()
+
   const { t } = useTranslationStore()
+
   return (
     <SandboxLayout.SubHeader className="h-[44px] overflow-hidden">
       <Tabs

@@ -1,13 +1,10 @@
 import { AlertDialog, Button } from '@/components'
 import { IRemoveAdminDialogProps } from '@views/user-management/components/dialogs/components/remove-admin/types'
+import { useUserManagementStore } from '@views/user-management/providers/StoreProvider'
 
-export const AdminDialog: React.FC<IRemoveAdminDialogProps> = ({
-  useAdminListUsersStore,
-  open,
-  onClose,
-  isLoading,
-  updateUserAdmin
-}) => {
+export const AdminDialog: React.FC<IRemoveAdminDialogProps> = ({ open, onClose, isLoading, updateUserAdmin }) => {
+  const { useAdminListUsersStore } = useUserManagementStore()
+
   const { user } = useAdminListUsersStore()
   const isAdmin = user?.admin ?? false
 

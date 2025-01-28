@@ -8,14 +8,11 @@ import {
   IEditUserDialogProps,
   MemberFields
 } from '@views/user-management/components/dialogs/components/edit-user/types'
+import { useUserManagementStore } from '@views/user-management/providers/StoreProvider'
 
-export const EditUserDialog: React.FC<IEditUserDialogProps> = ({
-  useAdminListUsersStore,
-  onClose,
-  isSubmitting,
-  handleUpdateUser,
-  open
-}) => {
+export const EditUserDialog: React.FC<IEditUserDialogProps> = ({ onClose, isSubmitting, handleUpdateUser, open }) => {
+  const { useAdminListUsersStore } = useUserManagementStore()
+
   const { user } = useAdminListUsersStore()
 
   const {
