@@ -7,7 +7,7 @@ import { UsersList } from '@/views/user-management/components/page-components/co
 import { ContentProps } from '@/views/user-management/components/page-components/content/types'
 import { Header } from '@/views/user-management/components/page-components/header'
 import { DialogLabels, UsersProps } from '@/views/user-management/types'
-import { useDialogs } from '@views/user-management/context/dialogs'
+import { useDialogs } from '@views/user-management/providers/DialogsProvider'
 
 export const Content = ({
   userData,

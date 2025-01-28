@@ -1,10 +1,10 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useState } from 'react'
 
 import { DialogLabels } from '@/views/user-management/types'
 
 import { DialogsContextType, DialogState } from './types'
 
-const DialogsContext = createContext<DialogsContextType | undefined>(undefined)
+export const DialogsContext = createContext<DialogsContextType | undefined>(undefined)
 
 export const DialogsProvider = ({ children }: { children: React.ReactNode }) => {
   const [dialogsOpenState, setDialogsOpenState] = useState<DialogState>({
@@ -32,14 +32,4 @@ export const DialogsProvider = ({ children }: { children: React.ReactNode }) => 
   return (
     <DialogsContext.Provider value={{ dialogsOpenState, openDialog, closeDialog }}>{children}</DialogsContext.Provider>
   )
-}
-
-export const useDialogs = () => {
-  const context = useContext(DialogsContext)
-
-  if (!context) {
-    throw new Error('useDialogs must be used within DialogsProvider')
-  }
-
-  return context
 }

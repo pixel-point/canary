@@ -1,5 +1,5 @@
-import { useDialogs } from '@/views/user-management/context/dialogs/context'
 import { DialogLabels, IDialogHandlers } from '@/views/user-management/types'
+import { useDialogs } from '@views/user-management/providers/DialogsProvider'
 
 export const useDialogHandlers = (handlers: IDialogHandlers) => {
   const { closeDialog, openDialog } = useDialogs()

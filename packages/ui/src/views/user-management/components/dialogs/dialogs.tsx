@@ -1,5 +1,4 @@
 import { useDialogHandlers } from '@/views/user-management/components/dialogs/hooks'
-import { useDialogs } from '@/views/user-management/context/dialogs'
 import {
   DialogLabels,
   IDialogErrorStates,
@@ -7,6 +6,7 @@ import {
   IDialogLoadingStates,
   IUserManagementPageProps
 } from '@/views/user-management/types'
+import { useDialogs } from '@views/user-management/providers/DialogsProvider'
 
 import { CreateUserDialog } from './components/create-user'
 import { DeleteUserDialog } from './components/delete-user'
