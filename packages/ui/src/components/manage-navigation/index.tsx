@@ -142,7 +142,7 @@ export const ManageNavigation = ({
                           key={item.id}
                           className="flex w-full grow cursor-not-allowed items-center gap-x-2.5 rounded p-1 px-3 opacity-55"
                         >
-                          <Icon className="w-3.5" name="shield-lock" size={14} />
+                          <Icon className="w-3.5" name="lock" size={14} />
                           <Text>{item.title}</Text>
                         </div>
                       )

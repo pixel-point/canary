@@ -9,6 +9,7 @@ import { NavbarItemType } from '../types'
 interface NavbarItemProps {
   item: NavbarItemType
   isRecent?: boolean
+  isStaticPinned?: boolean
   handleChangePinnedMenuItem: (item: NavbarItemType, pin: boolean) => void
   handleRemoveRecentMenuItem: (item: NavbarItemType) => void
   handleCustomNav: () => void
@@ -18,6 +19,7 @@ interface NavbarItemProps {
 export const NavbarItem = ({
   item,
   isRecent = false,
+  isStaticPinned = false,
   handleChangePinnedMenuItem,
   handleRemoveRecentMenuItem,
   handleCustomNav,
@@ -75,20 +77,22 @@ export const NavbarItem = ({
           />
         )}
       </NavLink>
-      <DropdownMenu.Root>
-        <DropdownMenu.Trigger asChild>
-          <Button
-            className="absolute right-[-0.8125rem] top-0 text-icons-4 opacity-0 hover:text-icons-2 focus:opacity-100 focus-visible:opacity-100 group-hover:opacity-100 data-[state=open]:opacity-100"
-            size="sm_icon"
-            variant="custom"
-          >
-            <Icon name="menu-dots" size={12} />
-          </Button>
-        </DropdownMenu.Trigger>
-        <DropdownMenu.Content className="w-[128px]" align="end" sideOffset={-1} alignOffset={8}>
-          {dropdownItems}
-        </DropdownMenu.Content>
-      </DropdownMenu.Root>
+      {!isStaticPinned && (
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild>
+            <Button
+              className="absolute right-[-0.8125rem] top-0 text-icons-4 opacity-0 hover:text-icons-2 focus:opacity-100 focus-visible:opacity-100 group-hover:opacity-100 data-[state=open]:opacity-100"
+              size="sm_icon"
+              variant="custom"
+            >
+              <Icon name="menu-dots" size={12} />
+            </Button>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content className="w-[128px]" align="end" sideOffset={-1} alignOffset={8}>
+            {dropdownItems}
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+      )}
     </div>
   )
 }
