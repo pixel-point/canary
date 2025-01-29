@@ -6,9 +6,9 @@ import { Actions } from '@/views/user-management/components/page-components/acti
 import { UsersList } from '@/views/user-management/components/page-components/content/components/users-list'
 import { ContentProps } from '@/views/user-management/components/page-components/content/types'
 import { Header } from '@/views/user-management/components/page-components/header'
-import { getFilterOptions, getSortDirections, getSortOptions } from '@views/repo/constants/filter-options'
-import { useFilters } from '@views/repo/hooks'
 import { useDialogData } from '@views/user-management/components/dialogs/hooks'
+import { getFilterOptions, getSortDirections, getSortOptions } from '@views/user-management/constants/filter-options'
+import { useFilters } from '@views/user-management/hooks'
 import { useUserManagementStore } from '@views/user-management/providers/StoreProvider'
 
 export const Content = ({
