@@ -1,5 +1,4 @@
 import { FiltersBar, PaginationComponent, Spacer } from '@/components'
-import { generateAlphaNumericHash } from '@/utils/utils'
 import { SandboxLayout } from '@/views'
 import { DialogLabels } from '@/views/user-management/components/dialogs'
 import { EmptyState } from '@/views/user-management/components/empty-state'
@@ -7,10 +6,9 @@ import { Actions } from '@/views/user-management/components/page-components/acti
 import { UsersList } from '@/views/user-management/components/page-components/content/components/users-list'
 import { ContentProps } from '@/views/user-management/components/page-components/content/types'
 import { Header } from '@/views/user-management/components/page-components/header'
-import { UsersProps } from '@/views/user-management/types'
 import { getFilterOptions, getSortDirections, getSortOptions } from '@views/repo/constants/filter-options'
 import { useFilters } from '@views/repo/hooks'
-import { useDialogs } from '@views/user-management/providers/DialogsProvider'
+import { useDialogData } from '@views/user-management/components/dialogs/hooks'
 import { useUserManagementStore } from '@views/user-management/providers/StoreProvider'
 
 export const Content = ({
@@ -22,41 +20,17 @@ export const Content = ({
   currentPage,
   setPage
 }: ContentProps) => {
-  const { useAdminListUsersStore, useTranslationStore } = useUserManagementStore()
+  const { useTranslationStore } = useUserManagementStore()
 
-  const { setUser, setPassword, setGeteneratePassword } = useAdminListUsersStore()
   const { t } = useTranslationStore()
 
-  const { openDialog } = useDialogs()
+  const { handleDialogOpen } = useDialogData()
 
   const FILTER_OPTIONS = getFilterOptions(t)
   const SORT_OPTIONS = getSortOptions(t)
   const SORT_DIRECTIONS = getSortDirections(t)
 
   const filterHandlers = useFilters()
-
-  const prepareDialogData = (user: UsersProps | null, dialogType: DialogLabels) => {
-    if (user) setUser(user)
-
-    if (dialogType === DialogLabels.RESET_PASSWORD) {
-      setGeteneratePassword(false)
-      setPassword(generateAlphaNumericHash(10))
-
-      return
-    }
-
-    if (dialogType === DialogLabels.CREATE_USER) {
-      setGeteneratePassword(true)
-      setPassword(generateAlphaNumericHash(10))
-
-      return
-    }
-  }
-
-  const handleDialogOpen = (user: UsersProps | null, dialogType: DialogLabels) => {
-    prepareDialogData(user, dialogType)
-    openDialog(dialogType)
-  }
 
   if (!userData?.length) {
     return <EmptyState t={t} onButtonClick={() => handleDialogOpen(null, DialogLabels.CREATE_USER)} />
