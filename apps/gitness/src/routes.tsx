@@ -19,6 +19,7 @@ import { SettingsProfileKeysPage } from './pages-v2/profile-settings/profile-set
 import { ProfileSettingsThemePage } from './pages-v2/profile-settings/profile-settings-theme-page'
 import { SettingsLayout as ProfileSettingsLayout } from './pages-v2/profile-settings/settings-layout'
 import { ProjectGeneralSettingsPageContainer } from './pages-v2/project/project-general-settings-container'
+import { ImportProjectContainer } from './pages-v2/project/project-import-container'
 import { ProjectLabelsList } from './pages-v2/project/project-labels-list-container'
 import { ProjectMemberListPage } from './pages-v2/project/project-member-list'
 import { SettingsLayout as ProjectSettingsLayout } from './pages-v2/project/settings-layout'
@@ -37,6 +38,7 @@ import { CommitDiffContainer } from './pages-v2/repo/repo-commit-details-diff'
 import RepoCommitsPage from './pages-v2/repo/repo-commits'
 import { CreateRepo } from './pages-v2/repo/repo-create-page'
 import RepoExecutionListPage from './pages-v2/repo/repo-execution-list'
+import { ImportMultipleRepos } from './pages-v2/repo/repo-import-multiple-container'
 import { ImportRepo } from './pages-v2/repo/repo-import-page'
 import { RepoLabelsList } from './pages-v2/repo/repo-labels-container'
 import RepoLayout from './pages-v2/repo/repo-layout'
@@ -78,6 +80,13 @@ export const repoRoutes: CustomRouteObject[] = [
         element: <ImportRepo />,
         handle: {
           routeName: RouteConstants.toImportRepo
+        }
+      },
+      {
+        path: 'import-multiple',
+        element: <ImportMultipleRepos />,
+        handle: {
+          routeName: RouteConstants.toImportMultipleRepos
         }
       },
       {
@@ -465,6 +474,13 @@ export const routes: CustomRouteObject[] = [
           breadcrumb: () => <Text>Create project</Text>
         },
         children: []
+      },
+      {
+        path: 'import',
+        element: <ImportProjectContainer />,
+        handle: {
+          breadcrumb: () => <Text>Import project</Text>
+        }
       },
       {
         path: 'repos',
