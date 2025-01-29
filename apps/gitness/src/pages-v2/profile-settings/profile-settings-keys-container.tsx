@@ -24,7 +24,6 @@ import {
   ApiErrorType,
   ProfileSettingsKeysCreateDialog,
   ProfileSettingsTokenCreateDialog,
-  ProfileSettingsTokenSuccessDialog,
   SettingsAccountKeysPage,
   TokensList
 } from '@harnessio/ui/views'
@@ -35,18 +34,9 @@ import { useProfileSettingsStore } from './stores/profile-settings-store'
 const CONVERT_DAYS_TO_NANO_SECONDS = 24 * 60 * 60 * 1000 * 1000000
 
 export const SettingsProfileKeysPage = () => {
-  const {
-    createdTokenData,
-    setCreatedTokenData,
-    setPublicKeys,
-    setTokens,
-    deleteToken,
-    addToken,
-    addPublicKey,
-    deletePublicKey
-  } = useProfileSettingsStore()
+  const { setCreatedTokenData, setPublicKeys, setTokens, deleteToken, addToken, addPublicKey, deletePublicKey } =
+    useProfileSettingsStore()
   const [openCreateTokenDialog, setCreateTokenDialog] = useState(false)
-  const [openSuccessTokenDialog, setSuccessTokenDialog] = useState(false)
   const [saveSshKeyDialog, setSshKeyDialog] = useState(false)
   const [isAlertDeleteDialogOpen, setIsAlertDeleteDialogOpen] = useState(false)
   const [alertParams, setAlertParams] = useState<AlertDeleteParams | null>(null)
@@ -56,8 +46,6 @@ export const SettingsProfileKeysPage = () => {
     type: ApiErrorType
     message: string
   } | null>(null)
-
-  const closeSuccessTokenDialog = () => setSuccessTokenDialog(false)
 
   const openTokenDialog = () => {
     setCreateTokenDialog(true)
@@ -134,8 +122,6 @@ export const SettingsProfileKeysPage = () => {
         }
 
         setCreatedTokenData(tokenData)
-        setSuccessTokenDialog(true)
-        closeTokenDialog()
         addToken(newToken.token as TokensList)
       },
       onError: (error: CreateTokenErrorResponse) => {
@@ -235,6 +221,7 @@ export const SettingsProfileKeysPage = () => {
         handleCreateToken={handleCreateToken}
         error={apiError}
         isLoading={createTokenMutation.isLoading}
+        useProfileSettingsStore={useProfileSettingsStore}
         useTranslationStore={useTranslationStore}
       />
       <ProfileSettingsKeysCreateDialog
@@ -242,12 +229,6 @@ export const SettingsProfileKeysPage = () => {
         onClose={closeSshKeyDialog}
         handleCreateSshKey={handleCreateSshKey}
         error={apiError}
-        useTranslationStore={useTranslationStore}
-      />
-      <ProfileSettingsTokenSuccessDialog
-        open={openSuccessTokenDialog && !!createdTokenData}
-        onClose={closeSuccessTokenDialog}
-        useProfileSettingsStore={useProfileSettingsStore}
         useTranslationStore={useTranslationStore}
       />
       <DeleteAlertDialog

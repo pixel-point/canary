@@ -65,14 +65,14 @@ const AlertDialogContent = React.forwardRef<
         {...props}
       >
         <Button
-          className="absolute right-4 top-4 z-10 text-icons-4 transition-colors duration-200 hover:text-icons-2"
+          className="absolute right-3 top-[18px] z-10 text-icons-4 transition-colors duration-200 hover:text-icons-2 disabled:pointer-events-none"
           type="button"
           variant="custom"
           size="icon"
           aria-label="Close"
           onClick={onClose}
         >
-          <Icon name="close" size={12} />
+          <Icon name="close" size={16} />
         </Button>
 
         <div

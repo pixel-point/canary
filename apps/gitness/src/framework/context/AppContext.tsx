@@ -23,9 +23,9 @@ interface AppContextType {
   setCurrentUser: (value: TypesUser) => void
   fetchUser: () => Promise<void>
   updateUserProfile: (data: { display_name?: string; email?: string }) => Promise<void>
-  updateUserPassword: (newPassword: string) => Promise<void>
-  isUpdateUserLoading: boolean
-  updateUserLoadingError: {
+  isUpdatingUser: boolean
+  isLoadingUser: boolean
+  updateUserError: {
     type: ProfileSettingsErrorType
     message: string
   } | null
@@ -39,64 +39,52 @@ const AppContext = createContext<AppContextType>({
   setCurrentUser: noop,
   fetchUser: async () => {},
   updateUserProfile: async () => {},
-  updateUserPassword: async () => {},
-  isUpdateUserLoading: false,
-  updateUserLoadingError: null
+  isUpdatingUser: false,
+  isLoadingUser: false,
+  updateUserError: null
 })
 
 export const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [spaces, setSpaces] = useState<TypesSpace[]>([])
   const [currentUser, setCurrentUser] = useLocalStorage<TypesUser>('currentUser', {})
-  const [isUpdateUserLoading, setIsUpdateUserLoading] = useState(false)
-  const [updateUserLoadingError, setUpdateUserLoadingError] = useState<{
+  const [isLoadingUser, setIsLoadingUser] = useState(false)
+  const [isUpdatingUser, setIsUpdatingUser] = useState(false)
+  const [updateUserError, setUpdateUserError] = useState<{
     type: ProfileSettingsErrorType
     message: string
   } | null>(null)
 
   const fetchUser = async (): Promise<void> => {
+    setIsLoadingUser(true)
+    setUpdateUserError(null)
     try {
       const userResponse = await getUser({})
       setCurrentUser(userResponse.body)
     } catch (error) {
       const typedError = error as GetUserErrorResponse
-      setUpdateUserLoadingError({
+      setUpdateUserError({
         type: ProfileSettingsErrorType.PROFILE,
         message: typedError.message || 'An unknown fetch user error occurred.'
       })
+    } finally {
+      setIsLoadingUser(false)
     }
   }
 
   const updateUserProfile = async (data: { display_name?: string; email?: string }): Promise<void> => {
-    setIsUpdateUserLoading(true)
-    setUpdateUserLoadingError(null)
+    setIsUpdatingUser(true)
+    setUpdateUserError(null)
     try {
       const response = await updateUser({ body: data })
       setCurrentUser(response.body)
-      setIsUpdateUserLoading(false)
     } catch (error) {
       const typedError = error as UpdateUserErrorResponse
-      setUpdateUserLoadingError({
+      setUpdateUserError({
         type: ProfileSettingsErrorType.PROFILE,
         message: typedError.message || 'An unknown update user error occurred.'
       })
-      setIsUpdateUserLoading(false)
-    }
-  }
-
-  const updateUserPassword = async (newPassword: string): Promise<void> => {
-    setIsUpdateUserLoading(true)
-    setUpdateUserLoadingError(null)
-    try {
-      const response = await updateUser({ body: { password: newPassword } })
-      setCurrentUser(response.body)
-      setIsUpdateUserLoading(false)
-    } catch (error) {
-      const typedError = error as UpdateUserErrorResponse
-      setUpdateUserLoadingError({
-        type: ProfileSettingsErrorType.PASSWORD,
-        message: typedError.message || 'An unknown update password error occurred.'
-      })
-      setIsUpdateUserLoading(false)
+    } finally {
+      setIsUpdatingUser(false)
     }
   }
 
@@ -129,9 +117,9 @@ export const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
         setCurrentUser,
         fetchUser,
         updateUserProfile,
-        updateUserPassword,
-        isUpdateUserLoading,
-        updateUserLoadingError
+        isLoadingUser,
+        isUpdatingUser,
+        updateUserError
       }}
     >
       {children}

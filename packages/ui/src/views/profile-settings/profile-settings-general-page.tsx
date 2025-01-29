@@ -278,8 +278,8 @@ const SettingsAccountGeneralPage: FC<SettingsAccountGeneralPageProps> = ({
                 {!passwordSubmitted ? (
                   <Button type="submit" disabled={!isPasswordValid || isUpdatingPassword}>
                     {isUpdatingPassword
-                      ? t('views:profileSettings.updatingPasswordButton', 'Updating...')
-                      : t('views:profileSettings.updatePasswordButton', 'Update password')}
+                      ? t('views:profileSettings.updating', 'Updating...')
+                      : t('views:profileSettings.updatePassword', 'Update password')}
                   </Button>
                 ) : (
                   <Button className="pointer-events-none" variant="ghost" type="button" theme="success">

@@ -1,12 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 
-import {
-  GetUserErrorResponse,
-  UpdateUserErrorResponse,
-  UpdateUserRequestBody,
-  useGetUserQuery,
-  useUpdateUserMutation
-} from '@harnessio/code-service-client'
+import { updateUser, UpdateUserErrorResponse } from '@harnessio/code-service-client'
 import {
   PasswordFields,
   ProfileFields,
@@ -19,110 +13,75 @@ import { useTranslationStore } from '../../i18n/stores/i18n-store'
 import { useProfileSettingsStore } from './stores/profile-settings-store'
 
 export const SettingsProfileGeneralPage: FC = () => {
-  const { updateUserProfile, updateUserPassword, isUpdateUserLoading, updateUserLoadingError } = useAppContext()
+  const { currentUser, updateUserProfile, isLoadingUser, isUpdatingUser, updateUserError } = useAppContext()
   const { setUserData } = useProfileSettingsStore()
-  const [apiError, setApiError] = useState<{ type: ProfileSettingsErrorType; message: string } | null>(null)
+  const [isProfileUpdated, setIsProfileUpdated] = useState(false)
+  const [isPasswordUpdated, setIsPasswordUpdated] = useState(false)
+  const [isUpdatingPassword, setIsUpdatingPassword] = useState(false)
+  const [updatePasswordError, setPasswordError] = useState<{
+    type: ProfileSettingsErrorType
+    message: string
+  } | null>(null)
 
-  const { data: { body: userData } = {}, isLoading: isLoadingUserData } = useGetUserQuery(
-    {},
-    {
-      onError: (error: GetUserErrorResponse) => {
-        const message = error.message || 'An unknown error occurred.'
-        setApiError({ type: ProfileSettingsErrorType.PROFILE, message: message })
-      }
+  const updateUserPassword = async (newPassword: string): Promise<void> => {
+    setIsUpdatingPassword(true)
+    setPasswordError(null)
+    try {
+      await updateUser({ body: { password: newPassword } })
+    } catch (error) {
+      const typedError = error as UpdateUserErrorResponse
+      setPasswordError({
+        type: ProfileSettingsErrorType.PASSWORD,
+        message: typedError.message || 'An unknown update password error occurred.'
+      })
+    } finally {
+      setIsUpdatingPassword(false)
     }
-  )
-
-  const updateUserMutation = useUpdateUserMutation(
-    {},
-    {
-      onSuccess: ({ body: data }) => {
-        setUserData({
-          name: data.display_name || '',
-          username: data.uid || '',
-          email: data.email || ''
-        })
-      },
-      onError: (error: UpdateUserErrorResponse) => {
-        const message = error.message || 'An unknown error occurred.'
-        setApiError({ type: ProfileSettingsErrorType.PROFILE, message: message })
-      }
-    }
-  )
-
-  const updatePasswordMutation = useUpdateUserMutation(
-    {},
-    {
-      onSuccess: ({ body: data }) => {
-        setUserData({
-          name: data.display_name || '',
-          username: data.uid || '',
-          email: data.email || ''
-        })
-      },
-      onError: (error: UpdateUserErrorResponse) => {
-        const message = error.message || 'An unknown error occurred.'
-        setApiError({ type: ProfileSettingsErrorType.PASSWORD, message: message })
-      }
-    }
-  )
+  }
 
   const handleUpdateUser = (updatedUserData: Omit<ProfileFields, 'username'>) => {
-    const updateUserBody: UpdateUserRequestBody = {
-      display_name: updatedUserData.name,
-      email: updatedUserData.email
-    }
-
     updateUserProfile({
       display_name: updatedUserData.name,
       email: updatedUserData.email
     }).then(() => {
-      updateUserMutation.mutate({
-        body: updateUserBody
-      })
+      setIsProfileUpdated(true)
     })
   }
 
-  const handleUpdatePassword = (updatedPasswordData: PasswordFields) => {
+  const handleUpdateUserPassword = (updatedPasswordData: PasswordFields) => {
     if (updatedPasswordData.newPassword !== updatedPasswordData.confirmPassword) {
-      setApiError({ type: ProfileSettingsErrorType.PASSWORD, message: 'Passwords do not match' })
+      setPasswordError({ type: ProfileSettingsErrorType.PASSWORD, message: 'Passwords do not match' })
       return
     }
 
-    const updatePasswordBody: UpdateUserRequestBody = {
-      password: updatedPasswordData.newPassword
-    }
-
     updateUserPassword(updatedPasswordData.newPassword).then(() => {
-      updatePasswordMutation.mutate({
-        body: updatePasswordBody
-      })
+      setIsPasswordUpdated(true)
     })
   }
 
   useEffect(() => {
-    if (userData) {
+    if (currentUser) {
       setUserData({
-        name: userData.display_name || '',
-        username: userData.uid || '',
-        email: userData.email || ''
+        name: currentUser.display_name || '',
+        username: currentUser.uid || '',
+        email: currentUser.email || ''
       })
     }
-  }, [userData, setUserData])
+  }, [currentUser, setUserData])
 
   return (
     <>
       <SettingsAccountGeneralPage
         useProfileSettingsStore={useProfileSettingsStore}
         useTranslationStore={useTranslationStore}
-        isLoadingUser={isLoadingUserData}
-        isUpdatingUser={isUpdateUserLoading}
-        isUpdatingPassword={isUpdateUserLoading}
-        error={apiError || updateUserLoadingError}
+        isLoadingUser={isLoadingUser}
+        isUpdatingUser={isUpdatingUser}
+        isUpdatingPassword={isUpdatingPassword}
+        error={updateUserError || updatePasswordError}
         onUpdateUser={handleUpdateUser}
-        onUpdatePassword={handleUpdatePassword}
-        profileUpdateSuccess={updateUserMutation.isSuccess}
-        passwordUpdateSuccess={updatePasswordMutation.isSuccess}
+        onUpdatePassword={handleUpdateUserPassword}
+        profileUpdateSuccess={isProfileUpdated}
+        passwordUpdateSuccess={isPasswordUpdated}
       />
     </>
   )

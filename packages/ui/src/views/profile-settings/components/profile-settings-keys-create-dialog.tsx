@@ -1,7 +1,7 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import { AlertDialog, Button, Fieldset, FormWrapper, Input, Textarea } from '@/components'
+import { Button, Dialog, Fieldset, FormWrapper, Input, Textarea } from '@/components'
 import { ApiErrorType } from '@/views'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TranslationStore } from '@views/repo'
@@ -30,7 +30,6 @@ export const ProfileSettingsKeysCreateDialog: FC<ProfileSettingsKeysCreateDialog
   error
 }) => {
   const { t } = useTranslationStore()
-  const [formElement, setFormElement] = useState<HTMLFormElement | null>(null)
   const {
     register,
     handleSubmit,
@@ -58,12 +57,12 @@ export const ProfileSettingsKeysCreateDialog: FC<ProfileSettingsKeysCreateDialog
   }
 
   return (
-    <AlertDialog.Root open={open} onOpenChange={onClose}>
-      <AlertDialog.Content onOverlayClick={onClose} onClose={onClose}>
-        <AlertDialog.Header>
-          <AlertDialog.Title>{t('views:profileSettings.newSshKey', 'New SSH key')}</AlertDialog.Title>
-        </AlertDialog.Header>
-        <FormWrapper className="pb-3 pt-2.5" formRef={setFormElement} onSubmit={handleSubmit(handleFormSubmit)}>
+    <Dialog.Root open={open} onOpenChange={onClose}>
+      <Dialog.Content onOverlayClick={onClose}>
+        <Dialog.Header>
+          <Dialog.Title>{t('views:profileSettings.newSshKey', 'New SSH key')}</Dialog.Title>
+        </Dialog.Header>
+        <FormWrapper onSubmit={handleSubmit(handleFormSubmit)}>
           <Fieldset>
             <Input
               id="identifier"
@@ -89,16 +88,16 @@ export const ProfileSettingsKeysCreateDialog: FC<ProfileSettingsKeysCreateDialog
               <span className="mt-6 text-14 text-destructive">{error.message}</span>
             )}
           </Fieldset>
+          <Dialog.Footer className="-mx-5 -mb-5">
+            <Button type="button" variant="outline" onClick={onClose}>
+              {t('views:profileSettings.cancel', 'Cancel')}
+            </Button>
+            <Button type="submit" disabled={!isValid}>
+              {t('views:profileSettings.save', 'Save')}
+            </Button>
+          </Dialog.Footer>
         </FormWrapper>
-        <AlertDialog.Footer>
-          <Button type="button" variant="outline" onClick={onClose}>
-            {t('views:profileSettings.cancel', 'Cancel')}
-          </Button>
-          <Button type="button" disabled={!isValid} onClick={() => formElement?.requestSubmit()}>
-            {t('views:profileSettings.saveButton', 'Save')}
-          </Button>
-        </AlertDialog.Footer>
-      </AlertDialog.Content>
-    </AlertDialog.Root>
+      </Dialog.Content>
+    </Dialog.Root>
   )
 }
