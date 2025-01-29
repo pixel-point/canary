@@ -18,6 +18,7 @@ import { SettingsProfileGeneralPage } from './pages-v2/profile-settings/profile-
 import { SettingsProfileKeysPage } from './pages-v2/profile-settings/profile-settings-keys-container'
 import { ProfileSettingsThemePage } from './pages-v2/profile-settings/profile-settings-theme-page'
 import { ProjectGeneralSettingsPageContainer } from './pages-v2/project/project-general-settings-container'
+import { ImportProjectContainer } from './pages-v2/project/project-import-container'
 import { ProjectLabelsList } from './pages-v2/project/project-labels-list-container'
 import { ProjectMemberListPage } from './pages-v2/project/project-member-list'
 import { SettingsLayout as ProjectSettingsLayout } from './pages-v2/project/settings-layout'
@@ -36,6 +37,7 @@ import { CommitDiffContainer } from './pages-v2/repo/repo-commit-details-diff'
 import RepoCommitsPage from './pages-v2/repo/repo-commits'
 import { CreateRepo } from './pages-v2/repo/repo-create-page'
 import RepoExecutionListPage from './pages-v2/repo/repo-execution-list'
+import { ImportMultipleRepos } from './pages-v2/repo/repo-import-multiple-container'
 import { ImportRepo } from './pages-v2/repo/repo-import-page'
 import { RepoLabelsList } from './pages-v2/repo/repo-labels-container'
 import RepoLayout from './pages-v2/repo/repo-layout'
@@ -50,23 +52,6 @@ import { UserManagementPageContainer } from './pages-v2/user-management/user-man
 import { CreateWebhookContainer } from './pages-v2/webhooks/create-webhook-container'
 import WebhookListPage from './pages-v2/webhooks/webhook-list'
 
-export const extractRedirectRouteObjects = (routes: CustomRouteObject[]): CustomRouteObject[] => {
-  const navigateObjects: CustomRouteObject[] = []
-  const traverseRoutes = (routes: CustomRouteObject[], currentPath: string = '') => {
-    for (const route of routes) {
-      const newPath = currentPath ? `${currentPath}${route.path ? `/${route.path}` : ''}` : (route.path ?? '')
-      if ((route.element as JSX.Element)?.type === Navigate) {
-        navigateObjects.push({ ...route, path: newPath })
-      }
-      if (route.children) {
-        traverseRoutes(route.children, newPath)
-      }
-    }
-  }
-  traverseRoutes(routes)
-  return navigateObjects
-}
-
 export const repoRoutes: CustomRouteObject[] = [
   {
     path: 'repos',
@@ -75,7 +60,13 @@ export const repoRoutes: CustomRouteObject[] = [
       routeName: RouteConstants.toRepositories
     },
     children: [
-      { index: true, element: <ReposListPage /> },
+      {
+        index: true,
+        element: <ReposListPage />,
+        handle: {
+          pageTitle: 'Repositories'
+        }
+      },
       {
         path: 'create',
         element: <CreateRepo />,
@@ -91,10 +82,18 @@ export const repoRoutes: CustomRouteObject[] = [
         }
       },
       {
+        path: 'import-multiple',
+        element: <ImportMultipleRepos />,
+        handle: {
+          routeName: RouteConstants.toImportMultipleRepos
+        }
+      },
+      {
         path: ':repoId',
         element: <RepoLayout />,
         handle: {
-          breadcrumb: ({ repoId }: { repoId: string }) => <Text>{repoId}</Text>
+          breadcrumb: ({ repoId }: { repoId: string }) => <Text>{repoId}</Text>,
+          pageTitle: ({ repoId }: { repoId: string }) => `Repository | ${repoId}`
         },
         children: [
           {
@@ -106,7 +105,8 @@ export const repoRoutes: CustomRouteObject[] = [
             element: <RepoSummaryPage />,
             handle: {
               breadcrumb: () => <Text>Summary</Text>,
-              routeName: RouteConstants.toRepoSummary
+              routeName: RouteConstants.toRepoSummary,
+              pageTitle: 'Summary'
             }
           },
           {
@@ -118,7 +118,10 @@ export const repoRoutes: CustomRouteObject[] = [
             children: [
               {
                 index: true,
-                element: <RepoCommitsPage />
+                element: <RepoCommitsPage />,
+                handle: {
+                  pageTitle: 'Commits'
+                }
               },
               {
                 path: ':commitSHA',
@@ -149,7 +152,8 @@ export const repoRoutes: CustomRouteObject[] = [
             element: <RepoBranchesListPage />,
             handle: {
               breadcrumb: () => <Text>Branches</Text>,
-              routeName: RouteConstants.toRepoBranches
+              routeName: RouteConstants.toRepoBranches,
+              pageTitle: 'Branches'
             }
           },
           {
@@ -166,7 +170,10 @@ export const repoRoutes: CustomRouteObject[] = [
             children: [
               {
                 index: true,
-                element: <RepoCode />
+                element: <RepoCode />,
+                handle: {
+                  pageTitle: 'Files'
+                }
               },
               {
                 path: '*',
@@ -181,7 +188,13 @@ export const repoRoutes: CustomRouteObject[] = [
               routeName: RouteConstants.toPullRequests
             },
             children: [
-              { index: true, element: <PullRequestListPage /> },
+              {
+                index: true,
+                element: <PullRequestListPage />,
+                handle: {
+                  pageTitle: 'Pull Requests'
+                }
+              },
               {
                 path: 'compare',
                 handle: {
@@ -259,7 +272,13 @@ export const repoRoutes: CustomRouteObject[] = [
               breadcrumb: () => <Text>Pipelines</Text>
             },
             children: [
-              { index: true, element: <RepoPipelineListPage /> },
+              {
+                index: true,
+                element: <RepoPipelineListPage />,
+                handle: {
+                  pageTitle: 'Pipelines'
+                }
+              },
               {
                 path: ':pipelineId',
                 handle: {
@@ -318,7 +337,8 @@ export const repoRoutes: CustomRouteObject[] = [
                 element: <RepoSettingsGeneralPageContainer />,
                 handle: {
                   breadcrumb: () => <Text>General</Text>,
-                  routeName: RouteConstants.toRepoGeneralSettings
+                  routeName: RouteConstants.toRepoGeneralSettings,
+                  pageTitle: 'Settings'
                 }
               },
               {
@@ -453,6 +473,13 @@ export const routes: CustomRouteObject[] = [
           breadcrumb: () => <Text>Create project</Text>
         },
         children: []
+      },
+      {
+        path: 'import',
+        element: <ImportProjectContainer />,
+        handle: {
+          breadcrumb: () => <Text>Import project</Text>
+        }
       },
       {
         path: 'repos',

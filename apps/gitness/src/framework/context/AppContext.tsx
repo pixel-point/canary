@@ -14,6 +14,7 @@ import {
 import { ProfileSettingsErrorType } from '@harnessio/ui/views'
 
 import useLocalStorage from '../hooks/useLocalStorage'
+import usePageTitle from '../hooks/usePageTitle'
 
 interface AppContextType {
   spaces: TypesSpace[]
@@ -45,6 +46,7 @@ const AppContext = createContext<AppContextType>({
 })
 
 export const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
+  usePageTitle()
   const [spaces, setSpaces] = useState<TypesSpace[]>([])
   const [currentUser, setCurrentUser] = useLocalStorage<TypesUser>('currentUser', {})
   const [isLoadingUser, setIsLoadingUser] = useState(false)
@@ -89,14 +91,18 @@ export const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
   }
 
   useEffect(() => {
-    Promise.all([
+    Promise.allSettled([
       membershipSpaces({
         queryParams: { page: 1, limit: 100, sort: 'identifier', order: 'asc' }
       }),
       fetchUser()
     ])
-      .then(([membershipResponse]) => {
-        setSpaces(membershipResponse.body.filter(item => item?.space).map(item => item.space as TypesSpace))
+      .then(results => {
+        const [membershipResult] = results
+
+        if (membershipResult.status === 'fulfilled') {
+          setSpaces(membershipResult.value.body.filter(item => item?.space).map(item => item.space as TypesSpace))
+        }
       })
       .catch(() => {
         // Optionally handle error or show toast

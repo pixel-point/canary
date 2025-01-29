@@ -94,6 +94,7 @@
     "emptyRepo": "",
     "repositories": "",
     "import-repository": "Import repository",
+    "import-repositories": "Import repositories",
     "create-repository": "",
     "private": "Private",
     "public": "Public",

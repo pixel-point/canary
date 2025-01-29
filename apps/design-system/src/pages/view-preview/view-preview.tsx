@@ -21,6 +21,7 @@ import { RepoBranchesView } from '@subjects/views/repo-branches'
 import { RepoCommitsView } from '@subjects/views/repo-commits'
 import { CreateRepoView } from '@subjects/views/repo-create'
 import { RepoCreateRule } from '@subjects/views/repo-create-rule'
+import { RepoEmpty } from '@subjects/views/repo-empty/repo-empty-view'
 import { RepoFilesEditView } from '@subjects/views/repo-files/repo-files-edit-view'
 import { RepoFilesJsonView } from '@subjects/views/repo-files/repo-files-json-view'
 import { RepoFilesList } from '@subjects/views/repo-files/repo-files-list'
@@ -63,6 +64,11 @@ export const viewPreviews: Record<string, ReactNode> = {
   'repo-summary': (
     <RepoViewWrapper>
       <RepoSummaryViewWrapper />
+    </RepoViewWrapper>
+  ),
+  'repo-empty': (
+    <RepoViewWrapper>
+      <RepoEmpty />
     </RepoViewWrapper>
   ),
   'repo-list': (
