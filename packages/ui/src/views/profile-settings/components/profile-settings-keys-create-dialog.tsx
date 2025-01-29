@@ -58,7 +58,7 @@ export const ProfileSettingsKeysCreateDialog: FC<ProfileSettingsKeysCreateDialog
 
   return (
     <Dialog.Root open={open} onOpenChange={onClose}>
-      <Dialog.Content onOverlayClick={onClose}>
+      <Dialog.Content aria-describedby={undefined}>
         <Dialog.Header>
           <Dialog.Title>{t('views:profileSettings.newSshKey', 'New SSH key')}</Dialog.Title>
         </Dialog.Header>

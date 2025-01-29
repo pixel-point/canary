@@ -110,7 +110,7 @@ export const ProfileSettingsTokenCreateDialog: FC<ProfileSettingsTokenCreateDial
 
   return (
     <Dialog.Root open={open} onOpenChange={onClose}>
-      <Dialog.Content onOverlayClick={onClose}>
+      <Dialog.Content aria-describedby={undefined}>
         <Dialog.Header>
           <Dialog.Title>{t('views:profileSettings.createToken', 'Create a token')}</Dialog.Title>
         </Dialog.Header>

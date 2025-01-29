@@ -47,15 +47,14 @@ export interface TokensList {
 export interface IProfileSettingsStore {
   publicKeys: KeysList[]
   tokens: TokensList[]
-  createdTokenData: (TokenFormType & { token: string }) | null
+  createdTokenData: TokenFormType | null
   userData: ProfileFields | null
-
   setPublicKeys: (data: KeysList[]) => void
   addPublicKey: (key: KeysList) => void
   deletePublicKey: (id: string) => void
   setTokens: (data: TokensList[]) => void
   deleteToken: (id: string) => void
   addToken: (data: TokensList) => void
-  setCreatedTokenData: (data: (TokenFormType & { token: string }) | null) => void
+  setCreatedTokenData: (data: TokenFormType | null) => void
   setUserData: (data: ProfileFields) => void
 }

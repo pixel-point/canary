@@ -1,7 +1,5 @@
 import { ReactNode } from 'react'
 
-import { Text } from '@components/text'
-
 interface LegendProps {
   title: ReactNode
   description?: ReactNode

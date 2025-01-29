@@ -52,6 +52,21 @@ const publicKeys = [
   }
 ]
 
+const mockProfileSettingsStore = () => ({
+  publicKeys: [],
+  tokens: [],
+  createdTokenData: null, // или можете передать тестовые данные токена
+  userData: null,
+  setPublicKeys: () => {},
+  addPublicKey: () => {},
+  deletePublicKey: () => {},
+  setTokens: () => {},
+  deleteToken: () => {},
+  addToken: () => {},
+  setCreatedTokenData: () => {},
+  setUserData: () => {}
+})
+
 export const ProfileSettingsKeysView = () => {
   const [isTokenDialogOpen, setIsTokenDialogOpen] = useState(false)
   const [isKeysDialogOpen, setIsKeysDialogOpen] = useState(false)
@@ -122,6 +137,7 @@ export const ProfileSettingsKeysView = () => {
         error={null}
         isLoading={false}
         useTranslationStore={useTranslationsStore}
+        useProfileSettingsStore={mockProfileSettingsStore}
       />
       <ProfileSettingsKeysCreateDialog
         open={isKeysDialogOpen}
