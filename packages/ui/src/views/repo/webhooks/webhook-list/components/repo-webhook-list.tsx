@@ -1,14 +1,41 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
-import { Badge, MoreActionsTooltip, NoData, PaginationComponent, Spacer, StackedList, Text } from '@/components'
+import {
+  Badge,
+  MoreActionsTooltip,
+  NoData,
+  PaginationComponent,
+  Spacer,
+  StackedList,
+  Switch,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Text
+} from '@/components'
 import { TranslationStore, WebhookType } from '@/views'
 
-const Title = ({ title, isEnabled }: { title: string; isEnabled: boolean }) => (
+const Title = ({
+  title,
+  isEnabled,
+  handleEnableWebhook,
+  id
+}: {
+  id: number
+  title: string
+  isEnabled: boolean
+  handleEnableWebhook: (id: number, enabled: boolean) => void
+}) => (
   <div className="inline-flex items-center gap-2.5">
+    <Switch
+      checked={isEnabled}
+      onClick={e => e.stopPropagation()}
+      onCheckedChange={() => handleEnableWebhook(id, !isEnabled)}
+    />
     <span className="font-medium">{title}</span>
-    <Badge size="sm" disableHover borderRadius="full" theme={isEnabled ? 'success' : 'muted'}>
-      {isEnabled ? 'Enabled' : 'Disabled'}
-    </Badge>
   </div>
 )
 
@@ -22,6 +49,7 @@ export interface RepoWebhookListProps {
   page: number
   setPage: (val: number) => void
   openDeleteWebhookDialog: (id: number) => void
+  handleEnableWebhook: (id: number, enabled: boolean) => void
 }
 
 export function RepoWebhookList({
@@ -33,7 +61,8 @@ export function RepoWebhookList({
   totalPages,
   page,
   setPage,
-  openDeleteWebhookDialog
+  openDeleteWebhookDialog,
+  handleEnableWebhook
 }: RepoWebhookListProps) {
   const { t } = useTranslationStore()
   const navigate = useNavigate()
@@ -95,44 +124,84 @@ export function RepoWebhookList({
 
   return (
     <>
-      <StackedList.Root>
-        {webhooks.map((webhook, webhook_idx) => (
-          <Link key={webhook.id} to={`${webhook.id}`}>
-            <StackedList.Item
-              key={webhook.createdAt}
-              className="cursor-pointer py-3 pr-1.5"
-              isLast={webhooks.length - 1 === webhook_idx}
-            >
-              <StackedList.Field
-                primary
-                description={<span className="leading-none">{webhook.description}</span>}
-                title={<Title title={webhook.name} isEnabled={webhook.enabled} />}
-                className="gap-1.5"
-              />
-              <StackedList.Field
-                title={
-                  <MoreActionsTooltip
-                    actions={[
-                      {
-                        title: t('views:webhookData.edit', 'Edit webhook'),
-                        to: `${webhook.id}`
-                      },
-                      {
-                        isDanger: true,
-                        title: t('views:webhookData.delete', 'Delete webhook'),
-                        onClick: () => openDeleteWebhookDialog(webhook.id)
-                      }
-                    ]}
+      <Table variant="asStackedList">
+        <TableHeader>
+          <TableRow>
+            <TableHead>Name</TableHead>
+            <TableHead>Execution</TableHead>
+            <TableHead></TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {webhooks.map(webhook => (
+            <TableRow onClick={() => navigate(`${webhook.id}`)} key={webhook.id}>
+              <TableCell>
+                <StackedList.Item key={webhook.id} className="cursor-pointer py-3 pr-1.5 !p-0 max-w-full" isLast>
+                  <StackedList.Field
+                    primary
+                    description={
+                      <Text className="ml-10 max-w-[500px]" truncate color="secondary">
+                        {webhook?.triggers?.length
+                          ? webhook.triggers
+                              .map(trigger => trigger.replace(/_/g, ' ').replace(/\b\w/g, match => match.toUpperCase()))
+                              .join(', ')
+                          : 'All Events'}
+                      </Text>
+                    }
+                    title={
+                      <Title
+                        title={webhook.display_name}
+                        isEnabled={webhook.enabled}
+                        id={webhook.id}
+                        handleEnableWebhook={handleEnableWebhook}
+                      />
+                    }
+                    className="gap-1.5 max-w-full"
                   />
-                }
-                right
-                label
-                secondary
-              />
-            </StackedList.Item>
-          </Link>
-        ))}
-      </StackedList.Root>
+                </StackedList.Item>
+              </TableCell>
+              <TableCell className="content-center">
+                <Badge
+                  size="md"
+                  disableHover
+                  borderRadius="full"
+                  theme={
+                    webhook.latest_execution_result === 'success'
+                      ? 'success'
+                      : webhook.latest_execution_result === 'fatal_error' ||
+                          webhook.latest_execution_result === 'retriable_error'
+                        ? 'destructive'
+                        : 'muted'
+                  }
+                >
+                  {webhook.latest_execution_result === 'success'
+                    ? 'Success'
+                    : webhook.latest_execution_result === 'fatal_error' ||
+                        webhook.latest_execution_result === 'retriable_error'
+                      ? 'Failed'
+                      : 'Invalid'}
+                </Badge>
+              </TableCell>
+
+              <TableCell className="text-right content-center">
+                <MoreActionsTooltip
+                  actions={[
+                    {
+                      title: t('views:webhookData.edit', 'Edit webhook'),
+                      onClick: () => navigate(`${webhook.id}`)
+                    },
+                    {
+                      isDanger: true,
+                      title: t('views:webhookData.delete', 'Delete webhook'),
+                      onClick: () => openDeleteWebhookDialog(webhook.id)
+                    }
+                  ]}
+                />
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
       <PaginationComponent totalPages={totalPages} currentPage={page} goToPage={setPage} t={t} />
     </>
   )
