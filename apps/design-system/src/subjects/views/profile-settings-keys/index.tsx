@@ -20,9 +20,9 @@ export const ProfileSettingsKeysView = () => {
     <>
       <SettingsAccountKeysPage
         useProfileSettingsStore={mockProfileSettingsStore}
-        openTokenDialog={setIsTokenDialogOpen}
-        openSshKeyDialog={setIsKeysDialogOpen}
-        openAlertDeleteDialog={setIsDeleteDialogOpen}
+        openTokenDialog={() => setIsTokenDialogOpen(true)}
+        openSshKeyDialog={() => setIsKeysDialogOpen(true)}
+        openAlertDeleteDialog={() => setIsDeleteDialogOpen(true)}
         error={null}
         useTranslationStore={useTranslationsStore}
         isLoadingTokenList={false}
