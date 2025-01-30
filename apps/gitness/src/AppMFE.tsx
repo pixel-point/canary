@@ -11,7 +11,6 @@ import { TooltipProvider } from '@harnessio/ui/components'
 import { PortalProvider } from '@harnessio/ui/context'
 
 import ShadowRootWrapper from './components-v2/shadow-root-wrapper'
-import { AppProvider } from './framework/context/AppContext'
 import { ExitConfirmProvider } from './framework/context/ExitConfirmContext'
 import { MFEContext } from './framework/context/MFEContext'
 import { NavigationProvider } from './framework/context/NavigationContext'
@@ -144,13 +143,13 @@ export default function AppMFE({
   return (
     <div ref={portalRef}>
       <ShadowRootWrapper>
-        {!isStylesLoaded ? (
-          // Replace it with spinner once it is available
-          <ShadowRootLoader theme={theme} />
-        ) : (
-          <PortalProvider portalContainer={portalContainer}>
-            <MFEContext.Provider value={{ scope, renderUrl }}>
-              <AppProvider>
+        <div className={theme.toLowerCase()}>
+          {!isStylesLoaded ? (
+            // Replace it with spinner once it is available
+            <ShadowRootLoader theme={theme} />
+          ) : (
+            <PortalProvider portalContainer={portalContainer}>
+              <MFEContext.Provider value={{ scope, renderUrl }}>
                 <I18nextProvider i18n={i18n}>
                   <ThemeProvider defaultTheme={theme === 'Light' ? 'light-std-std' : 'dark-std-std'}>
                     <QueryClientProvider client={queryClient}>
@@ -164,10 +163,10 @@ export default function AppMFE({
                     </QueryClientProvider>
                   </ThemeProvider>
                 </I18nextProvider>
-              </AppProvider>
-            </MFEContext.Provider>
-          </PortalProvider>
-        )}
+              </MFEContext.Provider>
+            </PortalProvider>
+          )}
+        </div>
       </ShadowRootWrapper>
     </div>
   )
