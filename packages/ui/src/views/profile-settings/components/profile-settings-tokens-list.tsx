@@ -53,7 +53,7 @@ export const ProfileTokensList: FC<ProfileTokensListProps> = ({
             tokens.map(token => (
               <TableRow key={token.uid}>
                 <TableCell className="content-center">
-                  <span className="block max-w-[200px] truncate font-medium text-foreground-1">{token.identifier}</span>
+                  <span className="block w-[200px] truncate font-medium text-foreground-1">{token.identifier}</span>
                 </TableCell>
                 <TableCell className="content-center">
                   <div className="flex items-center gap-x-1.5">

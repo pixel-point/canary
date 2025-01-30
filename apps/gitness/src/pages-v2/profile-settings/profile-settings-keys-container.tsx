@@ -52,7 +52,10 @@ export const SettingsProfileKeysPage = () => {
     setApiError(null)
   }
 
-  const closeTokenDialog = () => setCreateTokenDialog(false)
+  const closeTokenDialog = () => {
+    setCreateTokenDialog(false)
+    setCreatedTokenData(null)
+  }
 
   const openSshKeyDialog = () => {
     setSshKeyDialog(true)

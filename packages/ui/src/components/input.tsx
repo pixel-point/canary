@@ -97,7 +97,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const baseInputComp = (
       <BaseInput
         className={cn(className, {
-          'pl-8': inputIconName
+          'pl-8': inputIconName,
+          'border-none': rightElement
         })}
         id={id}
         ref={ref}

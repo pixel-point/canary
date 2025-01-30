@@ -63,7 +63,7 @@ export const ProfileSettingsTokenCreateDialog: FC<ProfileSettingsTokenCreateDial
   } = useForm<TokenFormType>({
     resolver: zodResolver(tokenCreateFormSchema),
     mode: 'onChange',
-    defaultValues: createdTokenData || {
+    defaultValues: {
       identifier: '',
       lifetime: '',
       token: ''
@@ -74,8 +74,13 @@ export const ProfileSettingsTokenCreateDialog: FC<ProfileSettingsTokenCreateDial
   const identifier = watch('identifier')
 
   useEffect(() => {
-    !open && reset()
-  }, [open, reset])
+    if (!open) {
+      reset()
+      // setValue('identifier', '')
+      // setValue('lifetime', '')
+      // setValue('token', '')
+    }
+  }, [open, reset, setValue])
 
   useEffect(() => {
     if (createdTokenData) {
@@ -118,6 +123,7 @@ export const ProfileSettingsTokenCreateDialog: FC<ProfileSettingsTokenCreateDial
           <Fieldset>
             <Input
               id="identifier"
+              // className={createdTokenData ? 'border-none' : ''}
               value={identifier}
               size="md"
               {...register('identifier')}
