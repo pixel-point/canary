@@ -175,7 +175,7 @@ export function RepoSummaryView({
             */}
             <ListActions.Root>
               <ListActions.Left>
-                <ButtonGroup>
+                <ButtonGroup className="gap-2.5">
                   <BranchSelector
                     onSelectBranch={selectBranchOrTag}
                     useRepoBranchesStore={useRepoBranchesStore}
@@ -191,10 +191,10 @@ export function RepoSummaryView({
                 </ButtonGroup>
               </ListActions.Left>
               <ListActions.Right>
-                <ButtonGroup>
+                <ButtonGroup className="gap-2.5">
                   <Button variant="outline">
                     <Link
-                      className="relative grid grid-cols-[auto_1fr] items-center gap-2.5"
+                      className="relative grid grid-cols-[auto_1fr] items-center gap-1.5"
                       to={`${spaceId ? `/${spaceId}` : ''}/repos/${repoId}/code/new/${gitRef || selectedBranchTag?.name || ''}/~/`}
                     >
                       <Icon name="plus" size={12} />

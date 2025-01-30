@@ -142,7 +142,7 @@ export const RepoFiles: FC<RepoFilesProps> = ({
   ])
 
   return (
-    <SandboxLayout.Main className="max-w-[1400px]">
+    <SandboxLayout.Main fullWidth>
       <SandboxLayout.Content className="flex h-full flex-col pt-4">
         {isView && !isRepoEmpty && (
           <PathActionBar
