@@ -974,10 +974,10 @@ export const mfeRoutes = (mfeProjectId = '', mfeRouteRenderer: JSX.Element | nul
   {
     path: '/',
     element: (
-      <>
+      <AppProvider>
         {mfeRouteRenderer}
         <AppShellMFE />
-      </>
+      </AppProvider>
     ),
     handle: { routeName: RouteConstants.toHome },
     children: [
