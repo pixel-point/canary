@@ -23,7 +23,7 @@ export const RepoSubheader = ({
   const { t } = useTranslationStore()
 
   return (
-    <SandboxLayout.SubHeader className="h-[45px] overflow-hidden">
+    <SandboxLayout.SubHeader className="top-14.5 h-11 overflow-hidden">
       <TabNav.Root>
         <TabNav.Item to="summary">{t('views:repos.summary', 'Summary')}</TabNav.Item>
         <TabNav.Item to="code">{t('views:repos.files', 'Files')}</TabNav.Item>

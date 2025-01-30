@@ -1,5 +1,5 @@
-import { useMemo } from 'react'
-import { NavLink, Outlet, useLocation } from 'react-router-dom'
+import { useCallback, useMemo } from 'react'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 import { Tabs } from '@/components'
 import { SandboxLayout, TranslationStore } from '@/views'
@@ -20,6 +20,10 @@ export const RepoLayout = ({ useTranslationStore }: { useTranslationStore: () =>
   const location = useLocation()
   const { t } = useTranslationStore()
 
+  const navigate = useNavigate()
+
+  const makeHandleTabChange = useCallback((tab: string) => () => navigate(tab), [navigate])
+
   const activeTab = useMemo(() => {
     // Prioritize 'pulls' over 'commits' if both are present in the pathname
     if (location.pathname.includes(RepoTabsKeys.PULLS)) {
@@ -31,30 +35,30 @@ export const RepoLayout = ({ useTranslationStore }: { useTranslationStore: () =>
 
   return (
     <>
-      <SandboxLayout.SubHeader className="h-[45px] overflow-hidden">
+      <SandboxLayout.SubHeader className="h-11 overflow-hidden">
         <Tabs.Root variant="navigation" value={activeTab}>
           <Tabs.List>
-            <NavLink to={RepoTabsKeys.SUMMARY}>
-              <Tabs.Trigger value="summary">{t('views:repos.summary', 'Summary')}</Tabs.Trigger>
-            </NavLink>
-            <NavLink to={RepoTabsKeys.CODE}>
-              <Tabs.Trigger value="code">{t('views:repos.files', 'Files')}</Tabs.Trigger>
-            </NavLink>
-            <NavLink to={RepoTabsKeys.PIPELINES}>
-              <Tabs.Trigger value="pipelines">{t('views:repos.pipelines', 'Pipelines')}</Tabs.Trigger>
-            </NavLink>
-            <NavLink to={RepoTabsKeys.COMMITS}>
-              <Tabs.Trigger value="commits">{t('views:repos.commits', 'Commits')}</Tabs.Trigger>
-            </NavLink>
-            <NavLink to={RepoTabsKeys.PULLS}>
-              <Tabs.Trigger value="pulls">{t('views:repos.pull-requests', 'Pull Requests')}</Tabs.Trigger>
-            </NavLink>
-            <NavLink to={RepoTabsKeys.BRANCHES}>
-              <Tabs.Trigger value="branches">{t('views:repos.branches', 'Branches')}</Tabs.Trigger>
-            </NavLink>
-            <NavLink to={RepoTabsKeys.SETTINGS}>
-              <Tabs.Trigger value="settings">{t('views:repos.settings', 'Settings')}</Tabs.Trigger>
-            </NavLink>
+            <Tabs.Trigger role="link" value="summary" onClick={makeHandleTabChange(RepoTabsKeys.SUMMARY)}>
+              {t('views:repos.summary', 'Summary')}
+            </Tabs.Trigger>
+            <Tabs.Trigger role="link" value="code" onClick={makeHandleTabChange(RepoTabsKeys.CODE)}>
+              {t('views:repos.files', 'Files')}
+            </Tabs.Trigger>
+            <Tabs.Trigger role="link" value="pipelines" onClick={makeHandleTabChange(RepoTabsKeys.PIPELINES)}>
+              {t('views:repos.pipelines', 'Pipelines')}
+            </Tabs.Trigger>
+            <Tabs.Trigger role="link" value="commits" onClick={makeHandleTabChange(RepoTabsKeys.COMMITS)}>
+              {t('views:repos.commits', 'Commits')}
+            </Tabs.Trigger>
+            <Tabs.Trigger role="link" value="pulls" onClick={makeHandleTabChange(RepoTabsKeys.PULLS)}>
+              {t('views:repos.pull-requests', 'Pull Requests')}
+            </Tabs.Trigger>
+            <Tabs.Trigger role="link" value="branches" onClick={makeHandleTabChange(RepoTabsKeys.BRANCHES)}>
+              {t('views:repos.branches', 'Branches')}
+            </Tabs.Trigger>
+            <Tabs.Trigger role="link" value="settings" onClick={makeHandleTabChange(RepoTabsKeys.SETTINGS)}>
+              {t('views:repos.settings', 'Settings')}
+            </Tabs.Trigger>
           </Tabs.List>
         </Tabs.Root>
       </SandboxLayout.SubHeader>

@@ -7,8 +7,7 @@ export * from '@views/project/project-general/project-general-page'
 
 // project types
 export * from '@views/project/project.types'
+export * from './project-settings-tab-nav'
 
 // project import
 export * from '@views/project/project-import'
-
-export * from '@views/project/project-settings-page'

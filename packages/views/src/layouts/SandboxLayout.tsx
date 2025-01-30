@@ -40,7 +40,7 @@ function LeftSubPanel({
   className?: string
 }) {
   const paddingTopClass =
-    hasHeader && hasSubHeader ? 'top-[100px]' : hasHeader ? 'top-[55px]' : hasSubHeader ? 'top-[45px]' : ''
+    hasHeader && hasSubHeader ? 'top-[100px]' : hasHeader ? 'top-14.5' : hasSubHeader ? 'top-[2.75rem]' : ''
 
   return (
     <section
@@ -67,7 +67,7 @@ function Header({ children, className }: { children: React.ReactNode; className?
 function SubHeader({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
     <header
-      className={cn('bg-background fixed left-[220px] right-0 top-[55px] z-40 h-[45px]', className)}
+      className={cn('bg-background fixed left-[220px] right-0 top-14.5 z-40 h-[2.75rem]', className)}
       role="banner"
     >
       {children}
@@ -93,7 +93,7 @@ function Main({
   hasLeftSubPanel?: boolean
 }) {
   const paddingTopClass =
-    hasHeader && hasSubHeader ? `pt-[calc(55px+45px)]` : hasHeader ? 'pt-[55px]' : hasSubHeader ? 'pt-[45px]' : ''
+    hasHeader && hasSubHeader ? `pt-[calc(14.5rem+45px)]` : hasHeader ? 'pt-14.5' : hasSubHeader ? 'pt-[2.75rem]' : ''
 
   const paddingLeftClass =
     hasLeftPanel && hasLeftSubPanel
