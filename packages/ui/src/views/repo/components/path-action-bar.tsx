@@ -45,14 +45,14 @@ export const PathActionBar: FC<PathActionBarProps> = ({
       />
       {codeMode === CodeModes.VIEW && pathNewFile && pathUploadFiles && (
         <Button variant="outline">
-          <Link className="relative grid grid-cols-[auto_1fr] items-center gap-2.5" to={pathNewFile}>
+          <Link className="relative grid grid-cols-[auto_1fr] items-center gap-1.5" to={pathNewFile}>
             <Icon name="plus" size={12} />
             <span className="truncate">{t('views:repos.create-new-file-no-plus', 'Create new file')}</span>
           </Link>
         </Button>
       )}
       {codeMode !== CodeModes.VIEW && (
-        <div className="flex gap-3">
+        <div className="flex gap-2.5">
           {!!handleCancelFileEdit && (
             <Button variant="outline" onClick={handleCancelFileEdit}>
               Cancel changes

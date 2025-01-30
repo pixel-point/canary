@@ -97,7 +97,7 @@ export function CreatePipelineDialog(props: CreatePipelineDialogProps) {
           <Fieldset>
             <Input
               id="name"
-              label="Pipeline name *"
+              label="Pipeline name"
               {...register('name')}
               size="md"
               error={errors.name?.message?.toString()}
@@ -107,7 +107,7 @@ export function CreatePipelineDialog(props: CreatePipelineDialogProps) {
           <Fieldset>
             <Input
               id="yamlPath"
-              label="Yaml path *"
+              label="Yaml path"
               {...register('yamlPath')}
               size="md"
               error={errors.name?.message?.toString()}
@@ -122,7 +122,7 @@ export function CreatePipelineDialog(props: CreatePipelineDialogProps) {
                 value={branch}
                 onValueChange={value => handleSelectChange('branch', value)}
                 placeholder="Select"
-                label="Branch *"
+                label="Branch"
               >
                 <SelectContent>
                   {branchNames?.map(branchName => (
