@@ -87,7 +87,8 @@
     "newPullReq": "New pull request",
     "viewRules": "View Rules",
     "deleteBranch": "Delete Branch",
-    "createBranch": "Create branch",
+    "createBranchTitle": "Create a branch",
+    "createBranchButton": "Create branch",
     "newBranch": "New branch",
     "createNewRepo": "Create a new repository",
     "repoContains": "A repository contains all project files, including the revision history. Already have a project repository elsewhere?",
@@ -341,7 +342,7 @@
     "enterBranchName": "Enter branch name",
     "createBranchError": "Branch name is required",
     "select": "Select",
-    "baseBranch": "Base Branch",
+    "baseBranch": "Base branch",
     "selectBranchError": "Base branch is required",
     "selectRoleError": "Role is required"
   },
