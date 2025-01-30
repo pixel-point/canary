@@ -79,7 +79,6 @@ export const Navbar = ({
                 handleChangePinnedMenuItem={handleChangePinnedMenuItem}
                 handleRemoveRecentMenuItem={handleRemoveRecentMenuItem}
                 handleCustomNav={handleCustomNav}
-                isStaticPinned
                 t={t}
               />
             ))}

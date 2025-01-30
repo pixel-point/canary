@@ -1077,12 +1077,13 @@
   scrollbar-width: none;
 }
 
+/* TODO: Need style customization for light theme */
 .sub-menu-icon-bg {
   stop {
-    stop-color: hsla(0 0% 94% 1);
+    stop-color: #f0f0f0;
 
     & + stop {
-      stop-color: hsla(0 0% 61% 1);
+      stop-color: #9c9c9c;
     }
   }
 }

@@ -9,7 +9,6 @@ import { NavbarItemType } from '../types'
 interface NavbarItemProps {
   item: NavbarItemType
   isRecent?: boolean
-  isStaticPinned?: boolean
   handleChangePinnedMenuItem: (item: NavbarItemType, pin: boolean) => void
   handleRemoveRecentMenuItem: (item: NavbarItemType) => void
   handleCustomNav: () => void
@@ -19,7 +18,6 @@ interface NavbarItemProps {
 export const NavbarItem = ({
   item,
   isRecent = false,
-  isStaticPinned = false,
   handleChangePinnedMenuItem,
   handleRemoveRecentMenuItem,
   handleCustomNav,
@@ -77,7 +75,7 @@ export const NavbarItem = ({
           />
         )}
       </NavLink>
-      {!isStaticPinned && (
+      {!item.permanentlyPinned && (
         <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild>
             <Button
