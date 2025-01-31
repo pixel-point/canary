@@ -2,6 +2,7 @@ import { FC, useEffect, useMemo, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import {
+  Alert,
   Avatar,
   AvatarFallback,
   AvatarImage,
@@ -14,8 +15,6 @@ import {
   Icon,
   Input,
   Legend,
-  Message,
-  MessageTheme,
   Spacer
 } from '@/components'
 import { SkeletonForm } from '@/components/skeletons'
@@ -152,7 +151,11 @@ const SettingsAccountGeneralPage: FC<SettingsAccountGeneralPageProps> = ({
   }
 
   const renderErrorMessage = (type: ProfileSettingsErrorType, message: string) =>
-    error?.type === type && <Message theme={MessageTheme.ERROR}>{message}</Message>
+    error?.type === type && (
+      <Alert.Container variant="destructive">
+        <Alert.Title>{message}</Alert.Title>
+      </Alert.Container>
+    )
 
   return (
     <SandboxLayout.Content className="max-w-[476px] px-0">

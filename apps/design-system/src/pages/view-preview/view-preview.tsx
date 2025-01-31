@@ -7,6 +7,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { ProfileSettingsViewWrapper } from '@/pages/view-preview/profile-settings-view-wrapper.tsx'
 import { RepoSettingsViewWrapper } from '@/pages/view-preview/repo-settings-view-wrapper'
 import ExecutionListWrapper from '@subjects/views/execution-list/execution-list'
+import { LabelsForm } from '@subjects/views/labels/labels-form'
 import { ProjectLabelsList } from '@subjects/views/labels/project-labels-list'
 import { RepoLabelsList } from '@subjects/views/labels/repo-labels-list'
 import PipelineStudioWrapper from '@subjects/views/pipeline-edit/pipeline-edit'
@@ -245,6 +246,11 @@ export const viewPreviews: Record<string, ReactNode> = {
         <ProfileSettingsKeysView />
       </ProfileSettingsViewWrapper>
     </RootViewWrapper>
+  ),
+  'label-form': (
+    <ProjectSettingsWrapper>
+      <LabelsForm />
+    </ProjectSettingsWrapper>
   )
 }
 

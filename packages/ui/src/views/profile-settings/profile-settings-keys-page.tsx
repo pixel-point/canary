@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { Button, Fieldset, FormSeparator, FormWrapper, Legend, Spacer } from '@/components'
+import { Alert, Button, Fieldset, FormSeparator, FormWrapper, Legend, Spacer } from '@/components'
 import { ApiErrorType, SandboxLayout, TranslationStore } from '@/views'
 
 import { ProfileKeysList } from './components/profile-settings-keys-list'
@@ -20,10 +20,9 @@ interface SettingsAccountKeysPageProps {
 }
 
 const ErrorMessage: FC<{ message: string }> = ({ message }) => (
-  <>
-    <Spacer size={2} />
-    <span className="text-xs font-normal text-destructive">{message}</span>
-  </>
+  <Alert.Container variant="destructive">
+    <Alert.Title>{message}</Alert.Title>
+  </Alert.Container>
 )
 
 const SettingsAccountKeysPage: FC<SettingsAccountKeysPageProps> = ({

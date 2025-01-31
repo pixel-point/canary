@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import { Button, Dialog, Fieldset, FormWrapper, Input, Textarea } from '@/components'
+import { Alert, Button, Dialog, Fieldset, FormWrapper, Input, Textarea } from '@/components'
 import { ApiErrorType } from '@/views'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TranslationStore } from '@views/repo'
@@ -84,10 +84,12 @@ export const ProfileSettingsKeysCreateDialog: FC<ProfileSettingsKeysCreateDialog
               label={t('views:profileSettings.publicKey', 'Public key')}
               error={errors.content?.message?.toString()}
             />
-            {error?.type === ApiErrorType.KeyCreate && (
-              <span className="mt-6 text-14 text-destructive">{error.message}</span>
-            )}
           </Fieldset>
+          {error?.type === ApiErrorType.KeyCreate && (
+            <Alert.Container variant="destructive">
+              <Alert.Title>{error.message}</Alert.Title>
+            </Alert.Container>
+          )}
           <Dialog.Footer className="-mx-5 -mb-5">
             <Button type="button" variant="outline" onClick={onClose}>
               {t('views:profileSettings.cancel', 'Cancel')}

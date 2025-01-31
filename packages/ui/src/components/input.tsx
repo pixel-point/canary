@@ -9,7 +9,7 @@ export interface BaseInputProps
     VariantProps<typeof inputVariants> {}
 
 const inputVariants = cva(
-  'bg-transparent px-2.5 py-1 text-foreground-1 disabled:cursor-not-allowed disabled:text-foreground-4',
+  'bg-transparent px-3 py-1 text-foreground-1 disabled:cursor-not-allowed disabled:text-foreground-7',
   {
     variants: {
       variant: {
@@ -134,11 +134,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       )
     }
 
-    // disabled - dark
     return (
       <InputWrapper {...inputWrapperProps}>
         {label && (
-          <Label className="mb-2.5" color="secondary" optional={optional} htmlFor={id}>
+          <Label className="mb-2.5" color={disabled ? 'disabled-dark' : 'secondary'} optional={optional} htmlFor={id}>
             {label}
           </Label>
         )}
@@ -148,7 +147,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             {error}
           </Message>
         )}
-        {caption && <Caption>{caption}</Caption>}
+        {caption && <Caption className={disabled ? 'text-foreground-9' : ''}>{caption}</Caption>}
       </InputWrapper>
     )
   }

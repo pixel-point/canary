@@ -2,6 +2,7 @@ import { FC, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import {
+  Alert,
   Button,
   CopyButton,
   Dialog,
@@ -76,9 +77,6 @@ export const ProfileSettingsTokenCreateDialog: FC<ProfileSettingsTokenCreateDial
   useEffect(() => {
     if (!open) {
       reset()
-      // setValue('identifier', '')
-      // setValue('lifetime', '')
-      // setValue('token', '')
     }
   }, [open, reset, setValue])
 
@@ -123,7 +121,6 @@ export const ProfileSettingsTokenCreateDialog: FC<ProfileSettingsTokenCreateDial
           <Fieldset>
             <Input
               id="identifier"
-              // className={createdTokenData ? 'border-none' : ''}
               value={identifier}
               size="md"
               {...register('identifier')}
@@ -202,11 +199,13 @@ export const ProfileSettingsTokenCreateDialog: FC<ProfileSettingsTokenCreateDial
                     )}
                   </span>
                 )}
-                {error?.type === ApiErrorType.TokenCreate && (
-                  <span className="mt-1.5 text-14 text-destructive">{error.message}</span>
-                )}
               </Fieldset>
             </>
+          )}
+          {error?.type === ApiErrorType.TokenCreate && (
+            <Alert.Container variant="destructive">
+              <Alert.Title>{error.message}</Alert.Title>
+            </Alert.Container>
           )}
           <Dialog.Footer className="-mx-5 -mb-5">
             <Button type="button" variant="outline" onClick={onClose}>
