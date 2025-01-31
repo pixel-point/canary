@@ -1,7 +1,5 @@
 import { ReactNode } from 'react'
 
-import { Text } from '@components/text'
-
 interface LegendProps {
   title: ReactNode
   description?: ReactNode
@@ -20,13 +18,11 @@ interface LegendProps {
 export function Legend({ title, description, className }: LegendProps) {
   return (
     <div className={className}>
-      <Text size={3} weight={'medium'} as="p" role="heading">
-        {title}
-      </Text>
+      <p className="text-18 font-medium text-foreground-1">{title}</p>
       {description && (
-        <Text size={2} as="p" id="fieldset-description">
+        <p className="text-14 mt-2" id="fieldset-description">
           {description}
-        </Text>
+        </p>
       )}
     </div>
   )

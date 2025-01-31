@@ -58,7 +58,14 @@ export const CopyButton: FC<CopyButtonProps> = ({
   const changeIcon = copied ? 'tick' : 'clone'
 
   return (
-    <Button className={className} variant={buttonVariant} size="icon" aria-label="Copy" onClick={handleClick}>
+    <Button
+      className={className}
+      type="button"
+      variant={buttonVariant}
+      size="icon"
+      aria-label="Copy"
+      onClick={handleClick}
+    >
       <Icon className={copyIconVariants({ color: iconCopyStyle })} name={changeIcon} size={iconSize} />
     </Button>
   )

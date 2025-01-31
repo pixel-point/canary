@@ -1,3 +1,5 @@
-export * from './ssh-key-create/ssh-key-create-dialog'
-export * from './token-create/token-create-dialog'
-export * from './token-create/token-success-dialog'
+export * from './profile-settings-token-create-dialog'
+export * from './profile-settings-tokens-list'
+
+export * from './profile-settings-keys-create-dialog'
+export * from './profile-settings-keys-list'

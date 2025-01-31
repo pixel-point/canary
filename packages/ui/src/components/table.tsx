@@ -6,7 +6,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 const tableVariants = cva('w-full text-sm', {
   variants: {
     variant: {
-      default: 'caption-bottom ',
+      default: 'caption-bottom',
       asStackedList:
         'rounded-md border [&_td]:px-4 [&_td]:py-2.5 [&_td]:align-top [&_th]:px-4 [&_thead]:bg-background-2'
     }

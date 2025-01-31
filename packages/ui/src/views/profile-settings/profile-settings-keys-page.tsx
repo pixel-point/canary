@@ -1,5 +1,7 @@
-import { Button, ControlGroup, Fieldset, FormSeparator, FormWrapper, Legend, Spacer, Text } from '@/components'
-import { SandboxLayout, TranslationStore } from '@/views'
+import { FC } from 'react'
+
+import { Alert, Button, Fieldset, FormSeparator, FormWrapper, Legend, Spacer } from '@/components'
+import { ApiErrorType, SandboxLayout, TranslationStore } from '@/views'
 
 import { ProfileKeysList } from './components/profile-settings-keys-list'
 import { ProfileTokensList } from './components/profile-settings-tokens-list'
@@ -9,18 +11,29 @@ interface SettingsAccountKeysPageProps {
   openTokenDialog: () => void
   openSshKeyDialog: () => void
   openAlertDeleteDialog: (data: AlertDeleteParams) => void
-  error: { type: string; message: string } | null
+  error: { type: ApiErrorType; message: string } | null
   headers?: Headers
   useProfileSettingsStore: () => IProfileSettingsStore
   useTranslationStore: () => TranslationStore
+  isLoadingTokenList: boolean
+  isLoadingKeysList: boolean
 }
-const SettingsAccountKeysPage: React.FC<SettingsAccountKeysPageProps> = ({
+
+const ErrorMessage: FC<{ message: string }> = ({ message }) => (
+  <Alert.Container variant="destructive">
+    <Alert.Title>{message}</Alert.Title>
+  </Alert.Container>
+)
+
+const SettingsAccountKeysPage: FC<SettingsAccountKeysPageProps> = ({
   useProfileSettingsStore,
   openTokenDialog,
   openSshKeyDialog,
   openAlertDeleteDialog,
   useTranslationStore,
-  error
+  error,
+  isLoadingTokenList,
+  isLoadingKeysList
   // headers
 }) => {
   // @todo: Add pagination for tokens and keys lists in following PR
@@ -28,24 +41,20 @@ const SettingsAccountKeysPage: React.FC<SettingsAccountKeysPageProps> = ({
   // const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '')
   const { publicKeys, tokens } = useProfileSettingsStore()
   const { t } = useTranslationStore()
+
   return (
-    <SandboxLayout.Main>
-      <SandboxLayout.Content>
-        <Spacer size={10} />
-        <Text size={5} weight={'medium'}>
-          {t('views:profileSettings.keysAndTokens', 'Keys and Tokens')}
-        </Text>
-        <Spacer size={6} />
-        <FormWrapper>
-          <Fieldset>
-            {/* PERSONAL ACCESS TOKEN */}
+    <SandboxLayout.Content className="px-0">
+      <h1 className="text-24 font-medium text-foreground-1">
+        {t('views:profileSettings.keysAndTokens', 'Keys and Tokens')}
+      </h1>
+      <Spacer size={10} />
+      <FormWrapper>
+        <Fieldset className="gap-y-5">
+          <div className="flex items-end justify-between">
             <Legend
               title={
-                <span className="flex justify-between">
+                <span className="flex justify-between gap-x-4">
                   {t('views:profileSettings.personalAccessToken', 'Personal access token')}
-                  <Button type="button" variant="outline" className="text-primary" onClick={openTokenDialog}>
-                    {t('views:profileSettings.addToken', 'Add new token')}
-                  </Button>
                 </span>
               }
               description={t(
@@ -53,76 +62,51 @@ const SettingsAccountKeysPage: React.FC<SettingsAccountKeysPageProps> = ({
                 'Personal access tokens allow you to authenticate with the API.'
               )}
             />
-            <ControlGroup>
-              <>
-                {(!error || error.type !== 'tokenFetch') && (
-                  <ProfileTokensList
-                    tokens={tokens}
-                    openAlertDeleteDialog={openAlertDeleteDialog}
-                    useTranslationStore={useTranslationStore}
-                  />
-                )}
-                {error && error.type === 'tokenFetch' && (
-                  <>
-                    <Spacer size={2} />
-                    <Text size={1} className="text-destructive">
-                      {error.message}
-                    </Text>
-                  </>
-                )}
-              </>
-            </ControlGroup>
-          </Fieldset>
-          <Fieldset>
-            <FormSeparator />
-          </Fieldset>
-          <Fieldset>
-            {/* PERSONAL ACCESS TOKEN */}
+            <Button type="button" variant="outline" onClick={openTokenDialog}>
+              {t('views:profileSettings.addToken', 'Add new token')}
+            </Button>
+          </div>
+          {error?.type === ApiErrorType.TokenFetch ? (
+            <ErrorMessage message={error.message} />
+          ) : (
+            <ProfileTokensList
+              tokens={tokens}
+              isLoading={isLoadingTokenList}
+              openAlertDeleteDialog={openAlertDeleteDialog}
+              useTranslationStore={useTranslationStore}
+            />
+          )}
+        </Fieldset>
+
+        <FormSeparator className="border-borders-4" />
+
+        <Fieldset className="gap-y-5">
+          <div className="flex items-end justify-between">
             <Legend
-              title={
-                <span className="flex justify-between">
-                  {t('views:profileSettings.sshKeys', 'My SSH keys')}
-                  <Button variant="outline" className="text-primary" type="button" onClick={openSshKeyDialog}>
-                    {t('views:profileSettings.addSshKey', 'Add new SSH key')}
-                  </Button>
-                </span>
-              }
+              className="max-w-[400px]"
+              title={t('views:profileSettings.sshKeys', 'My SSH keys')}
               description={t(
                 'views:profileSettings.addSshKeyDescription',
                 'SSH keys allow you to establish a secure connection to your code repository.'
               )}
             />
-
-            <ControlGroup>
-              <>
-                {(!error || error.type !== 'keyFetch') && (
-                  <>
-                    <ProfileKeysList
-                      publicKeys={publicKeys}
-                      openAlertDeleteDialog={openAlertDeleteDialog}
-                      useTranslationStore={useTranslationStore}
-                    />
-                    {/* <PaginationComponent
-                      totalPages={totalPages}
-                      currentPage={page}
-                      goToPage={(pageNum: number) => setPage(pageNum)}
-                    /> */}
-                  </>
-                )}
-                {error && error.type === 'keyFetch' && (
-                  <>
-                    <Spacer size={2} />
-                    <Text size={1} className="text-destructive">
-                      {error.message}
-                    </Text>
-                  </>
-                )}
-              </>
-            </ControlGroup>
-          </Fieldset>
-        </FormWrapper>
-      </SandboxLayout.Content>
-    </SandboxLayout.Main>
+            <Button variant="outline" type="button" onClick={openSshKeyDialog}>
+              {t('views:profileSettings.addSshKey', 'Add new SSH key')}
+            </Button>
+          </div>
+          {error?.type === ApiErrorType.KeyFetch ? (
+            <ErrorMessage message={error.message} />
+          ) : (
+            <ProfileKeysList
+              publicKeys={publicKeys}
+              isLoading={isLoadingKeysList}
+              openAlertDeleteDialog={openAlertDeleteDialog}
+              useTranslationStore={useTranslationStore}
+            />
+          )}
+        </Fieldset>
+      </FormWrapper>
+    </SandboxLayout.Content>
   )
 }
 
