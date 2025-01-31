@@ -30,13 +30,13 @@ export const FileAdditionsTrigger: FC<FileAdditionsTriggerProps> = ({
       </DropdownMenu.Trigger>
       <DropdownMenu.Content className="min-w-[157px]" align="end">
         <DropdownMenu.Item>
-          <Link className="relative grid grid-cols-[auto_1fr] items-center gap-2.5" to={pathNewFile}>
+          <Link className="relative grid grid-cols-[auto_1fr] items-center gap-1.5" to={pathNewFile}>
             <Icon name="plus" size={12} />
             <span className="truncate">{t('views:repos.create-new-file-no-plus', 'Create new file')}</span>
           </Link>
         </DropdownMenu.Item>
         <DropdownMenu.Item>
-          <Link className="relative grid grid-cols-[auto_1fr] items-center gap-2.5" to={pathUploadFiles}>
+          <Link className="relative grid grid-cols-[auto_1fr] items-center gap-1.5" to={pathUploadFiles}>
             <Icon name="upload" size={12} />
             <span className="truncate">{t('views:repos.upload-files', 'Upload files')}</span>
           </Link>

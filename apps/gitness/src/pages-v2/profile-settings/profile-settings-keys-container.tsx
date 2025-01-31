@@ -22,31 +22,21 @@ import { DeleteAlertDialog } from '@harnessio/ui/components'
 import {
   AlertDeleteParams,
   ApiErrorType,
+  ProfileSettingsKeysCreateDialog,
+  ProfileSettingsTokenCreateDialog,
   SettingsAccountKeysPage,
-  SshKeyCreateDialog,
-  TokenCreateDialog,
-  TokensList,
-  TokenSuccessDialog
+  TokensList
 } from '@harnessio/ui/views'
 
 import { useTranslationStore } from '../../i18n/stores/i18n-store'
 import { useProfileSettingsStore } from './stores/profile-settings-store'
 
-export const SettingsProfileKeysPage = () => {
-  const CONVERT_DAYS_TO_NANO_SECONDS = 24 * 60 * 60 * 1000 * 1000000
+const CONVERT_DAYS_TO_NANO_SECONDS = 24 * 60 * 60 * 1000 * 1000000
 
-  const {
-    createdTokenData,
-    setCreatedTokenData,
-    setPublicKeys,
-    setTokens,
-    deleteToken,
-    addToken,
-    addPublicKey,
-    deletePublicKey
-  } = useProfileSettingsStore()
+export const SettingsProfileKeysPage = () => {
+  const { setCreatedTokenData, setPublicKeys, setTokens, deleteToken, addToken, addPublicKey, deletePublicKey } =
+    useProfileSettingsStore()
   const [openCreateTokenDialog, setCreateTokenDialog] = useState(false)
-  const [openSuccessTokenDialog, setSuccessTokenDialog] = useState(false)
   const [saveSshKeyDialog, setSshKeyDialog] = useState(false)
   const [isAlertDeleteDialogOpen, setIsAlertDeleteDialogOpen] = useState(false)
   const [alertParams, setAlertParams] = useState<AlertDeleteParams | null>(null)
@@ -57,21 +47,25 @@ export const SettingsProfileKeysPage = () => {
     message: string
   } | null>(null)
 
-  const closeSuccessTokenDialog = () => setSuccessTokenDialog(false)
-
   const openTokenDialog = () => {
     setCreateTokenDialog(true)
     setApiError(null)
   }
-  const closeTokenDialog = () => setCreateTokenDialog(false)
+
+  const closeTokenDialog = () => {
+    setCreateTokenDialog(false)
+    setCreatedTokenData(null)
+  }
 
   const openSshKeyDialog = () => {
     setSshKeyDialog(true)
     setApiError(null)
   }
+
   const closeSshKeyDialog = () => setSshKeyDialog(false)
 
   const closeAlertDeleteDialog = () => setIsAlertDeleteDialogOpen(false)
+
   const openAlertDeleteDialog = ({ identifier, type }: AlertDeleteParams) => {
     setIsAlertDeleteDialogOpen(true)
     setAlertParams({ identifier, type })
@@ -83,7 +77,7 @@ export const SettingsProfileKeysPage = () => {
     order: 'asc'
   }
 
-  const { data: { body: tokenList, headers } = {} } = useListTokensQuery(
+  const { data: { body: tokenList, headers } = {}, isLoading: isLoadingTokenList } = useListTokensQuery(
     {},
     {
       onError: (error: ListTokensErrorResponse) => {
@@ -93,7 +87,7 @@ export const SettingsProfileKeysPage = () => {
     }
   )
 
-  const { data: { body: publicKeysList } = {} } = useListPublicKeyQuery(
+  const { data: { body: publicKeysList } = {}, isLoading: isLoadingPublicKeys } = useListPublicKeyQuery(
     { queryParams },
     {
       onError: (error: ListPublicKeyErrorResponse) => {
@@ -130,9 +124,7 @@ export const SettingsProfileKeysPage = () => {
           token: newToken.access_token ?? 'Token not available'
         }
 
-        closeTokenDialog()
         setCreatedTokenData(tokenData)
-        setSuccessTokenDialog(true)
         addToken(newToken.token as TokensList)
       },
       onError: (error: CreateTokenErrorResponse) => {
@@ -193,8 +185,7 @@ export const SettingsProfileKeysPage = () => {
     }
 
     if (tokenData.lifetime.toLowerCase() !== 'never') {
-      const convertedLifetime = parseInt(tokenData.lifetime, 10) * CONVERT_DAYS_TO_NANO_SECONDS
-      body.lifetime = convertedLifetime
+      body.lifetime = parseInt(tokenData.lifetime, 10) * CONVERT_DAYS_TO_NANO_SECONDS
     }
 
     createTokenMutation.mutate({ body })
@@ -224,26 +215,23 @@ export const SettingsProfileKeysPage = () => {
         error={apiError}
         headers={headers}
         useTranslationStore={useTranslationStore}
+        isLoadingTokenList={isLoadingTokenList}
+        isLoadingKeysList={isLoadingPublicKeys}
       />
-      <TokenCreateDialog
+      <ProfileSettingsTokenCreateDialog
         open={openCreateTokenDialog}
         onClose={closeTokenDialog}
         handleCreateToken={handleCreateToken}
         error={apiError}
         isLoading={createTokenMutation.isLoading}
+        useProfileSettingsStore={useProfileSettingsStore}
         useTranslationStore={useTranslationStore}
       />
-      <SshKeyCreateDialog
+      <ProfileSettingsKeysCreateDialog
         open={saveSshKeyDialog}
         onClose={closeSshKeyDialog}
         handleCreateSshKey={handleCreateSshKey}
         error={apiError}
-        useTranslationStore={useTranslationStore}
-      />
-      <TokenSuccessDialog
-        open={openSuccessTokenDialog && !!createdTokenData}
-        onClose={closeSuccessTokenDialog}
-        useProfileSettingsStore={useProfileSettingsStore}
         useTranslationStore={useTranslationStore}
       />
       <DeleteAlertDialog

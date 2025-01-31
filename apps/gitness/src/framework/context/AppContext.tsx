@@ -1,8 +1,17 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
+import { createContext, FC, ReactNode, useContext, useEffect, useState } from 'react'
 
 import { noop } from 'lodash-es'
 
-import { getUser, membershipSpaces, TypesSpace, TypesUser } from '@harnessio/code-service-client'
+import {
+  getUser,
+  GetUserErrorResponse,
+  membershipSpaces,
+  TypesSpace,
+  TypesUser,
+  updateUser,
+  UpdateUserErrorResponse
+} from '@harnessio/code-service-client'
+import { ProfileSettingsErrorType } from '@harnessio/ui/views'
 
 import useLocalStorage from '../hooks/useLocalStorage'
 import usePageTitle from '../hooks/usePageTitle'
@@ -13,6 +22,14 @@ interface AppContextType {
   addSpaces: (newSpaces: TypesSpace[]) => void
   currentUser?: TypesUser
   setCurrentUser: (value: TypesUser) => void
+  fetchUser: () => Promise<void>
+  updateUserProfile: (data: { display_name?: string; email?: string }) => Promise<void>
+  isUpdatingUser: boolean
+  isLoadingUser: boolean
+  updateUserError: {
+    type: ProfileSettingsErrorType
+    message: string
+  } | null
 }
 
 const AppContext = createContext<AppContextType>({
@@ -20,30 +37,71 @@ const AppContext = createContext<AppContextType>({
   setSpaces: noop,
   addSpaces: noop,
   currentUser: undefined,
-  setCurrentUser: noop
+  setCurrentUser: noop,
+  fetchUser: async () => {},
+  updateUserProfile: async () => {},
+  isUpdatingUser: false,
+  isLoadingUser: false,
+  updateUserError: null
 })
 
-export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
   usePageTitle()
   const [spaces, setSpaces] = useState<TypesSpace[]>([])
   const [currentUser, setCurrentUser] = useLocalStorage<TypesUser>('currentUser', {})
+  const [isLoadingUser, setIsLoadingUser] = useState(false)
+  const [isUpdatingUser, setIsUpdatingUser] = useState(false)
+  const [updateUserError, setUpdateUserError] = useState<{
+    type: ProfileSettingsErrorType
+    message: string
+  } | null>(null)
+
+  const fetchUser = async (): Promise<void> => {
+    setIsLoadingUser(true)
+    setUpdateUserError(null)
+    try {
+      const userResponse = await getUser({})
+      setCurrentUser(userResponse.body)
+    } catch (error) {
+      const typedError = error as GetUserErrorResponse
+      setUpdateUserError({
+        type: ProfileSettingsErrorType.PROFILE,
+        message: typedError.message || 'An unknown fetch user error occurred.'
+      })
+    } finally {
+      setIsLoadingUser(false)
+    }
+  }
+
+  const updateUserProfile = async (data: { display_name?: string; email?: string }): Promise<void> => {
+    setIsUpdatingUser(true)
+    setUpdateUserError(null)
+    try {
+      const response = await updateUser({ body: data })
+      setCurrentUser(response.body)
+    } catch (error) {
+      const typedError = error as UpdateUserErrorResponse
+      setUpdateUserError({
+        type: ProfileSettingsErrorType.PROFILE,
+        message: typedError.message || 'An unknown update user error occurred.'
+      })
+    } finally {
+      setIsUpdatingUser(false)
+    }
+  }
 
   useEffect(() => {
     Promise.allSettled([
       membershipSpaces({
         queryParams: { page: 1, limit: 100, sort: 'identifier', order: 'asc' }
       }),
-      getUser({})
+      fetchUser()
     ])
       .then(results => {
-        const [membershipResult, userResult] = results
+        const [membershipResult] = results
 
         if (membershipResult.status === 'fulfilled') {
           setSpaces(membershipResult.value.body.filter(item => item?.space).map(item => item.space as TypesSpace))
-        }
-
-        if (userResult.status === 'fulfilled') {
-          setCurrentUser(userResult.value.body)
         }
       })
       .catch(() => {
@@ -62,7 +120,12 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         setSpaces,
         addSpaces,
         currentUser,
-        setCurrentUser
+        setCurrentUser,
+        fetchUser,
+        updateUserProfile,
+        isLoadingUser,
+        isUpdatingUser,
+        updateUserError
       }}
     >
       {children}

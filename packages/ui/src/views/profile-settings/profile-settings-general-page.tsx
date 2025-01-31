@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import {
+  Alert,
   Avatar,
   AvatarFallback,
   AvatarImage,
@@ -14,13 +15,10 @@ import {
   Icon,
   Input,
   Legend,
-  Message,
-  MessageTheme,
-  SkeletonList,
-  Spacer,
-  Text
+  Spacer
 } from '@/components'
-import { IProfileSettingsStore, SandboxLayout, TranslationStore } from '@/views'
+import { SkeletonForm } from '@/components/skeletons'
+import { IProfileSettingsStore, ProfileSettingsErrorType, SandboxLayout, TranslationStore } from '@/views'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { getInitials } from '@utils/stringUtils'
 import { z } from 'zod'
@@ -41,7 +39,6 @@ const passwordSchema = z
     path: ['confirmPassword']
   })
 
-// Define TypeScript types
 export type ProfileFields = z.infer<typeof profileSchema>
 export type PasswordFields = z.infer<typeof passwordSchema>
 
@@ -51,14 +48,17 @@ interface SettingsAccountGeneralPageProps {
   isUpdatingPassword: boolean
   profileUpdateSuccess: boolean
   passwordUpdateSuccess: boolean
-  error: { type: 'profile' | 'password'; message: string } | null
+  error: { type: ProfileSettingsErrorType; message: string } | null
   onUpdateUser: (data: Omit<ProfileFields, 'username'>) => void
   onUpdatePassword: (data: PasswordFields) => void
   useProfileSettingsStore: () => IProfileSettingsStore
   useTranslationStore: () => TranslationStore
 }
 
-const SettingsAccountGeneralPage: React.FC<SettingsAccountGeneralPageProps> = ({
+const AVATAR_INITIALS_LENGTH = 2
+const SUCCESS_MESSAGE_DURATION = 2000
+
+const SettingsAccountGeneralPage: FC<SettingsAccountGeneralPageProps> = ({
   useProfileSettingsStore,
   isLoadingUser,
   isUpdatingUser,
@@ -70,18 +70,24 @@ const SettingsAccountGeneralPage: React.FC<SettingsAccountGeneralPageProps> = ({
   onUpdatePassword,
   useTranslationStore
 }) => {
-  // Profile form handling
   const { t } = useTranslationStore()
   const { userData } = useProfileSettingsStore()
   const [profileSubmitted, setProfileSubmitted] = useState(false)
   const [passwordSubmitted, setPasswordSubmitted] = useState(false)
-  const TRUNCATE_INITIALS_LEN = 2
+
+  const profileDefaultValues = useMemo(
+    () => ({
+      name: userData?.name || '',
+      username: userData?.username || '',
+      email: userData?.email || ''
+    }),
+    [userData]
+  )
 
   const {
     register: registerProfile,
     handleSubmit: handleProfileSubmit,
     reset: resetProfileForm,
-
     formState: { errors: profileErrors, isValid: isProfileValid, dirtyFields: profileDirtyFields }
   } = useForm<ProfileFields>({
     resolver: zodResolver(profileSchema),
@@ -93,10 +99,9 @@ const SettingsAccountGeneralPage: React.FC<SettingsAccountGeneralPageProps> = ({
     }
   })
 
-  // Password form handling
   const {
     register: registerPassword,
-    reset: resetPasswordForm, // Add reset for password form
+    reset: resetPasswordForm,
     handleSubmit: handlePasswordSubmit,
     formState: { errors: passwordErrors, isValid: isPasswordValid }
   } = useForm<PasswordFields>({
@@ -110,162 +115,133 @@ const SettingsAccountGeneralPage: React.FC<SettingsAccountGeneralPageProps> = ({
 
   useEffect(() => {
     if (userData) {
-      resetProfileForm({
-        name: userData.name,
-        username: userData.username,
-        email: userData.email
-      })
+      resetProfileForm(profileDefaultValues)
     }
-  }, [resetProfileForm, userData])
+  }, [resetProfileForm, profileDefaultValues, userData])
 
   useEffect(() => {
     if (profileUpdateSuccess) {
-      resetProfileForm({
-        name: userData?.name,
-        username: userData?.username,
-        email: userData?.email
-      })
+      resetProfileForm(profileDefaultValues)
+
       setProfileSubmitted(true)
-      setTimeout(() => setProfileSubmitted(false), 2000)
+      const timer = setTimeout(() => setProfileSubmitted(false), SUCCESS_MESSAGE_DURATION)
+
+      return () => clearTimeout(timer)
     }
-  }, [profileUpdateSuccess, resetProfileForm, userData?.email, userData?.name, userData?.username])
+  }, [profileUpdateSuccess, resetProfileForm, profileDefaultValues])
 
   useEffect(() => {
     if (passwordUpdateSuccess) {
       resetPasswordForm()
 
       setPasswordSubmitted(true)
-      setTimeout(() => setPasswordSubmitted(false), 2000)
+      const timer = setTimeout(() => setPasswordSubmitted(false), SUCCESS_MESSAGE_DURATION)
+
+      return () => clearTimeout(timer)
     }
   }, [passwordUpdateSuccess, resetPasswordForm])
 
-  // Profile form submit handler
   const onProfileSubmit: SubmitHandler<ProfileFields> = data => {
     const { username: _, ...updatedData } = data
     onUpdateUser(updatedData)
   }
 
-  // Password form submit
   const onPasswordSubmit: SubmitHandler<PasswordFields> = data => {
     onUpdatePassword(data)
   }
 
-  if (isLoadingUser) {
-    return (
-      <SandboxLayout.Main>
-        <SandboxLayout.Content maxWidth="2xl">
-          <SkeletonList />
-        </SandboxLayout.Content>
-      </SandboxLayout.Main>
+  const renderErrorMessage = (type: ProfileSettingsErrorType, message: string) =>
+    error?.type === type && (
+      <Alert.Container variant="destructive">
+        <Alert.Title>{message}</Alert.Title>
+      </Alert.Container>
     )
-  }
 
   return (
-    <SandboxLayout.Main>
-      <SandboxLayout.Content maxWidth="2xl">
-        <Spacer size={10} />
-        <Text size={5} weight={'medium'} className="flex justify-center">
-          {t('views:profileSettings.general', 'General')}
-        </Text>
-        <Spacer size={6} />
-        <FormWrapper onSubmit={handleProfileSubmit(onProfileSubmit)}>
-          <Fieldset>
-            {/* PERSONAL INFORMATION */}
-            <Legend
-              className="flex justify-center"
-              title={t('views:profileSettings.personalInfo', 'Personal information')}
-            />
-            <ControlGroup className="flex w-auto flex-row items-center justify-center gap-x-6">
-              <Avatar size="80" className="size-20 rounded-full bg-primary/[0.02] shadow-md">
-                <AvatarImage src="/images/anon.jpg" />
-                <AvatarFallback>
-                  <Text size={5} weight="medium" color="tertiaryBackground">
-                    {getInitials(userData?.name || '', TRUNCATE_INITIALS_LEN)}
-                  </Text>
-                </AvatarFallback>
-              </Avatar>
-            </ControlGroup>
-
-            {/* NAME */}
-            <ControlGroup>
+    <SandboxLayout.Content className="max-w-[476px] px-0">
+      <h1 className="text-24 font-medium text-foreground-1">
+        {t('views:profileSettings.accountSettings', 'Account settings')}
+      </h1>
+      <Spacer size={10} />
+      {isLoadingUser ? (
+        <SkeletonForm />
+      ) : (
+        <>
+          <FormWrapper onSubmit={handleProfileSubmit(onProfileSubmit)}>
+            <Legend title={t('views:profileSettings.personalInfo', 'Personal information')} />
+            {/*
+                 FIXME: Avatar size does not work correctly
+                 issue – https://github.com/harness/canary/issues/817
+              */}
+            <Avatar size="20" className="size-20 shadow-md">
+              <AvatarImage src="/images/anon.jpg" />
+              <AvatarFallback>
+                <span className="text-24 font-medium text-foreground-3">
+                  {getInitials(userData?.name || '', AVATAR_INITIALS_LENGTH)}
+                </span>
+              </AvatarFallback>
+            </Avatar>
+            <Fieldset>
               <Input
                 id="name"
+                size="md"
                 {...registerProfile('name')}
                 placeholder={t('views:profileSettings.enterNamePlaceholder', 'Enter your name')}
                 label={t('views:profileSettings.name', 'Name')}
+                error={profileErrors?.name?.message?.toString()}
+                disabled={isUpdatingUser}
               />
-              {profileErrors.name && (
-                <Message theme={MessageTheme.ERROR}>{profileErrors.name.message?.toString()}</Message>
-              )}
-            </ControlGroup>
-
-            {/* USERNAME */}
-            <ControlGroup>
+            </Fieldset>
+            <Fieldset>
               <Input
                 id="username"
+                size="md"
                 {...registerProfile('username')}
                 placeholder={t('views:profileSettings.enterUsernamePlaceholder', 'Enter your username')}
                 disabled
                 label={t('views:profileSettings.username', 'Username')}
+                caption={'This username will be shown across the platform.'}
+                error={profileErrors?.username?.message?.toString()}
               />
-              {profileErrors.username && (
-                <Message theme={MessageTheme.ERROR}>{profileErrors.username.message?.toString()}</Message>
-              )}
-            </ControlGroup>
-
-            {/* EMAIL */}
-            <ControlGroup>
+            </Fieldset>
+            <Fieldset>
               <Input
                 id="email"
+                size="md"
                 {...registerProfile('email')}
                 placeholder="name@domain.com"
                 label={t('views:profileSettings.accountEmail', 'Account email')}
+                error={profileErrors?.email?.message}
+                disabled={isUpdatingUser}
               />
-              {profileErrors.email && (
-                <Message theme={MessageTheme.ERROR}>{profileErrors.email.message?.toString()}</Message>
-              )}
-            </ControlGroup>
+            </Fieldset>
 
-            {error && error.type === 'profile' && (
-              <>
-                <Spacer size={2} />
-                <Text size={1} className="text-destructive">
-                  {error.message}
-                </Text>
-              </>
-            )}
+            {renderErrorMessage(ProfileSettingsErrorType.PROFILE, error?.message || '')}
 
-            {/* UPDATE PROFILE BUTTON */}
             <ControlGroup type="button">
               <ButtonGroup>
                 {!profileSubmitted ? (
                   <Button
-                    size="sm"
                     type="submit"
                     disabled={!isProfileValid || isUpdatingUser || !Object.keys(profileDirtyFields).length}
                   >
                     {isUpdatingUser
-                      ? t('views:profileSettings.upatingProfileButton', 'Updating...')
+                      ? t('views:profileSettings.updatingProfileButton', 'Updating...')
                       : t('views:profileSettings.updateProfileButton', 'Update profile')}
                   </Button>
                 ) : (
-                  <Button variant="ghost" type="button" size="sm" theme="success" className="pointer-events-none">
+                  <Button className="pointer-events-none" variant="ghost" type="button" theme="success">
                     {t('views:profileSettings.updatedButton', 'Updated')}&nbsp;&nbsp;
                     <Icon name="tick" size={14} />
                   </Button>
                 )}
               </ButtonGroup>
             </ControlGroup>
-          </Fieldset>
-        </FormWrapper>
+          </FormWrapper>
 
-        <Fieldset className="my-7">
-          <FormSeparator />
-        </Fieldset>
+          <FormSeparator className="my-7 border-borders-4" />
 
-        {/* PASSWORD SETTINGS */}
-        <FormWrapper onSubmit={handlePasswordSubmit(onPasswordSubmit)}>
-          <Fieldset>
+          <FormWrapper onSubmit={handlePasswordSubmit(onPasswordSubmit)}>
             <Legend
               title={t('views:profileSettings.passwordSettingsTitle', 'Password settings')}
               description={t(
@@ -273,65 +249,53 @@ const SettingsAccountGeneralPage: React.FC<SettingsAccountGeneralPageProps> = ({
                 'Minimum of 6 characters long containing at least one number and a mixture of uppercase and lowercase letters.'
               )}
             />
-
-            {/* NEW PASSWORD */}
-            <ControlGroup>
+            <Fieldset>
               <Input
                 id="newPassword"
                 type="password"
+                size="md"
                 {...registerPassword('newPassword')}
                 placeholder={t('views:profileSettings.enterPasswordPlaceholder', 'Enter a new password')}
                 label={t('views:profileSettings.newPassword', 'New password')}
+                error={passwordErrors?.newPassword?.message}
+                disabled={isUpdatingPassword}
               />
-              {passwordErrors.newPassword && (
-                <Message theme={MessageTheme.ERROR}>{passwordErrors.newPassword.message?.toString()}</Message>
-              )}
-            </ControlGroup>
-
-            {/* CONFIRM PASSWORD */}
-            <ControlGroup>
+            </Fieldset>
+            <Fieldset>
               <Input
                 id="confirmPassword"
                 type="password"
+                size="md"
                 {...registerPassword('confirmPassword')}
                 placeholder={t('views:profileSettings.confirmPasswordPlaceholder', 'Confirm your new password')}
                 label={t('views:profileSettings.confirmPassword', 'Confirm password')}
+                error={passwordErrors?.confirmPassword?.message}
+                disabled={isUpdatingPassword}
               />
-              {passwordErrors.confirmPassword && (
-                <Message theme={MessageTheme.ERROR}>{passwordErrors.confirmPassword.message?.toString()}</Message>
-              )}
-            </ControlGroup>
+            </Fieldset>
 
-            {error && error.type === 'password' && (
-              <>
-                <Spacer size={2} />
-                <Text size={1} className="text-destructive">
-                  {error.message}
-                </Text>
-              </>
-            )}
+            {renderErrorMessage(ProfileSettingsErrorType.PASSWORD, error?.message || '')}
 
-            {/* UPDATE PASSWORD BUTTON */}
             <ControlGroup type="button">
-              <ButtonGroup className="flex justify-between">
+              <ButtonGroup>
                 {!passwordSubmitted ? (
-                  <Button size="sm" type="submit" disabled={!isPasswordValid || isUpdatingPassword}>
+                  <Button type="submit" disabled={!isPasswordValid || isUpdatingPassword}>
                     {isUpdatingPassword
-                      ? t('views:profileSettings.upadtingPasswordButton', 'Updating...')
-                      : t('views:profileSettings.updatePasswordButton', 'Update password')}
+                      ? t('views:profileSettings.updating', 'Updating...')
+                      : t('views:profileSettings.updatePassword', 'Update password')}
                   </Button>
                 ) : (
-                  <Button variant="ghost" type="button" size="sm" theme="success" className="pointer-events-none">
+                  <Button className="pointer-events-none" variant="ghost" type="button" theme="success">
                     {t('views:profileSettings.updatedButton', 'Updated')}&nbsp;&nbsp;
                     <Icon name="tick" size={14} />
                   </Button>
                 )}
               </ButtonGroup>
             </ControlGroup>
-          </Fieldset>
-        </FormWrapper>
-      </SandboxLayout.Content>
-    </SandboxLayout.Main>
+          </FormWrapper>
+        </>
+      )}
+    </SandboxLayout.Content>
   )
 }
 

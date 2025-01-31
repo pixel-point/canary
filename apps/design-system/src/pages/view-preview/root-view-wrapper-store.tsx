@@ -271,7 +271,7 @@ export const useRootViewWrapperStore = () => {
     },
     {
       groupId: 8,
-      title: 'Acces Control',
+      title: 'Access Control',
       type: MenuGroupTypes.SETTINGS,
       items: [
         {

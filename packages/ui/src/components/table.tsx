@@ -6,7 +6,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 const tableVariants = cva('w-full text-sm', {
   variants: {
     variant: {
-      default: 'caption-bottom ',
+      default: 'caption-bottom',
       asStackedList:
         'rounded-md border [&_td]:px-4 [&_td]:py-2.5 [&_td]:align-top [&_th]:px-4 [&_thead]:bg-background-2'
     }
@@ -18,14 +18,15 @@ const tableVariants = cva('w-full text-sm', {
 
 export interface TableProps extends React.HTMLAttributes<HTMLTableElement>, VariantProps<typeof tableVariants> {
   disableXScroll?: boolean
+  tableClassName?: string
 }
 
 const Table = React.forwardRef<HTMLTableElement, TableProps>(
-  ({ variant, disableXScroll, className, ...props }, ref) => (
+  ({ variant, disableXScroll, className, tableClassName, ...props }, ref) => (
     <div className={cn('relative w-full overflow-auto', tableVariants({ variant }), className)}>
       <table
         ref={ref}
-        className={cn('w-full overflow-x-auto', { 'min-w-auto overflow-x-hidden': disableXScroll })}
+        className={cn('w-full overflow-x-auto', { 'min-w-auto overflow-x-hidden': disableXScroll }, tableClassName)}
         {...props}
       />
     </div>

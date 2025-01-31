@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { Button, Icon } from '@/components'
 import { buttonVariants } from '@/components/button'
 import { usePortal } from '@/context'
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
@@ -33,12 +34,13 @@ AlertDialogOverlay.displayName = AlertDialogPrimitive.Overlay.displayName
 
 interface AlertDialogContentProps extends React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content> {
   onOverlayClick?: () => void
+  onClose?: () => void
 }
 
 const AlertDialogContent = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Content>,
   AlertDialogContentProps
->(({ className = 'max-w-lg', children, onOverlayClick, ...props }, ref) => {
+>(({ className = 'max-w-lg', children, onOverlayClick, onClose, ...props }, ref) => {
   const { portalContainer } = usePortal()
   const mainContent: React.ReactNode[] = []
   let footer: React.ReactNode = null
@@ -62,6 +64,17 @@ const AlertDialogContent = React.forwardRef<
         )}
         {...props}
       >
+        <Button
+          className="absolute right-3 top-[18px] z-10 text-icons-4 transition-colors duration-200 hover:text-icons-2 disabled:pointer-events-none"
+          type="button"
+          variant="custom"
+          size="icon"
+          aria-label="Close"
+          onClick={onClose}
+        >
+          <Icon name="close" size={16} />
+        </Button>
+
         <div
           className={cn('flex flex-col gap-y-4 overflow-y-auto p-5', footer ? 'max-h-[calc(100%-65px)]' : 'max-h-full')}
         >
@@ -97,7 +110,7 @@ const AlertDialogTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AlertDialogPrimitive.Title
     ref={ref}
-    className={cn('text-foreground-1 text-xl font-semibold tracking-tight', className)}
+    className={cn('text-foreground-1 text-xl font-medium tracking-tight', className)}
     {...props}
   />
 ))

@@ -4,14 +4,18 @@ import '@harnessio/ui/styles.css'
 
 import { Navigate, Route, Routes } from 'react-router-dom'
 
+import { ProfileSettingsViewWrapper } from '@/pages/view-preview/profile-settings-view-wrapper.tsx'
 import { RepoSettingsViewWrapper } from '@/pages/view-preview/repo-settings-view-wrapper'
 import ExecutionListWrapper from '@subjects/views/execution-list/execution-list'
+import { LabelsForm } from '@subjects/views/labels/labels-form'
 import { ProjectLabelsList } from '@subjects/views/labels/project-labels-list'
 import { RepoLabelsList } from '@subjects/views/labels/repo-labels-list'
 import PipelineStudioWrapper from '@subjects/views/pipeline-edit/pipeline-edit'
 import PipelineGraphWrapper from '@subjects/views/pipeline-graph/pipeline-graph'
 import PipelineGraphMinimalWrapper from '@subjects/views/pipeline-graph/pipeline-graph-minimal'
 import PipelineListWrapper from '@subjects/views/pipeline-list/pipeline-list'
+import { ProfileSettingsView } from '@subjects/views/profile-settings'
+import { ProfileSettingsKeysView } from '@subjects/views/profile-settings-keys'
 import PullRequestCompareWrapper from '@subjects/views/pull-request-compare/pull-request-compare'
 import PullRequestChangesWrapper from '@subjects/views/pull-request-conversation/pull-request-changes-wrapper'
 import PullRequestCommits from '@subjects/views/pull-request-conversation/pull-request-commits'
@@ -227,6 +231,25 @@ export const viewPreviews: Record<string, ReactNode> = {
   'space-settings-members': (
     <ProjectSettingsWrapper>
       <SpaceSettingsMembers />
+    </ProjectSettingsWrapper>
+  ),
+  'profile-settings': (
+    <RootViewWrapper>
+      <ProfileSettingsViewWrapper>
+        <ProfileSettingsView />
+      </ProfileSettingsViewWrapper>
+    </RootViewWrapper>
+  ),
+  'profile-settings-keys': (
+    <RootViewWrapper>
+      <ProfileSettingsViewWrapper>
+        <ProfileSettingsKeysView />
+      </ProfileSettingsViewWrapper>
+    </RootViewWrapper>
+  ),
+  'label-form': (
+    <ProjectSettingsWrapper>
+      <LabelsForm />
     </ProjectSettingsWrapper>
   )
 }

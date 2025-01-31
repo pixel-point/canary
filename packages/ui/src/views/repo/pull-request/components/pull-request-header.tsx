@@ -139,7 +139,7 @@ export const PullRequestHeader: React.FC<PullRequestTitleProps> = ({
           <span>into</span>
           <Badge variant="tertiary" size="md" borderRadius="base">
             <Link
-              className="flex items-center gap-x-1"
+              className="flex items-center gap-x-1.5"
               to={`${spaceId ? `/${spaceId}` : ''}/repos/${repoId}/code/${target_branch}`}
             >
               <Icon name="branch" size={12} className="text-icons-9" />
