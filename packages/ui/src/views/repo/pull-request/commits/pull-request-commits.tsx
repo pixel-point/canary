@@ -26,11 +26,11 @@ const PullRequestCommitsView: FC<RepoPullRequestCommitsViewProps> = ({
   const { t } = useTranslationStore()
 
   if (isFetchingCommits) {
-    ;<SkeletonList />
+    return <SkeletonList />
   }
 
   return (
-    <SandboxLayout.Content>
+    <SandboxLayout.Content className="pt-0">
       {!commitsList?.length && (
         <NoData
           iconName="no-data-folder"

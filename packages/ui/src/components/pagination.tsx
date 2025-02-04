@@ -3,7 +3,7 @@ import * as React from 'react'
 import { cn } from '@utils/cn'
 import { TFunction } from 'i18next'
 
-import { buttonVariants, type ButtonProps } from './button'
+import { ButtonProps, buttonVariants } from './button'
 import { Icon } from './icon'
 
 const Pagination = ({ className, ...props }: React.ComponentProps<'nav'>) => (

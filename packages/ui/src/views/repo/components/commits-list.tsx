@@ -46,12 +46,12 @@ export const CommitsList: FC<CommitProps> = ({ data, toCommitDetails, toCode, cl
 
                   return (
                     <StackedList.Item
-                      className="flex !cursor-default items-start py-3"
+                      className="flex !cursor-default items-start py-3 pr-3"
                       key={commit?.sha || repo_idx}
                       isLast={commitData.length - 1 === repo_idx}
                     >
                       <Link
-                        className="grow "
+                        className="grow"
                         onClick={e => {
                           e.stopPropagation()
                         }}

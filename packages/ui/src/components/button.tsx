@@ -32,6 +32,7 @@ const buttonVariants = cva(
         md: 'h-9 px-7',
         lg: 'h-10 px-8',
         icon: 'size-8',
+        xs_icon: 'size-6',
         sm_icon: 'size-7',
         xs_split: 'h-auto p-0 text-xs font-medium',
         md_split: 'h-8 text-14 font-medium',
@@ -72,7 +73,7 @@ const buttonVariants = cva(
   }
 )
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
   asChild?: boolean
   loading?: boolean
   spinner?: ReactNode
@@ -167,4 +168,4 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 )
 Button.displayName = 'Button'
 
-export { Button, buttonVariants }
+export { Button, buttonVariants, type ButtonProps }
