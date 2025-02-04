@@ -16,6 +16,7 @@ export interface PipelineGraphInternalProps {
   config?: {
     edgeClassName?: string
     leftGap?: number
+    readonly?: boolean
   }
 }
 
@@ -183,7 +184,8 @@ export function PipelineGraphInternal(props: PipelineGraphInternalProps) {
             parentNodeType: 'serial',
             relativeIndex: index,
             isFirst: index === 0,
-            isLast: index === dataInternalRef.current?.length - 1
+            isLast: index === dataInternalRef.current?.length - 1,
+            readonly: config?.readonly
           })
         )}
       </div>

@@ -11,7 +11,7 @@ import CollapseButton from '../components/collapse'
 import Port from './port'
 
 export default function SerialNodeContainer(props: ContainerNodeProps<SerialNodeInternalType>) {
-  const { node, level, parentNode, isFirst, isLast, parentNodeType } = props
+  const { node, level, parentNode, isFirst, isLast, parentNodeType, readonly } = props
   const { serialContainerConfig, parallelContainerConfig } = useContainerNodeContext()
 
   const myLevel = level + 1
@@ -81,6 +81,7 @@ export default function SerialNodeContainer(props: ContainerNodeProps<SerialNode
         isFirst={isFirst}
         isLast={isLast}
         parentNodeType={parentNodeType}
+        readonly={readonly}
       >
         {!collapsed && node.children.length > 0 ? (
           <div
@@ -99,7 +100,8 @@ export default function SerialNodeContainer(props: ContainerNodeProps<SerialNode
                 parentNodeType: 'serial',
                 relativeIndex: index,
                 isFirst: index === 0,
-                isLast: index === node.children.length - 1
+                isLast: index === node.children.length - 1,
+                readonly: readonly
               })
             )}
           </div>
