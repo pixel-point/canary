@@ -74,6 +74,7 @@ export * from './sidebar/sidebar'
 export * from './separator'
 export * from './label-marker'
 export * from './problems'
+export * from './chat'
 export * from './treeview'
 
 export * as NodeGroup from './node-group'
