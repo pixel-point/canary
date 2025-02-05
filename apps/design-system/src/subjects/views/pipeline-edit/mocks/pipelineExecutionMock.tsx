@@ -27,7 +27,8 @@ export const executionMock = [
       yamlPath: 'pipeline.stages.0',
       yamlChildrenPath: 'pipeline.stages.0.group.stages',
       yamlEntityType: 'SerialStageGroup',
-      name: 'Serial 1'
+      name: 'Serial 1',
+      state: 'executing'
     },
     children: [
       {
@@ -59,6 +60,7 @@ export const executionMock = [
               yamlPath: 'pipeline.stages.0.group.stages.0.parallel.stages.0',
               yamlChildrenPath: 'pipeline.stages.0.group.stages.0.parallel.stages.0.steps',
               yamlEntityType: 'Stage',
+              state: 'success',
               name: 'Stage 1'
             },
             children: [
@@ -75,8 +77,8 @@ export const executionMock = [
                   yamlEntityType: 'Step',
                   name: 'go build',
                   icon: <Icon className="m-2 size-8" name={'harness-plugin'} />,
-                  selected: false,
-                  state: 'executing'
+                  state: 'success',
+                  selected: false
                 },
                 path: 'pipeline.children.1.children.0.children.0.children.0',
                 containerType: 'leaf'
@@ -94,7 +96,7 @@ export const executionMock = [
                   yamlEntityType: 'Step',
                   name: 'go test',
                   icon: <Icon className="m-2 size-8" name={'run'} />,
-
+                  state: 'error',
                   selected: false
                 },
                 path: 'pipeline.children.1.children.0.children.0.children.1',
@@ -134,9 +136,8 @@ export const executionMock = [
                   yamlEntityType: 'Step',
                   name: 'npm test',
                   icon: <Icon className="m-2 size-8" name={'run'} />,
-
-                  selected: false,
-                  state: 'executing'
+                  state: 'warning',
+                  selected: false
                 },
                 path: 'pipeline.children.1.children.0.children.1.children.0',
                 containerType: 'leaf'
@@ -162,7 +163,8 @@ export const executionMock = [
           yamlPath: 'pipeline.stages.0.group.stages.1',
           yamlChildrenPath: 'pipeline.stages.0.group.stages.1.group.stages',
           yamlEntityType: 'SerialStageGroup',
-          name: 'Serial 2'
+          name: 'Serial 2',
+          state: 'success'
         },
         children: [
           {
@@ -178,6 +180,7 @@ export const executionMock = [
               yamlPath: 'pipeline.stages.0.group.stages.1.group.stages.0',
               yamlChildrenPath: 'pipeline.stages.0.group.stages.1.group.stages.0.steps',
               yamlEntityType: 'Stage',
+              state: 'warning',
               name: 'Stage 1'
             },
             children: [
@@ -209,7 +212,7 @@ export const executionMock = [
                       yamlEntityType: 'Step',
                       name: 'go build',
                       icon: <Icon className="m-2 size-8" name={'run'} />,
-
+                      state: 'success',
                       selected: false
                     },
                     path: 'pipeline.children.1.children.1.children.0.children.0.children.0',
@@ -228,7 +231,7 @@ export const executionMock = [
                       yamlEntityType: 'Step',
                       name: 'go test',
                       icon: <Icon className="m-2 size-8" name={'run'} />,
-
+                      state: 'executing',
                       selected: false
                     },
                     path: 'pipeline.children.1.children.1.children.0.children.0.children.1',
@@ -265,7 +268,7 @@ export const executionMock = [
                       yamlEntityType: 'Step',
                       name: 'go build',
                       icon: <Icon className="m-2 size-8" name={'run'} />,
-
+                      state: 'success',
                       selected: false
                     },
                     path: 'pipeline.children.1.children.1.children.0.children.1.children.0',
@@ -284,7 +287,7 @@ export const executionMock = [
                       yamlEntityType: 'Step',
                       name: 'go test',
                       icon: <Icon className="m-2 size-8" name={'run'} />,
-
+                      state: 'executing',
                       selected: false
                     },
                     path: 'pipeline.children.1.children.1.children.0.children.1.children.1',

@@ -1,5 +1,7 @@
-import { Button, Icon, Text } from '@harnessio/ui/components'
+import { Badge, Button, Icon, Text } from '@harnessio/ui/components'
 import { cn } from '@harnessio/ui/views'
+
+import './step-node.css'
 
 import { StepNodeDataType } from '../nodes/custom-step-node'
 // import { createRoundedRectPath } from '../utils/utils'
@@ -18,85 +20,90 @@ export interface StepNodeProps {
 }
 
 export function StepNode(props: StepNodeProps) {
-  const { name, icon, selected, onEllipsisClick, onClick, onAddClick, isFirst, parentNodeType } = props
+  const { nodeData, name, icon, selected, onEllipsisClick, onClick, onAddClick, isFirst, parentNodeType } = props
 
   return (
-    <div
-      role="button"
-      tabIndex={0}
-      className={cn('box-border size-full rounded-xl border bg-primary-foreground cursor-pointer', {
-        'border-borders-2': !selected,
-        'border-borders-3': selected
-      })}
-      onClick={onClick}
-    >
-      {onEllipsisClick && (
-        <Button
-          className="absolute right-2 top-2"
-          variant="ghost"
-          size="sm_icon"
-          onMouseDown={e => e.stopPropagation()}
-          onClick={onEllipsisClick}
-        >
-          <Icon name="ellipsis" size={15} />
-        </Button>
+    <>
+      {nodeData.state === 'executing' ? (
+        <div style={{ position: 'absolute', top: '-23px', left: '60px' }}>
+          <Badge className="leading-none" size="sm" disableHover borderRadius="base" theme="muted">
+            <Icon name="running" size={12} className="mr-1 animate-spin" />
+            Running
+          </Badge>
+        </div>
+      ) : nodeData.state === 'success' ? (
+        <div style={{ position: 'absolute', top: '-23px', left: '50px' }}>
+          <Badge className="leading-none" size="sm" disableHover borderRadius="base" theme={'success'}>
+            <Icon name="tick" size={12} className="mr-1" />
+            Completed
+          </Badge>
+        </div>
+      ) : nodeData.state === 'warning' ? (
+        <div style={{ position: 'absolute', top: '-23px', left: '60px' }}>
+          <Badge className="leading-none" size="sm" disableHover borderRadius="base" theme="warning">
+            <Icon name="triangle-warning" size={12} className="mr-1" />
+            Warning
+          </Badge>
+        </div>
+      ) : (
+        <div style={{ position: 'absolute', top: '-23px', left: '80px' }}>
+          <Badge className="leading-none" size="sm" disableHover borderRadius="base" theme="destructive">
+            <Icon name="cross" size={12} className="mr-1" />
+            Error
+          </Badge>
+        </div>
       )}
-      {isFirst && (
-        <FloatingAddButton
-          parentNodeType={parentNodeType}
-          position="before"
-          onClick={e => {
-            onAddClick?.('before', e)
-          }}
-        />
-      )}
-      <FloatingAddButton
-        parentNodeType={parentNodeType}
-        position="after"
-        onClick={e => {
-          onAddClick?.('after', e)
-        }}
-      />
-      {/* position="left" */}
-      <div>{icon}</div>
-      <Text title={name} className="text-primary m-2 line-clamp-2">
-        {name}
-      </Text>
 
-      {/* TODO */}
-      {/* 
-      <svg
-        viewBox="0 0 140 80"
-        style={{ position: 'absolute', zIndex: '-10', top: '0px', left: '0px', overflow: 'visible' }}
+      <div
+        className={cn({
+          'card-wrapper': nodeData.state === 'executing'
+        })}
       >
-        <path d={createRoundedRectPath(0, 0, 140, 80, 5)} strokeWidth={'1'} stroke="#454545" fill="none"></path>
-      </svg>
-
-      {nodeData.state === 'executing' && (
-        <svg
-          viewBox="0 0 140 80"
-          style={{ position: 'absolute', zIndex: '-10', top: '0px', left: '0px', overflow: 'visible' }}
+        <div
+          role="button"
+          tabIndex={0}
+          className={cn('box size-full rounded-xl border bg-primary-foreground cursor-pointer', {
+            'border-borders-2': !selected,
+            'border-borders-3': selected,
+            'border-success': nodeData.state === 'success',
+            'card-wrapper-warning': nodeData.state === 'warning',
+            'card-wrapper-error': nodeData.state === 'error'
+          })}
+          onClick={onClick}
         >
-          <path
-            d={createRoundedRectPath(0, 0, 140, 80, 5)}
-            strokeWidth={'1'}
-            stroke="#43b5e6"
-            fill="none"
-            className="PipelineGraph-AnimateNode"
-            stroke-dasharray={280 + 160}
-            stroke-dashoffset={280 + 160}
-          ></path>
-        </svg>
-      )}
-
-      {nodeData.state === 'executed' && (
-        <svg
-          viewBox="0 0 140 80"
-          style={{ position: 'absolute', zIndex: '-8', top: '0px', left: '0px', overflow: 'visible' }}
-        >
-          <path d={createRoundedRectPath(0, 0, 140, 80, 5)} strokeWidth={'1'} stroke="#43b5e6" fill="none"></path>
-        </svg>
-      )} */}
-    </div>
+          {onEllipsisClick && (
+            <Button
+              className="absolute right-2 top-2"
+              variant="ghost"
+              size="sm_icon"
+              onMouseDown={e => e.stopPropagation()}
+              onClick={onEllipsisClick}
+            >
+              <Icon name="ellipsis" size={15} />
+            </Button>
+          )}
+          {isFirst && (
+            <FloatingAddButton
+              parentNodeType={parentNodeType}
+              position="before"
+              onClick={e => {
+                onAddClick?.('before', e)
+              }}
+            />
+          )}
+          <FloatingAddButton
+            parentNodeType={parentNodeType}
+            position="after"
+            onClick={e => {
+              onAddClick?.('after', e)
+            }}
+          />
+          <div>{icon}</div>
+          <Text title={name} className="text-primary m-2 line-clamp-2">
+            {name}
+          </Text>
+        </div>
+      </div>
+    </>
   )
 }
