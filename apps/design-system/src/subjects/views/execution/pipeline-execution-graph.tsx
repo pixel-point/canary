@@ -10,13 +10,17 @@ import {
   SerialNodeContent,
   SerialNodeInternalType
 } from '@harnessio/pipeline-graph'
-import { Icon, PipelineNodes } from '@harnessio/ui/components'
+import { Button, Drawer, Icon, PipelineNodes } from '@harnessio/ui/components'
 
 // *****************************************************
 // 1. Import CSS
 // *****************************************************
 
 import '@harnessio/pipeline-graph/dist/index.css'
+
+import { ExecutionInfo, LivelogLine, StageProps } from '@harnessio/ui/views'
+
+import { logs, stages } from './mocks/mock-data'
 
 // *****************************************************
 // 2. Define content nodes types
@@ -44,11 +48,16 @@ const StartNodeComponent = () => <PipelineNodes.StartNode />
 const EndNodeComponent = () => <PipelineNodes.EndNode />
 
 interface NodeProps {
-  readonly?: boolean
+  mode?: 'Edit' | 'Execution'
+}
+
+interface DataProps {
+  stage?: StageProps
+  logs?: LivelogLine[]
 }
 
 // * step node
-export interface StepNodeDataType {
+export interface StepNodeDataType extends DataProps {
   name?: string
   icon?: React.ReactElement
   selected?: boolean
@@ -56,25 +65,57 @@ export interface StepNodeDataType {
 
 export function StepNodeComponent({
   node,
-  readonly
+  mode
 }: {
   node: LeafNodeInternalType<StepNodeDataType>
 } & NodeProps) {
-  const { name, icon } = node.data
+  const { name, icon, logs, stage } = node.data
+  const stepNode = <PipelineNodes.StepNode name={name} icon={icon} onEllipsisClick={() => undefined} mode={mode} />
 
-  return <PipelineNodes.StepNode name={name} icon={icon} onEllipsisClick={() => undefined} readonly={readonly} />
+  if (mode === 'Edit') {
+    return stepNode
+  }
+
+  return (
+    <Drawer.Root direction="right">
+      <Drawer.Trigger asChild>{stepNode}</Drawer.Trigger>
+      <Drawer.Content className="w-1/2 h-full flex flex-col justify-between">
+        <Drawer.Header>
+          <Drawer.Title>Logs</Drawer.Title>
+          <Drawer.Description>{`View ${name} execution logs`}</Drawer.Description>
+        </Drawer.Header>
+        <div>
+          <ExecutionInfo
+            logs={logs || []}
+            onCopy={() => {}}
+            onDownload={() => {}}
+            onEdit={() => {}}
+            selectedStepIdx={0}
+            stage={stage || {}}
+          />
+        </div>
+        <Drawer.Footer>
+          <Drawer.Close>
+            <Button variant="outline">Close</Button>
+          </Drawer.Close>
+        </Drawer.Footer>
+      </Drawer.Content>
+    </Drawer.Root>
+  )
 }
 
 // * approval step node
-export interface ApprovalNodeDataType {
+export interface ApprovalNodeDataType extends DataProps {
   name?: string
   selected?: boolean
 }
 
-export function ApprovalStepNodeComponent({ node }: { node: LeafNodeInternalType<ApprovalNodeDataType> }) {
+export function ApprovalStepNodeComponent({
+  node,
+  mode
+}: { node: LeafNodeInternalType<ApprovalNodeDataType> } & NodeProps) {
   const { name } = node.data
-
-  return (
+  const approvalNode = (
     <div className="flex h-full items-center justify-center">
       <div
         className="border-borders-2 bg-primary-foreground absolute -z-10 rotate-45 border"
@@ -82,6 +123,33 @@ export function ApprovalStepNodeComponent({ node }: { node: LeafNodeInternalType
       ></div>
       <div>{name}</div>
     </div>
+  )
+
+  if (mode === 'Edit') {
+    return approvalNode
+  }
+
+  return (
+    <Drawer.Root direction="right">
+      <Drawer.Trigger asChild>{approvalNode}</Drawer.Trigger>
+      <Drawer.Content className="w-1/2 h-full flex flex-col justify-between">
+        <div className="flex flex-col gap-4">
+          <Drawer.Header>
+            <Drawer.Title>Approval</Drawer.Title>
+            <Drawer.Description>Approve/Reject step execution</Drawer.Description>
+          </Drawer.Header>
+          <div className="flex gap-2 justify-center">
+            <Button type="submit">Approve</Button>
+            <Button variant="secondary">Cancel</Button>
+          </div>
+        </div>
+        <Drawer.Footer>
+          <Drawer.Close>
+            <Button variant="outline">Close</Button>
+          </Drawer.Close>
+        </Drawer.Footer>
+      </Drawer.Content>
+    </Drawer.Root>
   )
 }
 
@@ -94,7 +162,7 @@ export interface SerialGroupNodeDataType {
 export function SerialGroupNodeComponent({
   node,
   children,
-  readonly
+  mode
 }: {
   node: SerialNodeInternalType<SerialGroupNodeDataType>
   children: React.ReactElement
@@ -108,7 +176,7 @@ export function SerialGroupNodeComponent({
       onAddClick={() => undefined}
       onHeaderClick={() => undefined}
       onAddInClick={() => undefined}
-      readonly={readonly}
+      mode={mode}
     >
       {children}
     </PipelineNodes.SerialGroupNode>
@@ -124,7 +192,7 @@ export interface ParallelGroupNodeDataType {
 export function ParallelGroupNodeComponent({
   node,
   children,
-  readonly
+  mode
 }: {
   node: ParallelNodeInternalType<ParallelGroupNodeDataType>
   children: React.ReactElement
@@ -138,7 +206,7 @@ export function ParallelGroupNodeComponent({
       onAddClick={() => undefined}
       onHeaderClick={() => undefined}
       onAddInClick={() => undefined}
-      readonly={readonly}
+      mode={mode}
     >
       {children}
     </PipelineNodes.ParallelGroupNode>
@@ -200,7 +268,9 @@ const data: AnyContainerNodeType[] = [
     type: ContentNodeTypes.step,
     data: {
       name: 'Step 1',
-      icon: <Icon name="harness-plugin" className="m-2 size-8" />
+      icon: <Icon name="harness-plugin" className="m-2 size-8" />,
+      logs: logs,
+      stage: stages[0]
     } satisfies StepNodeDataType,
     config: {
       width: 160,
@@ -300,7 +370,7 @@ const data: AnyContainerNodeType[] = [
 const PipelineExecutionGraph = () => {
   return (
     <CanvasProvider>
-      <PipelineGraph data={data} nodes={nodes} config={{ edgeClassName: 'stroke-borders-2', readonly: true }} />
+      <PipelineGraph data={data} nodes={nodes} config={{ edgeClassName: 'stroke-borders-2', mode: 'Execution' }} />
     </CanvasProvider>
   )
 }
