@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-import { Link, Outlet } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import {
   Button,
@@ -248,7 +246,7 @@ export function RepoSummaryView({
                   right
                   title={
                     <Button
-                      className="border-borders-1 hover:bg-background-3 flex border"
+                      className="flex border border-borders-1 hover:bg-background-3"
                       variant="ghost"
                       size="icon"
                       asChild
