@@ -1,4 +1,4 @@
-import { Icon, IconProps } from '@components/icon'
+import { Icon, IconProps } from '@harnessio/ui/components'
 
 import {
   getIsActionStep,
@@ -17,7 +17,16 @@ const getIconNameBasedOnStep = (step: any): IconProps['name'] => {
 
   if (getIsActionStep(step)) return 'github-actions'
 
-  if (getIsTemplateStep(step)) return 'harness-plugin'
+  if (getIsTemplateStep(step)) {
+    switch (step.template.uses) {
+      case 'slack':
+        return 'rocket'
+        break
+      case 'docker':
+        return 'star'
+        break
+    }
+  }
 
   /**
    * Yet to add Bitrise plugins,
