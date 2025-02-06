@@ -44,7 +44,7 @@ export function StageNode(props: StageNodeProps) {
       <ExecutionStatus nodeData={nodeData} />
 
       <div
-        className={cn('absolute inset-0 -z-10 rounded-md border border-dashed bg-primary-foreground/40', {
+        className={cn('absolute inset-0 -z-10 rounded-md border border-dashed bg-background-2', {
           'border-borders-2': !selected, // gray/8
           'border-borders-3': selected
         })}
@@ -70,7 +70,7 @@ export function StageNode(props: StageNodeProps) {
           onMouseDown={e => e.stopPropagation()}
           onClick={onEllipsisClick}
         >
-          <Icon name="ellipsis" size={15} />
+          <Icon className="text-icons-2" name="more-dots-fill" size={12} />
         </Button>
       )}
 
