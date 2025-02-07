@@ -13,11 +13,11 @@ export interface StepProps {
 }
 
 export interface StepExecutionProps {
-  step: StepProps
-  logs: LivelogLine[]
   onEdit: () => void
   onDownload: () => void
   onCopy: () => void
+  step?: StepProps
+  logs?: LivelogLine[]
   query?: string
   handleInputChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
@@ -33,8 +33,6 @@ export interface ILogsStore {
 }
 
 export interface ExecutionInfoProps {
-  stage: StageProps
-  selectedStepIdx: number
   useLogsStore: () => ILogsStore
   onEdit: () => void
   onDownload: () => void
@@ -54,8 +52,8 @@ export interface LivelogLine {
 }
 
 export interface NodeSelectionProps {
-  parentNode: TreeViewElement | null | undefined
-  childNode: TreeViewElement | null | undefined
+  parentNode?: TreeViewElement | null
+  childNode?: TreeViewElement | null
 }
 
 export interface ExecutionTreeProps {

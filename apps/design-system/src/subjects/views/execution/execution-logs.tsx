@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
+import { useAnimateTree } from '@/hooks/useAnimateTree'
 import { useLogs } from '@/hooks/useLogs'
-import { useTree } from '@/hooks/useTree'
 
 import { TreeViewElement } from '@harnessio/ui/components'
 import {
@@ -11,36 +11,51 @@ import {
   ExecutionTabs,
   ExecutionTree,
   ILogsStore,
+  LivelogLine,
   NodeSelectionProps
 } from '@harnessio/ui/views'
 
-import { elements, logs, stages } from './mocks/mock-data'
+import { elements, logsBank } from './mocks/mock-data'
+
+const getRandomDuration = (): number => Math.random() * (5 - 1) + 1
+
+const getLogsForCurrentNodeId = (logKey: string): LivelogLine[] => {
+  return (logsBank[logKey] ?? []).map((log: LivelogLine) => ({
+    ...log,
+    duration: getRandomDuration()
+  }))
+}
 
 export const ExecutionLogsView = () => {
-  const [currentStep, setCurrentStep] = useState<TreeViewElement | null | undefined>(null)
-  const { nodes: updatedElements, currentParent, currentChild } = useTree(elements)
+  const [enableStream, setEnableStream] = useState(false)
+  const [logs, setLogs] = useState<LivelogLine[]>([])
+  const [selectedStep, setSelectedStep] = useState<TreeViewElement | null | undefined>(null)
 
-  const { logs: currentLogs, timerId } = useLogs({
-    logs: currentStep ? (currentStep?.status === ExecutionState.PENDING ? [] : logs) : [],
-    isStreaming: currentStep?.status === ExecutionState.RUNNING
-  })
+  const { updatedElements, currentNode } = useAnimateTree({ elements, delay: 15 }) // Animates the execution tree
 
-  const useLogsStore = useCallback(
-    (): ILogsStore => ({
-      logs: currentLogs
-    }),
-    [currentLogs]
-  )
+  const { logs: streamedLogs } = useLogs({ logs, isStreaming: enableStream, delay: 0.5 }) // Animates the logs
+
+  const useLogsStore = useCallback<() => ILogsStore>(() => ({ logs: streamedLogs }), [streamedLogs])
 
   useEffect(() => {
-    setCurrentStep(currentChild)
-  }, [currentChild])
+    setEnableStream(true)
+    setLogs(getLogsForCurrentNodeId(currentNode?.id || ''))
+  }, [currentNode?.id])
 
   useEffect(() => {
-    if (timerId) {
-      clearInterval(timerId)
+    if (!selectedStep) return
+
+    switch (selectedStep.status) {
+      case ExecutionState.PENDING:
+        setLogs([])
+        break
+      case ExecutionState.RUNNING:
+      case ExecutionState.SUCCESS:
+        setEnableStream(selectedStep.status === ExecutionState.RUNNING)
+        setLogs(getLogsForCurrentNodeId(selectedStep?.id || ''))
+        break
     }
-  }, [currentParent, currentChild])
+  }, [selectedStep])
 
   return (
     <div className="flex h-full flex-col">
@@ -64,22 +79,15 @@ export const ExecutionLogsView = () => {
       <div className="grid h-[inherit]" style={{ gridTemplateColumns: '1fr 3fr' }}>
         <div className="flex flex-col gap-4 border border-r-0 border-t-0 border-white/10 pt-4">
           <ExecutionTree
-            defaultSelectedId={currentStep?.id ?? elements[0]?.children?.[0]?.id ?? ''}
+            defaultSelectedId={currentNode?.id ?? selectedStep?.id ?? elements[0].id}
             elements={updatedElements}
             onSelectNode={(selectedNode: NodeSelectionProps) => {
-              setCurrentStep(selectedNode?.childNode)
+              setSelectedStep(selectedNode?.childNode)
             }}
           />
         </div>
         <div className="flex flex-col gap-4 border border-t-0 border-white/10">
-          <ExecutionInfo
-            useLogsStore={useLogsStore}
-            onCopy={() => {}}
-            onDownload={() => {}}
-            onEdit={() => {}}
-            selectedStepIdx={0}
-            stage={stages[0]}
-          />
+          <ExecutionInfo useLogsStore={useLogsStore} onCopy={() => {}} onDownload={() => {}} onEdit={() => {}} />
         </div>
       </div>
     </div>
