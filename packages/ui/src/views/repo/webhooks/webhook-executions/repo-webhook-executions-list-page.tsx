@@ -1,4 +1,5 @@
 import { FC, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import {
   Badge,
@@ -25,24 +26,26 @@ interface RepoWebhookExecutionsPageProps {
   toRepoWebhooks: (repoRef?: string) => string
   repo_ref: string
   isLoading: boolean
+  toRepoWebookExecutionDetails: (executionId: string) => string
 }
 const RepoWebhookExecutionsPage: FC<RepoWebhookExecutionsPageProps> = ({
   useWebhookStore,
   useTranslationStore,
   toRepoWebhooks,
   repo_ref,
-  isLoading
+  isLoading,
+  toRepoWebookExecutionDetails
 }) => {
   const { t } = useTranslationStore()
   const { executions, webhookExecutionPage, setWebhookExecutionPage, totalWebhookExecutionPages } = useWebhookStore()
-
+  const navigate = useNavigate()
   const events = useMemo(() => {
     return [...getBranchEvents(t), ...getTagEvents(t), ...getPrEvents(t)]
   }, [])
 
   return (
     <SandboxLayout.Main className="mx-0">
-      <SandboxLayout.Content className="max-w-[812px] pl-0">
+      <SandboxLayout.Content className="pl-0">
         <h1 className="mb-4 text-2xl font-medium text-foreground-1">Order Status Update Webhook</h1>
         <Text>
           This webhook triggers every time an order status is updated, sending data to the specified endpoint for
@@ -65,7 +68,11 @@ const RepoWebhookExecutionsPage: FC<RepoWebhookExecutionsPageProps> = ({
               </TableHeader>
               <TableBody>
                 {executions.map(execution => (
-                  <TableRow key={execution.id}>
+                  <TableRow
+                    key={execution.id}
+                    onClick={() => navigate(toRepoWebookExecutionDetails(`${execution.id}`))}
+                    className="cursor-pointer"
+                  >
                     <TableCell>
                       <Text className="text-foreground-1" size={2}>{`#${execution.id}`}</Text>
                     </TableCell>
