@@ -1,5 +1,7 @@
 import { useMemo } from 'react'
 
+import { CollapseButton } from '@subjects/views/pipeline-edit/pipeline-nodes/components/collapse-button.tsx'
+
 import { CanvasProvider, PipelineGraph } from '@harnessio/pipeline-graph'
 import { PipelineStudioNodeContextMenu, PipelineStudioNodeContextProvider } from '@harnessio/ui/views'
 
@@ -9,6 +11,12 @@ import { demoExecutionMock } from './mocks/animations/demoExecutionMock'
 import { parallelContainerConfig, serialContainerConfig } from './mocks/pipelineExecutionMock'
 import { contentNodeFactory } from './nodes-factory'
 import CustomPort from './pipeline-nodes/components/custom-port'
+import { GlobalData } from './types/common'
+
+const globalDataConfigForExecution: GlobalData = {
+  hideContextMenu: true,
+  hideFloatingButtons: true
+}
 
 const PipelineExecution = () => {
   return (
@@ -20,6 +28,7 @@ const PipelineExecution = () => {
         onEditIntention={() => undefined}
         onRevealInYaml={() => undefined}
         onSelectIntention={() => undefined}
+        globalData={globalDataConfigForExecution}
       >
         <PipelineExecutionInner />
         <PipelineStudioNodeContextMenu />
@@ -46,6 +55,7 @@ const PipelineExecutionInner = () => {
             return { level1: staticPath, level2: '' }
           }}
           portComponent={CustomPort}
+          collapseButtonComponent={CollapseButton}
           edgesConfig={{ radius: 10, parallelNodeOffset: 10, serialNodeOffset: 10 }}
           data={animatedNodes}
           nodes={nodes}

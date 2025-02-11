@@ -4,8 +4,8 @@ export const demoExecutionMock = [
   {
     type: 'Start',
     config: {
-      width: 40,
-      height: 40,
+      width: 36,
+      height: 36,
       hideDeleteButton: true,
       hideBeforeAdd: true,
       hideLeftPort: true
@@ -188,7 +188,7 @@ export const demoExecutionMock = [
           yamlPath: 'pipeline.stages.1.steps.0',
           yamlEntityType: 'Step',
           name: 'docker',
-          icon: <Icon className="size-6" name={'harness-plugin'} />,
+          icon: <Icon className="size-6" name={'docker'} />,
           selected: false,
           state: 'warning',
           warningMessage: 'Timeout'
@@ -209,7 +209,7 @@ export const demoExecutionMock = [
           yamlPath: 'pipeline.stages.1.steps.1',
           yamlEntityType: 'Step',
           name: 'Step 2',
-          icon: <Icon className="size-6" name={'harness-plugin'} />,
+          icon: <Icon className="size-6" name={'slack'} />,
           selected: false,
           state: 'success'
         },
@@ -223,8 +223,8 @@ export const demoExecutionMock = [
   {
     type: 'End',
     config: {
-      width: 40,
-      height: 40,
+      width: 36,
+      height: 36,
       hideDeleteButton: true,
       hideAfterAdd: true,
       hideRightPort: true

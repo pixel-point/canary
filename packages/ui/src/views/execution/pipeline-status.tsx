@@ -1,83 +1,55 @@
-import { useEffect, useRef, useState } from 'react'
-
 import { ExecutionState } from '@views/repo/pull-request'
 
 import { ExecutionStatus } from './execution-status'
 
 const PipelineStatus = ({
   status,
-  // buildTime,
-  // createdTime,
+  buildTime,
+  createdTime,
   commit,
-  branch
+  branch,
+  delegateType
 }: {
   status: ExecutionState
   buildTime: string
-  createdTime: string
-  commit: string
-  branch: string
+  createdTime?: string
+  commit?: string
+  branch?: string
+  startedTime?: string
+  delegateType?: string
 }) => {
-  const [elapsedTime, setElapsedTime] = useState('00:00')
-  const [createdTimeElapsed, setCreatedTimeElapsed] = useState('00:00')
-  const createdStartRef = useRef<number>(Date.now())
-  const elapsedStartRef = useRef<number>(Date.now())
-
-  const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60)
-    const secs = seconds % 60
-    return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
-  }
-
-  // Created timer (always counts up from 0)
-  useEffect(() => {
-    createdStartRef.current = Date.now()
-
-    const interval = setInterval(() => {
-      const now = Date.now()
-      const totalDiff = Math.floor((now - createdStartRef.current) / 1000)
-      setCreatedTimeElapsed(formatTime(totalDiff))
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, [])
-
-  // Elapsed timer (stops when status changes to success)
-  useEffect(() => {
-    elapsedStartRef.current = Date.now()
-
-    const interval = setInterval(() => {
-      if (status === 'success') return
-
-      const now = Date.now()
-      const elapsedDiff = Math.floor((now - elapsedStartRef.current) / 1000)
-      setElapsedTime(formatTime(elapsedDiff))
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, [status])
-
   return (
-    <div className="flex justify-between gap-12">
-      <div className="flex flex-col">
-        <span className="text-foreground-5">Commit</span>
-        <span className="text-primary">{commit}</span>
-      </div>
-      <div className="flex flex-col">
-        <span className="text-foreground-5">Branch</span>
-        <span className="text-primary">{branch}</span>
-      </div>
-      <div className="flex flex-col">
-        <span className="text-foreground-5">Status</span>
+    <div className="flex justify-between gap-11">
+      {commit && (
+        <div className="flex flex-col gap-1.5">
+          <span className="leading-tight text-foreground-4">Commit</span>
+          <span className="text-foreground-1">{commit}</span>
+        </div>
+      )}
+      {branch && (
+        <div className="flex flex-col gap-1.5">
+          <span className="leading-tight text-foreground-4">Branch</span>
+          <span className="text-foreground-1">{branch}</span>
+        </div>
+      )}
+      <div className="flex flex-col gap-1.5">
+        <span className="leading-tight text-foreground-4">Status</span>
         <ExecutionStatus.Badge status={status} minimal />
       </div>
-      <div className="flex flex-col">
-        <span className="text-foreground-5">Build time</span>
-        <span className="text-primary">{elapsedTime}</span>
+      <div className="flex flex-col gap-1.5">
+        <span className="leading-tight text-foreground-4">Build time</span>
+        <span className="text-foreground-1">{buildTime}</span>
       </div>
-      <div className="flex flex-col">
-        <span className="text-foreground-5">Created</span>
-        <span className="text-primary">{createdTimeElapsed}</span>
+      <div className="flex flex-col gap-1.5">
+        <span className="leading-tight text-foreground-4">Created</span>
+        <span className="text-foreground-1">{createdTime}</span>
       </div>
+      {delegateType && (
+        <div className="flex flex-col gap-1.5">
+          <span className="leading-tight text-foreground-4">Delegate type</span>
+          <span className="text-foreground-1">{delegateType}</span>
+        </div>
+      )}
     </div>
   )
 }
