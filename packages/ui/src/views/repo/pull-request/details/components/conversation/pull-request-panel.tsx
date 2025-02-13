@@ -18,12 +18,12 @@ import {
   EnumCheckStatus,
   extractInfoFromRuleViolationArr,
   MergeCheckStatus,
+  PRPanelData,
   PullRequestAction,
   PullRequestChangesSectionProps,
   PullRequestFilterOption,
   PullRequestState,
-  TypesPullReqCheck,
-  TypesRuleViolations
+  TypesPullReqCheck
 } from '@/views'
 import { cn } from '@utils/cn'
 import { timeAgo } from '@utils/utils'
@@ -35,30 +35,20 @@ import PullRequestCheckSection from './sections/pull-request-checks-section'
 import PullRequestCommentSection from './sections/pull-request-comment-section'
 import PullRequestMergeSection from './sections/pull-request-merge-section'
 
-interface PullRequestPanelProps extends PullRequestChangesSectionProps, Partial<PullRequestRoutingProps> {
+export interface PullRequestPanelProps
+  extends Omit<
+      PullRequestChangesSectionProps,
+      'reqNoChangeReq' | 'reqCodeOwnerApproval' | 'minApproval' | 'reqCodeOwnerLatestApproval' | 'minReqLatestApproval'
+    >,
+    Partial<PullRequestRoutingProps> {
   handleRebaseBranch: () => void
   handlePrState: (state: string) => void
-  pullReqMetadata: TypesPullReq | undefined
-  conflictingFiles?: string[]
-  PRStateLoading: boolean
+  pullReqMetadata?: TypesPullReq
   checks?: TypesPullReqCheck[] | null
-  ruleViolation?: boolean //TODO: fix type
   checksInfo: { header: string; content: string; status: EnumCheckStatus }
-  commentsInfo: { header: string; content?: string | undefined; status: string }
   actions: PullRequestAction[]
-  resolvedCommentArr?: { params: number[] }
-  requiresCommentApproval?: boolean
   checkboxBypass?: boolean
-  spaceId?: string
-  repoId?: string
   setCheckboxBypass?: (value: boolean) => void
-  ruleViolationArr:
-    | {
-        data: {
-          rule_violations: TypesRuleViolations[]
-        }
-      }
-    | undefined
   onRestoreBranch: () => void
   onDeleteBranch: () => void
   showDeleteBranchButton: boolean
@@ -66,6 +56,9 @@ interface PullRequestPanelProps extends PullRequestChangesSectionProps, Partial<
   headerMsg?: string
   commitSuggestionsBatchCount: number
   onCommitSuggestions: () => void
+  prPanelData: PRPanelData
+  spaceId?: string
+  repoId?: string
 }
 
 interface HeaderProps {
@@ -196,35 +189,21 @@ const getButtonState = ({
 
 const PullRequestPanel = ({
   pullReqMetadata,
-  // PRStateLoading,
   checks,
   changesInfo,
   checksInfo,
-  commentsInfo,
-  ruleViolation,
-  minApproval,
-  minReqLatestApproval,
   approvedEvaluations,
   changeReqEvaluations,
   codeOwners,
   latestApprovalArr,
-  reqNoChangeReq,
   changeReqReviewer,
-  reqCodeOwnerApproval,
-  reqCodeOwnerLatestApproval,
   codeOwnerChangeReqEntries,
   codeOwnerPendingEntries,
   codeOwnerApprovalEntries,
   latestCodeOwnerApprovalArr,
-  conflictingFiles,
   actions,
-  requiresCommentApproval,
-  resolvedCommentArr,
-  ruleViolationArr,
   checkboxBypass,
   setCheckboxBypass,
-  spaceId,
-  repoId,
   onRestoreBranch,
   onDeleteBranch,
   showRestoreBranchButton,
@@ -234,6 +213,9 @@ const PullRequestPanel = ({
   onCommitSuggestions,
   handlePrState,
   handleRebaseBranch,
+  prPanelData,
+  spaceId,
+  repoId,
   ...routingProps
 }: PullRequestPanelProps) => {
   const mergeable = useMemo(() => pullReqMetadata?.merge_check_status === MergeCheckStatus.MERGEABLE, [pullReqMetadata])
@@ -250,11 +232,13 @@ const PullRequestPanel = ({
   const [mergeButtonValue, setMergeButtonValue] = useState(actions[0].id)
 
   useEffect(() => {
-    if (ruleViolationArr && !isDraft && ruleViolationArr.data.rule_violations) {
+    const ruleViolationArr = prPanelData?.ruleViolationArr
+
+    if (!!ruleViolationArr && !isDraft && ruleViolationArr.data.rule_violations) {
       const { checkIfBypassAllowed } = extractInfoFromRuleViolationArr(ruleViolationArr.data.rule_violations)
       setNotBypassable(checkIfBypassAllowed)
     }
-  }, [ruleViolationArr, isDraft])
+  }, [prPanelData?.ruleViolationArr, isDraft])
 
   const rebasePossible = useMemo(
     () => pullReqMetadata?.merge_target_sha !== pullReqMetadata?.merge_base_sha && !pullReqMetadata?.merged,
@@ -312,7 +296,7 @@ const PullRequestPanel = ({
 
   const buttonState = getButtonState({
     mergeable,
-    ruleViolation,
+    ruleViolation: prPanelData.ruleViolation,
     isDraft,
     checksInfo,
     checkboxBypass,
@@ -335,7 +319,7 @@ const PullRequestPanel = ({
               unchecked={unchecked}
               mergeable={mergeable}
               isOpen={isOpen}
-              ruleViolation={ruleViolation}
+              ruleViolation={prPanelData.ruleViolation}
               pullReqMetadata={pullReqMetadata}
               onRestoreBranch={onRestoreBranch}
               onDeleteBranch={onDeleteBranch}
@@ -362,7 +346,7 @@ const PullRequestPanel = ({
                   ) : (
                     <></>
                   )}
-                  {!notBypassable && mergeable && !isDraft && ruleViolation && (
+                  {!notBypassable && mergeable && !isDraft && prPanelData.ruleViolation && (
                     <Layout.Horizontal className="items-center justify-center">
                       <Checkbox
                         checked={checkboxBypass}
@@ -398,7 +382,7 @@ const PullRequestPanel = ({
                   ) : (
                     <Button
                       theme="primary"
-                      disabled={!checkboxBypass && ruleViolation && !isClosed}
+                      disabled={!checkboxBypass && prPanelData.ruleViolation && !isClosed}
                       onClick={actions[0].action}
                     >
                       Open for review
@@ -418,39 +402,33 @@ const PullRequestPanel = ({
             {!pullReqMetadata?.merged && (
               <PullRequestChangesSection
                 changesInfo={changesInfo}
-                minApproval={minApproval}
-                minReqLatestApproval={minReqLatestApproval}
+                minApproval={prPanelData.minApproval}
+                minReqLatestApproval={prPanelData.minReqLatestApproval}
                 approvedEvaluations={approvedEvaluations}
                 changeReqEvaluations={changeReqEvaluations}
                 codeOwners={codeOwners}
                 latestApprovalArr={latestApprovalArr}
-                reqNoChangeReq={reqNoChangeReq}
+                reqNoChangeReq={prPanelData.atLeastOneReviewerRule}
                 changeReqReviewer={changeReqReviewer}
                 codeOwnerChangeReqEntries={codeOwnerChangeReqEntries}
-                reqCodeOwnerApproval={reqCodeOwnerApproval}
-                reqCodeOwnerLatestApproval={reqCodeOwnerLatestApproval}
+                reqCodeOwnerApproval={prPanelData.reqCodeOwnerApproval}
+                reqCodeOwnerLatestApproval={prPanelData.reqCodeOwnerLatestApproval}
                 codeOwnerPendingEntries={codeOwnerPendingEntries}
                 codeOwnerApprovalEntries={codeOwnerApprovalEntries}
                 latestCodeOwnerApprovalArr={latestCodeOwnerApprovalArr}
               />
             )}
-            {(!!resolvedCommentArr || requiresCommentApproval) && !pullReqMetadata?.merged && (
-              <PullRequestCommentSection commentsInfo={commentsInfo} />
+            {(!!prPanelData?.resolvedCommentArr || prPanelData.requiresCommentApproval) && !pullReqMetadata?.merged && (
+              <PullRequestCommentSection commentsInfo={prPanelData.commentsInfoData} />
             )}
-            <PullRequestCheckSection
-              checkData={checkData}
-              checksInfo={checksInfo}
-              spaceId={spaceId}
-              repoId={repoId}
-              {...routingProps}
-            />
+            <PullRequestCheckSection checkData={checkData} checksInfo={checksInfo} {...routingProps} />
 
             {!pullReqMetadata?.merged && (
               <PullRequestMergeSection
                 unchecked={unchecked}
                 mergeable={mergeable}
                 pullReqMetadata={pullReqMetadata}
-                conflictingFiles={conflictingFiles}
+                conflictingFiles={prPanelData.conflictingFiles}
               />
             )}
           </Accordion.Root>
