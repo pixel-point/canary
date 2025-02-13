@@ -28,6 +28,7 @@ interface RepoWebhookExecutionsPageProps {
   isLoading: boolean
   toRepoWebhookExecutionDetails: (executionId: string) => string
 }
+
 const RepoWebhookExecutionsPage: FC<RepoWebhookExecutionsPageProps> = ({
   useWebhookStore,
   useTranslationStore,
@@ -73,13 +74,13 @@ const RepoWebhookExecutionsPage: FC<RepoWebhookExecutionsPageProps> = ({
                     onClick={() => navigate(toRepoWebhookExecutionDetails(`${execution.id}`))}
                     className="cursor-pointer"
                   >
-                    <TableCell>
+                    <TableCell className="content-center">
                       <Text className="text-foreground-1" size={2}>{`#${execution.id}`}</Text>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="content-center">
                       {events.find(event => event.id === execution.trigger_type)?.event || execution.trigger_type}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="content-center">
                       <Badge
                         size="md"
                         disableHover
@@ -99,9 +100,7 @@ const RepoWebhookExecutionsPage: FC<RepoWebhookExecutionsPageProps> = ({
                             : 'Invalid'}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-right">
-                      <Text size={2}>{timeAgo(execution.created)}</Text>
-                    </TableCell>
+                    <TableCell className="text-right relative">{timeAgo(execution.created ?? Date.now())}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

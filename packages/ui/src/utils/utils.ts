@@ -1,3 +1,6 @@
+import React, { ReactNode } from 'react'
+
+import { TimeAgoHoverCard } from '@views/repo/components/time-ago-hover-card'
 import { formatDistance, formatDistanceToNow } from 'date-fns'
 
 export const getInitials = (name: string, length = 2) => {
@@ -66,20 +69,41 @@ export const timeDistance = (date1 = 0, date2 = 0, onlyHighestDenomination = fal
 /**
  * Formats timestamp to relative time (e.g., "1 hour ago")
  * @param timestamp - Unix timestamp in milliseconds
+ * @param cutoffDays - Days within which to use relative time (default: 3)
  * @returns formatted relative time string
  * @example
  * timeAgo(1708113838167) // Returns "1 hour ago"
  */
-export const timeAgo = (timestamp?: number | null): string => {
+
+export const timeAgo = (timestamp?: number | null, cutoffDays: number = 3): ReactNode => {
   if (timestamp === null || timestamp === undefined) {
     return 'Unknown time'
   }
 
+  const now = Date.now()
+  const daysMs = cutoffDays * 24 * 60 * 60 * 1000
+  const isOld = now - timestamp > daysMs
+
+  if (isOld) {
+    const date = new Date(timestamp)
+    const formattedDate = new Intl.DateTimeFormat(LOCALE, {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    }).format(date)
+
+    return React.createElement(TimeAgoHoverCard, { formattedDate, timeStamp: timestamp })
+  }
+
   try {
-    return formatDistanceToNow(timestamp, {
-      addSuffix: true, // add "ago" to the end of the string
+    const formattedDate = formatDistanceToNow(timestamp, {
+      addSuffix: true,
       includeSeconds: true
     })
+    return React.createElement(TimeAgoHoverCard, { formattedDate, timeStamp: timestamp })
   } catch (error) {
     console.error(`Failed to format time ago: ${error}`)
     return 'Unknown time'
