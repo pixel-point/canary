@@ -17,7 +17,7 @@
     "test:changed": "vitest --run --changed=origin/main",
     "extract": "i18next --config './i18n.config.ts'",
     "typecheck": "tsc -b",
-    "build:webpack": "webpack --config webpack.config.cjs",
+    "build:webpack": "rm -rf dist && webpack --config webpack.config.cjs",
     "start:webpack": "webpack serve --config webpack.config.cjs"
   },
   "dependencies": {
@@ -86,7 +86,7 @@
     "vite": "^6.0.3",
     "vite-plugin-monaco-editor": "^1.1.0",
     "vitest": "^2.1.2",
-    "webpack": "^5.92.1",
+    "webpack": "^5.98.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4"
   },
