@@ -41,6 +41,7 @@ import { RepoWebhooksList } from '@subjects/views/repo-webhooks-list/repo-webhoo
 import { SignInView } from '@subjects/views/signin'
 import { SignUpView } from '@subjects/views/signup'
 import { SpaceSettingsMembers } from '@subjects/views/space-settings-members/space-settings-members'
+import UserManagementWrapper from '@subjects/views/user-management/user-management'
 import { useTranslationStore } from '@utils/viewUtils'
 
 import { ChatEmptyPreviewWrapper, ChatPreviewWrapper } from '@harnessio/ui/components'
@@ -285,6 +286,11 @@ export const viewPreviews: Record<string, ReactNode> = {
   'execution-details/graph': (
     <RootViewWrapper>
       <ExecutionGraphViewWrapper />
+    </RootViewWrapper>
+  ),
+  'user-management': (
+    <RootViewWrapper>
+      <UserManagementWrapper />
     </RootViewWrapper>
   )
 }
