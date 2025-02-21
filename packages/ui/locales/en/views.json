@@ -295,6 +295,7 @@
   },
   "pullRequests": {
     "conversation": "Conversation",
+    "commits": "Commits",
     "changes": "Changes",
     "noCommitsYet": "No commits yet",
     "noCommitDataDescription": "There are no commits yet.",
@@ -347,7 +348,6 @@
     "compareChangesDraftButton": "Draft pull request",
     "compareChangesDraftButtonLoading": "Drafting pull request...",
     "replyHere": "Reply here",
-    "commits": "Commits",
     "noUsers": "No users found.",
     "showDiff": "Show Diff",
     "deletedFileDiff": "This file was deleted.",
@@ -414,6 +414,8 @@
     "sshKeys": "My SSH keys",
     "addSshKeyDescription": "SSH keys allow you to establish a secure connection to your code repository.",
     "addSshKey": "Add new SSH key",
+    "generalTab": "General",
+    "keysTab": "Keys and Tokens",
     "saving": "Saving...",
     "generalTab": "General",
     "keysTab": "Keys and Tokens"

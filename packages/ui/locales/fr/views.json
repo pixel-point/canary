@@ -295,6 +295,7 @@
   },
   "pullRequests": {
     "conversation": "Conversation",
+    "commits": "Commets",
     "changes": "Changements",
     "noCommitsYet": "",
     "noCommitDataDescription": "",
@@ -343,7 +344,6 @@
     "compareChangesFormTitle": "Ajouter un titre",
     "compareChangesFormDescription": "Ajouter une description",
     "replyHere": "Repondre ici",
-    "commits": "Commets",
     "noUsers": "Aucun utilisateur trouvé.",
     "showDiff": "Afficher la différence",
     "deletedFileDiff": "Ce fichier a été supprimé.",
@@ -410,6 +410,8 @@
     "sshKeys": "Mes clés SSH",
     "addSshKeyDescription": "Les clés SSH vous permettent d'établir une connexion sécurisée avec votre dépôt de code.",
     "addSshKey": "Ajouter une nouvelle clé SSH",
+    "generalTab": "General",
+    "keysTab": "Keys and Tokens",
     "saving": "Enregistrement...",
     "generalTab": "Général",
     "keysTab": "Clés et Jetons"

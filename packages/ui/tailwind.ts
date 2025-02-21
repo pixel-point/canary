@@ -410,6 +410,9 @@ export default {
         'accordion-up': 'accordion-up 0.2s ease-out',
 
         'border-spin': 'border-spin 7s linear infinite'
+      },
+      spacing: {
+        '14.5': '3.625rem'
       }
     }
   },

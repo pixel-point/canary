@@ -295,6 +295,7 @@
   },
   "pullRequests": {
     "conversation": "",
+    "commits": "",
     "changes": "",
     "noCommitsYet": "",
     "noCommitDataDescription": "",
@@ -342,8 +343,7 @@
     "compareChangesDiffLink": "aprender más sobre las comparaciones de diferencias",
     "compareChangesFormTitle": "Agregar un título",
     "compareChangesFormDescription": "Agregar una descripción",
-    "replyHere": "",
-    "commits": ""
+    "replyHere": ""
   },
   "notFound": {
     "title": "Algo salió mal…",
@@ -404,6 +404,8 @@
     "sshKeys": "My SSH keys",
     "addSshKeyDescription": "SSH keys allow you to establish a secure connection to your code repository.",
     "addSshKey": "Add new SSH key",
+    "generalTab": "General",
+    "keysTab": "Keys and Tokens",
     "saving": "Saving...",
     "generalTab": "General",
     "keysTab": "Keys and Tokens"
