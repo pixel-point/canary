@@ -40,7 +40,7 @@ export function CreateTagDialog({
   setBranchQuery
 }: CreateTagDialogProps) {
   const { t } = useTranslationStore()
-  const { defaultBranch } = useRepoBranchesStore()
+  const { defaultBranch, setSelectedBranchTag } = useRepoBranchesStore()
   const {
     register,
     handleSubmit,
@@ -58,12 +58,11 @@ export function CreateTagDialog({
   })
 
   useEffect(() => {
-    clearErrors()
-    reset()
-    setValue('name', '', { shouldValidate: false })
-    setValue('target', defaultBranch || '', { shouldValidate: false })
-
     if (isSubmitSuccessful) {
+      reset()
+      setValue('name', '', { shouldValidate: false })
+      setValue('target', defaultBranch || '', { shouldValidate: false })
+      setSelectedBranchTag({ name: defaultBranch || '', sha: '' })
       clearErrors()
       onClose()
     }
@@ -73,6 +72,7 @@ export function CreateTagDialog({
     clearErrors()
     setValue('name', '', { shouldValidate: false })
     setValue('target', defaultBranch || '', { shouldValidate: false })
+    setSelectedBranchTag({ name: defaultBranch || '', sha: '' })
     onClose()
   }
 
@@ -83,6 +83,7 @@ export function CreateTagDialog({
   useEffect(() => {
     if (defaultBranch) {
       setValue('target', defaultBranch, { shouldValidate: true })
+      setSelectedBranchTag({ name: defaultBranch, sha: '' })
     }
   }, [defaultBranch, setValue])
 
@@ -114,8 +115,10 @@ export function CreateTagDialog({
               <BranchSelector
                 useRepoBranchesStore={useRepoBranchesStore}
                 useTranslationStore={useTranslationStore}
-                onSelectBranch={value => handleSelectChange('target', value.name)}
-                isBranchOnly={true}
+                onSelectBranch={value => {
+                  handleSelectChange('target', value.name)
+                  setSelectedBranchTag(value)
+                }}
                 searchQuery={branchQuery}
                 setSearchQuery={setBranchQuery}
                 dynamicWidth
@@ -143,9 +146,14 @@ export function CreateTagDialog({
 
           <Dialog.Footer className="-mx-5 -mb-5">
             <Button
+              type="button"
               variant="outline"
               onClick={() => {
                 clearErrors()
+                reset({
+                  name: '',
+                  target: defaultBranch || ''
+                })
                 onClose()
               }}
               loading={isLoading}
