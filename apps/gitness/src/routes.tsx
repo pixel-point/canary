@@ -1047,7 +1047,7 @@ export const routes: CustomRouteObject[] = [
     ]
   },
   {
-    path: 'create-project',
+    path: 'create',
     element: (
       <AppProvider>
         <CreateProject />
