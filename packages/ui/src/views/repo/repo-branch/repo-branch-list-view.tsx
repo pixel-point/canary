@@ -24,7 +24,6 @@ export const RepoBranchListView: FC<RepoBranchListViewProps> = ({
   searchQuery,
   setSearchQuery,
   onDeleteBranch,
-  searchBranches,
   setCreateBranchSearchQuery,
   ...routingProps
 }) => {
@@ -118,9 +117,8 @@ export const RepoBranchListView: FC<RepoBranchListViewProps> = ({
         onClose={() => {
           setCreateBranchDialogOpen(false)
         }}
+        useRepoBranchesStore={useRepoBranchesStore}
         onSubmit={onSubmit}
-        branches={searchBranches}
-        isLoadingBranches={isLoading}
         isCreatingBranch={isCreatingBranch}
         useTranslationStore={useTranslationStore}
         error={createBranchError}
