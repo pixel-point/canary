@@ -9,13 +9,13 @@ import {
   useListBranchesQuery,
   useListTagsQuery
 } from '@harnessio/code-service-client'
-import { DeleteAlertDialog } from '@harnessio/ui/components'
+import { DeleteAlertDialog, useToast } from '@harnessio/ui/components'
 import {
   CommitTagType,
   CreateBranchDialog,
   CreateBranchFormFields,
   CreateTagDialog,
-  CreateTagFromFields,
+  CreateTagFormFields,
   RepoTagsListView
 } from '@harnessio/ui/views'
 
@@ -32,9 +32,12 @@ import { transformBranchList } from './transform-utils/branch-transform'
 
 export const RepoTagsListContainer = () => {
   const repo_ref = useGetRepoRef()
-  const { setTags, addTag, removeTag, page, setPage, setPaginationFromHeaders } = useRepoTagsStore()
-  const { setBranchList, setDefaultBranch, setSelectedBranchTag, branchList } = useRepoBranchesStore()
+  const { setTags, page, setPage, setPaginationFromHeaders } = useRepoTagsStore()
+  const { setBranchList, setDefaultBranch, setSelectedBranchTag, branchList, setSpaceIdAndRepoId } =
+    useRepoBranchesStore()
   const { spaceId, repoId } = useParams<PathParams>()
+  const { t } = useTranslationStore()
+  const { toast } = useToast()
 
   const routes = useRoutes()
   const [query, setQuery] = useQueryState('query')
@@ -47,9 +50,17 @@ export const RepoTagsListContainer = () => {
   const [deleteTagDialog, setDeleteTagDialog] = useState(false)
   const [deleteTagName, setDeleteTagName] = useState<string | null>(null)
 
+  const [showToast, setShowToast] = useState(false)
+  const [toastId, setToastId] = useState<string | null>(null)
+  const [createdBranchName, setCreatedBranchName] = useState<string>('')
+
   const { data: { body: repository } = {} } = useFindRepositoryQuery({ repo_ref: repo_ref })
 
-  const { data: { body: tagsList, headers } = {}, isLoading: isLoadingTags } = useListTagsQuery({
+  const {
+    data: { body: tagsList, headers } = {},
+    isLoading: isLoadingTags,
+    refetch: refetchTags
+  } = useListTagsQuery({
     repo_ref: repo_ref,
     queryParams: {
       query: query ?? '',
@@ -66,12 +77,16 @@ export const RepoTagsListContainer = () => {
     repo_ref: repo_ref
   })
 
-  const { mutate: createTag, isLoading: isCreatingTag } = useCreateTagMutation(
+  const {
+    mutate: createTag,
+    isLoading: isCreatingTag,
+    error: createTagError
+  } = useCreateTagMutation(
     { repo_ref: repo_ref },
     {
-      onSuccess: data => {
+      onSuccess: () => {
         setOpenCreateTagDialog(false)
-        addTag(data.body as CommitTagType)
+        refetchTags()
       }
     }
   )
@@ -81,19 +96,40 @@ export const RepoTagsListContainer = () => {
     {
       onSuccess: () => {
         setDeleteTagDialog(false)
-        removeTag(deleteTagName ?? '')
+        refetchTags()
       }
     }
   )
 
-  const { mutate: createBranch, error: createBranchError } = useCreateBranchMutation(
+  const {
+    mutateAsync: createBranch,
+    error: createBranchError,
+    isLoading: isCreatingBranch
+  } = useCreateBranchMutation(
     {},
     {
-      onSuccess: () => {
+      onSuccess: data => {
         setOpenCreateBranchDialog(false)
+        setCreatedBranchName(data.body.name ?? '')
+        setShowToast(true)
       }
     }
   )
+
+  useEffect(() => {
+    if (showToast && !toastId) {
+      const { id } = toast({
+        title: t('views:repos.branchCreated'),
+        description: t('views:repos.branchCreatedDescription', { name: createdBranchName })
+      })
+
+      setToastId(id)
+    }
+  }, [showToast, toastId])
+
+  useEffect(() => {
+    setSpaceIdAndRepoId(spaceId || '', repoId || '')
+  }, [spaceId, repoId, setSpaceIdAndRepoId])
 
   useEffect(() => {
     if (tagsList) {
@@ -109,8 +145,8 @@ export const RepoTagsListContainer = () => {
 
   useEffect(() => {
     setPaginationFromHeaders(
-      parseInt(headers?.get(PageResponseHeader.xNextPage) || ''),
-      parseInt(headers?.get(PageResponseHeader.xPrevPage) || '')
+      parseInt(headers?.get(PageResponseHeader.xNextPage) ?? '0'),
+      parseInt(headers?.get(PageResponseHeader.xPrevPage) ?? '0')
     )
   }, [headers, setPaginationFromHeaders])
 
@@ -124,7 +160,7 @@ export const RepoTagsListContainer = () => {
     setDefaultBranch(repository?.default_branch ?? '')
   }, [branchList, repository?.default_branch])
 
-  const onSubmit = (data: CreateTagFromFields) => {
+  const onSubmit = (data: CreateTagFormFields) => {
     createTag({
       body: {
         ...data
@@ -139,8 +175,8 @@ export const RepoTagsListContainer = () => {
     })
   }
 
-  const handleCreateBranch = (data: CreateBranchFormFields) => {
-    createBranch({
+  const handleCreateBranch = async (data: CreateBranchFormFields) => {
+    await createBranch({
       repo_ref,
       body: {
         ...data
@@ -166,6 +202,7 @@ export const RepoTagsListContainer = () => {
       />
       <CreateTagDialog
         useTranslationStore={useTranslationStore}
+        useRepoTagsStore={useRepoTagsStore}
         open={openCreateTagDialog}
         onClose={() => setOpenCreateTagDialog(false)}
         onSubmit={onSubmit}
@@ -173,6 +210,7 @@ export const RepoTagsListContainer = () => {
         setBranchQuery={setBranchQuery}
         useRepoBranchesStore={useRepoBranchesStore}
         isLoading={isCreatingTag}
+        error={createTagError?.message}
       />
       <CreateBranchDialog
         open={openCreateBranchDialog}
@@ -182,6 +220,7 @@ export const RepoTagsListContainer = () => {
         useTranslationStore={useTranslationStore}
         handleChangeSearchValue={setBranchQuery}
         error={createBranchError?.message}
+        isCreatingBranch={isCreatingBranch}
       />
       <DeleteAlertDialog
         open={deleteTagDialog}

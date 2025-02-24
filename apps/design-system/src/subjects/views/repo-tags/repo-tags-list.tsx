@@ -27,6 +27,7 @@ export const RepoTagsList = () => {
       />
       <CreateTagDialog
         useTranslationStore={useTranslationStore}
+        useRepoTagsStore={useRepoTagsStore}
         open={openCreateTagDialog}
         onClose={() => setOpenCreateTagDialog(false)}
         onSubmit={noop}

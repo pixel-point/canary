@@ -75,7 +75,7 @@ export const AppSidebar = ({
             <SearchProvider>
               <SidebarSearch
                 logo={
-                  <Link to="/" className="h-[58px] flex gap-2 items-center pl-3 justify-start">
+                  <Link to="/" className="flex h-[58px] items-center justify-start gap-2 pl-3">
                     <Icon name="harness" size={20} className="text-foreground-accent" />
                     <Icon name="harness-logo-text" size={68} className="text-foreground-1" />
                   </Link>
@@ -112,7 +112,7 @@ export const AppSidebar = ({
                   <Sidebar.MenuButton asChild onClick={handleMoreMenu}>
                     <div>
                       <Icon name="ellipsis" size={12} className="text-icons-4 transition-colors hover:text-primary" />
-                      <span className="text-foreground-3 font-medium transition-colors hover:text-primary">More</span>
+                      <span className="font-medium text-foreground-3 transition-colors hover:text-primary">More</span>
                     </div>
                   </Sidebar.MenuButton>
                 </Sidebar.MenuItem>
@@ -150,7 +150,7 @@ export const AppSidebar = ({
                     <Sidebar.MenuButton asChild onClick={() => navigate('/admin/default-settings')}>
                       <div>
                         <Icon name="account" size={12} className="text-icons-4 transition-colors hover:text-primary" />
-                        <span className="text-foreground-3 font-medium transition-colors hover:text-primary">
+                        <span className="font-medium text-foreground-3 transition-colors hover:text-primary">
                           User Management
                         </span>
                       </div>
@@ -161,7 +161,7 @@ export const AppSidebar = ({
                   <Sidebar.MenuButton asChild onClick={handleSettingsMenu}>
                     <div>
                       <Icon name="settings-1" size={12} className="text-icons-4 transition-colors hover:text-primary" />
-                      <span className="text-foreground-3 font-medium transition-colors hover:text-primary">
+                      <span className="font-medium text-foreground-3 transition-colors hover:text-primary">
                         {t('component:navbar.settings')}
                       </span>
                     </div>

@@ -9,7 +9,7 @@ import { BranchSelectorListItem } from '@views/repo/repo.types'
 export const BranchSelectorDropdown: FC<BranchSelectorDropdownProps> = ({
   selectedBranch,
   branchList,
-  tagList = [],
+  tagList,
   onSelectBranch,
   repoId,
   spaceId,
@@ -17,7 +17,8 @@ export const BranchSelectorDropdown: FC<BranchSelectorDropdownProps> = ({
   isBranchOnly = false,
   searchQuery,
   setSearchQuery,
-  dynamicWidth = false
+  dynamicWidth = false,
+  onViewAllClick
 }) => {
   const { Link } = useRouterContext()
   const [activeTab, setActiveTab] = useState<BranchSelectorTab>(BranchSelectorTab.BRANCHES)
@@ -108,7 +109,7 @@ export const BranchSelectorDropdown: FC<BranchSelectorDropdownProps> = ({
         </Tabs.Root>
       )}
 
-      <div className="mt-1">
+      <div className="mt-1 space-y-1">
         {filteredItems.length === 0 && (
           <div className="px-5 py-4 text-center">
             <span className="text-14 leading-tight text-foreground-2">
@@ -117,7 +118,7 @@ export const BranchSelectorDropdown: FC<BranchSelectorDropdownProps> = ({
           </div>
         )}
 
-        <div className="max-h-[360px] overflow-y-auto px-1">
+        <div className="max-h-[360px] space-y-0.5 overflow-y-auto px-1">
           {filteredItems.map(item => {
             const isSelected = selectedBranch
               ? item.name === selectedBranch.name && item.sha === selectedBranch.sha
@@ -126,10 +127,10 @@ export const BranchSelectorDropdown: FC<BranchSelectorDropdownProps> = ({
 
             return (
               <DropdownMenu.Item
-                className={cn('hover:bg-background-4 cursor-pointer py-1', {
+                className={cn('hover:bg-background-4 cursor-pointer py-2', {
                   'justify-between gap-x-2': isDefault,
                   'bg-background-4': isSelected,
-                  'pl-7': !isSelected
+                  'pl-[30px]': !isSelected
                 })}
                 onClick={() => {
                   onSelectBranch && onSelectBranch(item, activeTab)
@@ -174,7 +175,7 @@ export const BranchSelectorDropdown: FC<BranchSelectorDropdownProps> = ({
         </div>
 
         <DropdownMenu.Item className="p-0" asChild>
-          <Link to={viewAllUrl}>
+          <Link to={viewAllUrl} onClick={() => onViewAllClick?.({ viewAllUrl })}>
             <div className="w-full border-t border-borders-1 px-3 py-2">
               <span className="text-14 font-medium leading-none transition-colors duration-200 hover:text-foreground-1">
                 {t('views:repos.viewAll', `View all ${activeTab}`, {

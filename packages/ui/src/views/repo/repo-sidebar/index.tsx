@@ -2,7 +2,13 @@ import { ReactNode } from 'react'
 
 import { Button, ButtonGroup, Icon, ScrollArea, SearchFiles, Spacer } from '@/components'
 import { SandboxLayout, TranslationStore } from '@/views'
-import { BranchSelector, BranchSelectorListItem, BranchSelectorTab, IBranchSelectorStore } from '@views/repo'
+import {
+  BranchSelector,
+  BranchSelectorListItem,
+  BranchSelectorTab,
+  IBranchSelectorStore,
+  RepoTagsStore
+} from '@views/repo'
 
 interface RepoSidebarProps {
   navigateToNewFile: () => void
@@ -11,6 +17,7 @@ interface RepoSidebarProps {
   children: ReactNode
   selectBranchOrTag: (branchTag: BranchSelectorListItem, type: BranchSelectorTab) => void
   useRepoBranchesStore: () => IBranchSelectorStore
+  useRepoTagsStore: () => RepoTagsStore
   useTranslationStore: () => TranslationStore
   searchQuery: string
   setSearchQuery: (query: string) => void
@@ -23,6 +30,7 @@ export const RepoSidebar = ({
   children,
   selectBranchOrTag,
   useRepoBranchesStore,
+  useRepoTagsStore,
   useTranslationStore,
   searchQuery,
   setSearchQuery
@@ -41,6 +49,7 @@ export const RepoSidebar = ({
                 <BranchSelector
                   onSelectBranch={selectBranchOrTag}
                   useRepoBranchesStore={useRepoBranchesStore}
+                  useRepoTagsStore={useRepoTagsStore}
                   useTranslationStore={useTranslationStore}
                   searchQuery={searchQuery}
                   setSearchQuery={setSearchQuery}

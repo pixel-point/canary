@@ -1,12 +1,19 @@
 import { FC } from 'react'
 
 import { Button, DropdownMenu, Icon } from '@/components'
-import { BranchSelectorListItem, BranchSelectorTab, IBranchSelectorStore, TranslationStore } from '@/views'
+import {
+  BranchSelectorListItem,
+  BranchSelectorTab,
+  IBranchSelectorStore,
+  RepoTagsStore,
+  TranslationStore
+} from '@/views'
 
 import { BranchSelectorDropdown } from './branch-selector-dropdown'
 
 interface BranchSelectorProps {
   useRepoBranchesStore: () => IBranchSelectorStore
+  useRepoTagsStore?: () => RepoTagsStore
   useTranslationStore: () => TranslationStore
   branchPrefix?: string
   buttonSize?: 'default' | 'sm' | 'md'
@@ -16,9 +23,12 @@ interface BranchSelectorProps {
   searchQuery?: string
   setSearchQuery: (query: string) => void
   dynamicWidth?: boolean
+  onViewAllClick?: (params: { viewAllUrl: string }) => void
 }
+
 export const BranchSelector: FC<BranchSelectorProps> = ({
   useRepoBranchesStore,
+  useRepoTagsStore = () => ({ tags: [] }),
   useTranslationStore,
   branchPrefix,
   buttonSize = 'default',
@@ -27,12 +37,14 @@ export const BranchSelector: FC<BranchSelectorProps> = ({
   isBranchOnly = false,
   searchQuery = '',
   setSearchQuery,
-  dynamicWidth = false
+  dynamicWidth = false,
+  onViewAllClick
 }) => {
-  const { selectedBranchTag, branchList, tagList, repoId, spaceId } = useRepoBranchesStore()
+  const { selectedBranchTag, branchList, repoId, spaceId } = useRepoBranchesStore()
+  const { tags } = useRepoTagsStore()
 
   const isTag = selectedBranchTag
-    ? tagList?.some(tag => tag.name === selectedBranchTag.name && tag.sha === selectedBranchTag.sha)
+    ? tags?.some(tag => tag.name === selectedBranchTag.name && tag.sha === selectedBranchTag.sha)
     : false
 
   return (
@@ -57,7 +69,7 @@ export const BranchSelector: FC<BranchSelectorProps> = ({
       <BranchSelectorDropdown
         isBranchOnly={isBranchOnly}
         branchList={branchList}
-        tagList={tagList}
+        tagList={tags}
         onSelectBranch={onSelectBranch}
         selectedBranch={selectedBranch || selectedBranchTag}
         repoId={repoId}
@@ -66,6 +78,7 @@ export const BranchSelector: FC<BranchSelectorProps> = ({
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         dynamicWidth={dynamicWidth}
+        onViewAllClick={onViewAllClick}
       />
     </DropdownMenu.Root>
   )
