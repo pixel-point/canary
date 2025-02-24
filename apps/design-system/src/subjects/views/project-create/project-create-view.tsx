@@ -10,11 +10,9 @@ export const CreateProjectView = ({ isAdditional = false }: { isAdditional?: boo
     useTranslationStore: useTranslationStore
   }
 
-  return (
-    <>
-      {isAdditional && <CreateProjectPage {...commonProps} isAdditional={isAdditional} backLinkProps={{ to: '/' }} />}
+  if (isAdditional) {
+    return <CreateProjectPage {...commonProps} isAdditional={isAdditional} backLinkProps={{ to: '/' }} />
+  }
 
-      {!isAdditional && <CreateProjectPage {...commonProps} logoutLinkProps={{ to: '/' }} />}
-    </>
-  )
+  return <CreateProjectPage {...commonProps} logoutLinkProps={{ to: '/' }} />
 }

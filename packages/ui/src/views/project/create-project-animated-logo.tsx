@@ -1,8 +1,10 @@
+import { FC } from 'react'
+
 /**
  * Follow the 'hasError' prop to find the animated parts.
  * Greenish shadow of the logo goes to the right and changes to purplish.
  */
-export const CreateProjectAnimatedLogo: React.FC<{ hasError: boolean }> = ({ hasError }) => (
+export const CreateProjectAnimatedLogo: FC<{ hasError: boolean }> = ({ hasError }) => (
   <svg width="112" height="112" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="56" cy="56" r="37.5" stroke="url(#a)" />
     <circle opacity=".8" cx="56" cy="56" r="43.5" stroke="url(#b)" />

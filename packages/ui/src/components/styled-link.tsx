@@ -1,4 +1,5 @@
-import type { LinkProps } from 'react-router-dom'
+import { RefAttributes } from 'react'
+import { type LinkProps } from 'react-router-dom'
 
 import { useRouterContext } from '@/context'
 import { cn } from '@utils/cn'
@@ -17,10 +18,10 @@ const linkVariants = cva(
   }
 )
 
-export type StyledLinkProps = LinkProps & React.RefAttributes<HTMLAnchorElement> & VariantProps<typeof linkVariants>
+export type StyledLinkProps = LinkProps & RefAttributes<HTMLAnchorElement> & VariantProps<typeof linkVariants>
 
 export const StyledLink = ({ className, variant = 'default', ...props }: StyledLinkProps) => {
   const { Link } = useRouterContext()
-  
+
   return <Link className={cn(linkVariants({ variant }), className)} {...props} />
 }
