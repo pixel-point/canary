@@ -13,6 +13,7 @@ import {
 import { DeleteAlertDialog } from '@harnessio/ui/components'
 import { CreateBranchFormFields, RepoBranchListView } from '@harnessio/ui/views'
 
+import { CreateBranchDialog } from '../../components-v2/create-branch-dialog'
 import { useRoutes } from '../../framework/context/NavigationContext'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
 import { useQueryState } from '../../framework/hooks/useQueryState'
@@ -190,6 +191,8 @@ export function RepoBranchesListPage() {
         searchBranches={searchBranches || []}
         setCreateBranchSearchQuery={setCreateBranchSearchQuery}
       />
+
+      <CreateBranchDialog open={isCreateBranchDialogOpen} onClose={() => setCreateBranchDialogOpen(false)} />
 
       <DeleteAlertDialog
         open={deleteBranchName !== null}
