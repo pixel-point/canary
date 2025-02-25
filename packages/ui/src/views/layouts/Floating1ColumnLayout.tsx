@@ -1,3 +1,4 @@
+import { NoisePattern } from '@components/noise-pattern'
 import { cn } from '@utils/cn'
 
 type HighlightTheme = 'blue' | 'green' | 'error'
@@ -28,9 +29,12 @@ export const Floating1ColumnLayout = ({
   as: Tag = 'div',
   highlightTheme
 }: Floating1ColumnLayoutProps) => {
-  const verticalCenterClass = verticalCenter ? 'flex items-center justify-center min-h-screen' : ''
-
-  const computedClassName = cn('px-5 pb-8 mx-auto md:px-8', widthClass[maxWidth], verticalCenterClass, className)
+  const computedClassName = cn(
+    'px-5 pb-8 mx-auto md:px-8',
+    widthClass[maxWidth],
+    { 'flex items-center justify-center min-h-screen': verticalCenter },
+    className
+  )
 
   if (highlightTheme) {
     return (
@@ -100,10 +104,8 @@ const HighlightedFloatingLayout = ({ children, className, theme = 'blue' }: High
           )}
         />
       </div>
-      <span
-        className="pointer-events-none absolute inset-0 bg-[size:100px_100px] bg-repeat opacity-70 mix-blend-overlay"
-        aria-hidden
-      />
+      <NoisePattern className="pointer-events-none absolute inset-0 size-full opacity-50 mix-blend-overlay" />
+
       {children}
     </Floating1ColumnLayout>
   )
