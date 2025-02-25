@@ -408,25 +408,25 @@
   },
   "createProject": {
     "validation": {
-      "nameNoEmpty": "The field can’t be blank",
-      "nameMinLength": "The project name should be at least 4 characters"
+      "nameNoEmpty": "Le champ ne peut pas être vide",
+      "nameMinLength": "Le nom du projet doit contenir au moins 4 caractères"
     },
-    "backButton": "Back",
-    "title": "Create your new project",
-    "description": "Organize your repositories, pipelines and more.",
+    "backButton": "Retour",
+    "title": "Créez votre nouveau projet",
+    "description": "Organisez vos dépôts, pipelines et plus encore.",
     "form": {
-      "name": "Project name",
-      "namePlaceholder": "Enter your project name",
+      "name": "Nom du projet",
+      "namePlaceholder": "Entrez le nom de votre projet",
       "description": "Description",
-      "descriptionPlaceholder": "Enter a description (optional)"
+      "descriptionPlaceholder": "Entrez une description (facultatif)"
     },
     "create": {
-      "projectCreation": "Creating project...",
-      "createProject": "Create project"
+      "projectCreation": "Création du projet...",
+      "createProject": "Créer le projet"
     },
     "logout": {
-      "question": "Want to use a different account?",
-      "link": "Log out"
+      "question": "Voulez-vous utiliser un autre compte ?",
+      "link": "Se déconnecter"
     }
   },
   "forms": {

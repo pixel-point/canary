@@ -1,4 +1,3 @@
-import { NoisePattern } from '@components/noise-pattern'
 import { cn } from '@utils/cn'
 
 type HighlightTheme = 'blue' | 'green' | 'error'
@@ -104,7 +103,6 @@ const HighlightedFloatingLayout = ({ children, className, theme = 'blue' }: High
           )}
         />
       </div>
-      <NoisePattern className="pointer-events-none absolute inset-0 size-full opacity-50 mix-blend-overlay" />
 
       {children}
     </Floating1ColumnLayout>

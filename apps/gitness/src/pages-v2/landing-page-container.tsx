@@ -1,5 +1,3 @@
-import { useNavigate } from 'react-router-dom'
-
 import { LandingPageView } from '@harnessio/ui/views'
 
 import { useAppContext } from '../framework/context/AppContext'
@@ -8,18 +6,16 @@ import { useTranslationStore } from '../i18n/stores/i18n-store'
 
 export const LandingPage = () => {
   const routes = useRoutes()
-  const navigate = useNavigate()
   const { spaces } = useAppContext()
 
-  const onProjectSelect = (spacePath?: string) => navigate(`${spacePath}/repos`)
-  const onProjectCreate = () => navigate(routes.toProjectCreate())
+  const getProjectPath = (spaceId?: string) => routes.toRepositories({ spaceId })
 
   return (
     <LandingPageView
       spaces={spaces}
       useTranslationStore={useTranslationStore}
-      onProjectSelect={onProjectSelect}
-      onProjectCreate={onProjectCreate}
+      getProjectPath={getProjectPath}
+      createProjectLinkProps={{ to: routes.toProjectCreate() }}
     />
   )
 }

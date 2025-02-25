@@ -1,3 +1,5 @@
+import { Link, LinkProps } from 'react-router-dom'
+
 import { Button, ButtonGroup, DropdownMenu, Icon } from '@/components'
 import { SandboxLayout, TranslationStore } from '@/views'
 
@@ -13,18 +15,18 @@ interface TypesSpace {
   updated?: number
 }
 
-interface LandingPageProps {
+export interface LandingPageProps {
   spaces: TypesSpace[]
   useTranslationStore: () => TranslationStore
-  onProjectSelect: (path?: string) => void
-  onProjectCreate: () => void
+  getProjectPath: (spaceId?: string) => string
+  createProjectLinkProps: LinkProps
 }
 
 export const LandingPageView: React.FC<LandingPageProps> = ({
   spaces,
   useTranslationStore,
-  onProjectSelect,
-  onProjectCreate
+  getProjectPath,
+  createProjectLinkProps
 }) => {
   const { t } = useTranslationStore()
 
@@ -54,13 +56,14 @@ export const LandingPageView: React.FC<LandingPageProps> = ({
             </DropdownMenu.Trigger>
 
             <DropdownMenu.Content style={{ width: 'var(--radix-dropdown-menu-trigger-width)' }}>
-              {spaces?.length ? (
+              {!!spaces?.length &&
                 spaces.map(space => (
-                  <DropdownMenu.Item key={space.id} onSelect={() => onProjectSelect(space.path)}>
-                    {space.identifier}
+                  <DropdownMenu.Item key={space.id}>
+                    <Link to={getProjectPath(space?.path)}>{space.identifier}</Link>
                   </DropdownMenu.Item>
-                ))
-              ) : (
+                ))}
+
+              {!spaces?.length && (
                 <DropdownMenu.Item disabled>
                   {t('views:landingPage.noProjects', 'No projects available')}
                 </DropdownMenu.Item>
@@ -68,8 +71,8 @@ export const LandingPageView: React.FC<LandingPageProps> = ({
             </DropdownMenu.Content>
           </DropdownMenu.Root>
 
-          <Button size="lg" variant="outline" role="link" onClick={onProjectCreate}>
-            {t('views:landingPage.createProject', 'Create Project')}
+          <Button size="lg" variant="outline" asChild>
+            <Link {...createProjectLinkProps}>{t('views:landingPage.createProject', 'Create Project')}</Link>
           </Button>
         </ButtonGroup>
       </section>
