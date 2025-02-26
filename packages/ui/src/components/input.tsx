@@ -116,11 +116,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   ) => {
     const isControlGroup = !!error || !!caption || !!label || !!wrapperClassName
     const InputWrapper = isControlGroup ? ControlGroup : Fragment
-    const inputWrapperProps = isControlGroup
-      ? {
-          className: wrapperClassName
-        }
-      : {}
+    const inputWrapperProps = isControlGroup ? { className: wrapperClassName } : {}
 
     const InputComponent = customContent ? BaseInputWithWrapper : BaseInput
 
@@ -177,11 +173,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {renderInput()}
 
         {!!error && (
-          <Message className={cn(caption ? 'mt-1' : 'absolute top-full translate-y-0.5')} theme={MessageTheme.ERROR}>
+          <Message className="mt-0.5" theme={MessageTheme.ERROR}>
             {error}
           </Message>
         )}
-        {caption && <Caption className={disabled ? 'text-foreground-9' : ''}>{caption}</Caption>}
+
+        {caption && <Caption className={cn({ 'text-foreground-9': disabled })}>{caption}</Caption>}
       </InputWrapper>
     )
   }
