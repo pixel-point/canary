@@ -1,4 +1,4 @@
-import { forwardRef, Fragment, InputHTMLAttributes, ReactNode } from 'react'
+import { forwardRef, InputHTMLAttributes, ReactNode } from 'react'
 
 import { Caption, ControlGroup, Icon, IconProps, Label, Message, MessageTheme } from '@/components'
 import { cn } from '@utils/cn'
@@ -114,14 +114,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     },
     ref
   ) => {
-    const isControlGroup = !!error || !!caption || !!label || !!wrapperClassName
-    const InputWrapper = isControlGroup ? ControlGroup : Fragment
-    const inputWrapperProps = isControlGroup
-      ? {
-          className: wrapperClassName
-        }
-      : {}
-
     const InputComponent = customContent ? BaseInputWithWrapper : BaseInput
 
     const baseInputComp = (
@@ -167,7 +159,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     }
 
     return (
-      <InputWrapper {...inputWrapperProps}>
+      <ControlGroup className={wrapperClassName}>
         {!!label && (
           <Label className="mb-2.5" color={disabled ? 'disabled-dark' : 'secondary'} optional={optional} htmlFor={id}>
             {label}
@@ -177,12 +169,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {renderInput()}
 
         {!!error && (
-          <Message className={cn(caption ? 'mt-1' : 'absolute top-full translate-y-0.5')} theme={MessageTheme.ERROR}>
+          <Message className="mt-0.5" theme={MessageTheme.ERROR}>
             {error}
           </Message>
         )}
-        {caption && <Caption className={disabled ? 'text-foreground-9' : ''}>{caption}</Caption>}
-      </InputWrapper>
+
+        {caption && <Caption className={cn({ 'text-foreground-9': disabled })}>{caption}</Caption>}
+      </ControlGroup>
     )
   }
 )
