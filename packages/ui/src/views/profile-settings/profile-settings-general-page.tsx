@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import {
-  Alert,
   Avatar,
   Button,
   ButtonGroup,
@@ -170,12 +169,15 @@ export const SettingsAccountGeneralPage: FC<SettingsAccountGeneralPageProps> = (
     onUpdatePassword(data)
   }
 
-  const renderErrorMessage = (type: ProfileSettingsErrorType, message: string) =>
-    error?.type === type && (
-      <Alert.Container variant="destructive">
-        <Alert.Title>{message}</Alert.Title>
-      </Alert.Container>
-    )
+  /**
+   * Show an unexpected server error message
+   * Ensure that validation errors are handled by the react-hook-form
+   */
+  useEffect(() => {
+    if (!error) return
+
+    toast({ title: error.message, variant: 'destructive' })
+  }, [error])
 
   return (
     <SandboxLayout.Content className="max-w-[476px] px-0">
@@ -234,8 +236,6 @@ export const SettingsAccountGeneralPage: FC<SettingsAccountGeneralPageProps> = (
               />
             </Fieldset>
 
-            {renderErrorMessage(ProfileSettingsErrorType.PROFILE, error?.message || '')}
-
             <ControlGroup type="button">
               <ButtonGroup>
                 {!profileSubmitted ? (
@@ -291,8 +291,6 @@ export const SettingsAccountGeneralPage: FC<SettingsAccountGeneralPageProps> = (
                 disabled={isUpdatingPassword}
               />
             </Fieldset>
-
-            {renderErrorMessage(ProfileSettingsErrorType.PASSWORD, error?.message || '')}
 
             <ControlGroup type="button">
               <ButtonGroup>
