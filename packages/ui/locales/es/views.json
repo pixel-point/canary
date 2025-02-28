@@ -352,6 +352,14 @@
     "description": "La página solicitada no se encontró.",
     "button": "Recargar página"
   },
+  "pipelines": {
+    "createPipelineValidation": {
+      "nameMin": "El nombre del pipeline es obligatorio",
+      "nameMax": "El nombre del pipeline no debe superar los 100 caracteres",
+      "nameRegex": "El nombre del pipeline debe contener solo letras, números y los caracteres: - _ .",
+      "noSpaces": "El nombre del pipeline no puede contener espacios"
+    }
+  },
   "profileSettings": {
     "newSshKey": "Nueva clave SSH",
     "enterNamePlaceholder": "Ingresa el nombre",
