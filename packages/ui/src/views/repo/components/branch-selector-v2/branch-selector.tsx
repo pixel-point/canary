@@ -1,24 +1,32 @@
 import { FC } from 'react'
 
-import { Button, DropdownMenu, Icon, Text } from '@/components'
-import { BranchSelectorListItem, BranchSelectorTab, IBranchSelectorStore, TranslationStore } from '@/views'
+import { Button, DropdownMenu, Icon } from '@/components'
+import { BranchData, BranchSelectorListItem, BranchSelectorTab, TranslationStore } from '@/views'
 
 import { BranchSelectorDropdown } from './branch-selector-dropdown'
 
 interface BranchSelectorProps {
-  useRepoBranchesStore: () => IBranchSelectorStore
+  branchList: BranchData[]
+  tagList: BranchSelectorListItem[]
+  selectedBranchorTag: BranchSelectorListItem
+  repoId: string
+  spaceId: string
   useTranslationStore: () => TranslationStore
   branchPrefix?: string
+  buttonSize?: 'default' | 'sm' | 'md'
   selectedBranch?: BranchSelectorListItem
   onSelectBranch: (branchTag: BranchSelectorListItem, type: BranchSelectorTab) => void
   isBranchOnly?: boolean
   searchQuery?: string
   setSearchQuery: (query: string) => void
   dynamicWidth?: boolean
-  buttonSize?: 'default' | 'sm' | 'md'
 }
-export const BranchSelector: FC<BranchSelectorProps> = ({
-  useRepoBranchesStore,
+export const BranchSelectorV2: FC<BranchSelectorProps> = ({
+  repoId,
+  spaceId,
+  branchList,
+  tagList,
+  selectedBranchorTag,
   useTranslationStore,
   branchPrefix,
   buttonSize = 'default',
@@ -29,10 +37,8 @@ export const BranchSelector: FC<BranchSelectorProps> = ({
   setSearchQuery,
   dynamicWidth = false
 }) => {
-  const { selectedBranchTag, branchList, tagList, repoId, spaceId } = useRepoBranchesStore()
-
-  const isTag = selectedBranchTag
-    ? tagList?.some(tag => tag.name === selectedBranchTag.name && tag.sha === selectedBranchTag.sha)
+  const isTag = selectedBranchorTag
+    ? tagList?.some(tag => tag.name === selectedBranchorTag.name && tag.sha === selectedBranchorTag.sha)
     : false
 
   return (
@@ -46,12 +52,12 @@ export const BranchSelector: FC<BranchSelectorProps> = ({
           {!branchPrefix && (
             <Icon className="shrink-0 fill-transparent text-icons-9" name={isTag ? 'tag' : 'branch'} size={14} />
           )}
-          <Text className="w-full text-foreground-8" truncate align="left">
+          <span className="w-full truncate text-left text-foreground-8">
             {branchPrefix
-              ? `${branchPrefix}: ${selectedBranch?.name || selectedBranchTag.name}`
-              : selectedBranch?.name || selectedBranchTag.name}
-          </Text>
-          <Icon name="chevron-down" className="chevron-down text-icons-2" size={20} />
+              ? `${branchPrefix}: ${selectedBranch?.name || selectedBranchorTag.name}`
+              : selectedBranch?.name || selectedBranchorTag.name}
+          </span>
+          <Icon name="chevron-down" className="chevron-down shrink-0 text-icons-2" size={12} />
         </Button>
       </DropdownMenu.Trigger>
       <BranchSelectorDropdown
@@ -59,7 +65,7 @@ export const BranchSelector: FC<BranchSelectorProps> = ({
         branchList={branchList}
         tagList={tagList}
         onSelectBranch={onSelectBranch}
-        selectedBranch={selectedBranch || selectedBranchTag}
+        selectedBranch={selectedBranch || selectedBranchorTag}
         repoId={repoId}
         spaceId={spaceId}
         useTranslationStore={useTranslationStore}
