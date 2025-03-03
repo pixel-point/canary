@@ -1,8 +1,8 @@
+import { FC } from 'react'
 import { Link, LinkProps } from 'react-router-dom'
 
 import { Button, ButtonGroup, DropdownMenu, Icon } from '@/components'
 import { SandboxLayout, TranslationStore } from '@/views'
-import { FC } from 'react'
 
 interface TypesSpace {
   created?: number

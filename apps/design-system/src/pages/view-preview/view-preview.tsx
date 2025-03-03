@@ -490,7 +490,7 @@ export const viewPreviews: Record<string, ViewPreviewGroup> = {
         label: 'Secrets Page',
         element: <SecretsPage />
       }
-    },
+    }
   },
   project: {
     label: 'Project',
