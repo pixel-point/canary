@@ -127,7 +127,7 @@ export const ButtonWithOptions = <T extends string>({
                       control={<RadioButton className="mt-px" value={String(option.value)} id={String(option.value)} />}
                       id={String(option.value)}
                       label={option.label}
-                      ariaSelected={selectedValue === option.value}
+                      aria-selected={selectedValue === option.value}
                       description={option?.description}
                     />
                   </DropdownMenu.Item>
