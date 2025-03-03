@@ -2,6 +2,7 @@ import { Link, LinkProps } from 'react-router-dom'
 
 import { Button, ButtonGroup, DropdownMenu, Icon } from '@/components'
 import { SandboxLayout, TranslationStore } from '@/views'
+import { FC } from 'react'
 
 interface TypesSpace {
   created?: number
@@ -22,7 +23,7 @@ export interface LandingPageProps {
   createProjectLinkProps: LinkProps
 }
 
-export const LandingPageView: React.FC<LandingPageProps> = ({
+export const LandingPageView: FC<LandingPageProps> = ({
   spaces,
   useTranslationStore,
   getProjectPath,
