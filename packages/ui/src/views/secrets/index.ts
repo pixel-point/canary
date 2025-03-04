@@ -1,2 +1,2 @@
-export * from './new-secret/new-secret-form'
+export * from './create-secret/create-secret'
 export * from './secrets-header'
