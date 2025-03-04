@@ -1,7 +1,8 @@
 import { FC, useEffect, useMemo, useRef, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 
 import { Button, ListActions, NoData, Pagination, SearchBox, SkeletonList, Spacer, StackedList } from '@/components'
+import { useRouterContext } from '@/context'
 import { useDebounceSearch } from '@/hooks'
 import { SandboxLayout } from '@/views'
 import FilterSelect, { FilterSelectLabel } from '@components/filters/filter-select'
@@ -38,6 +39,7 @@ const PullRequestList: FC<PullRequestPageProps> = ({
   searchQuery,
   setSearchQuery
 }) => {
+  const { Link } = useRouterContext()
   const { pullRequests, totalPages, page, setPage, openPullReqs, closedPullReqs } = usePullRequestListStore()
   const { t } = useTranslationStore()
   const [searchParams] = useSearchParams()

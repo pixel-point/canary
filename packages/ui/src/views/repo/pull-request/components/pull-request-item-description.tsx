@@ -1,7 +1,7 @@
 import { FC } from 'react'
-import { Link, useResolvedPath } from 'react-router-dom'
 
 import { Button, Icon, Text } from '@/components'
+import { useRouterContext } from '@/context'
 
 interface PullRequestItemDescriptionProps {
   number: number
@@ -22,8 +22,8 @@ export const PullRequestItemDescription: FC<PullRequestItemDescriptionProps> = (
   targetBranch,
   timestamp
 }) => {
-  const resolvedPath = useResolvedPath('')
-  const fullPath = resolvedPath.pathname
+  const { Link, location } = useRouterContext()
+  const fullPath = location.pathname
   const relativePath = fullPath.split('/pulls')[0] // Adjust the slice parameters as needed
 
   return (
