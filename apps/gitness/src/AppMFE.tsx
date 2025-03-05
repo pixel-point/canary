@@ -10,7 +10,9 @@ import {
   Outlet,
   RouterProvider,
   useLocation,
-  useNavigate
+  useMatches,
+  useNavigate,
+  useSearchParams
 } from 'react-router-dom'
 
 import { QueryClientProvider } from '@tanstack/react-query'
@@ -189,8 +191,10 @@ export default function AppMFE({
                                 Link={Link}
                                 NavLink={NavLink}
                                 Outlet={Outlet}
-                                navigate={router.navigate}
                                 location={window.location}
+                                navigate={router.navigate}
+                                useSearchParams={useSearchParams}
+                                useMatches={useMatches}
                               >
                                 <RouterProvider router={router} />
                               </RouterContextProvider>

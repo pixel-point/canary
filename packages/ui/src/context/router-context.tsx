@@ -1,22 +1,12 @@
 import { ComponentType, createContext, ReactNode, useContext } from 'react'
-import type { LinkProps, NavigateFunction, NavLinkProps, OutletProps } from 'react-router-dom'
-
-import { cn } from '@utils/cn'
-
-interface RouterContextType {
-  Link: ComponentType<LinkProps>
-  NavLink: ComponentType<NavLinkProps>
-  Outlet: ComponentType<OutletProps>
-  navigate: NavigateFunction
-  location: Location
-}
+import type { LinkProps, NavigateFunction, NavLinkProps, OutletProps, UIMatch } from 'react-router-dom'
 
 const resolveTo = (to: LinkProps['to']) => (typeof to === 'string' ? to : to.pathname || '/')
 
-const LinkDefault = ({ to, children, className, ...props }: LinkProps) => {
+const LinkDefault = ({ to, children, ...props }: LinkProps) => {
   const href = resolveTo(to)
   return (
-    <a href={href} className={cn('text-blue-500 hover:underline', className)} {...props}>
+    <a href={href} {...props}>
       {children}
     </a>
   )
@@ -27,7 +17,7 @@ const NavLinkDefault = ({ to, children, className, style, ...props }: NavLinkPro
   const isActive = new URL(href, window.location.origin).pathname === window.location.pathname
 
   const finalClassName =
-    typeof className === 'function' ? className({ isActive, isPending: false, isTransitioning: false }) : cn(className)
+    typeof className === 'function' ? className({ isActive, isPending: false, isTransitioning: false }) : className
 
   const finalStyle = typeof style === 'function' ? style({ isActive, isPending: false, isTransitioning: false }) : style
 
@@ -48,12 +38,33 @@ const navigateFnDefault: NavigateFunction = to => {
   }
 }
 
+const useSearchParamsDefault = () => {
+  const setSearchParams = (_params: URLSearchParams | ((currentParams: URLSearchParams) => URLSearchParams)): void => {}
+  return [new URLSearchParams(), setSearchParams] as const
+}
+
+const useMatchesDefault = (): UIMatch[] => {
+  return []
+}
+
+interface RouterContextType {
+  Link: ComponentType<LinkProps>
+  NavLink: ComponentType<NavLinkProps>
+  Outlet: ComponentType<OutletProps>
+  location: Location
+  navigate: NavigateFunction
+  useSearchParams: typeof useSearchParamsDefault
+  useMatches: typeof useMatchesDefault
+}
+
 const RouterContext = createContext<RouterContextType>({
   Link: LinkDefault,
   NavLink: NavLinkDefault,
   Outlet: OutletDefault,
+  location: window.location,
   navigate: navigateFnDefault,
-  location: window.location
+  useSearchParams: useSearchParamsDefault,
+  useMatches: useMatchesDefault
 })
 
 export const useRouterContext = () => useContext(RouterContext)
@@ -63,12 +74,26 @@ export const RouterContextProvider = ({
   Link = LinkDefault,
   NavLink = NavLinkDefault,
   Outlet = OutletDefault,
+  location = window.location,
   navigate = navigateFnDefault,
-  location = window.location
+  useSearchParams = useSearchParamsDefault,
+  useMatches = useMatchesDefault
 }: {
   children: ReactNode
 } & Partial<RouterContextType>) => {
   return (
-    <RouterContext.Provider value={{ Link, NavLink, Outlet, navigate, location }}>{children}</RouterContext.Provider>
+    <RouterContext.Provider
+      value={{
+        Link,
+        NavLink,
+        Outlet,
+        location,
+        navigate,
+        useSearchParams,
+        useMatches
+      }}
+    >
+      {children}
+    </RouterContext.Provider>
   )
 }
