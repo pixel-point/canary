@@ -47,11 +47,32 @@ const createProjectSchema = (t: TranslationStore['t']) =>
   z.object({
     name: z
       .string()
-      .nonempty(t('views:createProject.validation.nameNoEmpty', 'The field can’t be blank'))
+      .trim()
+      .nonempty(t('views:createProject.validation.nameNoEmpty', 'Name can’t be blank'))
       .min(4, {
-        message: t('views:createProject.validation.nameMinLength', 'The project name should be at least 4 characters')
+        message: t('views:createProject.validation.nameMinLength', 'Name should be at least 4 characters')
+      })
+      .max(100, {
+        message: t('views:createProject.validation.nameMax', 'Name must be no longer than 100 characters')
+      })
+      .regex(/^[a-zA-Z0-9._-\s]+$/, {
+        message: t(
+          'views:createProject.validation.nameRegex',
+          'Name must contain only letters, numbers, and the characters: - _ .'
+        )
+      })
+      .refine(data => !data.includes(' '), {
+        message: t('views:createProject.validation.noSpaces', 'Name cannot contain spaces')
       }),
-    description: z.string()
+    description: z
+      .string()
+      .trim()
+      .max(1024, {
+        message: t(
+          'views:createProject.validation.descriptionMax',
+          'Description must be no longer than 1024 characters'
+        )
+      })
   })
 
 export type CreateProjectFields = z.infer<ReturnType<typeof createProjectSchema>>
@@ -100,7 +121,7 @@ export const CreateProjectPage: FC<CreateProjectPageProps> = props => {
 
   return (
     <Floating1ColumnLayout
-      className="flex-col justify-start bg-background-7 pt-20 sm:pt-[8.75rem]"
+      className="bg-background-7 flex-col justify-start pt-20 sm:pt-[8.75rem]"
       highlightTheme={hasError ? 'error' : 'green'}
       verticalCenter
     >
@@ -118,17 +139,17 @@ export const CreateProjectPage: FC<CreateProjectPageProps> = props => {
         <div className="mb-10 grid justify-items-center">
           <CreateProjectAnimatedLogo hasError={hasError} />
 
-          <Card.Title className="mt-3 text-center text-foreground-1" as="h1">
+          <Card.Title className="text-foreground-1 mt-3 text-center" as="h1">
             {t('views:createProject.title', 'Create your new project')}
           </Card.Title>
 
-          <p className="mt-0.5 text-center text-sm leading-snug text-foreground-4">
+          <p className="text-foreground-4 mt-0.5 text-center text-sm leading-snug">
             {t('views:createProject.description', 'Organize your repositories, pipelines and more.')}
           </p>
         </div>
 
         <FormWrapper onSubmit={handleSubmit(onFormSubmit)}>
-          <Fieldset>
+          <Fieldset legend="Project details">
             <Input
               id="name"
               label={t('views:createProject.form.name', 'Project name')}
@@ -164,7 +185,7 @@ export const CreateProjectPage: FC<CreateProjectPageProps> = props => {
         </FormWrapper>
 
         {isFirst && (
-          <p className="foreground-5 mt-4 text-center text-sm text-foreground-5">
+          <p className="foreground-5 text-foreground-5 mt-4 text-center text-sm">
             {t('views:createProject.logout.question', 'Want to use a different account?')}{' '}
             <StyledLink {...props.logoutLinkProps} variant="accent">
               {t('views:createProject.logout.link', 'Log out')}
