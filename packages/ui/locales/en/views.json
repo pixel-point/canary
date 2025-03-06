@@ -217,6 +217,26 @@
     "noLabels": "No labels yet",
     "noLabelsDescription": "Use labels to organize, prioritize, and categorize tasks efficiently."
   },
+  "signIn": {
+    "validation": {
+      "emailNoEmpty": "Field can’t be blank",
+      "passwordNoEmpty": "Password can’t be blank"
+    },
+    "pageTitle": "Sign in to Harness",
+    "pageDescription": "Welcome back! Please enter your details.",
+    "emailTitle": "Username/Email",
+    "emailDescription": "Your email",
+    "passwordTitle": "Password",
+    "passwordDescription": "Password",
+    "buttonText": {
+      "signingIn": "Signing in...",
+      "signIn": "Sign in"
+    },
+    "signUpLink": {
+      "question": "Don’t have an account?",
+      "linkText": "Sign up"
+    }
+  },
   "labelData": {
     "form": {
       "colorValuePlaceholder": "Enter value name",
