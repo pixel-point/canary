@@ -20,7 +20,8 @@ import { useTranslationStore } from '../../i18n/stores/i18n-store.ts'
 import { PathParams } from '../../RouteDefinitions.ts'
 import { orderSortDate } from '../../types.ts'
 import { FILE_SEPERATOR, normalizeGitRef, REFS_TAGS_PREFIX } from '../../utils/git-utils.ts'
-import { useRepoBranchesStore } from '././stores/repo-branches-store.ts'
+import { useRepoBranchesStore } from './stores/repo-branches-store.ts'
+import { useRepoTagsStore } from './stores/repo-tags-store.tsx'
 import { transformBranchList } from './transform-utils/branch-transform.ts'
 
 /**
@@ -30,15 +31,14 @@ export const RepoSidebar = () => {
   const routes = useRoutes()
   const {
     branchList,
-    tagList,
     setBranchList,
-    setTagList,
     selectedBranchTag,
     setDefaultBranch,
     setSelectedBranchTag,
     setSelectedRefType,
     setSpaceIdAndRepoId
   } = useRepoBranchesStore()
+  const { tags: tagList, setTags: setTagList } = useRepoTagsStore()
 
   const repoRef = useGetRepoRef()
   const { spaceId, repoId } = useParams<PathParams>()
@@ -215,6 +215,7 @@ export const RepoSidebar = () => {
           <RepoSidebarView
             selectBranchOrTag={selectBranchOrTag}
             useRepoBranchesStore={useRepoBranchesStore}
+            useRepoTagsStore={useRepoTagsStore}
             useTranslationStore={useTranslationStore}
             navigateToNewFile={navigateToNewFile}
             navigateToFile={navigateToFile}

@@ -113,7 +113,7 @@ export const SidebarItem = ({
       <DropdownMenu.Root>
         <Sidebar.MenuAction>
           <DropdownMenu.Trigger asChild>
-            <span className="absolute right-[-0.2rem] text-icons-4 opacity-0 hover:text-icons-2 focus:opacity-100 focus-visible:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 focus:outline-none focus:ring-0">
+            <span className="absolute right-[-0.2rem] text-icons-4 opacity-0 hover:text-icons-2 focus:opacity-100 focus:outline-none focus:ring-0 focus-visible:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100">
               <Icon name="menu-dots" size={12} />
             </span>
           </DropdownMenu.Trigger>

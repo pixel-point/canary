@@ -30,6 +30,7 @@ export interface BranchSelectorDropdownProps {
   searchQuery: string
   setSearchQuery: (query: string) => void
   dynamicWidth?: boolean
+  onViewAllClick?: (params: { viewAllUrl: string }) => void
 }
 
 export interface BranchSelectorProps extends BranchSelectorDropdownProps {

@@ -5,7 +5,12 @@ import { renderEntries } from '@utils/fileViewUtils'
 import { noop, useTranslationStore } from '@utils/viewUtils'
 
 import { FileExplorer } from '@harnessio/ui/components'
-import { BranchSelectorTab, IBranchSelectorStore, RepoSidebar as RepoSidebarView } from '@harnessio/ui/views'
+import {
+  BranchSelectorTab,
+  IBranchSelectorStore,
+  RepoSidebar as RepoSidebarView,
+  RepoTagsStore
+} from '@harnessio/ui/views'
 
 export const RepoFilesViewWrapper: FC<PropsWithChildren<React.HTMLAttributes<HTMLElement>>> = ({ children }) => {
   const useRepoBranchesStore = useCallback(
@@ -29,11 +34,26 @@ export const RepoFilesViewWrapper: FC<PropsWithChildren<React.HTMLAttributes<HTM
     []
   )
 
+  const useRepoTagsStore = useCallback(
+    (): RepoTagsStore => ({
+      tags: [],
+      page: 1,
+      xNextPage: 0,
+      xPrevPage: 0,
+      setPaginationFromHeaders: noop,
+      setPage: noop,
+      setTags: noop,
+      addTag: noop,
+      removeTag: noop
+    }),
+    []
+  )
   return (
     <div className="grid grid-cols-[auto_1fr]">
       <RepoSidebarView
         selectBranchOrTag={noop}
         useRepoBranchesStore={useRepoBranchesStore}
+        useRepoTagsStore={useRepoTagsStore}
         useTranslationStore={useTranslationStore}
         navigateToNewFile={noop}
         navigateToFile={noop}

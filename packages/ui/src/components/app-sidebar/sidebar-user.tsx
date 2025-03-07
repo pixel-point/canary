@@ -28,7 +28,7 @@ export function User({ user, openThemeDialog, openLanguageDialog, handleLogOut, 
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground focus:ring-0"
             >
-              <Avatar.Root className="h-8 w-8 rounded-lg">
+              <Avatar.Root className="size-8 rounded-lg">
                 <Avatar.Image src={user?.url} alt="user" />
                 <Avatar.Fallback className="rounded-lg">{getInitials(userName)}</Avatar.Fallback>
               </Avatar.Root>
@@ -47,7 +47,7 @@ export function User({ user, openThemeDialog, openLanguageDialog, handleLogOut, 
           >
             <DropdownMenu.Label className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar.Root className="h-8 w-8 rounded-lg">
+                <Avatar.Root className="size-8 rounded-lg">
                   <Avatar.Image src={user?.url} alt={userName} />
                   <Avatar.Fallback className="rounded-lg">{getInitials(userName)}</Avatar.Fallback>
                 </Avatar.Root>
