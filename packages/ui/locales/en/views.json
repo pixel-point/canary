@@ -96,6 +96,15 @@
     "viewRules": "View Rules",
     "browse": "Browse",
     "deleteBranch": "Delete Branch",
+    "createBranchDialog": {
+      "validation": {
+        "nameNoEmpty": "Branch name can’t be blank",
+        "nameMax": "Branch name must be no longer than 256 characters",
+        "nameRegex": "Branch name must contain only letters, numbers, and the characters: - _ .",
+        "nameNoSpaces": "Branch name cannot contain spaces",
+        "targetNoEmpty": "Target branch can’t be blank"
+      }
+    },
     "createBranchTitle": "Create a branch",
     "createBranchButton": "Create branch",
     "newBranch": "New branch",
@@ -217,6 +226,57 @@
     "noLabels": "No labels yet",
     "noLabelsDescription": "Use labels to organize, prioritize, and categorize tasks efficiently."
   },
+  "signIn": {
+    "validation": {
+      "emailNoEmpty": "Field can’t be blank",
+      "passwordNoEmpty": "Password can’t be blank"
+    },
+    "pageTitle": "Sign in to Harness",
+    "pageDescription": "Welcome back! Please enter your details.",
+    "emailTitle": "Username/Email",
+    "emailDescription": "Your email",
+    "passwordTitle": "Password",
+    "passwordDescription": "Password",
+    "buttonText": {
+      "signingIn": "Signing in...",
+      "signIn": "Sign in"
+    },
+    "signUpLink": {
+      "question": "Don’t have an account?",
+      "linkText": "Sign up"
+    }
+  },
+  "signUp": {
+    "validation": {
+      "userIDNoEmpty": "User ID can’t be blank",
+      "userIDMax": "User ID must be no longer than 100 characters",
+      "userIDRegex": "User ID must contain only letters, numbers, and the characters: - _ .",
+      "userIDNoSpaces": "User ID cannot contain spaces",
+      "emailNoEmpty": "Invalid email address",
+      "emailMax": "Email must be no longer than 250 characters",
+      "passwordNoEmpty": "Password must be at least 6 characters",
+      "passwordMax": "Password must be no longer than 128 characters",
+      "passwordsCheck": "Passwords don't match"
+    },
+    "pageTitle": "Sign up to Harness",
+    "pageDescription": "Let’s start your journey with us today.",
+    "userIDPlaceholder": "User ID",
+    "userIDLabel": "User ID",
+    "emailPlaceholder": "Your email",
+    "emailLabel": "Email",
+    "passwordPlaceholder": "Password (6+ characters)",
+    "passwordLabel": "Password",
+    "confirmPasswordPlaceholder": "Confirm password",
+    "confirmPasswordLabel": "Confirm password",
+    "buttonText": {
+      "signingUp": "Signing up...",
+      "signUp": "Sign up"
+    },
+    "signInLink": {
+      "question": "Already have an account?",
+      "linkText": "Sign in"
+    }
+  },
   "labelData": {
     "form": {
       "colorValuePlaceholder": "Enter value name",
@@ -299,13 +359,19 @@
     "compareChangesFormTitleLabel": "Title",
     "compareChangesFormDescriptionPlaceholder": "Add Pull Request description here.",
     "compareChangesFormDescriptionLabel": "Description",
+    "compare": {
+      "validation": {
+        "titleNoEmpty": "Pull request title can’t be blank",
+        "titleMax": "Pull request title must be no longer than 256 characters"
+      }
+    },
     "compareChanges": "Comparing changes",
     "compareChangesDescription": "Choose two branches to see what’s changed or to start a new pull request.",
     "compareChangesAbleToMerge": "Able to merge.",
     "compareChangesAbleToMergeDescription": "These branches can be automatically merged.",
     "compareChangesApiError": "Head branch doesn’t contain any new commits.",
     "compareChangesCantMerge": "Can’t be merged.",
-    "compareChangesCantMergeDesciption": "You can still create the pull request.",
+    "compareChangesCantMergeDescription": "You can still create the pull request.",
     "compareChangesDiscussChanges": "Discuss and review the changes in this comparison with others.",
     "compareChangesDiscussChangesLink": "Learn about pull requests.",
     "compareChangesChooseDifferent": "Choose different branches above to discuss and review changes.",
@@ -330,6 +396,7 @@
     "split": "Split",
     "unified": "Unified",
     "viewed": "Viewed",
+    "compareChangesCantMergeDesciption": "You can still create the pull request.",
     "compareChangesForkLink": "compare across forks",
     "compareChangesOr": "or",
     "compareChangesDiffLink": "learn more about diff comparisons",
@@ -353,28 +420,75 @@
     "description": "The requested page is not found.",
     "button": "Reload page"
   },
+  "pipelines": {
+    "createPipelineDialog": {
+      "validation": {
+        "nameMin": "Pipeline name is required",
+        "nameMax": "Pipeline name must be no longer than 100 characters",
+        "nameRegex": "Pipeline name must contain only letters, numbers, and the characters: - _ .",
+        "noSpaces": "Pipeline name cannot contain spaces",
+        "branchNameRequired": "Branch name is required",
+        "yamlPathRequired": "YAML path is required"
+      },
+      "dialogTitle": "Create Pipeline",
+      "nameLabel": "Pipeline name",
+      "yamlPathLabel": "Yaml path",
+      "branchPlaceholder": "Select",
+      "branchLabel": "Branch",
+      "cancelButton": "Cancel",
+      "createButton": "Create Pipeline"
+    }
+  },
   "profileSettings": {
-    "newSshKey": "New SSH key",
-    "enterNamePlaceholder": "Enter the name",
-    "publicKey": "Public key",
-    "cancel": "Cancel",
-    "save": "Save",
+    "sshKey": {
+      "validation": {
+        "nameMin": "Please provide key name",
+        "nameMax": "Name must be no longer than 100 characters",
+        "nameRegex": "Name must contain only letters, numbers, and the characters: - _ .",
+        "noSpaces": "Name cannot contain spaces",
+        "expiration": "Please add the public key"
+      },
+      "newSshKey": "New SSH key",
+      "enterNamePlaceholder": "Enter the name",
+      "publicKey": "Public key",
+      "cancel": "Cancel",
+      "save": "Save"
+    },
     "name": "Name",
     "added": "Added",
     "lastUsedDate": "Last used date",
     "deleteSshKey": "Delete SSH key",
     "noDataKeysDescription": "There are no SSH keys associated with this account.",
-    "createToken": "Create a token",
-    "enterTokenPlaceholder": "Enter token name",
-    "expiration": "Expiration",
-    "token": "Token",
-    "tokenSuccessDescription": "Your token has been generated. Please make sure to copy and store your token somewhere safe, you won’t beable to see it again.",
-    "select": "Select",
-    "tokenExpiryNone": "Token will never expire",
-    "tokenExpiryDate": " Token will expire on",
-    "gotItButton": "Got it",
-    "generateTokenButton": "Generate token",
-    "generatingTokenButton": "Generating token...",
+    "createTokenDialog": {
+      "validation": {
+        "nameMin": "Please provide token name",
+        "nameMax": "Name must be no longer than 100 characters",
+        "nameRegex": "Name must contain only letters, numbers, and the characters: - _ .",
+        "noSpaces": "Name cannot contain spaces",
+        "expiration": "Please select the expiration"
+      },
+      "expirationOptions": {
+        "7_days": "7 days",
+        "30_days": "30 days",
+        "60_days": "60 days",
+        "90_days": "90 days",
+        "never": "Never"
+      },
+      "tokenExpiryNone": "Token will never expire",
+      "tokenExpiryDate": "Token will expire on",
+      "title": "Create a token",
+      "namePlaceholder": "Enter token name",
+      "nameLabel": "Name",
+      "expiration": "Expiration",
+      "tokenFieldLabel": "Token",
+      "successDescription": "Your token has been generated. Please make sure to copy and store your token somewhere safe, you won’t be able to see it again.",
+      "expirationLabel": "Expiration",
+      "expirationPlaceholder": "Select",
+      "gotItButton": "Got it",
+      "cancelButton": "Cancel",
+      "generateButton": "Generate token",
+      "generatingButton": "Generating token..."
+    },
     "tokenTableHeader": "Token",
     "statusTableHeader": "Status",
     "expirationDateTableHeader": "Expiration date",
@@ -396,6 +510,7 @@
     },
     "accountSettings": "Account settings",
     "personalInfo": "Personal information",
+    "enterNamePlaceholder": "Enter your name",
     "enterUsernamePlaceholder": "Enter your username",
     "username": "Username",
     "accountEmail": "Account email",
@@ -416,16 +531,9 @@
     "addToken": "Add new token",
     "sshKeys": "My SSH keys",
     "addSshKeyDescription": "SSH keys allow you to establish a secure connection to your code repository.",
-    "addSshKey": "Add new SSH key",
-    "saving": "Saving...",
-    "generalTab": "General",
-    "keysTab": "Keys and Tokens"
+    "addSshKey": "Add new SSH key"
   },
   "createProject": {
-    "validation": {
-      "nameNoEmpty": "The field can’t be blank",
-      "nameMinLength": "The project name should be at least 4 characters"
-    },
     "backButton": "Back",
     "title": "Create your new project",
     "description": "Organize your repositories, pipelines and more.",
@@ -442,7 +550,50 @@
     "logout": {
       "question": "Want to use a different account?",
       "link": "Log out"
+    },
+    "validation": {
+      "nameNoEmpty": "The field can’t be blank",
+      "nameMinLength": "The project name should be at least 4 characters",
+      "nameMax": "Name must be no longer than 100 characters",
+      "nameRegex": "Pipeline name must contain only letters, numbers, and the characters: - _ .",
+      "noSpaces": "Pipeline name cannot contain spaces",
+      "descriptionMax": "Description must be no longer than 1024 characters"
     }
+  },
+  "importProject": {
+    "validation": {
+      "nameNoEmpty": "Please enter a project name",
+      "nameMax": "Name must be no longer than 100 characters",
+      "nameRegex": "Organization name must contain only letters, numbers, and the characters: - _ .",
+      "nameNoSpaces": "Name cannot contain spaces",
+      "descriptionMax": "Description must be no longer than 1024 characters",
+      "providerNoEmpty": "Please select a provider",
+      "organizationNoEmpty": "Please enter an organization",
+      "organizationNameMax": "Organization name must be no longer than 100 characters",
+      "noSpaces": "Organization name cannot contain spaces",
+      "hostUrlRequired": "Repository URL is required",
+      "hostUrlInvalid": "Invalid URL"
+    },
+    "title": "Import a project",
+    "gitProviderPlaceholder": "Select provider",
+    "gitProviderLabel": "Git provider",
+    "hostUrlLabel": "Host URL",
+    "hostUrlPlaceholder": "Enter the host URL",
+    "tokenLabel": "Token",
+    "tokenPlaceholder": "Enter your access token",
+    "organizationLabel": "Organization",
+    "organizationPlaceholder": "Enter the organization name",
+    "repositoriesLabel": "Repositories",
+    "pipelinesLabel": "Import Pipelines",
+    "projectNameLabel": "Name",
+    "projectNamePlaceholder": "Enter repository name",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Enter a description",
+    "importButton": {
+      "default": "Import project",
+      "importing": "Importing project..."
+    },
+    "cancelButton": "Cancel"
   },
   "forms": {
     "selectMember": "Select member",

@@ -1,19 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import {
-  Avatar,
-  Button,
-  ButtonGroup,
-  ControlGroup,
-  Fieldset,
-  FormSeparator,
-  FormWrapper,
-  Icon,
-  Input,
-  Legend,
-  toast
-} from '@/components'
+import { Avatar, Button, ButtonGroup, FormSeparator, FormWrapper, Icon, Input, Legend, toast } from '@/components'
 import { SkeletonForm } from '@/components/skeletons'
 import { IProfileSettingsStore, ProfileSettingsErrorType, SandboxLayout, TranslationStore } from '@/views'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -25,25 +13,17 @@ const makeProfileSchema = (t: TranslationStore['t']) =>
     name: z
       .string()
       .trim()
-      .min(1, { message: t('views:profileSettings.validation.nameMin', 'Please provide your name') })
-      .max(256, {
-        message: t('views:profileSettings.validation.nameMax', 'Name must be no longer than 256 characters')
-      }),
+      .nonempty(t('views:profileSettings.validation.nameMin', 'Please provide your name'))
+      .max(256, t('views:profileSettings.validation.nameMax', 'Name must be no longer than 256 characters')),
     username: z
       .string()
       .trim()
-      .min(1, {
-        message: t('views:profileSettings.validation.usernameMin', 'Please provide a username')
-      }),
+      .nonempty(t('views:profileSettings.validation.usernameMin', 'Please provide a username')),
     email: z
       .string()
       .trim()
-      .email({
-        message: t('views:profileSettings.validation.emailInvalid', 'Please provide a valid email address')
-      })
-      .max(250, {
-        message: t('views:profileSettings.validation.emailMax', 'Email must be no longer than 250 characters')
-      })
+      .email(t('views:profileSettings.validation.emailInvalid', 'Please provide a valid email address'))
+      .max(250, t('views:profileSettings.validation.emailMax', 'Email must be no longer than 250 characters'))
   })
 
 const makePasswordSchema = (t: TranslationStore['t']) =>
@@ -51,18 +31,14 @@ const makePasswordSchema = (t: TranslationStore['t']) =>
     .object({
       newPassword: z
         .string()
-        .min(6, {
-          message: t('views:profileSettings.validation.passwordMin', 'New password must be at least 6 characters')
-        })
-        .max(128, {
-          message: t(
-            'views:profileSettings.validation.passwordMax',
-            'New password must be no longer than 128 characters'
-          )
-        }),
-      confirmPassword: z.string().min(6, {
-        message: t('views:profileSettings.validation.confirmPasswordMin', 'Please confirm your new password')
-      })
+        .min(6, t('views:profileSettings.validation.passwordMin', 'New password must be at least 6 characters'))
+        .max(
+          128,
+          t('views:profileSettings.validation.passwordMax', 'New password must be no longer than 128 characters')
+        ),
+      confirmPassword: z
+        .string()
+        .min(6, t('views:profileSettings.validation.confirmPasswordMin', 'Please confirm your new password'))
     })
     .refine(data => data.newPassword === data.confirmPassword, {
       message: t('views:profileSettings.validation.passwordsDoNotMatch', 'Passwords do not match'),
@@ -182,7 +158,7 @@ export const SettingsAccountGeneralPage: FC<SettingsAccountGeneralPageProps> = (
 
   return (
     <SandboxLayout.Content className="max-w-[476px] px-0">
-      <h1 className="mb-10 text-24 font-medium text-foreground-1">
+      <h1 className="text-24 text-foreground-1 mb-10 font-medium">
         {t('views:profileSettings.accountSettings', 'Account settings')}
       </h1>
 
@@ -198,67 +174,59 @@ export const SettingsAccountGeneralPage: FC<SettingsAccountGeneralPageProps> = (
             */}
             <Avatar.Root size="20" className="shadow-md">
               <Avatar.Image src="/images/anon.jpg" />
-              <Avatar.Fallback className="text-24 font-medium text-foreground-3">
+              <Avatar.Fallback className="text-24 text-foreground-3 font-medium">
                 {getInitials(userData?.name || '')}
               </Avatar.Fallback>
             </Avatar.Root>
-            <Fieldset>
-              <Input
-                id="name"
-                size="md"
-                {...registerProfile('name')}
-                placeholder={t('views:profileSettings.enterNamePlaceholder', 'Enter your name')}
-                label={t('views:profileSettings.name', 'Name')}
-                error={profileErrors?.name?.message?.toString()}
-                disabled={isUpdatingUser}
-              />
-            </Fieldset>
-            <Fieldset>
-              <Input
-                id="username"
-                size="md"
-                {...registerProfile('username')}
-                placeholder={t('views:profileSettings.enterUsernamePlaceholder', 'Enter your username')}
-                disabled
-                label={t('views:profileSettings.username', 'Username')}
-                caption={'This username will be shown across the platform.'}
-                error={profileErrors?.username?.message?.toString()}
-              />
-            </Fieldset>
-            <Fieldset>
-              <Input
-                id="email"
-                size="md"
-                {...registerProfile('email')}
-                placeholder="name@domain.com"
-                label={t('views:profileSettings.accountEmail', 'Account email')}
-                error={profileErrors?.email?.message}
-                disabled={isUpdatingUser}
-              />
-            </Fieldset>
+            <Input
+              id="name"
+              size="md"
+              {...registerProfile('name')}
+              placeholder={t('views:profileSettings.enterNamePlaceholder', 'Enter your name')}
+              label={t('views:profileSettings.name', 'Name')}
+              error={profileErrors?.name?.message?.toString()}
+              disabled={isUpdatingUser}
+            />
+            <Input
+              id="username"
+              size="md"
+              {...registerProfile('username')}
+              placeholder={t('views:profileSettings.enterUsernamePlaceholder', 'Enter your username')}
+              disabled
+              label={t('views:profileSettings.username', 'Username')}
+              caption={'This username will be shown across the platform.'}
+              error={profileErrors?.username?.message?.toString()}
+            />
+            <Input
+              id="email"
+              size="md"
+              {...registerProfile('email')}
+              placeholder="name@domain.com"
+              label={t('views:profileSettings.accountEmail', 'Account email')}
+              error={profileErrors?.email?.message}
+              disabled={isUpdatingUser}
+            />
 
-            <ControlGroup type="button">
-              <ButtonGroup>
-                {!profileSubmitted ? (
-                  <Button
-                    type="submit"
-                    disabled={!isProfileValid || isUpdatingUser || !Object.keys(profileDirtyFields).length}
-                  >
-                    {isUpdatingUser
-                      ? t('views:profileSettings.updatingProfileButton', 'Updating...')
-                      : t('views:profileSettings.updateProfileButton', 'Update profile')}
-                  </Button>
-                ) : (
-                  <Button className="pointer-events-none" variant="ghost" type="button" theme="success">
-                    {t('views:profileSettings.updatedButton', 'Updated')}&nbsp;&nbsp;
-                    <Icon name="tick" size={14} />
-                  </Button>
-                )}
-              </ButtonGroup>
-            </ControlGroup>
+            <ButtonGroup>
+              {!profileSubmitted ? (
+                <Button
+                  type="submit"
+                  disabled={!isProfileValid || isUpdatingUser || !Object.keys(profileDirtyFields).length}
+                >
+                  {isUpdatingUser
+                    ? t('views:profileSettings.updatingProfileButton', 'Updating...')
+                    : t('views:profileSettings.updateProfileButton', 'Update profile')}
+                </Button>
+              ) : (
+                <Button className="pointer-events-none" variant="ghost" type="button" theme="success">
+                  {t('views:profileSettings.updatedButton', 'Updated')}&nbsp;&nbsp;
+                  <Icon name="tick" size={14} />
+                </Button>
+              )}
+            </ButtonGroup>
           </FormWrapper>
 
-          <FormSeparator className="my-7 border-borders-4" />
+          <FormSeparator className="border-borders-4 my-7" />
 
           <FormWrapper onSubmit={handlePasswordSubmit(onPasswordSubmit)}>
             <Legend
@@ -268,47 +236,41 @@ export const SettingsAccountGeneralPage: FC<SettingsAccountGeneralPageProps> = (
                 'Minimum of 6 characters long containing at least one number and a mixture of uppercase and lowercase letters.'
               )}
             />
-            <Fieldset>
-              <Input
-                id="newPassword"
-                type="password"
-                size="md"
-                {...registerPassword('newPassword')}
-                placeholder={t('views:profileSettings.enterPasswordPlaceholder', 'Enter a new password')}
-                label={t('views:profileSettings.newPassword', 'New password')}
-                error={passwordErrors?.newPassword?.message}
-                disabled={isUpdatingPassword}
-              />
-            </Fieldset>
-            <Fieldset>
-              <Input
-                id="confirmPassword"
-                type="password"
-                size="md"
-                {...registerPassword('confirmPassword')}
-                placeholder={t('views:profileSettings.confirmPasswordPlaceholder', 'Confirm your new password')}
-                label={t('views:profileSettings.confirmPassword', 'Confirm password')}
-                error={passwordErrors?.confirmPassword?.message}
-                disabled={isUpdatingPassword}
-              />
-            </Fieldset>
+            <Input
+              id="newPassword"
+              type="password"
+              size="md"
+              {...registerPassword('newPassword')}
+              placeholder={t('views:profileSettings.enterPasswordPlaceholder', 'Enter a new password')}
+              label={t('views:profileSettings.newPassword', 'New password')}
+              error={passwordErrors?.newPassword?.message}
+              disabled={isUpdatingPassword}
+            />
+            <Input
+              id="confirmPassword"
+              type="password"
+              size="md"
+              {...registerPassword('confirmPassword')}
+              placeholder={t('views:profileSettings.confirmPasswordPlaceholder', 'Confirm your new password')}
+              label={t('views:profileSettings.confirmPassword', 'Confirm password')}
+              error={passwordErrors?.confirmPassword?.message}
+              disabled={isUpdatingPassword}
+            />
 
-            <ControlGroup type="button">
-              <ButtonGroup>
-                {!passwordSubmitted ? (
-                  <Button type="submit" disabled={!isPasswordValid || isUpdatingPassword}>
-                    {isUpdatingPassword
-                      ? t('views:profileSettings.updating', 'Updating...')
-                      : t('views:profileSettings.updatePassword', 'Update password')}
-                  </Button>
-                ) : (
-                  <Button className="pointer-events-none" variant="ghost" type="button" theme="success">
-                    {t('views:profileSettings.updatedButton', 'Updated')}&nbsp;&nbsp;
-                    <Icon name="tick" size={14} />
-                  </Button>
-                )}
-              </ButtonGroup>
-            </ControlGroup>
+            <ButtonGroup>
+              {!passwordSubmitted ? (
+                <Button type="submit" disabled={!isPasswordValid || isUpdatingPassword}>
+                  {isUpdatingPassword
+                    ? t('views:profileSettings.updating', 'Updating...')
+                    : t('views:profileSettings.updatePassword', 'Update password')}
+                </Button>
+              ) : (
+                <Button className="pointer-events-none" variant="ghost" type="button" theme="success">
+                  {t('views:profileSettings.updatedButton', 'Updated')}&nbsp;&nbsp;
+                  <Icon name="tick" size={14} />
+                </Button>
+              )}
+            </ButtonGroup>
           </FormWrapper>
         </>
       )}
