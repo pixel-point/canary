@@ -96,6 +96,15 @@
     "viewRules": "Voir les règles",
     "browse": "Browse",
     "deleteBranch": "Delete Branch",
+    "createBranchDialog": {
+      "validation": {
+        "nameNoEmpty": "Le nom de la branche ne peut pas être vide",
+        "nameMax": "Le nom de la branche ne doit pas dépasser 256 caractères",
+        "nameRegex": "Le nom de la branche doit contenir uniquement des lettres, des chiffres et les caractères : - _ .",
+        "nameNoSpaces": "Le nom de la branche ne peut pas contenir d'espaces",
+        "targetNoEmpty": "La branche cible ne peut pas être vide"
+      }
+    },
     "createBranchTitle": "Créer une branche",
     "createBranchButton": "Créer une branche",
     "newBranch": "Nouvelle branche",
@@ -350,13 +359,19 @@
     "compareChangesFormTitleLabel": "Title",
     "compareChangesFormDescriptionPlaceholder": "Ajoutez la description de la pull request ici.",
     "compareChangesFormDescriptionLabel": "Description",
+    "compare": {
+      "validation": {
+        "titleNoEmpty": "Le titre de la demande de tirage ne peut pas être vide",
+        "titleMax": "Le titre de la demande de tirage ne doit pas dépasser 256 caractères"
+      }
+    },
     "compareChanges": "Comparaison des modifications",
     "compareChangesDescription": "Choisissez deux branches pour voir les modifications ou pour créer une nouvelle pull request. Si nécessaire, vous pouvez aussi",
     "compareChangesAbleToMerge": "Fusion possible.",
     "compareChangesAbleToMergeDescription": "Ces branches peuvent être fusionnées automatiquement.",
     "compareChangesApiError": "La branche principale ne contient pas de nouveaux commits.",
     "compareChangesCantMerge": "Fusion impossible.",
-    "compareChangesCantMergeDesciption": "Vous pouvez quand même créer la pull request.",
+    "compareChangesCantMergeDescription": "You can still create the pull request.",
     "compareChangesDiscussChanges": "Discutez et révisez les modifications de cette comparaison avec d'autres.",
     "compareChangesDiscussChangesLink": "En savoir plus sur les pull requests.",
     "compareChangesChooseDifferent": "Choisissez différentes branches ou forks ci-dessus pour discuter et réviser les modifications.",
@@ -381,6 +396,7 @@
     "split": "Diviser",
     "unified": "Unifié",
     "viewed": "Vu",
+    "compareChangesCantMergeDesciption": "Vous pouvez quand même créer la pull request.",
     "compareChangesForkLink": "comparer entre les forks",
     "compareChangesOr": "ou",
     "compareChangesDiffLink": "en savoir plus sur les comparaisons diff",
