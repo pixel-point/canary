@@ -64,7 +64,7 @@ export function EditUserDialog({ handleUpdateUser, open, onClose }: EditUserDial
           }}
         />
 
-        <FormWrapper onSubmit={handleSubmit(handleUpdateUser)}>
+        <FormWrapper onSubmit={handleSubmit(handleUpdateUser)} id="edit-user-form">
           <Fieldset>
             <Input
               id="userID"
@@ -100,20 +100,19 @@ export function EditUserDialog({ handleUpdateUser, open, onClose }: EditUserDial
           </Fieldset>
 
           {updateUserError && <span className="text-xs text-destructive">{updateUserError}</span>}
-
-          <Dialog.Footer className="-mx-5 -mb-5">
-            <ButtonGroup className="justify-end">
-              <Button type="button" variant="outline" onClick={onClose} disabled={isUpdatingUser}>
-                {t('views:userManagement.cancel', 'Cancel')}
-              </Button>
-              <Button type="submit" disabled={isUpdatingUser}>
-                {isUpdatingUser
-                  ? t('views:userManagement.editUser.pending', 'Saving...')
-                  : t('views:userManagement.editUser.save', 'Save')}
-              </Button>
-            </ButtonGroup>
-          </Dialog.Footer>
         </FormWrapper>
+        <Dialog.Footer>
+          <ButtonGroup className="justify-end">
+            <Button type="button" variant="outline" onClick={onClose} disabled={isUpdatingUser}>
+              {t('views:userManagement.cancel', 'Cancel')}
+            </Button>
+            <Button type="submit" disabled={isUpdatingUser} form="edit-user-form">
+              {isUpdatingUser
+                ? t('views:userManagement.editUser.pending', 'Saving...')
+                : t('views:userManagement.editUser.save', 'Save')}
+            </Button>
+          </ButtonGroup>
+        </Dialog.Footer>
       </Dialog.Content>
     </Dialog.Root>
   )

@@ -38,7 +38,7 @@ export function RemoveAdminDialog({ handleUpdateUserAdmin, open, onClose }: Remo
           </Dialog.Title>
         </Dialog.Header>
 
-        <FormWrapper onSubmit={handleSubmit}>
+        <FormWrapper onSubmit={handleSubmit} id="remove-admin-form">
           <Fieldset>
             <ControlGroup>
               <span
@@ -60,24 +60,29 @@ export function RemoveAdminDialog({ handleUpdateUserAdmin, open, onClose }: Remo
           </Fieldset>
 
           {updateUserAdminError && <span className="text-xs text-destructive">{updateUserAdminError}</span>}
-
-          <Dialog.Footer className="-mx-5 -mb-5">
-            <ButtonGroup className="justify-end">
-              <Button type="button" variant="outline" onClick={onClose} disabled={isUpdatingUserAdmin}>
-                {t('views:userManagement.cancel', 'Cancel')}
-              </Button>
-              <Button type="submit" theme={isAdmin ? 'error' : 'primary'} disabled={isUpdatingUserAdmin}>
-                {isUpdatingUserAdmin
-                  ? isAdmin
-                    ? t('views:userManagement.removeAdmin.pending', 'Removing admin...')
-                    : t('views:userManagement.grantAdmin.pending', 'Granting admin...')
-                  : isAdmin
-                    ? t('views:userManagement.removeAdmin.confirm', 'Yes, remove admin')
-                    : t('views:userManagement.grantAdmin.confirm', 'Yes, grant admin')}
-              </Button>
-            </ButtonGroup>
-          </Dialog.Footer>
         </FormWrapper>
+        
+        <Dialog.Footer>
+          <ButtonGroup className="justify-end">
+            <Button type="button" variant="outline" onClick={onClose} disabled={isUpdatingUserAdmin}>
+              {t('views:userManagement.cancel', 'Cancel')}
+            </Button>
+            <Button
+              type="submit"
+              theme={isAdmin ? 'error' : 'primary'}
+              disabled={isUpdatingUserAdmin}
+              form="remove-admin-form"
+            >
+              {isUpdatingUserAdmin
+                ? isAdmin
+                  ? t('views:userManagement.removeAdmin.pending', 'Removing admin...')
+                  : t('views:userManagement.grantAdmin.pending', 'Granting admin...')
+                : isAdmin
+                  ? t('views:userManagement.removeAdmin.confirm', 'Yes, remove admin')
+                  : t('views:userManagement.grantAdmin.confirm', 'Yes, grant admin')}
+            </Button>
+          </ButtonGroup>
+        </Dialog.Footer>
       </Dialog.Content>
     </Dialog.Root>
   )

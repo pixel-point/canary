@@ -46,7 +46,7 @@ export function CreateUserDialog({ handleCreateUser, open, onClose }: CreateUser
           </Dialog.Title>
         </Dialog.Header>
 
-        <FormWrapper onSubmit={handleSubmit(onSubmit)}>
+        <FormWrapper onSubmit={handleSubmit(onSubmit)} id="create-user-form">
           <Fieldset>
             <Input
               id="memberName"
@@ -79,20 +79,20 @@ export function CreateUserDialog({ handleCreateUser, open, onClose }: CreateUser
           </Fieldset>
 
           {createUserError && <span className="text-xs text-destructive">{createUserError}</span>}
-
-          <Dialog.Footer className="-mx-5 -mb-5">
-            <ButtonGroup className="justify-end">
-              <Button variant="outline" type="button" onClick={onClose} disabled={isCreatingUser}>
-                {t('views:userManagement.cancel', 'Cancel')}
-              </Button>
-              <Button type="submit" disabled={isCreatingUser}>
-                {isCreatingUser
-                  ? t('views:userManagement.createUser.inviting', 'Inviting...')
-                  : t('views:userManagement.createUser.inviteNewUser', 'Invite new user')}
-              </Button>
-            </ButtonGroup>
-          </Dialog.Footer>
         </FormWrapper>
+
+        <Dialog.Footer>
+          <ButtonGroup className="justify-end">
+            <Button variant="outline" type="button" onClick={onClose} disabled={isCreatingUser}>
+              {t('views:userManagement.cancel', 'Cancel')}
+            </Button>
+            <Button type="submit" disabled={isCreatingUser} form="create-user-form">
+              {isCreatingUser
+                ? t('views:userManagement.createUser.inviting', 'Inviting...')
+                : t('views:userManagement.createUser.inviteNewUser', 'Invite new user')}
+            </Button>
+          </ButtonGroup>
+        </Dialog.Footer>
       </Dialog.Content>
     </Dialog.Root>
   )
