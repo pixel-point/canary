@@ -61,7 +61,7 @@ export function RemoveAdminDialog({ handleUpdateUserAdmin, open, onClose }: Remo
 
           {updateUserAdminError && <span className="text-xs text-destructive">{updateUserAdminError}</span>}
         </FormWrapper>
-        
+
         <Dialog.Footer>
           <ButtonGroup className="justify-end">
             <Button type="button" variant="outline" onClick={onClose} disabled={isUpdatingUserAdmin}>
