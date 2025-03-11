@@ -40,20 +40,6 @@ const DialogContent = forwardRef<ElementRef<typeof DialogPrimitive.Content>, Dia
     const mainContent: React.ReactNode[] = []
     let footer: React.ReactNode = null
 
-    // TODO: This approach has limitations.
-    // This logic only works for direct children and will fail to detect DialogFooter
-    // if it is nested deeper within other components.
-    // Example of failure case:
-    // <Dialog.Content>
-    //   <FormWrapper>
-    //     <Input />
-    //     <Dialog.Footer> <!-- This footer won't be detected -->
-    //       <Button type="submit" />
-    //     </Dialog.Footer>
-    //   </FormWrapper>
-    // </Dialog.Content>
-    //
-    //  In this case, the nested DialogFooter will be treated as part of mainContent instead of being extracted as footer.
     Children.forEach(children, child => {
       if (isValidElement(child) && child.type === DialogFooter) {
         footer = child
