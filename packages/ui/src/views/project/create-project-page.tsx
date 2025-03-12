@@ -1,9 +1,20 @@
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { Button, Card, Fieldset, FormWrapper, Icon, Input, StyledLink, StyledLinkProps } from '@/components'
+import {
+  Button,
+  Card,
+  Fieldset,
+  FormWrapper,
+  Icon,
+  Input,
+  Message,
+  MessageTheme,
+  StyledLink,
+  StyledLinkProps
+} from '@/components'
 import { useTheme } from '@/context'
-import { Floating1ColumnLayout, TranslationStore } from '@/views'
+import { Floating1ColumnLayout, makeProjectDescriptionSchema, makeProjectNameSchema, TranslationStore } from '@/views'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { cn } from '@utils/cn'
 import { z } from 'zod'
@@ -45,18 +56,10 @@ const getIsFirstProjectPage = (props: CreateProjectPageProps): props is CreateFi
   return 'logoutLinkProps' in props
 }
 
-const createProjectSchema = (t: TranslationStore['t']) =>
-  z.object({
-    name: z
-      .string()
-      .nonempty(t('views:createProject.validation.nameNoEmpty', 'The field can’t be blank'))
-      .min(4, {
-        message: t('views:createProject.validation.nameMinLength', 'The project name should be at least 4 characters')
-      }),
-    description: z.string()
-  })
+export const makeCreateProjectSchema = (t: TranslationStore['t']) =>
+  z.object({ name: makeProjectNameSchema(t), description: makeProjectDescriptionSchema(t) })
 
-export type CreateProjectFields = z.infer<ReturnType<typeof createProjectSchema>>
+export type CreateProjectFields = z.infer<ReturnType<typeof makeCreateProjectSchema>>
 
 export const CreateProjectPage: FC<CreateProjectPageProps> = props => {
   const { error, isLoading, backLinkProps, onFormSubmit, useTranslationStore } = props
@@ -68,39 +71,15 @@ export const CreateProjectPage: FC<CreateProjectPageProps> = props => {
 
   const { t } = useTranslationStore()
 
-  const [serverError, setServerError] = useState<string | null>(null)
   const {
-    trigger,
     register,
-    setError,
     formState: { errors },
-    clearErrors,
     handleSubmit
   } = useForm<CreateProjectFields>({
-    resolver: zodResolver(createProjectSchema(t))
+    resolver: zodResolver(makeCreateProjectSchema(t))
   })
 
-  const handleInputChange = async () => {
-    clearErrors()
-
-    if (serverError) {
-      setServerError(null)
-      await trigger()
-    }
-  }
-
-  useEffect(() => {
-    if (error) {
-      setServerError(error)
-      setError('name', { type: 'manual', message: error })
-    } else {
-      setServerError(null)
-      clearErrors()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error])
-
-  const hasError = Object.keys(errors).length > 0 || !!serverError
+  const hasError = Object.keys(errors).length > 0 || !!error
 
   return (
     <Floating1ColumnLayout
@@ -136,26 +115,32 @@ export const CreateProjectPage: FC<CreateProjectPageProps> = props => {
         </div>
 
         <FormWrapper onSubmit={handleSubmit(onFormSubmit)}>
-          <Fieldset>
+          <Fieldset legend="Project details">
             <Input
               id="name"
               label={t('views:createProject.form.name', 'Project name')}
               placeholder={t('views:createProject.form.namePlaceholder', 'Enter your project name')}
               size="md"
-              {...register('name', { onChange: handleInputChange })}
+              {...register('name')}
               error={errors.name?.message?.toString()}
               autoFocus
             />
 
             <Input
               id="description"
-              {...register('description', { onChange: handleInputChange })}
+              {...register('description')}
               label={t('views:createProject.form.description', 'Description')}
               placeholder={t('views:createProject.form.descriptionPlaceholder', 'Enter a description (optional)')}
               size="md"
               error={errors.description?.message?.toString()}
             />
           </Fieldset>
+
+          {error && (
+            <Message className="mt-1" theme={MessageTheme.ERROR}>
+              {error}
+            </Message>
+          )}
 
           <Button
             className="mt-3 w-full"

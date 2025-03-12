@@ -1,17 +1,17 @@
-import { FC, ReactElement, ReactNode } from 'react'
+import { FC, HTMLAttributes, ReactElement, ReactNode } from 'react'
 
-import { Checkbox, Label, RadioButton, Text } from '@/components'
+import { Caption, Checkbox, Label, Message, MessageTheme, RadioButton } from '@/components'
 import { cn } from '@utils/cn'
 
 type ControlType = ReactElement<typeof RadioButton> | ReactElement<typeof Checkbox>
 
-interface OptionProps {
+interface OptionProps extends HTMLAttributes<HTMLDivElement> {
   control: ControlType
   id: string
   label?: string | ReactNode
   description?: string | ReactNode
-  className?: string
-  ariaSelected?: boolean
+  disabled?: boolean
+  error?: string
 }
 
 /**
@@ -24,30 +24,35 @@ interface OptionProps {
  *   description="Description for Option 1"
  * />
  */
-export const Option: FC<OptionProps> = ({ control, id, label, description, ariaSelected, className }) => {
+export const Option: FC<OptionProps> = ({ control, id, label, description, className, disabled, error, ...props }) => {
   return (
     <div
       className={cn('flex items-start', className)}
       role="option"
       aria-labelledby={`${id}-label`}
-      aria-selected={ariaSelected}
+      aria-selected={false}
+      {...props}
     >
       {control}
       <div className="flex flex-col gap-0">
-        <Label htmlFor={id} className="cursor-pointer pl-2.5 leading-tight">
+        <Label
+          htmlFor={id}
+          className={cn('cursor-pointer pl-2.5 leading-tight', { 'cursor-default': disabled })}
+          color={disabled ? 'disabled' : 'primary'}
+        >
           {label}
         </Label>
+
+        {!!error && (
+          <Message className="mt-0.5" theme={MessageTheme.ERROR}>
+            {error}
+          </Message>
+        )}
+
         {description && (
-          <Text
-            className="ml-2.5 mt-1.5 leading-snug tracking-tight"
-            as="p"
-            size={2}
-            color="foreground-4"
-            id={`${id}-description`}
-            role="note"
-          >
+          <Caption className="ml-2.5 tracking-tight" id={`${id}-description`} role="note">
             {description}
-          </Text>
+          </Caption>
         )}
       </div>
     </div>
