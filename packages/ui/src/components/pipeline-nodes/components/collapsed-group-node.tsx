@@ -1,8 +1,12 @@
 import { cn } from '@utils/cn'
 import { getNestedStepsCount } from '@views/unified-pipeline-studio/components/graph-implementation/utils/common-step-utils'
 
-import { ParallelNodeInternalType, SerialNodeInternalType } from '@harnessio/pipeline-graph'
-import { ParallelContainerConfig, SerialContainerConfig } from '@harnessio/pipeline-graph/src/types/container-node'
+import {
+  ParallelNodeInternalType,
+  SerialNodeInternalType,
+  type ParallelContainerConfigType,
+  type SerialContainerConfigType
+} from '@harnessio/pipeline-graph'
 
 import { PipelineNodes } from '..'
 
@@ -14,8 +18,8 @@ export function CollapsedGroupNode({
 }: {
   node: ParallelNodeInternalType | SerialNodeInternalType
   containerNodeType: 'serial' | 'parallel'
-  parallelContainerConfig?: Partial<ParallelContainerConfig>
-  serialContainerConfig?: Partial<SerialContainerConfig>
+  parallelContainerConfig?: Partial<ParallelContainerConfigType>
+  serialContainerConfig?: Partial<SerialContainerConfigType>
 }) {
   const nodesToShow = [...node.children].slice(0, 3)
 
