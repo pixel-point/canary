@@ -6,7 +6,7 @@ export interface FiltersDropdownProps<T, K extends keyof T> {
   children: (addFilter: (filterKey: K) => void, availableFilters: K[], resetFilters: () => void) => ReactNode
 }
 
-const FiltersDropdown = <T, K extends keyof T>({ children }: FiltersDropdownProps<T, K>): React.ReactElement | null => {
+const FiltersDropdown = <T, K extends keyof T>({ children }: FiltersDropdownProps<T, K>): ReactNode => {
   const { addFilter: addFilterContext, availableFilters, resetFilters } = useFiltersContext<any>()
 
   const addFilter = (filterKey: K) => {
@@ -17,7 +17,7 @@ const FiltersDropdown = <T, K extends keyof T>({ children }: FiltersDropdownProp
     return availableFilters as K[]
   }
 
-  return <div id="filters-dropdown">{children(addFilter, getAvailableFilters(), resetFilters)}</div>
+  return children(addFilter, getAvailableFilters(), resetFilters)
 }
 
 export default FiltersDropdown

@@ -8,7 +8,7 @@ import FilterSelect, { FilterSelectLabel } from '@components/filters/filter-sele
 import FilterTrigger from '@components/filters/triggers/filter-trigger'
 import { noop } from 'lodash-es'
 
-import { createFilters, FilterRefType, Parser } from '@harnessio/filters'
+import { createFilters, FilterRefType } from '@harnessio/filters'
 
 import ListControlBar from '../components/list-control-bar'
 import { getPRListFilterOptions, getSortDirections, getSortOptions } from '../constants/filter-options'
@@ -257,12 +257,7 @@ const PullRequestListPage: FC<PullRequestPageProps> = ({
                     {PR_FILTER_OPTIONS.map(filterOption => {
                       return (
                         <PRListFilterHandler.Component
-                          parser={
-                            'parser' in filterOption
-                              ? // TODO Need to address the type issue here
-                                (filterOption.parser as unknown as Parser<PRListFilters[PRListFiltersKeys]>)
-                              : undefined
-                          }
+                          parser={filterOption.parser}
                           filterKey={filterOption.value}
                           key={filterOption.value}
                         >
