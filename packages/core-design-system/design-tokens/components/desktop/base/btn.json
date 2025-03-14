@@ -25,7 +25,7 @@
       },
       "default": {
         "$type": "spacing",
-        "$value": "{spacing.2-half}"
+        "$value": "{spacing.1-half}"
       },
       "lg": {
         "$type": "spacing",
@@ -51,15 +51,15 @@
     "px": {
       "sm": {
         "$type": "spacing",
-        "$value": "{spacing.5}"
+        "$value": "{spacing.3}"
       },
       "default": {
         "$type": "spacing",
-        "$value": "{spacing.5}"
+        "$value": "{spacing.4}"
       },
       "lg": {
         "$type": "spacing",
-        "$value": "{spacing.6}"
+        "$value": "{spacing.5}"
       }
     },
     "py": {
