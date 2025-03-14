@@ -1,4 +1,4 @@
-import { createContext, FC, ReactNode, useContext, useEffect, useState } from 'react'
+import { createContext, FC, memo, ReactNode, useContext, useEffect, useMemo, useState } from 'react'
 
 import { noop } from 'lodash-es'
 
@@ -13,6 +13,7 @@ import {
 } from '@harnessio/code-service-client'
 import { ProfileSettingsErrorType } from '@harnessio/ui/views'
 
+import { useIsMFE } from '../hooks/useIsMFE'
 import useLocalStorage from '../hooks/useLocalStorage'
 import usePageTitle from '../hooks/usePageTitle'
 
@@ -47,7 +48,8 @@ const AppContext = createContext<AppContextType>({
   updateUserError: null
 })
 
-export const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
+export const AppProvider: FC<{ children: ReactNode }> = memo(({ children }) => {
+  const isMFE = useIsMFE()
   usePageTitle()
   const [spaces, setSpaces] = useState<TypesSpace[]>([])
   const [isSpacesLoading, setSpacesIsLoading] = useState(false)
@@ -94,6 +96,7 @@ export const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
   }
 
   useEffect(() => {
+    if (isMFE) return
     setSpacesIsLoading(true)
     Promise.allSettled([
       membershipSpaces({
@@ -114,32 +117,33 @@ export const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
       .finally(() => {
         setSpacesIsLoading(false)
       })
-  }, [])
+  }, [isMFE])
 
   const addSpaces = (newSpaces: TypesSpace[]): void => {
-    setSpaces([...spaces, ...newSpaces])
+    setSpaces(prevSpaces => [...prevSpaces, ...newSpaces])
   }
 
-  return (
-    <AppContext.Provider
-      value={{
-        spaces,
-        setSpaces,
-        addSpaces,
-        currentUser,
-        setCurrentUser,
-        fetchUser,
-        updateUserProfile,
-        isLoadingUser,
-        isUpdatingUser,
-        updateUserError,
-        isSpacesLoading
-      }}
-    >
-      {children}
-    </AppContext.Provider>
+  const contextValue = useMemo(
+    () => ({
+      spaces,
+      setSpaces,
+      addSpaces,
+      currentUser,
+      setCurrentUser,
+      fetchUser,
+      updateUserProfile,
+      isLoadingUser,
+      isUpdatingUser,
+      updateUserError,
+      isSpacesLoading
+    }),
+    [spaces, currentUser, isLoadingUser, isUpdatingUser, updateUserError, isSpacesLoading]
   )
-}
+
+  return <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>
+})
+
+AppProvider.displayName = 'AppProvider'
 
 export const useAppContext = (): AppContextType => {
   const context = useContext(AppContext)
