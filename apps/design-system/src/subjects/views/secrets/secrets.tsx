@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { useTranslationStore } from '@utils/viewUtils'
 
-import { Button, Drawer, Spacer } from '@harnessio/ui/components'
+import { Drawer, Spacer } from '@harnessio/ui/components'
 import {
   CreateSecretFormFields,
   CreateSecretPage,
@@ -20,23 +20,33 @@ import mockProjectsData from './mock-project-data.json'
 import mockSecretsData from './mock-secrets-data.json'
 import { Scope, ScopeEnum, scopeHierarchy } from './types'
 
-export const SecretsPage = () => {
+export const SecretsPage = ({
+  isDrawerOpen,
+  setIsDrawerOpen,
+  selectedSecret,
+  setSelectedSecret
+}: {
+  isDrawerOpen: boolean
+  setIsDrawerOpen: (isDrawerOpen: boolean) => void
+  selectedSecret: SecretItem | null
+  setSelectedSecret: (selectedSecret: SecretItem | null) => void
+}) => {
   const [selectedType, setSelectedType] = useState<SecretType>(SecretType.NEW)
 
-  // State for existing secrets
   const [, setActiveScope] = useState<Scope>(ScopeEnum.ORGANIZATION)
-  const [selectedSecret, setSelectedSecret] = useState<SecretItem | null>(null)
   const [parentFolder, setParentFolder] = useState<string | null>(mockAccountsData[0].accountName)
   const [childFolder, setChildFolder] = useState<string | null>(mockProjectsData[0].projectResponse.project.identifier)
 
   const onSubmit = (data: CreateSecretFormFields) => {
     console.log('Submitted data:', data)
+    setIsDrawerOpen(false)
   }
 
   // Handlers for existing secrets
   const handleSelectSecret = (secret: SecretItem) => {
     setSelectedSecret(secret)
     console.log('Selected secret:', secret)
+    setIsDrawerOpen(false)
   }
 
   const handleScopeChange = (direction: DirectionEnum) => {
@@ -63,6 +73,7 @@ export const SecretsPage = () => {
 
   const handleCancel = () => {
     console.log('Cancelled')
+    setIsDrawerOpen(false)
   }
 
   const renderSecretContent = () => {
@@ -110,13 +121,11 @@ export const SecretsPage = () => {
   }
 
   return (
-    <Drawer.Root direction="right">
-      <Drawer.Trigger>
-        <Button>Add Secret</Button>
-      </Drawer.Trigger>
+    <Drawer.Root open={isDrawerOpen} onOpenChange={setIsDrawerOpen} direction="right">
       <Drawer.Content>
         <Drawer.Header>
           <Drawer.Title className="text-3xl">Secrets</Drawer.Title>
+          <Drawer.Close onClick={() => setIsDrawerOpen(false)} />
         </Drawer.Header>
         <Spacer size={5} />
 
