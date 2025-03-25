@@ -149,6 +149,7 @@ export const UnifiedPipelineStudioProvider: React.FC<UnifiedPipelineStudioProvid
     yamlRevision,
     onYamlRevisionChange,
     inputComponentFactory: inputComponentFactoryFromProps,
+    onSelectedPathChange: onSelectedPathChangeFromProps,
     ...rest
   } = props
 
@@ -162,6 +163,7 @@ export const UnifiedPipelineStudioProvider: React.FC<UnifiedPipelineStudioProvid
 
   const clearEditStepIntention = useCallback(() => {
     setEditStepIntention(null)
+    onSelectedPathChange(undefined)
   }, [setEditStepIntention])
 
   const clearAddStepIntention = useCallback(() => {
@@ -207,6 +209,13 @@ export const UnifiedPipelineStudioProvider: React.FC<UnifiedPipelineStudioProvid
     [injectInArray, deleteInArray, updateInArray]
   )
 
+  const onSelectedPathChange = useCallback(
+    path => {
+      onSelectedPathChangeFromProps(path)
+    },
+    [onSelectedPathChangeFromProps]
+  )
+
   return (
     <UnifiedPipelineStudioContext.Provider
       value={{
@@ -227,7 +236,8 @@ export const UnifiedPipelineStudioProvider: React.FC<UnifiedPipelineStudioProvid
         formEntity,
         setFormEntity,
         clearRightDrawerData,
-        inputComponentFactory: inputComponentFactoryFromProps ?? inputComponentFactory
+        inputComponentFactory: inputComponentFactoryFromProps ?? inputComponentFactory,
+        onSelectedPathChange
       }}
     >
       {children}

@@ -90,8 +90,14 @@ export const UnifiedPipelineStudioNodeContextProvider: React.FC<
 > = props => {
   const { children, globalData, serialContainerConfig, parallelContainerConfig } = props
 
-  const { requestYamlModifications, setRightDrawer, setEditStepIntention, setAddStepIntention, selectedPath } =
-    useUnifiedPipelineStudioContext()
+  const {
+    requestYamlModifications,
+    setRightDrawer,
+    setEditStepIntention,
+    setAddStepIntention,
+    selectedPath,
+    onSelectedPathChange
+  } = useUnifiedPipelineStudioContext()
 
   const onDeleteIntention = (nodeData: CommonNodeDataType) => {
     requestYamlModifications.deleteInArray({ path: nodeData.yamlPath })
@@ -100,9 +106,17 @@ export const UnifiedPipelineStudioNodeContextProvider: React.FC<
   const onEditIntention = (nodeData: CommonNodeDataType) => {
     setRightDrawer(RightDrawer.Form)
     setEditStepIntention({ path: nodeData.yamlPath })
+    onSelectedPathChange(nodeData.yamlPath)
   }
 
-  const onSelectIntention = () => {}
+  const onSelectIntention = (data: CommonNodeDataType) => {
+    // TODO: why not data instead of path
+    onSelectedPathChange(data.yamlPath)
+
+    if (data.yamlEntityType === YamlEntityType.Step) {
+      onEditIntention(data)
+    }
+  }
 
   const onAddIntention = (
     nodeData: CommonNodeDataType,

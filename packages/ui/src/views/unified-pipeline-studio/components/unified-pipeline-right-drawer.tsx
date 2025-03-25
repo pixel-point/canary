@@ -1,6 +1,4 @@
-import { useCallback } from 'react'
-
-import { Sheet } from '@components/sheet'
+import { Drawer } from '@components/index'
 
 import { useUnifiedPipelineStudioContext } from '../context/unified-pipeline-studio-context'
 import { RightDrawer } from '../types/right-drawer-types'
@@ -10,48 +8,48 @@ import { UnifiedPipelineStudioStepPalette } from './palette-drawer/uinfied-pipel
 export const UnifiedPipelineRightDrawer = () => {
   const { rightDrawer, setRightDrawer, clearRightDrawerData } = useUnifiedPipelineStudioContext()
 
-  const renderSheetContent = useCallback(() => {
-    switch (rightDrawer) {
-      case RightDrawer.Collection:
-        return (
+  return (
+    <>
+      <Drawer.Root
+        direction="right"
+        open={rightDrawer === RightDrawer.Collection}
+        onOpenChange={open => {
+          if (!open) {
+            setRightDrawer(RightDrawer.None)
+            clearRightDrawerData()
+          }
+        }}
+      >
+        <Drawer.Content className="w-lg p-0">
           <UnifiedPipelineStudioStepPalette
             requestClose={() => {
               setRightDrawer(RightDrawer.None)
               clearRightDrawerData()
             }}
           />
-        )
-      case RightDrawer.Form:
-        return (
+        </Drawer.Content>
+      </Drawer.Root>
+      {/* TODO: temporary outside to bypass shadow dom issue */}
+      <Drawer.Root
+        nested={true}
+        direction="right"
+        open={rightDrawer === RightDrawer.Form}
+        onOpenChange={open => {
+          if (!open) {
+            setRightDrawer(RightDrawer.None)
+            clearRightDrawerData()
+          }
+        }}
+      >
+        <Drawer.Content className="w-lg p-0">
           <UnifiedPipelineStudioEntityForm
             requestClose={() => {
               setRightDrawer(RightDrawer.None)
               clearRightDrawerData()
             }}
           />
-        )
-      default:
-        return null
-    }
-  }, [rightDrawer])
-
-  return (
-    <Sheet.Root
-      open={rightDrawer !== RightDrawer.None}
-      onOpenChange={open => {
-        if (!open) {
-          setRightDrawer(RightDrawer.None)
-          clearRightDrawerData()
-        }
-      }}
-    >
-      <Sheet.Content
-        onOpenAutoFocus={e => e.preventDefault()}
-        hideCloseButton={true}
-        className="max-w-lg p-0 sm:max-w-lg"
-      >
-        {renderSheetContent()}
-      </Sheet.Content>
-    </Sheet.Root>
+        </Drawer.Content>
+      </Drawer.Root>
+    </>
   )
 }
