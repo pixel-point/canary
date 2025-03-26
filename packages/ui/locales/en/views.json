@@ -252,6 +252,8 @@
     "noUsers": "No Users Found",
     "noUsersDescription": "There are no users in this scope. Click on the button below to start adding them.",
     "noTagsDescription": "Your tags will appear here once they're created. Start creating tags to see your work organized.",
+    "noUsers": "No Users Found",
+    "noUsersDescription": "There are no users in this scope. Click on the button below to start adding them.",
     "commit": "Commit",
     "noLabels": "No labels yet",
     "noLabelsDescription": "Use labels to organize, prioritize, and categorize tasks efficiently."
