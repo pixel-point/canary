@@ -168,6 +168,7 @@ import PrReview from '../../icons/pr-review.svg'
 import Pull from '../../icons/pull-icon.svg'
 import PythonAndNodeLogo from '../../icons/python-and-node-logo.svg'
 import PythonLogo from '../../icons/python-logo.svg'
+import Refresh from '../../icons/refresh.svg'
 import RepoIcon from '../../icons/repo-icon.svg'
 import RepositoriesGradient from '../../icons/repositories-gradient.svg'
 import Repositories from '../../icons/repositories-icon.svg'
@@ -445,6 +446,7 @@ export const IconNameMap = {
   'collapse-out': CollapseOut,
   'collapse-in': CollapseIn,
   'square-dashed': SquareDashed,
+  refresh: Refresh,
   'node-icon': NodeIcon,
   'golang-icon': GolangIcon
 } satisfies Record<string, React.FunctionComponent<React.SVGProps<SVGSVGElement>>>

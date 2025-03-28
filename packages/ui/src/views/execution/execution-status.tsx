@@ -5,7 +5,7 @@ import { BadgeProps, ExecutionStatusProps } from './types'
 
 const Badge: React.FC<ExecutionStatusProps & BadgeProps> = props => {
   const { status, duration, minimal } = props
-  switch (status) {
+  switch (status.toLowerCase()) {
     case ExecutionState.WAITING_ON_DEPENDENCIES:
     case ExecutionState.BLOCKED:
     case ExecutionState.PENDING:
@@ -31,7 +31,7 @@ const Badge: React.FC<ExecutionStatusProps & BadgeProps> = props => {
         </div>
       ) : (
         <div className="flex items-center gap-1 rounded-md">
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5">
             <CanaryIcon size={16} name="running" className="animate-spin text-warning" />
             <span className="text-studio-3">Running</span>
           </div>
@@ -48,8 +48,8 @@ const Badge: React.FC<ExecutionStatusProps & BadgeProps> = props => {
         </div>
       ) : (
         <div className="flex items-center gap-1 rounded-md">
-          <div className="flex items-center gap-0.5">
-            <CanaryIcon name="fail" width={20} />
+          <div className="flex items-center gap-1.5">
+            <CanaryIcon name="fail" size={16} />
             <span className="text-[#ED5E5E]">Failed</span>
           </div>
           {duration && <span className="text-[#ED5E5E]">{duration}</span>}
@@ -63,8 +63,8 @@ const Badge: React.FC<ExecutionStatusProps & BadgeProps> = props => {
         </div>
       ) : (
         <div className="flex items-center gap-1 rounded-md">
-          <div className="flex items-center gap-0.5 text-foreground-success">
-            <CanaryIcon size={12} name="success" />
+          <div className="flex items-center gap-1.5 text-foreground-success">
+            <CanaryIcon size={16} name="success" />
             <span>Success</span>
           </div>
           {duration && <span className="text-foreground-success">{duration}</span>}
@@ -78,7 +78,7 @@ const Badge: React.FC<ExecutionStatusProps & BadgeProps> = props => {
 
 const Icon: React.FC<ExecutionStatusProps> = props => {
   const { status } = props
-  switch (status) {
+  switch (status.toLowerCase()) {
     case ExecutionState.WAITING_ON_DEPENDENCIES:
     case ExecutionState.PENDING:
       return <CanaryIcon size={16} name="pending-clock" />
