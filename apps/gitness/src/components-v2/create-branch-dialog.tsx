@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import { useCreateBranchMutation } from '@harnessio/code-service-client'
-import { useToast } from '@harnessio/ui/components'
+import { useToastNotification } from '@harnessio/ui/components'
 import {
   BranchSelectorListItem,
   CreateBranchDialog as CreateBranchDialogComp,
@@ -15,16 +15,14 @@ import { BranchSelectorContainer } from './branch-selector-container'
 interface CreateBranchDialogProps {
   open: boolean
   onClose: () => void
+  onSuccess?: () => void
 }
 
-export const CreateBranchDialog = ({ open, onClose }: CreateBranchDialogProps) => {
+export const CreateBranchDialog = ({ open, onClose, onSuccess }: CreateBranchDialogProps) => {
   const repo_ref = useGetRepoRef()
-  const { toast } = useToast()
+
   const { t } = useTranslationStore()
   const [selectedBranchOrTag, setSelectedBranchOrTag] = useState<BranchSelectorListItem | null>(null)
-
-  const [showToast, setShowToast] = useState(false)
-  const [toastId, setToastId] = useState<string | null>(null)
 
   const [createdBranchName, setCreatedBranchName] = useState<string>('')
 
@@ -32,21 +30,10 @@ export const CreateBranchDialog = ({ open, onClose }: CreateBranchDialogProps) =
     setSelectedBranchOrTag(branchTagName)
   }, [])
 
-  useEffect(() => {
-    if (!open) {
-      setShowToast(false)
-      setToastId(null)
-    }
-
-    if (showToast && !toastId) {
-      const { id } = toast({
-        title: t('views:repos.branchCreated'),
-        description: t('views:repos.branchCreatedDescription', { name: createdBranchName })
-      })
-
-      setToastId(id)
-    }
-  }, [createdBranchName, showToast, t, toast, toastId, open])
+  const { showToast } = useToastNotification({
+    title: t('views:repos.branchCreated'),
+    description: t('views:repos.branchCreatedDescription', { name: createdBranchName })
+  })
 
   const {
     mutateAsync: createBranch,
@@ -58,7 +45,8 @@ export const CreateBranchDialog = ({ open, onClose }: CreateBranchDialogProps) =
       onSuccess: data => {
         onClose()
         setCreatedBranchName(data.body.name ?? '')
-        setShowToast(true)
+        showToast()
+        onSuccess?.()
       }
     }
   )

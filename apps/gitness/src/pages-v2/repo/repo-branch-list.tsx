@@ -192,7 +192,11 @@ export function RepoBranchesListPage() {
         setCreateBranchSearchQuery={setCreateBranchSearchQuery}
       />
 
-      <CreateBranchDialog open={isCreateBranchDialogOpen} onClose={() => setCreateBranchDialogOpen(false)} />
+      <CreateBranchDialog
+        open={isCreateBranchDialogOpen}
+        onClose={() => setCreateBranchDialogOpen(false)}
+        onSuccess={handleInvalidateBranchList}
+      />
 
       <DeleteAlertDialog
         open={deleteBranchName !== null}

@@ -60,7 +60,7 @@ export const RepoTagsList: React.FC<RepoTagsListProps> = ({
 
   if (!isLoading && !tagsList?.length) {
     return (
-      <div className={cn(!isDirtyList && 'flex items-center justify-center py-[232px]')}>
+      <div className={cn(!isDirtyList && 'flex items-center justify-center py-[204px]')}>
         <NoData
           iconName={isDirtyList ? 'no-search-magnifying-glass' : 'no-data-tags'}
           withBorder={isDirtyList}
@@ -98,15 +98,15 @@ export const RepoTagsList: React.FC<RepoTagsListProps> = ({
   }
 
   return (
-    <Table.Root variant="asStackedList">
+    <Table.Root variant="asStackedList" tableClassName="table-fixed">
       <Table.Header>
         <Table.Row className="pointer-events-none select-none">
-          <Table.Head className="w-[124px]">{t('views:repos.tag', 'Tag')}</Table.Head>
-          <Table.Head className="w-[330px]">{t('views:repos.description', 'Description')}</Table.Head>
-          <Table.Head className="w-[150px]">{t('views:repos.commit', 'Commit')}</Table.Head>
-          <Table.Head className="w-[178px]">{t('views:repos.tagger', 'Tagger')}</Table.Head>
-          <Table.Head className="w-[130px]">{t('views:repos.creationDate', 'Creation date')}</Table.Head>
-          <Table.Head className="w-[48px]" />
+          <Table.Head className="w-[11%]">{t('views:repos.tag', 'Tag')}</Table.Head>
+          <Table.Head className="w-[35%]">{t('views:repos.description', 'Description')}</Table.Head>
+          <Table.Head className="w-[16%] min-w-[128px]">{t('views:repos.commit', 'Commit')}</Table.Head>
+          <Table.Head className="w-[17%]">{t('views:repos.tagger', 'Tagger')}</Table.Head>
+          <Table.Head className="w-[16%]">{t('views:repos.creationDate', 'Creation date')}</Table.Head>
+          <Table.Head className="w-[5%] min-w-[32px]" />
         </Table.Row>
       </Table.Header>
 
@@ -115,17 +115,19 @@ export const RepoTagsList: React.FC<RepoTagsListProps> = ({
       ) : (
         <Table.Body hasHighlightOnHover>
           {tagsList.map(tag => (
-            <Table.Row key={tag.sha}>
-              <Table.Cell className="max-w-[124px] truncate !py-[13px] text-foreground-1">{tag.name}</Table.Cell>
-              <Table.Cell className="max-w-[330px] !py-[13px] text-foreground-3">
-                <div className="line-clamp-3 break-all">{tag.message}</div>
+            <Table.Row key={tag.sha} className="min-h-[48px]">
+              <Table.Cell className="text-foreground-1 w-[11%] truncate !pb-3 !pt-4">
+                <div className="h-4 overflow-hidden truncate">{tag.name}</div>
               </Table.Cell>
-              <Table.Cell className="!py-2.5 text-foreground-3">
+              <Table.Cell className="text-foreground-3 w-[35%] !py-4">
+                <div className="line-clamp-3 overflow-hidden break-all leading-4">{tag.message}</div>
+              </Table.Cell>
+              <Table.Cell className="text-foreground-3 w-[16%] min-w-[128px] !py-2.5">
                 <div className="flex">
-                  <CommitCopyActions sha={tag.sha} toCommitDetails={toCommitDetails} rootClassName="h-7" />
+                  <CommitCopyActions sha={tag.sha} toCommitDetails={toCommitDetails} className="h-7" />
                 </div>
               </Table.Cell>
-              <Table.Cell className="!py-[13px] text-foreground-3">
+              <Table.Cell className="text-foreground-3 w-[17%] !pb-3 !pt-4">
                 <div className="flex items-center gap-2">
                   <Avatar.Root size="4.5" className="rounded-full text-white">
                     <Avatar.Fallback>{getInitials(tag.tagger?.identity.name || '')}</Avatar.Fallback>
@@ -133,9 +135,11 @@ export const RepoTagsList: React.FC<RepoTagsListProps> = ({
                   <span>{tag.tagger?.identity.name}</span>
                 </div>
               </Table.Cell>
-              <Table.Cell className="!py-[13px] text-foreground-3">{getCreationDate(tag)}</Table.Cell>
+              <Table.Cell className="text-foreground-3 w-[16%] !pb-3 !pt-4">
+                <div>{getCreationDate(tag)}</div>
+              </Table.Cell>
 
-              <Table.Cell className="w-[54px] !py-2.5 text-right">
+              <Table.Cell className="w-[5%] !pb-1.5 !pt-2.5 text-right">
                 <MoreActionsTooltip
                   isInTable
                   actions={getTableActions(tag).map(action => ({

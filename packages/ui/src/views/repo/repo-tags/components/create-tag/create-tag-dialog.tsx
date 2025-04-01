@@ -54,10 +54,14 @@ export const CreateTagDialog: FC<CreateTagDialogProps> = ({
   }, [clearErrors, reset])
 
   useEffect(() => {
-    if (selectedBranchOrTag) {
-      setValue('target', selectedBranchOrTag.name, { shouldValidate: true })
+    if (open) {
+      resetForm()
+
+      if (selectedBranchOrTag) {
+        setValue('target', selectedBranchOrTag.name, { shouldValidate: true })
+      }
     }
-  }, [selectedBranchOrTag, setValue])
+  }, [open, resetForm, selectedBranchOrTag, setValue])
 
   const handleClose = () => {
     resetForm()
@@ -66,7 +70,7 @@ export const CreateTagDialog: FC<CreateTagDialogProps> = ({
 
   return (
     <Dialog.Root open={open} onOpenChange={handleClose}>
-      <Dialog.Content className="max-w-xl border-border bg-background-1" aria-describedby={undefined}>
+      <Dialog.Content className="border-border bg-background-1 max-w-xl" aria-describedby={undefined}>
         <Dialog.Header>
           <Dialog.Title className="font-medium">{t('views:repos.createTagTitle', 'Create a tag')}</Dialog.Title>
         </Dialog.Header>
@@ -77,6 +81,7 @@ export const CreateTagDialog: FC<CreateTagDialogProps> = ({
               id="name"
               label={t('views:forms.tagName', 'Name')}
               {...register('name')}
+              maxLength={250}
               placeholder={t('views:forms.enterTagName', 'Enter a tag name here')}
               size="md"
               error={errors.name?.message}

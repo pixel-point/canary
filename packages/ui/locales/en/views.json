@@ -113,9 +113,9 @@
     "createBranchDialog": {
       "validation": {
         "name": "Branch name is required",
-        "nameRegex": "Name must contain only letters, numbers, and the characters: - _ .",
         "noSpaces": "Name cannot contain spaces",
-        "target": "Base branch is required"
+        "target": "Base branch is required",
+        "nameRegex": "Name must contain only letters, numbers, and the characters: - _ ."
       }
     },
     "createBranchTitle": "Create a branch",
@@ -171,10 +171,9 @@
     "createTagDialog": {
       "validation": {
         "name": "Tag name is required",
-        "nameMax": "Name must be no longer than 40 characters",
-        "nameRegex": "Name must contain only letters, numbers, and the characters: - _ .",
         "noSpaces": "Name cannot contain spaces",
         "target": "Base branch is required",
+        "nameRegex": "Name must contain only letters, numbers, and the characters: - _ .",
         "message": "Description is required"
       },
       "name": "Name",

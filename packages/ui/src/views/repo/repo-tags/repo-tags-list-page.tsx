@@ -36,10 +36,16 @@ export const RepoTagsListView: FC<RepoTagsListViewProps> = ({
   }, [page, searchQuery])
 
   return (
-    <SandboxLayout.Main className="max-w-[1000px]">
-      <SandboxLayout.Content className={cn({ 'h-full': !isLoading && !tagsList.length && !searchQuery })}>
+    <SandboxLayout.Main>
+      <SandboxLayout.Content
+        className={cn({
+          'max-w-[1000px] mx-auto': isLoading || tagsList.length || searchQuery,
+          'h-full': !isLoading && !tagsList.length && !searchQuery
+        })}
+      >
         {(isLoading || !!tagsList.length || isDirtyList) && (
           <>
+            <Spacer size={2} />
             <span className="text-24 text-foreground-1 font-medium">{t('views:repos.tags', 'Tags')}</span>
             <Spacer size={6} />
             <ListActions.Root>

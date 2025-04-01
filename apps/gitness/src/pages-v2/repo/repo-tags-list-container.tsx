@@ -116,12 +116,9 @@ export const RepoTagsListContainer = () => {
     })
   }
 
-  const selectBranchOrTag = useCallback(
-    (branchTagName: BranchSelectorListItem) => {
-      setSelectedBranchOrTag(branchTagName)
-    },
-    [repoId, spaceId]
-  )
+  const selectBranchOrTag = useCallback((branchTagName: BranchSelectorListItem) => {
+    setSelectedBranchOrTag(branchTagName)
+  }, [])
 
   return (
     <>

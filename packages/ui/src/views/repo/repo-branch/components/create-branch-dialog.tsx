@@ -14,12 +14,6 @@ export const createBranchFormSchema = (t: TranslationStore['t']) =>
       .string()
       .trim()
       .min(1, { message: t('views:repos.createBranchDialog.validation.name', 'Branch name is required') })
-      .regex(/^[a-zA-Z0-9._-\s]+$/, {
-        message: t(
-          'views:repos.createBranchDialog.validation.nameRegex',
-          'Name must contain only letters, numbers, and the characters: - _ .'
-        )
-      })
       .refine(data => !data.includes(' '), {
         message: t('views:repos.createBranchDialog.validation.noSpaces', 'Name cannot contain spaces')
       }),
@@ -80,7 +74,7 @@ export function CreateBranchDialog({
 
   return (
     <Dialog.Root open={open} onOpenChange={handleClose}>
-      <Dialog.Content className="max-w-[460px] border-border bg-background-1" aria-describedby={undefined}>
+      <Dialog.Content className="border-border bg-background-1 max-w-[460px]" aria-describedby={undefined}>
         <Dialog.Header>
           <Dialog.Title className="font-medium">{t('views:repos.createBranchTitle', 'Create a branch')}</Dialog.Title>
         </Dialog.Header>
@@ -90,7 +84,7 @@ export function CreateBranchDialog({
               id="name"
               label="Branch name"
               {...register('name')}
-              maxLength={50}
+              maxLength={250}
               placeholder={t('views:forms.enterBranchName', 'Enter branch name')}
               size="md"
               error={errors.name?.message}
