@@ -141,3 +141,9 @@ export enum EntityIntent {
   CREATE = 'create',
   EDIT = 'edit'
 }
+
+export const connectorRefFilters = {
+  success: 'Success',
+  failure: 'Failure',
+  all: 'All connectors'
+}
