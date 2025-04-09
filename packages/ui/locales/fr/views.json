@@ -252,6 +252,9 @@
     "configuration": "Configuration",
     "references": "References",
     "activityHistory": "Activity history",
+    "new": "Nouveau connecteur",
+    "id": "ID du connecteur",
+    "create": "Créer un connecteur",
     "createNew": "Créer un nouveau connecteur"
   },
   "notFound": {
