@@ -12,6 +12,7 @@ import {
   ConnectorEntity,
   ConnectorEntityForm,
   ConnectorsPalette,
+  ConnectorTestConnectionDialog,
   EntityIntent,
   GroupInput,
   ListInput,
@@ -42,7 +43,7 @@ const ConnectorsListPageContent = (): JSX.Element => {
   const [isEditConnectorDrawerOpen, setIsEditConnectorDrawerOpen] = useState(false)
   const [isConnectorSelected, setIsConnectorSelected] = useState(false)
   const [intent, setIntent] = useState<EntityIntent>(EntityIntent.CREATE)
-
+  const [testConnectionOpen, setTestConnectionOpen] = useState(false)
   return (
     <SandboxLayout.Main className="max-w-[1040px]">
       <SandboxLayout.Content>
@@ -79,11 +80,30 @@ const ConnectorsListPageContent = (): JSX.Element => {
               >
                 Edit Connector
               </Button>
+              <Button variant="default" onClick={() => setTestConnectionOpen(true)}>
+                Test Connection
+              </Button>
             </ListActions.Right>
           </ListActions.Root>
           <Spacer size={5} />
         </>
       </SandboxLayout.Content>
+
+      <ConnectorTestConnectionDialog
+        title="Test Connection"
+        apiUrl="https://docker.harness.io"
+        status="error"
+        percentageFilled={50}
+        errorMessage="Error Encountered (Update the username & password. Check if the provided credentials are correct. Invalid Docker Registry credentials)."
+        description="Validating connector authentication and permissions"
+        isOpen={testConnectionOpen}
+        onClose={() => setTestConnectionOpen(false)}
+        viewDocClick={() => {
+          console.log('')
+        }}
+        useTranslationStore={useTranslationStore}
+        errorData={{ errors: [{ reason: 'Unexpected Error', message: 'Bad credentials' }] }}
+      />
       <Drawer.Root open={isConnectorDrawerOpen} onOpenChange={setIsConnectorDrawerOpen} direction="right">
         <Drawer.Content>
           <ConnectorsPalette
