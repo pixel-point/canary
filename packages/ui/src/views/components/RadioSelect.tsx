@@ -33,8 +33,8 @@ export const RadioSelect = <T extends string>({
             id={option.id}
             control={
               <StackedList.Root
-                className={cn('overflow-hidden border-borders-1', {
-                  'border-borders-6': value === option.value
+                className={cn('overflow-hidden border-cn-borders-2', {
+                  'border-cn-borders-2': value === option.value
                 })}
               >
                 <StackedList.Item
