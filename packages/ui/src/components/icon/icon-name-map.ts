@@ -6,6 +6,7 @@ import AddFile from '../../icons/add-file-icon.svg'
 import AddFolder from '../../icons/add-folder-icon.svg'
 import AISparks from '../../icons/ai-sparks.svg'
 import AppleShortcut from '../../icons/apple-shortcut.svg'
+import ArrowLeft from '../../icons/arrow-left.svg'
 import ArrowLong from '../../icons/arrow-long.svg'
 import ArrowShort from '../../icons/arrow-short.svg'
 import Arrow from '../../icons/arrow.svg'
@@ -438,6 +439,7 @@ export const IconNameMap = {
   suggestion: Suggestion,
   'repo-icon': RepoIcon,
   arrow: Arrow,
+  'arrow-left': ArrowLeft,
   'arrow-short': ArrowShort,
   'bold-plus': BoldPlus,
   'checkbox-circle': CheckboxCircle,
