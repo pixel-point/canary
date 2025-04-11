@@ -1,13 +1,17 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
-import { Button, ListActions, NoData, Pagination, SearchBox, Spacer } from '@/components'
+import { Button, NoData, Pagination, Spacer } from '@/components'
 import { useRouterContext } from '@/context'
 import { useDebounceSearch } from '@/hooks'
 import { SandboxLayout } from '@/views'
 import { cn } from '@utils/cn'
+import FilterGroup from '@views/components/FilterGroup'
 
 import { ConnectorsList } from './connectors-list'
-import { ConnectorListPageProps } from './types'
+import { getConnectorListFilterOptions } from './filter-options'
+import { ConnectorListFilters, ConnectorListPageProps } from './types'
+
+type ConnectorListFiltersKeys = keyof ConnectorListFilters
 
 const ConnectorsListPage: FC<ConnectorListPageProps> = ({
   searchQuery,
@@ -20,16 +24,36 @@ const ConnectorsListPage: FC<ConnectorListPageProps> = ({
   goToPage,
   isLoading,
   connectors,
+  onFilterChange,
   onCreate,
   ...props
 }) => {
   const { t } = useTranslationStore()
   const { navigate } = useRouterContext()
+  // const filterHandlers = useFilters()
+  const [_selectedFiltersCnt, setSelectedFiltersCnt] = useState(0)
+  // const [openedFilter, setOpenedFilter] = useState<ConnectorListFiltersKeys>()
+  // const filtersRef = useRef<FilterRefType<ConnectorListFilters> | null>(null)
+
+  const CONNECTOR_FILTER_OPTIONS = getConnectorListFilterOptions(t)
 
   const { search: searchInput, handleSearchChange: handleInputChange } = useDebounceSearch({
     handleChangeSearchValue: (val: string) => setSearchQuery(val.length ? val : undefined),
     searchValue: searchQuery || ''
   })
+
+  const onFilterSelectionChange = (filterValues: ConnectorListFiltersKeys[]) => {
+    setSelectedFiltersCnt(filterValues.length)
+  }
+
+  const onFilterValueChange = (filterValues: ConnectorListFilters) => {
+    // Pass filter values to parent component if onFilterChange is provided
+    onFilterChange?.(filterValues)
+  }
+
+  // const handleFilterOpen = (filter: ConnectorListFiltersKeys, isOpen: boolean) => {
+  //   setOpenedFilter(isOpen ? filter : undefined)
+  // }
 
   if (isError) {
     return (
@@ -59,20 +83,21 @@ const ConnectorsListPage: FC<ConnectorListPageProps> = ({
   return (
     <SandboxLayout.Main>
       <SandboxLayout.Content className={cn({ 'h-full': !isLoading && !connectors.length && !searchQuery })}>
-        <ListActions.Root>
-          <ListActions.Left>
-            <SearchBox.Root
-              width="full"
-              className="max-w-96"
-              value={searchInput}
-              handleChange={handleInputChange}
-              placeholder={t('views:search', 'Search')}
-            />
-          </ListActions.Left>
-          <ListActions.Right>
-            <Button variant="default">{t('views:connectors.new', 'New connector')}</Button>
-          </ListActions.Right>
-        </ListActions.Root>
+        <h1 className="text-24 text-cn-foreground-2 font-medium leading-snug tracking-tight">Connectors</h1>
+        <Spacer size={6} />
+        <FilterGroup<ConnectorListFilters, keyof ConnectorListFilters>
+          onFilterSelectionChange={onFilterSelectionChange}
+          onFilterValueChange={onFilterValueChange}
+          searchInput={searchInput}
+          handleInputChange={handleInputChange}
+          headerAction={
+            <Button onClick={onCreate} variant="default">
+              {t('views:connectors.createNew', 'Create new connector')}
+            </Button>
+          }
+          t={t}
+          filterOptions={CONNECTOR_FILTER_OPTIONS}
+        />
         <Spacer size={4} />
         <ConnectorsList
           connectors={connectors}

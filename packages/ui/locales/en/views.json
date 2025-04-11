@@ -269,36 +269,26 @@
     "noLabels": "No labels yet",
     "noLabelsDescription": "Use labels to organize, prioritize, and categorize tasks efficiently."
   },
-  "common": {
-    "details": "Details",
-    "lastActivity": "Last Activity",
-    "created": "Created",
-    "manager": "Manager"
-  },
-  "connectors": {
-    "delete": "Delete Connector",
-    "configuration": "Configuration",
-    "references": "References",
-    "activityHistory": "Activity history",
-    "connector": "Connector",
-    "viewConnectorDetails": "View connector details",
-    "status": "Status",
-    "viewDocumentation": "View Documentation",
-    "new": "New connector",
-    "id": "Connector ID",
-    "create": "Create connector",
-    "createNew": "Create new connector",
-    "updated": "Last updated",
-    "lastConnected": "Last connected",
-    "viewDoctumentation": "View documentation"
-  },
+  "search": "Search",
   "notFound": {
     "button": "Reload page",
     "title": "Something went wrong…",
     "descriptionWithType": "The requested page is not found. You can go back to view all {{type}} and manage your settings.",
     "description": "The requested page is not found."
   },
-  "search": "Search",
+  "connectors": {
+    "createNew": "Create new connector",
+    "delete": "Delete Connector",
+    "filterOptions": {
+      "statusOption": {
+        "success": "Success",
+        "failure": "Failure",
+        "label": "Status"
+      }
+    },
+    "updated": "Last updated",
+    "lastConnected": "Last connected"
+  },
   "execution": {
     "summary": "Summary",
     "logs": "Logs",

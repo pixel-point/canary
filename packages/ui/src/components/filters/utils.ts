@@ -3,6 +3,7 @@ import { format } from 'date-fns'
 import { ComboBoxOptions } from './filters-bar/actions/variants/combo-box'
 import {
   CheckboxFilterOption,
+  CheckboxOptions,
   FilterField,
   FilterFieldTypes,
   FilterOptionConfig,
@@ -123,6 +124,12 @@ export const getFilterLabelValue = <T extends FilterValueTypes>(
 
     case FilterFieldTypes.ComboBox: {
       return (filter.value as ComboBoxOptions)?.label
+    }
+    case FilterFieldTypes.Checkbox: {
+      return (filter.value as CheckboxOptions[])?.map(option => option.label).join(', ')
+    }
+    case FilterFieldTypes.Text: {
+      return filter.value as string
     }
     default:
       return ''
