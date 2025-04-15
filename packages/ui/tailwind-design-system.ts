@@ -46,6 +46,7 @@ export default {
         },
         'cn-background': {
           DEFAULT: 'lch(from var(--cn-bg-1) l c h / <alpha-value>)',
+          0: 'lch(from var(--cn-bg-0) l c h / <alpha-value>)',
           1: 'lch(from var(--cn-bg-1) l c h / <alpha-value>)',
           2: 'lch(from var(--cn-bg-2) l c h / <alpha-value>)',
           3: 'lch(from var(--cn-bg-3) l c h / <alpha-value>)',
@@ -57,8 +58,8 @@ export default {
           solidred: 'lch(from var(--cn-set-red-solid-bg) l c h / <alpha-value>)',
           softgray: 'lch(from var(--cn-set-gray-soft-bg) l c h / <alpha-value>)',
           hover: 'var(--cn-state-hover)',
-          selected: 'lch(from var(--cv-state-selected) l c h / <alpha-value>)',
-          backdrop: 'lch(from var(--cn-dialog-backdrop) l c h / <alpha-value>)',
+          selected: 'lch(from var(--cn-state-selected) l c h / <alpha-value>)',
+          backdrop: 'lch(from var(--cn-comp-dialog-backdrop) l c h / <alpha-value>)',
           primary: 'lch(from var(--cn-set-brand-solid-bg) l c h / <alpha-value>)',
           8: 'lch(from var(--cn-set-gray-soft-bg) l c h / <alpha-value>)',
           9: 'lch(from var(--cn-bg-3) l c h / <alpha-value>)',
@@ -78,6 +79,7 @@ export default {
 
           // remove
           // update to focus, disabled, success, danger, warning
+          disabled: 'lch(from var(--cn-state-disabled-border) l c h / <alpha-value>)',
           brand: 'lch(from var(--cn-set-brand-solid-border) l c h / <alpha-value>)',
           solidred: 'var(--cn-set-red-solid-border)',
           risk: 'var(--cn-icon-risk)'
@@ -318,80 +320,65 @@ export default {
         }
       },
       letterSpacing: {
-        tight: '-0.02em'
+        tight: 'var(--cn-tracking-tight)'
       },
       boxShadow: {
-        1: '0px 8px 16px var(--canary-box-shadow-1)',
-        2: '0px 8px 8px var(--canary-box-shadow-2)',
-        'pagination-1': '0px 2px 4px var(--canary-box-shadow-pagination)',
-        'as-border': 'inset 0 0 0 1px',
+        1: 'var(--cn-shadow-4)',
+        2: 'var(--cn-shadow-2)',
+        5: 'var(--cn-shadow-5)',
+        'pagination-1': 'var(--cn-shadow-1)',
         'commit-list-bullet':
-          '0px 0px 3px 0.5px hsla(var(--canary-background-05) / 0.2), 0px 0px 8px 1px hsla(var(--canary-background-05) / 0.3)',
-        auth: '0px 0px 20px var(--canary-box-shadow-2)'
+          '0px 0px 3px 0.5px hsla(var(--cn-set-brand-solid-bg) / 0.2), 0px 0px 8px 1px hsla(var(--cn-set-brand-solid-bg) / 0.3)',
+        auth: 'var(--cn-shadow-3)'
       },
       borderColor: {
         DEFAULT: 'var(--cn-border-3)',
-        'borders-1': 'hsl(var(--canary-border-01))',
-        'borders-2': 'hsl(var(--canary-border-02))',
-        'borders-3': 'hsl(var(--canary-border-03))',
-        'borders-4': 'hsl(var(--canary-border-04))',
-        'borders-5': 'hsl(var(--canary-border-05))',
-        'borders-6': 'hsl(var(--canary-border-06))',
-        'borders-7': 'hsl(var(--canary-border-07))',
-        'borders-8': 'hsl(var(--canary-border-08))',
-        'borders-9': 'hsl(var(--canary-border-09))',
-        'borders-10': 'hsl(var(--canary-border-10))',
-        'borders-danger': 'hsl(var(--canary-border-danger))',
-        'borders-success': 'hsl(var(--canary-border-success))',
-        'borders-accent': 'hsl(var(--canary-border-accent))',
-        'borders-warning': 'hsl(var(--canary-border-warning))',
-        'borders-alert': 'hsl(var(--canary-border-alert))'
+        'borders-1': 'hsl(var(--cn-border-2))',
+        'borders-2': 'hsl(var(--cn-border-2))',
+        'borders-3': 'hsl(var(--cn-border-1))',
+        'borders-4': 'hsl(var(--cn-state-disabled-border))',
+        'borders-5': 'hsl(var(--cn-border-2))',
+        'borders-6': 'hsl(var(--cn-border-1))',
+        'borders-7': 'hsl(var(--cn-border-1))',
+        'borders-8': 'hsl(var(--cn-border-2))',
+        'borders-9': 'hsl(var(--cn-border-1))',
+        'borders-10': 'hsl(var(--cn-border-2))',
+        'borders-danger': 'hsl(var(--cn-border-danger))',
+        'borders-success': 'hsl(var(--cn-border-success))',
+        'borders-accent': 'hsl(var(--cn-border-accent))',
+        'borders-warning': 'hsl(var(--cn-border-warning))',
+        'borders-alert': 'hsl(var(--cn-border-warning))'
       },
       borderRadius: {
-        10: '0.625rem'
+        10: 'var(--cn-rounded-4)'
       },
       fontSize: {
-        tiny: '0.75rem',
-        xs: '0.8125rem',
-        // By px
-        8: '0.5rem',
-        9: '0.5625rem',
-        10: '0.625rem',
-        11: '0.6875rem',
-        12: '0.75rem',
-        13: '0.8125rem',
-        14: '0.875rem',
-        15: '0.9375rem',
-        16: '1rem',
-        17: '1.0625rem',
-        18: '1.125rem',
-        19: '1.1875rem',
-        20: '1.25rem',
-        24: '1.5rem'
+        xs: 'var(--cn-font-size-2)',
+        10: 'var(--cn-font-size-0)',
+        11: 'var(--cn-font-size-0)',
+        12: 'var(--cn-font-size-1)',
+        13: 'var(--cn-font-size-2)',
+        14: 'var(--cn-font-size-2)',
+        15: 'var(--cn-font-size-2)',
+        16: 'var(--cn-font-size-3)',
+        18: 'var(--cn-font-size-4)',
+        20: 'var(--cn-font-size-5)',
+        24: 'var(--cn-font-size-6)'
       },
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--canary-tw-gradient-stops))',
         'ai-button':
-          'linear-gradient(to right, hsl(var(--canary-ai-button-stop-1)), hsl(var(--canary-ai-button-stop-2)), hsl(var(--canary-ai-button-stop-3)), hsl(var(--canary-ai-button-stop-4)))',
-        'navbar-gradient-1':
-          'radial-gradient(50% 50% at 50% 50%, hsla(var(--canary-nav-gradient-1-1)) 0%, hsla(var(--canary-nav-gradient-1-2)) 100%)',
-        'navbar-gradient-2':
-          'radial-gradient(50% 50% at 50% 50%, hsla(var(--canary-nav-gradient-2-1)) 0%, hsla(var(--canary-nav-gradient-2-2)) 44.95%, hsla(var(--canary-nav-gradient-2-3)) 100%)',
-        'navbar-gradient-3':
-          'radial-gradient(50% 50% at 50% 50%, hsla(var(--canary-nav-gradient-3-1)) 0%, hsla(var(--canary-nav-gradient-3-2)) 100%)',
-        'navbar-gradient-4':
-          'radial-gradient(50% 50% at 50% 50%, hsla(var(--canary-nav-gradient-4-1)) 0%, hsla(var(--canary-nav-gradient-4-2)) 100%)',
+          'linear-gradient(to right, hsl(var(--cn-gradient-ai-gradient-stop-1)), hsl(var(--cn-gradient-ai-gradient-stop-2)), hsl(var(--cn-gradient-ai-gradient-stop-3)), hsl(var(--cn-gradient-ai-gradient-stop-4)))',
         'navbar-item-gradient':
           'radial-gradient(50% 50% at 50% 50%, hsla(var(--canary-nav-item-gradient-1)) 0%, hsla(var(--canary-nav-item-gradient-2)) 17.63%, hsla(var(--canary-nav-item-gradient-3)) 40.23%, hsla(var(--canary-nav-item-gradient-4)) 61.54%, hsla(var(--canary-nav-item-gradient-5)) 80%, hsla(var(--canary-nav-item-gradient-6)) 100%)',
         'widget-bg-gradient':
-          'radial-gradient(80.82% 77.84% at 80.15% 11.99%, hsla(var(--canary-widget-bg-gradient-from)) 8.43%, hsla(var(--canary-widget-bg-gradient-to)) 100%)',
+          'radial-gradient(80.82% 77.84% at 80.15% 11.99%, hsla(var(--cn-gradient-pipeline-widget-blob-big-from)) 8.43%, hsla(var(--cn-gradient-pipeline-widget-blob-big-to)) 100%)',
         'widget-number-gradient':
-          'linear-gradient(180deg, hsla(var(--canary-widget-number-gradient-from)) 35.9%, hsla(var(--canary-widget-number-gradient-to)) 100%)',
+          'linear-gradient(180deg, hsla(var(--cn-gradient-pipeline-widget-number-from)) 35.9%, hsla(var(--cn-gradient-pipeline-widget-number-to)) 100%)',
         'widget-number-bg-gradient':
-          'linear-gradient(135deg, hsla(var(--canary-widget-number-bg-gradient-from)) 0%, hsla(var(--canary-widget-number-bg-gradient-to)) 67.67%)',
+          'linear-gradient(135deg, hsla(var(--cn-gradient-pipeline-widget-blob-small-from)) 0%, hsla(var(--cn-gradient-pipeline-widget-blob-small-to)) 67.67%)',
         'graph-gradient-1':
-          'radial-gradient(88.57% 100% at 14.29% 0%, var(--canary-graph-gradient-bg-1) 10.62%, var(--canary-graph-gradient-bg-2) 75.86%)',
-        'graph-bg-gradient': 'radial-gradient(circle, var(--canary-graph-viewport-bg) 1px, transparent 1px)'
+          'radial-gradient(88.57% 100% at 14.29% 0%, var(--cn-gradient-pipeline-card-bg-gradient-from) 10.62%, var(--cn-gradient-pipeline-card-bg-gradient-to) 75.86%)',
+        'graph-bg-gradient': 'radial-gradient(circle, var(--cn-bg-1) 1px, transparent 1px)'
       },
       backgroundSize: {
         'graph-bg-size': '22px 22px'
@@ -438,10 +425,10 @@ export default {
       addUtilities({
         '.tabnav-active': {
           boxShadow:
-            'inset 0 1px 0 0 hsl(var(--canary-border-background)), inset 1px 0 0 0 hsl(var(--canary-border-background)), inset -1px 0 0 0 hsl(var(--canary-border-background))'
+            'inset 0 1px 0 0 var(--cn-border-3), inset 1px 0 0 0 var(--cn-border-3), inset -1px 0 0 0 var(--cn-border-3)'
         },
         '.tabnav-inactive': {
-          boxShadow: 'inset 0 -1px 0 0 hsl(var(--canary-border-background))'
+          boxShadow: 'inset 0 -1px 0 0 var(--cn-border-3)'
         }
       })
     },
