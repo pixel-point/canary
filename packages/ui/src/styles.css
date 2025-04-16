@@ -36,7 +36,7 @@
   }
 
   body {
-    @apply bg-cn-background-1 text-cn-foreground-2 overscroll-y-none text-sm font-normal -tracking-[0.02em];
+    @apply bg-sidebar-background-1 text-cn-foreground-2 overscroll-y-none text-sm font-normal -tracking-[0.02em];
   }
 }
 
@@ -71,6 +71,7 @@
   --cn-tabs-nav-height: 45px;
   --cn-page-nav-height: calc(var(--cn-tabs-nav-height) + var(--cn-breadcrumbs-height));
   --cn-inset-layout-indent: 6px;
+  --cn-inset-layout-indent-with-borders: calc(var(--cn-inset-layout-indent) + 2px);
 }
 
 .border-linear {
@@ -515,35 +516,6 @@ mark {
   display: none !important;
 }
 
-.inset-layout {
-  @apply bg-sidebar-background-1;
-}
-
 .nested-sidebar-height {
-  @apply h-[calc(100vh-var(--cn-page-nav-height))];
-
-  .inset-layout & {
-    /* where 2px is the Inset layout borders */
-    @apply h-[calc(100vh-var(--cn-page-nav-height)-var(--cn-inset-layout-indent)-2px)];
-  }
-}
-
-.topbar-bottom-border {
-  @apply border-cn-borders-3 border-b;
-
-  .inset-layout & {
-    @apply border-none;
-  }
-}
-
-.main-page-content-background {
-  @apply bg-cn-background-1;
-
-  .inset-layout & {
-    @apply bg-sidebar-background-1;
-  }
-}
-
-.main-content-height {
-  @apply h-[calc(100%-var(--cn-breadcrumbs-height))];
+  height: calc(100vh - var(--cn-page-nav-height) - var(--cn-inset-layout-indent-with-borders));
 }

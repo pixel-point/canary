@@ -17,7 +17,7 @@ export interface ItemProps {
 
 export const Item = forwardRef<HTMLDivElement, ItemProps>(
   ({ icon, text, description, active, submenuItem = false, className, isMainNav, ...props }, ref) => {
-    const { isInset, isLightTheme } = useTheme()
+    const { isLightTheme } = useTheme()
 
     if (submenuItem) {
       return (
@@ -44,7 +44,6 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                 className={cn(
                   'sub-menu-icon-bg relative flex size-8 place-content-center place-items-center rounded border border-cn-borders-2 bg-cn-background-2',
                   { 'border-sidebar-border-3 bg-sidebar-background-7': isMainNav }
-                  // { 'border-sidebar-border-6 bg-sidebar-background-8': active && isLightTheme }
                 )}
               >
                 <Icon
@@ -67,8 +66,6 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
               weight="medium"
               className={cn(
                 'text-cn-foreground-2 group-hover:text-cn-foreground-1 z-10 w-full duration-0 ease-in-out',
-                // { 'text-sidebar-foreground-2': isMainNav && (!isInset || isLightTheme) },
-                // { 'text-sidebar-foreground-3': isMainNav && isInset && !isLightTheme },
                 { 'text-sidebar-foreground-2 group-hover:text-sidebar-foreground-1': isMainNav },
                 { 'text-cn-foreground-1': active },
                 { 'text-sidebar-foreground-1': active && isMainNav }
@@ -105,7 +102,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
         <div
           className={cn(
             'absolute z-0 h-full w-full rounded-[4px] bg-transparent transition-colors',
-            { 'group-hover:bg-sidebar-background-2': isMainNav && (isLightTheme || isInset) },
+            { 'group-hover:bg-sidebar-background-2': isMainNav && isLightTheme },
             { 'bg-cn-background-hover': active },
             { 'bg-sidebar-background-3': active && isMainNav }
           )}
@@ -120,7 +117,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
             )}
           >
             {active && (
-              <span className="absolute left-1/2 top-1/2 z-[-1] size-7 -translate-x-1/2 -translate-y-1/2 bg-navbar-item-gradient" />
+              <span className="bg-navbar-item-gradient absolute left-1/2 top-1/2 z-[-1] size-7 -translate-x-1/2 -translate-y-1/2" />
             )}
             {icon}
           </div>

@@ -1,6 +1,5 @@
 import { DropdownMenu, Icon, IconProps, Sidebar, Text, useSidebar } from '@/components'
-import { useRouterContext, useTheme } from '@/context'
-import { cn } from '@/utils'
+import { useRouterContext } from '@/context'
 import { TFunction } from 'i18next'
 
 const dropdownItemClassNames =
@@ -34,7 +33,6 @@ export const SidebarItem = ({
 }: NavbarItemProps) => {
   const { NavLink } = useRouterContext()
   const { collapsed } = useSidebar()
-  const { isInset } = useTheme()
 
   const iconName = item.iconName && (item.iconName.replace('-gradient', '') as IconProps['name'])
 
@@ -94,15 +92,12 @@ export const SidebarItem = ({
       {!collapsed && (
         <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild>
-            <Sidebar.MenuAction
-              className={cn('text-sidebar-icon-3 hover:text-sidebar-icon-1', isInset ? 'right-[3px]' : 'right-0')}
-              showOnHover
-            >
+            <Sidebar.MenuAction className="text-sidebar-icon-3 hover:text-sidebar-icon-1 right-[3px]" showOnHover>
               <Icon name="menu-dots" size={12} />
             </Sidebar.MenuAction>
           </DropdownMenu.Trigger>
           <DropdownMenu.Content
-            className="w-[128px] border-sidebar-border-3 bg-sidebar-background-4"
+            className="border-sidebar-border-3 bg-sidebar-background-4 w-[128px]"
             align="end"
             sideOffset={3}
             alignOffset={4}

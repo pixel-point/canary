@@ -1,8 +1,8 @@
 import { FC, PropsWithChildren, useCallback } from 'react'
 import { NavLink } from 'react-router-dom'
 
-import { Badge, BadgeProps, Icon, IconProps, TabNav, Tabs, TabsTriggerProps } from '@/components'
-import { useRouterContext, useTheme } from '@/context'
+import { Badge, BadgeProps, Icon, IconProps, Tabs, TabsTriggerProps } from '@/components'
+import { useRouterContext } from '@/context'
 import { cn } from '@/utils'
 import { SandboxLayout } from '@views/layouts/SandboxLayout'
 import { TranslationStore } from '@views/repo'
@@ -42,10 +42,9 @@ export const PullRequestLayout: FC<PullRequestLayoutProps> = ({
   repoId,
   updateTitle
 }) => {
-  const { Outlet, navigate } = useRouterContext()
+  const { Outlet } = useRouterContext()
   const { pullRequest } = usePullRequestStore()
   const { t } = useTranslationStore()
-  const { isInset } = useTheme()
 
   const getTabProps = useCallback(
     (tab: PullRequestTabsKeys): TabsTriggerProps => ({
@@ -64,12 +63,7 @@ export const PullRequestLayout: FC<PullRequestLayoutProps> = ({
         )}
 
         <Tabs.Root variant="tabnav" className="mb-7" defaultValue={PullRequestTabsKeys.CONVERSATION}>
-          <Tabs.List
-            className={cn(
-              'before:w-[calc(100vw-var(--cn-sidebar-width))] before:min-w-[calc(100%+3rem)] before:left-1/2 before:-translate-x-1/2 before:bg-background-9',
-              { 'before:w-[calc(100vw-var(--cn-sidebar-width)-var(--cn-inset-layout-indent)*2)]': isInset }
-            )}
-          >
+          <Tabs.List className="before:bg-background-9 before:left-1/2 before:w-[calc(100vw-var(--cn-sidebar-width)-var(--cn-inset-layout-indent)*2)] before:min-w-[calc(100%+3rem)] before:-translate-x-1/2">
             <Tabs.Trigger {...getTabProps(PullRequestTabsKeys.CONVERSATION)} asChild>
               <NavLink to={PullRequestTabsKeys.CONVERSATION}>
                 <TabTitleWithIcon icon="comments">
