@@ -70,7 +70,7 @@ const FilterSelect = <FilterKey extends string>({
 
           {filteredBySearchOptions.length === 0 && (
             <div className="flex items-center justify-center p-4">
-              <span className="text-14 leading-none text-cn-foreground-2">No results</span>
+              <span className="text-2 leading-none text-cn-foreground-2">No results</span>
             </div>
           )}
         </div>
@@ -105,7 +105,7 @@ const FilterSelectLabel = ({
       <Button size="xs" variant="ghost" className="gap-x-1 px-0 hover:bg-transparent hover:text-cn-foreground-1">
         {displayLabel}
         {selectedFilters > 0 && (
-          <span className="flex h-[18px] min-w-[17px] items-center justify-center rounded border border-tag-border-blue-1 bg-tag-background-blue-1 px-1 text-11 text-tag-foreground-blue-1">
+          <span className="flex h-[18px] min-w-[17px] items-center justify-center rounded border border-tag-border-blue-1 bg-tag-background-blue-1 px-1 text-0 text-tag-foreground-blue-1">
             {selectedFilters}
           </span>
         )}

@@ -227,7 +227,7 @@ export const PullRequestChangesFilter: React.FC<PullRequestChangesFilterProps> =
       <div className="flex grow items-center gap-x-5">
         <DropdownMenu.Root>
           <DropdownMenu.Trigger className="group flex items-center gap-x-1.5">
-            <div className="flex items-center gap-x-0.5 text-14 text-cn-foreground-2 group-hover:text-cn-foreground-1">
+            <div className="flex items-center gap-x-0.5 text-2 text-cn-foreground-2 group-hover:text-cn-foreground-1">
               {selectedCommits[0].value === 'ALL' ? (
                 <>
                   <span>{defaultCommitFilter.name}</span>
@@ -248,7 +248,7 @@ export const PullRequestChangesFilter: React.FC<PullRequestChangesFilterProps> =
         </DropdownMenu.Root>
 
         <DropdownMenu.Root>
-          <DropdownMenu.Trigger className="group flex items-center gap-x-1.5 text-14">
+          <DropdownMenu.Trigger className="group flex items-center gap-x-1.5 text-2">
             <span className="text-cn-foreground-2 group-hover:text-cn-foreground-1">
               {diffMode === DiffModeEnum.Split ? t('views:pullRequests.split') : t('views:pullRequests.unified')}
             </span>
@@ -273,7 +273,7 @@ export const PullRequestChangesFilter: React.FC<PullRequestChangesFilterProps> =
         </DropdownMenu.Root>
 
         <DropdownMenu.Root>
-          <p className="text-14 leading-tight text-cn-foreground-2">
+          <p className="text-2 leading-tight text-cn-foreground-2">
             {t('views:commits.commitDetailsDiffShowing', 'Showing')}{' '}
             <DropdownMenu.Trigger className="group">
               <span className="text-cn-foreground-accent underline decoration-transparent underline-offset-4 transition-colors duration-200 group-hover:decoration-foreground-accent">
@@ -296,11 +296,11 @@ export const PullRequestChangesFilter: React.FC<PullRequestChangesFilterProps> =
               >
                 <div className="flex min-w-0 flex-1 items-center justify-start gap-x-1.5">
                   <Icon name="file" size={16} className="shrink-0 text-icons-1" />
-                  <span className="overflow-hidden truncate text-14 text-cn-foreground-1 [direction:rtl]">
+                  <span className="overflow-hidden truncate text-2 text-cn-foreground-1 [direction:rtl]">
                     {diff.filePath}
                   </span>
                 </div>
-                <div className="flex shrink-0 items-center text-13">
+                <div className="flex shrink-0 items-center text-2">
                   {diff.addedLines != null && diff.addedLines > 0 && (
                     <span className="text-cn-foreground-success">+{diff.addedLines}</span>
                   )}
@@ -332,7 +332,7 @@ export const PullRequestChangesFilter: React.FC<PullRequestChangesFilterProps> =
           {commitSuggestionsBatchCount > 0 ? (
             <Button className="gap-x-2" variant="outline" onClick={() => onCommitSuggestionsBatch()}>
               Commit suggestion
-              <span className="flex h-[18px] min-w-[18px] items-center justify-center rounded border border-tag-border-blue-1 bg-tag-background-blue-1 px-1 text-11 text-tag-foreground-blue-1">
+              <span className="flex h-[18px] min-w-[18px] items-center justify-center rounded border border-tag-border-blue-1 bg-tag-background-blue-1 px-1 text-0 text-tag-foreground-blue-1">
                 {commitSuggestionsBatchCount}
               </span>
             </Button>

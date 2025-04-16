@@ -109,7 +109,7 @@ const HeaderTitle = ({ ...props }: HeaderProps) => {
         </div>
         {props.headerMsg && (
           <div className="flex w-full justify-end">
-            <span className="text-12 text-cn-foreground-danger">{props.headerMsg}</span>
+            <span className="text-1 text-cn-foreground-danger">{props.headerMsg}</span>
           </div>
         )}
       </>
@@ -340,7 +340,7 @@ const PullRequestPanel = ({
                   {commitSuggestionsBatchCount > 0 ? (
                     <Button className="gap-x-2" variant="outline" onClick={() => onCommitSuggestions()}>
                       Commit suggestion
-                      <span className="flex h-[18px] min-w-[18px] items-center justify-center rounded border border-tag-border-blue-1 bg-tag-background-blue-1 px-1 text-11 text-tag-foreground-blue-1">
+                      <span className="flex h-[18px] min-w-[18px] items-center justify-center rounded border border-tag-border-blue-1 bg-tag-background-blue-1 px-1 text-0 text-tag-foreground-blue-1">
                         {commitSuggestionsBatchCount}
                       </span>
                     </Button>
@@ -357,7 +357,7 @@ const PullRequestPanel = ({
                           }
                         }}
                       />
-                      <span className="text-12 text-cn-foreground-1">Bypass and merge anyway</span>
+                      <span className="text-1 text-cn-foreground-1">Bypass and merge anyway</span>
                     </Layout.Horizontal>
                   )}
 
@@ -446,7 +446,7 @@ const PullRequestPanel = ({
                   {pullReqMetadata?.source_branch}
                 </Link>
               </Badge>{' '}
-              <span className="text-14 text-cn-foreground-1"> branch has unmerged changes.</span>
+              <span className="text-2 text-cn-foreground-1"> branch has unmerged changes.</span>
             </Layout.Horizontal>
             {showDeleteBranchButton ? (
               <Button theme="primary" size="sm" onClick={onDeleteBranch}>

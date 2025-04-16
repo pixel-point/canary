@@ -49,7 +49,7 @@ export const ProfileKeysList: FC<ProfileKeysListProps> = ({
                       <span className="block w-[200px] truncate font-medium text-cn-foreground-1">
                         {key.identifier}
                       </span>
-                      <span className="w-[200px] truncate text-12 text-cn-foreground-3">{key.fingerprint}</span>
+                      <span className="w-[200px] truncate text-1 text-cn-foreground-3">{key.fingerprint}</span>
                     </div>
                   </div>
                 </Table.Cell>
@@ -79,7 +79,7 @@ export const ProfileKeysList: FC<ProfileKeysListProps> = ({
           ) : (
             <Table.Row className="hover:bg-transparent">
               <Table.Cell className="content-center !p-4" colSpan={4}>
-                <p className="text-center text-14 text-cn-foreground-2">
+                <p className="text-center text-2 text-cn-foreground-2">
                   {t(
                     'views:profileSettings.noDataKeysDescription',
                     'There are no SSH keys associated with this account.'

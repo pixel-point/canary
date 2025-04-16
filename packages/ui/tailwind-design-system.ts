@@ -320,56 +320,68 @@ export default {
         }
       },
       letterSpacing: {
-        tight: 'var(--cn-tracking-tight)'
+        tighter: 'var(--cn-tracking-tighter)',
+        tight: 'var(--cn-tracking-tight)',
+        normal: 'var(--cn-tracking-normal)',
+        wide: 'var(--cn-tracking-wide)',
+        wider: 'var(--cn-tracking-wider)',
+        widest: 'var(--cn-tracking-widest)'
       },
       boxShadow: {
-        1: 'var(--cn-shadow-4)',
+        1: 'var(--cn-shadow-1)',
         2: 'var(--cn-shadow-2)',
+        3: 'var(--cn-shadow-3)',
+        4: 'var(--cn-shadow-4)',
         5: 'var(--cn-shadow-5)',
-        'pagination-1': 'var(--cn-shadow-1)',
+        6: 'var(--cn-shadow-6)',
+
+        inner: 'var(--cn-shadow-inner)',
+        'comp-avatar-inner': 'var(--cn-shadow-comp-avatar-inner)',
+
+        'ring-focus': 'var(--cn-ring-focus)',
+        'ring-error': 'var(--cn-ring-error)',
+        'ring-selected': 'var(--cn-ring-selected)',
+        'ring-success': 'var(--cn-ring-success)',
+        'ring-warning': 'var(--cn-ring-warning)',
+
+        // Remove
         'commit-list-bullet':
-          '0px 0px 3px 0.5px hsla(var(--cn-set-brand-solid-bg) / 0.2), 0px 0px 8px 1px hsla(var(--cn-set-brand-solid-bg) / 0.3)',
-        auth: 'var(--cn-shadow-3)'
+          '0px 0px 3px 0.5px hsla(var(--cn-set-brand-solid-bg) / 0.2), 0px 0px 8px 1px hsla(var(--cn-set-brand-solid-bg) / 0.3)'
       },
+      // Remove borderColor - removing the Default is causing border issues in dark mode
       borderColor: {
-        DEFAULT: 'var(--cn-border-3)',
-        'borders-1': 'hsl(var(--cn-border-2))',
-        'borders-2': 'hsl(var(--cn-border-2))',
-        'borders-3': 'hsl(var(--cn-border-1))',
-        'borders-4': 'hsl(var(--cn-state-disabled-border))',
-        'borders-5': 'hsl(var(--cn-border-2))',
-        'borders-6': 'hsl(var(--cn-border-1))',
-        'borders-7': 'hsl(var(--cn-border-1))',
-        'borders-8': 'hsl(var(--cn-border-2))',
-        'borders-9': 'hsl(var(--cn-border-1))',
-        'borders-10': 'hsl(var(--cn-border-2))',
-        'borders-danger': 'hsl(var(--cn-border-danger))',
-        'borders-success': 'hsl(var(--cn-border-success))',
-        'borders-accent': 'hsl(var(--cn-border-accent))',
-        'borders-warning': 'hsl(var(--cn-border-warning))',
-        'borders-alert': 'hsl(var(--cn-border-warning))'
+        DEFAULT: 'var(--cn-border-3)'
       },
       borderRadius: {
-        10: 'var(--cn-rounded-4)'
+        1: 'var(--cn-rounded-1)',
+        2: 'var(--cn-rounded-2)',
+        3: 'var(--cn-rounded-3)',
+        4: 'var(--cn-rounded-4)',
+        5: 'var(--cn-rounded-5)',
+        6: 'var(--cn-rounded-6)',
+        7: 'var(--cn-rounded-7)',
+        none: 'var(--cn-rounded-none)',
+        full: 'var(--cn-rounded-full)'
       },
       fontSize: {
-        xs: 'var(--cn-font-size-2)',
-        10: 'var(--cn-font-size-0)',
-        11: 'var(--cn-font-size-0)',
-        12: 'var(--cn-font-size-1)',
-        13: 'var(--cn-font-size-2)',
-        14: 'var(--cn-font-size-2)',
-        15: 'var(--cn-font-size-2)',
-        16: 'var(--cn-font-size-3)',
-        18: 'var(--cn-font-size-4)',
-        20: 'var(--cn-font-size-5)',
-        24: 'var(--cn-font-size-6)'
+        0: 'var(--cn-font-size-0)',
+        1: 'var(--cn-font-size-1)',
+        2: 'var(--cn-font-size-2)',
+        3: 'var(--cn-font-size-3)',
+        4: 'var(--cn-font-size-4)',
+        5: 'var(--cn-font-size-5)',
+        6: 'var(--cn-font-size-6)',
+        7: 'var(--cn-font-size-7)',
+        8: 'var(--cn-font-size-8)',
+        9: 'var(--cn-font-size-9)',
+        10: 'var(--cn-font-size-10)',
+        11: 'var(--cn-font-size-11)',
+        12: 'var(--cn-font-size-12)',
+        13: 'var(--cn-font-size-13)'
       },
       backgroundImage: {
         'ai-button':
-          'linear-gradient(to right, hsl(var(--cn-gradient-ai-gradient-stop-1)), hsl(var(--cn-gradient-ai-gradient-stop-2)), hsl(var(--cn-gradient-ai-gradient-stop-3)), hsl(var(--cn-gradient-ai-gradient-stop-4)))',
-        'navbar-item-gradient':
-          'radial-gradient(50% 50% at 50% 50%, hsla(var(--canary-nav-item-gradient-1)) 0%, hsla(var(--canary-nav-item-gradient-2)) 17.63%, hsla(var(--canary-nav-item-gradient-3)) 40.23%, hsla(var(--canary-nav-item-gradient-4)) 61.54%, hsla(var(--canary-nav-item-gradient-5)) 80%, hsla(var(--canary-nav-item-gradient-6)) 100%)',
+          'linear-gradient(to right, var(--cn-gradient-ai-gradient-stop-1), var(--cn-gradient-ai-gradient-stop-2), var(--cn-gradient-ai-gradient-stop-3), var(--cn-gradient-ai-gradient-stop-4))',
         'widget-bg-gradient':
           'radial-gradient(80.82% 77.84% at 80.15% 11.99%, hsla(var(--cn-gradient-pipeline-widget-blob-big-from)) 8.43%, hsla(var(--cn-gradient-pipeline-widget-blob-big-to)) 100%)',
         'widget-number-gradient':

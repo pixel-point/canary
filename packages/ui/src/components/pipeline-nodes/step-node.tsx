@@ -62,7 +62,7 @@ export function StepNode(props: StepNodeProps) {
           role="button"
           tabIndex={0}
           className={cn(
-            'flex flex-col justify-end gap-y-2 box size-full rounded-md border bg-graph-gradient-1 cursor-pointer p-2.5 pt-2 shadow-1',
+            'flex flex-col justify-end gap-y-2 box size-full rounded-md border bg-graph-gradient-1 cursor-pointer p-2.5 pt-2 shadow-4',
             {
               'border-graph-border-1': !selected,
               'border-cn-borders-3': selected,
@@ -99,7 +99,7 @@ export function StepNode(props: StepNodeProps) {
             />
           )}
           {icon}
-          <span className="line-clamp-2 text-14 font-medium leading-snug text-cn-foreground-1">
+          <span className="line-clamp-2 text-2 font-medium leading-snug text-cn-foreground-1">
             {name}
             {!!counter && <span className="font-normal text-cn-foreground-2"> ({counter})</span>}
           </span>

@@ -29,7 +29,7 @@ export const PullRequestItemTitle: FC<PullRequestItemTitleProps> = ({ pullReques
           name={getPrState(isDraft, merged, state).icon}
         />
 
-        <p className="ml-0.5 mr-1 truncate text-16 font-medium leading-snug">{name}</p>
+        <p className="ml-0.5 mr-1 truncate text-3 font-medium leading-snug">{name}</p>
 
         {!!labels.length && <LabelsList labels={labels} className="max-h-5 w-[max(400px,60%)] overflow-hidden" />}
       </div>
@@ -37,7 +37,7 @@ export const PullRequestItemTitle: FC<PullRequestItemTitleProps> = ({ pullReques
       {!!comments && (
         <div className="ml-auto flex items-center gap-1">
           <Icon className="text-icons-7" size={16} name="comments" />
-          <span className="text-12 leading-none text-cn-foreground-1">{comments}</span>
+          <span className="text-1 leading-none text-cn-foreground-1">{comments}</span>
         </div>
       )}
     </div>

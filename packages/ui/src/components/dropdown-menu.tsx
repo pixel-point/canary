@@ -85,7 +85,7 @@ const DropdownMenuContent = React.forwardRef<
         ref={ref}
         sideOffset={sideOffset}
         className={cn(
-          'bg-cn-background-2 text-cn-foreground-1 shadow-1 z-50 min-w-[8rem] overflow-hidden !rounded border border-cn-borders-2 p-1',
+          'bg-cn-background-2 text-cn-foreground-1 shadow-4 z-50 min-w-[8rem] overflow-hidden !rounded border border-cn-borders-2 p-1',
           'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
           className
         )}
@@ -137,7 +137,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
         <Icon className="h-[7px] text-icons-5" name="checkbox" />
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
-    <span className="text-14 text-cn-foreground-1">{children}</span>
+    <span className="text-2 text-cn-foreground-1">{children}</span>
   </DropdownMenuPrimitive.CheckboxItem>
 ))
 DropdownMenuCheckboxItem.displayName = DropdownMenuPrimitive.CheckboxItem.displayName
@@ -191,7 +191,7 @@ const DropdownMenuSeparator = React.forwardRef<
 DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName
 
 const DropdownMenuShortcut = ({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) => {
-  return <span className={cn('ml-auto text-xs tracking-widest opacity-60', className)} {...props} />
+  return <span className={cn('ml-auto text-2 tracking-widest opacity-60', className)} {...props} />
 }
 DropdownMenuShortcut.displayName = 'DropdownMenuShortcut'
 
