@@ -1,9 +1,7 @@
 import { FC, useState } from 'react'
 
 import { Tabs } from '@/components'
-import { useTheme } from '@/context'
 import { SandboxLayout } from '@/views'
-import { cn } from '@utils/cn'
 
 import { ConnectorDetailsConfiguration } from './connector-details-configuration'
 import { ConnectorDetailsHeader } from './connector-details-header'
@@ -28,6 +26,7 @@ const ConnectorDetailsPage: FC<ConnectorDetailsPageProps> = ({
   entities,
   toEntity,
   toScope,
+  toConnectorsList,
   searchQuery
 }) => {
   const { t } = useTranslationStore()
@@ -38,41 +37,33 @@ const ConnectorDetailsPage: FC<ConnectorDetailsPageProps> = ({
   }
 
   return (
-    <SandboxLayout.Main fullWidth>
+    <SandboxLayout.Main>
       <SandboxLayout.Content>
         <ConnectorDetailsHeader
           connectorDetails={connectorDetails}
           onTest={onTest}
           onDelete={onDelete}
           useTranslationStore={useTranslationStore}
+          toConnectorsList={toConnectorsList}
         />
         <Tabs.Root
-          className="mb-7 px-8"
+          className="mb-7 mt-9 px-8"
           defaultValue={ConnectorDetailsTabsKeys.CONFIGURATION}
           value={activeTab}
           onValueChange={handleTabChange}
         >
           <Tabs.List className="before:left-1/2 before:w-[calc(100vw-var(--sidebar-width)-6px*2)] before:min-w-[calc(100%+3rem)] before:-translate-x-1/2">
-            <Tabs.Trigger
-              className="data-[state=active]:bg-cn-background-2 px-4"
-              value={ConnectorDetailsTabsKeys.CONFIGURATION}
-            >
+            <Tabs.Trigger value={ConnectorDetailsTabsKeys.CONFIGURATION}>
               {t('views:connectors.configuration', 'Configuration')}
             </Tabs.Trigger>
-            <Tabs.Trigger
-              className="data-[state=active]:bg-cn-background-2 px-4"
-              value={ConnectorDetailsTabsKeys.REFERENCES}
-            >
+            <Tabs.Trigger value={ConnectorDetailsTabsKeys.REFERENCES}>
               {t('views:connectors.references', 'References')}
             </Tabs.Trigger>
-            <Tabs.Trigger
-              className="data-[state=active]:bg-cn-background-2 px-4"
-              value={ConnectorDetailsTabsKeys.ACTIVITY}
-            >
+            <Tabs.Trigger value={ConnectorDetailsTabsKeys.ACTIVITY}>
               {t('views:connectors.activityHistory', 'Activity history')}
             </Tabs.Trigger>
           </Tabs.List>
-          <Tabs.Content className="pt-7" value={ConnectorDetailsTabsKeys.CONFIGURATION}>
+          <Tabs.Content className="mt-9" value={ConnectorDetailsTabsKeys.CONFIGURATION}>
             <ConnectorDetailsConfiguration
               connectorDetails={connectorDetails}
               onSave={onSave}
@@ -82,7 +73,7 @@ const ConnectorDetailsPage: FC<ConnectorDetailsPageProps> = ({
               apiError={apiError}
             />
           </Tabs.Content>
-          <Tabs.Content className="pt-7" value={ConnectorDetailsTabsKeys.REFERENCES}>
+          <Tabs.Content className="mt-9" value={ConnectorDetailsTabsKeys.REFERENCES}>
             <ConnectorDetailsReferencePage
               toEntity={toEntity}
               toScope={toScope}
@@ -97,7 +88,7 @@ const ConnectorDetailsPage: FC<ConnectorDetailsPageProps> = ({
               goToPage={goToPage}
             />
           </Tabs.Content>
-          <Tabs.Content className="pt-7" value={ConnectorDetailsTabsKeys.ACTIVITY}>
+          <Tabs.Content className="mt-9" value={ConnectorDetailsTabsKeys.ACTIVITY}>
             <div>Activity History</div>
           </Tabs.Content>
         </Tabs.Root>

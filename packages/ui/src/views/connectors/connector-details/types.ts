@@ -63,6 +63,7 @@ export interface ConnectorDetailsItem {
   type: ConnectorConfigType
   name?: string
   description?: string
+  tags?: Record<string, string>
   status?: ExecutionState
   lastModifiedAt?: number
   lastTestedAt?: number
@@ -97,6 +98,7 @@ export interface ConnectorDetailsPageProps {
   toScope: (scope: string) => void
   searchQuery: string
   apiConnectorRefError?: string
+  toConnectorsList?: () => string
 }
 
 export interface ConnectorDetailsReferencePageProps {
@@ -118,6 +120,7 @@ export interface ConnectorDetailsHeaderProps {
   onTest: (connectorId: string) => void
   onDelete: (connectorId: string) => void
   useTranslationStore: () => TranslationStore
+  toConnectorsList?: () => string
 }
 
 export enum ConnectorDetailsTabsKeys {

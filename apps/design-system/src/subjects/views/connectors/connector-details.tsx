@@ -38,6 +38,7 @@ const ConnectorsDetailsPageWrapper = (): JSX.Element => (
     searchQuery=""
     toEntity={noop}
     toScope={noop}
+    toConnectorsList={() => '/connectors'}
     entities={mockConnectorRefList}
     isConnectorReferencesLoading={false}
     setIsConnectorRefSearchQuery={noop}
@@ -63,7 +64,8 @@ const ConnectorsDetailsPageWrapper = (): JSX.Element => (
         lastConnectedAt: mockConnectorDetails.status.lastConnectedAt,
         createdAt: mockConnectorDetails.createdAt,
         icon: 'github',
-        description: mockConnectorDetails.connector.description
+        description: mockConnectorDetails.connector.description,
+        tags: mockConnectorDetails.connector.tags
       } as ConnectorDetailsItem
     }
     useTranslationStore={useTranslationStore}
