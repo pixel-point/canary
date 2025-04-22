@@ -1,24 +1,48 @@
 import { useState } from 'react'
 
+import { secretsFormDefinition } from '@utils/secrets/secrets-form-schema'
 import { useTranslationStore } from '@utils/viewUtils'
 
+import { InputFactory } from '@harnessio/forms'
 import { Drawer, FormSeparator, Spacer, Text } from '@harnessio/ui/components'
 import {
-  CreateSecretFormFields,
-  CreateSecretPage,
+  ArrayInput,
+  BooleanInput,
   DirectionEnum,
+  EntityIntent,
+  GroupInput,
+  ListInput,
+  NumberInput,
+  onSubmitSecretProps,
+  RadialInput,
+  SecretEntityForm,
   SecretItem,
   SecretReference,
   SecretsHeader,
-  SecretType
+  SecretType,
+  SelectInput,
+  SeparatorInput,
+  TextAreaInput,
+  TextInput
 } from '@harnessio/ui/views'
 
-import { ConnectorInputExample } from '../connectors/connectors-input'
 import mockAccountsData from './mock-account-data.json'
 import mockOrgData from './mock-org-data.json'
 import mockProjectsData from './mock-project-data.json'
 import mockSecretsData from './mock-secrets-data.json'
 import { Scope, ScopeEnum, scopeHierarchy } from './types'
+
+const inputComponentFactory = new InputFactory()
+inputComponentFactory.registerComponent(new TextInput())
+inputComponentFactory.registerComponent(new BooleanInput())
+inputComponentFactory.registerComponent(new NumberInput())
+inputComponentFactory.registerComponent(new ArrayInput())
+inputComponentFactory.registerComponent(new ListInput())
+inputComponentFactory.registerComponent(new TextAreaInput())
+inputComponentFactory.registerComponent(new GroupInput())
+inputComponentFactory.registerComponent(new SelectInput())
+inputComponentFactory.registerComponent(new SeparatorInput())
+inputComponentFactory.registerComponent(new RadialInput())
 
 export const SecretsPage = ({
   isDrawerOpen,
@@ -41,7 +65,7 @@ export const SecretsPage = ({
     mockOrgData[0].organizationResponse.organization.identifier
   )
 
-  const onSubmit = (data: CreateSecretFormFields) => {
+  const onSubmit = (data: onSubmitSecretProps) => {
     console.log('Submitted data:', data)
     setIsDrawerOpen(false)
   }
@@ -87,13 +111,13 @@ export const SecretsPage = ({
     switch (selectedType) {
       case SecretType.NEW:
         return (
-          <CreateSecretPage
-            onFormSubmit={onSubmit}
-            onFormCancel={handleCancel}
+          <SecretEntityForm
             useTranslationStore={useTranslationStore}
-            isLoading={false}
-            apiError={null}
-            connectorInput={<ConnectorInputExample />}
+            inputComponentFactory={inputComponentFactory}
+            intent={EntityIntent.CREATE}
+            secretsFormDefinition={secretsFormDefinition}
+            onFormSubmit={onSubmit}
+            onBack={handleCancel}
           />
         )
       case SecretType.EXISTING:
@@ -137,8 +161,6 @@ export const SecretsPage = ({
             Choose type
           </Text>
           <SecretsHeader onChange={setSelectedType} selectedType={selectedType} />
-          <Spacer size={5} />
-          <FormSeparator />
           <Spacer size={5} />
           {renderSecretContent()}
         </Drawer.Content>

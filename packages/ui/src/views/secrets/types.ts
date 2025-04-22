@@ -1,4 +1,10 @@
+import { LogoNameMap } from '@components/logo'
+import { EntityIntent } from '@views/connectors'
 import { BaseEntityProps } from '@views/platform'
+
+import { FieldValues, IFormDefinition } from '@harnessio/forms'
+
+import { InputConfigType } from '../../views/unified-pipeline-studio/components/form-inputs/types'
 
 export interface SecretDataType {
   type: SecretCreationType
@@ -44,4 +50,8 @@ export const secretsFilterTypes = {
   all: 'Show all secrets',
   SecretText: 'Text',
   SecretFile: 'Encrypted file'
+}
+export interface onSubmitSecretProps {
+  values: FieldValues
+  intent: EntityIntent
 }
