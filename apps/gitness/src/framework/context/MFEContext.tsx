@@ -23,6 +23,11 @@ interface IMFEContext {
   customPromises: Partial<{
     getCurrentUser: Unknown
   }>
+  routes: Partial<{
+    toAccountSettings: Unknown
+    toOrgSettings: Unknown
+    toProjectSettings: Unknown
+  }>
 }
 
 export const MFEContext = createContext<IMFEContext>({
@@ -30,5 +35,6 @@ export const MFEContext = createContext<IMFEContext>({
   renderUrl: '',
   customHooks: {},
   customUtils: {},
-  customPromises: {}
+  customPromises: {},
+  routes: {}
 })
