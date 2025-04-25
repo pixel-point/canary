@@ -281,20 +281,24 @@
   },
   "search": "Search",
   "connectors": {
+    "connector": "Connector",
+    "viewConnectorDetails": "View Connector Details",
+    "status": "Status",
+    "viewDocumentation": "View Documentation",
     "activity": "Activity",
     "time": "Time",
-    "status": "Status",
     "delete": "Delete",
     "configuration": "Configuration",
     "references": "References",
     "activityHistory": "Activity history",
-    "connector": "Connector",
-    "viewConnectorDetails": "View Connector Details",
-    "viewDocumentation": "View Documentation",
-    "connectivityStatus": "Connectivity status",
     "createNew": "Create new connector",
-    "id": "Connector ID",
+    "success": "Success",
+    "failure": "Failed",
+    "errorEncountered": "Error Encountered",
     "viewDetails": "View Details",
+    "id": "Connector ID",
+    "connectivityStatus": "Connectivity status",
+    "updated": "Last updated",
     "filterOptions": {
       "statusOption": {
         "success": "Success",
@@ -302,11 +306,7 @@
         "label": "Status"
       }
     },
-    "created": "Created",
-    "updated": "Last updated",
-    "success": "Success",
-    "failure": "Failed",
-    "errorEncountered": "Error Encountered"
+    "created": "Created"
   },
   "notFound": {
     "button": "Reload page",

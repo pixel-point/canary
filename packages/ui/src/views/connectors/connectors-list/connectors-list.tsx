@@ -42,7 +42,7 @@ const ConnectivityStatus = ({
     <div className="flex items-center gap-2">
       <Icon name="dot" size={8} className="text-icons-success" />
       <Text className="transition-colors duration-200 group-hover:text-cn-foreground-1" color="secondary">
-        {t('views:connectors.status.success', 'Success')}
+        {t('views:connectors.success', 'Success')}
       </Text>
     </div>
   ) : (
@@ -52,7 +52,7 @@ const ConnectivityStatus = ({
           <Button className="group h-auto gap-2 p-0 font-normal hover:!bg-transparent" variant="ghost">
             <Icon name="dot" size={8} className="text-icons-danger" />
             <Text className="transition-colors duration-200 group-hover:text-cn-foreground-1" color="secondary">
-              {t('views:connectors.status.failure', 'Failed')}
+              {t('views:connectors.failure', 'Failed')}
             </Text>
           </Button>
         </Tooltip.Trigger>

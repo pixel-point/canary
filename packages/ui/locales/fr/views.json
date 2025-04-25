@@ -263,20 +263,24 @@
   },
   "search": "Rechercher",
   "connectors": {
+    "connector": "Connecteur",
+    "viewConnectorDetails": "Voir les détails du connecteur",
+    "status": "Status",
+    "viewDocumentation": "Voir la documentation",
     "activity": "Activité",
     "time": "Heure",
-    "status": "Statut",
     "delete": "Supprimer",
     "configuration": "Configuration",
     "references": "Références",
     "activityHistory": "Historique des activités",
-    "connector": "Connecteur",
-    "viewConnectorDetails": "Voir les détails du connecteur",
-    "viewDocumentation": "Voir la documentation",
-    "connectivityStatus": "État de la connexion",
     "createNew": "Créer un nouveau connecteur",
-    "id": "ID du connecteur",
+    "success": "Succès",
+    "failure": "Échec",
+    "errorEncountered": "Erreur rencontrée",
     "viewDetails": "Voir les détails",
+    "id": "ID du connecteur",
+    "connectivityStatus": "État de la connexion",
+    "updated": "Dernière mise à jour",
     "filterOptions": {
       "statusOption": {
         "success": "Succès",
@@ -284,11 +288,7 @@
         "label": "Statut"
       }
     },
-    "created": "Créé",
-    "updated": "Dernière mise à jour",
-    "success": "Succès",
-    "failure": "Échec",
-    "errorEncountered": "Erreur rencontrée"
+    "created": "Créé"
   },
   "notFound": {
     "button": "Recharger la page",
