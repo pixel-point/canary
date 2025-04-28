@@ -72,11 +72,11 @@ const HeaderTitle = ({ ...props }: HeaderProps) => {
             <span>{formattedTime}</span>
           </div>
           {props.showDeleteBranchButton ? (
-            <Button variant="soft" theme="danger" onClick={props.onDeleteBranch}>
+            <Button variant="secondary" theme="danger" onClick={props.onDeleteBranch}>
               Delete Branch
             </Button>
           ) : props.showRestoreBranchButton ? (
-            <Button variant="soft" theme="muted" onClick={props.onRestoreBranch}>
+            <Button variant="secondary" onClick={props.onRestoreBranch}>
               Restore Branch
             </Button>
           ) : null}
@@ -299,7 +299,7 @@ const PullRequestPanel = ({
             title={
               <Layout.Horizontal className="items-center justify-center space-x-2.5">
                 {!!commitSuggestionsBatchCount && (
-                  <Button variant="surface" theme="muted" onClick={() => onCommitSuggestions()}>
+                  <Button variant="outline" onClick={() => onCommitSuggestions()}>
                     Commit suggestion
                     {/* TODO: Design system: Add Badge counter icon theme once it is ready */}
                     <Badge variant="counter" size="sm">
@@ -331,7 +331,7 @@ const PullRequestPanel = ({
                     id="pr-type"
                     theme={buttonState.theme as Extract<ButtonThemes, 'success' | 'danger' | 'muted'>}
                     disabled={buttonState.disabled}
-                    variant="surface"
+                    variant="outline"
                     selectedValue={mergeButtonValue}
                     handleOptionChange={setMergeButtonValue}
                     options={actions.map(action => ({
