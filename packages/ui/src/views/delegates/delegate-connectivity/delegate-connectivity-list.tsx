@@ -42,10 +42,10 @@ export function DelegateConnectivityList({
     >
       <Table.Header>
         <Table.Row>
-          <Table.Head className="w-96">Delegate</Table.Head>
+          <Table.Head className="w-60">Delegate</Table.Head>
           <Table.Head className="w-44 whitespace-nowrap">Heartbeat</Table.Head>
           <Table.Head className="w-96">Tags</Table.Head>
-          <Table.Head className="w-44">Selected</Table.Head>
+          <Table.Head className="w-44 text-center">Selected</Table.Head>
         </Table.Row>
       </Table.Header>
       {isLoading ? (
@@ -62,13 +62,13 @@ export function DelegateConnectivityList({
               groupImplicitSelectors
             }) => {
               return (
-                <Table.Row key={groupId}>
-                  <Table.Cell className="max-w-80 content-center truncate">
+                <Table.Row key={groupId} className="hover:bg-cn-borders-2">
+                  <Table.Cell className="max-w-40 content-center truncate">
                     <div className="flex items-center gap-2.5">
                       <Title title={groupName} />
                     </div>
                   </Table.Cell>
-                  <Table.Cell className="content-center">
+                  <Table.Cell className="min-w-40 content-center">
                     <div className="inline-flex items-center gap-2">
                       <Icon
                         name="dot"
@@ -79,17 +79,23 @@ export function DelegateConnectivityList({
                     </div>
                   </Table.Cell>
                   <Table.Cell className="max-w-80 content-center truncate">
-                    {groupCustomSelectors.map((selector: string) => (
-                      <StatusBadge variant="secondary" theme="merged" key={selector} className="mr-2">
-                        {selector}
-                      </StatusBadge>
-                    ))}
+                    <div className="flex flex-wrap gap-2">
+                      {groupCustomSelectors.map((selector: string) => (
+                        <StatusBadge variant="secondary" theme="merged" key={selector} className="mr-2">
+                          {selector}
+                        </StatusBadge>
+                      ))}
+                    </div>
                   </Table.Cell>
-                  <Table.Cell className="min-w-8 text-right">
+                  <Table.Cell className="relative min-w-6 text-right">
                     {isDelegateSelected(
                       [...defaultTo(groupImplicitSelectors, []), ...defaultTo(groupCustomSelectors, [])],
                       selectedTags || []
-                    ) && <Icon name="tick" size={12} className="text-icons-success" />}
+                    ) && (
+                      <div className="absolute inset-0 flex w-full items-center justify-center">
+                        <Icon name="tick" size={12} className="text-icons-success" />
+                      </div>
+                    )}
                   </Table.Cell>
                 </Table.Row>
               )
