@@ -3,16 +3,15 @@ import { useState } from 'react'
 import { useTranslationStore } from '@utils/viewUtils'
 import { defaultTo } from 'lodash-es'
 
-import { Drawer, FormSeparator, Icon, StyledLink } from '@harnessio/ui/components'
+import { StyledLink } from '@harnessio/ui/components'
 import {
   DelegateSelectionTypes,
-  DelegateSelectorForm,
+  DelegateSelectorDrawer,
   DelegateSelectorFormFields,
   DelegateSelectorInput
 } from '@harnessio/ui/views'
 
 import mockDelegatesList from './mock-delegates-list.json'
-import { getMatchedDelegatesCount, isDelegateSelected } from './utils'
 
 const delegatesData = mockDelegatesList.map(delegate => ({
   groupId: delegate.groupId,
@@ -42,46 +41,6 @@ const mockTagsList = [
 const renderSelectedValue = (type: DelegateSelectionTypes | null, tags: string[]) =>
   type === DelegateSelectionTypes.TAGS ? tags.join(', ') : type === DelegateSelectionTypes.ANY ? 'any delegate' : null
 
-/* ----------  DRAWER COMPONENT  -------------- */
-interface DrawerProps {
-  open: boolean
-  setOpen: (open: boolean) => void
-  preSelectedTags: string[]
-  onSubmit: (data: DelegateSelectorFormFields) => void
-  disableAnyDelegate?: boolean
-}
-
-const DelegateSelectorDrawer = ({ open, setOpen, preSelectedTags, onSubmit, disableAnyDelegate }: DrawerProps) => (
-  <Drawer.Root open={open} onOpenChange={setOpen} direction="right">
-    <Drawer.Content className="w-1/2">
-      <Drawer.Header>
-        <Drawer.Title className="text-cn-foreground-1 mb-2 text-xl">Delegate selector</Drawer.Title>
-        <FormSeparator className="w-full" />
-        <div className="flex">
-          Haven&apos;t installed a delegate yet?
-          <StyledLink className="flex flex-row items-center ml-1" variant="accent" to="#">
-            Install delegate <Icon name="attachment-link" className="ml-1" size={12} />
-          </StyledLink>
-        </div>
-        <Drawer.Close onClick={() => setOpen(false)} />
-      </Drawer.Header>
-
-      <DelegateSelectorForm
-        delegates={delegatesData}
-        tagsList={mockTagsList}
-        useTranslationStore={useTranslationStore}
-        isLoading={false}
-        onFormSubmit={onSubmit}
-        onBack={() => setOpen(false)}
-        isDelegateSelected={isDelegateSelected}
-        getMatchedDelegatesCount={getMatchedDelegatesCount}
-        preSelectedTags={preSelectedTags}
-        disableAnyDelegate={disableAnyDelegate}
-      />
-    </Drawer.Content>
-  </Drawer.Root>
-)
-
 /* ----------  MAIN COMPONENT  -------------------------- */
 export const DelegateSelector = () => {
   /* ---- FIRST (ANY allowed) ---- */
@@ -109,17 +68,25 @@ export const DelegateSelector = () => {
   return (
     <div className="p-5">
       <DelegateSelectorInput
-        placeholder={<StyledLink to="#"> select a delegate</StyledLink>}
+        placeholder={<StyledLink to="#">select a delegate</StyledLink>}
         value={renderSelectedValue(typeA, tagsA)}
         label="Delegate selector"
         onClick={() => setOpenA(true)}
         onEdit={() => setOpenA(true)}
         onClear={() => setTagsA([])}
         renderValue={tag => tag}
-        className="max-w-xs mb-8"
+        className="mb-8 max-w-xs"
       />
 
-      <DelegateSelectorDrawer open={openA} setOpen={setOpenA} preSelectedTags={tagsA} onSubmit={handleSubmitA} />
+      <DelegateSelectorDrawer
+        open={openA}
+        setOpen={setOpenA}
+        preSelectedTags={tagsA}
+        onSubmit={handleSubmitA}
+        tagsList={mockTagsList}
+        delegatesData={delegatesData}
+        useTranslationStore={useTranslationStore}
+      />
 
       <div className="pt-10">
         <DelegateSelectorInput
@@ -130,7 +97,7 @@ export const DelegateSelector = () => {
           onEdit={() => setOpenB(true)}
           onClear={() => setTagsB([])}
           renderValue={tag => tag}
-          className="max-w-xs mb-8"
+          className="mb-8 max-w-xs"
         />
 
         <DelegateSelectorDrawer
@@ -138,6 +105,9 @@ export const DelegateSelector = () => {
           setOpen={setOpenB}
           preSelectedTags={tagsB}
           onSubmit={handleSubmitB}
+          tagsList={mockTagsList}
+          delegatesData={delegatesData}
+          useTranslationStore={useTranslationStore}
           disableAnyDelegate
         />
       </div>

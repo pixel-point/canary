@@ -1,4 +1,4 @@
-import { DelegateItem } from '@harnessio/ui/views'
+import { DelegateItem } from './types'
 
 export const isDelegateSelected = (delegateSelectors: string[], tags: string[] = []) => {
   if (!tags?.length) {
