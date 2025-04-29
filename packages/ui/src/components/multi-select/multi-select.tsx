@@ -15,6 +15,8 @@ import { useDebounceSearch } from '@hooks/use-debounce-search'
 import { cn } from '@utils/cn'
 import { TFunction } from 'i18next'
 
+import { useSelectedFirstOptions } from './use-selected-first-options'
+
 export type MultiSelectOptionType<T = unknown> = T & {
   id: string | number
   label: string
@@ -47,6 +49,7 @@ export const MultiSelect = <T = unknown,>({
   error,
   label
 }: MultiSelectProps<T>) => {
+  const [optionsToDisplay, onOpen] = useSelectedFirstOptions(options, selectedItems)
   const { search, handleSearchChange } = useDebounceSearch({
     handleChangeSearchValue,
     searchValue
@@ -59,8 +62,8 @@ export const MultiSelect = <T = unknown,>({
           {label}
         </Label>
       )}
-      <DropdownMenu.Root>
-        <DropdownMenu.Trigger className="data-[state=open]:border-cn-borders-8 flex h-9 w-full items-center justify-between rounded border border-cn-borders-2 bg-cn-background-2 px-3 transition-colors">
+      <DropdownMenu.Root onOpenChange={onOpen}>
+        <DropdownMenu.Trigger className="data-[state=open]:border-cn-borders-8 border-cn-borders-2 bg-cn-background-2 flex h-9 w-full items-center justify-between rounded border px-3 transition-colors">
           {placeholder}
           <Icon name="chevron-down" className="chevron-down ml-auto" size={12} />
         </DropdownMenu.Trigger>
@@ -80,9 +83,9 @@ export const MultiSelect = <T = unknown,>({
               <DropdownMenu.Separator />
             </>
           )}
-          {options.length ? (
+          {optionsToDisplay.length ? (
             <ScrollArea viewportClassName="max-h-[300px]">
-              {options.map(option => {
+              {optionsToDisplay.map(option => {
                 const isSelected = selectedItems.findIndex(it => it.id === option.id) > -1
 
                 return (
@@ -95,7 +98,7 @@ export const MultiSelect = <T = unknown,>({
                     }}
                   >
                     <div className="flex items-center gap-x-2">
-                      {isSelected && <Icon className="min-w-3 text-icons-2" name="tick" size={12} />}
+                      {isSelected && <Icon className="text-icons-2 min-w-3" name="tick" size={12} />}
                       {customOptionElem ? (
                         customOptionElem(option)
                       ) : (
@@ -108,7 +111,7 @@ export const MultiSelect = <T = unknown,>({
             </ScrollArea>
           ) : (
             <div className="px-5 py-4 text-center">
-              <span className="leading-tight text-cn-foreground-2">
+              <span className="text-cn-foreground-2 leading-tight">
                 {t('views:noData.noResults', 'No search results')}
               </span>
             </div>
