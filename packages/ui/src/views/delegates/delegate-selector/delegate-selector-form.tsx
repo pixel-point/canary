@@ -9,9 +9,10 @@ import {
   Fieldset,
   FormSeparator,
   FormWrapper,
+  Icon,
   MultiSelect,
   MultiSelectOptionType,
-  Spacer,
+  StyledLink,
   Text
 } from '@/components'
 import { SandboxLayout, TranslationStore } from '@/views'
@@ -151,74 +152,80 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
   )
 
   return (
-    <SandboxLayout.Content className="h-full px-0 pt-0">
-      <Spacer size={5} />
-      <FormWrapper className="flex h-full flex-col" onSubmit={handleSubmit(onSubmit)}>
-        <Fieldset className="mb-0">
-          <RadioSelect
-            id="type"
-            {...register('type')}
-            options={options}
-            value={delegateType}
-            onValueChange={value => setValue('type', value)}
-          />
-        </Fieldset>
-
-        {apiError && (
-          <Alert.Container variant="destructive" className="mb-8">
-            <Alert.Description>{apiError?.toString()}</Alert.Description>
-          </Alert.Container>
-        )}
-        <FormSeparator />
-
-        {delegateType === DelegateSelectionTypes.TAGS && (
-          <>
-            <Fieldset className="py-2">
-              {/* TAGS */}
-              <MultiSelect
-                {...register('tags')}
-                selectedItems={selectedTags}
-                t={t}
-                label="Tags"
-                placeholder="Enter tags"
-                handleChange={handleTagChange}
-                options={tagsList.map(tag => {
-                  return { id: tag, label: tag }
-                })}
-                searchValue={searchTag}
-                handleChangeSearchValue={setSearchTag}
-                error={errors.tags?.message?.toString()}
+    <>
+      <div className="flex-1 overflow-y-auto">
+        <div className="flex p-4">
+          Haven&apos;t installed a delegate yet?
+          <StyledLink className="ml-1 flex flex-row items-center" variant="accent" to="#">
+            Install delegate <Icon name="attachment-link" className="ml-1" size={12} />
+          </StyledLink>
+        </div>
+        <SandboxLayout.Content className="px-4 py-0">
+          <FormWrapper id="delegate-selector-form" className="flex h-full flex-col" onSubmit={handleSubmit(onSubmit)}>
+            <Fieldset className="mb-0">
+              <RadioSelect
+                id="type"
+                {...register('type')}
+                options={options}
+                value={delegateType}
+                onValueChange={value => setValue('type', value)}
               />
             </Fieldset>
-            <Text size={4}>Test Delegate connectivity</Text>
-            <p>Matches: {matchedDelegates}</p>
-            <DelegateConnectivityList
-              delegates={delegates}
-              useTranslationStore={useTranslationStore}
-              isLoading={isLoading}
-              selectedTags={selectedTags.map(tag => tag.id)}
-              isDelegateSelected={isDelegateSelected}
-            />
-          </>
-        )}
 
-        <div className="absolute inset-x-0 bottom-0 bg-cn-background-2 p-4 shadow-md">
-          <ControlGroup>
-            <ButtonGroup className="flex flex-row justify-between">
-              <Button type="button" variant="ghost" onClick={onBack}>
-                Back
-              </Button>
-              <Button type="submit">
-                Connect&nbsp;
-                {delegateType === DelegateSelectionTypes.TAGS ? matchedDelegates : 'any'}&nbsp;
-                {delegateType === DelegateSelectionTypes.TAGS && matchedDelegates > 1 ? 'delegates' : 'delegate'}
-              </Button>
-            </ButtonGroup>
-          </ControlGroup>
-        </div>
+            {apiError && (
+              <Alert.Container variant="destructive" className="mb-8">
+                <Alert.Description>{apiError?.toString()}</Alert.Description>
+              </Alert.Container>
+            )}
+            <FormSeparator />
 
-        <div className="pb-16"></div>
-      </FormWrapper>
-    </SandboxLayout.Content>
+            {delegateType === DelegateSelectionTypes.TAGS && (
+              <>
+                <Fieldset className="py-2">
+                  {/* TAGS */}
+                  <MultiSelect
+                    {...register('tags')}
+                    selectedItems={selectedTags}
+                    t={t}
+                    label="Tags"
+                    placeholder="Enter tags"
+                    handleChange={handleTagChange}
+                    options={tagsList.map(tag => {
+                      return { id: tag, label: tag }
+                    })}
+                    searchValue={searchTag}
+                    handleChangeSearchValue={setSearchTag}
+                    error={errors.tags?.message?.toString()}
+                  />
+                </Fieldset>
+                <Text size={4}>Test Delegate connectivity</Text>
+                <p>Matches: {matchedDelegates}</p>
+                <DelegateConnectivityList
+                  delegates={delegates}
+                  useTranslationStore={useTranslationStore}
+                  isLoading={isLoading}
+                  selectedTags={selectedTags.map(tag => tag.id)}
+                  isDelegateSelected={isDelegateSelected}
+                />
+              </>
+            )}
+          </FormWrapper>
+        </SandboxLayout.Content>
+      </div>
+      <div className="bg-cn-background-2 border-cn-borders-3 sticky bottom-0 z-10 border-t p-4 shadow-md">
+        <ControlGroup>
+          <ButtonGroup className="flex flex-row justify-between">
+            <Button type="button" variant="ghost" onClick={onBack}>
+              Back
+            </Button>
+            <Button type="submit" form="delegate-selector-form">
+              Connect&nbsp;
+              {delegateType === DelegateSelectionTypes.TAGS ? matchedDelegates : 'any'}&nbsp;
+              {delegateType === DelegateSelectionTypes.TAGS && matchedDelegates > 1 ? 'delegates' : 'delegate'}
+            </Button>
+          </ButtonGroup>
+        </ControlGroup>
+      </div>
+    </>
   )
 }
