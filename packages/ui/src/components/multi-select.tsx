@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 
 import {
   Button,
@@ -12,6 +12,7 @@ import {
   SearchBox
 } from '@/components'
 import { useDebounceSearch } from '@hooks/use-debounce-search'
+import { useSortedOptionsOnOpen } from '@hooks/use-sorted-options-on-open'
 import { cn } from '@utils/cn'
 import { TFunction } from 'i18next'
 
@@ -32,6 +33,7 @@ export interface MultiSelectProps<T = unknown> {
   customOptionElem?: (data: MultiSelectOptionType<T>) => ReactNode
   error?: string
   label?: string
+  enableSortOnOpen?: boolean
 }
 
 export const MultiSelect = <T = unknown,>({
@@ -45,12 +47,17 @@ export const MultiSelect = <T = unknown,>({
   handleChangeSearchValue,
   customOptionElem,
   error,
-  label
+  label,
+  enableSortOnOpen = false
 }: MultiSelectProps<T>) => {
   const { search, handleSearchChange } = useDebounceSearch({
     handleChangeSearchValue,
     searchValue
   })
+
+  const [isOpen, setIsOpen] = useState(false)
+
+  const sortedOptions = useSortedOptionsOnOpen(isOpen, options, selectedItems, enableSortOnOpen)
 
   return (
     <ControlGroup className={className}>
@@ -59,8 +66,8 @@ export const MultiSelect = <T = unknown,>({
           {label}
         </Label>
       )}
-      <DropdownMenu.Root>
-        <DropdownMenu.Trigger className="data-[state=open]:border-cn-borders-8 flex h-9 w-full items-center justify-between rounded border border-cn-borders-2 bg-cn-background-2 px-3 transition-colors">
+      <DropdownMenu.Root onOpenChange={open => setIsOpen(open)}>
+        <DropdownMenu.Trigger className="data-[state=open]:border-cn-borders-8 border-cn-borders-2 bg-cn-background-2 flex h-9 w-full items-center justify-between rounded border px-3 transition-colors">
           {placeholder}
           <Icon name="chevron-down" className="chevron-down ml-auto" size={12} />
         </DropdownMenu.Trigger>
@@ -80,9 +87,9 @@ export const MultiSelect = <T = unknown,>({
               <DropdownMenu.Separator />
             </>
           )}
-          {options.length ? (
+          {sortedOptions.length ? (
             <ScrollArea viewportClassName="max-h-[300px]">
-              {options.map(option => {
+              {sortedOptions.map(option => {
                 const isSelected = selectedItems.findIndex(it => it.id === option.id) > -1
 
                 return (
@@ -95,9 +102,9 @@ export const MultiSelect = <T = unknown,>({
                     }}
                   >
                     <div className="flex items-center gap-x-2">
-                      {isSelected && <Icon className="min-w-3 text-icons-2" name="tick" size={12} />}
+                      {isSelected && <Icon className="text-icons-2 min-w-3" name="tick" size={12} />}
                       {customOptionElem ? (
-                        customOptionElem(option)
+                        customOptionElem(option as MultiSelectOptionType<T>)
                       ) : (
                         <span className="font-medium">{option.label}</span>
                       )}
@@ -108,7 +115,7 @@ export const MultiSelect = <T = unknown,>({
             </ScrollArea>
           ) : (
             <div className="px-5 py-4 text-center">
-              <span className="leading-tight text-cn-foreground-2">
+              <span className="text-cn-foreground-2 leading-tight">
                 {t('views:noData.noResults', 'No search results')}
               </span>
             </div>
