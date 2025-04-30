@@ -1,17 +1,17 @@
 export default {
-  '.switch-wrapper': {
+  '.cn-switch-wrapper': {
     display: 'flex',
     gap: 'var(--cn-spacing-2-half)',
     width: '100%'
   },
 
-  '.switch-label-wrapper': {
+  '.cn-switch-label-wrapper': {
     display: 'flex',
     flexDirection: 'column',
     gap: 'var(--cn-spacing-1)'
   },
 
-  '.switch-root': {
+  '.cn-switch-root': {
     display: 'inline-flex',
     position: 'relative',
     width: 'var(--cn-size-9)',
@@ -40,7 +40,7 @@ export default {
     }
   },
 
-  '.switch-thumb': {
+  '.cn-switch-thumb': {
     display: 'inline-flex',
     position: 'relative',
     width: 'var(--cn-size-3-half)',
@@ -70,16 +70,16 @@ export default {
     }
   },
 
-  '.switch-label': {
-    font: 'var(--cn-body-strong)',
-    color: 'var(--cn-text-1)',
+  '.cn-switch-label': {
+    font: 'var(--cn-body-strong) !important',
+    color: 'var(--cn-text-1) !important',
     '&:where([disabled])': {
-      color: 'var(--cn-state-disabled-text)'
+      color: 'var(--cn-state-disabled-text) !important'
     },
     '@apply truncate': ''
   },
 
-  '.switch-description': {
+  '.cn-switch-description': {
     font: 'var(--cn-body-normal)',
     color: 'var(--cn-text-2)',
     '&:where([disabled])': {

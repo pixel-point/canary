@@ -3,27 +3,37 @@ import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
 import { cn } from '@/utils/cn'
 import * as SwitchPrimitives from '@radix-ui/react-switch'
 
+import { Label } from '.'
+
+interface SwitchProps extends ComponentPropsWithoutRef<typeof SwitchPrimitives.Root> {}
+
 const Switch = forwardRef<
   ElementRef<typeof SwitchPrimitives.Root>,
-  ComponentPropsWithoutRef<typeof SwitchPrimitives.Root> & {
+  Omit<SwitchProps, 'required'> & {
     label?: string
-    description?: string
+    caption?: string
+    optional?: boolean
   }
->(({ className, label, description, ...props }, ref) => {
+>(({ className, label, caption, optional, ...props }, ref) => {
   const switchId = `switch-${Math.random().toString(36).slice(2, 11)}`
   return (
-    <div className="switch-wrapper">
-      <SwitchPrimitives.Root id={props.id || switchId} className={cn('switch-root', className)} {...props} ref={ref}>
-        <SwitchPrimitives.Thumb className="switch-thumb" />
+    <div className="cn-switch-wrapper">
+      <SwitchPrimitives.Root
+        id={props.id || switchId}
+        className={cn('cn-switch-root', className)}
+        required={!optional}
+        {...props}
+        ref={ref}
+      >
+        <SwitchPrimitives.Thumb className="cn-switch-thumb" />
       </SwitchPrimitives.Root>
-      {(label || description) && (
-        <div className="switch-label-wrapper">
-          {/* TODO: Design system: update to Label component once available */}
-          <label htmlFor={props.id || switchId} className="switch-label">
-            {(props.required ? `${label} *` : label) || ''}
-          </label>
+      {(label || caption) && (
+        <div className="cn-switch-label-wrapper">
+          <Label htmlFor={props.id || switchId} optional={optional} className="cn-switch-label">
+            {label}
+          </Label>
           {/* TODO: Design system: update to Text component once available */}
-          <p className="switch-description">{description || ''}</p>
+          <p className="cn-switch-description">{caption || ''}</p>
         </div>
       )}
     </div>

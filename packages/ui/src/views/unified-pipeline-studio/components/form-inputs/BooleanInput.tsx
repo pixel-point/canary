@@ -35,8 +35,8 @@ function BooleanInputInternal(props: BooleanInputInternalProps): JSX.Element {
             field.onChange(value)
           }}
           label={label}
-          description={description}
-          required={required}
+          caption={description}
+          optional={!required}
         />
         <InputError path={path} />
         {inputConfig?.tooltip && <InputTooltip tooltip={inputConfig.tooltip} />}
