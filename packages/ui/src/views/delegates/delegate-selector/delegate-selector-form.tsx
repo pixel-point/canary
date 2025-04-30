@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { Fragment, useCallback, useEffect, useState } from 'react'
 import { useForm, type SubmitHandler } from 'react-hook-form'
 
 import {
@@ -9,6 +9,7 @@ import {
   Fieldset,
   FormSeparator,
   FormWrapper,
+  Icon,
   MultiSelect,
   MultiSelectOptionType,
   Spacer,
@@ -61,6 +62,7 @@ export interface DelegateSelectorFormProps {
   getMatchedDelegatesCount: (delegates: DelegateItem[], tags: string[]) => number
   preSelectedTags?: string[]
   disableAnyDelegate?: boolean
+  FooterWrapper?: React.ComponentType<{ children: React.ReactNode }>
 }
 
 export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Element => {
@@ -75,7 +77,8 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
     isDelegateSelected,
     getMatchedDelegatesCount,
     preSelectedTags,
-    disableAnyDelegate
+    disableAnyDelegate,
+    FooterWrapper = Fragment
   } = props
   const { t } = useTranslationStore()
   const [searchTag, setSearchTag] = useState('')
@@ -151,16 +154,17 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
   )
 
   return (
-    <SandboxLayout.Content className="h-full px-0 pt-0">
+    <SandboxLayout.Content className="h-full p-0">
       <Spacer size={5} />
-      <FormWrapper className="flex h-full flex-col" onSubmit={handleSubmit(onSubmit)}>
-        <Fieldset className="mb-0">
+      <FormWrapper className="flex h-full flex-col gap-y-6" onSubmit={handleSubmit(onSubmit)}>
+        <Fieldset className="mb-0 px-6">
           <RadioSelect
             id="type"
             {...register('type')}
             options={options}
             value={delegateType}
             onValueChange={value => setValue('type', value)}
+            endIcon={<Icon name="tick" />}
           />
         </Fieldset>
 
@@ -169,10 +173,10 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
             <Alert.Description>{apiError?.toString()}</Alert.Description>
           </Alert.Container>
         )}
-        <FormSeparator />
+        <FormSeparator className="mx-6" />
 
         {delegateType === DelegateSelectionTypes.TAGS && (
-          <>
+          <div className="px-6">
             <Fieldset className="py-2">
               {/* TAGS */}
               <MultiSelect
@@ -190,8 +194,12 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
                 error={errors.tags?.message?.toString()}
               />
             </Fieldset>
-            <Text size={4}>Test Delegate connectivity</Text>
-            <p>Matches: {matchedDelegates}</p>
+            <Text className="mb-5 mt-9" size={3} weight="medium" as="p">
+              Test Delegate connectivity
+            </Text>
+            <Text className="text-cn-foreground-4 mb-3 mt-5" size={2} as="p">
+              Matches: {matchedDelegates}
+            </Text>
             <DelegateConnectivityList
               delegates={delegates}
               useTranslationStore={useTranslationStore}
@@ -199,25 +207,25 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
               selectedTags={selectedTags.map(tag => tag.id)}
               isDelegateSelected={isDelegateSelected}
             />
-          </>
+          </div>
         )}
 
-        <div className="absolute inset-x-0 bottom-0 bg-cn-background-2 p-4 shadow-md">
-          <ControlGroup>
-            <ButtonGroup className="flex flex-row justify-between">
-              <Button type="button" variant="ghost" onClick={onBack}>
-                Back
-              </Button>
-              <Button type="submit">
-                Connect&nbsp;
-                {delegateType === DelegateSelectionTypes.TAGS ? matchedDelegates : 'any'}&nbsp;
-                {delegateType === DelegateSelectionTypes.TAGS && matchedDelegates > 1 ? 'delegates' : 'delegate'}
-              </Button>
-            </ButtonGroup>
-          </ControlGroup>
-        </div>
-
-        <div className="pb-16"></div>
+        <FooterWrapper>
+          <div className="bg-cn-background-2 inset-x-0 bottom-0 px-6 py-5 shadow-md">
+            <ControlGroup>
+              <ButtonGroup className="flex flex-row justify-between">
+                <Button type="button" variant="outline" onClick={onBack}>
+                  Back
+                </Button>
+                <Button type="submit">
+                  Connect&nbsp;
+                  {delegateType === DelegateSelectionTypes.TAGS ? matchedDelegates : 'any'}&nbsp;
+                  {delegateType === DelegateSelectionTypes.TAGS && matchedDelegates > 1 ? 'delegates' : 'delegate'}
+                </Button>
+              </ButtonGroup>
+            </ControlGroup>
+          </div>
+        </FooterWrapper>
       </FormWrapper>
     </SandboxLayout.Content>
   )

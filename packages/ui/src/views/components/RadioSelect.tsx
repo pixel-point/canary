@@ -16,6 +16,7 @@ interface RadioSelectProps<T extends string> {
   onValueChange: (value: T) => void
   id?: string
   className?: string
+  endIcon?: React.ReactNode
 }
 
 export const RadioSelect = <T extends string>({
@@ -23,7 +24,8 @@ export const RadioSelect = <T extends string>({
   value,
   onValueChange,
   id,
-  className
+  className,
+  endIcon
 }: RadioSelectProps<T>) => {
   return (
     <RadioGroup value={value} onValueChange={onValueChange as (value: string) => void} id={id} className={className}>
@@ -48,6 +50,7 @@ export const RadioSelect = <T extends string>({
                   isLast
                   disableHover
                   onClick={() => !option.disabled && onValueChange(option.value)}
+                  endIcon={value === option.value ? endIcon : undefined}
                 >
                   <StackedList.Field
                     title={option.title}

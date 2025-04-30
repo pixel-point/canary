@@ -31,29 +31,28 @@ const DelegateSelectorDrawer = ({
         <Drawer.Title>Delegate selector</Drawer.Title>
       </Drawer.Header>
 
-      <div className="flex">
-        Haven&apos;t installed a delegate yet?
-        <StyledLink className="ml-1 flex flex-row items-center" variant="accent" to="#">
-          Install delegate <Icon name="attachment-link" className="ml-1" size={12} />
-        </StyledLink>
-      </div>
+      <Drawer.Inner>
+        <div className="flex px-6">
+          Haven&apos;t installed a delegate yet?
+          <StyledLink className="ml-1 flex flex-row items-center" variant="accent" to="#">
+            Install delegate <Icon name="attachment-link" className="ml-1" size={12} />
+          </StyledLink>
+        </div>
 
-      <DelegateSelectorForm
-        delegates={delegatesData}
-        tagsList={tagsList}
-        useTranslationStore={useTranslationStore}
-        isLoading={false}
-        onFormSubmit={onSubmit}
-        onBack={() => setOpen(false)}
-        isDelegateSelected={isDelegateSelected}
-        getMatchedDelegatesCount={getMatchedDelegatesCount}
-        preSelectedTags={preSelectedTags}
-        disableAnyDelegate={disableAnyDelegate}
-      />
-
-      <Drawer.Footer>
-        <Drawer.Close onClick={() => setOpen(false)} />
-      </Drawer.Footer>
+        <DelegateSelectorForm
+          delegates={delegatesData}
+          tagsList={tagsList}
+          useTranslationStore={useTranslationStore}
+          isLoading={false}
+          onFormSubmit={onSubmit}
+          onBack={() => setOpen(false)}
+          isDelegateSelected={isDelegateSelected}
+          getMatchedDelegatesCount={getMatchedDelegatesCount}
+          preSelectedTags={preSelectedTags}
+          disableAnyDelegate={disableAnyDelegate}
+          FooterWrapper={Drawer.Footer}
+        />
+      </Drawer.Inner>
     </Drawer.Content>
   </Drawer.Root>
 )
