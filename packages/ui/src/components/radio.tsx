@@ -28,10 +28,15 @@ RadioGroup.displayName = RadioGroupPrimitive.Root.displayName
 const RadioButton = forwardRef<
   ElementRef<typeof RadioGroupPrimitive.Item>,
   ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
->(({ className, ...props }, ref) => {
+>(({ className, asChild, ...props }, ref) => {
+  if (asChild) {
+    return <RadioGroupPrimitive.Item ref={ref} asChild={asChild} className={className} {...props} />
+  }
+
   return (
     <RadioGroupPrimitive.Item
       ref={ref}
+      asChild={asChild}
       className={cn(
         `flex items-center justify-center relative border-icons-1 text-icons-5 aspect-square h-4 w-4 rounded-full border
         data-[state=checked]:border-icons-2 
@@ -41,7 +46,7 @@ const RadioButton = forwardRef<
       )}
       {...props}
     >
-      <RadioGroupPrimitive.Indicator className="size-2 rounded-full bg-icons-2" />
+      <RadioGroupPrimitive.Indicator className="bg-icons-2 size-2 rounded-full" />
     </RadioGroupPrimitive.Item>
   )
 })

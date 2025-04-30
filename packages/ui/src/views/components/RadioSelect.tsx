@@ -1,5 +1,4 @@
-import { StackedList } from '@components/index'
-import { RadioGroup } from '@radix-ui/react-radio-group'
+import { Icon, Option, RadioButton, RadioGroup, StackedList } from '@components/index'
 import { cn } from '@utils/cn'
 
 export interface RadioOption<T extends string> {
@@ -27,48 +26,48 @@ export const RadioSelect = <T extends string>({
 }: RadioSelectProps<T>) => {
   return (
     <RadioGroup value={value} onValueChange={onValueChange as (value: string) => void} id={id} className={className}>
-      <div className="flex flex-col gap-2">
-        {options.map(option => (
-          <Option
-            key={option.id}
-            id={option.id}
-            control={
-              <StackedList.Root
-                className={cn('overflow-hidden border-cn-borders-2', {
-                  'border-cn-borders-2': value === option.value
-                })}
-              >
-                <StackedList.Item
-                  className={cn('cursor-pointer !rounded px-5 py-3', {
-                    'bg-gradient-to-b from-white/[0.04] to-white/0': value === option.value,
-                    'cursor-not-allowed': option.disabled
-                  })}
-                  aria-disabled={option.disabled}
-                  isHeader
-                  isLast
-                  disableHover
-                  onClick={() => !option.disabled && onValueChange(option.value)}
-                >
-                  <StackedList.Field
-                    title={option.title}
-                    description={option.description}
-                    className={`${value !== option.value && 'text-cn-foreground-4'}`}
-                  />
-                </StackedList.Item>
-              </StackedList.Root>
-            }
-          />
-        ))}
+      <div className="flex flex-col gap-2.5">
+        {options.map(({ id, disabled, description, title, value: optionValue }) => {
+          const isChecked = value === optionValue
+
+          return (
+            <Option
+              key={id}
+              id={id}
+              control={
+                <RadioButton value={value} disabled={disabled} asChild>
+                  <StackedList.Root
+                    className={cn('overflow-hidden w-full', {
+                      'border-cn-borders-accent': isChecked
+                    })}
+                  >
+                    <StackedList.Item
+                      className={cn('cursor-pointer !rounded px-4 py-3', {
+                        'bg-gradient-to-b from-white/[0.04] to-white/0': isChecked,
+                        'cursor-not-allowed': disabled
+                      })}
+                      aria-disabled={disabled}
+                      isHeader
+                      isLast
+                      disableHover
+                      onClick={() => !disabled && onValueChange(optionValue)}
+                    >
+                      <StackedList.Field
+                        title={<span className="font-semibold">{title}</span>}
+                        description={description}
+                        className={cn('gap-0', {
+                          'text-cn-foreground-4': !isChecked
+                        })}
+                      />
+                      {isChecked && <Icon name="tick" size={18} className="text-icons-8 ml-auto" />}
+                    </StackedList.Item>
+                  </StackedList.Root>
+                </RadioButton>
+              }
+            />
+          )
+        })}
       </div>
     </RadioGroup>
   )
-}
-
-interface OptionProps {
-  id: string
-  control: React.ReactNode
-}
-
-const Option = ({ id, control }: OptionProps) => {
-  return <div id={id}>{control}</div>
 }

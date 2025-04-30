@@ -17,9 +17,9 @@ import {
 import { DelegateItem, SandboxLayout, TranslationStore } from '@/views'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RadioOption, RadioSelect } from '@views/components/RadioSelect'
+import { DelegateConnectivityList } from '@views/delegates/components/delegate-connectivity-list'
+import { getMatchedDelegatesCount } from '@views/delegates/utils'
 import { z } from 'zod'
-
-import { DelegateConnectivityList } from '../delegate-connectivity/delegate-connectivity-list'
 
 export enum DelegateSelectionTypes {
   ANY = 'any',
@@ -56,8 +56,6 @@ export interface DelegateSelectorFormProps {
   onBack: () => void
   apiError?: string
   isLoading: boolean
-  isDelegateSelected: (selectors: string[], tags: string[]) => boolean
-  getMatchedDelegatesCount: (delegates: DelegateItem[], tags: string[]) => number
   preSelectedTags?: string[]
   disableAnyDelegate?: boolean
 }
@@ -71,8 +69,6 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
     onBack,
     apiError = null,
     isLoading,
-    isDelegateSelected,
-    getMatchedDelegatesCount,
     preSelectedTags,
     disableAnyDelegate
   } = props
@@ -150,9 +146,8 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
   )
 
   return (
-    <SandboxLayout.Content className="h-[calc(100%-theme('spacing.28'))] py-0">
-      <Spacer size={5} />
-      <FormWrapper className="flex h-full flex-col pb-0" onSubmit={handleSubmit(onSubmit)}>
+    <SandboxLayout.Content className="px-6 py-0">
+      <FormWrapper className="flex h-full flex-col gap-y-6 pb-0" onSubmit={handleSubmit(onSubmit)}>
         <Fieldset className="mb-0">
           <RadioSelect
             id="type"
@@ -168,6 +163,7 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
             <Alert.Description>{apiError?.toString()}</Alert.Description>
           </Alert.Container>
         )}
+
         <FormSeparator />
 
         {delegateType === DelegateSelectionTypes.TAGS && (
@@ -189,19 +185,26 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
                 error={errors.tags?.message?.toString()}
               />
             </Fieldset>
-            <Text size={4}>Test Delegate connectivity</Text>
-            <p>Matches: {matchedDelegates}</p>
-            <DelegateConnectivityList
-              delegates={delegates}
-              useTranslationStore={useTranslationStore}
-              isLoading={isLoading}
-              selectedTags={selectedTags.map(tag => tag.id)}
-              isDelegateSelected={isDelegateSelected}
-            />
+
+            <Fieldset className="mt-2 gap-y-5">
+              <Text size={3}>Test Delegate connectivity</Text>
+
+              <div className="flex flex-col gap-y-3">
+                <p>Matches: {matchedDelegates}</p>
+                <DelegateConnectivityList
+                  delegates={delegates}
+                  useTranslationStore={useTranslationStore}
+                  isLoading={isLoading}
+                  selectedTags={selectedTags.map(tag => tag.id)}
+                />
+              </div>
+            </Fieldset>
           </>
         )}
 
-        <div className="bg-cn-background-2 b-0 sticky inset-x-0 bottom-0 -ml-5 mt-auto w-[calc(100%+theme('spacing.10'))] border-t p-4 shadow-md">
+        <Spacer size={10} />
+
+        <div className="bg-cn-background-2 b-0 absolute inset-x-0 bottom-0 mt-auto border-t p-4 shadow-md">
           <ControlGroup>
             <ButtonGroup className="flex flex-row justify-between">
               <Button type="button" variant="ghost" onClick={onBack}>

@@ -1,18 +1,37 @@
-import { useDelegateData } from '@subjects/views/delegates/hooks'
-import { isDelegateSelected } from '@subjects/views/delegates/utils.ts'
-import { useTranslationStore } from '@utils/viewUtils.ts'
+import { FC, useMemo } from 'react'
 
-import { DelegateConnectivityWrapper as DelegateConnectivityWrapperComponent } from '@harnessio/ui/views'
+import { useTranslationStore } from '@utils/viewUtils'
+import { defaultTo } from 'lodash-es'
 
-const DelegateConnectivityWrapper = (): JSX.Element => {
-  const delegates = useDelegateData()
+import { DelegateConnectivityList, SandboxLayout } from '@harnessio/ui/views'
+
+import mockDelegatesList from './mock-delegates-list.json'
+
+const DelegateConnectivityWrapper: FC = () => {
+  const delegates = useMemo(
+    () =>
+      mockDelegatesList.map(delegate => ({
+        groupId: delegate.groupId,
+        groupName: delegate.groupName,
+        lastHeartBeat: delegate.lastHeartBeat,
+        activelyConnected: delegate.activelyConnected,
+        groupCustomSelectors: delegate.groupCustomSelectors || [],
+        groupImplicitSelectors: [...Object.keys(defaultTo(delegate.groupImplicitSelectors, {}))]
+      })),
+    []
+  )
 
   return (
-    <DelegateConnectivityWrapperComponent
-      useTranslationStore={useTranslationStore}
-      delegates={delegates}
-      isDelegateSelected={isDelegateSelected}
-    />
+    <SandboxLayout.Main>
+      <SandboxLayout.Content>
+        <DelegateConnectivityList
+          delegates={delegates}
+          useTranslationStore={useTranslationStore}
+          isLoading={false}
+          selectedTags={[]}
+        />
+      </SandboxLayout.Content>
+    </SandboxLayout.Main>
   )
 }
 
