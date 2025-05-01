@@ -59,7 +59,7 @@ const DelegateSelectorDrawer = ({ open, setOpen, preSelectedTags, onSubmit, disa
         <FormSeparator className="w-full" />
         <div className="flex">
           Haven&apos;t installed a delegate yet?
-          <StyledLink className="flex flex-row items-center ml-1" variant="accent" to="#">
+          <StyledLink className="ml-1 flex flex-row items-center" variant="accent" to="#">
             Install delegate <Icon name="attachment-link" className="ml-1" size={12} />
           </StyledLink>
         </div>
@@ -68,6 +68,8 @@ const DelegateSelectorDrawer = ({ open, setOpen, preSelectedTags, onSubmit, disa
 
       <DelegateSelectorForm
         delegates={delegatesData}
+        // TODO: Uncomment to check empty tags list when preSelected tags are defined
+        // tagsList={[]}
         tagsList={mockTagsList}
         useTranslationStore={useTranslationStore}
         isLoading={false}
@@ -76,6 +78,8 @@ const DelegateSelectorDrawer = ({ open, setOpen, preSelectedTags, onSubmit, disa
         isDelegateSelected={isDelegateSelected}
         getMatchedDelegatesCount={getMatchedDelegatesCount}
         preSelectedTags={preSelectedTags}
+        // TODO: Uncomment to check empty tags list when preSelected tags are defined
+        // preSelectedTags={['sanity-windows', 'eightfivetwoold', 'qa-automation', 'sanity']}
         disableAnyDelegate={disableAnyDelegate}
       />
     </Drawer.Content>
@@ -116,7 +120,7 @@ export const DelegateSelector = () => {
         onEdit={() => setOpenA(true)}
         onClear={() => setTagsA([])}
         renderValue={tag => tag}
-        className="max-w-xs mb-8"
+        className="mb-8 max-w-xs"
       />
 
       <DelegateSelectorDrawer open={openA} setOpen={setOpenA} preSelectedTags={tagsA} onSubmit={handleSubmitA} />
@@ -130,7 +134,7 @@ export const DelegateSelector = () => {
           onEdit={() => setOpenB(true)}
           onClear={() => setTagsB([])}
           renderValue={tag => tag}
-          className="max-w-xs mb-8"
+          className="mb-8 max-w-xs"
         />
 
         <DelegateSelectorDrawer

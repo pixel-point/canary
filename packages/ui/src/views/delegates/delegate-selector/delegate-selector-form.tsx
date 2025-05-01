@@ -17,6 +17,7 @@ import {
 import { SandboxLayout, TranslationStore } from '@/views'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RadioOption, RadioSelect } from '@views/components/RadioSelect'
+import { useBackendTagsSearch, useClientTagsSearch } from '@views/delegates/hooks'
 import { z } from 'zod'
 
 import { DelegateConnectivityList } from '../components/delegate-connectivity-list'
@@ -78,7 +79,12 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
     disableAnyDelegate
   } = props
   const { t } = useTranslationStore()
-  const [searchTag, setSearchTag] = useState('')
+
+  // TODO: Uncomment to check the client tags search
+  // const { searchTag, handleSearchChange, filteredTags } = useClientTagsSearch(tagsList, preSelectedTags)
+
+  const { searchTag, handleSearchChange, filteredTags, loadingTags } = useBackendTagsSearch(tagsList, preSelectedTags)
+
   const [matchedDelegates, setMatchedDelegates] = useState(0)
   const {
     register,
@@ -182,11 +188,12 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
                 label="Tags"
                 placeholder="Enter tags"
                 handleChange={handleTagChange}
-                options={tagsList.map(tag => {
+                options={filteredTags.map(tag => {
                   return { id: tag, label: tag }
                 })}
                 searchValue={searchTag}
-                handleChangeSearchValue={setSearchTag}
+                handleChangeSearchValue={handleSearchChange}
+                loading={loadingTags}
                 error={errors.tags?.message?.toString()}
               />
             </Fieldset>
@@ -202,7 +209,7 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
           </>
         )}
 
-        <div className="absolute inset-x-0 bottom-0 bg-cn-background-2 p-4 shadow-md">
+        <div className="bg-cn-background-2 absolute inset-x-0 bottom-0 p-4 shadow-md">
           <ControlGroup>
             <ButtonGroup className="flex flex-row justify-between">
               <Button type="button" variant="ghost" onClick={onBack}>
