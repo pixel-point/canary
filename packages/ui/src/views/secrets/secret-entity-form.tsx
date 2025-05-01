@@ -1,8 +1,7 @@
 import { useMemo } from 'react'
 
+import { Alert, Button, ScrollArea } from '@/components'
 import { EntityIntent, InputConfigType, TranslationStore } from '@/views'
-import { Alert } from '@components/alert'
-import { Button } from '@components/button'
 import { EntityFormLayout } from '@views/unified-pipeline-studio/components/entity-form/entity-form-layout'
 import { EntityFormSectionLayout } from '@views/unified-pipeline-studio/components/entity-form/entity-form-section-layout'
 
@@ -25,6 +24,7 @@ interface SecretEntityFormProps {
   inputComponentFactory: InputFactory
   apiError?: string | null
   intent: EntityIntent
+  hasHeader?: boolean
 }
 
 export const SecretEntityForm = (props: SecretEntityFormProps): JSX.Element => {
@@ -35,7 +35,8 @@ export const SecretEntityForm = (props: SecretEntityFormProps): JSX.Element => {
     onBack,
     useTranslationStore,
     inputComponentFactory,
-    intent
+    intent,
+    hasHeader = true
   } = props
   const { t: _t } = useTranslationStore()
 
@@ -69,16 +70,24 @@ export const SecretEntityForm = (props: SecretEntityFormProps): JSX.Element => {
         <EntityFormLayout.Root>
           <EntityFormSectionLayout.Root>
             <EntityFormSectionLayout.Form className="px-0">
-              <RenderForm
-                className="max-w-xl space-y-4"
-                factory={inputComponentFactory}
-                inputs={secretsFormDefinition ?? { inputs: [] }}
-              />
-              {apiError && (
-                <Alert.Container variant="destructive" className="my-8">
-                  <Alert.Description>{apiError.toString()}</Alert.Description>
-                </Alert.Container>
-              )}
+              <div className="flex-1">
+                <ScrollArea
+                  className={hasHeader ? 'h-[calc(100vh-350px)]' : 'h-[calc(100vh-150px)]'}
+                  viewportClassName="pb-6"
+                  orientation="both"
+                >
+                  <RenderForm
+                    className="max-w-xl space-y-4"
+                    factory={inputComponentFactory}
+                    inputs={secretsFormDefinition ?? { inputs: [] }}
+                  />
+                  {apiError && (
+                    <Alert.Container variant="destructive" className="my-8">
+                      <Alert.Description>{apiError.toString()}</Alert.Description>
+                    </Alert.Container>
+                  )}
+                </ScrollArea>
+              </div>
             </EntityFormSectionLayout.Form>
           </EntityFormSectionLayout.Root>
           <EntityFormLayout.Footer className="border-none">
