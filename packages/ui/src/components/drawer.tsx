@@ -75,7 +75,7 @@ const DrawerContent = React.forwardRef<
         <DrawerPrimitive.Content
           ref={ref}
           className={cn(
-            'bg-cn-background-2 fixed inset-y-0 p-4 right-0 z-50 w-1/4 border-l border-cn-borders-3',
+            'bg-cn-background-2 fixed flex flex-col inset-y-0 right-0 z-50 w-1/4 border-l border-cn-borders-3',
             className
           )}
           {...props}
@@ -89,12 +89,23 @@ const DrawerContent = React.forwardRef<
 DrawerContent.displayName = 'DrawerContent'
 
 const DrawerHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('grid gap-1.5 text-center sm:text-left', className)} {...props} />
+  <div
+    className={cn('grid gap-1.5 text-center px-6 py-5 sm:text-left border-b border-cn-borders-3', className)}
+    {...props}
+  />
 )
 DrawerHeader.displayName = 'DrawerHeader'
 
+const DrawerInner = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+  <div className={cn('flex flex-col grow gap-4 pt-5 overflow-auto', className)} {...props} />
+)
+DrawerInner.displayName = 'DrawerInner'
+
 const DrawerFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('mt-auto flex flex-col gap-2 border-t border-cn-borders-3', className)} {...props} />
+  <div
+    className={cn('mt-auto sticky bottom-0 flex flex-col gap-2 border-t border-cn-borders-3', className)}
+    {...props}
+  />
 )
 DrawerFooter.displayName = 'DrawerFooter'
 
@@ -102,11 +113,7 @@ const DrawerTitle = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>
 >(({ className, ...props }, ref) => (
-  <DrawerPrimitive.Title
-    ref={ref}
-    className={cn('text-lg font-semibold leading-none tracking-tight', className)}
-    {...props}
-  />
+  <DrawerPrimitive.Title ref={ref} className={cn('text-xl font-semibold leading-6', className)} {...props} />
 ))
 DrawerTitle.displayName = DrawerPrimitive.Title.displayName
 
@@ -127,6 +134,7 @@ const Drawer = {
   Close: DrawerClose,
   Content: DrawerContent,
   Header: DrawerHeader,
+  Inner: DrawerInner,
   Footer: DrawerFooter,
   Title: DrawerTitle,
   Description: DrawerDescription

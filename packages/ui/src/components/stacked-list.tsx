@@ -37,6 +37,7 @@ interface ListItemProps extends React.ComponentProps<'div'>, VariantProps<typeof
   isLast?: boolean
   isHeader?: boolean
   disableHover?: boolean
+  endIcon?: React.ReactNode
 }
 
 interface ListFieldProps extends Omit<React.ComponentProps<'div'>, 'title'>, VariantProps<typeof listFieldVariants> {
@@ -92,6 +93,7 @@ const ListItem = ({
   isLast,
   isHeader,
   disableHover = false,
+  endIcon,
   ...props
 }: ListItemProps) => {
   const Comp = asChild ? Slot : ('div' as any)
@@ -111,6 +113,7 @@ const ListItem = ({
       {thumbnail && <div className="mr-2 flex items-center">{thumbnail}</div>}
       <Slottable>{children}</Slottable>
       {actions && <div className="ml-2 flex items-center">{actions}</div>}
+      {endIcon && <>{endIcon}</>}
       <Icon name="chevron-right" className="hidden" />
     </Comp>
   )

@@ -37,7 +37,7 @@ export function DelegateConnectivityList({
 
   return (
     <Table.Root
-      className={isLoading ? '[mask-image:linear-gradient(to_bottom,black_30%,transparent_100%)]' : ''}
+      className={isLoading ? '[mask-image:linear-gradient(to_bottom,black_30%,transparent_100%)]' : 'min-h-24'}
       variant="asStackedList"
     >
       <Table.Header>
@@ -85,11 +85,11 @@ export function DelegateConnectivityList({
                       </StatusBadge>
                     ))}
                   </Table.Cell>
-                  <Table.Cell className="min-w-8 text-right">
+                  <Table.Cell className="min-w-8 text-right align-middle">
                     {isDelegateSelected(
                       [...defaultTo(groupImplicitSelectors, []), ...defaultTo(groupCustomSelectors, [])],
                       selectedTags || []
-                    ) && <Icon name="tick" size={12} className="text-icons-success" />}
+                    ) && <Icon name="tick" size={12} className="text-icons-success mx-auto" />}
                   </Table.Cell>
                 </Table.Row>
               )
