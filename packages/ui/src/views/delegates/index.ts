@@ -1,4 +1,6 @@
 export * from './types'
+export * from './utils'
 export * from './components/delegate-connectivity-list'
 export * from './delegate-selector/delegate-selector-form'
 export * from './delegate-selector/delegate-selector-input'
+export * from './delegate-selector/delegate-selector-drawer'

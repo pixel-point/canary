@@ -1,4 +1,5 @@
-import { DelegateItem } from '@harnessio/ui/views'
+import { DelegateSelectionTypes } from './delegate-selector/delegate-selector-form'
+import type { DelegateItem } from './types'
 
 export const isDelegateSelected = (delegateSelectors: string[], tags: string[] = []) => {
   if (!tags?.length) {
@@ -22,3 +23,8 @@ export const getMatchedDelegatesCount = (delegates: DelegateItem[] = [], tags: s
     return matches ? count + 1 : count
   }, 0)
 }
+
+export const getDefaultFormValues = (preSelectedTags?: string[], disableAnyDelegate?: boolean) => ({
+  type: preSelectedTags?.length || disableAnyDelegate ? DelegateSelectionTypes.TAGS : DelegateSelectionTypes.ANY,
+  tags: preSelectedTags?.map(tag => ({ id: tag, label: tag })) ?? []
+})

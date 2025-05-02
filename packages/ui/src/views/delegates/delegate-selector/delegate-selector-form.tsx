@@ -1,26 +1,15 @@
-import { useCallback, useEffect, useState } from 'react'
-import { useForm, type SubmitHandler } from 'react-hook-form'
+import { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import { useForm, useWatch, type SubmitHandler } from 'react-hook-form'
 
-import {
-  Alert,
-  Button,
-  ButtonGroup,
-  ControlGroup,
-  Fieldset,
-  FormSeparator,
-  FormWrapper,
-  MultiSelect,
-  MultiSelectOptionType,
-  Spacer,
-  Text
-} from '@/components'
-import { SandboxLayout, TranslationStore } from '@/views'
+import { Alert, Fieldset, FormSeparator, FormWrapper, MultiSelect, MultiSelectOptionType, Text } from '@/components'
+import { getMatchedDelegatesCount, SandboxLayout, TranslationStore } from '@/views'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RadioOption, RadioSelect } from '@views/components/RadioSelect'
 import { z } from 'zod'
 
 import { DelegateConnectivityList } from '../components/delegate-connectivity-list'
 import { DelegateItem } from '../types'
+import { getDefaultFormValues } from '../utils'
 
 export enum DelegateSelectionTypes {
   ANY = 'any',
@@ -54,46 +43,39 @@ export interface DelegateSelectorFormProps {
   tagsList: string[]
   useTranslationStore: () => TranslationStore
   onFormSubmit: (data: DelegateSelectorFormFields) => void
-  onBack: () => void
   apiError?: string
   isLoading: boolean
   isDelegateSelected: (selectors: string[], tags: string[]) => boolean
-  getMatchedDelegatesCount: (delegates: DelegateItem[], tags: string[]) => number
   preSelectedTags?: string[]
   disableAnyDelegate?: boolean
+  onChangeFields?: (data: DelegateSelectorFormFields) => void
 }
 
-export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Element => {
-  const {
-    delegates,
-    tagsList,
-    useTranslationStore,
-    onFormSubmit,
-    onBack,
-    apiError = null,
-    isLoading,
-    isDelegateSelected,
-    getMatchedDelegatesCount,
-    preSelectedTags,
-    disableAnyDelegate
-  } = props
+export const DelegateSelectorForm: FC<DelegateSelectorFormProps> = ({
+  delegates,
+  tagsList,
+  useTranslationStore,
+  onFormSubmit,
+  apiError = null,
+  isLoading,
+  isDelegateSelected,
+  preSelectedTags,
+  disableAnyDelegate,
+  onChangeFields
+}) => {
   const { t } = useTranslationStore()
   const [searchTag, setSearchTag] = useState('')
-  const [matchedDelegates, setMatchedDelegates] = useState(0)
   const {
+    control,
     register,
     handleSubmit,
     reset,
     setValue,
-    watch,
     formState: { errors }
   } = useForm<DelegateSelectorFormFields>({
     resolver: zodResolver(delegateSelectorFormSchema),
     mode: 'onChange',
-    defaultValues: {
-      type: preSelectedTags?.length || disableAnyDelegate ? DelegateSelectionTypes.TAGS : DelegateSelectionTypes.ANY,
-      tags: preSelectedTags?.length ? preSelectedTags.map(tag => ({ id: tag, label: tag })) : []
-    }
+    defaultValues: getDefaultFormValues(preSelectedTags, disableAnyDelegate)
   })
 
   const onSubmit: SubmitHandler<DelegateSelectorFormFields> = data => {
@@ -101,33 +83,42 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
     reset()
   }
 
-  const delegateType = watch('type')
-  const selectedTags = watch('tags')
+  const [delegateType, selectedTags] = useWatch({
+    control,
+    name: ['type', 'tags']
+  })
 
   useEffect(() => {
-    setMatchedDelegates(
+    onChangeFields?.({ type: delegateType, tags: selectedTags })
+  }, [delegateType, selectedTags, onChangeFields])
+
+  const matchedDelegates = useMemo(
+    () =>
       getMatchedDelegatesCount(
         delegates,
         selectedTags.map(tag => tag.id)
-      )
-    )
-  }, [getMatchedDelegatesCount, delegates, selectedTags])
+      ),
+    [delegates, selectedTags]
+  )
 
-  const options: Array<RadioOption<DelegateSelectionTypes>> = [
-    {
-      id: 'any',
-      title: 'Any delegate',
-      description: 'Use any available delegate',
-      value: DelegateSelectionTypes.ANY,
-      disabled: disableAnyDelegate
-    },
-    {
-      id: 'tags',
-      title: 'Delegate with tags',
-      description: 'Use delegate with following tags',
-      value: DelegateSelectionTypes.TAGS
-    }
-  ]
+  const options: Array<RadioOption<DelegateSelectionTypes>> = useMemo(
+    () => [
+      {
+        id: 'any',
+        title: 'Any delegate',
+        description: 'Use any available delegate',
+        value: DelegateSelectionTypes.ANY,
+        disabled: disableAnyDelegate
+      },
+      {
+        id: 'tags',
+        title: 'Delegate with tags',
+        description: 'Use delegate with following tags',
+        value: DelegateSelectionTypes.TAGS
+      }
+    ],
+    [disableAnyDelegate]
+  )
 
   const handleTagChange = useCallback(
     (option: MultiSelectOptionType) => {
@@ -151,9 +142,12 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
   )
 
   return (
-    <SandboxLayout.Content className="h-full px-0 pt-0">
-      <Spacer size={5} />
-      <FormWrapper className="flex h-full flex-col" onSubmit={handleSubmit(onSubmit)}>
+    <SandboxLayout.Content className="px-6 pb-5 pt-0">
+      <FormWrapper
+        id="delegate-selector-form"
+        className="flex h-full flex-col gap-y-6"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <Fieldset className="mb-0">
           <RadioSelect
             id="type"
@@ -173,7 +167,7 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
 
         {delegateType === DelegateSelectionTypes.TAGS && (
           <>
-            <Fieldset className="py-2">
+            <Fieldset>
               {/* TAGS */}
               <MultiSelect
                 {...register('tags')}
@@ -190,34 +184,21 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
                 error={errors.tags?.message?.toString()}
               />
             </Fieldset>
-            <Text size={4}>Test Delegate connectivity</Text>
-            <p>Matches: {matchedDelegates}</p>
-            <DelegateConnectivityList
-              delegates={delegates}
-              useTranslationStore={useTranslationStore}
-              isLoading={isLoading}
-              selectedTags={selectedTags.map(tag => tag.id)}
-              isDelegateSelected={isDelegateSelected}
-            />
+            <div>
+              <Text as="h2" size={3} className="mb-5 font-medium">
+                Test Delegate connectivity
+              </Text>
+              <p className="mb-3">Matches: {matchedDelegates}</p>
+              <DelegateConnectivityList
+                delegates={delegates}
+                useTranslationStore={useTranslationStore}
+                isLoading={isLoading}
+                selectedTags={selectedTags.map(tag => tag.id)}
+                isDelegateSelected={isDelegateSelected}
+              />
+            </div>
           </>
         )}
-
-        <div className="absolute inset-x-0 bottom-0 bg-cn-background-2 p-4 shadow-md">
-          <ControlGroup>
-            <ButtonGroup className="flex flex-row justify-between">
-              <Button type="button" variant="ghost" onClick={onBack}>
-                Back
-              </Button>
-              <Button type="submit">
-                Connect&nbsp;
-                {delegateType === DelegateSelectionTypes.TAGS ? matchedDelegates : 'any'}&nbsp;
-                {delegateType === DelegateSelectionTypes.TAGS && matchedDelegates > 1 ? 'delegates' : 'delegate'}
-              </Button>
-            </ButtonGroup>
-          </ControlGroup>
-        </div>
-
-        <div className="pb-16"></div>
       </FormWrapper>
     </SandboxLayout.Content>
   )

@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-
 import { Icon, NoData, SkeletonList, SkeletonTable, StatusBadge, Table } from '@/components'
 import { cn } from '@utils/cn'
 import { timeAgo } from '@utils/utils'
@@ -38,14 +36,15 @@ export function DelegateConnectivityList({
   return (
     <Table.Root
       className={isLoading ? '[mask-image:linear-gradient(to_bottom,black_30%,transparent_100%)]' : ''}
+      tableClassName="table-fixed"
       variant="asStackedList"
     >
       <Table.Header>
         <Table.Row>
-          <Table.Head className="w-96">Delegate</Table.Head>
-          <Table.Head className="w-44 whitespace-nowrap">Heartbeat</Table.Head>
-          <Table.Head className="w-96">Tags</Table.Head>
-          <Table.Head className="w-44">Selected</Table.Head>
+          <Table.Head className="w-3/12">Delegate</Table.Head>
+          <Table.Head className="w-3/12">Heartbeat</Table.Head>
+          <Table.Head className="w-4/12">Tags</Table.Head>
+          <Table.Head className="w-2/12">Selected</Table.Head>
         </Table.Row>
       </Table.Header>
       {isLoading ? (
@@ -63,7 +62,7 @@ export function DelegateConnectivityList({
             }) => {
               return (
                 <Table.Row key={groupId}>
-                  <Table.Cell className="max-w-80 content-center truncate">
+                  <Table.Cell className="content-center truncate">
                     <div className="flex items-center gap-2.5">
                       <Title title={groupName} />
                     </div>
@@ -75,17 +74,19 @@ export function DelegateConnectivityList({
                         size={8}
                         className={cn(activelyConnected ? 'text-icons-success' : 'text-icons-danger')}
                       />
-                      {lastHeartBeat ? timeAgo(lastHeartBeat) : null}
+                      <div className="[&>button]:text-left [&_time]:mx-0">
+                        {lastHeartBeat ? timeAgo(lastHeartBeat) : null}
+                      </div>
                     </div>
                   </Table.Cell>
-                  <Table.Cell className="max-w-80 content-center truncate">
+                  <Table.Cell className="flex flex-wrap content-center gap-1">
                     {groupCustomSelectors.map((selector: string) => (
-                      <StatusBadge variant="secondary" theme="merged" key={selector} className="mr-2">
+                      <StatusBadge variant="secondary" theme="merged" key={selector} className="whitespace-nowrap">
                         {selector}
                       </StatusBadge>
                     ))}
                   </Table.Cell>
-                  <Table.Cell className="min-w-8 text-right">
+                  <Table.Cell className="content-center justify-items-center">
                     {isDelegateSelected(
                       [...defaultTo(groupImplicitSelectors, []), ...defaultTo(groupCustomSelectors, [])],
                       selectedTags || []
