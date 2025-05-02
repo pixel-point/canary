@@ -1,10 +1,26 @@
 import { createContext } from 'react'
 
-interface Scope {
+/**
+ * @todo import from '@harness/microfrontends'
+ * Currently, unable to do so due to npm access issues.
+ */
+export interface Scope {
   accountId?: string
   orgIdentifier?: string
   projectIdentifier?: string
 }
+
+export interface UseLogoutReturn {
+  forceLogout: () => void
+}
+
+export declare const useLogout: () => UseLogoutReturn
+
+export interface Hooks {
+  useLogout?: typeof useLogout
+}
+
+/**************/
 
 export type Unknown = any
 
@@ -24,10 +40,11 @@ interface IMFEContext {
     getCurrentUser: Unknown
   }>
   routes: Partial<{
-    toAccountSettings: Unknown
-    toOrgSettings: Unknown
-    toProjectSettings: Unknown
+    toAccountSettings: () => string
+    toOrgSettings: () => string
+    toProjectSettings: () => string
   }>
+  hooks: Hooks
 }
 
 export const MFEContext = createContext<IMFEContext>({
@@ -36,5 +53,6 @@ export const MFEContext = createContext<IMFEContext>({
   customHooks: {},
   customUtils: {},
   customPromises: {},
-  routes: {}
+  routes: {},
+  hooks: {}
 })

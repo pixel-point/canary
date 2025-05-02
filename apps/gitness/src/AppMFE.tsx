@@ -10,7 +10,7 @@ import { PortalProvider } from '@harnessio/ui/context'
 
 import ShadowRootWrapper from './components-v2/shadow-root-wrapper'
 import { ExitConfirmProvider } from './framework/context/ExitConfirmContext'
-import { MFEContext, Unknown } from './framework/context/MFEContext'
+import { Hooks, MFEContext, Scope, Unknown } from './framework/context/MFEContext'
 import { NavigationProvider } from './framework/context/NavigationContext'
 import { ThemeProvider, useThemeStore } from './framework/context/ThemeContext'
 import { queryClient } from './framework/queryClient'
@@ -69,14 +69,7 @@ function MFERouteRenderer({ renderUrl, parentLocationPath, onRouteChange }: MFER
 }
 
 interface AppMFEProps {
-  /**
-   * These types will be later referred from "ChildComponentProps" from @harness/microfrontends
-   *  */
-  scope: {
-    accountId?: string
-    orgIdentifier?: string
-    projectIdentifier?: string
-  }
+  scope: Scope
   renderUrl: string
   on401?: () => void
   useMFEThemeContext: () => { theme: string }
@@ -92,10 +85,11 @@ interface AppMFEProps {
     getCurrentUser: Promise<Unknown>
   }>
   routes: Partial<{
-    toAccountSettings: Unknown
-    toOrgSettings: Unknown
-    toProjectSettings: Unknown
+    toAccountSettings: () => string
+    toOrgSettings: () => string
+    toProjectSettings: () => string
   }>
+  hooks: Hooks
 }
 
 function decode<T = unknown>(arg: string): T {
@@ -112,7 +106,8 @@ export default function AppMFE({
   customHooks,
   customUtils,
   customPromises,
-  routes
+  routes,
+  hooks
 }: AppMFEProps) {
   new CodeServiceAPIClient({
     urlInterceptor: (url: string) =>
@@ -182,7 +177,8 @@ export default function AppMFE({
                   customHooks,
                   customUtils,
                   customPromises,
-                  routes
+                  routes,
+                  hooks
                 }}
               >
                 <I18nextProvider i18n={i18n}>
