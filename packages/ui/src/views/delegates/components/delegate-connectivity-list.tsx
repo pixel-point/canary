@@ -36,14 +36,15 @@ export function DelegateConnectivityList({
   return (
     <Table.Root
       className={isLoading ? '[mask-image:linear-gradient(to_bottom,black_30%,transparent_100%)]' : ''}
+      tableClassName="table-fixed"
       variant="asStackedList"
     >
       <Table.Header>
         <Table.Row>
-          <Table.Head style={{ width: 184 }}>Delegate</Table.Head>
-          <Table.Head>Heartbeat</Table.Head>
-          <Table.Head>Tags</Table.Head>
-          <Table.Head style={{ width: 57 }}>Selected</Table.Head>
+          <Table.Head className="w-3/12">Delegate</Table.Head>
+          <Table.Head className="w-3/12">Heartbeat</Table.Head>
+          <Table.Head className="w-4/12">Tags</Table.Head>
+          <Table.Head className="w-2/12">Selected</Table.Head>
         </Table.Row>
       </Table.Header>
       {isLoading ? (
@@ -61,7 +62,7 @@ export function DelegateConnectivityList({
             }) => {
               return (
                 <Table.Row key={groupId}>
-                  <Table.Cell className="max-w-80 content-center truncate" style={{ width: 184, maxWidth: 184 }}>
+                  <Table.Cell className="content-center truncate">
                     <div className="flex items-center gap-2.5">
                       <Title title={groupName} />
                     </div>
@@ -85,7 +86,7 @@ export function DelegateConnectivityList({
                       </StatusBadge>
                     ))}
                   </Table.Cell>
-                  <Table.Cell className="content-center" style={{ width: 57 }}>
+                  <Table.Cell className="content-center justify-items-center">
                     {isDelegateSelected(
                       [...defaultTo(groupImplicitSelectors, []), ...defaultTo(groupCustomSelectors, [])],
                       selectedTags || []

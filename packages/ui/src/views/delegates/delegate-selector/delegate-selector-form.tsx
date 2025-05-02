@@ -1,28 +1,15 @@
-import { FC, useCallback, useEffect, useState } from 'react'
-import { useForm, type SubmitHandler } from 'react-hook-form'
+import { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import { useForm, useWatch, type SubmitHandler } from 'react-hook-form'
 
-import {
-  Alert,
-  Button,
-  ButtonGroup,
-  ControlGroup,
-  Fieldset,
-  FormSeparator,
-  FormWrapper,
-  Icon,
-  MultiSelect,
-  MultiSelectOptionType,
-  ScrollArea,
-  StyledLink,
-  Text
-} from '@/components'
-import { SandboxLayout, TranslationStore } from '@/views'
+import { Alert, Fieldset, FormSeparator, FormWrapper, MultiSelect, MultiSelectOptionType, Text } from '@/components'
+import { getMatchedDelegatesCount, SandboxLayout, TranslationStore } from '@/views'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RadioOption, RadioSelect } from '@views/components/RadioSelect'
 import { z } from 'zod'
 
 import { DelegateConnectivityList } from '../components/delegate-connectivity-list'
 import { DelegateItem } from '../types'
+import { getDefaultFormValues } from '../utils'
 
 export enum DelegateSelectionTypes {
   ANY = 'any',
@@ -56,13 +43,12 @@ export interface DelegateSelectorFormProps {
   tagsList: string[]
   useTranslationStore: () => TranslationStore
   onFormSubmit: (data: DelegateSelectorFormFields) => void
-  onBack: () => void
   apiError?: string
   isLoading: boolean
   isDelegateSelected: (selectors: string[], tags: string[]) => boolean
-  getMatchedDelegatesCount: (delegates: DelegateItem[], tags: string[]) => number
   preSelectedTags?: string[]
   disableAnyDelegate?: boolean
+  onChangeFields?: (data: DelegateSelectorFormFields) => void
 }
 
 export const DelegateSelectorForm: FC<DelegateSelectorFormProps> = ({
@@ -70,31 +56,26 @@ export const DelegateSelectorForm: FC<DelegateSelectorFormProps> = ({
   tagsList,
   useTranslationStore,
   onFormSubmit,
-  onBack,
   apiError = null,
   isLoading,
   isDelegateSelected,
-  getMatchedDelegatesCount,
   preSelectedTags,
-  disableAnyDelegate
+  disableAnyDelegate,
+  onChangeFields
 }) => {
   const { t } = useTranslationStore()
   const [searchTag, setSearchTag] = useState('')
-  const [matchedDelegates, setMatchedDelegates] = useState(0)
   const {
+    control,
     register,
     handleSubmit,
     reset,
     setValue,
-    watch,
     formState: { errors }
   } = useForm<DelegateSelectorFormFields>({
     resolver: zodResolver(delegateSelectorFormSchema),
     mode: 'onChange',
-    defaultValues: {
-      type: preSelectedTags?.length || disableAnyDelegate ? DelegateSelectionTypes.TAGS : DelegateSelectionTypes.ANY,
-      tags: preSelectedTags?.length ? preSelectedTags.map(tag => ({ id: tag, label: tag })) : []
-    }
+    defaultValues: getDefaultFormValues(preSelectedTags, disableAnyDelegate)
   })
 
   const onSubmit: SubmitHandler<DelegateSelectorFormFields> = data => {
@@ -102,33 +83,42 @@ export const DelegateSelectorForm: FC<DelegateSelectorFormProps> = ({
     reset()
   }
 
-  const delegateType = watch('type')
-  const selectedTags = watch('tags')
+  const [delegateType, selectedTags] = useWatch({
+    control,
+    name: ['type', 'tags']
+  })
 
   useEffect(() => {
-    setMatchedDelegates(
+    onChangeFields?.({ type: delegateType, tags: selectedTags })
+  }, [delegateType, selectedTags, onChangeFields])
+
+  const matchedDelegates = useMemo(
+    () =>
       getMatchedDelegatesCount(
         delegates,
         selectedTags.map(tag => tag.id)
-      )
-    )
-  }, [getMatchedDelegatesCount, delegates, selectedTags])
+      ),
+    [delegates, selectedTags]
+  )
 
-  const options: Array<RadioOption<DelegateSelectionTypes>> = [
-    {
-      id: 'any',
-      title: 'Any delegate',
-      description: 'Use any available delegate',
-      value: DelegateSelectionTypes.ANY,
-      disabled: disableAnyDelegate
-    },
-    {
-      id: 'tags',
-      title: 'Delegate with tags',
-      description: 'Use delegate with following tags',
-      value: DelegateSelectionTypes.TAGS
-    }
-  ]
+  const options: Array<RadioOption<DelegateSelectionTypes>> = useMemo(
+    () => [
+      {
+        id: 'any',
+        title: 'Any delegate',
+        description: 'Use any available delegate',
+        value: DelegateSelectionTypes.ANY,
+        disabled: disableAnyDelegate
+      },
+      {
+        id: 'tags',
+        title: 'Delegate with tags',
+        description: 'Use delegate with following tags',
+        value: DelegateSelectionTypes.TAGS
+      }
+    ],
+    [disableAnyDelegate]
+  )
 
   const handleTagChange = useCallback(
     (option: MultiSelectOptionType) => {
@@ -152,90 +142,64 @@ export const DelegateSelectorForm: FC<DelegateSelectorFormProps> = ({
   )
 
   return (
-    <>
-      <ScrollArea scrollThumbClassName="bg-sidebar-background-8">
-        <div className="px-6 py-5">
-          <span className="text-cn-foreground-4 mr-1">Haven&apos;t installed a delegate yet?</span>
-          <StyledLink className="inline-flex flex-row items-center text-blue-500" variant="accent" to="#">
-            Install delegate <Icon name="attachment-link" className="ml-1" size={12} />
-          </StyledLink>
-        </div>
-        <SandboxLayout.Content className="px-6 pb-5 pt-0">
-          <FormWrapper
-            id="delegate-selector-form"
-            className="flex h-full flex-col gap-y-6"
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <Fieldset className="mb-0">
-              <RadioSelect
-                id="type"
-                {...register('type')}
-                options={options}
-                value={delegateType}
-                onValueChange={value => setValue('type', value)}
+    <SandboxLayout.Content className="px-6 pb-5 pt-0">
+      <FormWrapper
+        id="delegate-selector-form"
+        className="flex h-full flex-col gap-y-6"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <Fieldset className="mb-0">
+          <RadioSelect
+            id="type"
+            {...register('type')}
+            options={options}
+            value={delegateType}
+            onValueChange={value => setValue('type', value)}
+          />
+        </Fieldset>
+
+        {apiError && (
+          <Alert.Container variant="destructive" className="mb-8">
+            <Alert.Description>{apiError?.toString()}</Alert.Description>
+          </Alert.Container>
+        )}
+        <FormSeparator />
+
+        {delegateType === DelegateSelectionTypes.TAGS && (
+          <>
+            <Fieldset>
+              {/* TAGS */}
+              <MultiSelect
+                {...register('tags')}
+                selectedItems={selectedTags}
+                t={t}
+                label="Tags"
+                placeholder="Enter tags"
+                handleChange={handleTagChange}
+                options={tagsList.map(tag => {
+                  return { id: tag, label: tag }
+                })}
+                searchValue={searchTag}
+                handleChangeSearchValue={setSearchTag}
+                error={errors.tags?.message?.toString()}
               />
             </Fieldset>
-
-            {apiError && (
-              <Alert.Container variant="destructive" className="mb-8">
-                <Alert.Description>{apiError?.toString()}</Alert.Description>
-              </Alert.Container>
-            )}
-            <FormSeparator />
-
-            {delegateType === DelegateSelectionTypes.TAGS && (
-              <>
-                <Fieldset>
-                  {/* TAGS */}
-                  <MultiSelect
-                    {...register('tags')}
-                    selectedItems={selectedTags}
-                    t={t}
-                    label="Tags"
-                    placeholder="Enter tags"
-                    handleChange={handleTagChange}
-                    options={tagsList.map(tag => {
-                      return { id: tag, label: tag }
-                    })}
-                    searchValue={searchTag}
-                    handleChangeSearchValue={setSearchTag}
-                    error={errors.tags?.message?.toString()}
-                  />
-                </Fieldset>
-                <div>
-                  <div className="mb-5">
-                    <Text size={3} className="font-medium">
-                      Test Delegate connectivity
-                    </Text>
-                  </div>
-                  <p className="mb-3">Matches: {matchedDelegates}</p>
-                  <DelegateConnectivityList
-                    delegates={delegates}
-                    useTranslationStore={useTranslationStore}
-                    isLoading={isLoading}
-                    selectedTags={selectedTags.map(tag => tag.id)}
-                    isDelegateSelected={isDelegateSelected}
-                  />
-                </div>
-              </>
-            )}
-          </FormWrapper>
-        </SandboxLayout.Content>
-      </ScrollArea>
-      <div className="bg-cn-background-2 border-cn-borders-3 sticky bottom-0 z-10 border-t px-6 py-5 shadow-md">
-        <ControlGroup>
-          <ButtonGroup className="flex flex-row justify-between">
-            <Button type="button" variant="outline" onClick={onBack}>
-              Back
-            </Button>
-            <Button type="submit" form="delegate-selector-form">
-              Connect&nbsp;
-              {delegateType === DelegateSelectionTypes.TAGS ? matchedDelegates : 'any'}&nbsp;
-              {delegateType === DelegateSelectionTypes.TAGS && matchedDelegates > 1 ? 'delegates' : 'delegate'}
-            </Button>
-          </ButtonGroup>
-        </ControlGroup>
-      </div>
-    </>
+            <div>
+              <Text as="h2" size={3} className="mb-5 font-medium">
+                Test Delegate connectivity
+              </Text>
+              <p className="mb-3">Matches: {matchedDelegates}</p>
+              <DelegateConnectivityList
+                delegates={delegates}
+                useTranslationStore={useTranslationStore}
+                isLoading={isLoading}
+                selectedTags={selectedTags.map(tag => tag.id)}
+                isDelegateSelected={isDelegateSelected}
+              />
+            </div>
+          </>
+        )}
+      </FormWrapper>
+    </SandboxLayout.Content>
   )
 }
