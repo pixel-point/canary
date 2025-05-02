@@ -5,13 +5,17 @@
         "$type": "sizing",
         "$value": "{size.7}"
       },
+      "sm-text": {
+        "$type": "sizing",
+        "$value": "{size.4}"
+      },
       "default": {
         "$type": "sizing",
         "$value": "{size.8}"
       },
-      "icon": {
+      "default-text": {
         "$type": "sizing",
-        "$value": "{size.8}"
+        "$value": "{size.4-half}"
       },
       "lg": {
         "$type": "sizing",
@@ -65,19 +69,19 @@
     "py": {
       "sm": {
         "$type": "spacing",
-        "$value": "{spacing.1-half}"
+        "$value": "{spacing.1}"
       },
       "default": {
         "$type": "spacing",
-        "$value": "{spacing.2}"
+        "$value": "{spacing.1-half}"
       },
       "lg": {
         "$type": "spacing",
-        "$value": "{spacing.3}"
+        "$value": "{spacing.2}"
       }
     }
   },
-  "btn-link": {
+  "link": {
     "gap": {
       "sm": {
         "$type": "spacing",
@@ -86,16 +90,6 @@
       "default": {
         "$type": "spacing",
         "$value": "{spacing.1}"
-      }
-    },
-    "py": {
-      "sm": {
-        "$type": "spacing",
-        "$value": "{spacing.half}"
-      },
-      "default": {
-        "$type": "spacing",
-        "$value": "{spacing.0}"
       }
     }
   }

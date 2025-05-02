@@ -1,13 +1,33 @@
 {
   "accordion": {
-    "spacing": {
+    "default": {
       "py": {
         "$type": "spacing",
         "$value": "{spacing.4}"
       },
       "gap": {
         "$type": "spacing",
+        "$value": "{spacing.1-half}"
+      }
+    },
+    "md": {
+      "py": {
+        "$type": "spacing",
+        "$value": "{spacing.6}"
+      },
+      "gap": {
+        "$type": "spacing",
         "$value": "{spacing.2}"
+      },
+      "min-width": {
+        "$type": "sizing",
+        "$value": "{size.64}"
+      }
+    },
+    "defailt": {
+      "min-width": {
+        "$type": "sizing",
+        "$value": "{size.56}"
       }
     }
   }
