@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { usePortal } from '@/context'
+import { ScrollArea } from '@components/scroll-area'
 import { cn } from '@utils/cn'
 import { Drawer as DrawerPrimitive } from 'vaul'
 
@@ -89,15 +90,14 @@ const DrawerContent = React.forwardRef<
 DrawerContent.displayName = 'DrawerContent'
 
 const DrawerHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={cn('grid gap-1.5 text-center px-6 py-5 sm:text-left border-b border-cn-borders-3', className)}
-    {...props}
-  />
+  <div className={cn('grid gap-1.5 px-6 py-5 text-left border-b border-cn-borders-3', className)} {...props} />
 )
 DrawerHeader.displayName = 'DrawerHeader'
 
 const DrawerInner = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('flex flex-col grow gap-4 pt-5 overflow-auto', className)} {...props} />
+  <ScrollArea viewportClassName="[&>div]:h-full">
+    <div className={cn('flex flex-col grow', className)} {...props} />
+  </ScrollArea>
 )
 DrawerInner.displayName = 'DrawerInner'
 
@@ -113,7 +113,11 @@ const DrawerTitle = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>
 >(({ className, ...props }, ref) => (
-  <DrawerPrimitive.Title ref={ref} className={cn('text-xl font-semibold leading-6', className)} {...props} />
+  <DrawerPrimitive.Title
+    ref={ref}
+    className={cn('text-xl text-cn-foreground-1 font-semibold leading-6', className)}
+    {...props}
+  />
 ))
 DrawerTitle.displayName = DrawerPrimitive.Title.displayName
 

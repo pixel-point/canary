@@ -9,7 +9,6 @@ import {
   Fieldset,
   FormSeparator,
   FormWrapper,
-  Icon,
   MultiSelect,
   MultiSelectOptionType,
   Spacer,
@@ -22,6 +21,7 @@ import { z } from 'zod'
 
 import { DelegateConnectivityList } from '../components/delegate-connectivity-list'
 import { DelegateItem } from '../types'
+import { getMatchedDelegatesCount } from '../utils'
 
 export enum DelegateSelectionTypes {
   ANY = 'any',
@@ -58,8 +58,6 @@ export interface DelegateSelectorFormProps {
   onBack: () => void
   apiError?: string
   isLoading: boolean
-  isDelegateSelected: (selectors: string[], tags: string[]) => boolean
-  getMatchedDelegatesCount: (delegates: DelegateItem[], tags: string[]) => number
   preSelectedTags?: string[]
   disableAnyDelegate?: boolean
   FooterWrapper?: React.ComponentType<{ children: React.ReactNode }>
@@ -74,8 +72,6 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
     onBack,
     apiError = null,
     isLoading,
-    isDelegateSelected,
-    getMatchedDelegatesCount,
     preSelectedTags,
     disableAnyDelegate,
     FooterWrapper = Fragment
@@ -155,7 +151,7 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
 
   return (
     <SandboxLayout.Content className="h-full p-0">
-      <Spacer size={5} />
+      <Spacer size={6} />
       <FormWrapper className="flex h-full flex-col gap-y-6" onSubmit={handleSubmit(onSubmit)}>
         <Fieldset className="mb-0 px-6">
           <RadioSelect
@@ -164,7 +160,6 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
             options={options}
             value={delegateType}
             onValueChange={value => setValue('type', value)}
-            endIcon={<Icon name="tick" />}
           />
         </Fieldset>
 
@@ -177,7 +172,7 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
 
         {delegateType === DelegateSelectionTypes.TAGS && (
           <div className="px-6">
-            <Fieldset className="py-2">
+            <Fieldset>
               {/* TAGS */}
               <MultiSelect
                 {...register('tags')}
@@ -194,10 +189,10 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
                 error={errors.tags?.message?.toString()}
               />
             </Fieldset>
-            <Text className="mb-5 mt-9" size={3} weight="medium" as="p">
-              Test Delegate connectivity
+            <Text className="mb-5 mt-9 leading-none tracking-tight" size={3} weight="medium" as="p">
+              Test delegate connectivity
             </Text>
-            <Text className="text-cn-foreground-4 mb-3 mt-5" size={2} as="p">
+            <Text className="text-cn-foreground-4 mb-3 mt-5 font-medium leading-tight" size={2} as="p">
               Matches: {matchedDelegates}
             </Text>
             <DelegateConnectivityList
@@ -205,7 +200,6 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
               useTranslationStore={useTranslationStore}
               isLoading={isLoading}
               selectedTags={selectedTags.map(tag => tag.id)}
-              isDelegateSelected={isDelegateSelected}
             />
           </div>
         )}

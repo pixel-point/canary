@@ -1,4 +1,4 @@
-import { StackedList } from '@components/index'
+import { Icon, StackedList } from '@components/index'
 import { RadioGroup } from '@radix-ui/react-radio-group'
 import { cn } from '@utils/cn'
 
@@ -16,7 +16,6 @@ interface RadioSelectProps<T extends string> {
   onValueChange: (value: T) => void
   id?: string
   className?: string
-  endIcon?: React.ReactNode
 }
 
 export const RadioSelect = <T extends string>({
@@ -24,8 +23,7 @@ export const RadioSelect = <T extends string>({
   value,
   onValueChange,
   id,
-  className,
-  endIcon
+  className
 }: RadioSelectProps<T>) => {
   return (
     <RadioGroup value={value} onValueChange={onValueChange as (value: string) => void} id={id} className={className}>
@@ -41,7 +39,7 @@ export const RadioSelect = <T extends string>({
                 })}
               >
                 <StackedList.Item
-                  className={cn('cursor-pointer !rounded px-5 py-3', {
+                  className={cn('cursor-pointer !rounded px-4 py-3', {
                     'bg-gradient-to-b from-white/[0.04] to-white/0': value === option.value,
                     'cursor-not-allowed': option.disabled
                   })}
@@ -50,12 +48,12 @@ export const RadioSelect = <T extends string>({
                   isLast
                   disableHover
                   onClick={() => !option.disabled && onValueChange(option.value)}
-                  endIcon={value === option.value ? endIcon : undefined}
+                  actions={value === option.value ? <Icon name="tick" /> : undefined}
                 >
                   <StackedList.Field
                     title={option.title}
                     description={option.description}
-                    className={`${value !== option.value && 'text-cn-foreground-4'}`}
+                    className={`${value !== option.value && 'text-cn-foreground-4'} gap-1 leading-[18px]`}
                   />
                 </StackedList.Item>
               </StackedList.Root>

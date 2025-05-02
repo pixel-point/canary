@@ -173,7 +173,6 @@ export const ConnectorsRefPage = ({
       <Drawer.Content>
         <Drawer.Header>
           <Drawer.Title className="text-cn-foreground-1 mb-2 text-xl">Connectors</Drawer.Title>
-          <FormSeparator className="w-full" />
           <Drawer.Close onClick={() => setIsDrawerOpen(false)} />
         </Drawer.Header>
         <Spacer size={5} />

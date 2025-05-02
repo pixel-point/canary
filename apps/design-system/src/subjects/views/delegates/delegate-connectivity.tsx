@@ -4,7 +4,6 @@ import { defaultTo } from 'lodash-es'
 import { DelegateConnectivityList, SandboxLayout } from '@harnessio/ui/views'
 
 import mockDelegatesList from './mock-delegates-list.json'
-import { isDelegateSelected } from './utils'
 
 const DelegateConnectivityWrapper = (): JSX.Element => (
   <SandboxLayout.Main>
@@ -21,7 +20,6 @@ const DelegateConnectivityWrapper = (): JSX.Element => (
         useTranslationStore={useTranslationStore}
         isLoading={false}
         selectedTags={[]}
-        isDelegateSelected={isDelegateSelected}
       />
     </SandboxLayout.Content>
   </SandboxLayout.Main>
