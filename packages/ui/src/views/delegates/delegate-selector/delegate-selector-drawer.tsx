@@ -31,14 +31,15 @@ export const DelegateSelectorDrawer: FC<DrawerProps> = ({
         <Drawer.Title className="text-cn-foreground-1 text-xl font-normal leading-[25px]">
           Delegate selector
         </Drawer.Title>
+        <Drawer.Close className="sr-only" onClick={() => setOpen(false)} />
       </Drawer.Header>
 
       <ScrollArea>
         <div className="flex grow flex-col overflow-auto pb-7">
-          <div className="flex flex-wrap px-6 pb-6 pt-5 leading-[18px]">
+          <div className="flex flex-wrap gap-x-1 px-6 pb-6 pt-5 leading-tight">
             <p className="m-0 p-0">Haven&apos;t installed a delegate yet?</p>
             <StyledLink
-              className="text-cn-foreground-accent ml-1 flex flex-row items-center gap-x-1 font-semibold"
+              className="text-cn-foreground-accent flex flex-row items-center gap-x-1 font-semibold"
               variant="accent"
               to="#"
             >
@@ -58,10 +59,6 @@ export const DelegateSelectorDrawer: FC<DrawerProps> = ({
           />
         </div>
       </ScrollArea>
-
-      <Drawer.Footer>
-        <Drawer.Close className="sr-only" onClick={() => setOpen(false)} />
-      </Drawer.Footer>
     </Drawer.Content>
   </Drawer.Root>
 )

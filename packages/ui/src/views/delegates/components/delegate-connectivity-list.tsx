@@ -36,13 +36,13 @@ export const DelegateConnectivityList: FC<DelegateConnectivityListProps> = ({
   }
 
   return (
-    <Table.Root variant="asStackedList">
+    <Table.Root tableClassName="table-fixed" variant="asStackedList">
       <Table.Header>
         <Table.Row>
-          <Table.Head className="w-2/8">Delegate</Table.Head>
-          <Table.Head className="w-3/8 whitespace-nowrap">Heartbeat</Table.Head>
-          <Table.Head className="w-2/8">Tags</Table.Head>
-          <Table.Head className="w-1/8 text-center">Selected</Table.Head>
+          <Table.Head className="w-[25%]">Delegate</Table.Head>
+          <Table.Head className="w-[25%] whitespace-nowrap">Heartbeat</Table.Head>
+          <Table.Head className="w-1/5">Tags</Table.Head>
+          <Table.Head className="w-[10%] text-center">Selected</Table.Head>
         </Table.Row>
       </Table.Header>
       <Table.Body hasHighlightOnHover>
@@ -50,7 +50,7 @@ export const DelegateConnectivityList: FC<DelegateConnectivityListProps> = ({
           ({ groupId, groupName, activelyConnected, lastHeartBeat, groupCustomSelectors, groupImplicitSelectors }) => {
             return (
               <Table.Row key={groupId}>
-                <Table.Cell className=" content-center truncate">
+                <Table.Cell className="content-center truncate">
                   <div className="flex items-center gap-2.5">
                     <Title title={groupName} />
                   </div>
@@ -68,13 +68,13 @@ export const DelegateConnectivityList: FC<DelegateConnectivityListProps> = ({
                 <Table.Cell className="content-center truncate">
                   <div className="flex flex-wrap gap-2">
                     {groupCustomSelectors.map((selector: string) => (
-                      <StatusBadge variant="secondary" theme="merged" key={selector} className="mr-2">
+                      <StatusBadge variant="secondary" theme="merged" key={selector}>
                         {selector}
                       </StatusBadge>
                     ))}
                   </div>
                 </Table.Cell>
-                <Table.Cell className="relative text-right align-middle">
+                <Table.Cell className="relative text-right" style={{ verticalAlign: 'middle' }}>
                   {isDelegateSelected(
                     [...defaultTo(groupImplicitSelectors, []), ...defaultTo(groupCustomSelectors, [])],
                     defaultTo(selectedTags, [])

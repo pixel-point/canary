@@ -25,10 +25,6 @@ interface OptionProps {
  * />
  */
 export const Option: FC<OptionProps> = ({ control, id, label, description, ariaSelected, className }) => {
-  const hasLabel = !!label
-  const hasDescription = !!description
-  const hasLabelOrDescription = hasLabel || hasDescription
-
   return (
     <div
       className={cn('flex items-start', className)}
@@ -37,14 +33,14 @@ export const Option: FC<OptionProps> = ({ control, id, label, description, ariaS
       aria-selected={ariaSelected}
     >
       {control && <div className="mt-0.5 w-full">{control}</div>}
-      {hasLabelOrDescription && (
+      {(!!label || !!description) && (
         <div className="flex flex-col gap-0">
-          {hasLabel && (
+          {!!label && (
             <Label htmlFor={id} className="mb-1 cursor-pointer pl-2.5" variant="primary">
               {label}
             </Label>
           )}
-          {hasDescription && (
+          {!!description && (
             <Text
               className="ml-2.5 leading-snug tracking-tight"
               as="p"
