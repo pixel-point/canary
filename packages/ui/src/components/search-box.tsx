@@ -65,6 +65,7 @@ const Root = forwardRef<HTMLInputElement, SearchBoxProps>(
     }, [onSearch])
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      e.stopPropagation()
       if (e.key === 'Enter') {
         e.preventDefault()
         handleSearch()

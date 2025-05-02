@@ -13,6 +13,7 @@ import {
 } from '@/components'
 import { useDebounceSearch } from '@hooks/use-debounce-search'
 import { useSortedOptionsOnOpen } from '@hooks/use-sorted-options-on-open'
+import { useFilteredOptions } from '@hooks/useFilteredOptions'
 import { cn } from '@utils/cn'
 import { TFunction } from 'i18next'
 
@@ -57,7 +58,9 @@ export const MultiSelect = <T = unknown,>({
 
   const [isOpen, setIsOpen] = useState(false)
 
-  const sortedOptions = useSortedOptionsOnOpen(isOpen, options, selectedItems, enableSortOnOpen)
+  const filteredOptions = useFilteredOptions(options, search)
+
+  const sortedOptions = useSortedOptionsOnOpen(isOpen, filteredOptions, selectedItems, enableSortOnOpen)
 
   return (
     <ControlGroup className={className}>
