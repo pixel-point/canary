@@ -1,12 +1,43 @@
 import { useState } from 'react'
 
+import { useTranslationStore } from '@utils/viewUtils'
+import { defaultTo } from 'lodash-es'
+
 import { StyledLink } from '@harnessio/ui/components'
 import {
+  DelegateItem,
   DelegateSelectionTypes,
   DelegateSelectorDrawer,
   DelegateSelectorFormFields,
   DelegateSelectorInput
 } from '@harnessio/ui/views'
+
+import mockDelegatesList from './mock-delegates-list.json'
+
+const mockTagsList = [
+  'sanity-windows',
+  'eightfivetwoold',
+  'qa-automation',
+  'sanity',
+  'self-hosted-vpc-delegate',
+  'local',
+  '_testDocker',
+  'myrunner',
+  'macos-arm64',
+  'west1-delegate-qa',
+  'linux-amd64',
+  'eightfivetwo',
+  'automation-eks-delegate'
+]
+
+const delegates: DelegateItem[] = mockDelegatesList.map(delegate => ({
+  groupId: delegate.groupId,
+  groupName: delegate.groupName,
+  lastHeartBeat: delegate.lastHeartBeat,
+  activelyConnected: delegate.activelyConnected,
+  groupCustomSelectors: delegate.groupCustomSelectors || [],
+  groupImplicitSelectors: [...Object.keys(defaultTo(delegate.groupImplicitSelectors, {}))]
+}))
 
 const renderSelectedValue = (type: DelegateSelectionTypes | null, tags: string[]) =>
   type === DelegateSelectionTypes.TAGS ? tags.join(', ') : type === DelegateSelectionTypes.ANY ? 'any delegate' : null
@@ -47,7 +78,15 @@ export const DelegateSelector = () => {
         className="mb-8 max-w-xs"
       />
 
-      <DelegateSelectorDrawer open={openA} setOpen={setOpenA} preSelectedTags={tagsA} onSubmit={handleSubmitA} />
+      <DelegateSelectorDrawer
+        open={openA}
+        setOpen={setOpenA}
+        delegates={delegates}
+        tagsList={mockTagsList}
+        useTranslationStore={useTranslationStore}
+        preSelectedTags={tagsA}
+        onSubmit={handleSubmitA}
+      />
 
       <div className="pt-10">
         <DelegateSelectorInput
@@ -64,7 +103,10 @@ export const DelegateSelector = () => {
         <DelegateSelectorDrawer
           open={openB}
           setOpen={setOpenB}
+          delegates={delegates}
+          tagsList={mockTagsList}
           preSelectedTags={tagsB}
+          useTranslationStore={useTranslationStore}
           onSubmit={handleSubmitB}
           disableAnyDelegate
         />

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 import { useForm, type SubmitHandler } from 'react-hook-form'
 
 import {
@@ -12,6 +12,7 @@ import {
   Icon,
   MultiSelect,
   MultiSelectOptionType,
+  ScrollArea,
   StyledLink,
   Text
 } from '@/components'
@@ -64,20 +65,19 @@ export interface DelegateSelectorFormProps {
   disableAnyDelegate?: boolean
 }
 
-export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Element => {
-  const {
-    delegates,
-    tagsList,
-    useTranslationStore,
-    onFormSubmit,
-    onBack,
-    apiError = null,
-    isLoading,
-    isDelegateSelected,
-    getMatchedDelegatesCount,
-    preSelectedTags,
-    disableAnyDelegate
-  } = props
+export const DelegateSelectorForm: FC<DelegateSelectorFormProps> = ({
+  delegates,
+  tagsList,
+  useTranslationStore,
+  onFormSubmit,
+  onBack,
+  apiError = null,
+  isLoading,
+  isDelegateSelected,
+  getMatchedDelegatesCount,
+  preSelectedTags,
+  disableAnyDelegate
+}) => {
   const { t } = useTranslationStore()
   const [searchTag, setSearchTag] = useState('')
   const [matchedDelegates, setMatchedDelegates] = useState(0)
@@ -153,15 +153,19 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
 
   return (
     <>
-      <div className="flex-1 overflow-y-auto">
-        <div className="flex p-4">
-          Haven&apos;t installed a delegate yet?
-          <StyledLink className="ml-1 flex flex-row items-center" variant="accent" to="#">
+      <ScrollArea scrollThumbClassName="bg-sidebar-background-8">
+        <div className="px-6 py-5">
+          <span className="text-cn-foreground-4 mr-1">Haven&apos;t installed a delegate yet?</span>
+          <StyledLink className="inline-flex flex-row items-center text-blue-500" variant="accent" to="#">
             Install delegate <Icon name="attachment-link" className="ml-1" size={12} />
           </StyledLink>
         </div>
-        <SandboxLayout.Content className="px-4 py-0">
-          <FormWrapper id="delegate-selector-form" className="flex h-full flex-col" onSubmit={handleSubmit(onSubmit)}>
+        <SandboxLayout.Content className="px-6 pb-5 pt-0">
+          <FormWrapper
+            id="delegate-selector-form"
+            className="flex h-full flex-col gap-y-6"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <Fieldset className="mb-0">
               <RadioSelect
                 id="type"
@@ -181,7 +185,7 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
 
             {delegateType === DelegateSelectionTypes.TAGS && (
               <>
-                <Fieldset className="py-2">
+                <Fieldset>
                   {/* TAGS */}
                   <MultiSelect
                     {...register('tags')}
@@ -198,24 +202,30 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
                     error={errors.tags?.message?.toString()}
                   />
                 </Fieldset>
-                <Text size={4}>Test Delegate connectivity</Text>
-                <p>Matches: {matchedDelegates}</p>
-                <DelegateConnectivityList
-                  delegates={delegates}
-                  useTranslationStore={useTranslationStore}
-                  isLoading={isLoading}
-                  selectedTags={selectedTags.map(tag => tag.id)}
-                  isDelegateSelected={isDelegateSelected}
-                />
+                <div>
+                  <div className="mb-5">
+                    <Text size={3} className="font-medium">
+                      Test Delegate connectivity
+                    </Text>
+                  </div>
+                  <p className="mb-3">Matches: {matchedDelegates}</p>
+                  <DelegateConnectivityList
+                    delegates={delegates}
+                    useTranslationStore={useTranslationStore}
+                    isLoading={isLoading}
+                    selectedTags={selectedTags.map(tag => tag.id)}
+                    isDelegateSelected={isDelegateSelected}
+                  />
+                </div>
               </>
             )}
           </FormWrapper>
         </SandboxLayout.Content>
-      </div>
-      <div className="bg-cn-background-2 border-cn-borders-3 sticky bottom-0 z-10 border-t p-4 shadow-md">
+      </ScrollArea>
+      <div className="bg-cn-background-2 border-cn-borders-3 sticky bottom-0 z-10 border-t px-6 py-5 shadow-md">
         <ControlGroup>
           <ButtonGroup className="flex flex-row justify-between">
-            <Button type="button" variant="ghost" onClick={onBack}>
+            <Button type="button" variant="outline" onClick={onBack}>
               Back
             </Button>
             <Button type="submit" form="delegate-selector-form">

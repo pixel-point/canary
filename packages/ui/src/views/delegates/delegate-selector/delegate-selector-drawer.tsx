@@ -1,62 +1,43 @@
-import { Drawer } from '@components/drawer'
-import { defaultTo } from 'lodash-es'
+import { FC } from 'react'
 
-import mockDelegatesList from '../../../../../../apps/design-system/src/subjects/views/delegates/mock-delegates-list.json'
+import { TranslationStore } from '@/views'
+import { Drawer } from '@components/drawer'
+
+import { DelegateItem } from '../types'
 import { getMatchedDelegatesCount, isDelegateSelected } from '../utils'
-import { useTranslationStore } from './../../../../../../apps/design-system/src/utils/viewUtils'
 import { DelegateSelectorForm, DelegateSelectorFormFields } from './delegate-selector-form'
 
-const delegatesData = mockDelegatesList.map(delegate => ({
-  groupId: delegate.groupId,
-  groupName: delegate.groupName,
-  lastHeartBeat: delegate.lastHeartBeat,
-  activelyConnected: delegate.activelyConnected,
-  groupCustomSelectors: delegate.groupCustomSelectors || [],
-  groupImplicitSelectors: [...Object.keys(defaultTo(delegate.groupImplicitSelectors, {}))]
-}))
-
-const mockTagsList = [
-  'sanity-windows',
-  'eightfivetwoold',
-  'qa-automation',
-  'sanity',
-  'self-hosted-vpc-delegate',
-  'local',
-  '_testDocker',
-  'myrunner',
-  'macos-arm64',
-  'west1-delegate-qa',
-  'linux-amd64',
-  'eightfivetwo',
-  'automation-eks-delegate'
-]
-
-/* ----------  DRAWER COMPONENT  -------------- */
 interface DrawerProps {
   open: boolean
   setOpen: (open: boolean) => void
+  delegates: DelegateItem[]
+  tagsList: string[]
   preSelectedTags: string[]
+  useTranslationStore: () => TranslationStore
   onSubmit: (data: DelegateSelectorFormFields) => void
   disableAnyDelegate?: boolean
 }
 
-export const DelegateSelectorDrawer = ({
+export const DelegateSelectorDrawer: FC<DrawerProps> = ({
   open,
   setOpen,
+  delegates,
+  tagsList,
   preSelectedTags,
+  useTranslationStore,
   onSubmit,
   disableAnyDelegate
-}: DrawerProps) => (
+}) => (
   <Drawer.Root open={open} onOpenChange={setOpen} direction="right">
-    <Drawer.Content className="flex h-full w-1/2 flex-col p-0">
-      <Drawer.Header className="border-cn-borders-3 sticky top-0 border-b p-4">
-        <Drawer.Title className="text-cn-foreground-1 text-xl">Delegate selector</Drawer.Title>
-        <Drawer.Close onClick={() => setOpen(false)} />
+    <Drawer.Content className="flex h-full flex-col p-0" style={{ width: 716 }}>
+      <Drawer.Header className="border-cn-borders-3 sticky top-0 border-b px-6 py-5">
+        <Drawer.Title className="text-cn-foreground-1 text-xl font-medium">Delegate selector</Drawer.Title>
+        <Drawer.Close onClick={() => setOpen(false)} className="sr-only" />
       </Drawer.Header>
 
       <DelegateSelectorForm
-        delegates={delegatesData}
-        tagsList={mockTagsList}
+        delegates={delegates}
+        tagsList={tagsList}
         useTranslationStore={useTranslationStore}
         isLoading={false}
         onFormSubmit={onSubmit}
