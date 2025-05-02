@@ -4,7 +4,7 @@ import { secretsFormDefinition } from '@utils/secrets/secrets-form-schema'
 import { useTranslationStore } from '@utils/viewUtils'
 
 import { InputFactory } from '@harnessio/forms'
-import { Drawer, FormSeparator, Spacer, Text } from '@harnessio/ui/components'
+import { Drawer, Spacer, Text } from '@harnessio/ui/components'
 import {
   ArrayInput,
   BooleanInput,
