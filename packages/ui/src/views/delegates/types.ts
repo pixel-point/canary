@@ -5,7 +5,6 @@ export interface DelegateConnectivityListProps {
   useTranslationStore: () => TranslationStore
   isLoading: boolean
   selectedTags?: string[]
-  isDelegateSelected: (selectors: string[], tags: string[]) => boolean
 }
 
 export interface DelegateItem {

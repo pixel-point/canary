@@ -32,24 +32,28 @@ export const Option: FC<OptionProps> = ({ control, id, label, description, ariaS
       aria-labelledby={`${id}-label`}
       aria-selected={ariaSelected}
     >
-      <div className="mt-0.5">{control}</div>
-      <div className="flex flex-col gap-0">
-        <Label htmlFor={id} className="mb-1 cursor-pointer pl-2.5" variant="primary">
-          {label}
-        </Label>
-        {description && (
-          <Text
-            className="ml-2.5 leading-snug tracking-tight"
-            as="p"
-            size={2}
-            color="foreground-4"
-            id={`${id}-description`}
-            role="note"
-          >
-            {description}
-          </Text>
-        )}
-      </div>
+      {control && <div className="mt-0.5 w-full">{control}</div>}
+      {(!!label || !!description) && (
+        <div className="flex flex-col gap-0">
+          {!!label && (
+            <Label htmlFor={id} className="mb-1 cursor-pointer pl-2.5" variant="primary">
+              {label}
+            </Label>
+          )}
+          {!!description && (
+            <Text
+              className="ml-2.5 leading-snug tracking-tight"
+              as="p"
+              size={2}
+              color="foreground-4"
+              id={`${id}-description`}
+              role="note"
+            >
+              {description}
+            </Text>
+          )}
+        </div>
+      )}
     </div>
   )
 }

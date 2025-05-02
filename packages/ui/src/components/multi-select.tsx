@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ComponentPropsWithoutRef, ElementRef, ForwardedRef, forwardRef } from 'react'
 
 import {
   Button,
@@ -20,49 +20,53 @@ export type MultiSelectOptionType<T = unknown> = T & {
   label: string
 }
 
-export interface MultiSelectProps<T = unknown> {
-  className?: string
+export interface MultiSelectProps<T = unknown> extends ComponentPropsWithoutRef<'div'> {
   selectedItems: MultiSelectOptionType<Partial<T>>[]
-  t: TFunction
-  placeholder: string
-  handleChange: (data: MultiSelectOptionType<Partial<T>>) => void
   options: MultiSelectOptionType<T>[]
+  placeholder: string
+  t: TFunction
+  handleChange: (item: MultiSelectOptionType<Partial<T>>) => void
   searchValue?: string
-  handleChangeSearchValue?: (data: string) => void
-  customOptionElem?: (data: MultiSelectOptionType<T>) => ReactNode
+  handleChangeSearchValue?: (value: string) => void
+  customOptionElem?: (item: MultiSelectOptionType<T>) => React.ReactNode
   error?: string
   label?: string
 }
 
-export const MultiSelect = <T = unknown,>({
-  className,
-  selectedItems,
-  t,
-  placeholder,
-  handleChange,
-  options,
-  searchValue = '',
-  handleChangeSearchValue,
-  customOptionElem,
-  error,
-  label
-}: MultiSelectProps<T>) => {
+function MultiSelectInner<T = unknown>(
+  {
+    className,
+    selectedItems,
+    t,
+    placeholder,
+    handleChange,
+    options,
+    searchValue = '',
+    handleChangeSearchValue,
+    customOptionElem,
+    error,
+    label,
+    ...rest
+  }: MultiSelectProps<T>,
+  ref: ForwardedRef<ElementRef<typeof ControlGroup>>
+) {
   const { search, handleSearchChange } = useDebounceSearch({
     handleChangeSearchValue,
     searchValue
   })
 
   return (
-    <ControlGroup className={className}>
+    <ControlGroup ref={ref} className={className} {...rest}>
       {!!label && (
-        <Label className="mb-2" htmlFor={''}>
+        <Label htmlFor="" className="mb-2">
           {label}
         </Label>
       )}
+
       <DropdownMenu.Root>
-        <DropdownMenu.Trigger className="data-[state=open]:border-cn-borders-8 flex h-9 w-full items-center justify-between rounded border border-cn-borders-2 bg-cn-background-2 px-3 transition-colors">
+        <DropdownMenu.Trigger className="data-[state=open]:border-cn-borders-8 border-cn-borders-2 bg-cn-background-2 flex h-9 w-full items-center justify-between rounded border px-3 transition-colors">
           {placeholder}
-          <Icon name="chevron-down" className="chevron-down ml-auto" size={12} />
+          <Icon name="chevron-down" size={12} className="chevron-down ml-auto" />
         </DropdownMenu.Trigger>
 
         <DropdownMenu.Content style={{ width: 'var(--radix-dropdown-menu-trigger-width)' }}>
@@ -80,10 +84,11 @@ export const MultiSelect = <T = unknown,>({
               <DropdownMenu.Separator />
             </>
           )}
+
           {options.length ? (
             <ScrollArea viewportClassName="max-h-[300px]">
               {options.map(option => {
-                const isSelected = selectedItems.findIndex(it => it.id === option.id) > -1
+                const isSelected = selectedItems.some(it => it.id === option.id)
 
                 return (
                   <DropdownMenu.Item
@@ -95,7 +100,7 @@ export const MultiSelect = <T = unknown,>({
                     }}
                   >
                     <div className="flex items-center gap-x-2">
-                      {isSelected && <Icon className="min-w-3 text-icons-2" name="tick" size={12} />}
+                      {isSelected && <Icon name="tick" size={12} className="text-icons-2 min-w-3" />}
                       {customOptionElem ? (
                         customOptionElem(option)
                       ) : (
@@ -108,29 +113,36 @@ export const MultiSelect = <T = unknown,>({
             </ScrollArea>
           ) : (
             <div className="px-5 py-4 text-center">
-              <span className="leading-tight text-cn-foreground-2">
+              <span className="text-cn-foreground-2 leading-tight">
                 {t('views:noData.noResults', 'No search results')}
               </span>
             </div>
           )}
         </DropdownMenu.Content>
       </DropdownMenu.Root>
+
       {!!selectedItems.length && (
         <div className="mt-2 flex flex-wrap gap-1.5">
-          {selectedItems.map(it => (
-            <Button key={it.id} size="sm" type="button" variant="outline" onClick={() => handleChange(it)}>
-              {it.label}
+          {selectedItems.map(item => (
+            <Button key={item.id} size="sm" type="button" variant="outline" onClick={() => handleChange(item)}>
+              {item.label}
               <Icon name="close" size={10} />
             </Button>
           ))}
         </div>
       )}
 
-      {!!error && (
-        <Message className="mt-0.5" theme={MessageTheme.ERROR}>
+      {error && (
+        <Message theme={MessageTheme.ERROR} className="mt-0.5">
           {error}
         </Message>
       )}
     </ControlGroup>
   )
 }
+
+export const MultiSelect = forwardRef(MultiSelectInner) as <T = unknown>(
+  props: MultiSelectProps<T> & {
+    ref?: ForwardedRef<ElementRef<typeof ControlGroup>>
+  }
+) => JSX.Element
