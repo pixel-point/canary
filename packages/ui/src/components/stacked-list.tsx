@@ -41,7 +41,9 @@ interface ListItemProps extends React.ComponentProps<'div'>, VariantProps<typeof
 
 interface ListFieldProps extends Omit<React.ComponentProps<'div'>, 'title'>, VariantProps<typeof listFieldVariants> {
   title?: React.ReactNode
+  titleClassName?: string
   description?: React.ReactNode
+  descriptionClassName?: string
   label?: boolean
   secondary?: boolean
   primary?: boolean
@@ -118,7 +120,18 @@ const ListItem = ({
 
 ListItem.displayName = 'StackedListItem'
 
-const ListField = ({ className, title, description, label, primary, secondary, right, ...props }: ListFieldProps) => (
+const ListField = ({
+  className,
+  title,
+  titleClassName,
+  description,
+  descriptionClassName,
+  label,
+  primary,
+  secondary,
+  right,
+  ...props
+}: ListFieldProps) => (
   <div className={cn(listFieldVariants({ right }), className)} {...props}>
     {title && (
       <div
@@ -126,7 +139,7 @@ const ListField = ({ className, title, description, label, primary, secondary, r
           primary ? 'text-3 leading-snug' : secondary ? 'text-2' : 'text-sm',
           'text-cn-foreground-1 [&>em]:text-cn-foreground-1 font-normal [&>em]:font-medium [&>em]:not-italic',
           !!label && 'text-cn-foreground-2',
-          className
+          titleClassName
         )}
       >
         {title}
@@ -137,7 +150,7 @@ const ListField = ({ className, title, description, label, primary, secondary, r
         className={cn(
           'text-cn-foreground-2 flex gap-2 text-ellipsis whitespace-nowrap',
           primary ? 'text-sm' : 'text-2',
-          className
+          descriptionClassName
         )}
       >
         {description}
