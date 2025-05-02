@@ -13,6 +13,7 @@ import {
 } from '@/components'
 import { useDebounceSearch } from '@hooks/use-debounce-search'
 import { useSortedOptionsOnOpen } from '@hooks/use-sorted-options-on-open'
+import { useFetchOptions } from '@hooks/useFetchOptions'
 import { useFilteredOptions } from '@hooks/useFilteredOptions'
 import { cn } from '@utils/cn'
 import { TFunction } from 'i18next'
@@ -35,6 +36,7 @@ export interface MultiSelectProps<T = unknown> {
   error?: string
   label?: string
   enableSortOnOpen?: boolean
+  fetchOptions?: (query: string) => Promise<MultiSelectOptionType<T>[]>
 }
 
 export const MultiSelect = <T = unknown,>({
@@ -49,7 +51,8 @@ export const MultiSelect = <T = unknown,>({
   customOptionElem,
   error,
   label,
-  enableSortOnOpen = false
+  enableSortOnOpen = false,
+  fetchOptions
 }: MultiSelectProps<T>) => {
   const { search, handleSearchChange } = useDebounceSearch({
     handleChangeSearchValue,
@@ -58,7 +61,15 @@ export const MultiSelect = <T = unknown,>({
 
   const [isOpen, setIsOpen] = useState(false)
 
-  const filteredOptions = useFilteredOptions(options, search)
+  // const filteredOptions = useFilteredOptions(options, search)
+  const {
+    options: filteredOptions,
+    isLoading,
+    error: errorFetch
+  } = useFetchOptions({
+    searchValue: search,
+    fetchOptions: fetchOptions || (() => Promise.resolve([]))
+  })
 
   const sortedOptions = useSortedOptionsOnOpen(isOpen, filteredOptions, selectedItems, enableSortOnOpen)
 
@@ -90,37 +101,44 @@ export const MultiSelect = <T = unknown,>({
               <DropdownMenu.Separator />
             </>
           )}
-          {sortedOptions.length ? (
-            <ScrollArea viewportClassName="max-h-[300px]">
-              {sortedOptions.map(option => {
-                const isSelected = selectedItems.findIndex(it => it.id === option.id) > -1
+          {sortedOptions.length
+            ? !isLoading && (
+                <ScrollArea viewportClassName="max-h-[300px]">
+                  {sortedOptions.map(option => {
+                    const isSelected = selectedItems.findIndex(it => it.id === option.id) > -1
 
-                return (
-                  <DropdownMenu.Item
-                    key={option.id}
-                    className={cn('px-3', { 'pl-8': !isSelected })}
-                    onSelect={e => {
-                      e.preventDefault()
-                      handleChange(option)
-                    }}
-                  >
-                    <div className="flex items-center gap-x-2">
-                      {isSelected && <Icon className="text-icons-2 min-w-3" name="tick" size={12} />}
-                      {customOptionElem ? (
-                        customOptionElem(option as MultiSelectOptionType<T>)
-                      ) : (
-                        <span className="font-medium">{option.label}</span>
-                      )}
-                    </div>
-                  </DropdownMenu.Item>
-                )
-              })}
-            </ScrollArea>
-          ) : (
+                    return (
+                      <DropdownMenu.Item
+                        key={option.id}
+                        className={cn('px-3', { 'pl-8': !isSelected })}
+                        onSelect={e => {
+                          e.preventDefault()
+                          handleChange(option)
+                        }}
+                      >
+                        <div className="flex items-center gap-x-2">
+                          {isSelected && <Icon className="text-icons-2 min-w-3" name="tick" size={12} />}
+                          {customOptionElem ? (
+                            customOptionElem(option as MultiSelectOptionType<T>)
+                          ) : (
+                            <span className="font-medium">{option.label}</span>
+                          )}
+                        </div>
+                      </DropdownMenu.Item>
+                    )
+                  })}
+                </ScrollArea>
+              )
+            : !isLoading && (
+                <div className="px-5 py-4 text-center">
+                  <span className="text-cn-foreground-2 leading-tight">
+                    {t('views:noData.noResults', 'No search results')}
+                  </span>
+                </div>
+              )}
+          {isLoading && !!searchValue && (
             <div className="px-5 py-4 text-center">
-              <span className="text-cn-foreground-2 leading-tight">
-                {t('views:noData.noResults', 'No search results')}
-              </span>
+              <span className="text-cn-foreground-2 leading-tight">loading...</span>
             </div>
           )}
         </DropdownMenu.Content>
@@ -139,6 +157,12 @@ export const MultiSelect = <T = unknown,>({
       {!!error && (
         <Message className="mt-0.5" theme={MessageTheme.ERROR}>
           {error}
+        </Message>
+      )}
+
+      {!!errorFetch && (
+        <Message className="mt-0.5" theme={MessageTheme.ERROR}>
+          {errorFetch?.message}
         </Message>
       )}
     </ControlGroup>
