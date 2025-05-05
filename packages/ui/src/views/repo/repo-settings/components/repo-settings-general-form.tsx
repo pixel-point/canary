@@ -13,8 +13,7 @@ import {
   Message,
   MessageTheme,
   Option,
-  RadioButton,
-  RadioGroup,
+  Radio,
   SkeletonForm,
   Text,
   Textarea
@@ -172,28 +171,26 @@ export const RepoSettingsGeneralForm: FC<{
           <Fieldset className="mt-4">
             <ControlGroup>
               <Label className="mb-6">{t('views:repos.visibility', 'Visibility')}</Label>
-              <RadioGroup value={accessValue} onValueChange={handleAccessChange} id="visibility">
-                <Option
-                  control={<RadioButton value="1" id="access-public" />}
+              <Radio.Root value={accessValue} onValueChange={handleAccessChange} id="visibility">
+                <Radio.Item
                   id="access-public"
+                  value="1"
                   label={t('views:repos.public', 'Public')}
-                  ariaSelected={accessValue === '1'}
-                  description={t(
+                  caption={t(
                     'views:repos.publicDescription',
                     'Anyone with access to the gitness environment can clone this repo.'
                   )}
                 />
-                <Option
-                  control={<RadioButton value="2" id="access-private" />}
+                <Radio.Item
                   id="access-private"
+                  value="2"
                   label={t('views:repos.private', 'Private')}
-                  ariaSelected={accessValue === '2'}
-                  description={t(
+                  caption={t(
                     'views:repos.privateDescription',
                     'You can choose who can see and commit to this repository.'
                   )}
                 />
-              </RadioGroup>
+              </Radio.Root>
               {errors.access && <Message theme={MessageTheme.ERROR}>{errors.access.message?.toString()}</Message>}
             </ControlGroup>
           </Fieldset>
