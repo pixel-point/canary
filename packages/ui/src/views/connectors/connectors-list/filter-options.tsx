@@ -1,5 +1,8 @@
 import { CheckboxOptions, FilterFieldTypes, FilterOptionConfig } from '@components/filters/types'
+import { Icon } from '@components/icon'
 import { TFunction } from 'i18next'
+
+import { booleanParser } from '@harnessio/filters'
 
 import { ConnectorListFilters } from './types'
 
@@ -12,7 +15,7 @@ export const getConnectorListFilterOptions = (t: TFunction): Array<FilterOptionC
     {
       label: t('views:connectors.filterOptions.statusOption.label', 'Connectivity Status'),
       value: 'status',
-      type: FilterFieldTypes.Checkbox,
+      type: FilterFieldTypes.MultiSelect,
       filterFieldConfig: {
         options
       },
@@ -33,6 +36,15 @@ export const getConnectorListFilterOptions = (t: TFunction): Array<FilterOptionC
       label: t('views:connectors.filterOptions.statusOption.label', 'Text'),
       value: 'text',
       type: FilterFieldTypes.Text
+    },
+    {
+      label: t('views:connectors.filterOptions.statusOption.favorite', 'Favorites'),
+      value: 'favorite',
+      type: FilterFieldTypes.Checkbox,
+      filterFieldConfig: {
+        label: <Icon name="star-filled" className="fill-icons-alert" size={14} />
+      },
+      parser: booleanParser
     }
   ]
 }
