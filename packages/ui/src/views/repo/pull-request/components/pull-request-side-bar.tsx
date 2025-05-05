@@ -1,6 +1,6 @@
 import { FC } from 'react'
-import { LinkProps } from 'react-router-dom'
 
+import { LinkProps } from '@/components'
 import { PrincipalType } from '@/types'
 import {
   EnumPullReqReviewDecision,

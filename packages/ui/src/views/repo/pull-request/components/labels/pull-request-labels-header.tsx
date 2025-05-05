@@ -1,7 +1,6 @@
 import { useMemo, useRef, useState } from 'react'
-import { LinkProps } from 'react-router-dom'
 
-import { Button, DropdownMenu, Icon, ScrollArea, SearchBox, StyledLink, Tag } from '@/components'
+import { Button, DropdownMenu, Icon, Link, LinkProps, ScrollArea, SearchBox, Tag } from '@/components'
 import { useDebounceSearch } from '@/hooks'
 import {
   HandleAddLabelType,
@@ -114,7 +113,7 @@ export const LabelsHeader = ({
 
   return (
     <article className="flex items-center justify-between">
-      <h5 className="text-2 font-medium text-cn-foreground-1">{t('views:pullRequests.labels')}</h5>
+      <h5 className="text-2 text-cn-foreground-1 font-medium">{t('views:pullRequests.labels')}</h5>
 
       <DropdownMenu.Root onOpenChange={isOpen => !isOpen && handleCloseValuesView()}>
         <DropdownMenu.Trigger asChild>
@@ -165,11 +164,11 @@ export const LabelsHeader = ({
                         />
 
                         {!!label?.description && (
-                          <span className="w-full truncate text-cn-foreground-2">{label.description}</span>
+                          <span className="text-cn-foreground-2 w-full truncate">{label.description}</span>
                         )}
 
                         {label.isSelected && (
-                          <Icon className="absolute right-0 top-1 text-icons-2" name="tick" size={12} />
+                          <Icon className="text-icons-2 absolute right-0 top-1" name="tick" size={12} />
                         )}
                       </div>
                     </DropdownMenu.Item>
@@ -178,7 +177,7 @@ export const LabelsHeader = ({
               )}
 
               {!labelsListWithValues.length && (
-                <span className="block px-5 py-4 text-center leading-tight text-cn-foreground-2">
+                <span className="text-cn-foreground-2 block px-5 py-4 text-center leading-tight">
                   {t('views:pullRequests.noLabels', 'No labels found')}
                 </span>
               )}
@@ -186,10 +185,9 @@ export const LabelsHeader = ({
               <DropdownMenu.Separator />
 
               <div className="p-2">
-                {/* TODO: replace with StyledLink variant when its update is merged (https://github.com/harness/canary/pull/1134) */}
-                <StyledLink className="hover:decoration-foreground-8 text-cn-foreground-1" {...editLabelsProps}>
+                <Link variant="secondary" {...editLabelsProps}>
                   {t('views:pullRequests.editLabels', 'Edit labels')}
-                </StyledLink>
+                </Link>
               </div>
             </>
           )}

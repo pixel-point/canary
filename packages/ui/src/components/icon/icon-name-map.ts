@@ -9,6 +9,7 @@ import AppleShortcut from '../../icons/apple-shortcut.svg'
 import ArrowLeft from '../../icons/arrow-left.svg'
 import ArrowLong from '../../icons/arrow-long.svg'
 import ArrowShort from '../../icons/arrow-short.svg'
+import ArrowToTopRight from '../../icons/arrow-to-top-right.svg'
 import Arrow from '../../icons/arrow.svg'
 import ArtifactsGradient from '../../icons/artifacts-gradient.svg'
 import Artifacts from '../../icons/artifacts-icon.svg'
@@ -38,10 +39,10 @@ import Checklist from '../../icons/checklist.svg'
 import Checks from '../../icons/checks.svg'
 import ChevronDown from '../../icons/chevron-down.svg'
 import ChevronFillDown from '../../icons/chevron-fill-down.svg'
+import ChevronLeft from '../../icons/chevron-left.svg'
 import ChevronRight from '../../icons/chevron-right.svg'
 import ChevronUpDown from '../../icons/chevron-up-down.svg'
 import ChevronUp from '../../icons/chevron-up.svg'
-import CircleArrowTopRight from '../../icons/circle-arrow-top-right.svg'
 import CircleArrowTop from '../../icons/circle-arrow-top.svg'
 import CircleArrowsUpDown from '../../icons/circle-arrows-updown.svg'
 import CirclePlus from '../../icons/circle-plus.svg'
@@ -239,6 +240,7 @@ export const IconNameMap = {
   'chevron-down': ChevronDown,
   'chevron-right': ChevronRight,
   'chevron-up': ChevronUp,
+  'chevron-left': ChevronLeft,
   'chevron-up-down': ChevronUpDown,
   'filter-list': FilterList,
   'info-circle': InfoCircle,
@@ -312,7 +314,7 @@ export const IconNameMap = {
   'open-pr': OpenPR,
   plus: Plus,
   running: Running,
-  'circle-arrow-top-right': CircleArrowTopRight,
+  'arrow-to-top-right': ArrowToTopRight,
   'box-lightning': BoxLightning,
   'box-cloning': BoxCloning,
   'box-pull-requests': BoxPullRequests,

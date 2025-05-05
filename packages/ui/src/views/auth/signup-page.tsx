@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { Alert, Button, Card, Input, Spacer, StyledLink, Text } from '@/components'
+import { Alert, Button, Card, Input, Link, Spacer, Text } from '@/components'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
@@ -66,7 +66,7 @@ export function SignUpPage({ isLoading, handleSignUp, error }: SignUpPageProps) 
 
   return (
     <Floating1ColumnLayout
-      className="flex-col bg-cn-background-1 pt-20 sm:pt-[186px]"
+      className="bg-cn-background-1 flex-col pt-20 sm:pt-[186px]"
       highlightTheme={hasError ? 'error' : 'green'}
       verticalCenter
     >
@@ -133,10 +133,7 @@ export function SignUpPage({ isLoading, handleSignUp, error }: SignUpPageProps) 
           </form>
           <Spacer size={4} />
           <Text className="block" size={2} color="foreground-5" weight="normal" align="center" as="p">
-            Already have an account?{' '}
-            <StyledLink variant="accent" to="/signin">
-              Sign in
-            </StyledLink>
+            Already have an account? <Link to="/signin">Sign in</Link>
           </Text>
         </Card.Content>
       </Card.Root>
