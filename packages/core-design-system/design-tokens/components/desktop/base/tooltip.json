@@ -5,14 +5,12 @@
       "$value": "{rounded.2}"
     },
     "padding": {
-      "py": {
-        "$type": "spacing",
-        "$value": "{spacing.2-half}"
-      },
-      "px": {
-        "$type": "spacing",
-        "$value": "{spacing.1}"
-      }
+      "$type": "spacing",
+      "$value": "{spacing.3}"
+    },
+    "gap": {
+      "$type": "spacing",
+      "$value": "{spacing.1-half}"
     }
   }
 }
