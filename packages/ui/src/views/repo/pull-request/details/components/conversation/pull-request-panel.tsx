@@ -309,6 +309,7 @@ const PullRequestPanel = ({
                 {!notBypassable && isMergeable && !isDraft && prPanelData.ruleViolation && (
                   <Checkbox
                     id="checkbox-bypass"
+                    optional
                     checked={!!checkboxBypass}
                     onCheckedChange={() => {
                       if (typeof checkboxBypass === 'boolean') {
