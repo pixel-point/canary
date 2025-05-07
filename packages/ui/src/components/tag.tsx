@@ -1,3 +1,5 @@
+import { ReactElement } from 'react'
+
 import { Icon } from '@components/icon'
 import { cn } from '@utils/cn'
 import { cva, type VariantProps } from 'class-variance-authority'
@@ -66,15 +68,15 @@ function Tag({
   showIcon = false,
   ...props
 }: TagProps) {
-  if (label) {
+  if (label && value) {
     return <TagSplit {...{ variant, size, theme, rounded, icon, showIcon, showReset, onReset, label: label, value }} />
   }
 
   return (
     <div tabIndex={-1} className={cn(tagVariants({ variant, size, theme, rounded }), className)} {...props}>
       {showIcon && <Icon skipSize name={icon || 'tag-2'} className="cn-tag-icon" />}
-      <span className="truncate" title={value}>
-        {value}
+      <span className="cn-tag-text" title={value || label}>
+        {value || label}
       </span>
       {showReset && (
         <button onClick={onReset}>
@@ -89,7 +91,7 @@ function TagSplit({ variant, size, theme, rounded, icon, showIcon, showReset, va
   const sharedProps = { variant, size, theme, rounded, icon }
 
   return (
-    <div className="cn-tag-split flex w-fit cursor-pointer items-center justify-center">
+    <div className="cn-tag-split flex w-fit items-center justify-center">
       {/* LEFT TAG - should never have a Reset Icon */}
       <Tag {...sharedProps} showIcon={showIcon} value={label} className="cn-tag-split-left" />
 
