@@ -70,7 +70,7 @@ export const CreateTagDialog: FC<CreateTagDialogProps> = ({
 
   return (
     <Dialog.Root open={open} onOpenChange={handleClose}>
-      <Dialog.Content className="border-border max-w-xl bg-cn-background-1">
+      <Dialog.Content className="border-border bg-cn-background-1 max-w-xl">
         <Dialog.Header>
           <Dialog.Title className="font-medium">{t('views:repos.createTagTitle', 'Create a tag')}</Dialog.Title>
         </Dialog.Header>
@@ -110,11 +110,11 @@ export const CreateTagDialog: FC<CreateTagDialogProps> = ({
           </Fieldset>
 
           {error && (
-            <Alert.Container variant="destructive">
+            <Alert.Root theme="danger">
               <Alert.Title>
                 {t('views:repos.error', 'Error:')} {error}
               </Alert.Title>
-            </Alert.Container>
+            </Alert.Root>
           )}
 
           <Dialog.Footer className="-mx-5 -mb-5">

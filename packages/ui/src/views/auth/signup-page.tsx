@@ -123,9 +123,9 @@ export function SignUpPage({ isLoading, handleSignUp, error }: SignUpPageProps) 
               error={errors.confirmPassword?.message?.toString()}
             />
             {serverError && (
-              <Alert.Container variant="destructive">
+              <Alert.Root theme="danger">
                 <Alert.Title>{serverError}</Alert.Title>
-              </Alert.Container>
+              </Alert.Root>
             )}
             <Button className="mt-10 w-full" rounded type="submit" loading={isLoading}>
               {isLoading ? 'Signing up...' : 'Sign up'}

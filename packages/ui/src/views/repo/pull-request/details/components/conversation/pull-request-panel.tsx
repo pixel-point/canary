@@ -93,7 +93,7 @@ const HeaderTitle = ({ ...props }: HeaderProps) => {
 
   return (
     <div className="inline-flex items-center gap-2">
-      <h2 className="font-medium text-cn-foreground-1">
+      <h2 className="text-cn-foreground-1 font-medium">
         {props.isDraft
           ? 'This pull request is still a work in progress'
           : props.isClosed
@@ -469,9 +469,9 @@ const PullRequestPanel = ({
         </StackedList.Item>
       </StackedList.Root>
       {!!error && (
-        <Alert.Container variant="destructive" className="mt-2">
+        <Alert.Root theme="danger" className="mt-2">
           <Alert.Title>{error}</Alert.Title>
-        </Alert.Container>
+        </Alert.Root>
       )}
     </>
   )
