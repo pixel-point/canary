@@ -82,16 +82,16 @@ export const SecretEntityForm = (props: SecretEntityFormProps): JSX.Element => {
                     inputs={secretsFormDefinition ?? { inputs: [] }}
                   />
                   {apiError && (
-                    <Alert.Container variant="destructive" className="my-8">
+                    <Alert.Root theme="danger" className="my-8">
                       <Alert.Description>{apiError.toString()}</Alert.Description>
-                    </Alert.Container>
+                    </Alert.Root>
                   )}
                 </ScrollArea>
               </div>
             </EntityFormSectionLayout.Form>
           </EntityFormSectionLayout.Root>
           <EntityFormLayout.Footer className="border-none">
-            <div className="absolute inset-x-0 bottom-0 flex justify-between gap-x-3 bg-cn-background-2 p-4 shadow-md">
+            <div className="bg-cn-background-2 absolute inset-x-0 bottom-0 flex justify-between gap-x-3 p-4 shadow-md">
               <Button variant="ghost" onClick={() => onBack?.()}>
                 Back
               </Button>

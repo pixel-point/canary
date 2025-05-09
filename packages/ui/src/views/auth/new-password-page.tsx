@@ -76,7 +76,7 @@ export function NewPasswordPage({ isLoading, handleFormSubmit, error }: NewPassw
 
   return (
     <Floating1ColumnLayout
-      className="flex-col bg-cn-background-1 pt-20 sm:pt-[186px]"
+      className="bg-cn-background-1 flex-col pt-20 sm:pt-[186px]"
       highlightTheme={hasError ? 'error' : 'blue'}
       verticalCenter
     >
@@ -91,9 +91,9 @@ export function NewPasswordPage({ isLoading, handleFormSubmit, error }: NewPassw
           </Text>
         </Card.Header>
         {serverError && (
-          <Alert.Container variant="destructive">
+          <Alert.Root theme="danger">
             <Alert.Title>{serverError}</Alert.Title>
-          </Alert.Container>
+          </Alert.Root>
         )}
         <Card.Content className="mt-10">
           <form onSubmit={handleSubmit(onFormSubmit)}>

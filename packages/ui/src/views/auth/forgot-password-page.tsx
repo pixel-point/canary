@@ -83,9 +83,9 @@ export function ForgotPasswordPage({ isLoading, onSubmit, error }: ForgotPasswor
           </Text>
         </Card.Header>
         {serverError && (
-          <Alert.Container variant="destructive">
+          <Alert.Root theme="danger">
             <Alert.Title>{serverError}</Alert.Title>
-          </Alert.Container>
+          </Alert.Root>
         )}
         <Card.Content className="mt-10">
           <form onSubmit={handleSubmit(handleOnSubmit)}>

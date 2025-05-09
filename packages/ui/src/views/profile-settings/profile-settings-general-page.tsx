@@ -172,14 +172,14 @@ export const SettingsAccountGeneralPage: FC<SettingsAccountGeneralPageProps> = (
 
   const renderErrorMessage = (type: ProfileSettingsErrorType, message: string) =>
     error?.type === type && (
-      <Alert.Container variant="destructive">
+      <Alert.Root theme="danger">
         <Alert.Title>{message}</Alert.Title>
-      </Alert.Container>
+      </Alert.Root>
     )
 
   return (
     <SandboxLayout.Content className="max-w-[476px] px-0">
-      <h1 className="mb-10 text-6 font-medium text-cn-foreground-1">
+      <h1 className="text-6 text-cn-foreground-1 mb-10 font-medium">
         {t('views:profileSettings.accountSettings', 'Account settings')}
       </h1>
 
@@ -195,7 +195,7 @@ export const SettingsAccountGeneralPage: FC<SettingsAccountGeneralPageProps> = (
             */}
             <Avatar.Root size="20" className="shadow-md">
               <Avatar.Image src="/images/anon.jpg" />
-              <Avatar.Fallback className="text-6 font-medium text-cn-foreground-3">
+              <Avatar.Fallback className="text-6 text-cn-foreground-3 font-medium">
                 {getInitials(userData?.name || '')}
               </Avatar.Fallback>
             </Avatar.Root>

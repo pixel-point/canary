@@ -165,9 +165,9 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
         </Fieldset>
 
         {apiError && (
-          <Alert.Container variant="destructive" className="mb-8">
+          <Alert.Root theme="danger" className="mb-8">
             <Alert.Description>{apiError?.toString()}</Alert.Description>
-          </Alert.Container>
+          </Alert.Root>
         )}
         <FormSeparator />
 
@@ -202,7 +202,7 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
           </>
         )}
 
-        <div className="absolute inset-x-0 bottom-0 bg-cn-background-2 p-4 shadow-md">
+        <div className="bg-cn-background-2 absolute inset-x-0 bottom-0 p-4 shadow-md">
           <ControlGroup>
             <ButtonGroup className="flex flex-row justify-between">
               <Button type="button" variant="ghost" onClick={onBack}>

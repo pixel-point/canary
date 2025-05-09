@@ -30,7 +30,7 @@ const PrincipalOption = forwardRef<HTMLDivElement, PrincipalOptionProps>(({ prin
         <span className={`truncate ${isShortView ? 'text-cn-foreground-1' : 'text-cn-foreground-1'}`}>
           {principal.display_name}
         </span>
-        {!isShortView && <span className="truncate text-1 text-cn-foreground-2">{principal.email}</span>}
+        {!isShortView && <span className="text-1 text-cn-foreground-2 truncate">{principal.email}</span>}
       </span>
     </div>
   )
@@ -154,8 +154,8 @@ export const InviteMemberDialog: FC<InviteMemberDialogProps> = ({
                   {roleOptions.map(option => (
                     <Select.Item key={option.uid} value={option.uid} isItemTextAsChild>
                       <div className="flex cursor-pointer flex-col gap-y-1.5">
-                        <span className="leading-none text-cn-foreground-1">{option.label}</span>
-                        <span className="leading-tight text-cn-foreground-2">{option.description}</span>
+                        <span className="text-cn-foreground-1 leading-none">{option.label}</span>
+                        <span className="text-cn-foreground-2 leading-tight">{option.description}</span>
                       </div>
                     </Select.Item>
                   ))}
@@ -165,11 +165,11 @@ export const InviteMemberDialog: FC<InviteMemberDialogProps> = ({
           </Fieldset>
 
           {!!error && (
-            <Alert.Container className="!mt-0" variant="destructive">
+            <Alert.Root theme="danger" className="!mt-0">
               <Alert.Title>
                 {t('views:repos.error', 'Error:')} {error}
               </Alert.Title>
-            </Alert.Container>
+            </Alert.Root>
           )}
         </FormWrapper>
 

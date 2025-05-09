@@ -20,9 +20,9 @@ interface SettingsAccountKeysPageProps {
 }
 
 const ErrorMessage: FC<{ message: string }> = ({ message }) => (
-  <Alert.Container variant="destructive">
+  <Alert.Root theme="danger">
     <Alert.Title>{message}</Alert.Title>
-  </Alert.Container>
+  </Alert.Root>
 )
 
 const SettingsAccountKeysPage: FC<SettingsAccountKeysPageProps> = ({
@@ -44,7 +44,7 @@ const SettingsAccountKeysPage: FC<SettingsAccountKeysPageProps> = ({
 
   return (
     <SandboxLayout.Content className="px-0">
-      <h1 className="text-6 font-medium text-cn-foreground-1">
+      <h1 className="text-6 text-cn-foreground-1 font-medium">
         {t('views:profileSettings.keysAndTokens', 'Keys and Tokens')}
       </h1>
       <Spacer size={10} />
