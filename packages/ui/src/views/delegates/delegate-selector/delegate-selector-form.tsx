@@ -150,6 +150,25 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
     [selectedTags, setValue]
   )
 
+  const fetchOptions = useCallback(
+    (query: string) => {
+      return new Promise<MultiSelectOptionType<{ id: string; label: string }>[]>(resolve => {
+        if (!query) {
+          resolve(tagsList.map(tag => ({ id: tag, label: tag })))
+          return
+        }
+        setTimeout(() => {
+          resolve(
+            tagsList
+              .filter(tag => tag.toLowerCase().includes(query.toLowerCase()))
+              .map(tag => ({ id: tag, label: tag }))
+          )
+        }, 500)
+      })
+    },
+    [tagsList]
+  )
+
   return (
     <SandboxLayout.Content className="h-full px-0 pt-0">
       <Spacer size={5} />
@@ -188,6 +207,8 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
                 searchValue={searchTag}
                 handleChangeSearchValue={setSearchTag}
                 error={errors.tags?.message?.toString()}
+                enableSortOnOpen
+                fetchOptions={fetchOptions}
               />
             </Fieldset>
             <Text size={4}>Test Delegate connectivity</Text>
@@ -202,7 +223,7 @@ export const DelegateSelectorForm = (props: DelegateSelectorFormProps): JSX.Elem
           </>
         )}
 
-        <div className="absolute inset-x-0 bottom-0 bg-cn-background-2 p-4 shadow-md">
+        <div className="bg-cn-background-2 absolute inset-x-0 bottom-0 p-4 shadow-md">
           <ControlGroup>
             <ButtonGroup className="flex flex-row justify-between">
               <Button type="button" variant="ghost" onClick={onBack}>
