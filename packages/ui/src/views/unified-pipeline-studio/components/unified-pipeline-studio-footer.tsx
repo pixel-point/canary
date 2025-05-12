@@ -12,7 +12,6 @@ interface PipelineStudioFooterProps {
   lastCommitInfo?: {
     committedTimeAgo: string
     authorName: string
-    authorInitials?: string
     commitSha?: string
     commitMessage?: string
   }
@@ -28,7 +27,7 @@ export const UnifiedPipelineStudioFooter: React.FC<PipelineStudioFooterProps> = 
     currentBranch,
     branchesLoading,
     branches,
-    lastCommitInfo: { committedTimeAgo, authorName, authorInitials, commitSha, commitMessage } = {},
+    lastCommitInfo: { committedTimeAgo, authorName, commitSha, commitMessage } = {},
     onBranchChange,
     togglePane,
     problemsCount
@@ -101,7 +100,7 @@ export const UnifiedPipelineStudioFooter: React.FC<PipelineStudioFooterProps> = 
           </Popover.Trigger>
           <Popover.Content side={'top'} className="mb-4 mr-4 w-80 p-0">
             <PopoverCommitInfo.Root>
-              <PopoverCommitInfo.CommitInfo authorName={authorName} initials={authorInitials} commit={commitSha} />
+              <PopoverCommitInfo.CommitInfo authorName={authorName} commit={commitSha} />
               <PopoverCommitInfo.CommitMessage>{commitMessage}</PopoverCommitInfo.CommitMessage>
             </PopoverCommitInfo.Root>
           </Popover.Content>
