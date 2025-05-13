@@ -1,0 +1,10 @@
+{
+  "pagination": {
+    "btn": {
+      "px": {
+        "$type": "spacing",
+        "$value": "{spacing.3}"
+      }
+    }
+  }
+}
