@@ -10,6 +10,7 @@ import {
   ToggleGroup,
   ViewTypeValue
 } from '@/components'
+import { BranchSelectorTab } from '@views/repo/components/branch-selector-v2/types'
 
 export interface FileViewerControlBarProps {
   view: ViewTypeValue
@@ -21,6 +22,7 @@ export interface FileViewerControlBarProps {
   handleDownloadFile: () => void
   handleEditFile: () => void
   handleOpenDeleteDialog: () => void
+  refType?: BranchSelectorTab
 }
 
 export const FileViewerControlBar: FC<FileViewerControlBarProps> = ({
@@ -32,7 +34,8 @@ export const FileViewerControlBar: FC<FileViewerControlBarProps> = ({
   url,
   handleDownloadFile,
   handleEditFile,
-  handleOpenDeleteDialog
+  handleOpenDeleteDialog,
+  refType = BranchSelectorTab.BRANCHES
 }) => {
   const handleViewRaw = () => {
     window.open(url, '_blank')
@@ -45,7 +48,7 @@ export const FileViewerControlBar: FC<FileViewerControlBarProps> = ({
         <span className="h-3 border-l border-cn-borders-2" />
         <span className="mr-5 text-sm text-cn-foreground-2">{fileBytesSize}</span>
         <FileToolbarActions
-          showEdit
+          showEdit={refType === BranchSelectorTab.BRANCHES}
           copyContent={fileContent}
           onDownloadClick={handleDownloadFile}
           onEditClick={handleEditFile}

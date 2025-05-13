@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
 import {
@@ -11,6 +11,7 @@ import {
 import { BranchSelectorListItem, BranchSelectorTab, RepoSidebar as RepoSidebarView } from '@harnessio/ui/views'
 
 import { BranchSelectorContainer } from '../../components-v2/branch-selector-container'
+import { CreateBranchDialog } from '../../components-v2/create-branch-dialog'
 import Explorer from '../../components/FileExplorer'
 import { useRoutes } from '../../framework/context/NavigationContext'
 import { useGetRepoRef } from '../../framework/hooks/useGetRepoPath'
@@ -39,6 +40,8 @@ export const RepoSidebar = () => {
   const { spaceId, repoId } = useParams<PathParams>()
   const { fullGitRef, gitRefName, fullResourcePath } = useCodePathDetails()
   const navigate = useNavigate()
+  const [isCreateBranchDialogOpen, setCreateBranchDialogOpen] = useState(false)
+  const [branchQueryForNewBranch, setBranchQueryForNewBranch] = useState<string>('')
 
   useEffect(() => {
     setSpaceIdAndRepoId(spaceId || '', repoId || '')
@@ -86,6 +89,11 @@ export const RepoSidebar = () => {
       }
     }
   }, [repository?.default_branch, fullGitRef, branchList, tagList, gitRefName, selectedGitRefBranch])
+
+  useEffect(() => {
+    setSelectedBranchTag({ name: repository?.default_branch || '', sha: '' })
+    setSelectedRefType(BranchSelectorTab.BRANCHES)
+  }, [setSelectedBranchTag, setSelectedRefType, repository?.default_branch])
 
   const { data: repoDetails } = useGetContentQuery({
     path: '',
@@ -168,6 +176,9 @@ export const RepoSidebar = () => {
                 onSelectBranchorTag={selectBranchOrTag}
                 selectedBranch={selectedBranchTag}
                 preSelectedTab={selectedRefType}
+                isFilesPage
+                setCreateBranchDialogOpen={setCreateBranchDialogOpen}
+                onBranchQueryChange={setBranchQueryForNewBranch}
               />
             }
           >
@@ -179,6 +190,19 @@ export const RepoSidebar = () => {
 
         <Outlet />
       </div>
+      <CreateBranchDialog
+        open={isCreateBranchDialogOpen}
+        onClose={() => setCreateBranchDialogOpen(false)}
+        onSuccess={() => {
+          setCreateBranchDialogOpen(false)
+          navigate(`${routes.toRepoFiles({ spaceId, repoId })}/${branchQueryForNewBranch}`)
+          setSelectedBranchTag({ name: branchQueryForNewBranch, sha: '', default: false })
+        }}
+        onBranchQueryChange={setBranchQueryForNewBranch}
+        preselectedBranchOrTag={selectedBranchTag}
+        preselectedTab={selectedRefType}
+        prefilledName={branchQueryForNewBranch}
+      />
     </>
   )
 }
