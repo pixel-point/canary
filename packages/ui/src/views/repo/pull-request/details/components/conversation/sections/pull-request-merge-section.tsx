@@ -97,11 +97,9 @@ const PullRequestMergeSection = ({
   }
 
   return (
-    <Accordion.Item value={ACCORDION_VALUE} isLast>
+    <Accordion.Item value={ACCORDION_VALUE}>
       <Accordion.Trigger
-        className="py-3 text-left [&>svg]:-rotate-0 [&>svg]:data-[state=open]:-rotate-180"
-        chevronClassName="text-icons-3 self-start mt-1"
-        hideChevron={mergeable || unchecked}
+        className={cn('py-3', { '[&>.cn-accordion-trigger-indicator]:hidden': mergeable || unchecked })}
       >
         <StackedList.Field
           className="flex gap-y-1"
