@@ -8,8 +8,8 @@ import {
   Checkbox,
   ControlGroup,
   Fieldset,
+  FormInput,
   FormWrapper,
-  Input,
   Link,
   Message,
   MessageTheme,
@@ -58,14 +58,7 @@ export function RepoCreatePage({
 }: RepoCreatePageProps) {
   const { t } = useTranslationStore()
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    reset,
-    formState: { errors }
-  } = useForm<FormFields>({
+  const formMethods = useForm<FormFields>({
     resolver: zodResolver(formSchema),
     mode: 'onChange',
     defaultValues: {
@@ -77,6 +70,15 @@ export function RepoCreatePage({
       readme: false
     }
   })
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    reset,
+    formState: { errors }
+  } = formMethods
 
   const accessValue = watch('access')
   const gitignoreValue = watch('gitignore')
@@ -102,12 +104,16 @@ export function RepoCreatePage({
   }, [isSuccess, reset])
 
   const onSubmit: SubmitHandler<FormFields> = data => {
+    console.log('data', data)
+
     onFormSubmit(data)
   }
 
   const handleCancel = () => {
     onFormCancel()
   }
+
+  console.log('errors', errors)
 
   return (
     <SandboxLayout.Main>
@@ -127,16 +133,14 @@ export function RepoCreatePage({
           </Link>
         </Text>
         <Spacer size={10} />
-        <FormWrapper className="gap-y-7" onSubmit={handleSubmit(onSubmit)}>
+        <FormWrapper {...formMethods} onSubmit={handleSubmit(onSubmit)}>
           {/* NAME */}
           <Fieldset>
-            <Input
+            <FormInput.Text
               id="name"
               label="Name"
               {...register('name')}
               placeholder="Enter repository name"
-              size="md"
-              error={errors.name?.message?.toString()}
               autoFocus
             />
             {/* DESCRIPTION */}
