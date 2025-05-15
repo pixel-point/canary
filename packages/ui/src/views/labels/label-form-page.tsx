@@ -8,9 +8,9 @@ import {
   Checkbox,
   ControlGroup,
   Fieldset,
+  FormInput,
   FormWrapper,
   Icon,
-  Input,
   Label,
   SkeletonForm,
   Tag
@@ -77,15 +77,7 @@ export const LabelFormPage: FC<LabelFormPageProps> = ({
     }
   }, [storeLabels, storeValues, labelId])
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    reset,
-    watch,
-    trigger,
-    formState: { errors, isValid }
-  } = useForm<CreateLabelFormFields>({
+  const formMethods = useForm<CreateLabelFormFields>({
     resolver: zodResolver(createLabelFormSchema),
     mode: 'onChange',
     defaultValues: {
@@ -96,6 +88,16 @@ export const LabelFormPage: FC<LabelFormPageProps> = ({
       values: []
     }
   })
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    watch,
+    trigger,
+    formState: { errors, isValid }
+  } = formMethods
 
   useEffect(() => {
     if (!fullLabelData) return
@@ -158,7 +160,7 @@ export const LabelFormPage: FC<LabelFormPageProps> = ({
       {isLoading && <SkeletonForm />}
 
       {!isLoading && (
-        <FormWrapper className="gap-y-10" onSubmit={handleSubmit(onSubmit)}>
+        <FormWrapper {...formMethods} className="gap-y-10" onSubmit={handleSubmit(onSubmit)}>
           <Fieldset>
             <ControlGroup>
               <Label className="mb-2" htmlFor="label-name">
@@ -176,20 +178,17 @@ export const LabelFormPage: FC<LabelFormPageProps> = ({
                 inputProps={{
                   id: 'label-name',
                   ...register('key'),
-                  error: errors.key?.message?.toString(),
                   autoFocus: !key
                 }}
               />
             </ControlGroup>
 
-            <Input
+            <FormInput.Text
               {...register('description')}
               placeholder={t('views:repos.descriptionPlaceholder', 'Enter a short description for the label')}
               label={t('views:repos.description', 'Description')}
               name="description"
               id="description"
-              error={errors.description?.message?.toString()}
-              size="md"
               optional
             />
 
@@ -211,8 +210,7 @@ export const LabelFormPage: FC<LabelFormPageProps> = ({
                     onValueChange: makeHandleValueColorChange(idx)
                   }}
                   inputProps={{
-                    ...register(`values.${idx}.value` as keyof CreateLabelFormFields),
-                    error: errors.values?.[idx]?.value?.message?.toString()
+                    ...register(`values.${idx}.value` as keyof CreateLabelFormFields)
                   }}
                 />
               ))}
