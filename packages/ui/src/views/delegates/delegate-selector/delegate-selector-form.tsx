@@ -104,7 +104,7 @@ export const DelegateSelectorForm: FC<DelegateSelectorFormProps> = ({
     mode: 'onChange',
     defaultValues: {
       type: preSelectedTags?.length || disableAnyDelegate ? DelegateSelectionTypes.TAGS : DelegateSelectionTypes.ANY,
-      tags: preSelectedTags?.length ? preSelectedTags.map(tag => ({ id: tag, label: tag })) : []
+      tags: preSelectedTags?.length ? preSelectedTags?.map(tag => ({ id: tag, label: tag })) : []
     }
   })
 
@@ -129,7 +129,7 @@ export const DelegateSelectorForm: FC<DelegateSelectorFormProps> = ({
     setMatchedDelegates(
       getMatchedDelegatesCount(
         delegates,
-        selectedTags.map(tag => tag.id)
+        selectedTags?.map(tag => tag.id)
       )
     )
   }, [getMatchedDelegatesCount, delegates, selectedTags])
@@ -152,7 +152,7 @@ export const DelegateSelectorForm: FC<DelegateSelectorFormProps> = ({
 
   const handleTagChange = useCallback(
     (option: MultiSelectOptionType) => {
-      const selectedTagIds = selectedTags.map(tag => tag.id)
+      const selectedTagIds = selectedTags?.map(tag => tag.id)
 
       setValue!(
         'tags',
@@ -210,7 +210,7 @@ export const DelegateSelectorForm: FC<DelegateSelectorFormProps> = ({
                   label="Tags"
                   placeholder="Enter tags"
                   handleChange={handleTagChange}
-                  options={tagsList.map(tag => {
+                  options={tagsList?.map(tag => {
                     return { id: tag, label: tag }
                   })}
                   searchValue={searchTag}
@@ -224,7 +224,7 @@ export const DelegateSelectorForm: FC<DelegateSelectorFormProps> = ({
                 delegates={delegates}
                 useTranslationStore={useTranslationStore}
                 isLoading={isLoading}
-                selectedTags={selectedTags.map(tag => tag.id)}
+                selectedTags={selectedTags?.map(tag => tag.id)}
                 isDelegateSelected={isDelegateSelected}
               />
             </>
