@@ -5,6 +5,7 @@ import type { PluginAPI, Config as TailwindConfig } from 'tailwindcss/types/conf
 
 import {
   accordionStyles,
+  alertStyles,
   avatarStyles,
   badgeStyles,
   buttonStyles,
@@ -435,6 +436,7 @@ export default {
     plugin(({ addComponents }) => {
       addComponents([
         accordionStyles,
+        alertStyles,
         badgeStyles,
         buttonStyles,
         dialogStyles,
