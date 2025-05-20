@@ -136,7 +136,6 @@ export function RepoBranchesListPage() {
   }
 
   useEffect(() => {
-    console.log('headers', headers?.get(PageResponseHeader.xNextPage))
     setPaginationFromHeaders(
       parseInt(headers?.get(PageResponseHeader.xNextPage) || ''),
       parseInt(headers?.get(PageResponseHeader.xPrevPage) || '')

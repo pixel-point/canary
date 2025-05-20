@@ -19,6 +19,7 @@ import {
   labelStyles,
   linkStyles,
   multiSelectV2Styles,
+  paginationStyles,
   radioStyles,
   switchStyles,
   tagStyles
@@ -447,6 +448,7 @@ export default {
         avatarStyles,
         cardStyles,
         cardSelectStyles,
+        paginationStyles,
 
         // Form styles
         formSharedStyles,

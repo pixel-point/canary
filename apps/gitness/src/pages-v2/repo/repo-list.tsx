@@ -31,7 +31,7 @@ export default function ReposListPage() {
   const { toast, dismiss } = useToast()
 
   const [query, setQuery] = useQueryState('query')
-  const { queryPage } = usePaginationQueryStateWithStore({ page, setPage })
+  const { queryPage, setQueryPage } = usePaginationQueryStateWithStore({ page, setPage })
 
   const {
     data: { body: repoData, headers } = {},
@@ -65,18 +65,15 @@ export default function ReposListPage() {
   )
 
   useEffect(() => {
-    const totalPages = parseInt(headers?.get(PageResponseHeader.xTotalPages) || '0')
+    const totalItems = parseInt(headers?.get(PageResponseHeader.xTotal) || '0')
+    const perPage = parseInt(headers?.get(PageResponseHeader.xPerPage) || '10')
     if (repoData) {
       const transformedRepos = transformRepoList(repoData)
-      setRepositories(transformedRepos, totalPages)
+      setRepositories(transformedRepos, totalItems, perPage)
     } else {
-      setRepositories([], totalPages)
+      setRepositories([], totalItems, perPage)
     }
   }, [repoData, headers, setRepositories])
-
-  // const isRepoImporting: boolean = useMemo(() => {
-  //   return repoData?.some(repository => repository.importing) ?? false
-  // }, [repoData])
 
   useEffect(() => {
     if (importRepoIdentifier && !importToastId) {
@@ -112,6 +109,7 @@ export default function ReposListPage() {
       errorMessage={error?.message}
       searchQuery={query}
       setSearchQuery={setQuery}
+      setQueryPage={setQueryPage}
       toRepository={(repo: RepositoryType) => routes.toRepoSummary({ spaceId, repoId: repo.name })}
       toCreateRepo={() => routes.toCreateRepo({ spaceId })}
       toImportRepo={() => routes.toImportRepo({ spaceId })}
