@@ -1,7 +1,7 @@
 import { forwardRef } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 
-import { Caption, Label } from '@/components'
+import { FormCaption, Label } from '@/components'
 import { MultiSelect, type MultiSelectOption, type MultiSelectRef } from '@/components/multi-select-v2'
 
 interface FormMultiSelectPropsType
@@ -9,6 +9,8 @@ interface FormMultiSelectPropsType
   name: string
   label?: string
   caption?: string
+  error?: string
+  warning?: string
 }
 
 const FormMultiSelect = forwardRef<MultiSelectRef, FormMultiSelectPropsType>((props, ref) => {
@@ -33,27 +35,34 @@ const FormMultiSelect = forwardRef<MultiSelectRef, FormMultiSelectPropsType>((pr
       <Controller
         name={props.name}
         control={formContext.control}
-        render={({ field }) => {
+        render={({ field, fieldState }) => {
           const setFieldRef = (element: MultiSelectRef | null) => {
             setRefs(element)
             field.ref = setRefs
           }
 
           return (
-            <MultiSelect
-              {...props}
-              ref={setFieldRef}
-              value={field.value}
-              onChange={(options: MultiSelectOption[]) => {
-                field.onChange(options)
-              }}
-            />
+            <>
+              <MultiSelect
+                {...props}
+                ref={setFieldRef}
+                value={field.value}
+                onChange={(options: MultiSelectOption[]) => {
+                  field.onChange(options)
+                }}
+                theme={fieldState.error || props.error ? 'danger' : props.warning ? 'warning' : undefined}
+              />
+              {fieldState.error || props.error ? (
+                <FormCaption theme="danger">{props.error}</FormCaption>
+              ) : props.warning ? (
+                <FormCaption theme="warning">{props.warning}</FormCaption>
+              ) : props.caption ? (
+                <FormCaption>{props.caption}</FormCaption>
+              ) : null}
+            </>
           )
         }}
       />
-      {props.caption ? (
-        <Caption className={props.caption ? 'text-cn-foreground-disabled' : ''}>{props.caption}</Caption>
-      ) : null}
     </>
   )
 })

@@ -68,6 +68,7 @@ interface MultiSelectProps {
   className?: string
   disallowCreation?: boolean
   isLoading?: boolean
+  theme?: string
   /** Props of `Command` */
   commandProps?: React.ComponentPropsWithoutRef<typeof Command.Root>
   /** Props of `CommandInput` */
@@ -96,7 +97,8 @@ export const MultiSelect = forwardRef<MultiSelectRef, MultiSelectProps>(
       disallowCreation = false,
       isLoading = false,
       commandProps,
-      inputProps
+      inputProps,
+      theme
     }: MultiSelectProps,
     ref: React.Ref<MultiSelectRef>
   ) => {
@@ -106,7 +108,7 @@ export const MultiSelect = forwardRef<MultiSelectRef, MultiSelectProps>(
     const dropdownRef = useRef<HTMLDivElement>(null)
 
     const [selected, setSelected] = useState<MultiSelectOption[]>(value || defaultValue || [])
-    const [availableOptions, setAvailableOptions] = useState<MultiSelectOption[]>([])
+    const [availableOptions, setAvailableOptions] = useState<MultiSelectOption[] | null>(null)
     const [inputValue, setInputValue] = useState('')
     const { search } = useDebounceSearch({
       handleChangeSearchValue: setSearchQuery,
@@ -170,6 +172,7 @@ export const MultiSelect = forwardRef<MultiSelectRef, MultiSelectProps>(
             // This ensures that 'React' and 'react' would be considered the same option
             if (
               !options?.some(option => option.key.toLowerCase() === input.value.toLowerCase()) &&
+              (!availableOptions || availableOptions.length === 0) &&
               !getSelectedOptions().some(s => s.key.toLowerCase() === input.value.toLowerCase())
             ) {
               const newOption = createOptionFromInput(input.value)
@@ -189,16 +192,7 @@ export const MultiSelect = forwardRef<MultiSelectRef, MultiSelectProps>(
           }
         }
       },
-      [
-        handleUnselect,
-        disallowCreation,
-        onChange,
-        options,
-        setInputValue,
-        isControlled,
-        getSelectedOptions,
-        setSearchQuery
-      ]
+      [disallowCreation, getSelectedOptions, handleUnselect, availableOptions, isControlled, setSearchQuery, onChange]
     )
 
     useEffect(() => {
@@ -217,17 +211,27 @@ export const MultiSelect = forwardRef<MultiSelectRef, MultiSelectProps>(
     }, [open, handleClickOutside])
 
     useEffect(() => {
-      if (!options || options.length === 0) {
+      if (!options) {
+        setAvailableOptions(null)
+      } else if (options.length === 0) {
         setAvailableOptions([])
         return
       }
 
-      const filteredOptions = options.filter(
+      let filteredOptions = options?.filter(
         option => !getSelectedOptions()?.some(selectedOption => selectedOption.id === option.id)
       )
 
-      setAvailableOptions(filteredOptions)
-    }, [options, getSelectedOptions, inputValue, searchQuery, open])
+      if (!setSearchQuery && inputValue) {
+        const lowerCaseInput = inputValue.toLowerCase()
+        filteredOptions = filteredOptions?.filter(option => {
+          const keyMatch = option.key.toLowerCase().includes(lowerCaseInput)
+          return keyMatch
+        })
+      }
+
+      setAvailableOptions(filteredOptions || null)
+    }, [options, getSelectedOptions, inputValue, searchQuery, open, setSearchQuery])
     return (
       <div className="cn-multi-select-outer-container">
         <Command.Root
@@ -241,7 +245,7 @@ export const MultiSelect = forwardRef<MultiSelectRef, MultiSelectProps>(
           className={cn('h-auto overflow-visible bg-transparent', commandProps?.className)}
         >
           <div
-            className={cn('cn-multi-select-container', className)}
+            className={cn('cn-multi-select-container', `cn-multi-select-${theme}`, className)}
             onClick={() => {
               if (disabled) return
               inputRef?.current?.focus()
@@ -294,7 +298,7 @@ export const MultiSelect = forwardRef<MultiSelectRef, MultiSelectProps>(
             </div>
           </div>
           <div className="relative">
-            {open && (
+            {open && availableOptions && (
               <Command.List
                 className="cn-multi-select-dropdown"
                 onMouseLeave={() => {
@@ -309,13 +313,19 @@ export const MultiSelect = forwardRef<MultiSelectRef, MultiSelectProps>(
               >
                 {isLoading ? (
                   <SkeletonList />
-                ) : availableOptions.length === 0 ? (
-                  <Command.Item value="-" disabled>
-                    No results found
-                  </Command.Item>
+                ) : availableOptions?.length === 0 ? (
+                  disallowCreation ? (
+                    <Command.Item value="-" disabled>
+                      No results found
+                    </Command.Item>
+                  ) : (
+                    <Command.Item value="-" disabled>
+                      Press Enter to create
+                    </Command.Item>
+                  )
                 ) : (
                   <Command.Group>
-                    {availableOptions.map(option => {
+                    {availableOptions?.map(option => {
                       return (
                         <Command.Item
                           key={option.id}
