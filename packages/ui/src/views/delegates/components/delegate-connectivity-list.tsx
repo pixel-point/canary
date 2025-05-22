@@ -1,4 +1,5 @@
 import { Icon, NoData, SkeletonList, SkeletonTable, StatusBadge, Table } from '@/components'
+import { useTranslation } from '@/context'
 import { timeAgo } from '@/utils'
 import { cn } from '@utils/cn'
 import { defaultTo } from 'lodash-es'
@@ -11,12 +12,11 @@ const Title = ({ title }: { title: string }): JSX.Element => (
 
 export function DelegateConnectivityList({
   delegates,
-  useTranslationStore,
   isLoading,
   selectedTags,
   isDelegateSelected
 }: DelegateConnectivityListProps): JSX.Element {
-  const { t } = useTranslationStore()
+  const { t } = useTranslation()
 
   if (isLoading) {
     return <SkeletonList />
@@ -40,10 +40,10 @@ export function DelegateConnectivityList({
     >
       <Table.Header>
         <Table.Row>
-          <Table.Head className="w-96">Delegate</Table.Head>
-          <Table.Head className="w-36 whitespace-nowrap">Heartbeat</Table.Head>
-          <Table.Head className="w-96">Tags</Table.Head>
-          <Table.Head className="w-24">Selected</Table.Head>
+          <Table.Head className="w-96">{t('views:delegates.delegate', 'Delegate')}</Table.Head>
+          <Table.Head className="w-36 whitespace-nowrap">{t('views:delegates.heartbeat', 'Heartbeat')}</Table.Head>
+          <Table.Head className="w-96">{t('views:repos.tags', 'Tags')}</Table.Head>
+          <Table.Head className="w-24">{t('views:delegates.selected', 'Selected')}</Table.Head>
         </Table.Row>
       </Table.Header>
       {isLoading ? (

@@ -20,7 +20,6 @@ import { DocsPage } from "@/components/docs-page";
 <DocsPage.ComponentExample
   client:only
   code={`() => {
-    const t = (key, fallback) => fallback || key
     const [currentPage, setCurrentPage] = React.useState(1)
 
     return (
@@ -30,30 +29,6 @@ import { DocsPage } from "@/components/docs-page";
                 pageSize={10}
                 currentPage={currentPage}
                 goToPage={setCurrentPage}
-                t={t}
-            />
-        </div>
-    )
-
-}`} />
-
-### Determinate Pagination with Truncation
-
-<DocsPage.ComponentExample
-  client:only
-  code={`() => {
-    const t = (key, fallback) => fallback || key
-    const [currentPage, setCurrentPage] = React.useState(1)
-
-    return (
-        <div className="w-[550px]">
-            <Pagination
-                totalItems={100}
-                pageSize={10}
-                truncateLimit={5}
-                currentPage={currentPage}
-                goToPage={setCurrentPage}
-                t={t}
             />
         </div>
     )
@@ -65,7 +40,6 @@ import { DocsPage } from "@/components/docs-page";
 <DocsPage.ComponentExample
   client:only
   code={`() => {
-    const t = (key, fallback) => fallback || key
     const [currentPage, setCurrentPage] = React.useState(1)
 
     return (
@@ -76,7 +50,6 @@ import { DocsPage } from "@/components/docs-page";
                 currentPage={currentPage}
                 goToPage={setCurrentPage}
                 hidePageNumbers
-                t={t}
             />
         </div>
     )
@@ -88,7 +61,6 @@ import { DocsPage } from "@/components/docs-page";
 <DocsPage.ComponentExample
   client:only
   code={`() => {
-    const t = (key, fallback) => fallback || key
     const [currentPage, setCurrentPage] = React.useState(1)
     
     const getPageLink = (page) => {
@@ -102,7 +74,6 @@ import { DocsPage } from "@/components/docs-page";
                 pageSize={10}
                 currentPage={currentPage}
                 getPageLink={getPageLink}
-                t={t}
             />
         </div>
     )
@@ -114,7 +85,6 @@ import { DocsPage } from "@/components/docs-page";
 <DocsPage.ComponentExample
   client:only
   code={`() => {
-    const t = (key, fallback) => fallback || key
     const [currentPage, setCurrentPage] = React.useState(1)
     
     const getPrevPageLink = () => {
@@ -133,7 +103,6 @@ import { DocsPage } from "@/components/docs-page";
                 hasPrevious={currentPage > 1}
                 getPrevPageLink={getPrevPageLink}
                 getNextPageLink={getNextPageLink}
-                t={t}
             />
         </div>
     )
@@ -145,7 +114,6 @@ import { DocsPage } from "@/components/docs-page";
 <DocsPage.ComponentExample
   client:only
   code={`() => {
-    const t = (key, fallback) => fallback || key
     const [currentPage, setCurrentPage] = React.useState(1)
     
     const onPrevious = () => {
@@ -164,7 +132,6 @@ import { DocsPage } from "@/components/docs-page";
                 hasPrevious={currentPage > 1}
                 onPrevious={onPrevious}
                 onNext={onNext}
-                t={t}
             />
         </div>
     )
@@ -181,7 +148,6 @@ import { Pagination } from '@harnessio/ui/components'
 //...
 
 const [currentPage, setCurrentPage] = useState(1)
-const { t } = useTranslationStore()
 
 return (
   <Pagination
@@ -189,7 +155,6 @@ return (
     pageSize={10}
     currentPage={currentPage}
     goToPage={setCurrentPage}
-    t={t}
   />
 )
 ```
@@ -202,7 +167,6 @@ import { Pagination } from '@harnessio/ui/components'
 //...
 
 const [currentPage, setCurrentPage] = useState(1)
-const { t } = useTranslationStore()
 
 return (
   <Pagination
@@ -217,7 +181,6 @@ return (
     // if need to use buttons
     onPrevious={() => setCurrentPage(currentPage - 1)}
     onNext={() => setCurrentPage(currentPage + 1)}
-    t={t}
   />
 )
 ```
@@ -236,14 +199,6 @@ return (
       description: "Custom class name",
       required: false,
       value: "string",
-    },
-    {
-      name: "truncateLimit",
-      description:
-        "Maximum number of page links to show before truncating with ellipses",
-      required: false,
-      value: "number",
-      defaultValue: "4",
     },
     // Determinate pagination mode props
     {

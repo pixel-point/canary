@@ -7,7 +7,10 @@ import {
 } from "react";
 import { LiveEditor, LivePreview, LiveProvider } from "react-live";
 import { Icon, Tooltip } from "@harnessio/ui/components";
-import { RouterContextProvider } from "@harnessio/ui/context";
+import {
+  RouterContextProvider,
+  TranslationProvider,
+} from "@harnessio/ui/context";
 import ExampleLayout from "./example-layout";
 import { themes } from "prism-react-renderer";
 import {
@@ -61,9 +64,11 @@ const Example: FC<ExampleProps> = ({ code, scope }) => {
       path: "*",
       element: (
         <RouterContextProvider Link={Link} NavLink={NavLink} Outlet={Outlet}>
-          <Tooltip.Provider>
-            <LivePreview />
-          </Tooltip.Provider>
+          <TranslationProvider>
+            <Tooltip.Provider>
+              <LivePreview />
+            </Tooltip.Provider>
+          </TranslationProvider>
         </RouterContextProvider>
       ),
     },
