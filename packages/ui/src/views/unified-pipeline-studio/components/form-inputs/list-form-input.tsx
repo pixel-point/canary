@@ -10,12 +10,12 @@ import {
   InputComponent,
   InputProps,
   RenderInputs,
-  useFieldArray
+  useFieldArray,
+  useFormContext
 } from '@harnessio/forms'
 
-import { InputError } from './common/InputError'
+import { InputCaption } from './common/InputCaption'
 import { InputLabel } from './common/InputLabel'
-import { InputTooltip } from './common/InputTooltip'
 import { InputWrapper } from './common/InputWrapper'
 import { RuntimeInputConfig } from './types/types'
 
@@ -23,7 +23,7 @@ export type UIInputWithConfigsForList<T = unknown> = Omit<IInputDefinition<T>, '
   relativePath: string
 }
 
-export interface ListInputConfig {
+export interface ListFormInputConfig {
   inputType: 'list'
   inputConfig: {
     inputs: UIInputWithConfigsForList[]
@@ -32,9 +32,9 @@ export interface ListInputConfig {
   } & RuntimeInputConfig
 }
 
-type ListInputProps = InputProps<AnyFormikValue, ListInputConfig>
+type ListFormInputProps = InputProps<AnyFormikValue, ListFormInputConfig>
 
-function ListInputInternal(props: ListInputProps): JSX.Element {
+function ListFormInputInternal(props: ListFormInputProps): JSX.Element {
   const { readonly, path, input, factory } = props
   const { label, required, inputConfig, description } = input
 
@@ -47,6 +47,10 @@ function ListInputInternal(props: ListInputProps): JSX.Element {
   const { fields, append, remove } = useFieldArray({
     name: path
   })
+
+  const { getFieldState, formState } = useFormContext()
+  const fieldState = getFieldState(path, formState)
+  const { error } = fieldState
 
   const getChildInputs = useCallback(
     (rowInputs: UIInputWithConfigsForList[], parentPath: string, idx: number): IInputDefinition[] => {
@@ -72,35 +76,30 @@ function ListInputInternal(props: ListInputProps): JSX.Element {
 
   return (
     <InputWrapper {...props}>
-      <>
-        <InputLabel label={label} required={required} description={description} />
-        {/* TODO: do we need Controller ? */}
-        <Controller
-          name={path}
-          render={() => (
+      <InputLabel label={label} required={required} />
+      {/* TODO: do we need Controller ? */}
+      <Controller
+        name={path}
+        render={() => (
+          <div>
             <div>
-              <div>
-                {isGrid && fields.length > 0 && (
-                  <div className={rowClass} style={rowStyle}>
-                    {inputConfig?.inputs.map(rowInput => (
-                      <InputLabel
-                        key={rowInput.label}
-                        label={rowInput.label}
-                        required={rowInput.required}
-                        description={rowInput.description}
-                      />
-                    ))}
-                  </div>
-                )}
-                <div className="flex flex-col space-y-2">
-                  {fields.map((_item, idx) => (
-                    <div key={_item.id} className={rowClass} style={rowStyle}>
-                      {inputConfig?.inputs && (
-                        <RenderInputs items={getChildInputs(inputConfig?.inputs, path, idx)} factory={factory} />
-                      )}
-                      <div className="flex items-center">
-                        {/* TODO: Design system: Find alternate */}
-                        <button
+              {isGrid && fields.length > 0 && (
+                <div className={rowClass} style={rowStyle}>
+                  {inputConfig?.inputs.map(rowInput => (
+                    <InputLabel key={rowInput.label} label={rowInput.label} required={rowInput.required} />
+                  ))}
+                </div>
+              )}
+              <div className="flex flex-col space-y-2">
+                {fields.map((_item, idx) => (
+                  <div key={_item.id} className={rowClass} style={rowStyle}>
+                    {inputConfig?.inputs && (
+                      <RenderInputs items={getChildInputs(inputConfig?.inputs, path, idx)} factory={factory} />
+                    )}
+                    <div className="flex items-center">
+                      <div>
+                        <Button
+                          iconOnly
                           className="mt-2"
                           onClick={() => {
                             remove(idx)
@@ -108,29 +107,28 @@ function ListInputInternal(props: ListInputProps): JSX.Element {
                           disabled={readonly}
                         >
                           <Icon name="trash" />
-                        </button>
+                        </Button>
                       </div>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
-              <Button size="sm" onClick={() => append({})} className="mt-2">
-                Add
-              </Button>
             </div>
-          )}
-        />
-        <InputError path={path} />
-        {inputConfig?.tooltip && <InputTooltip tooltip={inputConfig.tooltip} />}
-      </>
+            <Button size="sm" onClick={() => append({})} className="mt-2">
+              Add
+            </Button>
+          </div>
+        )}
+      />
+      <InputCaption error={error?.message} caption={description} />
     </InputWrapper>
   )
 }
 
-export class ListInput extends InputComponent<AnyFormikValue> {
+export class ListFormInput extends InputComponent<AnyFormikValue> {
   public internalType = 'list'
 
-  renderComponent(props: ListInputProps): JSX.Element {
-    return <ListInputInternal {...props} />
+  renderComponent(props: ListFormInputProps): JSX.Element {
+    return <ListFormInputInternal {...props} />
   }
 }
